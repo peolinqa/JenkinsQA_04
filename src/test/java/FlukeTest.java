@@ -41,7 +41,7 @@ public class FlukeTest extends BaseTest {
         Assert.assertEquals(PRODUCTS_PAGE_HEADER, getDriver().findElement(By.xpath(HEADER_XPATH)).getText());
     }
 
-    @Test()
+    @Test
     public void testFlukeOpenFeaturedPage() {
         openFeaturedPage();
 
@@ -49,7 +49,7 @@ public class FlukeTest extends BaseTest {
         Assert.assertEquals(FEATURE_PAGE_HEADER, getDriver().findElement(By.xpath(HEADER_XPATH)).getText());
     }
 
-    @Test()
+    @Test
     public void testFlukeOpenAwardsPage() {
         openAwardsPage();
 
