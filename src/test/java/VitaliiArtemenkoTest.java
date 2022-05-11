@@ -3,7 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class FlukeTest extends BaseTest {
+public class VitaliiArtemenkoTest extends BaseTest {
     private static final String URL = "https://www.fluke.com/en-us";
     private static final String PRODUCTS_BTN_XPATH = "//a[@href='/en-us/products' and @class='dropdown-toggle']";
     private static final String HEADER_XPATH = "//h1[@class='toc-title']";
@@ -33,7 +33,7 @@ public class FlukeTest extends BaseTest {
     }
 
     @Test
-    public void testFlukeOpenProductsPage() {
+    public void testVitaliiArtemenkoFlukeOpenProductsPage() {
         openProductsPage();
 
         Assert.assertEquals(PRODUCTS_PAGE_TITLE, getDriver().getTitle());
@@ -41,7 +41,7 @@ public class FlukeTest extends BaseTest {
     }
 
     @Test
-    public void testFlukeOpenFeaturedPage() {
+    public void testVitaliiArtemenkoFlukeOpenFeaturedPage() {
         openFeaturedPage();
 
         Assert.assertEquals(FEATURED_PAGE_TITLE, getDriver().getTitle());
@@ -49,7 +49,7 @@ public class FlukeTest extends BaseTest {
     }
 
     @Test
-    public void testFlukeOpenAwardsPage() {
+    public void testVitaliiArtemenkoFlukeOpenAwardsPage() {
         openAwardsPage();
 
         Assert.assertEquals(AWARDS_PAGE_TITLE, getDriver().getTitle());
