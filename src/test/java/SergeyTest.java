@@ -7,7 +7,6 @@ import runner.BaseTest;
 
 public class SergeyTest extends BaseTest {
 
-    @Ignore
     @Test
     public void testFirstSelenium() throws InterruptedException {
         getDriver().get("https://google.com");
