@@ -14,6 +14,11 @@ public class LetsBeTestersTest extends BaseTest {
         getDriver().findElement(By.id("modalAcceptAllBtn")).click();
     }
 
+    private void openDavinagazPage() {
+        getDriver().get("https://davinagaz.by/");
+        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
+    }
+
     @Test
     public void testCountOfSectionButtons() {
 
@@ -41,5 +46,37 @@ public class LetsBeTestersTest extends BaseTest {
         String actualResult = getDriver().findElement(By.xpath("//li[contains(@class, 'h5')]")).getText();
 
         Assert.assertEquals(actualResult, "Nokia T20");
+    }
+
+    @Test
+    public void testKICheckAddress() {
+
+        openDavinagazPage();
+
+        String address = "Полесская 14";
+
+        WebElement actualResult = getDriver().findElement(By.cssSelector(".name-office"));
+
+        Assert.assertTrue(actualResult.getText().contains(address));
+    }
+
+    @Test
+    public void testKICheckHeader() throws InterruptedException {
+
+        openDavinagazPage();
+
+        String expectedResult = "Аккумулятор";
+
+        WebElement menu = getDriver().findElement(By.xpath("//a[text()='ТО и фильтра']"));
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(menu).perform();
+        Thread.sleep(1000);
+        getDriver().findElement(By.xpath("//a[text()='Аккумулятор']")).click();
+        Thread.sleep(1000);
+
+        WebElement actualResult = getDriver().findElement(By.tagName("h1"));
+
+        Assert.assertEquals(actualResult.getText(), expectedResult.toUpperCase());
     }
 }
