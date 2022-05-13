@@ -25,12 +25,10 @@ public class BorisSDellDotComTest extends BaseTest {
         searchBox.sendKeys("xps 15");
         searchBox.sendKeys(Keys.ENTER);
 
-        //filter for 32gb RAM
         WebElement ramCheckbox = getDriver().findElement(By.xpath("//input[contains(@aria-label, '32GB')]"));
         ramCheckbox.sendKeys(Keys.ENTER);
         ramCheckbox.click();
 
-        //get the first result
         WebElement results = getDriver().findElement(By.id("ps-wrapper"));
         List<WebElement> children = results.findElements(By.xpath("./child::*"));
         String price = children.get(0).findElement(By.className("ps-dell-price")).getText();
