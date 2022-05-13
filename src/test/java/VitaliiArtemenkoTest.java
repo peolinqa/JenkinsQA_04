@@ -1,8 +1,10 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore
 public class VitaliiArtemenkoTest extends BaseTest {
     private static final String URL = "https://www.fluke.com/en-us";
     private static final String PRODUCTS_BTN_XPATH = "//a[@href='/en-us/products' and @class='dropdown-toggle']";
