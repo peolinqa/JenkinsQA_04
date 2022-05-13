@@ -1,32 +1,29 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import runner.BaseTest;
 
-public class KristinaDrobavaTest {
+public class KristinaDrobavaTest extends BaseTest {
 
     @Test
     public void yahooKristinaDrobavaTest() throws InterruptedException {
 
-        WebDriver driver = new ChromeDriver();
+        getDriver().get("https://www.yahoo.com");
 
-        driver.get("https://www.yahoo.com");
-
-        WebElement searchBox = driver.findElement(By.name("p"));
-        WebElement searchButton = driver.findElement(By.xpath("//input[@id='ybar-search']"));
+        WebElement searchBox = getDriver().findElement(By.name("p"));
+        WebElement searchButton = getDriver().findElement(By.xpath("//input[@id='ybar-search']"));
 
         searchBox.sendKeys("Kim Kardashian");
 
         Thread.sleep(3000);
         searchButton.click();
 
-        searchBox = driver.findElement(By.name("p"));
+        searchBox = getDriver().findElement(By.name("p"));
 
         Assert.assertEquals(searchBox.getAttribute("value"), "Kim Kardashian");
 
-        driver.quit();
+        getDriver().quit();
     }
 }
 
