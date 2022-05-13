@@ -27,6 +27,5 @@ public class SafronovaOlgaTest extends BaseTest {
 
         Assert.assertEquals(searchResultText, "Search results");
 
-        driver.quit();
     }
 }
