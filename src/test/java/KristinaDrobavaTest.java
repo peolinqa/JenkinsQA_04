@@ -22,8 +22,5 @@ public class KristinaDrobavaTest extends BaseTest {
         searchBox = getDriver().findElement(By.name("p"));
 
         Assert.assertEquals(searchBox.getAttribute("value"), "Kim Kardashian");
-
-        getDriver().quit();
     }
 }
-
