@@ -13,6 +13,7 @@ public class LidiyaTest extends BaseTest {
 
         WebElement iconSignIn = getDriver().findElement(By.xpath("//*[@id='idcta-username']"));
         iconSignIn.click();
+        Thread.sleep(1000);
 
         WebElement fieldLogin = getDriver().findElement(By.id("user-identifier-input"));
         WebElement fieldPassword = getDriver().findElement(By.id("password-input"));
@@ -33,6 +34,7 @@ public class LidiyaTest extends BaseTest {
         getDriver().get("https://www.bbc.com/");
         WebElement iconSignIn = getDriver().findElement(By.xpath("//*[@id='idcta-username']"));
         iconSignIn.click();
+        Thread.sleep(1000);
 
         WebElement fieldLogin = getDriver().findElement(By.id("user-identifier-input"));
         WebElement fieldPassword = getDriver().findElement(By.id("password-input"));
