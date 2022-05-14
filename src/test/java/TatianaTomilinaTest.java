@@ -22,8 +22,6 @@ public class TatianaTomilinaTest extends BaseTest {
 
         Assert.assertEquals(button.getAttribute("aria-label"), "Unlimited");
 
-        getDriver().quit();
-
     }
 }
 

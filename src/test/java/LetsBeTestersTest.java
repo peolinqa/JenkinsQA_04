@@ -19,6 +19,11 @@ public class LetsBeTestersTest extends BaseTest {
         getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
     }
 
+    private void openDemoQAPage() {
+        getDriver().get("https://demoqa.com/");
+        getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
+    }
+
     @Test
     public void testCountOfSectionButtons() {
 
@@ -78,5 +83,43 @@ public class LetsBeTestersTest extends BaseTest {
         WebElement actualResult = getDriver().findElement(By.tagName("h1"));
 
         Assert.assertEquals(actualResult.getText(), expectedResult.toUpperCase());
+    }
+
+    @Test
+    public void testElementsTextBox() {
+
+        openDemoQAPage();
+
+        String[] testData = {"Maksim", "test@test.com", "Sankt-Peterburg"};
+
+        getDriver().findElement(By.id("item-0")).click();
+
+        getDriver().findElement(By.id("userName")).sendKeys(testData[0]);
+        getDriver().findElement(By.id("userEmail")).sendKeys(testData[1]);
+        getDriver().findElement(By.id("currentAddress")).sendKeys(testData[2]);
+
+        getDriver().findElement(By.id("submit")).click();
+
+        String[] actualData = new String[3];
+        actualData[0] = getDriver().findElement(By.id("name")).getText().replace("Name:", "");
+        actualData[1] = getDriver().findElement(By.id("email")).getText().replace("Email:", "");
+        actualData[2] = getDriver().findElement(By.xpath("//*[@class='mb-1'][@id='currentAddress']"))
+                .getText().replace("Current Address :", "");
+
+        System.out.println(getDriver().findElement(By.id("currentAddress")).getText());
+
+        Assert.assertEquals(actualData, testData);
+    }
+
+    @Test
+    public void testElementsRadioButton() {
+
+        openDemoQAPage();
+
+        getDriver().findElement(By.id("item-2")).click();
+
+        getDriver().findElement(By.xpath("//*[@for='impressiveRadio']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@class='text-success']")).getText(), "Impressive");
     }
 }
