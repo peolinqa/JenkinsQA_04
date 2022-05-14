@@ -10,19 +10,18 @@ public class MariaTest extends BaseTest {
     public void TestDuolingo() {
         getDriver().get("https://www.duolingo.com/");
 
-        Assert.assertEquals(getDriver().getTitle(), "Duolingo - Лучший в мире способ учить языки");
+        Assert.assertEquals(getDriver().getTitle(), "Duolingo - The world's best way to learn a language");
 
         WebElement startBox = getDriver().findElement(By.className("liLLN"));
         startBox.click();
 
-        Assert.assertEquals(getDriver().findElement(By.cssSelector("._1Ii2h")).getText(), "Я хочу изучать...");
-        Assert.assertEquals(getDriver().getTitle(), "Цель обучения - Duolingo");
+        Assert.assertEquals(getDriver().findElement(By.cssSelector("._1Ii2h")).getText(), "I want to learn...");
 
         WebElement chooseLanguage = getDriver().findElement(By.cssSelector("[data-test='language-card language-de']"));
         chooseLanguage.click();
 
         WebElement question = getDriver().findElement(By.cssSelector("[data-test='acquisitionSurvey'] > h1"));
 
-        Assert.assertEquals(question.getText(), "Как вы узнали о нас?");
+        Assert.assertEquals(question.getText(), "How did you hear about us?");
     }
 }
