@@ -7,7 +7,7 @@ import runner.BaseTest;
 public class MariaTest extends BaseTest {
 
     @Test
-    public void MariaVerbitskayaTest() {
+    public void mariaVerbitskayaTest() {
         getDriver().get("https://www.duolingo.com/");
 
         Assert.assertEquals(getDriver().getTitle(), "Duolingo - The world's best way to learn a language");
