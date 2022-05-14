@@ -26,7 +26,6 @@ public class VPGroupBugHuntersTest extends BaseTest {
     }
 
 
-    @Ignore
     @Parameters({"language"})
     @Test(dataProvider = "language")
     public void testViktorPodgornov(String language, String result, String lang) {
