@@ -32,7 +32,7 @@ public class AKGroupBugHuntersTest extends BaseTest {
     public void ArtuomKudryashovMarlin4() throws InterruptedException {
         WebDriver driver = getDriver();
         driver.get("https://www.trekbikes.com");
-        Thread.sleep(1000);
+        Thread.sleep(500);
         WebElement searchFieldMountain = driver.findElement(By.xpath("(//*[@class='nav-categories-link font-heading font-bold lg:font-body'])[11]"));
         searchFieldMountain.click();
         Thread.sleep(600);
