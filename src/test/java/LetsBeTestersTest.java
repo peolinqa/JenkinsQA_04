@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class LetsBeTestersTest extends BaseTest {
 
@@ -23,6 +24,11 @@ public class LetsBeTestersTest extends BaseTest {
     private void openDemoQAPage() {
         getDriver().get("https://demoqa.com/");
         getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
+    }
+
+    private void openFlagmaMainPage() {
+        getDriver().get("https://flagma.si/");
+        getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
     }
 
     private void openRegistrationPage() {
@@ -129,30 +135,90 @@ public class LetsBeTestersTest extends BaseTest {
     }
 
     @Test
-    public void testRegistration(){
+    public void testFlagmaMainPageOpening() {
 
-        openRegistrationPage();
+        openFlagmaMainPage();
 
-        WebElement NamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_firstName"));
-        WebElement LastNamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_lastName"));
-        WebElement EmailPlaceholderElement = getDriver().findElement(By.id("swivl_registration_email"));
-        WebElement PasswordPlaceholderElement = getDriver().findElement(By.id("swivl_registration_plainPassword_first"));
-        WebElement ConfirmPasswordPlaceholderElement = getDriver().findElement(By.id("swivl_registration_plainPassword_second"));
-        Select AgeDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_age")));
-        Select CountryDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_country")));
-        Select RoleDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_role_rolePreset")));
+        WebElement goodAndServicesTitle = getDriver().findElement(By.xpath("//h1"));
 
-        NamePlaceholderElement.sendKeys("John");
-        LastNamePlaceholderElement.sendKeys("Smith");
-        EmailPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
-        PasswordPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
-        ConfirmPasswordPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
-        AgeDropDownPlaceholder.selectByIndex(2);
-        CountryDropDownPlaceholder.selectByVisibleText("Japan");
-        RoleDropDownPlaceholder.selectByVisibleText("IT");
+        String actualResult = goodAndServicesTitle.getText();
+        String expectedResult = "Товары и услуги в Словении";
 
-        getDriver().findElement(By.xpath("//button[@id = 'formSubmit']")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='control__error']/a")).getText(), "Sign in");
+        Assert.assertEquals(actualResult, expectedResult);
     }
-}
+
+    @Test
+    public void testOfNavigationToCoffeeSection() {
+
+        openFlagmaMainPage();
+
+        Actions actions = new Actions(getDriver());
+
+        WebElement sideBarMenu = getDriver().findElement(By.xpath("//div[@class='toggle-cats']"));
+        sideBarMenu.click();
+
+        getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        WebElement foodMenuItem = getDriver().findElement(By.xpath("//a[@class='cat-746']"));
+        actions.moveToElement(foodMenuItem).perform();
+
+        WebElement groupOfDrinksItem = getDriver().findElement(By.xpath("//span[text()='Вода, напитки, соки']"));
+        actions.moveToElement(groupOfDrinksItem).perform();
+
+        WebElement coffeeTeaCacaoItem = getDriver().findElement(By.xpath("//span[text()='Чай, кофе, какао']"));
+        actions.moveToElement(coffeeTeaCacaoItem).perform();
+
+        WebElement coffeeItem = getDriver().findElement(By.xpath("//a[@href='https://flagma.si/ru/products/kofe/']/span[text()='Кофе']"));
+        actions.moveToElement(coffeeItem).click().perform();
+
+        WebElement titleOfCoffeeSection = getDriver().findElement(By.xpath("//h1"));
+
+        String actualResult = titleOfCoffeeSection.getText();
+        String expectedResult = "Кофе в Словении";
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testCheckSmartphoneIphoneSelection() {
+
+        openFlagmaMainPage();
+
+        WebElement inputSearch = getDriver().findElement(By.xpath("//div[@id='search-input']//input[@name='q']"));
+        inputSearch.sendKeys("iphone\n");
+
+        WebElement searchResultTitle = getDriver().findElement(By.xpath("//div[@class='title']"));
+
+        String actualResult = searchResultTitle.getText();
+        String expectedResult = "Найдено по запросу iphone в Словении";
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+        @Test
+        public void testRegistration () {
+
+            openRegistrationPage();
+
+            WebElement NamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_firstName"));
+            WebElement LastNamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_lastName"));
+            WebElement EmailPlaceholderElement = getDriver().findElement(By.id("swivl_registration_email"));
+            WebElement PasswordPlaceholderElement = getDriver().findElement(By.id("swivl_registration_plainPassword_first"));
+            WebElement ConfirmPasswordPlaceholderElement = getDriver().findElement(By.id("swivl_registration_plainPassword_second"));
+            Select AgeDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_age")));
+            Select CountryDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_country")));
+            Select RoleDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_role_rolePreset")));
+
+            NamePlaceholderElement.sendKeys("John");
+            LastNamePlaceholderElement.sendKeys("Smith");
+            EmailPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
+            PasswordPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
+            ConfirmPasswordPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
+            AgeDropDownPlaceholder.selectByIndex(2);
+            CountryDropDownPlaceholder.selectByVisibleText("Japan");
+            RoleDropDownPlaceholder.selectByVisibleText("IT");
+
+            getDriver().findElement(By.xpath("//button[@id = 'formSubmit']")).click();
+
+            Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='control__error']/a")).getText(), "Sign in");
+        }
+    }
