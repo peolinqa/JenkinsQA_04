@@ -8,6 +8,7 @@ public class AntonSadchikovTest extends BaseTest {
 
     @Test
     public void testDiceSelenium() throws InterruptedException {
+
         getDriver().get("https://dice.com");
 
         WebElement searchBox = getDriver().findElement(By.id("typeaheadInput"));
