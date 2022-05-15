@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class VKHedgehogsMototours extends BaseTest {
+public class XbrookxHedgehogsMototours extends BaseTest {
 
     @Test
     public void testSearchBox() throws InterruptedException {

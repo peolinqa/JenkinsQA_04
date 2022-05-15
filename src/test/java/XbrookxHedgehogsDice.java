@@ -5,7 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 
-public class VKHedgehogsDice extends BaseTest {
+public class XbrookxHedgehogsDice extends BaseTest {
 
 
     @Test
