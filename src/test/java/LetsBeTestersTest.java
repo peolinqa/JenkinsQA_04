@@ -266,4 +266,17 @@ public class LetsBeTestersTest extends BaseTest {
         WebElement flag = getDriver().findElement(By.xpath("//i[contains(@class, 'flaaf')]"));
         Assert.assertTrue(flag.isDisplayed());
     }
+    @Test
+    public void testCheckTopMenuCategory() {
+        openWebSite("http://automationpractice.com/index.php");
+        List<WebElement> GeneralPAgeTopMenuCategory = getDriver().findElements(By.cssSelector("[class*='sf-menu clearfix menu-content']>li"));
+        for (int i = 0; i < GeneralPAgeTopMenuCategory.size(); i++) {
+            GeneralPAgeTopMenuCategory = getDriver().findElements(By.cssSelector("[class*='sf-menu clearfix menu-content']>li"));
+            String generalCategoryName = GeneralPAgeTopMenuCategory.get(i).getText().trim();
+            GeneralPAgeTopMenuCategory.get(i).click();
+            String subCategoryName = getDriver().findElement(By.className("cat-name")).getText().trim();
+            Assert.assertEquals(generalCategoryName, subCategoryName);
+            getDriver().navigate().back();
+        }
+    }
 }
