@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -14,34 +15,23 @@ import java.util.concurrent.TimeUnit;
 
 public class LetsBeTestersTest extends BaseTest {
 
-    private void openNokiaPage() {
-        getDriver().get("https://www.nokia.com/");
-        getDriver().findElement(By.id("modalAcceptAllBtn")).click();
+    WebDriverWait wait;
+
+    @BeforeMethod
+    private void before() {
+        wait = new WebDriverWait(getDriver(), 10);
     }
 
-    private void openDavinagazPage() {
-        getDriver().get("https://davinagaz.by/");
-        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
-    }
-
-    private void openDemoQAPage() {
-        getDriver().get("https://demoqa.com/");
-        getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
-    }
-
-    private void openFlagmaMainPage() {
-        getDriver().get("https://flagma.si/");
-        getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
-    }
-
-    private void openRegistrationPage() {
-        getDriver().get("https://cloud.swivl.com/register/");
+    private void openWebSite(String url) {
+        getDriver().get(url);
     }
 
     @Test
     public void testCountOfSectionButtons() {
 
-        openNokiaPage();
+        openWebSite("https://www.nokia.com/");
+
+        getDriver().findElement(By.id("modalAcceptAllBtn")).click();
 
         List<WebElement> carousel = getDriver().findElements(By.xpath("//div[contains(@id, 'tns1-item')]//h2"));
 
@@ -51,7 +41,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testCheckTablet() {
 
-        openNokiaPage();
+        openWebSite("https://www.nokia.com/");
+
+        getDriver().findElement(By.id("modalAcceptAllBtn")).click();
 
         Actions action = new Actions(getDriver());
 
@@ -70,7 +62,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testKICheckAddress() {
 
-        openDavinagazPage();
+        openWebSite("https://davinagaz.by/");
+
+        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
 
         String address = "Полесская 14";
 
@@ -82,7 +76,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testKICheckHeader() throws InterruptedException {
 
-        openDavinagazPage();
+        openWebSite("https://davinagaz.by/");
+
+        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
 
         String expectedResult = "Аккумулятор";
 
@@ -102,7 +98,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testElementsTextBox() {
 
-        openDemoQAPage();
+        openWebSite("https://demoqa.com/");
+
+        getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
 
         String[] testData = {"Maksim", "test@test.com", "Sankt-Peterburg"};
 
@@ -128,7 +126,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testElementsRadioButton() {
 
-        openDemoQAPage();
+        openWebSite("https://demoqa.com/");
+
+        getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
 
         getDriver().findElement(By.id("item-2")).click();
 
@@ -140,7 +140,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testFlagmaMainPageOpening() {
 
-        openFlagmaMainPage();
+        openWebSite("https://flagma.si/");
+
+        getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
 
         WebElement goodAndServicesTitle = getDriver().findElement(By.xpath("//h1"));
 
@@ -153,7 +155,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testOfNavigationToCoffeeSection() {
 
-        openFlagmaMainPage();
+        openWebSite("https://flagma.si/");
+
+        getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
 
         Actions actions = new Actions(getDriver());
 
@@ -184,7 +188,9 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testCheckSmartphoneIphoneSelection() {
 
-        openFlagmaMainPage();
+        openWebSite("https://flagma.si/");
+
+        getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
 
         WebElement inputSearch = getDriver().findElement(By.xpath("//div[@id='search-input']//input[@name='q']"));
         inputSearch.sendKeys("iphone\n");
@@ -201,7 +207,7 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testRegistration() {
 
-        openRegistrationPage();
+        openWebSite("https://cloud.swivl.com/register/");
 
         WebElement NamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_firstName"));
         WebElement LastNamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_lastName"));
@@ -229,7 +235,8 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testEbayFindProduct() {
 
-        getDriver().get("https://www.ebay.com/");
+        openWebSite("https://www.ebay.com/");
+
         WebElement searchRow = getDriver().findElement(By.xpath("//input[@class = 'gh-tb ui-autocomplete-input']"));
         searchRow.click();
         searchRow.sendKeys("Ipad");
@@ -243,9 +250,8 @@ public class LetsBeTestersTest extends BaseTest {
     @Ignore
     @Test
     public void changeShipCountry(){
-        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
 
-        getDriver().get("https://www.ebay.com/");
+        openWebSite("https://www.ebay.com/");
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@id = 'gh-shipto-click']")));
         getDriver().findElement(By.xpath("//li[@id = 'gh-shipto-click']")).click();
