@@ -18,7 +18,7 @@ public class GenaShepelTest extends BaseTest {
         WebElement searchBox = getDriver().findElement(By.id("text-input-what"));
 //
         searchBox.sendKeys("QA");
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
 
         searchButton.click();
 
@@ -39,7 +39,7 @@ public class GenaShepelTest extends BaseTest {
         WebElement searchButton = getDriver().findElement(By.name("btnK"));
 //
         searchBox.sendKeys("QA");
-        Thread.sleep(2000);
+        //Thread.sleep(2000);
 
         searchButton.click();
 
