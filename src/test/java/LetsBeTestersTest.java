@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -22,6 +23,10 @@ public class LetsBeTestersTest extends BaseTest {
     private void openDemoQAPage() {
         getDriver().get("https://demoqa.com/");
         getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
+    }
+
+    private void openRegistrationPage() {
+        getDriver().get("https://cloud.swivl.com/register/");
     }
 
     @Test
@@ -121,5 +126,33 @@ public class LetsBeTestersTest extends BaseTest {
         getDriver().findElement(By.xpath("//*[@for='impressiveRadio']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@class='text-success']")).getText(), "Impressive");
+    }
+
+    @Test
+    public void testRegistration(){
+
+        openRegistrationPage();
+
+        WebElement NamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_firstName"));
+        WebElement LastNamePlaceholderElement = getDriver().findElement(By.id("swivl_registration_lastName"));
+        WebElement EmailPlaceholderElement = getDriver().findElement(By.id("swivl_registration_email"));
+        WebElement PasswordPlaceholderElement = getDriver().findElement(By.id("swivl_registration_plainPassword_first"));
+        WebElement ConfirmPasswordPlaceholderElement = getDriver().findElement(By.id("swivl_registration_plainPassword_second"));
+        Select AgeDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_age")));
+        Select CountryDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_country")));
+        Select RoleDropDownPlaceholder = new Select(getDriver().findElement(By.id("swivl_registration_role_rolePreset")));
+
+        NamePlaceholderElement.sendKeys("John");
+        LastNamePlaceholderElement.sendKeys("Smith");
+        EmailPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
+        PasswordPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
+        ConfirmPasswordPlaceholderElement.sendKeys("fmvmug@midiharmonica.com");
+        AgeDropDownPlaceholder.selectByIndex(2);
+        CountryDropDownPlaceholder.selectByVisibleText("Japan");
+        RoleDropDownPlaceholder.selectByVisibleText("IT");
+
+        getDriver().findElement(By.xpath("//button[@id = 'formSubmit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='control__error']/a")).getText(), "Sign in");
     }
 }
