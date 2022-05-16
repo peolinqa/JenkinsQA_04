@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -12,7 +13,7 @@ public class AntonTest extends BaseTest {
         getDriver().get("https://www.gismeteo.ru/");
         Assert.assertEquals(getDriver().getTitle(), "GISMETEO: Погода в России, прогноз погоды на сегодня, завтра, 3 дня, выходные, неделю, 10 дней, месяц.");
     }
-
+    @Ignore
     @Test
     public void testCheckWeatherInCity() {
         getDriver().get("https://www.gismeteo.ru/");
