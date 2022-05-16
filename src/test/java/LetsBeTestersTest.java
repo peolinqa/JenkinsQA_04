@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,10 +11,11 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Arrays;
 import java.util.List;
 
-
 public class LetsBeTestersTest extends BaseTest {
+
     WebDriverWait wait;
 
     @BeforeMethod
@@ -236,11 +238,8 @@ public class LetsBeTestersTest extends BaseTest {
 
         openWebSite("https://www.ebay.com/");
 
-        WebElement searchRow = getDriver().findElement(By.xpath("//input[@class = 'gh-tb ui-autocomplete-input']"));
-        searchRow.click();
-        searchRow.sendKeys("Ipad");
-        WebElement buttonSearch = getDriver().findElement(By.id("gh-btn"));
-        buttonSearch.click();
+        getDriver().findElement(By.xpath("//input[@class = 'gh-tb ui-autocomplete-input']")).sendKeys("Ipad");
+        getDriver().findElement(By.id("gh-btn")).click();
         WebElement actualResult = getDriver().findElement(By.xpath("//h1[@class = 'srp-controls__count-heading']/span[@class = 'BOLD'][2]"));
 
         Assert.assertEquals(actualResult.getText(), "ipad");
@@ -260,4 +259,36 @@ public class LetsBeTestersTest extends BaseTest {
             getDriver().navigate().back();
         }
     }
+
+    @Ignore
+    @Test
+    public void testEbayFindProductByCategory() {
+
+        openWebSite("https://www.ebay.com/");
+
+        getDriver().findElement(By.id("gh-cat")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[.='eBay Motors']"))).click();
+
+        getDriver().findElement(By.id("gh-btn")).click();
+        getDriver().findElement(By.xpath("//li/button/span[contains(text(), 'Cars & Trucks')]")).click();
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Cadillac')]")).click();
+        getDriver().findElement(By.xpath("//p[.='DeVille']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[.='Cadillac DeVille Cars']")).getText(), "Cadillac DeVille Cars");
+    }
+
+    @Test
+    public void testEbayCheckFooterMenu() {
+
+        openWebSite("https://www.ebay.com/");
+
+        List<WebElement> footerElements = getDriver().findElements(By.xpath("//h3[@class = 'gf-bttl']"));
+
+        List<String> expectedResult = Arrays.asList("Buy", "Sell", "Tools & apps", "Stay connected", "About eBay", "Help & Contact", "Community", "eBay Sites");
+
+        for (int i = 0; i < expectedResult.size(); i++) {
+            Assert.assertEquals(footerElements.get(i).getText(), expectedResult.get(i));
+        }
+    }
+
 }
