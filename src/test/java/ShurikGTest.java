@@ -17,17 +17,15 @@ public class ShurikGTest extends BaseTest {
 
 
         WebElement menuBrowsLanguges = getDriver().findElement(
-                By.xpath("//body/div[@id='wrap']/div[@id='navigation']" +
-                        "/ul[@id='menu']/li/a[@href='/abc.html']"));
+                By.xpath("(//a[@href='/abc.html'])[1]"));
         menuBrowsLanguges.click();
 
         WebElement menuStart = getDriver().findElement(
-                By.xpath("//body/div[@id='wrap']/div[@id='navigation']" +
-                        "/ul[@id='menu']/li/a[@href='/']"));
+                By.xpath("(//a[@href='/'])[1]"));
         menuStart.click();
 
         WebElement h2 = getDriver().findElement(
-                By.xpath("//body/div[@id='wrap']/div[@id='main']/h2"));
+                By.xpath("(//h2)[2]"));
 
         String actualResult = h2.getText();
 
