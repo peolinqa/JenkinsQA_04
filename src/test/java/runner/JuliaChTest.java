@@ -26,7 +26,7 @@ public class JuliaChTest extends BaseTest {
         searchButton.click();
 
        String text = getDriver().findElement(By.xpath("//*[@id=\"trialModalLabel\"]")).getText();
-        Thread.sleep(1000);
+       Thread.sleep(1000);
        Assert.assertEquals(text, "Zvolte typ objednávky");
     }
 }
