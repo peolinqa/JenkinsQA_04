@@ -4,25 +4,18 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+public class VMGroupBugHuntersTest extends BaseTest {
 
-    public class VMGroupBugHuntersTest extends BaseTest {
+    @Test
+    public void veranikaMalazhavayaTest() {
+        getDriver().get("https://coderoll.net/");
 
-        @Test
-        public void veranikaMalazhavayaFirstTest() {
+        WebElement searchBox = getDriver().findElement(By.name("story"));
+        searchBox.sendKeys("java");
+        getDriver().findElement(By.className("ri-search-2-line")).click();
+        searchBox = getDriver().findElement(By.id("searchinput"));
 
-            getDriver().get("https://www.booking.com/");
+        Assert.assertEquals(searchBox.getAttribute("value"), "java");
 
-            getDriver().findElement(By.cssSelector("[data-modal-id='language-selection']")).click();
-            getDriver().findElement(By.cssSelector("[data-lang='en-us']")).click();
-
-            WebElement searchBox = getDriver().findElement(By.className("c-autocomplete__input"));
-            searchBox.sendKeys("Charlotte");
-            getDriver().findElement(By.className("xp__button")).click();
-
-            searchBox = getDriver().findElement(By.name("ss"));
-
-            Assert.assertEquals(searchBox.getAttribute("value"),"Charlotte");
-
-        }
     }
-
+}
