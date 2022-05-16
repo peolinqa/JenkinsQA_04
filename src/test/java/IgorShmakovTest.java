@@ -41,7 +41,6 @@ public class IgorShmakovTest extends BaseTest {
 
         List<WebElement> vehicleInfoRow = getDriver().findElements(By.xpath("//table[@id='cphMasterPage_tblComplectation']//tr[2]/td"));
 
-        // Lets make not assertion but verification that after decoding VIN we got Mercedes CLK model, not other
         boolean isMercedesCLKfound = false;
         for (WebElement webElement : vehicleInfoRow) {
             if (webElement.getText().contains("CLK")) {
