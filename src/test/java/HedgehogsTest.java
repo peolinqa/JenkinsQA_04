@@ -64,16 +64,10 @@ public class HedgehogsTest extends BaseTest {
     @Test
     public void testExitButton() {
         getDriver().get(URL);
-
-
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(
                 By.xpath("//h4"))).perform();
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+       
         getDriver().findElement(
                 By.xpath("//div[@id='pop-up-page']/button[@onclick='popup()']"))
                 .click();
