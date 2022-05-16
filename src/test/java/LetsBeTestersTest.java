@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 
 public class LetsBeTestersTest extends BaseTest {
 
@@ -164,7 +164,7 @@ public class LetsBeTestersTest extends BaseTest {
         WebElement sideBarMenu = getDriver().findElement(By.xpath("//div[@class='toggle-cats']"));
         sideBarMenu.click();
 
-        getDriver().manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@class='cat-746']")));
         WebElement foodMenuItem = getDriver().findElement(By.xpath("//a[@class='cat-746']"));
         actions.moveToElement(foodMenuItem).perform();
 
