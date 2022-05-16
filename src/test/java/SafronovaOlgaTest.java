@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -26,6 +27,39 @@ public class SafronovaOlgaTest extends BaseTest {
         String searchResultText = searchResult.getText();
 
         Assert.assertEquals(searchResultText, "Search results");
+
+    }
+
+    @Test
+    public  void SafOlgaTest ()  {
+
+        WebDriver driver = getDriver();
+
+        String url = "http://www.99-bottles-of-beer.net/";
+        String expectedResult = "Welcome to 99 Bottles of Beer";
+
+        driver.get(url);
+
+        WebElement menuBrowseLanguages = driver.findElement(
+                By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']")
+
+        );
+        menuBrowseLanguages.click();
+
+
+        WebElement menuStart = driver.findElement(
+                By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='menu']/li/a[@href='/']")
+
+        );
+        menuStart.click();
+
+
+        WebElement h2 = driver.findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/h2"));
+
+        String actualResult = h2.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
 
     }
 }
