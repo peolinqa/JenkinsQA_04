@@ -10,7 +10,7 @@ public class KarinaKTest extends BaseTest {
         getDriver().get("https://shop.acodemy.lv/");
 
         String searchTitle = getDriver().getTitle();
-        Thread.sleep(2000);
+        Thread.sleep(2500);
         Assert.assertEquals(searchTitle, "Online shop – acodemy – Just another WordPress site");
 
 //            WebElement searchHat = getDriver().findElement(By.xpath("//*[@id=\"main\"]/ul/li[2]/a[1]/h2"));
