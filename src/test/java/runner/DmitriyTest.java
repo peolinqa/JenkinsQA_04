@@ -3,9 +3,11 @@ package runner;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 public class DmitriyTest extends BaseTest {
+    @Ignore
     @Test
     public void testDmitriyRudoi () throws InterruptedException {
         getDriver().get("https://www.toyota.com/");

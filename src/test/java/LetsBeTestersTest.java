@@ -14,7 +14,6 @@ import java.util.List;
 
 
 public class LetsBeTestersTest extends BaseTest {
-
     WebDriverWait wait;
 
     @BeforeMethod
@@ -25,7 +24,7 @@ public class LetsBeTestersTest extends BaseTest {
     private void openWebSite(String url) {
         getDriver().get(url);
     }
-
+    @Ignore
     @Test
     public void testCountOfSectionButtons() {
 
@@ -37,7 +36,7 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertEquals(carousel.size(), 9);
     }
-
+    @Ignore
     @Test
     public void testCheckTablet() {
 
@@ -58,7 +57,7 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertEquals(actualResult, "Nokia T20");
     }
-
+    @Ignore
     @Test
     public void testKICheckAddress() {
 
@@ -72,7 +71,7 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertTrue(actualResult.getText().contains(address));
     }
-
+@Ignore
     @Test
     public void testKICheckHeader() throws InterruptedException {
 
@@ -95,6 +94,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(actualResult.getText(), expectedResult.toUpperCase());
     }
 
+    @Ignore
     @Test
     public void testElementsTextBox() {
 
@@ -123,6 +123,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(actualData, testData);
     }
 
+    @Ignore
     @Test
     public void testElementsRadioButton() {
 
@@ -137,6 +138,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//*[@class='text-success']")).getText(), "Impressive");
     }
 
+    @Ignore
     @Test
     public void testFlagmaMainPageOpening() {
 
@@ -152,6 +154,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testOfNavigationToCoffeeSection() {
 
@@ -185,6 +188,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Ignore
     @Test
     public void testCheckSmartphoneIphoneSelection() {
 
@@ -232,6 +236,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='control__error']/a")).getText(), "Sign in");
     }
 
+    @Ignore
     @Test
     public void testEbayFindProduct() {
 
@@ -266,6 +271,8 @@ public class LetsBeTestersTest extends BaseTest {
         WebElement flag = getDriver().findElement(By.xpath("//i[contains(@class, 'flaaf')]"));
         Assert.assertTrue(flag.isDisplayed());
     }
+
+    @Ignore
     @Test
     public void testCheckTopMenuCategory() {
         openWebSite("http://automationpractice.com/index.php");
