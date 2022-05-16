@@ -1,0 +1,21 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import runner.BaseTest;
+
+import java.util.List;
+
+public class StanLTest extends BaseTest {
+
+    @Test
+    public void testSite() throws InterruptedException {
+
+        getDriver().get("https://mamcupy.com/");
+        getDriver().findElement(By.id("title-search-input2")).sendKeys("кружка\n");
+        List<WebElement> actualResult = getDriver().findElements(By.xpath("//span[contains(text(), 'Кружка')]"));
+        for (WebElement webElement : actualResult) {
+            Assert.assertTrue(webElement.getAttribute("textContent").contains("Кружка"));
+        }
+    }
+}
