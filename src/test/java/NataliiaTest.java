@@ -30,6 +30,6 @@ public class NataliiaTest extends BaseTest {
             Thread.sleep(3000);
 
             Assert.assertEquals(getDriver().findElement(By.xpath("//h1[@class = 'DYCFd']")).getText(),
-                    "How did you hear about us?");
+                           "How did you hear about us?");
         }
 }
