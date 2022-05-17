@@ -128,7 +128,7 @@ public class QaEndurancePeterSolovey {
 
     }
 
-    @Test
+    /*@Test
     public void test4() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
@@ -169,7 +169,7 @@ public class QaEndurancePeterSolovey {
         }
         public void start(Integer i, String str){
 
-        }*/
+        
         d.quit();
-    }
+    }*/
 }
