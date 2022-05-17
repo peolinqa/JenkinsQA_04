@@ -1,13 +1,14 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.concurrent.TimeUnit;
 
 public class EgorTest extends BaseTest {
-
+    @Ignore
     @Test
     public void egorNovenkov() {
         getDriver().get("http://automationpractice.com/index.php");
