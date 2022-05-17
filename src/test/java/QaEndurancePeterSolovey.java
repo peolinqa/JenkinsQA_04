@@ -18,7 +18,7 @@ public class QaEndurancePeterSolovey {
     String lastName = "Solovey";
 
 
-    @Test
+    /*@Test
     public void test1() {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
@@ -32,10 +32,10 @@ public class QaEndurancePeterSolovey {
         searchBox = d.findElement(By.name("q"));
         Assert.assertEquals(searchBox.getAttribute("value"), "Selenium"); // => "Selenium"
         d.quit();
-    }
+    }*/
 
     @Test
-    public void test2() throws InterruptedException {
+    public void PeterS2() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://skryabin.com/market/quote.html");
@@ -72,7 +72,7 @@ public class QaEndurancePeterSolovey {
     }
 
     @Test
-    public void test3() throws InterruptedException {
+    public void PeterS3() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://skryabin.com/market/quote.html");
