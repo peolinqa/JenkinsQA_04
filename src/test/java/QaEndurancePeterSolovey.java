@@ -19,7 +19,7 @@ public class QaEndurancePeterSolovey {
 
 
     @Test
-    public void PeterS1() {
+    public void test1() {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://google.com");
@@ -35,7 +35,7 @@ public class QaEndurancePeterSolovey {
     }
 
     @Test
-    public void PeterS2() throws InterruptedException {
+    public void test2() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://skryabin.com/market/quote.html");
@@ -72,7 +72,7 @@ public class QaEndurancePeterSolovey {
     }
 
     @Test
-    public void PeterS3() throws InterruptedException {
+    public void test3() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://skryabin.com/market/quote.html");
@@ -136,7 +136,7 @@ public class QaEndurancePeterSolovey {
         d.findElement(By.className("c591")).click();
         d.findElement(By.className("c617")).click();
         Thread.sleep(1000);
-        String currentHandle = d.getWindowHandle();
+        //String currentHandle = d.getWindowHandle();
         d.findElement(By.xpath("//span[@class='c178'][text() = 'Sign in']")).click();
         Thread.sleep(1000);
 
@@ -144,6 +144,7 @@ public class QaEndurancePeterSolovey {
         List<String> listOfTabs = new ArrayList<String>(tabs);
         d.switchTo().window(listOfTabs.get(1));
         d.findElement(By.xpath("//input[@name = 'login']")).sendKeys("jhsdbjhas@kjnv.com");
+        Thread.sleep(1000);
 
         d.findElement(By.xpath("//a[@class = 'We8R9oQvHirB8JUpBnHbW']")).click();
 
@@ -163,13 +164,13 @@ public class QaEndurancePeterSolovey {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://www.exness.com/");
-        *//*String str = "hdf";
+        String str = "hdf";
         public void start(String str){
 
         }
         public void start(Integer i, String str){
 
-        }*//*
+        }
         d.quit();
     }*/
 }
