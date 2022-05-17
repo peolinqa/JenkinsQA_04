@@ -19,7 +19,7 @@ public class QaEndurancePeterSolovey {
 
 
     @Test
-    public void test1() {
+    public void PeterS1() {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://google.com");
@@ -35,7 +35,7 @@ public class QaEndurancePeterSolovey {
     }
 
     @Test
-    public void test2() throws InterruptedException {
+    public void PeterS2() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://skryabin.com/market/quote.html");
@@ -72,7 +72,7 @@ public class QaEndurancePeterSolovey {
     }
 
     @Test
-    public void test3() throws InterruptedException {
+    public void PeterS3() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://skryabin.com/market/quote.html");
@@ -128,7 +128,7 @@ public class QaEndurancePeterSolovey {
 
     }
 
-    @Test
+    /*@Test
     public void test4() throws InterruptedException {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
@@ -136,8 +136,9 @@ public class QaEndurancePeterSolovey {
         d.findElement(By.className("c591")).click();
         d.findElement(By.className("c617")).click();
         Thread.sleep(1000);
-        //String currentHandle = d.getWindowHandle();
+        String currentHandle = d.getWindowHandle();
         d.findElement(By.xpath("//span[@class='c178'][text() = 'Sign in']")).click();
+        Thread.sleep(1000);
 
         Set<String> tabs = new HashSet<String>(d.getWindowHandles());
         List<String> listOfTabs = new ArrayList<String>(tabs);
@@ -162,13 +163,13 @@ public class QaEndurancePeterSolovey {
         System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
         WebDriver d = new ChromeDriver();
         d.get("https://www.exness.com/");
-        /*String str = "hdf";
+        *//*String str = "hdf";
         public void start(String str){
 
         }
         public void start(Integer i, String str){
 
-        }*/
+        }*//*
         d.quit();
-    }
+    }*/
 }
