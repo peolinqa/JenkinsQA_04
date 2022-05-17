@@ -42,6 +42,8 @@ public class GroupDreamTeamJavaTest extends BaseTest {
     public void findAuto_AliaksandrD() throws InterruptedException {
         getDriver().get("https://av.by");
 
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+
         WebElement autoBrand = getDriver()
                 .findElement(By.xpath("//button[@name='p-6-0-2-brand']"));
 
@@ -55,12 +57,14 @@ public class GroupDreamTeamJavaTest extends BaseTest {
                 .until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='p-6-0-3-model']")));
         model.click();
 
+        WebElement buttonShow = getDriver().findElement(By.xpath("//a[@class='button button--secondary button--block']"));
+        String temp = buttonShow.getText();
+
         WebElement searchModel = new WebDriverWait(getDriver(), 10)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-item-label='80']")));
         searchModel.click();
 
-        Thread.sleep(3000);
-        WebElement buttonShow = getDriver().findElement(By.xpath("//a[@class='button button--secondary button--block']"));
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(buttonShow, temp)));
 
         buttonShow.click();
         //Title result:
