@@ -19,9 +19,6 @@ public class AnnFedorovaTargetTest extends BaseTest {
         searchBox.sendKeys(KIDSAPPAREL);
         searchButton.click();
 
-        getDriver().manage().timeouts().implicitlyWait(10000,
-                TimeUnit.MILLISECONDS);
-
         WebElement searchTitle = getDriver().findElement
                 (By.xpath("//div[@class='styles__FacetsStyledContainer-sc-" +
                         "y0hm-0 iHGdCe h-margin-b-default']//h2"));
