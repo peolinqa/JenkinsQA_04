@@ -9,7 +9,7 @@ import java.util.List;
 public class StanLTest extends BaseTest {
 
     @Test
-    public void testSite() throws InterruptedException {
+    public void testSite() {
 
         getDriver().get("https://mamcupy.com/");
         getDriver().findElement(By.id("title-search-input2")).sendKeys("кружка\n");
