@@ -50,6 +50,8 @@ public class EugeniaSrednitskaya extends BaseTest {
 // включить ожидание перед нажатием элемента
         new WebDriverWait(getDriver(), 100).until(ExpectedConditions.elementToBeClickable(itemLoginButton)).click();
 
+// временно невозможно реализовать, потому что в виду всплывающей рандомно рекламы
+// текущий url отличается от ожидаемого
 // проверка перехода
         //Assert.assertEquals(getDriver().getCurrentUrl(), url_login);
         //Assert.assertTrue(getDriver().getCurrentUrl().contains(url_login));
