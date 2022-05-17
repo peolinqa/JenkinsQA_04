@@ -143,6 +143,7 @@ public class QaEndurancePeterSolovey {
         List<String> listOfTabs = new ArrayList<String>(tabs);
         d.switchTo().window(listOfTabs.get(1));
         d.findElement(By.xpath("//input[@name = 'login']")).sendKeys("jhsdbjhas@kjnv.com");
+        Thread.sleep(1000);
 
         d.findElement(By.xpath("//a[@class = 'We8R9oQvHirB8JUpBnHbW']")).click();
 
