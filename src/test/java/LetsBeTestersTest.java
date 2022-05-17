@@ -51,7 +51,6 @@ public class LetsBeTestersTest extends BaseTest {
 
         List<WebElement> menu = getDriver().findElements(By.xpath("//li[contains(@class, 'dropdown-menu')]/a"));
         WebElement forConsumers = menu.stream().filter(el2 -> el2.getText().equals("For consumers")).findFirst().orElse(null);
-
         action.moveToElement(forConsumers).build().perform();
 
         getDriver().findElement(By.xpath("//li[@class='dropdown-submenu-item']/a[text()='Phones']")).click();
@@ -250,15 +249,11 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testCheckTopMenuCategory() {
         openWebSite("http://automationpractice.com/index.php");
-        List<WebElement> GeneralPAgeTopMenuCategory = getDriver().findElements(By.cssSelector("[class*='sf-menu clearfix menu-content']>li"));
-        for (int i = 0; i < GeneralPAgeTopMenuCategory.size(); i++) {
-            GeneralPAgeTopMenuCategory = getDriver().findElements(By.cssSelector("[class*='sf-menu clearfix menu-content']>li"));
-            String generalCategoryName = GeneralPAgeTopMenuCategory.get(i).getText().trim();
-            GeneralPAgeTopMenuCategory.get(i).click();
-            String subCategoryName = getDriver().findElement(By.className("cat-name")).getText().trim();
-            Assert.assertEquals(generalCategoryName, subCategoryName);
-            getDriver().navigate().back();
-        }
+        WebElement GeneralPAgeTopMenuCategory = getDriver().findElement(By.cssSelector("[class*='sf-menu clearfix menu-content']>li:first-child"));
+        String generalCategoryName = GeneralPAgeTopMenuCategory.getText().trim();
+        GeneralPAgeTopMenuCategory.click();
+        String subCategoryName = getDriver().findElement(By.className("cat-name")).getText().trim();
+        Assert.assertEquals(generalCategoryName, subCategoryName);
     }
 
     @Ignore
@@ -391,5 +386,4 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.id("confirmResult")).getText(), "You selected Ok");
     }
-
 }
