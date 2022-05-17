@@ -25,7 +25,7 @@ public class VPGroupBugHuntersTest extends BaseTest {
         };
     }
 
-
+    @Ignore //Видимо Гугл защищается и здесь, работает с перебоями
     @Parameters({"language"})
     @Test(dataProvider = "language")
     public void testViktorPodgornov(String language, String result, String lang) {
@@ -47,6 +47,18 @@ public class VPGroupBugHuntersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.xpath(String.format("//span[@lang='%s']", lang))).getText(),
                 result);
+    }
+
+    @Test
+    public void testViktorPodgornovNetCost() {
+
+        getDriver().get("https://lunch.netcostmarket.com/");
+
+        getDriver().findElement(By.xpath("//input[@role='combobox']"))
+                .sendKeys("meat" + Keys.ENTER);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//input[@role='combobox']"))
+                .getAttribute("value"), "meat");
     }
 
 }

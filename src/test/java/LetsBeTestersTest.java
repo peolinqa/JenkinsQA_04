@@ -1,4 +1,6 @@
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,8 +12,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Arrays;
 import java.util.List;
-
 
 public class LetsBeTestersTest extends BaseTest {
 
@@ -237,35 +239,14 @@ public class LetsBeTestersTest extends BaseTest {
 
         openWebSite("https://www.ebay.com/");
 
-        WebElement searchRow = getDriver().findElement(By.xpath("//input[@class = 'gh-tb ui-autocomplete-input']"));
-        searchRow.click();
-        searchRow.sendKeys("Ipad");
-        WebElement buttonSearch = getDriver().findElement(By.id("gh-btn"));
-        buttonSearch.click();
+        getDriver().findElement(By.xpath("//input[@class = 'gh-tb ui-autocomplete-input']")).sendKeys("Ipad");
+        getDriver().findElement(By.id("gh-btn")).click();
         WebElement actualResult = getDriver().findElement(By.xpath("//h1[@class = 'srp-controls__count-heading']/span[@class = 'BOLD'][2]"));
 
         Assert.assertEquals(actualResult.getText(), "ipad");
     }
 
     @Ignore
-    @Test
-    public void changeShipCountry(){
-
-        openWebSite("https://www.ebay.com/");
-
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[@id = 'gh-shipto-click']")));
-        getDriver().findElement(By.xpath("//li[@id = 'gh-shipto-click']")).click();
-
-        getDriver().findElement(By.xpath("//button[@class = 'expand-btn expand-btn--default menu-button__button']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Afghanistan']")).click();
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='flag-wrapper']/span[@data-country='AFG|AF']")));
-
-        getDriver().findElement(By.xpath("//button[@class = 'shipto__close-btn']")).click();
-
-        wait.until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath("//i[contains(@class, 'flaaf')]"))));
-        WebElement flag = getDriver().findElement(By.xpath("//i[contains(@class, 'flaaf')]"));
-        Assert.assertTrue(flag.isDisplayed());
-    }
     @Test
     public void testCheckTopMenuCategory() {
         openWebSite("http://automationpractice.com/index.php");
@@ -279,4 +260,136 @@ public class LetsBeTestersTest extends BaseTest {
             getDriver().navigate().back();
         }
     }
+
+    @Ignore
+    @Test
+    public void testEbayFindProductByCategory() {
+
+        openWebSite("https://www.ebay.com/");
+
+        getDriver().findElement(By.id("gh-cat")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//option[.='eBay Motors']"))).click();
+
+        getDriver().findElement(By.id("gh-btn")).click();
+        getDriver().findElement(By.xpath("//li/button/span[contains(text(), 'Cars & Trucks')]")).click();
+        getDriver().findElement(By.xpath("//a[contains(text(), 'Cadillac')]")).click();
+        getDriver().findElement(By.xpath("//p[.='DeVille']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//span[.='Cadillac DeVille Cars']")).getText(), "Cadillac DeVille Cars");
+    }
+
+    @Test
+    public void testEbayCheckFooterMenu() {
+
+        openWebSite("https://www.ebay.com/");
+
+        List<WebElement> footerElements = getDriver().findElements(By.xpath("//h3[@class = 'gf-bttl']"));
+
+        List<String> expectedResult = Arrays.asList("Buy", "Sell", "Tools & apps", "Stay connected", "About eBay", "Help & Contact", "Community", "eBay Sites");
+
+        for (int i = 0; i < expectedResult.size(); i++) {
+            Assert.assertEquals(footerElements.get(i).getText(), expectedResult.get(i));
+        }
+    }
+
+    @Test
+    public void testDemoQAButtons() {
+
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
+
+        getDriver().findElement(By.xpath("//li[@id='item-4']")).click();
+
+        Actions action = new Actions(getDriver());
+
+        action.doubleClick(getDriver().findElement(By.xpath("//button[@id='doubleClickBtn']"))).build().perform();
+        action.contextClick(getDriver().findElement(By.xpath("//button[@id='rightClickBtn']"))).build().perform();
+        action.click(getDriver().findElement(By.xpath("//button[text() = 'Click Me']"))).build().perform();
+
+        List<WebElement> actual = getDriver().findElements(By.xpath("//div/p"));
+
+        List<String> expected = Arrays.asList("You have done a double click", "You have done a right click", "You have done a dynamic click");
+
+        for (int i = 0; i < expected.size(); i++) {
+            Assert.assertEquals(actual.get(i).getText(), expected.get(i));
+        }
+    }
+
+    @Test
+    public void testDemoQAWebTables() {
+
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
+
+        getDriver().findElement(By.xpath("//li[@id='item-3']")).click();
+
+        getDriver().findElement(By.id("addNewRecordButton")).click();
+
+        getDriver().findElement(By.id("firstName")).sendKeys("Anna");
+        getDriver().findElement(By.id("lastName")).sendKeys("Ivanov");
+        getDriver().findElement(By.id("userEmail")).sendKeys("test@test.com");
+        getDriver().findElement(By.id("age")).sendKeys("35");
+        getDriver().findElement(By.id("salary")).sendKeys("100000");
+        getDriver().findElement(By.id("department")).sendKeys("QA");
+
+        getDriver().findElement(By.id("submit")).click();
+
+        getDriver().findElement(By.id("searchBox")).sendKeys("Anna");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[text() = 'Anna']")).getText(), "Anna");
+
+    }
+
+    @Test
+    public void testDemoQAValidImage() {
+
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(By.xpath("//h5[text()='Elements']")).click();
+
+        getDriver().findElement(By.xpath("//li[@id='item-6']")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("(//div/img)[1]")).isDisplayed());
+    }
+
+    @Test
+    public void testDemoQAInteractionsDroppable() throws InterruptedException {
+
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(By.xpath("//h5[text()='Interactions']")).click();
+
+        JavascriptExecutor js = (JavascriptExecutor) getDriver();
+        WebElement element = getDriver().findElement(By.xpath("(//li[@id='item-3'])[4]"));
+        js.executeScript("arguments[0].scrollIntoView();", element);
+        element.click();
+
+        Thread.sleep(1000);
+
+        Actions action = new Actions(getDriver());
+
+        action.dragAndDrop(getDriver().findElement(By.id("draggable")), getDriver().findElement(By.id("droppable"))).build().perform();
+
+        Assert.assertEquals(getDriver().findElement(By.id("droppable")).getText(), "Dropped!");
+    }
+
+    @Test
+    public void testDemoQAAlertAccept() {
+
+        getDriver().get("https://demoqa.com/");
+
+        getDriver().findElement(By.xpath("//h5[text()='Alerts, Frame & Windows']")).click();
+
+        getDriver().findElement(By.xpath("(//li[@id='item-1'])[2]")).click();
+
+        getDriver().findElement(By.id("confirmButton")).click();
+
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+
+        Assert.assertEquals(getDriver().findElement(By.id("confirmResult")).getText(), "You selected Ok");
+    }
+
 }

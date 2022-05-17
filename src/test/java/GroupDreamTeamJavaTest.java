@@ -2,9 +2,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.concurrent.TimeUnit;
 
 public class GroupDreamTeamJavaTest extends BaseTest {
 
@@ -37,33 +42,31 @@ public class GroupDreamTeamJavaTest extends BaseTest {
     public void findAuto_AliaksandrD() throws InterruptedException {
         getDriver().get("https://av.by");
 
-        WebElement markaAuto = getDriver()
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+
+        WebElement autoBrand = getDriver()
                 .findElement(By.xpath("//button[@name='p-6-0-2-brand']"));
-        markaAuto.click();
 
-        WebElement searchMarkaAuto = getDriver()
+        autoBrand.click();
+
+        WebElement searchAutoBrand = getDriver()
                 .findElement(By.xpath("//input[@placeholder='Поиск']"));
-        searchMarkaAuto.sendKeys("Audi" + Keys.ENTER);
+        searchAutoBrand.sendKeys("Audi" + Keys.ENTER);
 
-        Thread.sleep(4000);
-
-        WebElement model = getDriver()
-                .findElement(By.xpath("//button[@name='p-6-0-3-model']"));
+        WebElement model = new WebDriverWait(getDriver(), 10)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='p-6-0-3-model']")));
         model.click();
 
-        Thread.sleep(4000);
+        WebElement buttonShow = getDriver().findElement(By.xpath("//a[@class='button button--secondary button--block']"));
+        String temp = buttonShow.getText();
 
-        WebElement searchModel = getDriver()
-                .findElement(By.xpath("//button[@data-item-label='80']"));
+        WebElement searchModel = new WebDriverWait(getDriver(), 10)
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-item-label='80']")));
         searchModel.click();
 
-        Thread.sleep(4000);
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(buttonShow, temp)));
 
-        WebElement buttonShow = getDriver()
-                .findElement(By.xpath("//a[@class='button button--secondary button--block']"));
         buttonShow.click();
-
-        Thread.sleep(6000);
         //Title result:
         //Купить Audi 80 | 310 объявлений о продаже на av.by | Цены, характеристики, фото.
         String[] title = getDriver()
