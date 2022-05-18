@@ -18,7 +18,7 @@ import java.util.List;
 public class LetsBeTestersTest extends BaseTest {
 
     WebDriverWait wait;
-
+@Ignore
     @BeforeMethod
     private void before() {
         wait = new WebDriverWait(getDriver(), 10);
