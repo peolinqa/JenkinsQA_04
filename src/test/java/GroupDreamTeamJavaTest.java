@@ -18,26 +18,20 @@ public class GroupDreamTeamJavaTest extends BaseTest {
 
         getDriver().get("https://habr.com/ru/all/");
 
-        String text = "XPath";
-        getDriver().findElement(By
-                        .xpath("//*[@class='tm-header-user-menu__item tm-header-user-menu__search']"))
+        getDriver().findElement(By.xpath("//a[@class='tm-header-user-menu__item tm-header-user-menu__search']"))
                 .click();
 
-        getDriver().findElement(By.xpath("//*[@class='tm-input-text-decorated__input']"))
-                .sendKeys(text + "\n");
+        getDriver().findElement(By.className("tm-input-text-decorated__input"))
+                .sendKeys("XPath\n");
 
-        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
-        jse.executeScript("scroll(0, 2000);");
-
-        getDriver().findElement(By
-                        .xpath("//*[contains(text(),'Вот почему мы всегда пишем селекторы на ')]"))
+        ((JavascriptExecutor)getDriver()).executeScript("scroll(0, 2000);");
+        getDriver().findElement(By.xpath("//span[contains(text(),'Вот почему мы всегда пишем селекторы на ')]"))
                 .click();
 
-        WebElement x =  getDriver().findElement(By
-                .xpath("//*[@class='tm-article-snippet__title tm-article-snippet__title_h1']"));
-
-        Assert.assertEquals(x.getText(), "Вот почему мы всегда пишем селекторы на XPath");
+        WebElement actualResult =  getDriver().findElement(By.xpath("//h1[@class='tm-article-snippet__title tm-article-snippet__title_h1']"));
+        Assert.assertEquals(actualResult.getText(), "Вот почему мы всегда пишем селекторы на XPath");
     }
+
     @Test
     public void findAuto_AliaksandrD() throws InterruptedException {
         getDriver().get("https://av.by");
