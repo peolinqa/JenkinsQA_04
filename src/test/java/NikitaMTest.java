@@ -7,21 +7,18 @@ import runner.BaseTest;
 public class NikitaMTest extends BaseTest {
 
     @Test
-    public void nikitaMTestW3schools() throws InterruptedException{
+    public void testSearchW3schools() throws InterruptedException{
+
+        final String searchWord = "Java Tutorial";
 
         getDriver().get("https://www.w3schools.com/");
 
         Assert.assertEquals(getDriver().getTitle(), "W3Schools Online Web Tutorials");
 
-        WebElement searchBox = getDriver().findElement(By.id("search2"));
-        WebElement searchButton = getDriver().findElement(By.id("learntocode_searchbtn"));
-
-        searchBox.sendKeys("Java Tutorial");
-
+        getDriver().findElement(By.id("search2")).sendKeys(searchWord);
         Thread.sleep(1000);
+        getDriver().findElement(By.id("learntocode_searchbtn")).click();
 
-        searchButton.click();
-
-        Assert.assertEquals(getDriver().getTitle(), "Java Tutorial");
+        Assert.assertEquals(getDriver().getTitle(), searchWord);
     }
 }
