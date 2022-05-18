@@ -32,19 +32,15 @@ public class GroupDreamTeamJavaTest extends BaseTest {
         Assert.assertEquals(actualResult.getText(), "Вот почему мы всегда пишем селекторы на XPath");
     }
 
-    @Test
-    public void findAuto_AliaksandrD() throws InterruptedException {
+     @Test
+    public void findAuto_AliaksandrD() {
         getDriver().get("https://av.by");
-
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
 
-        WebElement autoBrand = getDriver()
-                .findElement(By.xpath("//button[@name='p-6-0-2-brand']"));
-
+        WebElement autoBrand = getDriver().findElement(By.xpath("//button[@name='p-6-0-2-brand']"));
         autoBrand.click();
 
-        WebElement searchAutoBrand = getDriver()
-                .findElement(By.xpath("//input[@placeholder='Поиск']"));
+        WebElement searchAutoBrand = getDriver().findElement(By.xpath("//input[@placeholder='Поиск']"));
         searchAutoBrand.sendKeys("Audi" + Keys.ENTER);
 
         WebElement model = new WebDriverWait(getDriver(), 10)
@@ -57,17 +53,11 @@ public class GroupDreamTeamJavaTest extends BaseTest {
         WebElement searchModel = new WebDriverWait(getDriver(), 10)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-item-label='80']")));
         searchModel.click();
-
         wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(buttonShow, temp)));
 
         buttonShow.click();
-        //Title result:
-        //Купить Audi 80 | 310 объявлений о продаже на av.by | Цены, характеристики, фото.
-        String[] title = getDriver()
-                .getTitle()
-                .split(" ");
-        String actual = title[1] + " " + title[2];
-        Assert.assertEquals(actual, "Audi 80");
+        String[] title = getDriver().getTitle().split(" ");
+        Assert.assertEquals(title[1] + " " + title[2], "Audi 80");
     }
 
     private static final String SWIVL_URL = "https://cloud.swivl.com/login";
