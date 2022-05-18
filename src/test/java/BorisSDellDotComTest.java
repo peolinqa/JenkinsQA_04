@@ -3,11 +3,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
 
+@Ignore
 public class BorisSDellDotComTest extends BaseTest {
     private static final String EXPECTED_PRICE = "$2,899.00";
 
