@@ -16,18 +16,14 @@ public class GenaShepelTest extends BaseTest {
 
         WebElement searchButton = getDriver().findElement(By.className("yosegi-InlineWhatWhere-primaryButton"));
         WebElement searchBox = getDriver().findElement(By.id("text-input-what"));
-//
+
         searchBox.sendKeys("QA");
-        //Thread.sleep(2000);
 
         searchButton.click();
 
         searchBox = getDriver().findElement(By.id("text-input-what"));
 
         Assert.assertEquals(searchBox.getAttribute("value"), "QA");
-
-        //searchButton = getDriver().findElement(By.className("yosegi-InlineWhatWhere-primaryButton"));
-
 
     }
     @Test
@@ -37,71 +33,48 @@ public class GenaShepelTest extends BaseTest {
 
         WebElement searchBox = getDriver().findElement(By.name("q"));
         WebElement searchButton = getDriver().findElement(By.name("btnK"));
-//
+
         searchBox.sendKeys("QA");
-        //Thread.sleep(2000);
 
         searchButton.click();
 
         searchBox = getDriver().findElement(By.name("q"));
 
         Assert.assertEquals(searchBox.getAttribute("value"), "QA");
-
-        //searchButton = getDriver().findElement(By.className("yosegi-InlineWhatWhere-primaryButton"));
-
-
     }
 
     @Test
     public void testMainMenuOfStartPage() throws  InterruptedException{
 
-        String startMenu = "http://www.99-bottles-of-beer.net/";
-        String browseLanguagesMenu = "http://www.99-bottles-of-beer.net/abc.html";
-        String serchLanguagesMenu = "http://www.99-bottles-of-beer.net/search.html";
-        String topListMenu = "http://www.99-bottles-of-beer.net/toplist.html";
-        String guestBookMenu = "http://www.99-bottles-of-beer.net/guestbookv2.html";
-        String submitNewLanguages = "http://www.99-bottles-of-beer.net/submitnewlanguage.html";
-
-
         String[] expectedResultArr = {
-                startMenu,
-                browseLanguagesMenu,
-                serchLanguagesMenu,
-                topListMenu,
-                guestBookMenu,
-                submitNewLanguages
+                "http://www.99-bottles-of-beer.net/",
+                "http://www.99-bottles-of-beer.net/abc.html",
+                "http://www.99-bottles-of-beer.net/search.html",
+                "http://www.99-bottles-of-beer.net/toplist.html",
+                "http://www.99-bottles-of-beer.net/guestbookv2.html",
+                "http://www.99-bottles-of-beer.net/submitnewlanguage.html"
         };
 
-        String pathStartMenu = "//*[@id='menu']/li/a[@href='/']";
-        String pathBrowseLanguagesMenu = "//*[@id='menu']/li/a[@href='/abc.html']";
-        String pathSerchLanguagesMenu = "//*[@id='menu']/li/a[@href='/search.html']";
-        String pathTopListMenu = "//*[@id='menu']/li/a[@href='/toplist.html']";
-        String pathGuestBookMenu = "//*[@id='menu']/li/a[@href='/guestbookv2.html']";
-        String pathSubmitNewLanguages = "//*[@id='menu']/li/a[@href='/submitnewlanguage.html']";
-
         String[] pathArr = {
-                pathStartMenu,
-                pathBrowseLanguagesMenu,
-                pathSerchLanguagesMenu,
-                pathTopListMenu,
-                pathGuestBookMenu,
-                pathSubmitNewLanguages
+                "//*[@id='menu']/li/a[@href='/']",
+                "//*[@id='menu']/li/a[@href='/abc.html']",
+                "//*[@id='menu']/li/a[@href='/search.html']",
+                "//*[@id='menu']/li/a[@href='/toplist.html']",
+                "//*[@id='menu']/li/a[@href='/guestbookv2.html']",
+                "//*[@id='menu']/li/a[@href='/submitnewlanguage.html']"
         };
 
 
         for(int i = 0; i < pathArr.length; i++){
             getDriver().get(expectedResultArr[i]);
-            //Thread.sleep(3000);
+
             for(int j = 0; j < pathArr.length; j++) {
                 WebElement nextPage = getDriver().findElement(By.xpath(pathArr[j]));
                 nextPage.click();
-                String actualResult = getDriver().getCurrentUrl();
-                String expectedResult = expectedResultArr[j];
-                Assert.assertEquals(expectedResult, actualResult);
-                //Thread.sleep(3000);
+
+                Assert.assertEquals(expectedResultArr[j], getDriver().getCurrentUrl());
             }
         }
-        getDriver().quit();
     }
 
 }
