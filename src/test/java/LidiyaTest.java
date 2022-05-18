@@ -1,12 +1,13 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class LidiyaTest extends BaseTest {
 
-
+    @Ignore
     @Test
     public void lidiyaMakarovaTestForBBCPositiveCheck() throws InterruptedException {
         getDriver().get("https://www.bbc.com/");
