@@ -13,7 +13,7 @@ import java.util.List;
 public class IgorShmakovTest extends BaseTest {
 
     @Test
-    public void searchMercedesVinAndDecodeIt() {
+    public void searchMercedesVinAndDecodeItTest() {
         getDriver().get("https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=");
 
         WebElement firstSearchResult = new WebDriverWait(getDriver(), 10).until(
