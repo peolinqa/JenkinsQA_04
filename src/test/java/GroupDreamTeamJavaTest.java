@@ -76,4 +76,22 @@ public class GroupDreamTeamJavaTest extends BaseTest {
         Assert.assertEquals(actual, "Audi 80");
     }
 
+    private static final String SWIVL_URL = "https://cloud.swivl.com/login";
+    private static final String EMAIL = "123@123";
+    private static final String PASSWORD = "123123";
+
+    @Test
+    public void swivlMariaShyTest(){
+
+        getDriver().get(SWIVL_URL);
+        getDriver().manage().deleteAllCookies();
+
+        getDriver().findElement(By.id("username")).sendKeys(EMAIL);
+        getDriver().findElement(By.id("password")).sendKeys(PASSWORD);
+        getDriver().findElement(By.id("_submit")).click(); //submit with invalid login
+
+        String invalid = getDriver().findElement(By.xpath("/html/body/div/div[2]/div[2]/div[2]/div/form/p"))
+                .getText();
+        Assert.assertEquals(invalid,"Invalid CSRF token.");
+    }
 }
