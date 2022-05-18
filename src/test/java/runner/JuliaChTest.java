@@ -17,6 +17,7 @@ public class JuliaChTest extends BaseTest {
     @Test
     public void testJuliaChWocabeeOpenPage() throws InterruptedException {
 
+
         WebElement wocabeeOpenPage = getDriver().findElement(By.xpath("//*[@id=\"page-top\"]"));
         wocabeeOpenPage.click();
         Thread.sleep(500);
@@ -27,6 +28,6 @@ public class JuliaChTest extends BaseTest {
 
        String text = getDriver().findElement(By.xpath("//*[@id=\"trialModalLabel\"]")).getText();
        Thread.sleep(1000);
-       Assert.assertEquals(text, "Zvolte typ objednávky");
+       Assert.assertEquals("Zvolte typ objednávky", text);
     }
 }
