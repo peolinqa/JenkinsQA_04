@@ -6,9 +6,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore
 public class GSGroupBugHuntersTest extends BaseTest {
     private WebDriver driver;
     private Wait<WebDriver> wait;

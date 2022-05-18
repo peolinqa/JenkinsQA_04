@@ -7,7 +7,7 @@ import runner.BaseTest;
 
 
 public class TatianaTomilinaTest extends BaseTest {
-
+    @Ignore
     @Test
     public void testFirstSelenium() {
 
