@@ -18,21 +18,6 @@ public class GenaShepelTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.id("text-input-what")).getAttribute("value"), "QA");
 
     }
-    @Test
-    public void genaShepelSecondtTest() throws InterruptedException {
-
-        getDriver().get("https://google.com");
-
-        WebElement searchBox = getDriver().findElement(By.name("q"));
-        searchBox.sendKeys("QA");
-
-        WebElement searchButton = getDriver().findElement(By.name("btnK"));
-        searchButton.click();
-
-        searchBox = getDriver().findElement(By.name("q"));
-
-        Assert.assertEquals(searchBox.getAttribute("value"), "QA");
-    }
 
     @Test
     public void testMainMenuOfStartPage() throws  InterruptedException{
@@ -65,6 +50,8 @@ public class GenaShepelTest extends BaseTest {
             }
         }
     }
+
+
 
 }
 
