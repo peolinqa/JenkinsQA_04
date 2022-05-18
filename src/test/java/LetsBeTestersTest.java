@@ -386,4 +386,59 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.id("confirmResult")).getText(), "You selected Ok");
     }
+
+    @Test
+    public void testAmountOfSvnCities() {
+
+        openWebSite("https://flagma.si/");
+
+        getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
+
+        getDriver().findElement(By.xpath("//div[@class='toggle-regions']")).click();
+
+        List<WebElement> citiesOFSvn = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"));
+
+        int actualResult = citiesOFSvn.size();
+        int expectedResult = 23;
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testCheckBledCityIsPresent() {
+
+        openWebSite("https://flagma.si/");
+
+        getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
+
+        getDriver().findElement(By.xpath("//div[@class='toggle-regions']")).click();
+
+        String expectedResult = "Bled";
+
+        List<WebElement> citiesOFSvn = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"));
+        WebElement findRequiredCity = citiesOFSvn.stream().filter(el -> el.getText().equals(expectedResult)).findFirst().orElse(null);
+
+        String actualResult = findRequiredCity.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSelectedOfAboutProjectPage() {
+
+        openWebSite("https://flagma.si/");
+
+        getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
+
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
+
+        WebElement aboutProjectBtn = getDriver().findElement(By.xpath("//a[text()='About project']"));
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", aboutProjectBtn);
+        aboutProjectBtn.click();
+
+        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+        String expectedResult = "Flagma is an international business platform";
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
