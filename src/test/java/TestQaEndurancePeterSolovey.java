@@ -73,6 +73,7 @@ public class TestQaEndurancePeterSolovey extends BaseTest {
             selectCar.selectByValue("Toyota");
             selectCar.selectByValue("BMW");
         }
+
         //iframe
         getDriver().switchTo().frame("additionalInfo");
         getDriver().findElement(By.id("contactPersonName")).sendKeys("XXX");
