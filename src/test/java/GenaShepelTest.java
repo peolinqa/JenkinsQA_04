@@ -1,9 +1,6 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -14,16 +11,11 @@ public class GenaShepelTest extends BaseTest {
 
         getDriver().get("https://www.indeed.com/");
 
-        WebElement searchButton = getDriver().findElement(By.className("yosegi-InlineWhatWhere-primaryButton"));
-        WebElement searchBox = getDriver().findElement(By.id("text-input-what"));
+        getDriver().findElement(By.id("text-input-what")).sendKeys("QA");
 
-        searchBox.sendKeys("QA");
+        getDriver().findElement(By.className("yosegi-InlineWhatWhere-primaryButton")).click();
 
-        searchButton.click();
-
-        searchBox = getDriver().findElement(By.id("text-input-what"));
-
-        Assert.assertEquals(searchBox.getAttribute("value"), "QA");
+        Assert.assertEquals(getDriver().findElement(By.id("text-input-what")).getAttribute("value"), "QA");
 
     }
     @Test
@@ -32,10 +24,9 @@ public class GenaShepelTest extends BaseTest {
         getDriver().get("https://google.com");
 
         WebElement searchBox = getDriver().findElement(By.name("q"));
-        WebElement searchButton = getDriver().findElement(By.name("btnK"));
-
         searchBox.sendKeys("QA");
 
+        WebElement searchButton = getDriver().findElement(By.name("btnK"));
         searchButton.click();
 
         searchBox = getDriver().findElement(By.name("q"));
@@ -64,13 +55,11 @@ public class GenaShepelTest extends BaseTest {
                 "//*[@id='menu']/li/a[@href='/submitnewlanguage.html']"
         };
 
-
         for(int i = 0; i < pathArr.length; i++){
             getDriver().get(expectedResultArr[i]);
 
             for(int j = 0; j < pathArr.length; j++) {
-                WebElement nextPage = getDriver().findElement(By.xpath(pathArr[j]));
-                nextPage.click();
+                getDriver().findElement(By.xpath(pathArr[j])).click();
 
                 Assert.assertEquals(expectedResultArr[j], getDriver().getCurrentUrl());
             }
