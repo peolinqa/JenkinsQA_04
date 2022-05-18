@@ -8,15 +8,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-//это учебный код, здесь может быть всё что угодно, в том числе и комменты!!!
-
 public class TestQaEndurancePeterSolovey extends BaseTest {
     String firstName = "Peter";
     String middleName = "O";
     String lastName = "Solovey";
 
     @Test
-    public void testPeterS1() throws InterruptedException {
+    public void testSkryabin1() throws InterruptedException {
         getDriver().get("https://skryabin.com/market/quote.html");
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
@@ -40,7 +38,7 @@ public class TestQaEndurancePeterSolovey extends BaseTest {
     }
 
     @Test
-    public void еуыеPeterS2() throws InterruptedException {
+    public void testSkryabin2() throws InterruptedException {
         getDriver().get("https://skryabin.com/market/quote.html");
         getDriver().findElement(By.name("name")).click();
         WebElement firstNameE = getDriver().findElement(By.name("firstName"));
@@ -75,7 +73,6 @@ public class TestQaEndurancePeterSolovey extends BaseTest {
             selectCar.selectByValue("Toyota");
             selectCar.selectByValue("BMW");
         }
-
         //iframe
         getDriver().switchTo().frame("additionalInfo");
         getDriver().findElement(By.id("contactPersonName")).sendKeys("XXX");
