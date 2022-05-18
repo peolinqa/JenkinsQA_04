@@ -40,7 +40,7 @@ public class TestQaEndurancePeterSolovey extends BaseTest {
     }
 
     @Test
-    public void еуыеPeterS2() throws InterruptedException {
+    public void testPeterS2() throws InterruptedException {
         getDriver().get("https://skryabin.com/market/quote.html");
         getDriver().findElement(By.name("name")).click();
         WebElement firstNameE = getDriver().findElement(By.name("firstName"));
