@@ -19,34 +19,13 @@ public class QaEndurancePeterSolovey extends BaseTest {
     String middleName = "O";
     String lastName = "Solovey";
 
-
-    /*@Test
-    public void test1() {
-        System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
-        WebDriver d = new ChromeDriver();
-        d.get("https://google.com");
-        System.out.println(d.getTitle()); // => "Google"
-        d.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
-        WebElement searchBox = d.findElement(By.name("q"));
-        WebElement searchButton = d.findElement(By.name("btnK"));
-        searchBox.sendKeys("Selenium");
-        searchButton.click();
-        searchBox = d.findElement(By.name("q"));
-        Assert.assertEquals(searchBox.getAttribute("value"), "Selenium"); // => "Selenium"
-        d.quit();
-    }*/
-
     @Test
     public void PeterS2() throws InterruptedException {
-        /*System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
-
         getDriver().get("https://skryabin.com/market/quote.html");
-        Dimension dim = new Dimension(1920, 1080);
-        getDriver().manage().window().setSize(dim);*/
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         Date date = new Date();
         String dateF = dateFormat.format(date);
-        //WebElement currentDate = d.findElement(By.id("currentDate"));
+        WebElement currentDate = getDriver().findElement(By.id("currentDate"));
         Assert.assertEquals(getDriver().findElement(By.id("currentDate")).getText(), dateF);
 
         getDriver().findElement(By.id("formSubmit")).click();
@@ -62,14 +41,14 @@ public class QaEndurancePeterSolovey extends BaseTest {
         getDriver().findElement(By.xpath("//span[text() = 'Save']")).click();
         Thread.sleep(500);
 
-        /*String value = d.findElement(By.id("name")).getAttribute("value");
+        /*String value = getDriver().findElement(By.id("name")).getAttribute("value");
         System.out.println(value);
-        Assert.assertEquals(d.findElement(By.name("name")).getAttribute("value"), "Peter O Solovey");*/
+        Assert.assertEquals(getDriver().findElement(By.name("name")).getAttribute("value"), "Peter O Solovey");*/
 
         getDriver().findElement(By.name("username")).sendKeys("1");
         getDriver().findElement(By.id("formSubmit")).click();
         Assert.assertEquals(getDriver().findElement(By.id("username-error")).getText(), "Please enter at least 2 characters.");
-        //d.findElement(By.name("username")).sendKeys("PS123451645");
+        //getDriver().findElement(By.name("username")).sendKeys("PS123451645");
         getDriver().quit();
     }
 
@@ -118,59 +97,42 @@ public class QaEndurancePeterSolovey extends BaseTest {
         getDriver().switchTo().parentFrame();
         getDriver().findElement(By.name("agreedToPrivacyPolicy")).click();
 
-        int countErrors = getDriver().findElements(By.className("error")).size();
-        System.out.println(countErrors);
+        /*int countErrors = getDriver().findElements(By.className("error")).size();
+        System.out.println(countErrors);*/
 
         getDriver().findElement(By.id("formSubmit")).click();
 
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         getDriver().quit();
 
     }
 
     /*@Test
     public void test4() throws InterruptedException {
-        System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
-        WebDriver d = new ChromeDriver();
-        d.get("https://www.exness.com/");
-        d.findElement(By.className("c591")).click();
-        d.findElement(By.className("c617")).click();
+        getDriver().get("https://www.exness.com/");
+        getDriver().findElement(By.className("c591")).click();
+        getDriver().findElement(By.className("c617")).click();
         Thread.sleep(1000);
         //String currentHandle = d.getWindowHandle();
-        d.findElement(By.xpath("//span[@class='c178'][text() = 'Sign in']")).click();
+        getDriver().findElement(By.xpath("//span[@class='c178'][text() = 'Sign in']")).click();
         Thread.sleep(1000);
 
-        Set<String> tabs = new HashSet<String>(d.getWindowHandles());
+        Set<String> tabs = new HashSet<String>(getDriver().getWindowHandles());
         List<String> listOfTabs = new ArrayList<String>(tabs);
-        d.switchTo().window(listOfTabs.get(1));
-        d.findElement(By.xpath("//input[@name = 'login']")).sendKeys("jhsdbjhas@kjnv.com");
+        getDriver().switchTo().window(listOfTabs.get(1));
+        getDriver().findElement(By.xpath("//input[@name = 'login']")).sendKeys("jhsdbjhas@kjnv.com");
         Thread.sleep(1000);
 
-        d.findElement(By.xpath("//a[@class = 'We8R9oQvHirB8JUpBnHbW']")).click();
+        getDriver().findElement(By.xpath("//a[@class = 'We8R9oQvHirB8JUpBnHbW']")).click();
 
-        tabs = d.getWindowHandles();
+        tabs = getDriver().getWindowHandles();
         listOfTabs = new ArrayList<String>(tabs);
-        d.switchTo().window(listOfTabs.get(2));
-        String s = d.findElement(By.xpath("//h3[text() = 'Cyprus']")).getText();
+        getDriver().switchTo().window(listOfTabs.get(2));
+        String s = getDriver().findElement(By.xpath("//h3[text() = 'Cyprus']")).getText();
         System.out.println(s);
-        d.switchTo().window(listOfTabs.get(0));
-        s = d.findElement(By.xpath("//h2[@class='c98 c104'][text() = 'Instant withdrawals, 24/7']")).getText();
+        getDriver().switchTo().window(listOfTabs.get(0));
+        s = getDriver().findElement(By.xpath("//h2[@class='c98 c104'][text() = 'Instant withdrawals, 24/7']")).getText();
         System.out.println(s);
-        d.quit();
-    }
-
-    @Test
-    public void test5() {
-        System.setProperty("webdriver.chrome.driver", "D:/chromedriver.exe");
-        WebDriver d = new ChromeDriver();
-        d.get("https://www.exness.com/");
-        String str = "hdf";
-        public void start(String str){
-
-        }
-        public void start(Integer i, String str){
-
-        }
-        d.quit();
+        getDriver().quit();
     }*/
 }
