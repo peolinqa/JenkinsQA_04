@@ -18,29 +18,25 @@ public class GroupDreamTeamJavaTest extends BaseTest {
 
         getDriver().get("https://habr.com/ru/all/");
 
-        String text = "XPath";
-        getDriver().findElement(By
-                        .xpath("//*[@class='tm-header-user-menu__item tm-header-user-menu__search']"))
+        getDriver().findElement(By.xpath("//a[@class='tm-header-user-menu__item tm-header-user-menu__search']"))
                 .click();
 
-        getDriver().findElement(By.xpath("//*[@class='tm-input-text-decorated__input']"))
-                .sendKeys(text + "\n");
+        getDriver().findElement(By.className("tm-input-text-decorated__input"))
+                .sendKeys("XPath\n");
 
-        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
-        jse.executeScript("scroll(0, 2000);");
-
-        getDriver().findElement(By
-                        .xpath("//*[contains(text(),'Вот почему мы всегда пишем селекторы на ')]"))
+        ((JavascriptExecutor)getDriver()).executeScript("scroll(0, 2000);");
+        getDriver().findElement(By.xpath("//span[contains(text(),'Вот почему мы всегда пишем селекторы на ')]"))
                 .click();
 
-        WebElement x =  getDriver().findElement(By
-                .xpath("//*[@class='tm-article-snippet__title tm-article-snippet__title_h1']"));
-
-        Assert.assertEquals(x.getText(), "Вот почему мы всегда пишем селекторы на XPath");
+        WebElement actualResult =  getDriver().findElement(By.xpath("//h1[@class='tm-article-snippet__title tm-article-snippet__title_h1']"));
+        Assert.assertEquals(actualResult.getText(), "Вот почему мы всегда пишем селекторы на XPath");
     }
+
     @Test
     public void findAuto_AliaksandrD() throws InterruptedException {
         getDriver().get("https://av.by");
+
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
 
         WebElement autoBrand = getDriver()
                 .findElement(By.xpath("//button[@name='p-6-0-2-brand']"));
@@ -55,12 +51,14 @@ public class GroupDreamTeamJavaTest extends BaseTest {
                 .until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@name='p-6-0-3-model']")));
         model.click();
 
+        WebElement buttonShow = getDriver().findElement(By.xpath("//a[@class='button button--secondary button--block']"));
+        String temp = buttonShow.getText();
+
         WebElement searchModel = new WebDriverWait(getDriver(), 10)
                 .until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@data-item-label='80']")));
         searchModel.click();
 
-        Thread.sleep(3000);
-        WebElement buttonShow = getDriver().findElement(By.xpath("//a[@class='button button--secondary button--block']"));
+        wait.until(ExpectedConditions.not(ExpectedConditions.textToBePresentInElement(buttonShow, temp)));
 
         buttonShow.click();
         //Title result:
@@ -72,4 +70,22 @@ public class GroupDreamTeamJavaTest extends BaseTest {
         Assert.assertEquals(actual, "Audi 80");
     }
 
+    private static final String SWIVL_URL = "https://cloud.swivl.com/login";
+    private static final String EMAIL = "123@123";
+    private static final String PASSWORD = "123123";
+
+    @Test
+    public void swivlMariaShyTest(){
+
+        getDriver().get(SWIVL_URL);
+        getDriver().manage().deleteAllCookies();
+
+        getDriver().findElement(By.id("username")).sendKeys(EMAIL);
+        getDriver().findElement(By.id("password")).sendKeys(PASSWORD);
+        getDriver().findElement(By.id("_submit")).click(); //submit with invalid login
+
+        String invalid = getDriver().findElement(By.xpath("/html/body/div/div[2]/div[2]/div[2]/div/form/p"))
+                .getText();
+        Assert.assertEquals(invalid,"Invalid CSRF token.");
+    }
 }
