@@ -5,6 +5,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore //added
 public class RomanTest extends BaseTest {
     @Ignore
     @Test
