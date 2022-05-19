@@ -16,7 +16,7 @@ public class AntonSadchikovTest extends BaseTest {
         getSearchBox().sendKeys("test");
         getDriver().findElement(By.id("submitSearch-button")).click();
 
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
         Assert.assertEquals(getSearchBox().getAttribute("value"), "test");
     }
