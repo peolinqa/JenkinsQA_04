@@ -17,6 +17,8 @@ import java.util.List;
 
 public class LetsBeTestersTest extends BaseTest {
 
+    private static final String URL_DAVINAGAZ = "https://davinagaz.by/";
+
     private WebDriverWait wait;
 
     @BeforeMethod
@@ -63,37 +65,36 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testKICheckAddress() {
 
-        openWebSite("https://davinagaz.by/");
+        getDriver().get(URL_DAVINAGAZ);
 
-        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
+        getDriver().findElement(By.xpath("//b[text()=' Полесская 14']"))
+                .click();
 
-        String address = "Полесская 14";
+        WebElement nameOffice = getDriver().findElement(
+                By.cssSelector(".name-office"));
 
-        WebElement actualResult = getDriver().findElement(By.cssSelector(".name-office"));
-
-        Assert.assertTrue(actualResult.getText().contains(address));
+        Assert.assertTrue(nameOffice.getText().contains("Полесская 14"));
     }
 
     @Test
     public void testKICheckHeader() throws InterruptedException {
 
-        openWebSite("https://davinagaz.by/");
+        getDriver().get(URL_DAVINAGAZ);
 
-        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
+        getDriver().findElement(By.xpath("//b[text()=' Полесская 14']"))
+                .click();
 
-        String expectedResult = "Аккумулятор";
-
-        WebElement menu = getDriver().findElement(By.xpath("//a[text()='ТО и фильтра']"));
+        WebElement menu = getDriver().findElement(
+                By.xpath("//a[text()='ТО и фильтра']"));
 
         Actions action = new Actions(getDriver());
         action.moveToElement(menu).perform();
-        Thread.sleep(1000);
+
         getDriver().findElement(By.xpath("//a[text()='Аккумулятор']")).click();
-        Thread.sleep(1000);
 
-        WebElement actualResult = getDriver().findElement(By.tagName("h1"));
+        WebElement headerText = getDriver().findElement(By.tagName("h1"));
 
-        Assert.assertEquals(actualResult.getText(), expectedResult.toUpperCase());
+        Assert.assertEquals(headerText.getText(), "АККУМУЛЯТОР");
     }
 
     @Test
