@@ -86,7 +86,7 @@ public class GroupDreamTeamJavaTest extends BaseTest {
 
         Thread.sleep(1000);
 
-        getDriver().findElement(By.xpath("//label[@class='form-checkbox']/span[contains(text(),'Бесплатные')]")).click();
+//        getDriver().findElement(By.xpath("//label[@class='form-checkbox']/span[contains(text(),'Бесплатные')]")).click();
         getDriver().findElement(By.xpath("//div/button[@class = 'button_with-loader search-form__submit']")).click();
 
         String currentUrl = getDriver().getCurrentUrl();
