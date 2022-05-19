@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class GroupDreamTeamJavaTest extends BaseTest {
 
     @Test
-    public void testFelix_IX(){
+    public void testFelix_IX() {
 
         getDriver().get("https://habr.com/ru/all/");
 
@@ -24,15 +24,15 @@ public class GroupDreamTeamJavaTest extends BaseTest {
         getDriver().findElement(By.className("tm-input-text-decorated__input"))
                 .sendKeys("XPath\n");
 
-        ((JavascriptExecutor)getDriver()).executeScript("scroll(0, 2000);");
+        ((JavascriptExecutor) getDriver()).executeScript("scroll(0, 2000);");
         getDriver().findElement(By.xpath("//span[contains(text(),'Вот почему мы всегда пишем селекторы на ')]"))
                 .click();
 
-        WebElement actualResult =  getDriver().findElement(By.xpath("//h1[@class='tm-article-snippet__title tm-article-snippet__title_h1']"));
+        WebElement actualResult = getDriver().findElement(By.xpath("//h1[@class='tm-article-snippet__title tm-article-snippet__title_h1']"));
         Assert.assertEquals(actualResult.getText(), "Вот почему мы всегда пишем селекторы на XPath");
     }
 
-     @Test
+    @Test
     public void findAuto_AliaksandrD() {
         getDriver().get("https://av.by");
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
@@ -65,7 +65,7 @@ public class GroupDreamTeamJavaTest extends BaseTest {
     private static final String PASSWORD = "123123";
 
     @Test
-    public void swivlMariaShyTest(){
+    public void swivlMariaShyTest() {
 
         getDriver().get(SWIVL_URL);
         getDriver().manage().deleteAllCookies();
@@ -76,6 +76,22 @@ public class GroupDreamTeamJavaTest extends BaseTest {
 
         String invalid = getDriver().findElement(By.xpath("/html/body/div/div[2]/div[2]/div[2]/div/form/p"))
                 .getText();
-        Assert.assertEquals(invalid,"Invalid CSRF token.");
+        Assert.assertEquals(invalid, "Invalid CSRF token.");
     }
+
+    @Test
+    public void testDinarGizSearch() throws InterruptedException {
+        getDriver().get("https://stepik.org/catalog");
+        getDriver().findElement(By.xpath("//div/input[@class='search-form__input ']")).sendKeys("Java");
+
+        Thread.sleep(1000);
+
+        getDriver().findElement(By.xpath("//label[@class='form-checkbox']/span[contains(text(),'Бесплатные')]")).click();
+        getDriver().findElement(By.xpath("//div/button[@class = 'button_with-loader search-form__submit']")).click();
+
+        String currentUrl = getDriver().getCurrentUrl();
+        Assert.assertEquals(currentUrl, "https://stepik.org/catalog");
+
+    }
+
 }
