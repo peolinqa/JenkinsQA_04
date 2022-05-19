@@ -18,6 +18,7 @@ import java.util.List;
 public class LetsBeTestersTest extends BaseTest {
 
     private static final String URL_DAVINAGAZ = "https://davinagaz.by/";
+    private static final String URL_FLAGMA = "https://flagma.si/";
 
     private WebDriverWait wait;
 
@@ -142,18 +143,19 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testFlagmaMainPageOpening() {
 
-        getDriver().get("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
 
         WebElement goodsAndServicesTitle = getDriver().findElement(By.xpath("//h1"));
+
         Assert.assertEquals(goodsAndServicesTitle.getText(), "Товары и услуги в Словении");
     }
 
     @Test
     public void testOfNavigationToCoffeeSection() {
 
-        getDriver().get("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
         getDriver().findElement(By.xpath("//div[@class='toggle-cats']")).click();
@@ -173,19 +175,21 @@ public class LetsBeTestersTest extends BaseTest {
         actions.moveToElement(coffeeItem).click().perform();
 
         WebElement titleOfCoffeeSection = getDriver().findElement(By.xpath("//h1"));
+
         Assert.assertEquals(titleOfCoffeeSection.getText(), "Кофе в Словении");
     }
 
     @Test
     public void testCheckSmartphoneIphoneSelection() {
 
-        getDriver().get("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
         getDriver().findElement(By.xpath("//div[@id='search-input']//input[@name='q']"))
                 .sendKeys("iphone\n");
 
         WebElement searchResultTitle = getDriver().findElement(By.xpath("//div[@class='title']"));
+
         Assert.assertEquals(searchResultTitle.getText(), "Найдено по запросу iphone в Словении");
     }
 
@@ -375,32 +379,37 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testAmountOfSvnCities() {
 
-        getDriver().get("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
         getDriver().findElement(By.xpath("//div[@class='toggle-regions']")).click();
 
         List<WebElement> listOfDisplayedSvnCities = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"));
+
         Assert.assertEquals(listOfDisplayedSvnCities.size(), 23);
     }
 
     @Test
     public void testCheckSelectedCityIsPresentAmongOtherCities() {
 
-        getDriver().get("https://flagma.si/");
+        final String bledCityName = "Bled";
+
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
         getDriver().findElement(By.xpath("//div[@class='toggle-regions']")).click();
 
         WebElement citiesOFSvn = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"))
-                .stream().filter(el -> el.getText().equals("Bled")).findFirst().orElse(null);
+                .stream().filter(el -> el.getText().equals(bledCityName)).findFirst().orElse(null);
+
         Assert.assertNotNull(citiesOFSvn);
+        Assert.assertEquals(citiesOFSvn.getText(), bledCityName);
     }
 
     @Test
     public void testSelectedOfAboutProjectPage() {
 
-        getDriver().get("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
 
@@ -410,6 +419,7 @@ public class LetsBeTestersTest extends BaseTest {
         aboutProjectBtn.click();
 
         WebElement mainTitleOFAboutFlagmaBusinessPlatformPage = getDriver().findElement(By.xpath("//h1"));
+
         Assert.assertEquals(mainTitleOFAboutFlagmaBusinessPlatformPage.getText(), "Flagma is an international business platform");
     }
 }
