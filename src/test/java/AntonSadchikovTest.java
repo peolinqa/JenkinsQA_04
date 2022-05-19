@@ -6,21 +6,18 @@ import runner.BaseTest;
 
 public class AntonSadchikovTest extends BaseTest {
 
+    private WebElement getSearchBox(){
+        return getDriver().findElement(By.id("typeaheadInput"));
+    }
+
     @Test
     public void testDiceSelenium() throws InterruptedException {
         getDriver().get("https://dice.com");
-
-        WebElement searchBox = getDriver().findElement(By.id("typeaheadInput"));
-        WebElement searchButton = getDriver().findElement(By.id("submitSearch-button"));
-
-        searchBox.sendKeys("test");
-        searchButton.click();
+        getSearchBox().sendKeys("test");
+        getDriver().findElement(By.id("submitSearch-button")).click();
 
         Thread.sleep(2000);
 
-        searchBox = getDriver().findElement(By.id("typeaheadInput"));
-
-        Assert.assertEquals(searchBox.getAttribute("value"), "test");
-
+        Assert.assertEquals(getSearchBox().getAttribute("value"), "test");
     }
 }
