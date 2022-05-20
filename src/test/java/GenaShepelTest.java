@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -7,20 +6,17 @@ import runner.BaseTest;
 public class GenaShepelTest extends BaseTest {
 
     @Test
-    public void genaShepelFirstTest() throws InterruptedException {
+    public void genaShepelFirstTest(){
 
         getDriver().get("https://www.indeed.com/");
-
         getDriver().findElement(By.id("text-input-what")).sendKeys("QA");
-
         getDriver().findElement(By.className("yosegi-InlineWhatWhere-primaryButton")).click();
 
         Assert.assertEquals(getDriver().findElement(By.id("text-input-what")).getAttribute("value"), "QA");
-
     }
 
     @Test
-    public void testMainMenuOfStartPage() throws  InterruptedException{
+    public void testMainMenuOfStartPage(){
 
         String[] expectedResultArr = {
                 "http://www.99-bottles-of-beer.net/",
@@ -50,8 +46,5 @@ public class GenaShepelTest extends BaseTest {
             }
         }
     }
-
-
-
 }
 
