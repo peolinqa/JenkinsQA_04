@@ -17,7 +17,10 @@ import java.util.List;
 
 public class LetsBeTestersTest extends BaseTest {
 
-    WebDriverWait wait;
+    private static final String URL_DAVINAGAZ = "https://davinagaz.by/";
+    private static final String URL_FLAGMA = "https://flagma.si/";
+
+    private WebDriverWait wait;
 
     @BeforeMethod
     private void before() {
@@ -63,37 +66,36 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testKICheckAddress() {
 
-        openWebSite("https://davinagaz.by/");
+        getDriver().get(URL_DAVINAGAZ);
 
-        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
+        getDriver().findElement(By.xpath("//b[text()=' Полесская 14']"))
+                .click();
 
-        String address = "Полесская 14";
+        WebElement nameOffice = getDriver().findElement(
+                By.cssSelector(".name-office"));
 
-        WebElement actualResult = getDriver().findElement(By.cssSelector(".name-office"));
-
-        Assert.assertTrue(actualResult.getText().contains(address));
+        Assert.assertTrue(nameOffice.getText().contains("Полесская 14"));
     }
 
     @Test
     public void testKICheckHeader() throws InterruptedException {
 
-        openWebSite("https://davinagaz.by/");
+        getDriver().get(URL_DAVINAGAZ);
 
-        getDriver().findElement(By.xpath("//b[text()= ' Полесская 14']")).click();
+        getDriver().findElement(By.xpath("//b[text()=' Полесская 14']"))
+                .click();
 
-        String expectedResult = "Аккумулятор";
-
-        WebElement menu = getDriver().findElement(By.xpath("//a[text()='ТО и фильтра']"));
+        WebElement menu = getDriver().findElement(
+                By.xpath("//a[text()='ТО и фильтра']"));
 
         Actions action = new Actions(getDriver());
         action.moveToElement(menu).perform();
-        Thread.sleep(1000);
+
         getDriver().findElement(By.xpath("//a[text()='Аккумулятор']")).click();
-        Thread.sleep(1000);
 
-        WebElement actualResult = getDriver().findElement(By.tagName("h1"));
+        WebElement headerText = getDriver().findElement(By.tagName("h1"));
 
-        Assert.assertEquals(actualResult.getText(), expectedResult.toUpperCase());
+        Assert.assertEquals(headerText.getText(), "АККУМУЛЯТОР");
     }
 
     @Test
@@ -141,32 +143,26 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testFlagmaMainPageOpening() {
 
-        openWebSite("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
 
-        WebElement goodAndServicesTitle = getDriver().findElement(By.xpath("//h1"));
+        WebElement goodsAndServicesTitle = getDriver().findElement(By.xpath("//h1"));
 
-        String actualResult = goodAndServicesTitle.getText();
-        String expectedResult = "Товары и услуги в Словении";
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(goodsAndServicesTitle.getText(), "Товары и услуги в Словении");
     }
 
     @Test
     public void testOfNavigationToCoffeeSection() {
 
-        openWebSite("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
-
-        Actions actions = new Actions(getDriver());
-
-        WebElement sideBarMenu = getDriver().findElement(By.xpath("//div[@class='toggle-cats']"));
-        sideBarMenu.click();
+        getDriver().findElement(By.xpath("//div[@class='toggle-cats']")).click();
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@class='cat-746']")));
         WebElement foodMenuItem = getDriver().findElement(By.xpath("//a[@class='cat-746']"));
+        Actions actions = new Actions(getDriver());
         actions.moveToElement(foodMenuItem).perform();
 
         WebElement groupOfDrinksItem = getDriver().findElement(By.xpath("//span[text()='Вода, напитки, соки']"));
@@ -180,28 +176,21 @@ public class LetsBeTestersTest extends BaseTest {
 
         WebElement titleOfCoffeeSection = getDriver().findElement(By.xpath("//h1"));
 
-        String actualResult = titleOfCoffeeSection.getText();
-        String expectedResult = "Кофе в Словении";
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(titleOfCoffeeSection.getText(), "Кофе в Словении");
     }
 
     @Test
     public void testCheckSmartphoneIphoneSelection() {
 
-        openWebSite("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
-
-        WebElement inputSearch = getDriver().findElement(By.xpath("//div[@id='search-input']//input[@name='q']"));
-        inputSearch.sendKeys("iphone\n");
+        getDriver().findElement(By.xpath("//div[@id='search-input']//input[@name='q']"))
+                .sendKeys("iphone\n");
 
         WebElement searchResultTitle = getDriver().findElement(By.xpath("//div[@class='title']"));
 
-        String actualResult = searchResultTitle.getText();
-        String expectedResult = "Найдено по запросу iphone в Словении";
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(searchResultTitle.getText(), "Найдено по запросу iphone в Словении");
     }
 
     @Ignore
@@ -390,55 +379,47 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testAmountOfSvnCities() {
 
-        openWebSite("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
-
         getDriver().findElement(By.xpath("//div[@class='toggle-regions']")).click();
 
-        List<WebElement> citiesOFSvn = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"));
+        List<WebElement> listOfDisplayedSvnCities = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"));
 
-        int actualResult = citiesOFSvn.size();
-        int expectedResult = 23;
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(listOfDisplayedSvnCities.size(), 23);
     }
 
     @Test
-    public void testCheckBledCityIsPresent() {
+    public void testCheckSelectedCityIsPresentAmongOtherCities() {
 
-        openWebSite("https://flagma.si/");
+        final String bledCityName = "Bled";
+
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
-
         getDriver().findElement(By.xpath("//div[@class='toggle-regions']")).click();
 
-        String expectedResult = "Bled";
+        WebElement citiesOFSvn = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"))
+                .stream().filter(el -> el.getText().equals(bledCityName)).findFirst().orElse(null);
 
-        List<WebElement> citiesOFSvn = getDriver().findElements(By.xpath("//div[@class='rlist-column']/a"));
-        WebElement findRequiredCity = citiesOFSvn.stream().filter(el -> el.getText().equals(expectedResult)).findFirst().orElse(null);
-
-        String actualResult = findRequiredCity.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertNotNull(citiesOFSvn);
+        Assert.assertEquals(citiesOFSvn.getText(), bledCityName);
     }
 
     @Test
     public void testSelectedOfAboutProjectPage() {
 
-        openWebSite("https://flagma.si/");
+        getDriver().get(URL_FLAGMA);
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
 
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
-
         WebElement aboutProjectBtn = getDriver().findElement(By.xpath("//a[text()='About project']"));
         javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", aboutProjectBtn);
         aboutProjectBtn.click();
 
-        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
-        String expectedResult = "Flagma is an international business platform";
+        WebElement mainTitleOFAboutFlagmaBusinessPlatformPage = getDriver().findElement(By.xpath("//h1"));
 
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(mainTitleOFAboutFlagmaBusinessPlatformPage.getText(), "Flagma is an international business platform");
     }
 }
