@@ -12,13 +12,13 @@ public class JuliaAnelTest extends BaseTest {
 
         getDriver().get("https://www.soundcloud.com");
 
+        WebElement accept = getDriver().findElement(By.id("onetrust-accept-btn-handler"));
+        accept.sendKeys(Keys.ENTER);
+
         WebElement search = getDriver().findElement(By.xpath(
-                "//span[@class='frontContent__search g-dark']//input[@name='q']"
-        ));
+                "//span[@class='frontContent__search g-dark']//input[@name='q']"));
         search.sendKeys("Kendrick Lamar");
 
         Assert.assertEquals(search.getAttribute("value"), "Kendrick Lamar");
-
-        search.sendKeys(Keys.ENTER);
     }
 }
