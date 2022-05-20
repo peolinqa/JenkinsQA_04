@@ -42,7 +42,6 @@ public class ShurikGTest extends BaseTest {
         String actualResult = h2.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
     }
 
     @Test
@@ -100,27 +99,6 @@ public class ShurikGTest extends BaseTest {
     }
 
     @Test
-    public void test_TC_11_07() {
-        getDriver().get(URL);
-        getDriver().findElement(
-                By.xpath("//ul[@id='menu']//a[@href='/search.html']")).click();
-        WebElement search = getDriver().findElement(
-                By.xpath("//div[@id='main']//input[@name='search']"));
-        search.sendKeys("java" + Keys.ENTER);
-        getDriver().findElement(
-                By.xpath("//table[@id='category']//a[@href='/language-java-4.html']")).click();
-        getDriver().findElement(
-                By.xpath("//div[@id='main']/p/a[@href='#addcomment']")).click();
-        WebElement name = getDriver().findElement(By.xpath("//input[@name='name']"));
-        name.sendKeys("Shurik");
-        WebElement captcha = getDriver().findElement(
-                By.xpath("//input[@name='captcha']"));
-        captcha.sendKeys("25687");
-        WebElement textArea = getDriver().findElement(By.xpath("//textarea"));
-        textArea.sendKeys("Спасибо!");
-    }
-
-    @Test
     public void test_TC_11_11() {
         getDriver().get(URL);
         getDriver().findElement(
@@ -134,22 +112,6 @@ public class ShurikGTest extends BaseTest {
 
         Assert.assertEquals(errorText.getText(),
                 "Error: Precondition failed - Incomplete Input.");
-    }
-
-    @Test
-    public void test_TC_11_12() {
-        getDriver().get(URL);
-        getDriver().findElement(
-                By.xpath("//ul[@id='menu']" +
-                        "//a[@href='/submitnewlanguage.html']")).click();
-        WebElement submit = getDriver().findElement(
-                By.xpath("//input[@type='submit']"));
-        submit.click();
-        WebElement errorText = getDriver().findElement(
-                By.xpath("//div[@id='main']/p"));
-        String str = errorText.getText();
-
-        String[] arr = str.split(" ");
     }
 
     @Test
@@ -199,6 +161,5 @@ public class ShurikGTest extends BaseTest {
 
         Assert.assertEquals(text.getAttribute("style"),
                 "background-color: red; color: white;");
-
     }
 }
