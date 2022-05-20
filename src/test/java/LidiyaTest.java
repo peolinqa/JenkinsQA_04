@@ -29,6 +29,7 @@ public class LidiyaTest extends BaseTest {
         WebElement iconYourAccount = getDriver().findElement(By.id("idcta-username"));
         Assert.assertEquals("Your account", iconYourAccount.getText());
     }
+    @Ignore
 
     @Test
     public void lidiyaMakarovaTestForBBCNegativeCheck() throws InterruptedException {

@@ -1,9 +1,11 @@
 import org.openqa.selenium.*;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class AKGroupBugHuntersTest extends BaseTest {
+
 
     @Test
     public void ArtuomKudryashovMarlin() throws InterruptedException {
@@ -27,6 +29,9 @@ public class AKGroupBugHuntersTest extends BaseTest {
         String resultStr = driver.findElement(By.xpath("//*[@class='buying-zone__title' and contains(text(),'Supercaliber 9.9 XX1 AXS')]")).getText();
         Assert.assertEquals(resultStr, "Supercaliber 9.9 XX1 AXS");
     }
+    @Ignore
+
+
 
     @Test
     public void ArtuomKudryashovMarlin4() throws InterruptedException {

@@ -11,11 +11,10 @@ public class OlPolezhaevaTest extends BaseTest {
 
         getDriver().get("https://fckrasnodar.ru/ru/");
 
-        WebElement academy = getDriver().findElement(By.cssSelector("li.parent.link-163>a"));
-        academy.click();
+        getDriver().findElement(By.cssSelector("header [href='/academy/']")).click();
 
-        WebElement academyBranches = getDriver().findElement(By.xpath("//*[@id='page-163']/main/div/nav/ul/li[2]/a"));
-
+        WebElement academyBranches = getDriver().findElement(By.cssSelector("main [href='/academy/branches/']"));
         Assert.assertEquals(academyBranches.getText(), "ФИЛИАЛЫ АКАДЕМИИ");
     }
+
 }

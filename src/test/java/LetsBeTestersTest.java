@@ -17,8 +17,11 @@ import java.util.List;
 
 public class LetsBeTestersTest extends BaseTest {
 
-    WebDriverWait wait;
-@Ignore
+    private static final String URL_DAVINAGAZ = "https://davinagaz.by/";
+    private static final String URL_FLAGMA = "https://flagma.si/";
+
+    private WebDriverWait wait;
+
     @BeforeMethod
     private void before() {
         wait = new WebDriverWait(getDriver(), 10);
