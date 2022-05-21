@@ -16,7 +16,7 @@ public class Song99BottlesShurikTest extends BaseTest {
                 By.xpath("//ul[@id='submenu']" +
                         "/li/a[@href='lyrics.html']")).click();
         WebElement text = getDriver().findElement(
-                By.xpath("//div[@id='main']"));
+                By.id("main"));
 
         String expectedResult = "Lyrics of the song 99 Bottles of Beer\n" +
                 "99 bottles of beer on the wall, 99 bottles of beer.\n" +
