@@ -5,22 +5,17 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class XbrookxHedgehogsMototours extends BaseTest {
+public class XbrookxMototoursTest extends BaseTest {
 
     @Test
-    public void testSearchBox() throws InterruptedException {
+    public void testSearchBox() {
 
         getDriver().get("https://moto.tours/");
-
-        WebElement serachButton = getDriver().findElement(By.xpath("//div[@class='search-title-button-text']"));
-
-        serachButton.click();
+        getDriver().findElement(By.xpath("//div[@class='search-title-button-text']")).click();
         WebElement searchBox = getDriver().findElement(By.xpath("//*[@class='search-title-form-input']"));
-
-        searchBox .sendKeys("Кофры", Keys.ENTER);
-
+        searchBox.sendKeys("Кофры", Keys.ENTER);
         WebElement searchBoxEnd = getDriver().findElement(By.xpath("//*[@class='search-suggest']"));
-        Assert.assertEquals(searchBoxEnd.getAttribute("value"), "Кофры");
 
+        Assert.assertEquals(searchBoxEnd.getAttribute("value"), "Кофры");
     }
 }
