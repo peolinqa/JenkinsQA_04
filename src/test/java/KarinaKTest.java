@@ -1,24 +1,34 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ByIdOrName;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class KarinaKTest extends BaseTest {
 
+    private static String URL = ("http://automationpractice.com/index.php");
+
     @Test
-    public void TitleTest() throws InterruptedException {
-        //WebDriver driver = getDriver();
-        getDriver().get("https://shop.acodemy.lv/");
+    public void SearchDress() {
 
-        String searchTitle = getDriver().getTitle();
-        Thread.sleep(2500);
-        Assert.assertEquals(searchTitle, "Online shop – acodemy – Just another WordPress site");
+        getDriver().get(URL);
 
-//            WebElement searchHat = getDriver().findElement(By.xpath("//*[@id=\"main\"]/ul/li[2]/a[1]/h2"));
-//            searchHat.click();
-//            Thread.sleep(2000);
-//            WebElement addToCart = getDriver().findElement(By.name("add-to-cart"));
-//            addToCart.click();
+        WebElement searchDressOnPage = getDriver().findElement(By.name("search_query"));
+        searchDressOnPage.sendKeys("dress");
+        getDriver().findElement(By.name("submit_search")).click();
+    }
+
+    @Test
+    public void test2() {
+        getDriver().get(URL);
+
+        WebElement buttonDress = getDriver().findElement
+                (By.xpath("//div[@id='block_top_menu']//a[@href='http://automationpractice.com/index.php?id_category=3&controller=category']"));
+
+        String expectedResult = "WOMEN";
+        String actualResult = buttonDress.getText();
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
-
-
