@@ -4,6 +4,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -17,6 +18,7 @@ public class RomanTest extends BaseTest {
         wait = new WebDriverWait(getDriver(), 10);
     }
 
+    @Ignore
     @Test
     public void testRomanTGoPro() {
         getDriver().get(URL);
@@ -37,6 +39,7 @@ public class RomanTest extends BaseTest {
         Assert.assertEquals(actualTitle, "HERO9 Black");
     }
 
+    @Ignore
     @Test
     public void testRomanTGoProAddCart() {
         getDriver().get(URL);

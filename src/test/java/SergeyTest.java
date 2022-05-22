@@ -5,6 +5,8 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import static java.sql.DriverManager.getDriver;
+
 public class SergeyTest extends BaseTest {
 
     @Test
