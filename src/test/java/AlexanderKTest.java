@@ -8,25 +8,21 @@ import org.testng.annotations.Test;
 
 public class AlexanderKTest extends BaseTest{
 
+    private static final String PRODUCT_NAME = "DELL PROFESSIONAL P2411Hb 24zoll WIDESCREEN LCD MONITOR";
+
     @Ignore
     @Test
-    public void testAleksanderKozlov() throws InterruptedException {
+    public void testSearchProductEbay () throws InterruptedException {
 
         getDriver().get("https://www.ebay.com/");
 
-        WebElement searhLine = getDriver().findElement(By.name("_nkw"));
-        WebElement searhButton = getDriver().findElement(By.id("gh-btn"));
-
-        searhLine.sendKeys("DELL PROFESSIONAL P2411Hb 24zoll WIDESCREEN LCD MONITOR");
+        getDriver().findElement(By.name("_nkw")).sendKeys(PRODUCT_NAME);
         Thread.sleep(1000);
-        searhButton.click();
+        getDriver().findElement(By.id("gh-btn")).click();
 
-        searhLine = getDriver().findElement
+        WebElement foundProduct = getDriver().findElement
                 (By.xpath("//h3[contains(text(),'DELL PROFESSIONAL P2411Hb 24zoll WIDESCREEN LCD MO')]"));
-
-        Assert.assertEquals(searhLine.getText(), "DELL PROFESSIONAL P2411Hb 24zoll WIDESCREEN LCD MONITOR");
-
-
+        Assert.assertEquals(foundProduct.getText(), PRODUCT_NAME);
     }
 
 }
