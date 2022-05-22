@@ -7,9 +7,10 @@ import runner.BaseTest;
 public class BakhtiyarTest extends BaseTest {
 
     @Test
-    public void bakhtiyarMametyarov() {
+    public void testBakhtiyarMametyarov() {
         getDriver().get("https://habr.com/ru/all/");
-        WebElement searchButton = getDriver().findElement(By.xpath("//a[@href=\"/ru/search/\"]"));
+
+        WebElement searchButton = getDriver().findElement(By.xpath("//a[@href='/ru/search/']"));
         searchButton.click();
 
         WebElement searchBox = getDriver().findElement(By.className("tm-input-text-decorated__input"));
@@ -17,8 +18,8 @@ public class BakhtiyarTest extends BaseTest {
         searchButton = getDriver().findElement(By.xpath("(//a[@class='tm-article-snippet__title-link'])[1]"));
         searchButton.click();
 
-        String text = getDriver().findElement(By.xpath("//article//h1/span")).getText();
-        Assert.assertEquals(text, "Основы Postman для самых маленьких");
+        WebElement articleName = getDriver().findElement(By.xpath("//article//h1/span"));
+        Assert.assertEquals(articleName.getText(), "Основы Postman для самых маленьких");
     }
 
 }
