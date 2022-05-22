@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -58,6 +59,44 @@ public class GroupDreamTeamJavaTest extends BaseTest {
         buttonShow.click();
         String[] title = getDriver().getTitle().split(" ");
         Assert.assertEquals(title[1] + " " + title[2], "Audi 80");
+    }
+
+    private final void openTransportMenu(){
+        try {getDriver().get("https://av.by");
+            Actions actionProvider = new Actions(getDriver());
+            actionProvider.moveToElement(getDriver().findElement(By.xpath("//a[@href='https://cars.av.by']"))).build().perform();
+        } catch (Exception e){
+            System.out.println("Menu is not opened");
+        }
+    }
+
+    @Test
+    public void checkNewAutoFromTransportMenuTest() {
+        openTransportMenu();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='https://salon.av.by']/span")).getText(), "Новые автомобили");
+    }
+
+    @Test
+    public void checkCarsAutoFromTransportMenuTest() {
+        openTransportMenu();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='https://cars.av.by' and @class='nav__dropdown-link']/span")).getText(), "Автомобили с пробегом");
+    }
+
+    @Test
+    public void checkTracksAutoFromTransportMenuTest() {
+        openTransportMenu();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='https://truck.av.by']/span")).getText(), "Грузовой транспорт");
+    }
+
+    @Test
+    public void checkMotoAutoFromTransportMenuTest() {
+        openTransportMenu();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='https://moto.av.by']/span")).getText(), "Мототехника");
+    }
+    @Test
+    public void checkAgroAutoFromTransportMenuTest() {
+        openTransportMenu();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='https://agro.av.by']/span")).getText(), "Сельхозтехника");
     }
 
     private static final String SWIVL_URL = "https://cloud.swivl.com/login";
