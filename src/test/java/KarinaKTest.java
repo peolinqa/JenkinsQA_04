@@ -1,8 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ByIdOrName;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -17,11 +15,18 @@ public class KarinaKTest extends BaseTest {
 
         WebElement searchDressOnPage = getDriver().findElement(By.name("search_query"));
         searchDressOnPage.sendKeys("dress");
-        getDriver().findElement(By.name("submit_search")).click();
+        WebElement clickOnButton = getDriver().findElement(By.name("submit_search"));
+        clickOnButton.click();
+        WebElement countOfFoundElementsOnPage = getDriver().findElement(By.className("heading-counter"));
+        countOfFoundElementsOnPage.getText();
+
+        String actualResult2 = countOfFoundElementsOnPage.getText();
+        String expectedResult2 = "7 results have been found.";
+        Assert.assertEquals(actualResult2, expectedResult2);
     }
 
     @Test
-    public void test2() {
+    public void searchTABWomenOnMainPage() {
         getDriver().get(URL);
 
         WebElement buttonDress = getDriver().findElement
