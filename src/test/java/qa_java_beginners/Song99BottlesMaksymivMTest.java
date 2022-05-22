@@ -5,15 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class Song99BottlesLessonTest extends BaseTest {
+public class Song99BottlesMaksymivMTest extends BaseTest {
 
     @Test
     public void testSongLyricsText() {
-        //ТС
-        //1. Откроем базовую страницу http://www.99-bottles-of-beer.net/
-        //2. Нажмем на меню Song Lyrics
-        //3. Считаем текст песни
-        //4. Подтвердить, что текст песни соответствует ожидаемому
 
         String expectedResult = "99 bottles of beer on the wall, 99 bottles of beer.\n" +
                 "Take one down and pass it around, 98 bottles of beer on the wall.98 bottles of beer on the wall, 98 bottles of beer.\n" +
@@ -127,12 +122,6 @@ public class Song99BottlesLessonTest extends BaseTest {
                 )
                 .click();
 
-//        WebElement[] elementsArray = new WebElement[100];
-//        for (int i = 0; i < elementsArray.length; i++) {
-//            int index = i + 1;
-//            elementsArray[i] = getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/p[" + index + "]"));
-//        }
-
         String[] pTexts = new String[100];
         for (int i = 0; i < pTexts.length; i++) {
             int index = i + 1;
@@ -141,7 +130,7 @@ public class Song99BottlesLessonTest extends BaseTest {
         }
 
         String actualResult = "";
-        for(int i = 0; i < pTexts.length; i++) {
+        for (int i = 0; i < pTexts.length; i++) {
             actualResult = actualResult + pTexts[i];
         }
 
