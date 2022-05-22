@@ -6,35 +6,26 @@ import runner.BaseTest;
 
 public class TatyanaMTest extends BaseTest {
 
-  public static final String XPATH = "xpath";
-  public static final String NAME = "name";
-
-  public WebElement findElement(String strFind, String typeFind){
-    if (typeFind.equals(NAME)) {
-      return getDriver().findElement(By.name(strFind));
-    } else if (typeFind.equals(XPATH)) {
-      return getDriver().findElement(By.xpath(strFind));
-    }
-    return null;
-  }
-
-  public void elementClick(String strFind, String typeFind) {
-    findElement(strFind, typeFind).click();
-  }
-
-  public void elementSendText(String strFind, String typeFind, String text) {
-    WebElement element = findElement(strFind, typeFind);
-    element.sendKeys(text);
-    element.submit();
+  @Test
+  public void testTatyanaMakarova1() throws InterruptedException {
+    getDriver().get("https://jewellerymag.ru/");
+    getDriver().findElement(By.xpath("//body[@id='app']/header//button[@aria-label='Открыть поиск']")).click();
+    WebElement findBox = getDriver().findElement(By.name("s"));
+    findBox.sendKeys("Чароит");
+    findBox.submit();
+    getDriver().findElement(By.xpath("//span[normalize-space(text())='Чароит']")).click();
+    Thread.sleep(1000);
+    Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Чароит");
   }
 
   @Test
-  public void testTatyanaMakarova() throws InterruptedException {
+  public void testTatyanaMakarova2() {
     getDriver().get("https://jewellerymag.ru/");
-    elementClick("//*[@id=\"app\"]/header/div/div/button", XPATH);
-    elementSendText("s", NAME, "Чароит");
-    elementClick("//*[normalize-space(text())='Чароит']", XPATH);
-    Thread.sleep(1000);
-    Assert.assertEquals(findElement("//h1", XPATH).getText(), "Чароит");
+    getDriver().findElement(By.xpath("//body[@id='app']/header//button[@aria-label='Открыть поиск']")).click();
+    WebElement findBox = getDriver().findElement(By.name("s"));
+    findBox.sendKeys("!№;%:?*()");
+    findBox.submit();
+    Assert.assertEquals(getDriver().findElement(By.xpath("//main//div[@class='text-sm']")).getText(), "Увы, ничего не нашлось.");
   }
 }
+

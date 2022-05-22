@@ -1,48 +1,64 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-@Ignore //added
 public class RomanTest extends BaseTest {
+
+    private static final String URL = "https://gopro.com/";
+    private WebDriverWait wait;
+
+    @BeforeMethod
+    private void setWait() {
+        wait = new WebDriverWait(getDriver(), 10);
+    }
+
     @Ignore
     @Test
-    public void testRomanTGoPro() throws InterruptedException {
-        getDriver().get("https://gopro.com/");
+    public void testRomanTGoPro() {
+        getDriver().get(URL);
 
-        getDriver().findElement(By.xpath("//*[@class=' icon icon-product-search']")).click();
+        getDriver().findElement(By.xpath("//button[@aria-label='Search']/i")).click();
 
         WebElement searchBox = getDriver().findElement(By.id("search-box"));
 
         searchBox.sendKeys("Hero9 Black");
         searchBox.submit();
 
-        Thread.sleep(1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//div[@id = '__next']//h1[contains(text(), 'HERO9 Black')]")));
 
-        String assertTitle = getDriver().findElement(By.xpath("//*[@class = 'Headline_title__kCugX ']")).getText();
-        Assert.assertEquals(assertTitle, "HERO9 Black");
+        String actualTitle = getDriver().findElement(
+                By.xpath("//div[@id = '__next']//h1[contains(text(), 'HERO9 Black')]")).getText();
+
+        Assert.assertEquals(actualTitle, "HERO9 Black");
     }
 
+    @Ignore
     @Test
-    public void testRomanTGoProAddCart() throws InterruptedException {
-        getDriver().get("https://gopro.com/en/us/");
+    public void testRomanTGoProAddCart() {
+        getDriver().get(URL);
 
-        Thread.sleep(1000);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("(//a[@href = '/en/us/shop/cameras'])[2]"))).click();
 
-        getDriver().findElement(By.xpath("//*[@class=\"navmenu CategoryMenu_navmenu__c1663 false\"]/li/a")).click();
+        getDriver().findElement(By.xpath("//a[normalize-space()='SHOP HERO10 Black']")).click();
 
-        getDriver().findElement(By.xpath("//*/div[1][*=\"SHOP HERO10 Black\"]")).click();
-        Thread.sleep(4000);
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("(//button[@aria-label= 'ADD TO CART'])[1]")))
+                .click();
 
-        getDriver().findElement(By.xpath("//*[@aria-label=\"ADD TO CART\"]")).click();
-        Thread.sleep(1000);
+        wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[@href = 'https://gopro.com/en/us/shop/cart']")))
+                .click();
 
-        getDriver().findElement(By.xpath("//*[@href=\"https://gopro.com/en/us/shop/cart\"]")).click();
+        WebElement actualTotalPrice = getDriver().findElement(By.xpath("//p[@class = 'text-right grand-total']"));
 
-        WebElement result = getDriver().findElement(By.xpath("//*[@class=\"text-right grand-total\"]"));
-
-        Assert.assertEquals(result.getText(), "$349.98");
+        Assert.assertEquals(actualTotalPrice.getText(), "$349.98");
     }
 }
