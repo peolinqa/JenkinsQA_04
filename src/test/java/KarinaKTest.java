@@ -1,24 +1,40 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class KarinaKTest extends BaseTest {
 
+    private static String URL = ("http://automationpractice.com/index.php");
+
     @Test
-    public void TitleTest() throws InterruptedException {
-        //WebDriver driver = getDriver();
-        getDriver().get("https://shop.acodemy.lv/");
+    public void SearchDressTest() {
 
-        String searchTitle = getDriver().getTitle();
-        Thread.sleep(2500);
-        Assert.assertEquals(searchTitle, "Online shop – acodemy – Just another WordPress site");
+        getDriver().get(URL);
 
-//            WebElement searchHat = getDriver().findElement(By.xpath("//*[@id=\"main\"]/ul/li[2]/a[1]/h2"));
-//            searchHat.click();
-//            Thread.sleep(2000);
-//            WebElement addToCart = getDriver().findElement(By.name("add-to-cart"));
-//            addToCart.click();
+        WebElement searchDressOnPage = getDriver().findElement(By.name("search_query"));
+        searchDressOnPage.sendKeys("dress");
+        WebElement clickOnButton = getDriver().findElement(By.name("submit_search"));
+        clickOnButton.click();
+        WebElement countOfFoundElementsOnPage = getDriver().findElement(By.className("heading-counter"));
+        countOfFoundElementsOnPage.getText();
+
+        String actualResult2 = countOfFoundElementsOnPage.getText();
+        String expectedResult2 = "7 results have been found.";
+        Assert.assertEquals(actualResult2, expectedResult2);
+    }
+
+    @Test
+    public void searchTABWomenOnMainPageTest() {
+
+        getDriver().get(URL);
+
+        WebElement buttonDress = getDriver().findElement
+                (By.xpath("//div[@id='block_top_menu']//a[@href='http://automationpractice.com/index.php?id_category=3&controller=category']"));
+
+        String expectedResult = "WOMEN";
+        String actualResult = buttonDress.getText();
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
-
-
