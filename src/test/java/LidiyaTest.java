@@ -12,7 +12,7 @@ public class LidiyaTest extends BaseTest {
     public void lidiyaMakarovaTestForBBCPositiveCheck() throws InterruptedException {
         getDriver().get("https://www.bbc.com/");
 
-        WebElement iconSignIn = getDriver().findElement(By.xpath("//*[@id='idcta-username']"));
+        WebElement iconSignIn = getDriver().findElement(By.xpath("//span[@id='idcta-username']"));
         iconSignIn.click();
         Thread.sleep(1000);
 
@@ -34,7 +34,7 @@ public class LidiyaTest extends BaseTest {
     @Test
     public void lidiyaMakarovaTestForBBCNegativeCheck() throws InterruptedException {
         getDriver().get("https://www.bbc.com/");
-        WebElement iconSignIn = getDriver().findElement(By.xpath("//*[@id='idcta-username']"));
+        WebElement iconSignIn = getDriver().findElement(By.xpath("//span[@id='idcta-username']"));
         iconSignIn.click();
         Thread.sleep(1000);
 
@@ -46,7 +46,7 @@ public class LidiyaTest extends BaseTest {
         fieldPassword.sendKeys("R4e3w2Q2");
         submitButton.click();
 
-        WebElement errorText = getDriver().findElement(By.xpath("//*[@id='form-message-password']"));
+        WebElement errorText = getDriver().findElement(By.xpath("//div[@id='form-message-password']"));
         Assert.assertEquals(errorText.getText(),"Uh oh, that password doesn’t match that account. Please try again.");
     }
 }
