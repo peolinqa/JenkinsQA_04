@@ -9,7 +9,7 @@ public class KarinaKTest extends BaseTest {
     private static String URL = ("http://automationpractice.com/index.php");
 
     @Test
-    public void SearchDress() {
+    public void SearchDressTest() {
 
         getDriver().get(URL);
 
@@ -26,7 +26,7 @@ public class KarinaKTest extends BaseTest {
     }
 
     @Test
-    public void searchTABWomenOnMainPage() {
+    public void searchTABWomenOnMainPageTest() {
 
         getDriver().get(URL);
 
