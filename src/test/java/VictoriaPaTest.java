@@ -14,8 +14,8 @@ public class VictoriaPaTest extends BaseTest {
             getDriver().findElement(By.id("login-button")).click();
             getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
             getDriver().findElement(By.xpath("//span[@class='shopping_cart_badge']")).click();
+
             Assert.assertTrue(getDriver().getCurrentUrl().contains("https://www.saucedemo.com/cart.html"));
-            getDriver().quit();
         }
     }
 
