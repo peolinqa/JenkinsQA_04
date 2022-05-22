@@ -7,13 +7,15 @@ import runner.BaseTest;
 
 public class OlaTest extends BaseTest  {
     @Test
-    public void testMvnRepositoryHomePageFindText() throws InterruptedException {
+    public void testCheckEmail() {
 
-        getDriver().get("https://mvnrepository.com/");
-        Thread.sleep(2000);
-        WebElement h1 = getDriver().findElement(By.xpath("//div[@id='maincontent']/h1"));
-        String actualResult = h1.getText();
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        WebElement privacy = getDriver().findElement(By.xpath("//ul[@id='submenu']/li[4]/a"));
+        privacy.click();
 
-        Assert.assertEquals(actualResult, "What's New in Maven");
+        WebElement email = getDriver().findElement(By.xpath("//div[@id='main']/p"));
+        String actualResult = email.getText();
+
+        Assert.assertEquals(actualResult, "os@ls-la.net");
     }
 }
