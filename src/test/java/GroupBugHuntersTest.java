@@ -18,4 +18,20 @@ public class GroupBugHuntersTest extends BaseTest {
         Assert.assertEquals(searchBox.getAttribute("value"), "soap flower bouquet");
 
     }
+
+    @Test
+    public void testVeranikaMalazhavaya() {
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/search.html']")).click();
+        WebElement searchBox = getDriver().findElement(
+                By.xpath("//form[@id='searchlanguages']/p/input[@name='search']"));
+        searchBox.sendKeys("java");
+        getDriver().findElement(By.xpath("//input[@name='submitsearch']")).click();
+        searchBox = getDriver().findElement(By.name("search"));
+
+        Assert.assertEquals(searchBox.getAttribute("value"), "java");
+    }
 }
