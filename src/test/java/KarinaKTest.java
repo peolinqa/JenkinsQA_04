@@ -27,6 +27,7 @@ public class KarinaKTest extends BaseTest {
 
     @Test
     public void searchTABWomenOnMainPage() {
+
         getDriver().get(URL);
 
         WebElement buttonDress = getDriver().findElement
