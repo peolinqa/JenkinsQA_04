@@ -10,7 +10,7 @@ public class OlaTest extends BaseTest  {
     public void testMvnRepositoryHomePageFindText() {
 
         getDriver().get("https://mvnrepository.com/");
-        WebElement h1 = getDriver().findElement(By.xpath("//body/div[@id='page']/div[@id='maincontent']/h1"));
+        WebElement h1 = getDriver().findElement(By.xpath("//div[@id='maincontent']/h1"));
         String actualResult = h1.getText();
 
         Assert.assertEquals(actualResult, "What's New in Maven");
