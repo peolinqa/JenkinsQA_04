@@ -99,23 +99,18 @@ public class GroupDreamTeamJavaTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//a[@href='https://agro.av.by']/span")).getText(), "Сельхозтехника");
     }
 
-    private static final String SWIVL_URL = "https://cloud.swivl.com/login";
-    private static final String EMAIL = "123@123";
-    private static final String PASSWORD = "123123";
-
     @Test
     public void swivlMariaShyTest() {
-
-        getDriver().get(SWIVL_URL);
+        getDriver().get("https://cloud.swivl.com/login");
         getDriver().manage().deleteAllCookies();
 
-        getDriver().findElement(By.id("username")).sendKeys(EMAIL);
-        getDriver().findElement(By.id("password")).sendKeys(PASSWORD);
-        getDriver().findElement(By.id("_submit")).click(); //submit with invalid login
+        getDriver().findElement(By.id("username")).sendKeys("123@123");
+        getDriver().findElement(By.id("password")).sendKeys("123123");
+        getDriver().findElement(By.id("_submit")).click();
 
-        String invalid = getDriver().findElement(By.xpath("/html/body/div/div[2]/div[2]/div[2]/div/form/p"))
-                .getText();
-        Assert.assertEquals(invalid, "Invalid CSRF token.");
+        WebElement invalidToken = getDriver().findElement(
+                By.xpath("/html/body/div/div[2]/div[2]/div[2]/div/form/p"));
+        Assert.assertEquals(invalidToken.getText(), "Invalid CSRF token.");
     }
 
     @Test
