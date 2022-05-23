@@ -1,10 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class NNinaTest extends BaseTest {
+    @Ignore
     @Test
     public void testUsedCarSearchPageH1() throws InterruptedException {
         getDriver().get("https://www.car.com/");

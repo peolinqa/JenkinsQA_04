@@ -11,7 +11,9 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class GroupWestSideTest extends BaseTest {
+
     private static final String URL = "https://demoqa.com/widgets";
+
     private static final By BY_MAIN_HEADER = By.cssSelector(".main-header");
     private static final By BY_PROGRESS_BAR = By.cssSelector("#progressBar [role=progressbar]");
     private static final By BY_START_STOP_BUTTON = By.cssSelector("#startStopButton");
@@ -19,10 +21,6 @@ public class GroupWestSideTest extends BaseTest {
     public static void scroll(WebDriver driver, WebElement element) {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].scrollIntoView();", element);
-    }
-
-    private void openWebPage(String url) {
-        getDriver().get(url);
     }
 
     private void clickElement(By selector) {
@@ -34,7 +32,7 @@ public class GroupWestSideTest extends BaseTest {
     @Test
     public void testValeriyKanProgressBarStartStop() throws InterruptedException {
 
-        openWebPage(URL);
+        getDriver().get(URL);
 
         clickElement(By.xpath("//span[text()='Progress Bar']"));
 
@@ -51,7 +49,7 @@ public class GroupWestSideTest extends BaseTest {
     @Test
     public void testValeriyKanSlideInputRangeControlToZero() {
 
-        openWebPage(URL);
+        getDriver().get(URL);
 
         clickElement(By.xpath("//span[text()='Slider']"));
 
@@ -69,6 +67,5 @@ public class GroupWestSideTest extends BaseTest {
         actions.moveByOffset(desiredRight100Percents, 0).click().build().perform();
 
         Assert.assertEquals(slider.getAttribute("value"), "100");
-
     }
 }

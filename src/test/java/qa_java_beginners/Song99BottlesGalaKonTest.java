@@ -5,15 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class Song99BottlesLessonTest extends BaseTest {
+public class Song99BottlesGalaKonTest extends BaseTest {
 
     @Test
-    public void testSongLyricsText() {
-        //ТС
-        //1. Откроем базовую страницу http://www.99-bottles-of-beer.net/
-        //2. Нажмем на меню Song Lyrics
-        //3. Считаем текст песни
-        //4. Подтвердить, что текст песни соответствует ожидаемому
+    public void testSongLyricsText() throws InterruptedException {
 
         String expectedResult = "99 bottles of beer on the wall, 99 bottles of beer.\n" +
                 "Take one down and pass it around, 98 bottles of beer on the wall.98 bottles of beer on the wall, 98 bottles of beer.\n" +
@@ -117,31 +112,21 @@ public class Song99BottlesLessonTest extends BaseTest {
                 "Take one down and pass it around, no more bottles of beer on the wall.No more bottles of beer on the wall, no more bottles of beer.\n" +
                 "Go to the store and buy some more, 99 bottles of beer on the wall.";
 
-        getDriver().get("http://www.99-bottles-of-beer.net/lyrics.html");
+        getDriver().get("https://www.99-bottles-of-beer.net/lyrics.html");
         getDriver()
                 .findElement(
-                        By.xpath(
-                                "//body/div[@id='wrap']/div[@id='navigation']/ul[@id='submenu']/li/" +
-                                        "a[@href='lyrics.html']"
-                        )
+                        By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='submenu']/li/a[@href='lyrics.html']")
                 )
                 .click();
-
-//        WebElement[] elementsArray = new WebElement[100];
-//        for (int i = 0; i < elementsArray.length; i++) {
-//            int index = i + 1;
-//            elementsArray[i] = getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/p[" + index + "]"));
-//        }
 
         String[] pTexts = new String[100];
         for (int i = 0; i < pTexts.length; i++) {
             int index = i + 1;
-            pTexts[i] = getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/p[" + index + "]"))
-                    .getText();
+            pTexts[i] = getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/p[" + index + "]")).getText();
         }
 
         String actualResult = "";
-        for(int i = 0; i < pTexts.length; i++) {
+        for (int i = 0; i < pTexts.length; i++) {
             actualResult = actualResult + pTexts[i];
         }
 
