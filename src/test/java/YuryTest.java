@@ -7,15 +7,16 @@ import runner.BaseTest;
 public class YuryTest extends BaseTest {
 
     @Test
-    public void yuryTseluykoTest() {
+    public void testYuryTseluyko() {
         getDriver().get("https://www.saucedemo.com/");
 
         WebElement usernameBox = getDriver().findElement(By.id("user-name"));
-        WebElement passwordBox = getDriver().findElement(By.id("password"));
-        WebElement loginButton = getDriver().findElement(By.id("login-button"));
-
         usernameBox.sendKeys("standard_user");
+
+        WebElement passwordBox = getDriver().findElement(By.id("password"));
         passwordBox.sendKeys("secret_sauce");
+
+        WebElement loginButton = getDriver().findElement(By.id("login-button"));
         loginButton.click();
 
         Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.saucedemo.com/inventory.html");
