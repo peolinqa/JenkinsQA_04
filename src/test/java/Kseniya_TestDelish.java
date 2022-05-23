@@ -1,12 +1,13 @@
-package runner;
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import runner.BaseTest;
 
-public class KseniyaTestDelish extends BaseTest {
+import static java.sql.DriverManager.getDriver;
+
+public class Kseniya_TestDelish extends BaseTest {
+
 
     /**
      * Шаги:
@@ -32,3 +33,4 @@ public class KseniyaTestDelish extends BaseTest {
     }
 
 }
+
