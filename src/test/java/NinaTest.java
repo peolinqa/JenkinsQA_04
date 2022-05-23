@@ -7,7 +7,7 @@ import runner.BaseTest;
 
 @Ignore //added
 public class NinaTest extends BaseTest {
-
+    @Ignore
     @Test
     public void testTest(){
 
