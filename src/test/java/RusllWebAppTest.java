@@ -10,19 +10,18 @@ public class RusllWebAppTest extends BaseTest {
 
     @Test
     public void testHomePageMenuStaff() throws InterruptedException {
-        WebDriver driver = getDriver();
-        driver.get("https://kimo76aeoliancafe.wordpress.com/");
-        WebElement aboutUsButton = driver.findElement(By
+        getDriver().get("https://kimo76aeoliancafe.wordpress.com/");
+        WebElement aboutUsButton = getDriver().findElement(By
                 .xpath("//ul[@id='menu-primary']//a[contains(text(), 'About Us')]"));
-        Actions action = new Actions(driver);
+        Actions action = new Actions(getDriver());
         action.moveToElement(aboutUsButton)
                 .build()
                 .perform();
-        action.moveToElement(driver.findElement(
+        action.moveToElement(getDriver().findElement(
                         By.xpath("//ul[@id='menu-primary']//a[contains(text(), 'Staff')]")))
                 .click()
                 .build()
                 .perform();
-        Assert.assertEquals(driver.getTitle(), "Staff – Aeolian Cafe");
+        Assert.assertEquals(getDriver().getTitle(), "Staff – Aeolian Cafe");
     }
 }
