@@ -24,6 +24,5 @@ public class RusllWebAppTest extends BaseTest {
                 .build()
                 .perform();
         Assert.assertEquals(driver.getTitle(), "Staff – Aeolian Cafe");
-        Thread.sleep(2000);
     }
 }
