@@ -7,8 +7,9 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class DSGroupBugHuntersTest extends BaseTest {
-
-
+    private void openMainPage() {
+        getDriver().get("https://petstore.skystart.store/");
+    }
     private WebElement sideMenuCategoryElectronics(){
         return getDriver().findElement(By.xpath("//span[@class='ssc-ui-catalog-item__caption'][text()='Электроника']"));
     }
@@ -93,13 +94,8 @@ public class DSGroupBugHuntersTest extends BaseTest {
     private WebElement  catalogToysLegoStarWarsAddToCart(){
         return getDriver().findElement(By.xpath("//span[contains(text(),'LEGO')]/../../../../..//span[contains(text(),'В корзину')]"));
     }
-
     private WebElement continueShoppingButton(){
         return getDriver().findElement(By.xpath("//button[contains(text(),'Продолжить')]"));
-    }
-
-    private void openMainPage() {
-        getDriver().get("https://petstore.skystart.store/");
     }
 
     @Ignore
