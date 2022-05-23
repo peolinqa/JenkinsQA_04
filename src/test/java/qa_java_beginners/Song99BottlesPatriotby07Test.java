@@ -6,8 +6,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class Song99BottlesPatriotby07Test  extends BaseTest {
+public class Song99BottlesPatriotby07Test extends BaseTest {
     public static final String URL = "http://www.99-bottles-of-beer.net/";
+    private static final By BROWSE_LANGUAGES = By.xpath("//ul//a[@href='/abc.html']");
+
 
     @Test
     public void testSongLyricsText() {
@@ -219,6 +221,32 @@ public class Song99BottlesPatriotby07Test  extends BaseTest {
         WebElement songCheck = getDriver().findElement(
                 By.xpath("//div[@id='main']"));
 
-        Assert.assertEquals(songCheck.getText(),expectedResult);
+        Assert.assertEquals(songCheck.getText(), expectedResult);
+    }
+
+    @Test
+    public void testPagesStartingLanguagesWithLetterJ() {
+        getDriver().get(URL);
+
+        String expectedResult = "All languages starting with the letter J " +
+                "are shown, sorted by Language.";
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(By.xpath("//a[@href='j.html']")).click();
+        WebElement textCheck = getDriver().findElement(By.xpath("//p"));
+
+        Assert.assertEquals(textCheck.getText(), expectedResult);
+    }
+
+    @Test
+    public void testLastLanguageInTable() {
+        getDriver().get(URL);
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
+        WebElement lastLanguageInTable = getDriver().findElement(
+                By.xpath("//a[@href='language-mysql-1252.html']"));
+
+        Assert.assertEquals(lastLanguageInTable.getText(),"MySQL");
     }
 }
