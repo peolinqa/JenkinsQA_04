@@ -8,7 +8,6 @@ public class GroupBugHuntersTest extends BaseTest {
 
     @Test
     public void testOksanaBakatova() throws InterruptedException {
-
         getDriver().get("https://www.etsy.com");
 
         WebElement searchBox = getDriver().findElement(By.xpath("//input[@name='search_query']"));
