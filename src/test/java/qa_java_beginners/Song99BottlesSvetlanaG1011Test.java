@@ -1,6 +1,7 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -133,5 +134,18 @@ public class Song99BottlesSvetlanaG1011Test extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testBrowseLanguagesSubtitleJText() {
+
+        String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();;
+        WebElement text = getDriver().findElement(By.xpath("//div[@id='main']/p[1]"));
+
+        Assert.assertEquals(text.getText(), expectedResult);
     }
 }
