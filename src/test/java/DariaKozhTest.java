@@ -21,7 +21,5 @@ public class DariaKozhTest extends BaseTest {
         String actualResult = titleInSubmenuN.getText();
 
         Assert.assertEquals(actualResult, "Category N");
-
-        getDriver().quit();
     }
 }
