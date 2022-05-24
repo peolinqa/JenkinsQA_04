@@ -243,17 +243,31 @@ public class Song99BottlesServachakTest extends BaseTest {
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
-        WebElement menuBrowseLanguage = getDriver().findElement(
-                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']"));
-        menuBrowseLanguage.click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']//a[@href='/abc.html']")).click();
 
-        WebElement submenu = getDriver().findElement(
-                By.xpath("//ul[@id='submenu']/li/a[@href='j.html']"));
-        submenu.click();
+        getDriver().findElement(By.xpath("//a[@href='j.html']")).click();
 
-        WebElement textSubmenu = getDriver().findElement(
-                By.xpath("//div[@id='main']/p[1]"));
+        String actualResult = getDriver().findElement(
+                By.xpath("//div[@id='main']/p[1]")).getText();
 
-        Assert.assertEquals(textSubmenu.getText(), expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLastLanguageInMenuBrowseLanguageLetterM(){
+
+        String expectedResult = "MySQL";
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']//a[@href='/abc.html']")).click();
+
+        getDriver().findElement(By.xpath("//a[@href = 'm.html']")).click();
+
+        String actualResult = getDriver().findElement(
+                By.xpath("//a[@href='language-mysql-1252.html']")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
