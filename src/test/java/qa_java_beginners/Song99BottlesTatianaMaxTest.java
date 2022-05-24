@@ -136,7 +136,7 @@ public class Song99BottlesTatianaMaxTest extends BaseTest {
         }
         Assert.assertEquals(actualResult, expectedResult);
     }
-
+    @Ignore
     @Test
     public void testDescriptionOfThePageInTheSubmenuJ(){
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
@@ -150,6 +150,23 @@ public class Song99BottlesTatianaMaxTest extends BaseTest {
         getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
 
         String actualResult = getDriver().findElement(By.xpath("//div[@id='main']/p")).getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+    @Test
+    public void testConfirmOfSubmenuMLastProgrammingLanguageOfTableMySQL(){
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().
+                findElement(
+                        By.xpath(
+                                "//ul[@id='menu']/li/a[@href='/abc.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        String actualResult = getDriver().findElement(
+                By.xpath("//a[@href='language-mysql-1252.html']")).getText();
 
         Assert.assertEquals(actualResult,expectedResult);
     }

@@ -26,7 +26,7 @@ public class ISGroupBugHuntersTest extends BaseTest {
 
             Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.tutorialspoint.com/categories/development");
         }
-
+        @Ignore
         @Test
         public void ingaShauchenkaSecondTest() {
             getDriver().get("https://www.tutorialspoint.com/");
