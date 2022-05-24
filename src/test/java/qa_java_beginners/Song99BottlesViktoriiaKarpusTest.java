@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 
-
 public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
 
     @Test
@@ -131,16 +130,39 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
                     .getText();
         }
 
-        String actualResult= "";
-        for(int i = 0; i < pText.length; i++){
+        String actualResult = "";
+        for (int i = 0; i < pText.length; i++) {
             actualResult = actualResult + pText[i];
         }
 
         System.out.println(actualResult);
 
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
 
     }
 
+    @Test
+    public void testTitle12_03() {
+
+        String expectedResult = "LanguageAuthorDateCommentsRate";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//tr/th")).getText();
+
+        String[] tableTitles = new String[5];
+        for (int i = 0; i < tableTitles.length; i++) {
+            int index = i + 1;
+            tableTitles[i] = getDriver().findElement(By.xpath("//tr/th[" + index + "]")).getText();
+        }
+
+        String actualResult = "";
+        for (int i = 0; i < tableTitles.length; i++) {
+            actualResult = actualResult + tableTitles[i];
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+    }
 }
 
