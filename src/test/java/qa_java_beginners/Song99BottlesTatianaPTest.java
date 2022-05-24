@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Arrays;
+
 public class Song99BottlesTatianaPTest extends BaseTest {
 
     @Test
@@ -137,8 +139,7 @@ public class Song99BottlesTatianaPTest extends BaseTest {
     }
 
     @Test
-
-    public void HW_12_1test(){
+    public void HW_12_1test() {
 
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
 
@@ -147,5 +148,42 @@ public class Song99BottlesTatianaPTest extends BaseTest {
         getDriver().findElement(By.xpath("//li/a[@href='j.html']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p[1]")).getText(), expectedResult);
+    }
+
+    @Test
+    public void TC_12_02test() {
+
+        String expectedResult = "MySQL";
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//td/a[@href='language-mysql-1252.html']")).getText(), expectedResult);
+
+    }
+
+    @Test
+    public void TC_12_03test() {
+
+        String expectedResult = "LanguageAuthorDateCommentsRate";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//tr/th")).getText();
+
+        String[] tableTitles = new String[5];
+        for (int i = 0; i < tableTitles.length; i++) {
+            int index = i + 1;
+            tableTitles[i] = getDriver().findElement(By.xpath("//tr/th[" + index + "]")).getText();
+        }
+
+        String actualResult = "";
+        for (int i = 0; i < tableTitles.length; i++) {
+            actualResult = actualResult + tableTitles[i];
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+
     }
 }
