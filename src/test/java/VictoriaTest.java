@@ -7,13 +7,15 @@ import runner.BaseTest;
 public class VictoriaTest extends BaseTest {
     @Test
     public void CourseraTest() {
+        String SearchBoxXpath = "//div[@class='react-autosuggest__container']//input";
+        String search = "//button[2][@aria-label=\"Submit Search\"]//div[@class=\"magnifier-wrapper\"]";
+
         getDriver().get("https://www.coursera.org/");
-        WebElement searchBox = getDriver().findElement(By.xpath("//div[@class='react-autosuggest__container']//input"));
-        searchBox.sendKeys("Test automation");
-        getDriver().findElement(By.xpath("//header/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/form[1]/div[1]/div[1]/div[1]/button[2]/div[1]/*[1]")).click();
-        WebElement search = getDriver().findElement(By.xpath("//header/div[2]/div[1]/div[1]/div[1]/div[1]/div[3]/div[1]/div[2]/form[1]/div[1]/div[1]/div[1]/div[1]/input[1]"));
-        Assert.assertEquals(search.getAttribute("value"), "Test automation");
+        getDriver().findElement(By.xpath(SearchBoxXpath)).sendKeys("Test automation");;
+        getDriver().findElement(By.xpath(search)).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath(SearchBoxXpath)).getAttribute("value"), "Test automation");
     }
 }
+
 
 
