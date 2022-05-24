@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import javax.lang.model.element.Element;
 import java.util.concurrent.TimeUnit;
 
 public class GroupDreamTeamJavaTest extends BaseTest {
@@ -34,7 +35,7 @@ public class GroupDreamTeamJavaTest extends BaseTest {
     }
 
     @Test
-    public void findAuto_AliaksandrD() {
+    public void findAuto_AliaksandrDTest() {
         getDriver().get("https://av.by");
         WebDriverWait wait = new WebDriverWait(getDriver(), 10);
 
