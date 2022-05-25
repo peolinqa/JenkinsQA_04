@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -10,6 +11,7 @@ public class AntonSadchikovTest extends BaseTest {
         return getDriver().findElement(By.id("typeaheadInput"));
     }
 
+    @Ignore
     @Test
     public void testDiceSelenium() throws InterruptedException {
         getDriver().get("https://dice.com");
