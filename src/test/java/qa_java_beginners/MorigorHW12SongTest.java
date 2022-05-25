@@ -1,6 +1,7 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -64,6 +65,34 @@ public class MorigorHW12SongTest extends BaseTest {
         }
 
         Assert.assertEquals(actualresult.trim(), expectedResult);
+    }
+
+    @Test
+    public void testMathematicaLanguageData() {
+        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+        getDriver()
+                .findElement(
+                By.xpath("//tbody/tr/td/a[@href='language-mathematica-1090.html']"))
+                .click();
+
+        WebElement author
+                = getDriver()
+                .findElement(
+                        By.xpath("//table[@style='margin: 7px; padding: 0;;']/tbody/tr[2]/td[last()]"));
+        WebElement update
+                = getDriver()
+                .findElement(
+                        By.xpath("//table[@style='margin: 7px; padding: 0;;']/tbody/tr[1]/td[last()]"));
+        WebElement comments
+                = getDriver()
+                .findElement(
+                        By.xpath("//table[@style='margin: 7px; padding: 0;;']/tbody/tr[4]/td[last()]"));
+
+        Assert.assertEquals(author.getText(), "Brenton Bostick");
+        Assert.assertEquals(update.getText(), "03/16/06");
+        Assert.assertEquals(comments.getText(), "1");
     }
 
 }
