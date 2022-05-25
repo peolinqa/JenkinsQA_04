@@ -11,7 +11,6 @@ public class Song99BottlesSnapkovaTest extends BaseTest {
 
     @Test
     public void testLyricText(){
-
         String expectedResult = "99 bottles of beer on the wall, 99 bottles of beer.\n" +
                 "Take one down and pass it around, 98 bottles of beer on the wall.98 bottles of beer on the wall, 98 bottles of beer.\n" +
                 "Take one down and pass it around, 97 bottles of beer on the wall.97 bottles of beer on the wall, 97 bottles of beer.\n" +
@@ -121,13 +120,11 @@ public class Song99BottlesSnapkovaTest extends BaseTest {
                              + "a[@href='lyrics.html']"))
              .click();
 
-
         String [] pTexts = new String[100];
         for( int i = 0; i < pTexts.length;i++) {
             int index = i + 1;
             pTexts[i] =getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/p["+ index + "]")).getText();
         }
-
         String actualResult = "";
         for( int i = 0; i < pTexts.length; i++){
             actualResult = actualResult + pTexts[i];
@@ -138,14 +135,12 @@ public class Song99BottlesSnapkovaTest extends BaseTest {
     }
     @Test
     public void testBrowseLanguagesSubMenuJ(){
-
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver()
                 .findElement(
-                        By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")
-                )
+                        By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']"))
                 .click();
         getDriver()
                 .findElement(
@@ -153,14 +148,36 @@ public class Song99BottlesSnapkovaTest extends BaseTest {
                 .click();
         String actualResult = getDriver().findElement(By.xpath("//div[@id='main']/p")).getText();
 
-
-
         Assert.assertEquals(actualResult, expectedResult);
 
+    }
+    @Test
+    public void testBrowseLanguagesSubMenuMLastLanguagesIsMySQL(){
+        String expectedResult = "MySQL";
 
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']"))
+                .click();
+        String actualResult = getDriver().findElement(
+                By.xpath("//table[@id='category']/tbody/tr[last()]/td[1]"))
+                .getText();
 
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+    @Test
+    public void testInBrowseLanguagesTableWithHeaders(){
+        String expectedResult = "Language, Author, Date, Comments, Rate";
 
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']"))
+                .click();
+        String actualResult = getDriver().findElement(
+                By.xpath("//table[@id='category']/tbody/tr[1]")).getText()
+                .replace(" ",", ");
 
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
 
