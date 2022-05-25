@@ -6,8 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.Arrays;
-
 public class Song99BottlesHelenVelTest extends BaseTest {
 
     @Test
@@ -131,6 +129,21 @@ public class Song99BottlesHelenVelTest extends BaseTest {
         for (int i=0; i<pTexts.length; i++) {
             actualResult = actualResult + pTexts[i];
         }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testMenuClickBrowseLanguagesClickSubmenuJ() {
+
+        String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath ("//a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath ("//li/a[@href='j.html']")).click();
+
+        WebElement textMenu = getDriver().findElement(By.xpath ("//div[@id='main']/p[1]"));
+        String actualResult = textMenu.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
     }
