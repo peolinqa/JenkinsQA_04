@@ -64,4 +64,34 @@ public class KsuTitova99BottlesOfBeerHW12Tests extends BaseTest {
         Assert.assertEquals(result.getText(), expectedResult);
     }
 
+    /**
+     * TC_12_03 Подтвердите, что в меню BROWSE LANGUAGES существует таблица
+     * с заголовками Language, Author, Date, Comments, Rate
+     */
+
+    @Test
+    public void testKseniyaTitovaBROWSELANGUAGESTable() {
+
+        String expectedResult = "Language, Author, Date, Comments, Rate, ";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul/li/a[@href='/abc.html']")).click();
+
+        String[] pText = new String[5];
+        for (int i = 0; i < pText.length; i++) {
+            int index = i + 1;
+            pText[i] = getDriver().findElement(By.xpath(
+                    "//table[@id='category']/tbody/tr/th[" + index + "]")).getText();
+        }
+
+        String actualResult = "";
+        for (int i = 0; i < pText.length; i++) {
+            actualResult += pText[i] + ", ";
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+
 }
