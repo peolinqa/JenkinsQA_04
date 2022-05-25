@@ -47,4 +47,23 @@ public class MorigorHW12SongTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testConfirmIfTableHeadExist() {
+        String expectedResult = "Language, Author, Date, Comments, Rate,";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+
+        String[] tableArr = new String[5];
+        String actualresult = "";
+        for(int i = 0; i < tableArr.length; i++) {
+            tableArr[i] = getDriver()
+                    .findElement(
+                            By.xpath("//tbody/tr/th[" + (i + 1) + "]")
+                    ).getText();
+            actualresult = actualresult.concat(tableArr[i] + ", ");
+        }
+
+        Assert.assertEquals(actualresult.trim(), expectedResult);
+    }
+
 }
