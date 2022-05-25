@@ -6,9 +6,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Song99BottlesPatriotby07Test extends BaseTest {
     public static final String URL = "http://www.99-bottles-of-beer.net/";
     private static final By BROWSE_LANGUAGES = By.xpath("//ul//a[@href='/abc.html']");
+    private static final By SUBMENU_M = By.xpath("//a[@href='m.html']");
 
 
     @Test
@@ -243,10 +247,69 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
         getDriver().get(URL);
 
         getDriver().findElement(BROWSE_LANGUAGES).click();
-        getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
+        getDriver().findElement(SUBMENU_M).click();
         WebElement lastLanguageInTable = getDriver().findElement(
                 By.xpath("//a[@href='language-mysql-1252.html']"));
 
-        Assert.assertEquals(lastLanguageInTable.getText(),"MySQL");
+        Assert.assertEquals(lastLanguageInTable.getText(), "MySQL");
+    }
+
+    @Test
+    public void testTableHeaders() {
+        getDriver().get(URL);
+
+        List<String> expectedResult = Arrays.asList("Language", "Author",
+                "Date", "Comments", "Rate");
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        List<WebElement> tableHeaders = getDriver().findElements(
+                By.xpath("//th"));
+
+        for (int i = 0; i < expectedResult.size(); i++) {
+
+            Assert.assertEquals(tableHeaders.get(i).getText(),
+                    expectedResult.get(i));
+        }
+    }
+
+    @Test
+    public void testRowsInTable() {
+        getDriver().get(URL);
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(SUBMENU_M).click();
+        WebElement solutionLanguage = getDriver().findElement(
+                By.xpath("//a[@href='language-mathematica-1090.html']"));
+        WebElement authorLanguage = getDriver().findElement(
+                By.xpath("//td[text()='Brenton Bostick']"));
+        WebElement dateUpdate = getDriver().findElement(
+                By.xpath("//td[text()='03/16/06']"));
+        WebElement numberComments = getDriver().findElement(
+                By.xpath("//tr[22]/td[4]"));
+
+        Assert.assertEquals(solutionLanguage.getText(), "Mathematica");
+        Assert.assertEquals(authorLanguage.getText(), "Brenton Bostick");
+        Assert.assertEquals(dateUpdate.getText(), "03/16/06");
+        Assert.assertEquals(numberComments.getText(), "1");
+    }
+
+    @Test
+    public void testTableNumberLanguages() {
+        getDriver().get(URL);
+
+        List<String> expectedResult = Arrays.asList("1C Enterprize", "3code",
+                "4D", "4DOS Batch", "4Test", "6502 Assembler",
+                "6800 Assembler", "8008 Assembler", "96", "99");
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(By.cssSelector("a[href='0.html']")).click();
+        List<WebElement> numberLanguages = getDriver().findElements(
+                By.cssSelector("[href|='language']"));
+
+        for (int i = 0; i < numberLanguages.size(); i++) {
+
+            Assert.assertEquals(numberLanguages.get(i).getText(),
+                    expectedResult.get(i));
+        }
     }
 }
