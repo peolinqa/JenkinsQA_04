@@ -5,6 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Song99BoutleXbrookxTest extends BaseTest {
     private static final String URL = "http://www.99-bottles-of-beer.net/";
@@ -117,14 +120,16 @@ public class Song99BoutleXbrookxTest extends BaseTest {
         getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(By.xpath("//a[@href='lyrics.html']")).click();
 
-        String[] pText = new String[100];
-        for (int i = 0; i < pText.length; i++) {
-            pText[i] = getDriver().findElement(By.xpath("//div[@id='main']/p[" + (i + 1) + "]")).getText();
+        List<WebElement> list = getDriver().findElements(By.xpath("//div[@id='main']/p"));
+        List<String> songText = new ArrayList<>();
+
+        for (WebElement web : list) {
+            songText.add(web.getText());
         }
 
         String actualResult = "";
-        for (int i = 0; i < pText.length; i++) {
-            actualResult += pText[i];
+        for (int i = 0; i < songText.size(); i++) {
+            actualResult += songText.get(i);
         }
 
         Assert.assertEquals(actualResult, expectedResult);
@@ -154,6 +159,7 @@ public class Song99BoutleXbrookxTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
         String lastLanguage = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mysql-1252.html']")).getText();
+
         Assert.assertEquals(lastLanguage, expectedResult);
     }
 
@@ -163,19 +169,21 @@ public class Song99BoutleXbrookxTest extends BaseTest {
 
         getDriver().get(URL);
         getDriver().findElement(By.xpath("//a[@href='/abc.html']")).click();
+        List<WebElement> list = getDriver().findElements(By.xpath("//div[@id='main']//th"));
+        List<String> headers = new ArrayList<>();
 
-        String[] headers = new String[5];
-        for (int i = 0; i < headers.length; i++) {
-            headers[i] = getDriver().findElement(By.xpath("//tbody/tr/th[" + (i + 1) + "]")).getText();
+        for (WebElement web : list) {
+            headers.add(web.getText());
         }
 
         String headersName = "";
-        for (int i = 0; i < headers.length; i++) {
-            headersName += headers[i] + ", ";
+        for (int i = 0; i < headers.size(); i++) {
+            headersName += headers.get(i) + ", ";
         }
 
         Assert.assertEquals(headersName.substring(0, headersName.length() - 2), expectedResult);
     }
+
 
     @Test //TC_12_04
     public void testConfirmCreaterAndDateCreateHaveOneComment() {
@@ -203,12 +211,16 @@ public class Song99BoutleXbrookxTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//a[@href='0.html']")).click();
 
-        String[] arrayLanguages = new String[10];
-        for (int i = 0; i < arrayLanguages.length; i++) {
-            arrayLanguages[i] = getDriver().findElement(By.xpath("//tbody/tr[@onmouseover][" + (i + 1) + "]")).getText();
+        List<WebElement> list = getDriver().findElements(By.xpath("//tbody/tr[@onmouseover]"));
+        List<String> languages = new ArrayList<>();
+
+        int count = 0;
+        for (WebElement web : list) {
+            languages.add(web.getText());
+            count++;
         }
 
-        Assert.assertEquals(arrayLanguages.length, expectedResult);
+        Assert.assertEquals(count, expectedResult);
     }
 
     @Test //TC_12_06
@@ -239,5 +251,22 @@ public class Song99BoutleXbrookxTest extends BaseTest {
         String style = getDriver().findElement(By.xpath("//div[@id='main']/p")).getAttribute("style");
 
         Assert.assertEquals(style, expectedResult2);
+    }
+
+    @Test //TC_12_07
+    public void testMakeBookmark() {
+
+        String expectedResult = "https://www.reddit.com/login/?dest=https%3A%2F%2Fwww.reddit" +
+                ".com%2Fsubmit%3Furl%3Dhttps%253A%252F%252Fwww.99-bottles-of-beer.net%252Flanguage-autohotkey-1333" +
+                ".html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520AutoHotkey";
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//td/a[@href='language-autohotkey-1857.html']")).click();
+        getDriver().findElement(By.xpath("//td/a[@href='language-autohotkey-1333.html']")).click();
+                WebElement reddit = getDriver().findElement(
+                By.xpath("//a[@title='reddit' and contains(@href,'language-autohotkey-1333.html')]"));
+        reddit.click();
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedResult);
     }
 }
