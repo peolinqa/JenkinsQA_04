@@ -17,16 +17,20 @@ import java.util.List;
 
 public class LetsBeTestersTest extends BaseTest {
 
+    private static final String URL_NOKIA = "https://www.nokia.com/";
     private static final String URL_DAVINAGAZ = "https://davinagaz.by/";
     private static final String URL_FLAGMA = "https://flagma.si/";
 
     private WebDriverWait wait;
+    private Actions action;
 
     @BeforeMethod
     private void before() {
         wait = new WebDriverWait(getDriver(), 10);
+        action = new Actions(getDriver());
     }
 
+    @Deprecated
     private void openWebSite(String url) {
         getDriver().get(url);
     }
@@ -34,11 +38,12 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testCountOfSectionButtons() {
 
-        openWebSite("https://www.nokia.com/");
-
+        getDriver().get(URL_NOKIA);
         getDriver().findElement(By.id("modalAcceptAllBtn")).click();
 
-        List<WebElement> carousel = getDriver().findElements(By.xpath("//div[contains(@id, 'tns1-item')]//h2"));
+        WebElement startCarousel = getDriver().findElement(By.cssSelector("#tns1-item0"));
+        action.moveToElement(startCarousel).build().perform();
+        List<WebElement> carousel = getDriver().findElements(By.cssSelector("div[id*='tns1-item'] h2"));
 
         Assert.assertEquals(carousel.size(), 9);
     }
@@ -46,19 +51,15 @@ public class LetsBeTestersTest extends BaseTest {
     @Test
     public void testCheckTablet() {
 
-        openWebSite("https://www.nokia.com/");
-
+        getDriver().get(URL_NOKIA);
         getDriver().findElement(By.id("modalAcceptAllBtn")).click();
 
-        Actions action = new Actions(getDriver());
-
-        List<WebElement> menu = getDriver().findElements(By.xpath("//li[contains(@class, 'dropdown-menu')]/a"));
-        WebElement forConsumers = menu.stream().filter(el2 -> el2.getText().equals("For consumers")).findFirst().orElse(null);
-        action.moveToElement(forConsumers).build().perform();
+        WebElement buttonForConsumers = getDriver().findElement(By.cssSelector("li[class$='dropdown-menu'] > a[href*='nokia']"));
+        action.moveToElement(buttonForConsumers).build().perform();
 
         getDriver().findElement(By.xpath("//li[@class='dropdown-submenu-item']/a[text()='Phones']")).click();
         getDriver().findElement(By.xpath("//a[@data-gtm-cta='tablets']")).click();
-        String actualResult = getDriver().findElement(By.xpath("//li[contains(@class, 'h5')]")).getText();
+        String actualResult = getDriver().findElement(By.cssSelector("li[class*='h5']")).getText();
 
         Assert.assertEquals(actualResult, "Nokia T20");
     }
