@@ -130,5 +130,17 @@ public class Song99BottlesSandraGorinaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testPageDescriptionTC_12_01() {
+        String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+
+        String text = getDriver().findElement(By.xpath("//div[@id='main']/p")).getText();
+
+        Assert.assertEquals(text, expectedResult);
+    }
 }
 
