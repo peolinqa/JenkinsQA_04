@@ -148,4 +148,17 @@ public class Song99BottlesSvetlanaG1011Test extends BaseTest {
 
         Assert.assertEquals(text.getText(), expectedResult);
     }
+
+    @Test
+    public void testLastLanguageInTableMySQL() {
+
+        String expectedResult = "MySQL";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+        WebElement lastLanguage = getDriver().findElement(By.xpath("//a[@href='language-mysql-1252.html']"));
+
+        Assert.assertEquals(lastLanguage.getText(), expectedResult);
+    }
 }
