@@ -20,6 +20,7 @@ public class LetsBeTestersTest extends BaseTest {
     private static final String URL_NOKIA = "https://www.nokia.com/";
     private static final String URL_DAVINAGAZ = "https://davinagaz.by/";
     private static final String URL_FLAGMA = "https://flagma.si/";
+    private static final String POP_UP_NOKIA = "modalAcceptAllBtn";
 
     private WebDriverWait wait;
     private Actions action;
@@ -39,7 +40,7 @@ public class LetsBeTestersTest extends BaseTest {
     public void testCountOfSectionButtons() {
 
         getDriver().get(URL_NOKIA);
-        getDriver().findElement(By.id("modalAcceptAllBtn")).click();
+        getDriver().findElement(By.id(POP_UP_NOKIA)).click();
 
         WebElement startCarousel = getDriver().findElement(By.cssSelector("#tns1-item0"));
         action.moveToElement(startCarousel).build().perform();
@@ -52,7 +53,7 @@ public class LetsBeTestersTest extends BaseTest {
     public void testCheckTablet() {
 
         getDriver().get(URL_NOKIA);
-        getDriver().findElement(By.id("modalAcceptAllBtn")).click();
+        getDriver().findElement(By.id(POP_UP_NOKIA)).click();
 
         WebElement buttonForConsumers = getDriver().findElement(By.cssSelector("li[class$='dropdown-menu'] > a[href*='nokia']"));
         action.moveToElement(buttonForConsumers).build().perform();
