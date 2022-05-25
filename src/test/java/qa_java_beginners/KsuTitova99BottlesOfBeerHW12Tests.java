@@ -39,4 +39,29 @@ public class KsuTitova99BottlesOfBeerHW12Tests extends BaseTest {
         Assert.assertEquals(result.getText(), expectedResult);
     }
 
+    /**
+     * TC_12_02 Подтвердите, что в меню BROWSE LANGUAGES, подменю  M, последний программный язык в таблице -  MySQL
+     * Шаги:
+     * Открыть базовую страницу
+     * Нажать на пункт меню BROWSE LANGUAGES
+     * Нажать на подменю M
+     * Подтвердить, что последний язык программирования на странице - MySQL
+     */
+
+    @Test
+    public void testKseniyaTitovaBROWSELANGUAGESsubmenuM() {
+
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul/li/a[@href='/abc.html']")).click();
+
+        getDriver().findElement(By.xpath("//ul/li/a[@href='m.html']")).click();
+
+        WebElement result = getDriver().findElement(By.xpath("//table//a[@href='language-mysql-1252.html']"));
+
+        Assert.assertEquals(result.getText(), expectedResult);
+    }
+
 }
