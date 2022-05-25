@@ -26,4 +26,25 @@ public class MorigorHW12SongTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
     }
 
+    @Test
+    public void testConfirmIfLanguageCorrect() {
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")
+        ).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")
+        ).click();
+
+        String actualResult = getDriver()
+                .findElement(
+                        By.xpath("//table[@id='category']/tbody/tr/td" +
+                                "/a[@href='language-mysql-1252.html']")
+                ).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
 }
