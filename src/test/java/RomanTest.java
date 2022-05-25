@@ -1,64 +1,54 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class RomanTest extends BaseTest {
 
-    private static final String URL = "https://gopro.com/";
-    private WebDriverWait wait;
+    private static final String URL = "https://www.saucedemo.com/";
 
-    @BeforeMethod
-    private void setWait() {
-        wait = new WebDriverWait(getDriver(), 10);
-    }
-
-    @Ignore
     @Test
-    public void testRomanTGoPro() {
+    public void testRomanTErrorMessageForLockedUser() {
         getDriver().get(URL);
 
-        getDriver().findElement(By.xpath("//button[@aria-label='Search']/i")).click();
+        getDriver().findElement(By.id("user-name")).sendKeys("locked_out_user");
 
-        WebElement searchBox = getDriver().findElement(By.id("search-box"));
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
 
-        searchBox.sendKeys("Hero9 Black");
-        searchBox.submit();
+        getDriver().findElement(By.id("login-button")).click();
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//div[@id = '__next']//h1[contains(text(), 'HERO9 Black')]")));
+        String actualResult = getDriver().findElement(
+                By.xpath("//div[@class='error-message-container error']"))
+                .getText();
 
-        String actualTitle = getDriver().findElement(
-                By.xpath("//div[@id = '__next']//h1[contains(text(), 'HERO9 Black')]")).getText();
-
-        Assert.assertEquals(actualTitle, "HERO9 Black");
+        Assert.assertEquals(actualResult, "Epic sadface: Sorry, this user has been locked out.");
     }
 
-    @Ignore
     @Test
-    public void testRomanTGoProAddCart() {
+    public void testRomanTTotalPriceInCart() {
         getDriver().get(URL);
 
-        wait.until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("(//a[@href = '/en/us/shop/cameras'])[2]"))).click();
+        getDriver().findElement(By.id("user-name")).sendKeys("standard_user");
 
-        getDriver().findElement(By.xpath("//a[normalize-space()='SHOP HERO10 Black']")).click();
+        getDriver().findElement(By.id("password")).sendKeys("secret_sauce");
 
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("(//button[@aria-label= 'ADD TO CART'])[1]")))
-                .click();
+        getDriver().findElement(By.id("login-button")).click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//a[@href = 'https://gopro.com/en/us/shop/cart']")))
-                .click();
+        getDriver().findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
+        getDriver().findElement(By.id("add-to-cart-test.allthethings()-t-shirt-(red)")).click();
 
-        WebElement actualTotalPrice = getDriver().findElement(By.xpath("//p[@class = 'text-right grand-total']"));
+        getDriver().findElement(By.id("shopping_cart_container")).click();
 
-        Assert.assertEquals(actualTotalPrice.getText(), "$349.98");
+        getDriver().findElement(By.id("checkout")).click();
+
+        getDriver().findElement(By.id("first-name")).sendKeys("Roman");
+        getDriver().findElement(By.id("last-name")).sendKeys("Roman");
+        getDriver().findElement(By.id("postal-code")).sendKeys("11111");
+        getDriver().findElement(By.id("continue")).click();
+
+        WebElement totalPrice = getDriver().findElement(By.xpath("//div[@class='summary_total_label']"));
+
+        Assert.assertEquals(totalPrice.getText(), "Total: $49.66");
     }
 }
