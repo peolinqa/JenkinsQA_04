@@ -14,11 +14,11 @@ public class GroupBugHuntersTest extends BaseTest {
         searchBox.sendKeys("soap flower bouquet");
         Thread.sleep(2000);
 
-        WebElement searchButton = getDriver().findElement(By.xpath("//button[@type ='submit']"));
-        searchButton.click();
+        getDriver().findElement(By.xpath("//button[@type ='submit']")).click();
 
         searchBox = getDriver().findElement(By.xpath("//input[@name='search_query']"));
         Assert.assertEquals(searchBox.getAttribute("value"), "soap flower bouquet");
+
 
     }
 
