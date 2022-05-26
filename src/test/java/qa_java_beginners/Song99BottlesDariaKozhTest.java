@@ -15,7 +15,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void testLyricsText() {
-
         String expectedResult = "99 bottles of beer on the wall, 99 bottles of beer.\n" +
                 "Take one down and pass it around, 98 bottles of beer on the wall.98 bottles of beer on the wall, 98 bottles of beer.\n" +
                 "Take one down and pass it around, 97 bottles of beer on the wall.97 bottles of beer on the wall, 97 bottles of beer.\n" +
@@ -144,7 +143,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_01TextInSubmenuJMenuBrowseLanguages() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
@@ -157,7 +155,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_02LastTextInTableSubmenuMMenuBrowseLanguages() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
@@ -170,7 +167,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_03TitleTableInMenuBrowseLanguages() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
@@ -184,7 +180,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_04TrMathematicaInTableSubmenuMMenuBrowseLanguages() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
@@ -206,7 +201,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_05Submenu0_9MenuBrowseLanguages() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
@@ -218,7 +212,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_06ErrorSecurityCodeInSubMenuSignGuestbook() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
 
         getDriver().findElement(By.xpath("//input[@name='name']"))
@@ -243,7 +236,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_07() {
-
         String expectedResult = "https://www.reddit.com/login" +
                 "/?dest=https%3A%2F%2Fwww.reddit.com%2Fsubmit%3Furl%3Dhttps%253A%252F%252Fwww.99-bottles-of-beer." +
                 "net%252Flanguage-amanda-27.html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520Amanda";
@@ -259,7 +251,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_08TopRated() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
@@ -272,7 +263,7 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
                     .getText();
         }
 
-        int positionShakespeare = 0;
+        int positionShakespeare = 100;
 
         for (int i = 0; i < trText.length; i++) {
             if (trText[i].contains("Shakespeare")) {
@@ -285,7 +276,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_08TopRatedEsotericLanguages() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
@@ -298,7 +288,7 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
                     .getText();
         }
 
-        int positionShakespeare = 0;
+        int positionShakespeare = 100;
 
         for (int i = 0; i < trText.length; i++) {
             if (trText[i].contains("Shakespeare")) {
@@ -311,7 +301,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_08TopHits() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
@@ -324,7 +313,7 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
                     .getText();
         }
 
-        int positionShakespeare = 0;
+        int positionShakespeare = 100;
 
         for (int i = 0; i < trText.length; i++) {
             if (trText[i].contains("Shakespeare")) {
@@ -337,7 +326,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_08TopRatedRealLanguages() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
@@ -355,7 +343,6 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
     public void test12_09() {
-
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
@@ -365,6 +352,48 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
         int javaVersions = getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr/td[1]")).size() + 1;
 
         Assert.assertEquals(javaVersions, 6);
+    }
+
+    @Test
+    public void test12_10() {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+        getDriver().findElement(By.xpath("//tbody/tr/td/a[@href='language-java-3.html']")).click();
+
+        int commentsJavaObjectOrientedVersion = Integer.parseInt(getDriver().findElement(By.xpath
+                ("//tr/td/strong[contains(text(),'Comments:')]/parent::td//following-sibling::td")).getText());
+
+        int commentsJavaObjectStandardVersion = Integer.parseInt(getDriver().findElement(By.xpath
+                ("//table[@id='category']/tbody/tr/td/a[@href='language-java-4.html']//parent::td//following-sibling::td[3]"))
+                .getText());
+
+        int commentsJavaExceptionOriented = Integer.parseInt(getDriver().findElement(By.xpath
+                        ("//table[@id='category']/tbody/tr/td/a[@href='language-java-866.html']//parent::td//following-sibling::td[3]"))
+                .getText());
+
+        int commentsJavaBytecodeVersion = Integer.parseInt(getDriver().findElement(By.xpath
+                        ("//table[@id='category']/tbody/tr/td/a[@href='language-java-1162.html']//parent::td//following-sibling::td[3]"))
+                .getText());
+
+        int commentsJava5Version = Integer.parseInt(getDriver().findElement(By.xpath
+                        ("//table[@id='category']/tbody/tr/td/a[@href='language-java-950.html']//parent::td//following-sibling::td[3]"))
+                .getText());
+
+        int commentsJavaSpeechAPIVersion = Integer.parseInt(getDriver().findElement(By.xpath
+                        ("//table[@id='category']/tbody/tr/td/a[@href='language-java-1148.html']//parent::td//following-sibling::td[3]"))
+                .getText());
+
+        int max1 = Math.max
+                (commentsJavaObjectOrientedVersion,
+                        Math.max(commentsJavaObjectStandardVersion, commentsJavaExceptionOriented));
+
+        int max2 = Math.max
+                (commentsJava5Version,
+                        Math.max(commentsJavaBytecodeVersion, commentsJavaSpeechAPIVersion));
+
+        Assert.assertEquals(Math.max(max1, max2), commentsJavaObjectOrientedVersion);
     }
 }
 
