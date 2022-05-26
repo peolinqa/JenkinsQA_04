@@ -6,6 +6,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Song99BottlesServachakTest extends BaseTest {
 
     @Test
@@ -236,7 +239,7 @@ public class Song99BottlesServachakTest extends BaseTest {
     }
 
     @Test
-    public void testAreAllLanguagesStartingWithTheLetterJInMenuBrowseLanguages(){
+    public void testAreAllLanguagesStartingWithTheLetterJInMenuBrowseLanguages() {
 
         String expectedResult = "All languages starting with the " +
                 "letter J are shown, sorted by Language.";
@@ -255,7 +258,7 @@ public class Song99BottlesServachakTest extends BaseTest {
     }
 
     @Test
-    public void testLastLanguageInMenuBrowseLanguageLetterM(){
+    public void testLastLanguageInMenuBrowseLanguageLetterM() {
 
         String expectedResult = "MySQL";
         getDriver().get("http://www.99-bottles-of-beer.net/");
@@ -268,6 +271,37 @@ public class Song99BottlesServachakTest extends BaseTest {
         String actualResult = getDriver().findElement(
                 By.xpath("//a[@href='language-mysql-1252.html']")).getText();
 
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testTableInBrowseLanguages() {
+        String expectedResult = "Language Author Date Comments Rate";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']//a[@href='/abc.html']")).click();
+
+        String actualResult = getDriver().findElement(
+                By.xpath("//table[@id='category']/tbody/tr[1]")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLanguageMathematica() {
+        String expectedResult = "Mathematica Brenton Bostick 03/16/06 1";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']//a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
+
+        String actualResult = getDriver()
+                .findElement(
+                        By.xpath("//table[@id='category']//td[normalize-space()='Brenton Bostick']/..")
+                ).getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
 }
