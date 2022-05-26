@@ -180,5 +180,18 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
         Assert.assertEquals(textMenu.getText(),expectedResult);
 
     }
+    @Test
+    public void testTheLastProgramLanguageIsMySQl(){
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        WebElement theLastLanguage = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mysql-1252.html']"));
+
+        Assert.assertEquals(theLastLanguage.getText(),expectedResult);
+
+    }
 }
 
