@@ -6,6 +6,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
+import static java.lang.Thread.sleep;
+
 public class Song99BottlesDariaKozhTest extends BaseTest {
 
     @Test
@@ -138,7 +143,7 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
     }
 
     @Test
-    public void testTextInSubmenuJMenuBrowseLanguages() {
+    public void test12_01TextInSubmenuJMenuBrowseLanguages() {
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
@@ -151,7 +156,7 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
     }
 
     @Test
-    public void testLastTextInTableSubmenuMMenuBrowseLanguages() {
+    public void test12_02LastTextInTableSubmenuMMenuBrowseLanguages() {
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
@@ -164,7 +169,7 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
     }
 
     @Test
-    public void testTitleTableInMenuBrowseLanguages() {
+    public void test12_03TitleTableInMenuBrowseLanguages() {
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
@@ -176,6 +181,191 @@ public class Song99BottlesDariaKozhTest extends BaseTest {
         Assert.assertTrue(table.isDisplayed());
         Assert.assertEquals(actualResult, "Language Author Date Comments Rate");
     }
- }
+
+    @Test
+    public void test12_04TrMathematicaInTableSubmenuMMenuBrowseLanguages() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+        String textMathematicaAuthor = getDriver().findElement(
+                        By.xpath("//a[@href='language-mathematica-1090.html']//ancestor::td//ancestor::tr/td[2]"))
+                .getText();
+        String textMathematicaDate = getDriver().findElement(
+                        By.xpath("//a[@href='language-mathematica-1090.html']//ancestor::td//ancestor::tr/td[3]"))
+                .getText();
+        String textMathematicaComments = getDriver().findElement(
+                        By.xpath("//a[@href='language-mathematica-1090.html']//ancestor::td//ancestor::tr/td[4]"))
+                .getText();
+
+        Assert.assertEquals(textMathematicaAuthor, "Brenton Bostick");
+        Assert.assertEquals(textMathematicaDate, "03/16/06");
+        Assert.assertEquals(textMathematicaComments, "1");
+    }
+
+    @Test
+    public void test12_05Submenu0_9MenuBrowseLanguages() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='0.html']")).click();
+        int languageText = getDriver().findElements(By.xpath("//tbody/tr/td[1]")).size();
+
+        Assert.assertEquals(languageText, 10);
+    }
+
+    @Test
+    public void test12_06ErrorSecurityCodeInSubMenuSignGuestbook() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+
+        getDriver().findElement(By.xpath("//input[@name='name']"))
+                .sendKeys("Daria");
+        getDriver().findElement(By.xpath("//input[@name='location']"))
+                .sendKeys("Russia");
+        getDriver().findElement(By.xpath("//input[@name='email']"))
+                .sendKeys("123456@mail.ru");
+        getDriver().findElement(By.xpath("//input[@name='homepage']"))
+                .sendKeys("123456.ru");
+        getDriver().findElement(By.xpath("//input[@name='captcha']"))
+                .sendKeys("" + ((int) Math.random() * 900 + 100));
+        getDriver().findElement(By.xpath("//textarea[@name='comment']"))
+                .sendKeys("Hello");
+        getDriver().findElement(By.xpath("//input[@name='submit']"))
+                .click();
+        String error = getDriver().findElement(By.xpath("//div[@id='main']/p"))
+                .getText();
+
+        Assert.assertEquals(error, "Error: Error: Invalid security code.");
+    }
+
+    @Test
+    public void test12_07() {
+
+        String expectedResult = "https://www.reddit.com/login" +
+                "/?dest=https%3A%2F%2Fwww.reddit.com%2Fsubmit%3Furl%3Dhttps%253A%252F%252Fwww.99-bottles-of-beer." +
+                "net%252Flanguage-amanda-27.html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520Amanda";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//tbody/tr/td/a[@href='language-amanda-27.html']")).click();
+        getDriver().findElement(By.xpath("//p/a[@title='reddit']/img")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedResult);
+    }
+
+    @Test
+    public void test12_08TopRated() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./toplist.html']")).click();
+
+        String[] trText = new String[25];
+        for (int i = 0; i < trText.length; i++) {
+            int index = i + 2;
+            trText[i] = getDriver().findElement(By.xpath("//tr[" + index + "]"))
+                    .getText();
+        }
+
+        int positionShakespeare = 0;
+
+        for (int i = 0; i < trText.length; i++) {
+            if (trText[i].contains("Shakespeare")) {
+                positionShakespeare = i + 1;
+            }
+        }
+
+        Assert.assertTrue(positionShakespeare <= 20);
+    }
+
+    @Test
+    public void test12_08TopRatedEsotericLanguages() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_esoteric.html']")).click();
+
+        String[] trText = new String[25];
+        for (int i = 0; i < trText.length; i++) {
+            int index = i + 2;
+            trText[i] = getDriver().findElement(By.xpath("//tr[" + index + "]"))
+                    .getText();
+        }
+
+        int positionShakespeare = 0;
+
+        for (int i = 0; i < trText.length; i++) {
+            if (trText[i].contains("Shakespeare")) {
+                positionShakespeare = i + 1;
+            }
+        }
+
+        Assert.assertTrue(positionShakespeare <= 10);
+    }
+
+    @Test
+    public void test12_08TopHits() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./tophits.html']")).click();
+
+        String[] trText = new String[25];
+        for (int i = 0; i < trText.length; i++) {
+            int index = i + 2;
+            trText[i] = getDriver().findElement(By.xpath("//tr[" + index + "]"))
+                    .getText();
+        }
+
+        int positionShakespeare = 0;
+
+        for (int i = 0; i < trText.length; i++) {
+            if (trText[i].contains("Shakespeare")) {
+                positionShakespeare = i + 1;
+            }
+        }
+
+        Assert.assertTrue(positionShakespeare <= 6);
+    }
+
+    @Test
+    public void test12_08TopRatedRealLanguages() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_real.html']")).click();
+
+        String[] trText = new String[25];
+        for (int i = 0; i < trText.length; i++) {
+            int index = i + 2;
+            trText[i] = getDriver().findElement(By.xpath("//tr[" + index + "]"))
+                    .getText();
+        }
+
+        Assert.assertFalse(trText.toString().contains("Shakespeare"));
+    }
+
+    @Test
+    public void test12_09() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+        getDriver().findElement(By.xpath("//tbody/tr/td/a[@href='language-java-3.html']")).click();
+
+        int javaVersions = getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr/td[1]")).size() + 1;
+
+        Assert.assertEquals(javaVersions, 6);
+    }
+}
 
 
