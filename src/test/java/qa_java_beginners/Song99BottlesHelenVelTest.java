@@ -113,7 +113,7 @@ public class Song99BottlesHelenVelTest extends BaseTest {
                 "Take one down and pass it around, no more bottles of beer on the wall.No more bottles of beer on the wall, no more bottles of beer.\n" +
                 "Go to the store and buy some more, 99 bottles of beer on the wall.";
 
-        getDriver().get("https://www.99-bottles-of-beer.net/lyrics.html");
+        getDriver().get("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(
                 By.xpath("//body/div[@id='wrap']/div[@id='navigation']/ul[@id='submenu']/li/a[@href='lyrics.html']")
         ).click();
@@ -146,6 +146,22 @@ public class Song99BottlesHelenVelTest extends BaseTest {
         String actualResult = textMenu.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testClickMenuBrowseLanguagesClickSubmenuMConfirmMySQL() {
+
+        String expectedResult = "MySQL";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
+
+        WebElement languageMySQL = getDriver().findElement(By.xpath ("//a[@href='language-mysql-1252.html']"));
+
+        String actualResult = languageMySQL.getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 }
 
