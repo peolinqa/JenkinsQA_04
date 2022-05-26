@@ -1,13 +1,9 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Song99BottlesServachakTest extends BaseTest {
 
@@ -302,6 +298,56 @@ public class Song99BottlesServachakTest extends BaseTest {
                 .findElement(
                         By.xpath("//table[@id='category']//td[normalize-space()='Brenton Bostick']/..")
                 ).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLanguageNameStartsWithNumber() {
+        int expectedResult = 10;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']//a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='0.html']")).click();
+
+        int actualResult = getDriver()
+                .findElements(By.xpath("//table[@id='category']/tbody/tr"))
+                .size() - 1;
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSignGuestbookError() {
+        String expectedResult = "Error: Error: Invalid security code.";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+        getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='name']"))
+                .sendKeys("Servachak Maria");
+        getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='location']"))
+                .sendKeys("Ukraine");
+        getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='email']"))
+                .sendKeys("servachak.m.u@gmail.com");
+        getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='homepage']"))
+                .sendKeys("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//form[@id='addentry']/p/textarea[@name='comment']"))
+                .sendKeys("Hello");
+        getDriver().findElement(
+                        By.xpath("//form[@id='addentry']//input[@name='captcha']"))
+                .sendKeys(Integer.toString((int)(Math.random() * 899) + 100));
+        getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@type='submit']"))
+                .click();
+
+        String actualResult = getDriver().findElement(
+                By.xpath("//div[@id='main']/p[text()]")).getText();
+
         Assert.assertEquals(actualResult, expectedResult);
     }
 }
