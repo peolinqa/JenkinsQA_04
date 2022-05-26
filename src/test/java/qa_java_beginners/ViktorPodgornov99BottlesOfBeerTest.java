@@ -1,9 +1,14 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ViktorPodgornov99BottlesOfBeerTest extends BaseTest {
 
@@ -59,5 +64,32 @@ public class ViktorPodgornov99BottlesOfBeerTest extends BaseTest {
                                 By.xpath("//tr[last()]//a[text()='MySQL']"))
                         .getText(),
                 "MySQL");
+    }
+
+    /**
+     * TC_12_03 Подтвердите, что в меню BROWSE LANGUAGES существует таблица с заголовками
+     * Language, Author, Date, Comments, Rate
+     * Steps:
+     * Open base url
+     * Click on the menu item BROWSE LANGUAGES
+     * Confirm that on the BROWSE LANGUAGES page a user can see the table with the next headers:
+     * Language, Author, Date, Comments, Rate
+     */
+
+    @Test
+    public void testConfirmThatTableExistsWithCorrectNamesInBrowserLanguageMenu() {
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath(BROWSE_LANGUAGES_MENU_XPATH)).click();
+
+        List<WebElement> tableHeadersNamesElementsActual = getDriver().findElements(
+                By.xpath("//table[@id='category']//th"));
+        List<String> tableHeadersNamesActual = new ArrayList<>();
+        tableHeadersNamesElementsActual.stream().map(WebElement::getText).forEach(tableHeadersNamesActual::add);
+
+        List<String> tableHeadersNamesExpected = new ArrayList<>(Arrays.asList(
+                "Language", "Author", "Date", "Comments", "Rate"));
+
+        Assert.assertEquals(tableHeadersNamesActual.toString(), tableHeadersNamesExpected.toString());
     }
 }
