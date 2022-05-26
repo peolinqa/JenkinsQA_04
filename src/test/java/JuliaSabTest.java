@@ -5,19 +5,19 @@ import runner.BaseTest;
 
 public class JuliaSabTest extends BaseTest {
 
-    public static final String URL_MAIL_REGISTRATION = "https://account.mail.ru/signup?from=main&rf=auth.mail.ru&app_id_mytracker=58519";
-    public static final String URL_JACKSON_WIKI = "https://en.wikipedia.org/wiki/Michael_Jackson";
+    private static final String URL_MAIL_REGISTRATION = "https://account.mail.ru/signup?from=main&rf=auth.mail.ru&app_id_mytracker=58519";
+    private static final String URL_JACKSON_WIKI = "https://en.wikipedia.org/wiki/Michael_Jackson";
 
-    public static final String XPATH_BIRTH_DAY = "//div[@data-test-id='birth-date__day']//*[@class='base-0-2-37']";
-    public static final String XPATH_GET_BIRTH_DAY = "//span[@data-test-id = 'birth-date__day-value']/span";
-    public static final String XPATH_MONTH_XPATH = "//div[@data-test-id='birth-date__month']//*[@class='base-0-2-37']";
-    public static final String XPATH_GET_MONTH_XPATH = "//span[@data-test-id = 'birth-date__month-value']/span";
-    public static final String XPATH_YEAR_XPATH = "//div[@data-test-id='birth-date__year']//*[@class='base-0-2-37']";
-    public static final String XPATH_GET_YEAR_XPATH = "//span[@data-test-id = 'birth-date__year-value']/span";
-    public static final String XPATH_TITO_LINK = "//p[contains(text(), 'The eighth child')]/a[@title = 'Tito Jackson']";
-    public static final String XPATH_TITO_HEADING = "//h1[@id='firstHeading']";
+    private static final String XPATH_BIRTH_DAY = "//div[@data-test-id='birth-date__day']//*[@class='base-0-2-37']";
+    private static final String XPATH_GET_BIRTH_DAY = "//span[@data-test-id = 'birth-date__day-value']/span";
+    private static final String XPATH_MONTH_XPATH = "//div[@data-test-id='birth-date__month']//*[@class='base-0-2-37']";
+    private static final String XPATH_GET_MONTH_XPATH = "//span[@data-test-id = 'birth-date__month-value']/span";
+    private static final String XPATH_YEAR_XPATH = "//div[@data-test-id='birth-date__year']//*[@class='base-0-2-37']";
+    private static final String XPATH_GET_YEAR_XPATH = "//span[@data-test-id = 'birth-date__year-value']/span";
+    private static final String XPATH_TITO_LINK = "//p[contains(text(), 'The eighth child')]/a[@title = 'Tito Jackson']";
+    private static final String XPATH_TITO_HEADING = "//h1[@id='firstHeading']";
 
-    public static final String FORMAT_FOR_INPUT = "//span[contains(text(), '%s')]";
+    private static final String FORMAT_FOR_INPUT = "//span[contains(text(), '%s')]";
 
     @Test
     public void testConfirmInputDayMonthYear() {
