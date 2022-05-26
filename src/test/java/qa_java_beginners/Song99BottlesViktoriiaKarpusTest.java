@@ -177,11 +177,12 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
 
         WebElement textMenu = getDriver().findElement(By.xpath("//div[@id='main']/p[1]"));
 
-        Assert.assertEquals(textMenu.getText(),expectedResult);
+        Assert.assertEquals(textMenu.getText(), expectedResult);
 
     }
+
     @Test
-    public void testTheLastProgramLanguageIsMySQl(){
+    public void testTheLastProgramLanguageIsMySQl() {
         String expectedResult = "MySQL";
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
@@ -190,8 +191,30 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
 
         WebElement theLastLanguage = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mysql-1252.html']"));
 
-        Assert.assertEquals(theLastLanguage.getText(),expectedResult);
+        Assert.assertEquals(theLastLanguage.getText(), expectedResult);
 
     }
+
+    @Test
+    public void testCreatorHasOneComment() {
+
+        String expectedResult1 = "Brenton Bostick";
+        String expectedResult2 = "03/16/06";
+        String expectedResult3 = "1";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        String name = getDriver().findElement(By.xpath("//tbody/tr/td[text()='Brenton Bostick']")).getText();
+        String date = getDriver().findElement(By.xpath("//tbody/tr/td[text()='03/16/06']")).getText();
+        String comment = getDriver().findElement(By.xpath("//tbody/tr/td[text()='1']")).getText();
+
+        Assert.assertEquals(name, expectedResult1);
+        Assert.assertEquals(date, expectedResult2);
+        Assert.assertEquals(comment, expectedResult3);
+
+    }
+
 }
 
