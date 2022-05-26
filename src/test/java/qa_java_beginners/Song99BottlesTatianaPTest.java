@@ -10,6 +10,8 @@ import java.util.Arrays;
 
 public class Song99BottlesTatianaPTest extends BaseTest {
 
+    private static String url = "http://www.99-bottles-of-beer.net/";
+
     @Test
     public void testSongLyricTest() {
 
@@ -115,7 +117,7 @@ public class Song99BottlesTatianaPTest extends BaseTest {
                 "Take one down and pass it around, no more bottles of beer on the wall.No more bottles of beer on the wall, no more bottles of beer.\n" +
                 "Go to the store and buy some more, 99 bottles of beer on the wall.";
 
-        getDriver().get("http://www.99-bottles-of-beer.net/lyrics.html");
+        getDriver().get(url);
 
         getDriver()
                 .findElement(
@@ -143,18 +145,19 @@ public class Song99BottlesTatianaPTest extends BaseTest {
 
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
 
-        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().get(url);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//li/a[@href='j.html']")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p[1]")).getText(), expectedResult);
+
     }
 
     @Test
     public void TC_12_02test() {
 
         String expectedResult = "MySQL";
-        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().get(url);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
 
@@ -168,7 +171,7 @@ public class Song99BottlesTatianaPTest extends BaseTest {
 
         String expectedResult = "LanguageAuthorDateCommentsRate";
 
-        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().get(url);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//tr/th")).getText();
 
@@ -186,4 +189,33 @@ public class Song99BottlesTatianaPTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
 
     }
+
+    @Test
+    public void TC_12_04Test(){
+
+        String expectedResult = "Brenton Bostick".concat("03/16/06").concat("1");
+
+        getDriver().get(url);
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href='m.html']")).click();
+        String text = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mathematica-1090.html']")).getText();
+
+        String[] columns = new String[4];
+        for(int i = 0; i < columns.length; i++){
+            int index = i + 1;
+            columns[i] = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mathematica-1090.html']/following::td[" + index +"]")).getText();
+        }
+
+        String actualResult = "";
+        for (int i = 0; i < columns.length;i++){
+            actualResult = actualResult + columns[i];
+        }
+
+        Assert.assertEquals(actualResult,expectedResult);
+
+    }
+
+
+
+
 }
