@@ -163,6 +163,36 @@ public class Song99BottlesHelenVelTest extends BaseTest {
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+
+    @Test
+    public void testConfirmTheTableAndHeaders() {
+
+        String expectedResult = "Language";
+        String expectedResult2 = "Author";
+        String expectedResult3 = "Date";
+        String expectedResult4 = "Comments";
+        String expectedResult5 = "Rate";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+
+        WebElement TitleTable = getDriver().findElement((By.xpath("//table/tbody/tr/th[1]")));
+        WebElement TitleTable2 = getDriver().findElement((By.xpath("//table/tbody/tr/th[2]")));
+        WebElement TitleTable3 = getDriver().findElement((By.xpath("//table/tbody/tr/th[3]")));
+        WebElement TitleTable4 = getDriver().findElement((By.xpath("//table/tbody/tr/th[4]")));
+        WebElement TitleTable5 = getDriver().findElement((By.xpath("//table/tbody/tr/th[5]")));
+
+        String actualResult = TitleTable.getText();
+        String actualResult2 = TitleTable2.getText();
+        String actualResult3 = TitleTable3.getText();
+        String actualResult4 = TitleTable4.getText();
+        String actualResult5 = TitleTable5.getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult2,expectedResult2);
+        Assert.assertEquals(actualResult3,expectedResult3);
+        Assert.assertEquals(actualResult4,expectedResult4);
+        Assert.assertEquals(actualResult5,expectedResult5);
+    }
 }
 
 
