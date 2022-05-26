@@ -142,5 +142,38 @@ public class Song99BottlesSandraGorinaTest extends BaseTest {
 
         Assert.assertEquals(text, expectedResult);
     }
+
+    @Test
+    public void testSubmenuMLastLangIsMySQL() {
+        String expectedResult = "MySQL";
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        String text = getDriver().findElement(By.xpath("//td/a[@href='language-mysql-1252.html']")).getText();
+
+        Assert.assertEquals(text, expectedResult);
+    }
+
+    @Test
+    public void testTableAndHeadings() {
+        String expectedResult = "LanguageAuthorDateCommentsRate";
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+
+        String[] thText = new String[5];
+        for (int i = 0; i < thText.length; i++) {
+            int index = i + 1;
+            thText[i] = getDriver().findElement(By.xpath("//th[" + index + "]"))
+                    .getText();
+        }
+
+        String actualResult = "";
+        for (int i = 0; i < thText.length; i ++) {
+            actualResult = actualResult + thText[i];
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
 
