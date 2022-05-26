@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,6 +14,7 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
     public static final String URL = "http://www.99-bottles-of-beer.net/";
     private static final By BROWSE_LANGUAGES = By.xpath("//ul//a[@href='/abc.html']");
     private static final By SUBMENU_M = By.xpath("//a[@href='m.html']");
+    private static final By SUBMENU_J = By.cssSelector("[href='j.html']");
 
 
     @Test
@@ -236,7 +238,7 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
                 "are shown, sorted by Language.";
 
         getDriver().findElement(BROWSE_LANGUAGES).click();
-        getDriver().findElement(By.xpath("//a[@href='j.html']")).click();
+        getDriver().findElement(SUBMENU_J).click();
         WebElement textCheck = getDriver().findElement(By.xpath("//p"));
 
         Assert.assertEquals(textCheck.getText(), expectedResult);
@@ -263,7 +265,7 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
 
         getDriver().findElement(BROWSE_LANGUAGES).click();
         List<WebElement> tableHeaders = getDriver().findElements(
-                By.xpath("//th"));
+                By.tagName("th"));
 
         for (int i = 0; i < expectedResult.size(); i++) {
 
@@ -285,7 +287,8 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
         WebElement dateUpdate = getDriver().findElement(
                 By.xpath("//td[text()='03/16/06']"));
         WebElement numberComments = getDriver().findElement(
-                By.xpath("//tr[22]/td[4]"));
+                By.xpath("//a[text()='Mathematica']/parent::td/following-sibling::td[3]"));
+
 
         Assert.assertEquals(solutionLanguage.getText(), "Mathematica");
         Assert.assertEquals(authorLanguage.getText(), "Brenton Bostick");
@@ -311,5 +314,42 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
             Assert.assertEquals(numberLanguages.get(i).getText(),
                     expectedResult.get(i));
         }
+    }
+
+    @Test
+    public void TestErrorMessage() {
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+
+        getDriver().findElement(By.xpath("//input[@name='name']"))
+                .sendKeys("Igor");
+        getDriver().findElement(By.xpath("//input[@name='location']"))
+                .sendKeys("Belarus");
+        getDriver().findElement(By.xpath("//input[@name='email']"))
+                .sendKeys("test@gmail.com");
+        getDriver().findElement(By.xpath("//input[@name='homepage']"))
+                .sendKeys("http://");
+        getDriver().findElement(By.xpath("//input[@name='captcha']"))
+                .sendKeys("123");
+        getDriver().findElement(By.xpath("//textarea[@name='comment']"))
+                .sendKeys("Hello World!!!");
+        getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+        WebElement errorMessage = getDriver().findElement(
+                By.cssSelector("#main>p"));
+
+        Assert.assertEquals(errorMessage.getText(),
+                "Error: Error: Invalid security code.");
+    }
+
+    @Test
+    public void testBookmarksReddit() {
+        getDriver().get(URL);
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(SUBMENU_J).click();
+        getDriver().findElement(By.cssSelector("[href*='julie']")).click();
+        getDriver().findElement(By.cssSelector("[title='reddit']")).click();
+        String goingWebsiteReddit = getDriver().getTitle();
+
+        Assert.assertTrue(goingWebsiteReddit.contains("reddit.com"));
     }
 }
