@@ -24,11 +24,13 @@ public class LetsBeTestersTest extends BaseTest {
 
     private WebDriverWait wait;
     private Actions action;
+    private JavascriptExecutor javascriptExecutor;
 
     @BeforeMethod
     private void before() {
         wait = new WebDriverWait(getDriver(), 10);
         action = new Actions(getDriver());
+        javascriptExecutor = (JavascriptExecutor) getDriver();
     }
 
     @Deprecated
@@ -47,7 +49,7 @@ public class LetsBeTestersTest extends BaseTest {
         action.moveToElement(startCarousel).build().perform();
         List<WebElement> carousel = getDriver().findElements(By.cssSelector("div[id*='tns1-item'] h2"));
 
-        Assert.assertEquals(carousel.size(), 9);
+        Assert.assertEquals(carousel.size(), 10);
     }
 
     @Test
@@ -163,19 +165,17 @@ public class LetsBeTestersTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@id='uc-lang-ru']")).click();
         getDriver().findElement(By.xpath("//div[@class='toggle-cats']")).click();
 
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@class='cat-746']")));
-        WebElement foodMenuItem = getDriver().findElement(By.xpath("//a[@class='cat-746']"));
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(foodMenuItem).perform();
+        WebElement foodMenuItem = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@Class='cat-746']")));
+        action.moveToElement(foodMenuItem).perform();
 
         WebElement groupOfDrinksItem = getDriver().findElement(By.xpath("//span[text()='Вода, напитки, соки']"));
-        actions.moveToElement(groupOfDrinksItem).perform();
+        action.moveToElement(groupOfDrinksItem).perform();
 
         WebElement coffeeTeaCacaoItem = getDriver().findElement(By.xpath("//span[text()='Чай, кофе, какао']"));
-        actions.moveToElement(coffeeTeaCacaoItem).perform();
+        action.moveToElement(coffeeTeaCacaoItem).perform();
 
         WebElement coffeeItem = getDriver().findElement(By.xpath("//a[@href='https://flagma.si/ru/products/kofe/']/span[text()='Кофе']"));
-        actions.moveToElement(coffeeItem).click().perform();
+        action.moveToElement(coffeeItem).click().perform();
 
         WebElement titleOfCoffeeSection = getDriver().findElement(By.xpath("//h1"));
 
@@ -416,7 +416,6 @@ public class LetsBeTestersTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@id='uc-lang-en']")).click();
 
-        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) getDriver();
         WebElement aboutProjectBtn = getDriver().findElement(By.xpath("//a[text()='About project']"));
         javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", aboutProjectBtn);
         aboutProjectBtn.click();
