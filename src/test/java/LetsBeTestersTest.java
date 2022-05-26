@@ -36,6 +36,7 @@ public class LetsBeTestersTest extends BaseTest {
         getDriver().get(url);
     }
 
+    @Ignore
     @Test
     public void testCountOfSectionButtons() {
 
@@ -99,7 +100,7 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertEquals(headerText.getText(), "АККУМУЛЯТОР");
     }
-
+    @Ignore
     @Test
     public void testElementsTextBox() {
 
@@ -277,7 +278,7 @@ public class LetsBeTestersTest extends BaseTest {
             Assert.assertEquals(footerElements.get(i).getText(), expectedResult.get(i));
         }
     }
-
+    @Ignore
     @Test
     public void testDemoQAButtons() {
 
@@ -301,7 +302,7 @@ public class LetsBeTestersTest extends BaseTest {
             Assert.assertEquals(actual.get(i).getText(), expected.get(i));
         }
     }
-
+    @Ignore
     @Test
     public void testDemoQAWebTables() {
 
@@ -327,7 +328,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[text() = 'Anna']")).getText(), "Anna");
 
     }
-
+    @Ignore
     @Test
     public void testDemoQAValidImage() {
 
@@ -339,7 +340,7 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(By.xpath("(//div/img)[1]")).isDisplayed());
     }
-
+    @Ignore
     @Test
     public void testDemoQAInteractionsDroppable() throws InterruptedException {
 
@@ -360,7 +361,7 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertEquals(getDriver().findElement(By.id("droppable")).getText(), "Dropped!");
     }
-
+    @Ignore
     @Test
     public void testDemoQAAlertAccept() {
 
