@@ -118,4 +118,30 @@ public class MorigorHW12SongTest extends BaseTest {
         Assert.assertEquals(numberOfLanguages, 10);
     }
 
+    @Test
+    public void testOfErrorOnSignGuestbookPage() {
+        String expectedResult = "Error: Error: Invalid security code.";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/guestbookv2.html");
+        getDriver().findElement(
+                        By.xpath("//ul[@id='submenu']/li/a[@href='./signv2.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//form/p/input[@name='email']"))
+                .sendKeys("membership@ics.org.uk");
+
+        int randomCode = (int)(100 + (Math.random() * (999 - 100)));
+        String securityCode = String.valueOf(randomCode);
+        getDriver().findElement(By.xpath("//form/p/input[@name='captcha']"))
+                .sendKeys(securityCode);
+        getDriver().findElement(By.xpath("//form/p/textarea[@*]"))
+                .sendKeys("test message");
+        getDriver().findElement(By.xpath("//form/p/input[@type='submit']"))
+                .click();
+
+        String actualResult = getDriver()
+                .findElement(By.xpath("//div[@id='main']/p")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
 }
