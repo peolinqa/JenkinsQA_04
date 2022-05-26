@@ -161,4 +161,20 @@ public class Song99BottlesSvetlanaG1011Test extends BaseTest {
 
         Assert.assertEquals(lastLanguage.getText(), expectedResult);
     }
+
+    @Test
+    public void testBrowseLanguagesTableHeaders() {
+
+        String expectedResult = "Language Author Date Comments Rate";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']"))
+                .click();
+        String actualResult = getDriver().findElement(
+                By.xpath("//table[@id='category']/tbody/tr[1]"))
+                .getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
