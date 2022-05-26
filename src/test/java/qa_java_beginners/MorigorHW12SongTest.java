@@ -95,4 +95,27 @@ public class MorigorHW12SongTest extends BaseTest {
         Assert.assertEquals(comments.getText(), "1");
     }
 
+    @Test
+    public void testLanguagesWithFigureFirst() {
+        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='0.html']"))
+                .click();
+
+        String[] languageArr = new String[10];
+        int numberOfLanguages = 0;
+        for(int i = 0; i < languageArr.length; i++) {
+            languageArr[i]
+                    = getDriver()
+                    .findElement(
+                            By.xpath("//table[@id='category']/tbody/tr[" + (i + 2) + "]"))
+                    .getText();
+            if(languageArr[i].length() > 0) {
+                numberOfLanguages ++;
+            }
+        }
+
+        Assert.assertEquals(numberOfLanguages, 10);
+    }
+
 }
