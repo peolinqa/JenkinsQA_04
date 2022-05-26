@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class Song99BottlesIvanSBalinTest extends BaseTest {
+    public static final String URL = "http://www.99-bottles-of-beer.net/";
 
     @Test
     public void testSongLyricsText() {
@@ -112,7 +113,7 @@ public class Song99BottlesIvanSBalinTest extends BaseTest {
                 "Take one down and pass it around, no more bottles of beer on the wall.No more bottles of beer on the wall, no more bottles of beer.\n" +
                 "Go to the store and buy some more, 99 bottles of beer on the wall.";
 
-        getDriver().get("https://www.99-bottles-of-beer.net/lyrics.html");
+        getDriver().get("http://www.99-bottles-of-beer.net/");
 
         getDriver()
                 .findElement(
@@ -131,5 +132,23 @@ public class Song99BottlesIvanSBalinTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testListOfLanguageLetterJ() {
+        String expectedResult = "All languages starting with the letter J are "
+                + "shown, sorted by Language.";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+
+        String actualresult = getDriver().findElement(
+                By.xpath("//div[@id='main']/p[1]")).getText();
+
+        Assert.assertEquals(actualresult, expectedResult);
     }
 }
