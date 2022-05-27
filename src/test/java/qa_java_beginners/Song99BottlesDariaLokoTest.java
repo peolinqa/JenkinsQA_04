@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.List;
+
 public class Song99BottlesDariaLokoTest extends BaseTest {
 
     private static final String BASE_URL = "http://www.99-bottles-of-beer.net/";
@@ -21,4 +23,26 @@ public class Song99BottlesDariaLokoTest extends BaseTest {
         String actualResult = title.getText();
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testBrowseM() {
+        String expectedResult = "MySQL";
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Browse Languages']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']//a[@href='m.html']")).click();
+        String actualResult = getDriver().findElement(By.xpath("//a[@href='language-mysql-1252.html']")).getText();
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test
+    public void testTableTitles() {
+        String[] expectedResult = {"Language", "Author", "Date", "Comments", "Rate"};
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Browse Languages']")).click();
+        List<WebElement> actualResult = getDriver().findElements(By.xpath("//table[@id='category']//tr/th"));
+        for (int i = 0; i < expectedResult.length; i++) {
+            Assert.assertEquals(actualResult.get(i).getText(),expectedResult[i]);
+        }
+    }
+
 }
