@@ -38,31 +38,35 @@ public class LetsBeTestersTest extends BaseTest {
         getDriver().get(url);
     }
 
+    private WebElement element(By by) {
+        return getDriver().findElement(by);
+    }
+
     @Test
     public void testCountOfSectionButtons() {
 
         getDriver().get(URL_NOKIA);
-        getDriver().findElement(By.id(POP_UP_NOKIA)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(element(By.id(POP_UP_NOKIA)))).click();
 
-        WebElement startCarousel = getDriver().findElement(By.cssSelector("#tns1-item0"));
+        WebElement startCarousel = element(By.id("tns1-item0"));
         action.moveToElement(startCarousel).build().perform();
         List<WebElement> carousel = getDriver().findElements(By.cssSelector("div[id*='tns1-item'] h2"));
 
         Assert.assertEquals(carousel.size(), 10);
     }
-    @Ignore
+ 
     @Test
     public void testCheckTablet() {
 
         getDriver().get(URL_NOKIA);
-        getDriver().findElement(By.id(POP_UP_NOKIA)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(element(By.id(POP_UP_NOKIA)))).click();
 
-        WebElement buttonForConsumers = getDriver().findElement(By.cssSelector("li[class$='dropdown-menu'] > a[href*='nokia']"));
+        WebElement buttonForConsumers = element(By.cssSelector("li[class$='dropdown-menu'] > a[href*='nokia']"));
         action.moveToElement(buttonForConsumers).build().perform();
 
         getDriver().findElement(By.xpath("//li[@class='dropdown-submenu-item']/a[text()='Phones']")).click();
         getDriver().findElement(By.xpath("//a[@data-gtm-cta='tablets']")).click();
-        String actualResult = getDriver().findElement(By.cssSelector("li[class*='h5']")).getText();
+        String actualResult = element(By.xpath("//div/h5")).getText();
 
         Assert.assertEquals(actualResult, "Nokia T20");
     }
