@@ -20,12 +20,17 @@ public class MaksPtHomeWork12Test extends BaseTest {
         return getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']"));
     }
 
+    private WebElement searchSubmenuJLanguages() {
+
+        return getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']"));
+    }
+
     @Test
     public void testLanguagesTextJ() {
         getDriver().get(URL);
 
         searchBrowseLanguages().click();
-        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+        searchSubmenuJLanguages().click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p[text()]")).getText(),
                 "All languages starting with the letter J are shown, sorted by Language.");
@@ -39,7 +44,7 @@ public class MaksPtHomeWork12Test extends BaseTest {
         searchSubmenuMLanguages().click();
 
         Assert.assertEquals(getDriver()
-                        .findElement(By.xpath("//a[@href='language-mysql-1252.html']")).getText(),"MySQL");
+                .findElement(By.xpath("//a[@href='language-mysql-1252.html']")).getText(), "MySQL");
     }
 
     @Test
@@ -73,7 +78,7 @@ public class MaksPtHomeWork12Test extends BaseTest {
         getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='0.html']")).click();
 
         Assert.assertEquals(getDriver()
-                .findElements(By.xpath("//table[@id='category']/tbody/tr[@onmouseover]")).size(),10);
+                .findElements(By.xpath("//table[@id='category']/tbody/tr[@onmouseover]")).size(), 10);
     }
 
     @Test
@@ -91,9 +96,26 @@ public class MaksPtHomeWork12Test extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='submit']")).click();
 
         Assert.assertEquals(getDriver()
-                        .findElement(By.xpath("//div[@id='main']/p")).getText(),"Error: Error: Invalid security code.");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p/b")).getTagName(),"b");
+                .findElement(By.xpath("//div[@id='main']/p")).getText(), "Error: Error: Invalid security code.");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p/b")).getTagName(), "b");
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p")).getAttribute("style"),
                 "border: 1px solid red; background-color: rgb(255, 224, 224); padding: 5px; margin: 5px 10px;");
+    }
+
+    @Test
+    public void testLanguagesReddit() {
+        final String expectedResult = "https://www.reddit.com/login/?dest=https%3A%2F%2F" +
+                "www.reddit.com%2Fsubmit%3Furl%3Dhttps%253A%252F%252Fwww.99-bottles-of-beer.net%252Flanguage-java-4" +
+                ".html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520Java";
+
+        getDriver().get(URL);
+
+        searchBrowseLanguages().click();
+        searchSubmenuJLanguages().click();
+        getDriver().findElement(By.xpath("//td/a[@href='language-java-3.html']")).click();
+        getDriver().findElement(By.xpath("//td/a[@href='language-java-4.html']")).click();
+        getDriver().findElement(By.xpath("//div[@id='voting']/p/a[@title='reddit']")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(),expectedResult);
     }
 }
