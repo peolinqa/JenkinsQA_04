@@ -241,4 +241,37 @@ public class MorigorHW12SongTest extends BaseTest {
         Assert.assertEquals(shakespearInTop6, expectedResult);
         Assert.assertEquals(shakespearInTop25, expectedResult);
     }
-   }
+
+    @Test
+    public void testIfSixVersionsOfJavaExist() {
+        int numOfJavaVersions = 6;
+        int actualResult = 0;
+
+        getDriver().get("https://www.99-bottles-of-beer.net/j.html");
+
+        getDriver().findElement(
+                By.xpath("//tbody/tr/td/a[@href='language-java-3.html']"))
+                .click();
+        String versionName
+                = getDriver()
+                .findElement(
+                        By.xpath("//div[@id='main']/p[@style='padding-top: 0; padding-bottom: 0;']"))
+                .getText();
+        actualResult++;
+
+        String[] versionArr = new String[5];
+        for(int i = 0; i < versionArr.length; i++) {
+            versionArr[i]
+                    = getDriver()
+                    .findElement(
+                            By.xpath("//table[@id='category']/tbody/tr[" + (i + 2) + "]"))
+                    .getText();
+            if(!versionArr[i].contains(versionName)) {
+                actualResult++;
+            }
+        }
+
+        Assert.assertEquals(actualResult, numOfJavaVersions);
+    }
+
+}
