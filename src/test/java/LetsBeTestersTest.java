@@ -38,7 +38,6 @@ public class LetsBeTestersTest extends BaseTest {
         getDriver().get(url);
     }
 
-    @Ignore
     @Test
     public void testCountOfSectionButtons() {
 

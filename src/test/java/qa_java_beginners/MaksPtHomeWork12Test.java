@@ -44,7 +44,7 @@ public class MaksPtHomeWork12Test extends BaseTest {
         searchSubmenuMLanguages().click();
 
         Assert.assertEquals(getDriver()
-                .findElement(By.xpath("//a[@href='language-mysql-1252.html']")).getText(), "MySQL");
+                .findElement(By.xpath("//table[@id='category']/tbody/tr[last()]/td/a")).getText(), "MySQL");
     }
 
     @Test
@@ -116,6 +116,64 @@ public class MaksPtHomeWork12Test extends BaseTest {
         getDriver().findElement(By.xpath("//td/a[@href='language-java-4.html']")).click();
         getDriver().findElement(By.xpath("//div[@id='voting']/p/a[@title='reddit']")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedResult);
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedResult);
+    }
+
+    @Test
+    public void testTopListsShakespeare() {
+        getDriver().get(URL);
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        String[] actualTopLists = new String[20];
+        boolean actualResultTopLists = false;
+        for (int i = 0; i < actualTopLists.length; i++) {
+            int index = i + 2;
+            actualTopLists[i] = getDriver()
+                    .findElement(By.xpath("//table[@id='category']/tbody/tr[" + index + "]")).getText();
+            if (actualTopLists[i].contains("Shakespeare")) {
+                actualResultTopLists = true;
+            }
+        }
+
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_esoteric.html']")).click();
+        String[] actualTopEsoteric = new String[10];
+        boolean actualResultTopEsoteric = false;
+        for (int i = 0; i < actualTopEsoteric.length; i++) {
+            int index = i + 2;
+            actualTopEsoteric[i] = getDriver()
+                    .findElement(By.xpath("//table[@id='category']/tbody/tr[" + index + "]")).getText();
+            if (actualTopEsoteric[i].contains("Shakespeare")) {
+                actualResultTopEsoteric = true;
+            }
+        }
+
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./tophits.html']")).click();
+        String[] actualTopHits = new String[6];
+        boolean actualResultTopHits = false;
+        for (int i = 0; i < actualTopHits.length; i++) {
+            int index = i + 2;
+            actualTopHits[i] = getDriver()
+                    .findElement(By.xpath("//table[@id='category']/tbody/tr[" + index + "]")).getText();
+            if (actualTopHits[i].contains("Shakespeare")) {
+                actualResultTopHits = true;
+            }
+        }
+
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_real.html']")).click();
+        String[] actualTopReal = new String[25];
+        boolean actualResultTopReal = false;
+        for (int i = 0; i < actualTopReal.length; i++) {
+            int index = i + 2;
+            actualTopReal[i] = getDriver()
+                    .findElement(By.xpath("//table[@id='category']/tbody/tr[" + index + "]")).getText();
+            if (!actualTopReal[i].contains("Shakespeare")) {
+                actualResultTopReal = true;
+            }
+        }
+
+        Assert.assertTrue(actualResultTopLists);
+        Assert.assertTrue(actualResultTopEsoteric);
+        Assert.assertTrue(actualResultTopHits);
+        Assert.assertTrue(actualResultTopReal);
     }
 }
