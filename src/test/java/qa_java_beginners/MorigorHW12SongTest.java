@@ -123,6 +123,7 @@ public class MorigorHW12SongTest extends BaseTest {
         String expectedResult = "Error: Error: Invalid security code.";
 
         getDriver().get("https://www.99-bottles-of-beer.net/guestbookv2.html");
+
         getDriver().findElement(
                         By.xpath("//ul[@id='submenu']/li/a[@href='./signv2.html']"))
                 .click();
@@ -142,6 +143,33 @@ public class MorigorHW12SongTest extends BaseTest {
                 .findElement(By.xpath("//div[@id='main']/p")).getText();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testIfIconRedditWorks() {
+        String expectedResult
+                = "https://www.reddit.com/login/?dest=https%3A%2F%2F" +
+                "www.reddit.com%2Fsubmit%3Furl%3Dhttps%253A%252F%252F" +
+                "www.99-bottles-of-beer.net%252Flanguage-java-4" +
+                ".html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520Java";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+        getDriver().findElement(
+                By.xpath("//tbody/tr/td/a[@href='language-java-3.html']"))
+                .click();
+        getDriver()
+                .findElement(
+                        By.xpath("//table[@id='category']/tbody/tr/td" +
+                                "/a[@href='language-java-4.html']")).click();
+        getDriver().findElement(By.xpath("//a[@title='reddit']")).click();
+
+        String actualResult = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
     }
 
 }
