@@ -169,7 +169,76 @@ public class MorigorHW12SongTest extends BaseTest {
         String actualResult = getDriver().getCurrentUrl();
 
         Assert.assertEquals(actualResult, expectedResult);
-
     }
 
-}
+    @Test
+    public void testConfirmIfShakespeareInTop() {
+        String language = "Shakespeare";
+        boolean expectedResult = true;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']"))
+                .click();
+        String[] languageArr = new String[20];
+        boolean shakespearInTop20 = false;
+        for(int i = 0; i < languageArr.length; i++) {
+            languageArr[i] = getDriver()
+                    .findElement(By.xpath("//tbody/tr[" + (i + 2) + "]"))
+                    .getText();
+            if(languageArr[i].contains(language)) {
+                shakespearInTop20 = true;
+            }
+        }
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_esoteric.html']"))
+                .click();
+        String[] languageArr1 = new String[10];
+        boolean shakespearInTop10 = false;
+        for(int i = 0; i < languageArr1.length; i++) {
+            languageArr1[i] = getDriver()
+                    .findElement(By.xpath("//tbody/tr[" + (i + 2) + "]"))
+                    .getText();
+            if(languageArr1[i].contains(language)) {
+                shakespearInTop10 = true;
+            }
+        }
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='./tophits.html']"))
+                .click();
+        String[] languageArr2 = new String[6];
+        boolean shakespearInTop6 = false;
+        for(int i = 0; i < languageArr2.length; i++) {
+            languageArr2[i] = getDriver()
+                    .findElement(By.xpath("//tbody/tr[" + (i + 2) + "]"))
+                    .getText();
+            if(languageArr2[i].contains(language)) {
+                shakespearInTop6 = true;
+            }
+        }
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_real.html']"))
+                .click();
+        String[] languageArr3 = new String[25];
+        boolean shakespearInTop25 = false;
+        for(int i = 0; i < languageArr3.length; i++) {
+            languageArr3[i] = getDriver()
+                    .findElement(By.xpath("//tbody/tr[" + (i + 2) + "]"))
+                    .getText();
+            if(!languageArr3[i].contains(language)) {
+                shakespearInTop25 = true;
+            }else {
+                shakespearInTop25 = false;
+            }
+        }
+
+        Assert.assertEquals(shakespearInTop20, expectedResult);
+        Assert.assertEquals(shakespearInTop10, expectedResult);
+        Assert.assertEquals(shakespearInTop6, expectedResult);
+        Assert.assertEquals(shakespearInTop25, expectedResult);
+    }
+   }
