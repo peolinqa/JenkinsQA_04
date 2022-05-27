@@ -216,5 +216,22 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
 
     }
 
+    @Test
+    public void testCountLanguage() {
+
+        int expectedResult = 10;
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='0.html']")).click();
+
+        String[] arrayLanguage = new String[10];
+        for (int i = 0; i < arrayLanguage.length; i++) {
+            arrayLanguage[i] = String.valueOf((By.xpath("//tbody/tr[@onmouseover][" + (i + 1) + ")]")));
+        }
+
+        Assert.assertEquals(arrayLanguage.length, expectedResult);
+
+    }
+
 }
 
