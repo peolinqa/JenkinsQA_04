@@ -191,7 +191,7 @@ public class Song99BottlesTatianaPTest extends BaseTest {
     }
 
     @Test
-    public void TC_12_04Test(){
+    public void TC_12_04Test() {
 
         String expectedResult = "Brenton Bostick".concat("03/16/06").concat("1");
 
@@ -201,21 +201,60 @@ public class Song99BottlesTatianaPTest extends BaseTest {
         String text = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mathematica-1090.html']")).getText();
 
         String[] columns = new String[4];
-        for(int i = 0; i < columns.length; i++){
+        for (int i = 0; i < columns.length; i++) {
             int index = i + 1;
-            columns[i] = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mathematica-1090.html']/following::td[" + index +"]")).getText();
+            columns[i] = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mathematica-1090.html']/following::td[" + index + "]")).getText();
         }
 
         String actualResult = "";
-        for (int i = 0; i < columns.length;i++){
+        for (int i = 0; i < columns.length; i++) {
             actualResult = actualResult + columns[i];
         }
 
-        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
 
     }
 
+    @Test
+    public void TC_12_05Test() {
+        int expectedResult = 10;
+        getDriver().get(url);
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath(("//a[@href='0.html']"))).click();
 
+        String[] numbersLg = new String[10];
+        int count = 0;
+        for (int i = 0; i < numbersLg.length; i++) {
+            if (getDriver().findElement(By.xpath("//td/a")).getText().charAt(0) >= '0' ||
+                    getDriver().findElement(By.xpath("//td/a")).getText().charAt(0) <= '9')
+                count++;
+        }
 
+        Assert.assertEquals(count, expectedResult);
+    }
+
+    @Test
+    public void TC_12_06() {
+        /**TC_12_06 Подтвердите, что если на странице Sign Guestbook http://www.99-bottles-of-beer.net/signv2.html
+         вы заполните все поля формы, но введете случайно сгенерированное трехзначное число в поле  Security Code:
+         , то вы получите сообщение об ошибке  Error: Error: Invalid security code.*/
+
+        String expectedResult = "Error: Error: Invalid security code.";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Tatiana");
+        getDriver().findElement(By.xpath("//input[@name='location']")).sendKeys("Canada>,SK");
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("tatianapak0210@gmail.com");
+        getDriver().findElement(By.xpath("//input[@name='homepage']")).submit();
+
+        getDriver().findElement(By.xpath("//input[@name='captcha']"))
+                .sendKeys(Integer.toString((int)(Math.random() * 1000 + 100)));
+        getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("great work");
+
+        getDriver().findElement(By.xpath("//input[@name='submit']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p")).getText(),expectedResult);
+
+    }
 
 }
