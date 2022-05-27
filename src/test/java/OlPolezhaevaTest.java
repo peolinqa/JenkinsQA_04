@@ -1,3 +1,4 @@
+import org.testng.annotations.Ignore;
 import runner.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -6,6 +7,7 @@ import org.testng.annotations.Test;
 
 public class OlPolezhaevaTest extends BaseTest {
 
+    @Ignore
     @Test
     public void testFCKrasnodar(){
 

@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -16,7 +17,7 @@ public class AntonTest extends BaseTest {
         getDriver().get(URL);
         Assert.assertEquals(getDriver().getTitle(), "99 Bottles of Beer | Start");
     }
-
+@Ignore
     @Test
     public void testCheckWeatherInCity() {
         final String JAVA = "Java";

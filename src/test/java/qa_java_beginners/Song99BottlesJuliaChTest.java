@@ -151,5 +151,21 @@ public class Song99BottlesJuliaChTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//div[@id='wrap']/div[@id='main']/p")).getText(), expectedResult);
     }
+    @Test
+    public void testLastLanguageMySQL() {
+
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']" +
+                "/ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='navigation']/ul[@id='submenu']/li/a[@href='m.html']")).click();
+        WebElement text = getDriver().findElement(
+                By.xpath("//div[@id='main']/table//a[@href='language-mysql-1252.html']"));
+
+        Assert.assertEquals(text.getText(), expectedResult);
+    }
 }
 
