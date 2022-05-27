@@ -208,11 +208,22 @@ public class Song99BottlesSnapkovaTest extends BaseTest {
         Assert.assertEquals(actualResultData, expectedResultData);
         Assert.assertEquals(actualResultComment, expectedResultComment);
 
+    }
+    @Test
+    public void testBrowseLanguageSubMenu09CounterLanguagesTen(){
+        int  expectedResult= 10;
 
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//div[@id='navigation']/ul[@id='menu']/li/a[@href='/abc.html']"))
+                .click();
+        getDriver().findElement(
+                By.xpath("//div[@id='navigation']/ul[@id='submenu']/li/a[@href='0.html']"))
+                .click();
+        int actualResult = getDriver().findElements(
+                        By.xpath("//table[@id='category']/tbody/tr/td[1]")).size();
+
+        Assert.assertEquals(actualResult, expectedResult);
 
     }
-
-
-
-
 }
