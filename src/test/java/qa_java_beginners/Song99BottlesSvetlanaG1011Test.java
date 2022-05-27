@@ -177,4 +177,21 @@ public class Song99BottlesSvetlanaG1011Test extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void test10LanguagesStartsWithNumbers() {
+
+        int expectedResult = 10;
+
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//li/a[@href='/abc.html']"))
+                .click();
+        getDriver().findElement(
+                By.xpath("//li/a[@href='0.html']"))
+                .click();
+        int actualResult = getDriver().findElements(By.xpath("//tbody/tr/td[1]")).size();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
