@@ -51,7 +51,7 @@ public class LetsBeTestersTest extends BaseTest {
 
         Assert.assertEquals(carousel.size(), 10);
     }
-
+    @Ignore
     @Test
     public void testCheckTablet() {
 

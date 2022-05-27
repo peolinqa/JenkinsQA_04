@@ -1,13 +1,14 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class KarinaKTest extends BaseTest {
 
     private static String URL = ("http://automationpractice.com/index.php");
-
+    @Ignore
     @Test
     public void SearchDressTest() {
 
@@ -24,7 +25,7 @@ public class KarinaKTest extends BaseTest {
         String expectedResult2 = "7 results have been found.";
         Assert.assertEquals(actualResult2, expectedResult2);
     }
-
+    @Ignore
     @Test
     public void searchTABWomenOnMainPageTest() {
 
