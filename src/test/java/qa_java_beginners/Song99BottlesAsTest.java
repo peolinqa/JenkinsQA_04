@@ -1,11 +1,16 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class Song99BottlesAsTest extends BaseTest {
+
+    private static final String URL = "http://www.99-bottles-of-beer.net/lyrics.html";
+
     @Test
     public void testSongLyricTest() {
 
@@ -111,7 +116,7 @@ public class Song99BottlesAsTest extends BaseTest {
                 "Take one down and pass it around, no more bottles of beer on the wall.No more bottles of beer on the wall, no more bottles of beer.\n" +
                 "Go to the store and buy some more, 99 bottles of beer on the wall.";
 
-        getDriver().get("http://www.99-bottles-of-beer.net/lyrics.html");
+        getDriver().get(URL);
 
         getDriver()
                 .findElement(
@@ -132,5 +137,40 @@ public class Song99BottlesAsTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testSearchJ() {
+
+        String expectedResalt = "All languages starting with the letter J are shown, sorted by Language.";
+
+        getDriver().get(URL);
+
+        getDriver().findElement(
+                By.xpath("//div/ul/li/a[@href='/abc.html']")).click();
+
+        getDriver().findElement(
+                By.xpath("//div/ul/li/a[@href='j.html']")).click();
+
+        String[] pText = new String[2];
+
+        for (int i = 0; i < pText.length; i++) {
+
+            int index = i + 1;
+
+            pText[i] = getDriver().findElement(By.xpath(
+                    "//div[@id='main']/p[" + index + "]")).getText();
+        }
+
+        String actualyResalt = "";
+
+
+        for (int i = 0; i < pText.length; i++) {
+
+            actualyResalt += pText[i];
+        }
+
+        Assert.assertEquals(actualyResalt, expectedResalt);
+
     }
 }
