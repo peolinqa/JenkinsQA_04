@@ -42,6 +42,7 @@ public class Song99BottlesDariaLokoTest extends BaseTest {
         getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Browse Languages']")).click();
         List<WebElement> actualResult = getDriver().findElements(By.xpath("//table[@id='category']//tr/th"));
         for (int i = 0; i < expectedResult.length; i++) {
+
             Assert.assertEquals(actualResult.get(i).getText(),expectedResult[i]);
         }
     }
