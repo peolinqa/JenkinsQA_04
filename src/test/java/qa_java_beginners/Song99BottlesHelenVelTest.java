@@ -193,6 +193,36 @@ public class Song99BottlesHelenVelTest extends BaseTest {
         Assert.assertEquals(actualResult4,expectedResult4);
         Assert.assertEquals(actualResult5,expectedResult5);
     }
+
+    @Test
+    public void testCreatorInTheLanguageOfMathematics() {
+
+        String expectedResult = "Brenton Bostick";
+        String expectedResult2 = "03/16/06";
+        String expectedResult3 = "1";
+
+        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+
+        WebElement SubmenuM = getDriver().findElement((By.xpath("//li/a[@href='m.html']")));
+        SubmenuM.click();
+        WebElement LanguageMathematica = getDriver().findElement(
+                (By.xpath("//td/a[@href='language-mathematica-1090.html']")));
+        LanguageMathematica.click();
+        WebElement AuthorLanguage = getDriver().findElement(
+                (By.xpath("//div[@id='main']/table/tbody/tr[2]/td[2]")));
+        WebElement Data = getDriver().findElement(
+                (By.xpath("//div[@id='main']/table/tbody/tr/td[2]")));
+        WebElement Comments = getDriver().findElement(
+                (By.xpath("//div[@id='main']/table/tbody/tr[4]/td[2]")));
+
+        String actualResult = AuthorLanguage.getText();
+        String actualResult2 = Data.getText();
+        String actualResult3 = Comments.getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
+        Assert.assertEquals(actualResult2,expectedResult2);
+        Assert.assertEquals(actualResult3,expectedResult3);
+    }
 }
 
 
