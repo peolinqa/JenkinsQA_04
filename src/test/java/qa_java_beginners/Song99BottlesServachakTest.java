@@ -1,6 +1,8 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -324,29 +326,133 @@ public class Song99BottlesServachakTest extends BaseTest {
 
         getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
         getDriver().findElement(
-                By.xpath("//form[@id='addentry']//input[@name='name']"))
+                        By.xpath("//form[@id='addentry']//input[@name='name']"))
                 .sendKeys("Servachak Maria");
         getDriver().findElement(
-                By.xpath("//form[@id='addentry']//input[@name='location']"))
+                        By.xpath("//form[@id='addentry']//input[@name='location']"))
                 .sendKeys("Ukraine");
         getDriver().findElement(
-                By.xpath("//form[@id='addentry']//input[@name='email']"))
+                        By.xpath("//form[@id='addentry']//input[@name='email']"))
                 .sendKeys("servachak.m.u@gmail.com");
         getDriver().findElement(
-                By.xpath("//form[@id='addentry']//input[@name='homepage']"))
+                        By.xpath("//form[@id='addentry']//input[@name='homepage']"))
                 .sendKeys("http://www.99-bottles-of-beer.net/");
         getDriver().findElement(
-                By.xpath("//form[@id='addentry']/p/textarea[@name='comment']"))
+                        By.xpath("//form[@id='addentry']/p/textarea[@name='comment']"))
                 .sendKeys("Hello");
         getDriver().findElement(
                         By.xpath("//form[@id='addentry']//input[@name='captcha']"))
-                .sendKeys(Integer.toString((int)(Math.random() * 899) + 100));
+                .sendKeys(Integer.toString((int) (Math.random() * 900) + 100));
         getDriver().findElement(
-                By.xpath("//form[@id='addentry']//input[@type='submit']"))
+                        By.xpath("//form[@id='addentry']//input[@type='submit']"))
                 .click();
 
         String actualResult = getDriver().findElement(
                 By.xpath("//div[@id='main']/p[text()]")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testBookmarkRedditInBrowseLanguageCPlusPlus7() {
+        String expectedResult = "reddit.com: Log in";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']//a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']//a[@href='c.html']")).click();
+        getDriver().findElement(
+                By.xpath("//table[@id='category']//a[@href='language-c++-111.html']")
+        ).click();
+        getDriver().findElement(
+                By.xpath("//table[@id='category']//a[@href='language-c++-109.html']")
+        ).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='voting']//a[@title='reddit']")).click();
+
+        String actualResult = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testIsShakespeareInTop20Rated() {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                        By.xpath("//div[@id='navigation']//a[@href='/toplist.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//a[@href='./toplist.html']")).click();
+
+        int actualResult = Integer.parseInt(
+                getDriver().findElement(
+                        By.xpath("//table[@id='category']//a[text()='Shakespeare']/../..")
+                ).getText().substring(0, 2));
+
+        Assert.assertTrue(actualResult < 21);
+    }
+
+    @Test
+    public void testIsShakespeareInTop10EsotericRated() {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                        By.xpath("//div[@id='navigation']//a[@href='/toplist.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//a[@href='./toplist_esoteric.html']"))
+                .click();
+
+        int actualResult = Integer.parseInt(
+                getDriver().findElement(
+                        By.xpath("//table[@id='category']//a[text()='Shakespeare']/../..")
+                ).getText().substring(0, 2).replace(".", ""));
+
+        Assert.assertTrue(actualResult < 11);
+    }
+
+    @Test
+    public void testIsShakespeareInTop6Hits() {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                        By.xpath("//div[@id='navigation']//a[@href='/toplist.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//a[@href='./tophits.html']")).click();
+
+        int actualResult = Integer.parseInt(
+                getDriver().findElement(
+                        By.xpath("//table[@id='category']//a[text()='Shakespeare']/../..")
+                ).getText().substring(0, 2).replace(".", ""));
+
+        Assert.assertTrue(actualResult < 7);
+    }
+
+    @Test
+    public void testIsShakespeareInTopRealLanguage() {
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(
+                        By.xpath("//div[@id='navigation']//a[@href='/toplist.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//a[@href='./toplist_real.html']"))
+                .click();
+
+        Assert.assertFalse(getDriver().findElement(
+                By.xpath("//table[@id='category']")).getText().contains("Shakespeare"));
+    }
+
+    @Test
+    public void testNumberOfJavaVersions(){
+        int expectedResult = 6;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//ul[@id='menu']//a[@href='/abc.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']//a[@href='j.html']"))
+                .click();
+        getDriver().findElement(By.xpath("//table[@id='category']//a[text()='Java']"))
+                .click();
+        int javaVersion = getDriver().findElements(
+                By.xpath("//table[@id='category']//tr[@onmouseover]")).size();
+
+        int actualResult = javaVersion + 1;
 
         Assert.assertEquals(actualResult, expectedResult);
     }
