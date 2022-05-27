@@ -63,5 +63,15 @@ public class Song99BottlesDariaLokoTest extends BaseTest {
 
         Assert.assertEquals(actualResult,expectedResult);
     }
+    @Test
+    public void testDigitsLanguages() {
+        int expectedResult = 10;
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']//a[text()='Browse Languages']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']//a[@href='0.html']")).click();
+        List<WebElement> actualResult = getDriver().findElements(By.xpath("//table[@id='category']//tr/td/a"));
+
+        Assert.assertEquals(actualResult.size(),expectedResult);
+    }
 
 }
