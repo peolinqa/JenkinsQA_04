@@ -65,8 +65,30 @@ public class KsuTitova99BottlesOfBeerHW12Tests5and6 extends BaseTest {
     }
 
 
+    /**
+     * TC_12_07
+     * Выберите любой язык программирования (из меню BROWSE LANGUAGES) и любую версию решения
+     * (из раздела Alternative Versions, если такой раздел существует  для выбранного языка)
+     * Подтвердите, что пользователь может сделать закладку на это решение на сайте Reddit
+     * (нажав на иконку сайта Reddit, пользователь перейдет на Логин страницу сайта Reddit)
+     */
 
+    @Test
+    public void testBookmarkTheVersionInSiteReddit() {
+        String expectedResult = "Log in";
 
+        getDriver().get("http://www.99-bottles-of-beer.net/");
 
+        getDriver().findElement(By.xpath("//ul/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul/li/a[@ href='j.html']")).click();
+        getDriver().findElement(By.xpath("//table/tbody/tr/td/a[@href='language-java-3.html']")).click();
+        getDriver().findElement(By.xpath("//table/tbody/tr/td/a[@href='language-java-4.html']")).click();
+        getDriver().findElement(By.xpath("//div[@id='voting']/p/a[@title='reddit']")).click();
+
+        String actualResult =
+                getDriver().findElement(By.xpath("//div[@class='Step__content']/h1")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 
 }
