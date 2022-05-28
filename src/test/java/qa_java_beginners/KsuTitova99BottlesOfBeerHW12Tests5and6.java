@@ -1,6 +1,7 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -87,6 +88,92 @@ public class KsuTitova99BottlesOfBeerHW12Tests5and6 extends BaseTest {
 
         String actualResult =
                 getDriver().findElement(By.xpath("//div[@class='Step__content']/h1")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+
+    /**
+     * TC_12_08 Подтвердите, что решение на языке Shakespeare входит в топ 20 всех решений,
+     * в топ 10 решений на Esoteric Languages и в топ 6 решений-хитов. Но решение на языке Shakespeare
+     * не входит в список топовых решений на реальных языках программирования.
+     * (Можно написать одним тестом, но так, чтобы все Asserts были в конце теста. Или можно написать
+     * отдельные тесты на каждый requirenment.)
+     */
+
+    @Test
+    public void testTop20Shakespeare() {
+        Boolean expectedResult = false;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul/li/a[@href='/toplist.html']")).click();
+
+        String[] result = new String[22];
+        for (int i = 1; i < result.length; i++) {
+            if (getDriver().findElement(By.xpath("//tr[" + i + "]")).getText().contains("Shakespeare")) {
+                expectedResult = true;
+            }
+        }
+
+        Assert.assertTrue(expectedResult);
+    }
+
+    @Test
+    public void testTop10Shakespeare() {
+        Boolean expectedResult = false;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul/li/a[@href='./toplist_esoteric.html']")).click();
+
+        String[] result = new String[12];
+        for (int i = 1; i < result.length; i++) {
+            if (getDriver().findElement(By.xpath("//tr[" + i + "]")).getText().contains("Shakespeare")) {
+                expectedResult = true;
+            }
+        }
+
+        Assert.assertTrue(expectedResult);
+    }
+
+    @Test
+    public void testTop6Shakespeare() {
+        Boolean expectedResult = false;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul/li/a[@href='./tophits.html']")).click();
+
+        String[] result = new String[8];
+        for (int i = 1; i < result.length; i++) {
+            if (getDriver().findElement(By.xpath("//tr[" + i + "]")).getText().contains("Shakespeare")) {
+                expectedResult = true;
+            }
+        }
+
+        Assert.assertTrue(expectedResult);
+    }
+
+
+    /**
+     * TC_12_09 Подтвердите, что существует 6 версий решений на языке программирования Java.
+     */
+
+    @Test
+    public void VersionsOfJava() {
+        int expectedResult = 6;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href ='j.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-3.html']")).click();
+
+        int actualResult =
+                getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr/td/a")).size() + 1;
 
         Assert.assertEquals(actualResult, expectedResult);
     }
