@@ -6,16 +6,20 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Song99BottlesPatriotby07Test extends BaseTest {
     public static final String URL = "http://www.99-bottles-of-beer.net/";
-    private static final By BROWSE_LANGUAGES = By.xpath("//ul//a[@href='/abc.html']");
+    private static final By BROWSE_LANGUAGES = By.xpath(
+            "//ul//a[@href='/abc.html']");
     private static final By SUBMENU_M = By.xpath("//a[@href='m.html']");
     private static final By SUBMENU_J = By.cssSelector("[href='j.html']");
-
+    private static final String SHAKESPEARE = "Shakespeare";
+    private static final By LANGUAGE_JAVA = By.cssSelector(
+            "[href='language-java-3.html']");
+    private static final By OBJECT_ORIENTED_VERSION = By.xpath(
+            "//p[text()='(object-oriented version)']");
 
     @Test
     public void testSongLyricsText() {
@@ -278,22 +282,26 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
     public void testRowsInTable() {
         getDriver().get(URL);
 
+        List<String> expectedResult = Arrays.asList(
+                "Mathematica", "Brenton Bostick", "03/16/06", "1");
+
         getDriver().findElement(BROWSE_LANGUAGES).click();
         getDriver().findElement(SUBMENU_M).click();
-        WebElement solutionLanguage = getDriver().findElement(
-                By.xpath("//a[@href='language-mathematica-1090.html']"));
-        WebElement authorLanguage = getDriver().findElement(
-                By.xpath("//td[text()='Brenton Bostick']"));
-        WebElement dateUpdate = getDriver().findElement(
-                By.xpath("//td[text()='03/16/06']"));
-        WebElement numberComments = getDriver().findElement(
-                By.xpath("//a[text()='Mathematica']/parent::td/following-sibling::td[3]"));
 
+        String solutionLanguage = getDriver().findElement(By.xpath(
+                "//a[@href='language-mathematica-1090.html']")).getText();
+        String authorLanguage = getDriver().findElement(
+                By.xpath("//td[text()='Brenton Bostick']")).getText();
+        String dateUpdate = getDriver().findElement(
+                By.xpath("//td[text()='03/16/06']")).getText();
+        String numberComments = getDriver().findElement(
+                By.xpath("//a[text()='Mathematica']/parent::td" +
+                        "/following-sibling::td[3]")).getText();
 
-        Assert.assertEquals(solutionLanguage.getText(), "Mathematica");
-        Assert.assertEquals(authorLanguage.getText(), "Brenton Bostick");
-        Assert.assertEquals(dateUpdate.getText(), "03/16/06");
-        Assert.assertEquals(numberComments.getText(), "1");
+        List<String> actualResult = Arrays.asList(solutionLanguage,
+                authorLanguage, dateUpdate, numberComments);
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -351,5 +359,176 @@ public class Song99BottlesPatriotby07Test extends BaseTest {
         String goingWebsiteReddit = getDriver().getTitle();
 
         Assert.assertTrue(goingWebsiteReddit.contains("reddit.com"));
+    }
+
+    @Test
+    public void testPositionRankingLanguagesShakespeare() {
+        getDriver().get(URL);
+
+        getDriver().findElement(
+                By.cssSelector("a[href='/toplist.html']")).click();
+
+        String[] topRated = new String[20];
+        boolean positionInTop20 = false;
+
+        for (int i = 0; i < topRated.length; i++) {
+            topRated[i] = getDriver().findElement(
+                    By.xpath("//tr[" + (i + 2) + "]")).getText();
+            if (topRated[i].contains(SHAKESPEARE)) {
+                positionInTop20 = true;
+                break;
+            }
+        }
+
+        getDriver().findElement(
+                By.cssSelector("a[href='./toplist_esoteric.html']")).click();
+
+        boolean positionInTop10 = false;
+
+        for (int i = 0; i < 10 ; i++) {
+            if (getDriver().findElement(By.xpath("//tr[" + (i + 2) + "]"))
+                    .getText().contains(SHAKESPEARE)) {
+                positionInTop10 = true;
+            }
+        }
+
+        getDriver().findElement(
+                By.cssSelector("a[href='./tophits.html']")).click();
+
+        boolean positionInTop6 = false;
+
+        for (int i = 0; i < 6; i++) {
+            if (getDriver().findElement(By.xpath("//tr[" + (i + 2) + "]"))
+                    .getText().contains(SHAKESPEARE)) {
+                positionInTop6 = true;
+            }
+        }
+
+
+        getDriver().findElement(
+                By.cssSelector("a[href='./toplist_real.html']")).click();
+
+        String[] topRatedReal = new String[25];
+        boolean positionInTop25 = false;
+
+        for (int i = 0; i < topRatedReal.length; i++) {
+            topRatedReal[i] = getDriver().findElement(
+                    By.xpath("//tr[" + (i + 2) + "]")).getText();
+            if (!topRatedReal[i].contains(SHAKESPEARE)) {
+                positionInTop25 = true;
+            }
+        }
+
+        Assert.assertTrue(positionInTop20);
+        Assert.assertTrue(positionInTop10);
+        Assert.assertTrue(positionInTop6);
+        Assert.assertTrue(positionInTop25);
+    }
+
+    @Test
+    public void testNumberSolutionsVersionsJava() {
+        getDriver().get(URL);
+
+        List<String> alternativeVersionsFromTable = Arrays.asList(
+                "standard version",
+                "exception oriented",
+                "bytecode-version with loader",
+                "Java 5.0 object-oriented version",
+                "Singing with Java Speech API");
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(SUBMENU_J).click();
+        getDriver().findElement(LANGUAGE_JAVA).click();
+        WebElement versionLanguageJava = getDriver().findElement(
+                OBJECT_ORIENTED_VERSION);
+
+        List<WebElement> versionsLanguagesFromTable = getDriver().findElements(
+                By.xpath("//table[@id='category']//td[1]"));
+
+        for (int i = 0; i < alternativeVersionsFromTable.size(); i++) {
+
+            Assert.assertEquals(versionsLanguagesFromTable.get(i).getText(),
+                    alternativeVersionsFromTable.get(i));
+        }
+
+        Assert.assertEquals(versionLanguageJava.getText(),
+                "(object-oriented version)");
+    }
+
+    @Test(description = "Version № 2")
+    public void testNumberSolutionsVersionsJava2() {
+        getDriver().get(URL);
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(SUBMENU_J).click();
+        getDriver().findElement(LANGUAGE_JAVA).click();
+
+        int versionsLanguages = getDriver().findElements(
+                By.xpath("//table[@id='category']//td[1]")).size() +
+                getDriver().findElements(OBJECT_ORIENTED_VERSION).size();
+
+        Assert.assertEquals(versionsLanguages, 6);
+    }
+
+    @Test
+    public void testNumberComments() {
+        getDriver().get(URL);
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(SUBMENU_J).click();
+        getDriver().findElement(LANGUAGE_JAVA).click();
+
+        int index = Integer.parseInt(getDriver().findElement(
+                By.xpath("//strong[text()='Comments:']/parent::td" +
+                        "//following-sibling::td")).getText());
+
+        boolean result = true;
+        List<WebElement> tableResult = getDriver().findElements(
+                By.xpath("//tr/td[4]"));
+
+        for (int i = 0; i < tableResult.size(); i++) {
+            if (index < Integer.parseInt(tableResult.get(i).getText())) {
+                result = false;
+            }
+        }
+        Assert.assertTrue(result);
+    }
+
+    @Test(description = "Version № 2")
+    public void testNumberComments2() {
+        getDriver().get(URL);
+
+        getDriver().findElement(BROWSE_LANGUAGES).click();
+        getDriver().findElement(SUBMENU_J).click();
+        getDriver().findElement(LANGUAGE_JAVA).click();
+
+        int objectOrientedVersionComments = Integer.parseInt(getDriver().
+                findElement(By.xpath("//strong[text()='Comments:']/parent::td" +
+                        "//following-sibling::td")).getText());
+        int standardVersionComments = Integer.parseInt(getDriver().
+                findElement(By.xpath("//a[@href='language-java-4.html']" +
+                        "/parent::td//following-sibling::td[3]")).getText());
+        int exceptionOrientedComments = Integer.parseInt(getDriver().
+                findElement(By.xpath("//a[@href='language-java-866.html']" +
+                        "/parent::td//following-sibling::td[3]")).getText());
+        int bytecodeVersionWithLoaderComments = Integer.parseInt(getDriver().
+                findElement(By.xpath("//a[@href='language-java-1162.html']" +
+                        "/parent::td//following-sibling::td[3]")).getText());
+        int java5ObjectOrientedVersionComments = Integer.parseInt(getDriver().
+                findElement(By.xpath("//a[@href='language-java-950.html']" +
+                        "/parent::td//following-sibling::td[3]")).getText());
+        int singingWithJavaSpeechApiComments = Integer.parseInt(getDriver().
+                findElement(By.xpath("//a[@href='language-java-1148.html']" +
+                        "/parent::td//following-sibling::td[3]")).getText());
+
+        int maxComments = Math.max(objectOrientedVersionComments,
+                Math.max(standardVersionComments,
+                        exceptionOrientedComments));
+        int maxComments2 = Math.max(bytecodeVersionWithLoaderComments,
+                Math.max(java5ObjectOrientedVersionComments,
+                        singingWithJavaSpeechApiComments));
+
+        Assert.assertEquals(Math.max(maxComments, maxComments2),
+                objectOrientedVersionComments);
     }
 }
