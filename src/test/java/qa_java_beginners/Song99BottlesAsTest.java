@@ -2,6 +2,7 @@ package qa_java_beginners;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -153,24 +154,69 @@ public class Song99BottlesAsTest extends BaseTest {
                 By.xpath("//div/ul/li/a[@href='j.html']")).click();
 
         String[] pText = new String[2];
-
         for (int i = 0; i < pText.length; i++) {
 
             int index = i + 1;
-
             pText[i] = getDriver().findElement(By.xpath(
                     "//div[@id='main']/p[" + index + "]")).getText();
         }
 
         String actualyResalt = "";
-
-
         for (int i = 0; i < pText.length; i++) {
 
             actualyResalt += pText[i];
         }
-
         Assert.assertEquals(actualyResalt, expectedResalt);
+    }
 
+    @Test
+    public void testFindMySQL() {
+
+        String expectedResalt = "MySQL";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//div/ul/li/a[@href='/abc.html']")).click();
+
+        getDriver().findElement(
+                By.xpath("//div/ul/li/a[@href='m.html']")).click();
+
+        WebElement actualyResalt = getDriver().findElement(
+                By.xpath("//td/a[@href='language-mysql-1252.html']"));
+
+        Assert.assertEquals(actualyResalt.getText(), expectedResalt);
+    }
+
+    @Test
+    public void testHW_12_3() {
+
+        String expectedResalt = "Language Author Date Comments Rate";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//div/ul/li/a[@href='/abc.html']")).click();
+
+        WebElement actualyResalt = getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr[1]"));
+
+        Assert.assertEquals(actualyResalt.getText(), expectedResalt);
+    }
+
+    @Test
+    public void testHW_12_4() {
+
+        getDriver().get(URL);
+
+        getDriver().findElement(
+                By.xpath("//div/ul/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//div/ul/li/a[@href='m.html']")).click();
+
+        WebElement actualyResalt = getDriver().findElement(By.xpath("//a[@href='language-mathematica-1090.html']//ancestor::tr/td[2]"));
+        WebElement actualyResalt1 = getDriver().findElement(By.xpath("//a[@href='language-mathematica-1090.html']//ancestor::tr/td[3]"));
+        WebElement actualyResalt2 = getDriver().findElement(By.xpath("//a[@href='language-mathematica-1090.html']//ancestor::tr/td[4]"));
+
+        Assert.assertEquals(actualyResalt.getText(), "Brenton Bostick");
+        Assert.assertEquals(actualyResalt1.getText(), "03/16/06");
+        Assert.assertEquals(actualyResalt2.getText(), "1");
     }
 }
