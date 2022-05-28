@@ -6,13 +6,18 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import static java.lang.Integer.parseInt;
+
 public class MorigorHW12SongTest extends BaseTest {
+
+    private final String baseURL = "http://www.99-bottles-of-beer.net/";
+    private final String browseLangURL = "https://www.99-bottles-of-beer.net/abc.html";
 
     @Test
     public void testAreLanguagesSortedByLetter() {
         String expectedResult
                 = "All languages starting with the letter J are shown, sorted by Language.";
-        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().get(baseURL);
 
         getDriver().findElement(
                 By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")
@@ -31,7 +36,7 @@ public class MorigorHW12SongTest extends BaseTest {
     public void testConfirmIfLanguageCorrect() {
         String expectedResult = "MySQL";
 
-        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().get(baseURL);
         getDriver().findElement(
                 By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")
         ).click();
@@ -52,7 +57,7 @@ public class MorigorHW12SongTest extends BaseTest {
     public void testConfirmIfTableHeadExist() {
         String expectedResult = "Language, Author, Date, Comments, Rate,";
 
-        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+        getDriver().get(browseLangURL);
 
         String[] tableArr = new String[5];
         String actualresult = "";
@@ -69,7 +74,7 @@ public class MorigorHW12SongTest extends BaseTest {
 
     @Test
     public void testMathematicaLanguageData() {
-        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+        getDriver().get(browseLangURL);
         getDriver().findElement(
                 By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
         getDriver()
@@ -97,7 +102,7 @@ public class MorigorHW12SongTest extends BaseTest {
 
     @Test
     public void testLanguagesWithFigureFirst() {
-        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+        getDriver().get(browseLangURL);
         getDriver().findElement(
                 By.xpath("//ul[@id='submenu']/li/a[@href='0.html']"))
                 .click();
@@ -153,7 +158,7 @@ public class MorigorHW12SongTest extends BaseTest {
                 "www.99-bottles-of-beer.net%252Flanguage-java-4" +
                 ".html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520Java";
 
-        getDriver().get("https://www.99-bottles-of-beer.net/abc.html");
+        getDriver().get(browseLangURL);
 
         getDriver().findElement(
                 By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
@@ -176,7 +181,7 @@ public class MorigorHW12SongTest extends BaseTest {
         String language = "Shakespeare";
         boolean expectedResult = true;
 
-        getDriver().get("http://www.99-bottles-of-beer.net/");
+        getDriver().get(baseURL);
 
         getDriver().findElement(
                 By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']"))
@@ -274,4 +279,29 @@ public class MorigorHW12SongTest extends BaseTest {
         Assert.assertEquals(actualResult, numOfJavaVersions);
     }
 
+    @Test
+    public void testIfVersionHasMaxComments() {
+        int javaOOVersionComments = 33;
+        getDriver().get("https://www.99-bottles-of-beer.net/language-java-3.html");
+
+        WebElement javaOOVcomments
+                = getDriver()
+                .findElement(
+                        By.xpath("//table[@style='margin: 7px; padding: 0;;']/tbody/tr[4]/td[2]"));
+        int maxComments = parseInt(javaOOVcomments.getText());
+
+        int[] eachLangComments = new int[5];
+        for(int i = 0; i < eachLangComments.length; i++) {
+            eachLangComments[i]
+                    = parseInt(getDriver()
+                    .findElement(
+                            By.xpath("//table[@id='category']/tbody/tr[" + (i + 2) + "]/td[4]"))
+                    .getText());
+            if(eachLangComments[i] >= maxComments) {
+                maxComments = eachLangComments[i];
+            }
+        }
+
+        Assert.assertEquals(maxComments, javaOOVersionComments);
+    }
 }
