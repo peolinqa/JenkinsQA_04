@@ -228,6 +228,7 @@ public class LetsBeTestersTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='control__error']/a")).getText(), "Sign in");
     }
 
+    @Ignore
     @Test
     public void testEbayFindProduct() {
 
