@@ -1,9 +1,13 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Song99BottlesOlgaSTest extends BaseTest {
 
@@ -150,6 +154,31 @@ public class Song99BottlesOlgaSTest extends BaseTest {
 
         String actualResult = getDriver().findElement(By.xpath("//div[@id='wrap']/div[@id='main']/p[string(.)]"))
                 .getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLanguageAuthorDateCommentsRate () {
+        List<String> expectedResult = new ArrayList<>();
+
+        expectedResult.add("Language");
+        expectedResult.add("Author");
+        expectedResult.add("Date");
+        expectedResult.add("Comments");
+        expectedResult.add("Rate");
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']//a[@href='/abc.html']")).click();
+
+        List<WebElement> tableHeader = getDriver().findElements(By.xpath("//tbody/tr[1]/th"));
+
+        List<String> actualResult = new ArrayList<>();
+
+        for (WebElement name: tableHeader) {
+            actualResult.add(name.getText());
+        }
 
         Assert.assertEquals(actualResult, expectedResult);
     }
