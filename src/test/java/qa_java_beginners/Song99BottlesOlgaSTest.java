@@ -134,6 +134,25 @@ public class Song99BottlesOlgaSTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testMenuBrowseLanguages() {
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']//a[@href='/abc.html']"))
+                .click();
+
+        getDriver().findElement(By.xpath("//ul[@id='submenu']//a[@href='j.html']"))
+                .click();
+
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='wrap']/div[@id='main']/p[string(.)]"))
+                .getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
 
 
