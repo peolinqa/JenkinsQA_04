@@ -194,4 +194,31 @@ public class Song99BottlesSvetlanaG1011Test extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testSignGuestbookWithRandom3digitSecurityCode() {
+
+        String expectedResult = "Error: Error: Invalid security code.";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+
+        getDriver().findElement(By.xpath("//input[@name='name']"))
+                .sendKeys("Svetlana");
+        getDriver().findElement(By.xpath("//input[@name='location']"))
+                .sendKeys("New York");
+        getDriver().findElement(By.xpath("//input[@name='email']"))
+                .sendKeys("Sg26@gmail.com");
+        getDriver().findElement(By.xpath("//input[@name='homepage']"))
+                .sendKeys("www.99-bottles-of-beer.net/");
+        getDriver().findElement(By.xpath("//input[@name='captcha']"))
+                .sendKeys(Integer.toString((int) (Math.random() * 900) + 100));
+        getDriver().findElement(By.xpath("//textarea[@name='comment']"))
+                .sendKeys("Thanks");
+        getDriver().findElement(By.xpath("//input[@type='submit']"))
+                .click();
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='main']/p"))
+                .getText();
+
+        Assert.assertEquals(expectedResult, actualResult);
+    }
 }
