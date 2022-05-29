@@ -214,15 +214,15 @@ public class MaksPtHomeWork12Test extends BaseTest {
 
     @Test
     public void testMostCommentsVersionsJava() {
+        final String expectedResult = "Java (object-oriented version)";
+
         getDriver().get(URL);
 
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/search.html']")).click();
         getDriver().findElement(By.xpath("//input [@name='search']")).sendKeys("Java");
         getDriver().findElement(By.xpath("//input [@type='submit']")).click();
 
-        String expectedResult = getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr[2]/td[1]")).getText();
         String actualResult = "";
-
         for (int i = 0; i < 14; i++) {
             int index = i + 2;
             if (Integer.parseInt(getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr[2]/td[4]")).getText())
