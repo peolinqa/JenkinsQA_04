@@ -188,7 +188,7 @@ public class IgorKadach99BottlesOfBeerTest {
      * Подтвердите, что пользователь может сделать закладку на это решение на сайте Reddit
      * (нажав на иконку сайта Reddit, пользователь перейдет на Логин страницу сайта Reddit)
      */
-    @Test
+    @Test(priority = 13)
     public void testReddit() {
 
         String expectedResult = "reddit.com: Log in";
