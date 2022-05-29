@@ -221,4 +221,23 @@ public class Song99BottlesSvetlanaG1011Test extends BaseTest {
 
         Assert.assertEquals(expectedResult, actualResult);
     }
+
+    @Test
+    public void testBrowseLanguagesAlternativeVersionsReddit() {
+
+        String expectedResult = "https://www.reddit.com/login/?dest=https%3A%2F%2F" +
+                "www.reddit.com%2Fsubmit%3Furl%3Dhttps%253A%252F%252F" +
+                "www.99-bottles-of-beer.net%252Flanguage-actionscript-16." +
+                "html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520ActionScript";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//td/a[@href='language-actionscript-1010.html']")).click();
+        getDriver().findElement(By.xpath("//td/a[@href='language-actionscript-16.html']")).click();
+        getDriver().findElement(By.xpath("//a[@title='reddit']")).click();
+        String actualResult = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
