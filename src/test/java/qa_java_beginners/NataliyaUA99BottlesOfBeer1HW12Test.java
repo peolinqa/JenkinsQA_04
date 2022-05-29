@@ -16,20 +16,20 @@ public class NataliyaUA99BottlesOfBeer1HW12Test extends BaseTest {
 
         getDriver().get(url);
 
-        getDriver().findElement(By.xpath("//ul[@id='menu']" +
-                "/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
 
-        getDriver().findElement(By.xpath("//ul[@id='submenu']/li" +
-                "/a[@href='j.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
 
-        WebElement text = getDriver().findElement(By.xpath("//div[@id='main']" +
-                "/p"));
+        WebElement text = getDriver().findElement(
+                By.xpath("//div[@id='main']/p"));
 
         String actualResult = text.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
 
-        getDriver().quit();
+
 
 
 
