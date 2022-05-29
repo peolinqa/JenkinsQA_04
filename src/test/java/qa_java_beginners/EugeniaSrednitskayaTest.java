@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.Arrays;
@@ -334,6 +335,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
     }
 
+    @Ignore
     @Test(priority = 15)
     public void EugeniaSrednitskayaBrowseLanguagesAlternativeVersionTest() throws InterruptedException {
 
