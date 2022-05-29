@@ -233,5 +233,25 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
 
     }
 
+    @Test
+    public void testMessageOfError() {
+
+        String expectedResult = "Error: Error: Invalid security code.";
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+
+        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Viktoriia");
+        getDriver().findElement(By.xpath("//input[@name='location']")).sendKeys("Brussel");
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("vk@gmail.com");
+        String code = "" + ((int) (Math.random() * 300) + 100);
+        getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(code);
+        getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("kuku");
+        getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='main']/p")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+
+    }
+
 }
 
