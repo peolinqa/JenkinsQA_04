@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -40,7 +39,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iBrowseLanguage = getDriver().findElement(By.xpath("//a[@href='/abc.html']"));
         iBrowseLanguage.click();
 
@@ -58,7 +57,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iBrowseLanguage = getDriver().findElement(By.xpath("//a[@href='/abc.html']"));
         iBrowseLanguage.click();
 
@@ -76,7 +75,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iBrowseLanguage = getDriver().findElement(By.xpath("//a[@href='/abc.html']"));
         iBrowseLanguage.click();
 
@@ -106,7 +105,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iBrowseLanguage = getDriver().findElement(By.xpath("//a[@href='/abc.html']"));
         iBrowseLanguage.click();
 
@@ -141,11 +140,11 @@ public class EugeniaSrednitskayaTest extends BaseTest {
     }
 
     @Test(priority = 7)
-    public void EugeniaSrednitskayaSignGuestbookDisplayedTest() throws InterruptedException {
+    public void EugeniaSrednitskayaSignGuestbookDisplayedTest() {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iGuestbook = getDriver().findElement(By.xpath("//a[contains(@href, 'guestbook')]"));
         iGuestbook.click();
 
@@ -186,8 +185,6 @@ public class EugeniaSrednitskayaTest extends BaseTest {
     @Test(dependsOnMethods = "EugeniaSrednitskayaSignGuestbookDisplayedTest")
     public void EugeniaSrednitskayaSignGuestbookErrorMessageTest() throws InterruptedException {
 
-//        getDriver().get(urlDefault);
-//        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         EugeniaSrednitskayaSignGuestbookDisplayedTest();
 
         String strExpected = "Error: Error: Invalid security code.";
@@ -200,7 +197,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iTopList = getDriver().findElement(By.linkText("Top Lists"));
         iTopList.click();
 
@@ -220,7 +217,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iTopList = getDriver().findElement(By.linkText("Top Lists"));
         iTopList.click();
 
@@ -231,8 +228,10 @@ public class EugeniaSrednitskayaTest extends BaseTest {
                 (By.xpath("//table[@id='category']/tbody/tr[@onmouseover]/td/a[contains(@href, 'language')]"));
 
         try {
+
             getDriver().getPageSource().contains("Shakespeare");
             Assert.assertTrue(iLanguage.indexOf("Shakespeare") <= 6);
+
         } catch (NoSuchElementException ex) {
         }
 
@@ -243,7 +242,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iTopList = getDriver().findElement(By.linkText("Top Lists"));
         iTopList.click();
 
@@ -254,8 +253,10 @@ public class EugeniaSrednitskayaTest extends BaseTest {
                 (By.xpath("//table[@id='category']/tbody/tr[@onmouseover]/td/a[contains(@href, 'language')]"));
 
         try {
+
             getDriver().getPageSource().contains("Shakespeare");
             Assert.assertTrue(iLanguage.indexOf("Shakespeare") <= 10);
+
         } catch (NoSuchElementException ex) {
         }
 
@@ -266,7 +267,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         WebElement iTopList = getDriver().findElement(By.linkText("Top Lists"));
         iTopList.click();
 
@@ -285,7 +286,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         getDriver().findElement(By.xpath("//a[@href = '/search.html']")).click();
 
         getDriver().findElement(By.xpath("//input[@name='search']")).sendKeys("Java");
@@ -295,7 +296,6 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         List<WebElement> iLanguage = getDriver().findElements(By.xpath("//td/a[contains(@href, 'language') " +
                 "and (text()='Java' or contains(text(), 'Java ('))]"));
-        //(By.xpath("//table[@id='category']/tbody/tr[@onmouseover]/td/a[contains(@href, 'language-java-')]"));
 
         System.out.println(iLanguage.size());
         Assert.assertTrue(iLanguage.size() == 6);
@@ -306,7 +306,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        
+
         getDriver().findElement(By.xpath("//a[@href = '/search.html']")).click();
 
         getDriver().findElement(By.xpath("//input[@name='search']")).sendKeys("Java");
@@ -335,7 +335,7 @@ public class EugeniaSrednitskayaTest extends BaseTest {
     }
 
     @Test(priority = 15)
-    public void EugeniaSrednitskayaBrowseLanguagesAlternativeVersionTest() {
+    public void EugeniaSrednitskayaBrowseLanguagesAlternativeVersionTest() throws InterruptedException {
 
         getDriver().get(urlDefault);
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -359,8 +359,6 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
         iLanguage.get(indexOfRandomElement).click();
 
-        WebElement iReddit = getDriver().findElement(By.xpath("//a[@title='reddit']"));
-
         try {
             getDriver().findElement
                     (By.xpath("//div[@id='alternatives']/table[@id='category']/tbody"));
@@ -374,14 +372,20 @@ public class EugeniaSrednitskayaTest extends BaseTest {
 
             iLanguageAltVer.get(indexOfRandomAltVer).click();
 
+            WebElement iReddit = getDriver().findElement(By.xpath("//a[@title='reddit']"));
+            iReddit.click();
+            Thread.sleep(2000);
+
             Assert.assertTrue(getDriver().getCurrentUrl().contains("reddit"));
 
         } catch (NoSuchElementException ex) {
-        } finally {
+
+            WebElement iReddit = getDriver().findElement(By.xpath("//a[@title='reddit']"));
             iReddit.click();
+            Thread.sleep(2000);
 
             Assert.assertTrue(getDriver().getCurrentUrl().contains("reddit"));
+
         }
     }
-  
 }
