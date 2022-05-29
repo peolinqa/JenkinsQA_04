@@ -1,10 +1,14 @@
 package qa_java_beginners;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class HW12RomTTest extends BaseTest {
 
@@ -157,5 +161,96 @@ public class HW12RomTTest extends BaseTest {
         String actualResult = getDriver().findElement(By.xpath("//a[@title='reddit']")).getAttribute("href");
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void test_TC_12_08() {
+
+        String xPathShakespeare = "//a[@href='language-shakespeare-664.html']/parent::td/parent::tr/td[1]";
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+
+        WebElement topList = getDriver().findElement(
+                By.xpath(xPathShakespeare));
+        int actualResultTopList = Integer.parseInt(
+                topList.getText().substring(0, topList.getText().length() - 1));
+
+        getDriver().findElement(By.xpath("//a[@href='./toplist_esoteric.html']")).click();
+        WebElement topListEsoteric = getDriver().findElement(
+                By.xpath(xPathShakespeare));
+        int actualResultTopListEsoteric = Integer.parseInt(
+                topListEsoteric.getText().substring(0, topListEsoteric.getText().length() - 1));
+
+        getDriver().findElement(By.xpath("//a[@href='./tophits.html']")).click();
+        WebElement topHits = getDriver().findElement(
+                By.xpath(xPathShakespeare));
+        int actualResultTopHits = Integer.parseInt(
+                topHits.getText().substring(0, topHits.getText().length() - 1));
+
+        getDriver().findElement(By.xpath("//a[@href='./toplist_real.html']")).click();
+        boolean topListReal;
+        try {
+            getDriver().findElement(
+                    By.xpath(xPathShakespeare));
+            topListReal = false;
+        } catch (NoSuchElementException e) {
+            topListReal = true;
+        }
+
+        Assert.assertTrue(actualResultTopList <= 20);
+        Assert.assertTrue(actualResultTopListEsoteric <= 10);
+        Assert.assertTrue(actualResultTopHits <= 6);
+        Assert.assertTrue(topListReal);
+    }
+
+    @Test
+    public void test_TC_12_09() {
+
+        int expectedResult = 6;
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='j.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-3.html']")).click();
+
+        int actualResult = getDriver().findElements(
+                By.xpath("//tr[starts-with(@onmouseover,'setPointer')]")).size() + 1;
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void test_TC_12_10() {
+
+        String expectedResult = "object-oriented version";
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='j.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-3.html']")).click();
+
+        int firstTotalCommentsVersion = Integer.parseInt(getDriver().findElement(
+                By.xpath("//strong[contains(text(),'Comments')]/parent::td/parent::tr/td[2]")).getText());
+        String firstNameVersion = getDriver().findElement(
+                By.xpath("//div[@id='main']/p[contains(text(),'object')]")).getText();
+
+        Map<Integer, String> map = new HashMap<>();
+        map.put(firstTotalCommentsVersion, firstNameVersion.replaceAll("[()]", ""));
+
+        int max = firstTotalCommentsVersion;
+        for (int i = 0; i < 5; i++) {
+            int com = Integer.parseInt(getDriver().findElement(
+                    By.xpath("//tr[starts-with(@onmouseover,'setPointer')][" + (i + 1) + "]/td[4]")).getText());
+            String name = getDriver().findElement(
+                    By.xpath("//tr[starts-with(@onmouseover,'setPointer')][" + (i + 1) + "]/td/a")).getText();
+            map.put(com, name);
+
+            if (com > max) {
+                max = com;
+            }
+        }
+
+        Assert.assertEquals(map.get(max), expectedResult);
     }
 }
