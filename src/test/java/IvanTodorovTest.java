@@ -29,8 +29,6 @@ public class IvanTodorovTest extends BaseTest {
         String actualResult = errorOfLogIn.getText();
 
         Assert.assertEquals(actualResult,expectedResult);
-
-        getDriver().quit();
     }
 
 }
