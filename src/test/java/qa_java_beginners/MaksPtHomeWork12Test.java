@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Arrays;
+
 public class MaksPtHomeWork12Test extends BaseTest {
 
     private static final String URL = "http://www.99-bottles-of-beer.net/";
@@ -23,6 +25,11 @@ public class MaksPtHomeWork12Test extends BaseTest {
     private WebElement searchSubmenuJLanguages() {
 
         return getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']"));
+    }
+
+    private WebElement searchTableJavaLanguages() {
+
+        return getDriver().findElement(By.xpath("//td/a[@href='language-java-3.html']"));
     }
 
     @Test
@@ -112,7 +119,7 @@ public class MaksPtHomeWork12Test extends BaseTest {
 
         searchBrowseLanguages().click();
         searchSubmenuJLanguages().click();
-        getDriver().findElement(By.xpath("//td/a[@href='language-java-3.html']")).click();
+        searchTableJavaLanguages().click();
         getDriver().findElement(By.xpath("//td/a[@href='language-java-4.html']")).click();
         getDriver().findElement(By.xpath("//div[@id='voting']/p/a[@title='reddit']")).click();
 
@@ -176,4 +183,31 @@ public class MaksPtHomeWork12Test extends BaseTest {
         Assert.assertTrue(actualResultTopHits);
         Assert.assertTrue(actualResultTopReal);
     }
+
+    @Test
+    public void testSixVersionsJava() {
+        getDriver().get(URL);
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/search.html']")).click();
+        getDriver().findElement(By.xpath("//input [@name='search']")).sendKeys("Java");
+        getDriver().findElement(By.xpath("//input [@type='submit']")).click();
+
+        int actualResult = 0;
+        for (int i = 1; i < 15; i++) {
+            int index = i + 1;
+            if (getDriver().findElement(
+                    By.xpath("//table[@id='category']/tbody/tr[" + index + "]/td[1]")).getText().contains("Java (")
+                    || getDriver().findElement(
+                    By.xpath("//table[@id='category']/tbody/tr[" + index + "]/td[1]")).getText().equals("Java")) {
+                actualResult++;
+            }
+        }
+
+        Assert.assertEquals(actualResult, 6);
+    }
 }
+
+
+
+
+
