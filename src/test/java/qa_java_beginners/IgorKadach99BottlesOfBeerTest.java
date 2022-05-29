@@ -20,7 +20,6 @@ public class IgorKadach99BottlesOfBeerTest extends BaseTest {
      * Подтвердить, что пользователь видит текст “All languages starting with the letter J are shown, sorted by Language.”
      */
 
-    
     @Test
     public void testHeaderTextBrowseLanguages() {
 
