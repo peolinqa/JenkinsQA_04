@@ -151,4 +151,156 @@ public class Song99BottlesIvanSBalinTest extends BaseTest {
 
         Assert.assertEquals(actualresult, expectedResult);
     }
+
+    @Test
+    public void testListOfLanguageLastMySQL() {
+        String expectedResult = "MySQL";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        String actualresult = getDriver().findElement(
+                By.xpath("(//table[@id='category']/tbody/tr/td/a)[last()]")).
+                getText();
+
+        Assert.assertEquals(actualresult, expectedResult);
+    }
+
+    @Test
+    public void testListOfLanguageHeadLine() {
+        String expectedResult = "Language, Author, Date, Comments, Rate";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+
+        String actualresult = getDriver().findElement(
+                By.xpath("//table[@id='category']/tbody/tr[1]")).
+                getText().replace(" ",", ");
+
+        Assert.assertEquals(actualresult, expectedResult);
+    }
+
+    @Test
+    public void testListOfLanguageMathematica() {
+        String[] expectedResult = new String[] {"Brenton Bostick", "03/16/06"
+                , "1"};
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        String[] actualResult = new String[3];
+        for (int i = 0; i < actualResult.length; i++) {
+            int index = i + 2;
+            actualResult[i] = getDriver().findElement(
+                    By.xpath("//table[@id='category']/tbody/tr[22]/td["
+                            + index +"]")).getText();
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testListOfLanguageMathematicaVer_2() {
+        String expectedResult = "Brenton Bostick 03/16/06 1";
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
+
+        String actualResult = "";
+        for (int i = 0; i < 3; i++) {
+            int index = i + 2;
+            actualResult = actualResult + getDriver().findElement(
+                    By.xpath("//table[@id='category']/tbody/tr[22]/td["
+                            + index +"]")).getText() + " ";
+        }
+
+        Assert.assertEquals(actualResult.trim(), expectedResult);
+    }
+
+    @Test
+    public void testListOfLanguageBeginWithNumberSimple() {
+        int expectedResult = 10;
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='0.html']")).click();
+
+        String numbers = "";
+        for (int i = 0; i < 10; i++) {
+            int index = i + 2;
+            numbers += getDriver().findElement(
+                    By.xpath("//table[@id='category']/tbody/tr["+ index +"]")).
+                    getText().substring(0,1);
+        }
+
+        String actualresult = numbers.trim().replace(" ","");
+
+        Assert.assertEquals(actualresult.length(), expectedResult);
+    }
+
+    @Test
+    public void testListOfLanguageBeginWithNumber() {
+        int expectedResult = 10;
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='0.html']")).click();
+
+        String[] numbers = new String[10];
+        for (int i = 0; i < numbers.length; i++) {
+            int index = i + 2;
+            numbers[i] = getDriver().findElement(
+                    By.xpath("//table[@id='category']/tbody/tr["+ index +"]")).
+                    getText().substring(0,1);
+        }
+
+        Assert.assertEquals(numbers.length, expectedResult);
+    }
+
+    @Test
+    public void testListOfLanguageBeginWithNumberVer_2() {
+        int expectedResult = 10;
+
+        getDriver().get(URL);
+        getDriver().findElement(
+                By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//ul[@id='submenu']/li/a[@href='0.html']")).click();
+
+        String[] numbers = new String[10];
+        for (int i = 0; i < numbers.length; i++) {
+            int index = i + 2;
+            numbers[i] = getDriver().findElement(
+                    By.xpath("//table[@id='category']/tbody/tr["+ index +"]")).
+                    getText().substring(0,1);
+        }
+        int[] numeral = new int[10];
+        for (int i = 0; i < numbers.length; i++) {
+            numeral[i] = Integer.parseInt(numbers[i]);
+        }
+
+        int actualResult = 0;
+        for (int i = 0; i < numeral.length; i++) {
+            if (numeral[i] >= 0 && numeral[i] < 10) {
+                actualResult++;
+            }
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
