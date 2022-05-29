@@ -87,4 +87,34 @@ public class AnaLamaHW12Tests extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+    @Test
+    public void testErrorMessageGuestBook() {
+
+        String expectedMessage = "Error: Error: Invalid security code.";
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+        getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("Mary");
+        getDriver().findElement(By.xpath("//input[@name='location']")).sendKeys("Toronto");
+        getDriver().findElement(By.xpath("//input[@name='email']")).sendKeys("Khgdvs87@nkj.com");
+        String code = "" + ((int) (Math.random() * 200) + 100);
+        getDriver().findElement(By.xpath("//input[@name='captcha']")).sendKeys(code);
+        getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("kuku");
+        getDriver().findElement(By.xpath("//input[@type='submit']")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='main']/p")).getText();
+
+        Assert.assertEquals(actualResult, expectedMessage);
+    }
+    @Test
+    public void testRedditBookMarkC(){
+        String expectedResult = "reddit.com: Log in";
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath(BROWSE_LANG)).click();
+        getDriver().findElement(By.xpath("//a[@href='c.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-csharp-1614.html']")).click();
+        getDriver().findElement(By.xpath("//img[@src='./images/reddit.png']")).click();
+        String actualResult = getDriver().getTitle();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
