@@ -18,6 +18,11 @@ public class ViktorPodgornov99BottlesOfBeerTest extends BaseTest {
         return getDriver().findElement(By.xpath(String.format("//ul[@id='submenu']//a[text()='%s']", submenuElement)));
     }
 
+    public List<WebElement> getListOfWebElementsDependentOnXpath(String yourXPath) {
+
+        return getDriver().findElements(By.xpath(yourXPath));
+    }
+
     /**
      * TC_12_01 Подтвердите, что в меню BROWSE LANGUAGES, подменю  J, пользователь может найти
      * описание страницы, на которой перечеслены все программные языки, начинающиеся с буквы J,
@@ -83,10 +88,9 @@ public class ViktorPodgornov99BottlesOfBeerTest extends BaseTest {
         getDriver().get(BASE_URL);
         getDriver().findElement(By.xpath(BROWSE_LANGUAGES_MENU_XPATH)).click();
 
-        List<WebElement> tableHeadersNamesElementsActual = getDriver().findElements(
-                By.xpath("//table[@id='category']//th"));
         List<String> tableHeadersNamesActual = new ArrayList<>();
-        tableHeadersNamesElementsActual.stream().map(WebElement::getText).forEach(tableHeadersNamesActual::add);
+        getListOfWebElementsDependentOnXpath("//table[@id='category']//th").stream().map(WebElement::getText)
+                .forEach(tableHeadersNamesActual::add);
 
         List<String> tableHeadersNamesExpected = new ArrayList<>(Arrays.asList(
                 "Language", "Author", "Date", "Comments", "Rate"));
@@ -116,5 +120,32 @@ public class ViktorPodgornov99BottlesOfBeerTest extends BaseTest {
                 getDriver().findElement(By.xpath("//a[text()='Mathematica']//ancestor::tr"))
                         .getText(),
                 "Mathematica Brenton Bostick 03/16/06 1");
+    }
+
+    /**
+     * TC_12_05 Подтвердите, что на сайте существует 10 языков, названия которых начинаются с цифр.
+     * Steps:
+     * Open base url
+     * Click on the menu item BROWSE LANGUAGES
+     * Click on the submenu 0-9
+     * Confirm that there are 10 languages on the site that begin with numbers.
+     */
+
+    @Test
+    public void testConfirmThatSiteHasTenLanguagesWhoseNamesBeginWithNumbers() {
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath(BROWSE_LANGUAGES_MENU_XPATH)).click();
+        getBrowseLanguagesSubmenuXpath("0-9").click();
+        List<WebElement> languagesWhoseNamesBeginWithNumbers = getListOfWebElementsDependentOnXpath(
+                "//table[@id='category']//a[contains(@href, 'language')]");
+
+        int countLanguagesNamesBeginWithNumbersActual = 0;
+        for (WebElement languagesWhoseNamesBeginWithNumber : languagesWhoseNamesBeginWithNumbers) {
+            if (Character.isDigit(languagesWhoseNamesBeginWithNumber.getText().charAt(0))) {
+                countLanguagesNamesBeginWithNumbersActual++;
+            }
+        }
+        Assert.assertEquals(countLanguagesNamesBeginWithNumbersActual, 10);
     }
 }
