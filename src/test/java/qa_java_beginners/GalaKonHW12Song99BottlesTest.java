@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Random;
+
 public class GalaKonHW12Song99BottlesTest extends BaseTest {
 
     public static final String URL = "http://www.99-bottles-of-beer.net";
@@ -118,5 +120,53 @@ public class GalaKonHW12Song99BottlesTest extends BaseTest {
         Assert.assertEquals(actualResultDate, expectedResultDate);
         Assert.assertEquals(actualResultComments, expectedResultComments);
         Assert.assertEquals(actualResultRate, expectedResultRate);
+    }
+
+    @Test
+    public void testSecuritiCodeSpace() throws InterruptedException {
+
+        String expectedResult = "Error: Error: Invalid security code.";
+
+        getDriver().get(URL);
+
+        getDriver().findElement(
+                By.xpath("//a[@href='/guestbookv2.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@href='./signv2.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//input[@name='name']")
+        ).sendKeys("Gala");
+
+        getDriver().findElement(
+                By.xpath("//input[@name='email']")
+        ).sendKeys("gala.kon13@gmail.com");
+
+        Random random = new Random();
+        int randomNumber = random.nextInt();
+        String captcha = Integer.toString(randomNumber);
+
+        getDriver().findElement(
+                By.xpath("//input[@name='captcha']")
+        ).sendKeys(captcha);
+
+        getDriver().findElement(
+                By.xpath("//textarea")
+        ).sendKeys("Hello");
+
+        getDriver().findElement(
+                By.xpath("//input[@type='submit']")
+        ).click();
+
+        String actualResult = getDriver(
+        ).findElement(
+                By.xpath(
+                        "//p[@style='border: 1px solid red; background-color: #ffe0e0; padding: 5px; margin: 5px 10px 5px 10px;']"
+                )).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
