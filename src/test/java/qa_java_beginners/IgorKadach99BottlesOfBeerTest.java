@@ -114,7 +114,7 @@ public class IgorKadach99BottlesOfBeerTest extends BaseTest {
             Assert.assertEquals(actualResult, expectedResult);
         }
     }
-    
+
     /**
      * TC_12_05 Подтвердите, что на сайте существует 10 языков, названия которых начинаются с цифр.
      */
