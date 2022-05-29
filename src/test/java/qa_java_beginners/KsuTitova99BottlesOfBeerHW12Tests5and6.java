@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.List;
+
 public class KsuTitova99BottlesOfBeerHW12Tests5and6 extends BaseTest {
 
     /**
@@ -163,7 +165,7 @@ public class KsuTitova99BottlesOfBeerHW12Tests5and6 extends BaseTest {
      */
 
     @Test
-    public void VersionsOfJava() {
+    public void testVersionsOfJava() {
         int expectedResult = 6;
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
@@ -176,6 +178,34 @@ public class KsuTitova99BottlesOfBeerHW12Tests5and6 extends BaseTest {
                 getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr/td/a")).size() + 1;
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    /**
+     * TC_12_10 Подтвердите, что самое большое количество комментариев для решений на языке Java
+     * имеет версия “object-oriented version”
+     */
+
+    @Test
+    public void testJavaObjectOrientedVersion() {
+        int expectedResult = 33;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href ='j.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-3.html']")).click();
+        getDriver().findElement(By.xpath("//tr/td/a[@href='language-java-1148.html']")).click();
+
+        int[] result = new int[6];
+        int max = Integer.parseInt(getDriver().findElement(By.xpath("//*[@id='category']/tbody/tr/td[4]")).getText());
+        for (int i = 1; i < result.length; i++) {
+            result[i] = Integer.parseInt(getDriver().findElement(By.xpath("//tr[" + (i + 1) + "]/td[4]")).getText());
+            if (result[i] >= max) {
+                max = result[i];
+            }
+        }
+
+        Assert.assertEquals(max, expectedResult);
     }
 
 }
