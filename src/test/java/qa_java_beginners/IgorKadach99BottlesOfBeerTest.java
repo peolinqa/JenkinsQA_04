@@ -36,6 +36,7 @@ public class IgorKadach99BottlesOfBeerTest extends BaseTest {
         Assert.assertEquals(actualResult1, expectedResult1);
     }
 
+    
     /**
      * TC_12_02 Подтвердите, что в меню BROWSE LANGUAGES, подменю  M, последний программный язык в таблице -  MySQL
      * <p>
