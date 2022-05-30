@@ -169,4 +169,112 @@ public class GalaKonHW12Song99BottlesTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testRedditBoolmarkForAlternativeVersionsSolvingTask() throws InterruptedException {
+
+        String expectedResult = "New to Reddit? SIGN UP";
+
+        getDriver().get(URL);
+
+        getDriver().findElement(
+                By.xpath("//li/a[@href='/abc.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@href='j.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@href='language-java-3.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@href='language-java-1148.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@title='reddit']/img[@height='16']")
+        ).click();
+
+        String actualResult = getDriver(
+        ).findElement(
+                By.xpath(
+                        "//div[@class='BottomText login-bottom-text register hideable']"
+                )).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testShakespeareTestInTopLists() throws InterruptedException {
+
+        String expectedResult = "Shakespeare";
+
+        getDriver().get(URL);
+
+        WebElement topLists = getDriver().findElement(
+                By.xpath("//li/a[@href='/toplist.html']")
+        );
+        topLists.click();
+
+        getDriver().findElement(By.xpath("//table")).getText().contains("Shakespeare");
+
+        String actualResult = getDriver(
+        ).findElement(
+                By.xpath(
+                        "//a[@href='language-shakespeare-664.html']"
+                )).getText();
+
+        WebElement topEsotericLanguages = getDriver().findElement(
+                By.xpath("//a[@href='./toplist_esoteric.html']")
+        );
+        topEsotericLanguages.click();
+
+        getDriver().findElement(By.xpath("//table")).getText().contains("Shakespeare");
+
+        WebElement top6 = getDriver().findElement(
+                By.xpath("//a[@href='./tophits.html']")
+        );
+        top6.click();
+
+        getDriver().findElement(By.xpath("//table")).getText().contains("Shakespeare");
+
+        WebElement topRealLanguages = getDriver().findElement(
+                By.xpath("//a[@href='./toplist_real.html']")
+        );
+        topRealLanguages.click();
+
+        Assert.assertFalse(getDriver().findElement(By.xpath("//table[@id='category']")).getText().contains("Shakespeare"));
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testJavaLanguageHasSixVersions() throws InterruptedException {
+
+        int expectedResult = 6;
+
+        getDriver().get(URL);
+
+        getDriver().findElement(
+                By.xpath("//li/a[@href='/abc.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@href='j.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//a[@href='language-java-3.html']")
+        ).click();
+
+        getDriver().findElement(
+                By.xpath("//table[@id='category']")
+        );
+
+        int actualResult = getDriver().findElements(By.xpath("//tr[@onmouseover]")).size() + 1;
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }

@@ -10,6 +10,9 @@ public class HW12SabinaSaadTest extends BaseTest {
 
     public static String URL = "http://www.99-bottles-of-beer.net/";
 
+    @Ignore
+    @Test(invocationCount = 20)
+  
     public void testSubMenuJBrowseLanguages() {
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
 
