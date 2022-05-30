@@ -6,14 +6,15 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.Arrays;
+import static java.lang.Integer.parseInt;
 
 public class HW12KononirinIrinaShTest extends BaseTest {
 
     @Test
     public void testTitleSubmenuByJ() {
 
-        String expectedResult = "All languages starting with the letter J "
-                + "are shown, sorted by Language.";
+        String expectedResult = "All languages starting with the letter J " +
+                "are shown, sorted by Language.";
 
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
@@ -45,16 +46,19 @@ public class HW12KononirinIrinaShTest extends BaseTest {
 
         WebElement menuBrowseLang = getDriver()
                 .findElement(
-                        By.xpath("//li/a[@href='/abc.html']"));
+                        By.xpath("//li/a[@href='/abc.html']")
+                );
         menuBrowseLang.click();
 
         WebElement subMenuM = getDriver()
                 .findElement(
-                        By.xpath("//a[@href='m.html']"));
+                        By.xpath("//a[@href='m.html']")
+                );
         subMenuM.click();
 
         WebElement lastLangMySQL = getDriver()
-                .findElement(By.xpath("//tr[last()]/td/a"));
+                .findElement(By.xpath("//tr[last()]/td/a")
+                );
 
         String actualResult = lastLangMySQL.getText();
 
@@ -102,17 +106,20 @@ public class HW12KononirinIrinaShTest extends BaseTest {
 
         WebElement tableOfMathemAuthor = getDriver().findElement(
                 By.xpath("//table[@style='margin: 7px; " +
-                        "padding: 0;;']/tbody/tr[2]/td[last()]"));
+                        "padding: 0;;']/tbody/tr[2]/td[last()]")
+        );
         String actualResultOne = tableOfMathemAuthor.getText();
 
         WebElement tableOfMathemDate = getDriver().findElement(
                 By.xpath("//table[@style='margin: 7px; " +
-                        "padding: 0;;']/tbody/tr[1]/td[last()]"));
+                        "padding: 0;;']/tbody/tr[1]/td[last()]")
+        );
         String actualResultTwo = tableOfMathemDate.getText();
 
         WebElement tableOfMathemComment = getDriver().findElement(
                 By.xpath("//table[@style='margin: 7px; " +
-                        "padding: 0;;']/tbody/tr[4]/td[last()]"));
+                        "padding: 0;;']/tbody/tr[4]/td[last()]")
+        );
         String actualResultThree = tableOfMathemComment.getText();
 
         Assert.assertEquals(actualResultOne, expectedResultOne);
@@ -246,6 +253,250 @@ public class HW12KononirinIrinaShTest extends BaseTest {
 
         String actualResult = getDriver().findElement(
                 By.xpath("//div[@id='main']/p")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testIconReddit() {
+
+        String expectedResult = "Log in";
+
+        getDriver().get("http://99-bottles-of-beer.net/");
+
+        WebElement menuBrowseLang = getDriver()
+                .findElement(
+                        By.xpath("//li/a[@href='/abc.html']")
+                );
+        menuBrowseLang.click();
+
+        WebElement langAssembler = getDriver().
+                findElement(By.xpath("//table[@id='category']/" +
+                        "tbody/tr[68]/td/a")
+                );
+        langAssembler.click();
+
+        WebElement alternativeLangSparc = getDriver().
+                findElement(By.xpath("//div[@id='alternatives']" +
+                        "/table/tbody/tr[3]/td/a")
+                );
+        alternativeLangSparc.click();
+
+        WebElement iconReddit = getDriver().
+                findElement(By.xpath("//div[@id='voting']/p" +
+                        "/a[@title='reddit']")
+                );
+        iconReddit.click();
+
+        String actualResult = getDriver().
+                findElement(
+                        By.xpath("//div[@class='Step__content']" +
+                                "/h1")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLangShakespeareTopRated() {
+
+        boolean expectedResult = true;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/toplist.html");
+
+        WebElement numberOfRowOfShakespeareLang =
+                getDriver().findElement(
+                        By.xpath("//div[@id='main']/table" +
+                                "/tbody/tr[17]/td")
+                );
+
+        String numberOfRate = numberOfRowOfShakespeareLang.getText();
+        int numOfLasttIndex = numberOfRate.lastIndexOf('.');
+        String numberWithoutDot = numberOfRate.substring(0, numOfLasttIndex);
+        int numOfRate = parseInt(numberWithoutDot);
+
+        boolean actualResult = false;
+        if (numOfRate <= 20) {
+            actualResult = true;
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLangShakespeareTopRatedEsotericLang() {
+
+        boolean expectedResult = true;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/toplist.html");
+
+        WebElement submenuTopRatedEsotericLang = getDriver().
+                findElement(By.xpath("//li/a[@href='." +
+                        "/toplist_esoteric.html']")
+                );
+        submenuTopRatedEsotericLang.click();
+
+        WebElement numberOfRowOfShakespeareLang =
+                getDriver().findElement(
+                        By.xpath("//div[@id='main']/table" +
+                                "/tbody/tr[8]/td")
+                );
+
+        String numberOfRate = numberOfRowOfShakespeareLang.getText();
+        int numOfLastIndex = numberOfRate.lastIndexOf('.');
+        String numberWithoutDot = numberOfRate.substring(0, numOfLastIndex);
+        int numOfRate = parseInt(numberWithoutDot);
+
+        boolean actualResult = false;
+        if (numOfRate <= 10) {
+            actualResult = true;
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLangShakespeareTopRatedTopHits() {
+
+        boolean expectedResult = true;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/toplist.html");
+
+        WebElement submenuTopRatedTopHits = getDriver().
+                findElement(By.xpath("//a[@href='." +
+                        "/tophits.html']")
+                );
+        submenuTopRatedTopHits.click();
+
+        WebElement numberOfRowOfShakespeareLang =
+                getDriver().findElement(
+                        By.xpath("//div[@id='main']" +
+                                "/table/tbody/tr[7]/td")
+                );
+
+        String numberOfRate = numberOfRowOfShakespeareLang.getText();
+        int numOfLasttIndex = numberOfRate.lastIndexOf('.');
+        String numberWithoutDot = numberOfRate.substring(0, numOfLasttIndex);
+        int numOfRate = parseInt(numberWithoutDot);
+
+        boolean actualResult = false;
+        if (numOfRate <= 6) {
+            actualResult = true;
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLangShakespeareTopRatedRealLang() {
+
+        boolean expectedResult = true;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/toplist.html");
+
+        WebElement submenuTopRatedRealLang = getDriver().
+                findElement(By.xpath("//a[@href='." +
+                        "/toplist_real.html']")
+                );
+        submenuTopRatedRealLang.click();
+
+        String[] tableOfLangsRate = new String[25];
+        boolean actualResult = false;
+
+        for (int i = 0; i < tableOfLangsRate.length; i++) {
+            int index = i + 2;
+            tableOfLangsRate[i] =
+                    getDriver().findElement(By.xpath(
+                            "//table[@id='category']" +
+                                    "/tbody/tr[" + index + "]")).getText()
+            ;
+            if (!tableOfLangsRate[i].contains("Shakespeare")) {
+                actualResult = true;
+            }
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testExistSixVersuionsOfJava() {
+
+        int expectedResult = 6;
+        int actualResult = 0;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/abc.html");
+
+        WebElement submenuJ = getDriver().
+                findElement(By.xpath("//ul[@id='submenu']" +
+                        "/li/a[@href='j.html']")
+                );
+        submenuJ.click();
+
+        WebElement langJava = getDriver().
+                findElement(By.
+                        xpath("//a[@href='language-java-3.html']")
+                );
+        langJava.click();
+
+        String nameOfVersion = getDriver().
+                findElement(By.xpath("//div[@id='main']" +
+                        "/p[@style='padding-top: 0; padding-bottom: 0;']"))
+                .getText();
+
+        actualResult++;
+
+        String[] versionArray = new String[5];
+        for (int i = 0; i < versionArray.length; i++) {
+            int index = i + 2;
+            versionArray[i] = getDriver().
+                    findElement(By.xpath("//table" +
+                            "[@id='category']/tbody/tr[" + index + "]"))
+                    .getText();
+
+            if (!versionArray[i].contains(nameOfVersion)) {
+                actualResult++;
+            }
+        }
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testCountCommentsOfObjOrientVers() {
+
+        int expectedResult = 33;
+
+        getDriver().get("http://www.99-bottles-of-beer.net/abc.html");
+
+        WebElement submenuJ = getDriver().
+                findElement(By.xpath("//ul[@id='submenu']" +
+                        "/li/a[@href='j.html']")
+                );
+        submenuJ.click();
+
+        WebElement langJava = getDriver().
+                findElement(By.
+                        xpath("//a[@href='language-java-3.html']")
+                );
+        langJava.click();
+
+        WebElement countCommentsOfObjOrientVers = getDriver()
+                .findElement(By.xpath("//table" +
+                        "[@style='margin: 7px; padding: 0;;']" +
+                        "/tbody/tr[4]/td[2]"));
+        int actualResult = parseInt(countCommentsOfObjOrientVers.getText());
+
+        int[] countOfAllComments = new int[5];
+        for (int i = 0; i < countOfAllComments.length; i++) {
+            int index = i + 2;
+            countOfAllComments[i] = parseInt(getDriver().
+                    findElement(By.xpath("//table" +
+                            "[@id='category']/tbody/tr[" + index + "]/td[4]"))
+                    .getText());
+
+            if (countOfAllComments[i] > actualResult) {
+                actualResult = countOfAllComments[i];
+            }
+        }
 
         Assert.assertEquals(actualResult, expectedResult);
     }
