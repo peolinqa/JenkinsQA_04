@@ -8,6 +8,8 @@ import runner.BaseTest;
 
 
 public class Song99BottlesSvetlanaG1011Test extends BaseTest {
+    private static final String BASE_URL = "http://www.99-bottles-of-beer.net/";
+    private  static final String BROWSE_LANGUAGES_MENU_XPATH = "//li/a[@href='/abc.html']";
 
     @Test
     public void testSongLyricsText() {
@@ -237,6 +239,21 @@ public class Song99BottlesSvetlanaG1011Test extends BaseTest {
         getDriver().findElement(By.xpath("//td/a[@href='language-actionscript-16.html']")).click();
         getDriver().findElement(By.xpath("//a[@title='reddit']")).click();
         String actualResult = getDriver().getCurrentUrl();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void test6VersionsOfSolutionsInJava() {
+
+        int expectedResult  = 6;
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath(BROWSE_LANGUAGES_MENU_XPATH)).click();
+        getDriver().findElement(By.xpath("//li/a[@href='j.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-3.html']")).click();
+        int actualResult = getDriver().findElements(
+                By.xpath("//table[@id='category']//tr[@onmouseover]")).size() + 1;
 
         Assert.assertEquals(actualResult, expectedResult);
     }
