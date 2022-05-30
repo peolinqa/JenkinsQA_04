@@ -24,24 +24,8 @@ public class Marolespb8HW12Test extends BaseTest {
         Assert.assertEquals("Error: Precondition failed - Incomplete Input.", expectedResult);
 
     }
-
-    @Ignore
-    @Test
-    public void testMenuContact() {
-
-        String url = "https://my-greekitchen.com/";
-        String expectedResult = "STOP ON BY";
-
-        getDriver().get(url);
-
-        getDriver().findElement(By.xpath("//li[@id='menu-item-3848']/a")).click();
-
-        WebElement subText = getDriver().findElement(By.xpath(
-                "//article[@id='post-59']/header/div/div/div/div[2]/div/h1"));
-        String actualResult = subText.getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
-
-    }
 }
+
+
+
 
