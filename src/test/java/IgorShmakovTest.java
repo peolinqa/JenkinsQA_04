@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class IgorShmakovTest extends BaseTest {
 
+    @Ignore
     @Test
     public void searchMercedesVinAndDecodeItTest() {
         getDriver().get("https://www.picknpull.com/check-inventory/vehicle-search?make=182&model=3611&distance=25&zip=95123&year=");
