@@ -2,7 +2,6 @@ package qa_java_beginners;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -10,9 +9,7 @@ public class HW12SabinaSaadTest extends BaseTest {
 
     public static String URL = "http://www.99-bottles-of-beer.net/";
 
-    @Ignore
-    @Test(invocationCount = 20)
-  
+    @Test
     public void testSubMenuJBrowseLanguages() {
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
 
@@ -40,6 +37,7 @@ public class HW12SabinaSaadTest extends BaseTest {
     @Test
     public void testBrowseLanguagesHeaders() {
         String[] expectedResult = {"Language", "Author", "Date", "Comments", "Rate"};
+
         getDriver().get(URL);
         getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
 
@@ -69,5 +67,38 @@ public class HW12SabinaSaadTest extends BaseTest {
         }
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+
+    @Test
+    public void testLanguagesWithDigits() {
+        int expectedResult = 10;
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='0.html']")).click();
+
+        int actualResult = getDriver().findElements(By.xpath("//tbody/tr/td/a")).size();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
+
+    @Test
+    public void testGuestbookErrorMessage() {
+        String expectedResult = "Error: Error: Invalid security code.";
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/guestbookv2.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./signv2.html']")).click();
+        getDriver().findElement(By.xpath("//form/p/input[@name='name']")).sendKeys("Alice");
+        getDriver().findElement(By.xpath("//form/p/input[@name='location']")).sendKeys("Wonderland");
+        getDriver().findElement(By.xpath("//form/p/input[@name='email']")).sendKeys("lewis@carrol.com");
+        getDriver().findElement(By.xpath("//form/p/input[@name='captcha']"))
+                .sendKeys(Integer.toString((int)(Math.random() * 1000 + 100)))
+        ;
+        getDriver().findElement(By.xpath("//form/p/textarea[@name='comment']")).sendKeys("We're all mad here");
+        getDriver().findElement(By.xpath("//form/p/input[@type='submit']")).click();
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='main']/p")).getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
     }
 }
