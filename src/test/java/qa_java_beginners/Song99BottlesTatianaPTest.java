@@ -6,138 +6,77 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Song99BottlesTatianaPTest extends BaseTest {
+    private static final String BASE_URL = "http://www.99-bottles-of-beer.net/";
 
-    private static String url = "http://www.99-bottles-of-beer.net/";
+    private void getBottles(StringBuilder lyrics, int number, String btl) {
+        lyrics.append(number).append(btl);
+    }
+
+    private void getNoMore(StringBuilder lyrics, String noMore, String btl) {
+        lyrics.append(noMore).append(btl);
+    }
+
+    private String createLyrics() {
+        final String BOTTLES_WALL_CS = " bottles of beer on the wall, ";
+        final String BOTTLES_DOT_LN = " bottles of beer.\n";
+        final String BOTTLES_DOT = " bottles of beer on the wall.";
+        final String TAKE = "Take one down and pass it around, ";
+        final String GO = "Go to the store and buy some more, ";
+        final String NO_MORE = "No more";
+
+        StringBuilder lyrics = new StringBuilder();
+
+        getBottles(lyrics, 99, BOTTLES_WALL_CS);
+        getBottles(lyrics, 99, BOTTLES_DOT_LN);
+
+        for (int i = 98; i > -1; i--) {
+            lyrics.append(TAKE);
+
+            if (i == 1) {
+                getBottles(lyrics, i, BOTTLES_DOT.replace("s", ""));
+                getBottles(lyrics, i, BOTTLES_WALL_CS.replace("s", ""));
+                getBottles(lyrics, i, BOTTLES_DOT_LN.replace("s", ""));
+
+            } else if (i == 0) {
+                getNoMore(lyrics, NO_MORE.toLowerCase(), BOTTLES_DOT);
+                getNoMore(lyrics, NO_MORE, BOTTLES_WALL_CS);
+                getNoMore(lyrics, NO_MORE.toLowerCase(), BOTTLES_DOT_LN);
+            } else {
+                getBottles(lyrics, i, BOTTLES_DOT);
+                getBottles(lyrics, i, BOTTLES_WALL_CS);
+                getBottles(lyrics, i, BOTTLES_DOT_LN);
+            }
+        }
+        lyrics.append(GO);
+        getBottles(lyrics, 99, BOTTLES_DOT);
+
+        return lyrics.toString();
+    }
 
     @Test
-    public void testSongLyricTest() {
+    public void testSongLyricsText() {
+        final String expectedResult = createLyrics();
+        By pTags = By.xpath("//div[@id='main']/p");
+        By menuSongLyrics = By.linkText("Song Lyrics");
 
-        String expectedResult = "99 bottles of beer on the wall, 99 bottles of beer.\n" +
-                "Take one down and pass it around, 98 bottles of beer on the wall.98 bottles of beer on the wall, 98 bottles of beer.\n" +
-                "Take one down and pass it around, 97 bottles of beer on the wall.97 bottles of beer on the wall, 97 bottles of beer.\n" +
-                "Take one down and pass it around, 96 bottles of beer on the wall.96 bottles of beer on the wall, 96 bottles of beer.\n" +
-                "Take one down and pass it around, 95 bottles of beer on the wall.95 bottles of beer on the wall, 95 bottles of beer.\n" +
-                "Take one down and pass it around, 94 bottles of beer on the wall.94 bottles of beer on the wall, 94 bottles of beer.\n" +
-                "Take one down and pass it around, 93 bottles of beer on the wall.93 bottles of beer on the wall, 93 bottles of beer.\n" +
-                "Take one down and pass it around, 92 bottles of beer on the wall.92 bottles of beer on the wall, 92 bottles of beer.\n" +
-                "Take one down and pass it around, 91 bottles of beer on the wall.91 bottles of beer on the wall, 91 bottles of beer.\n" +
-                "Take one down and pass it around, 90 bottles of beer on the wall.90 bottles of beer on the wall, 90 bottles of beer.\n" +
-                "Take one down and pass it around, 89 bottles of beer on the wall.89 bottles of beer on the wall, 89 bottles of beer.\n" +
-                "Take one down and pass it around, 88 bottles of beer on the wall.88 bottles of beer on the wall, 88 bottles of beer.\n" +
-                "Take one down and pass it around, 87 bottles of beer on the wall.87 bottles of beer on the wall, 87 bottles of beer.\n" +
-                "Take one down and pass it around, 86 bottles of beer on the wall.86 bottles of beer on the wall, 86 bottles of beer.\n" +
-                "Take one down and pass it around, 85 bottles of beer on the wall.85 bottles of beer on the wall, 85 bottles of beer.\n" +
-                "Take one down and pass it around, 84 bottles of beer on the wall.84 bottles of beer on the wall, 84 bottles of beer.\n" +
-                "Take one down and pass it around, 83 bottles of beer on the wall.83 bottles of beer on the wall, 83 bottles of beer.\n" +
-                "Take one down and pass it around, 82 bottles of beer on the wall.82 bottles of beer on the wall, 82 bottles of beer.\n" +
-                "Take one down and pass it around, 81 bottles of beer on the wall.81 bottles of beer on the wall, 81 bottles of beer.\n" +
-                "Take one down and pass it around, 80 bottles of beer on the wall.80 bottles of beer on the wall, 80 bottles of beer.\n" +
-                "Take one down and pass it around, 79 bottles of beer on the wall.79 bottles of beer on the wall, 79 bottles of beer.\n" +
-                "Take one down and pass it around, 78 bottles of beer on the wall.78 bottles of beer on the wall, 78 bottles of beer.\n" +
-                "Take one down and pass it around, 77 bottles of beer on the wall.77 bottles of beer on the wall, 77 bottles of beer.\n" +
-                "Take one down and pass it around, 76 bottles of beer on the wall.76 bottles of beer on the wall, 76 bottles of beer.\n" +
-                "Take one down and pass it around, 75 bottles of beer on the wall.75 bottles of beer on the wall, 75 bottles of beer.\n" +
-                "Take one down and pass it around, 74 bottles of beer on the wall.74 bottles of beer on the wall, 74 bottles of beer.\n" +
-                "Take one down and pass it around, 73 bottles of beer on the wall.73 bottles of beer on the wall, 73 bottles of beer.\n" +
-                "Take one down and pass it around, 72 bottles of beer on the wall.72 bottles of beer on the wall, 72 bottles of beer.\n" +
-                "Take one down and pass it around, 71 bottles of beer on the wall.71 bottles of beer on the wall, 71 bottles of beer.\n" +
-                "Take one down and pass it around, 70 bottles of beer on the wall.70 bottles of beer on the wall, 70 bottles of beer.\n" +
-                "Take one down and pass it around, 69 bottles of beer on the wall.69 bottles of beer on the wall, 69 bottles of beer.\n" +
-                "Take one down and pass it around, 68 bottles of beer on the wall.68 bottles of beer on the wall, 68 bottles of beer.\n" +
-                "Take one down and pass it around, 67 bottles of beer on the wall.67 bottles of beer on the wall, 67 bottles of beer.\n" +
-                "Take one down and pass it around, 66 bottles of beer on the wall.66 bottles of beer on the wall, 66 bottles of beer.\n" +
-                "Take one down and pass it around, 65 bottles of beer on the wall.65 bottles of beer on the wall, 65 bottles of beer.\n" +
-                "Take one down and pass it around, 64 bottles of beer on the wall.64 bottles of beer on the wall, 64 bottles of beer.\n" +
-                "Take one down and pass it around, 63 bottles of beer on the wall.63 bottles of beer on the wall, 63 bottles of beer.\n" +
-                "Take one down and pass it around, 62 bottles of beer on the wall.62 bottles of beer on the wall, 62 bottles of beer.\n" +
-                "Take one down and pass it around, 61 bottles of beer on the wall.61 bottles of beer on the wall, 61 bottles of beer.\n" +
-                "Take one down and pass it around, 60 bottles of beer on the wall.60 bottles of beer on the wall, 60 bottles of beer.\n" +
-                "Take one down and pass it around, 59 bottles of beer on the wall.59 bottles of beer on the wall, 59 bottles of beer.\n" +
-                "Take one down and pass it around, 58 bottles of beer on the wall.58 bottles of beer on the wall, 58 bottles of beer.\n" +
-                "Take one down and pass it around, 57 bottles of beer on the wall.57 bottles of beer on the wall, 57 bottles of beer.\n" +
-                "Take one down and pass it around, 56 bottles of beer on the wall.56 bottles of beer on the wall, 56 bottles of beer.\n" +
-                "Take one down and pass it around, 55 bottles of beer on the wall.55 bottles of beer on the wall, 55 bottles of beer.\n" +
-                "Take one down and pass it around, 54 bottles of beer on the wall.54 bottles of beer on the wall, 54 bottles of beer.\n" +
-                "Take one down and pass it around, 53 bottles of beer on the wall.53 bottles of beer on the wall, 53 bottles of beer.\n" +
-                "Take one down and pass it around, 52 bottles of beer on the wall.52 bottles of beer on the wall, 52 bottles of beer.\n" +
-                "Take one down and pass it around, 51 bottles of beer on the wall.51 bottles of beer on the wall, 51 bottles of beer.\n" +
-                "Take one down and pass it around, 50 bottles of beer on the wall.50 bottles of beer on the wall, 50 bottles of beer.\n" +
-                "Take one down and pass it around, 49 bottles of beer on the wall.49 bottles of beer on the wall, 49 bottles of beer.\n" +
-                "Take one down and pass it around, 48 bottles of beer on the wall.48 bottles of beer on the wall, 48 bottles of beer.\n" +
-                "Take one down and pass it around, 47 bottles of beer on the wall.47 bottles of beer on the wall, 47 bottles of beer.\n" +
-                "Take one down and pass it around, 46 bottles of beer on the wall.46 bottles of beer on the wall, 46 bottles of beer.\n" +
-                "Take one down and pass it around, 45 bottles of beer on the wall.45 bottles of beer on the wall, 45 bottles of beer.\n" +
-                "Take one down and pass it around, 44 bottles of beer on the wall.44 bottles of beer on the wall, 44 bottles of beer.\n" +
-                "Take one down and pass it around, 43 bottles of beer on the wall.43 bottles of beer on the wall, 43 bottles of beer.\n" +
-                "Take one down and pass it around, 42 bottles of beer on the wall.42 bottles of beer on the wall, 42 bottles of beer.\n" +
-                "Take one down and pass it around, 41 bottles of beer on the wall.41 bottles of beer on the wall, 41 bottles of beer.\n" +
-                "Take one down and pass it around, 40 bottles of beer on the wall.40 bottles of beer on the wall, 40 bottles of beer.\n" +
-                "Take one down and pass it around, 39 bottles of beer on the wall.39 bottles of beer on the wall, 39 bottles of beer.\n" +
-                "Take one down and pass it around, 38 bottles of beer on the wall.38 bottles of beer on the wall, 38 bottles of beer.\n" +
-                "Take one down and pass it around, 37 bottles of beer on the wall.37 bottles of beer on the wall, 37 bottles of beer.\n" +
-                "Take one down and pass it around, 36 bottles of beer on the wall.36 bottles of beer on the wall, 36 bottles of beer.\n" +
-                "Take one down and pass it around, 35 bottles of beer on the wall.35 bottles of beer on the wall, 35 bottles of beer.\n" +
-                "Take one down and pass it around, 34 bottles of beer on the wall.34 bottles of beer on the wall, 34 bottles of beer.\n" +
-                "Take one down and pass it around, 33 bottles of beer on the wall.33 bottles of beer on the wall, 33 bottles of beer.\n" +
-                "Take one down and pass it around, 32 bottles of beer on the wall.32 bottles of beer on the wall, 32 bottles of beer.\n" +
-                "Take one down and pass it around, 31 bottles of beer on the wall.31 bottles of beer on the wall, 31 bottles of beer.\n" +
-                "Take one down and pass it around, 30 bottles of beer on the wall.30 bottles of beer on the wall, 30 bottles of beer.\n" +
-                "Take one down and pass it around, 29 bottles of beer on the wall.29 bottles of beer on the wall, 29 bottles of beer.\n" +
-                "Take one down and pass it around, 28 bottles of beer on the wall.28 bottles of beer on the wall, 28 bottles of beer.\n" +
-                "Take one down and pass it around, 27 bottles of beer on the wall.27 bottles of beer on the wall, 27 bottles of beer.\n" +
-                "Take one down and pass it around, 26 bottles of beer on the wall.26 bottles of beer on the wall, 26 bottles of beer.\n" +
-                "Take one down and pass it around, 25 bottles of beer on the wall.25 bottles of beer on the wall, 25 bottles of beer.\n" +
-                "Take one down and pass it around, 24 bottles of beer on the wall.24 bottles of beer on the wall, 24 bottles of beer.\n" +
-                "Take one down and pass it around, 23 bottles of beer on the wall.23 bottles of beer on the wall, 23 bottles of beer.\n" +
-                "Take one down and pass it around, 22 bottles of beer on the wall.22 bottles of beer on the wall, 22 bottles of beer.\n" +
-                "Take one down and pass it around, 21 bottles of beer on the wall.21 bottles of beer on the wall, 21 bottles of beer.\n" +
-                "Take one down and pass it around, 20 bottles of beer on the wall.20 bottles of beer on the wall, 20 bottles of beer.\n" +
-                "Take one down and pass it around, 19 bottles of beer on the wall.19 bottles of beer on the wall, 19 bottles of beer.\n" +
-                "Take one down and pass it around, 18 bottles of beer on the wall.18 bottles of beer on the wall, 18 bottles of beer.\n" +
-                "Take one down and pass it around, 17 bottles of beer on the wall.17 bottles of beer on the wall, 17 bottles of beer.\n" +
-                "Take one down and pass it around, 16 bottles of beer on the wall.16 bottles of beer on the wall, 16 bottles of beer.\n" +
-                "Take one down and pass it around, 15 bottles of beer on the wall.15 bottles of beer on the wall, 15 bottles of beer.\n" +
-                "Take one down and pass it around, 14 bottles of beer on the wall.14 bottles of beer on the wall, 14 bottles of beer.\n" +
-                "Take one down and pass it around, 13 bottles of beer on the wall.13 bottles of beer on the wall, 13 bottles of beer.\n" +
-                "Take one down and pass it around, 12 bottles of beer on the wall.12 bottles of beer on the wall, 12 bottles of beer.\n" +
-                "Take one down and pass it around, 11 bottles of beer on the wall.11 bottles of beer on the wall, 11 bottles of beer.\n" +
-                "Take one down and pass it around, 10 bottles of beer on the wall.10 bottles of beer on the wall, 10 bottles of beer.\n" +
-                "Take one down and pass it around, 9 bottles of beer on the wall.9 bottles of beer on the wall, 9 bottles of beer.\n" +
-                "Take one down and pass it around, 8 bottles of beer on the wall.8 bottles of beer on the wall, 8 bottles of beer.\n" +
-                "Take one down and pass it around, 7 bottles of beer on the wall.7 bottles of beer on the wall, 7 bottles of beer.\n" +
-                "Take one down and pass it around, 6 bottles of beer on the wall.6 bottles of beer on the wall, 6 bottles of beer.\n" +
-                "Take one down and pass it around, 5 bottles of beer on the wall.5 bottles of beer on the wall, 5 bottles of beer.\n" +
-                "Take one down and pass it around, 4 bottles of beer on the wall.4 bottles of beer on the wall, 4 bottles of beer.\n" +
-                "Take one down and pass it around, 3 bottles of beer on the wall.3 bottles of beer on the wall, 3 bottles of beer.\n" +
-                "Take one down and pass it around, 2 bottles of beer on the wall.2 bottles of beer on the wall, 2 bottles of beer.\n" +
-                "Take one down and pass it around, 1 bottle of beer on the wall.1 bottle of beer on the wall, 1 bottle of beer.\n" +
-                "Take one down and pass it around, no more bottles of beer on the wall.No more bottles of beer on the wall, no more bottles of beer.\n" +
-                "Go to the store and buy some more, 99 bottles of beer on the wall.";
+        getDriver().get(BASE_URL);
+        getDriver().findElement(menuSongLyrics).click();
 
-        getDriver().get(url);
+        StringBuilder actualResult = new StringBuilder();
 
-        getDriver()
-                .findElement(
-                        By.xpath(
-                                "//body/div[@id='wrap']/div[@id='navigation']/ul[@id='submenu']/li/a[@href='lyrics.html']"
-                        )).click();
+        List<WebElement> pAll = getDriver().findElements(pTags);
 
-        String[] pText = new String[100];
-        for (int i = 0; i < pText.length; i++) {
-            int index = i + 1;
-            pText[i] = getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='main']/p[" + index + "]"))
-                    .getText();
+        Assert.assertFalse(pAll.isEmpty());
+
+        for (WebElement p : pAll) {
+            actualResult.append(p.getText());
         }
 
-        String actualResult = "";
-        for (int i = 0; i < pText.length; i++) {
-            actualResult += pText[i];
-        }
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(actualResult.toString(), expectedResult);
     }
 
     @Test
@@ -145,100 +84,93 @@ public class Song99BottlesTatianaPTest extends BaseTest {
 
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
 
-        getDriver().get(url);
+        getDriver().get(BASE_URL);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//li/a[@href='j.html']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p[1]")).getText(), expectedResult);
-
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p[contains(text(),'All languages')]")).getText(), expectedResult);
     }
 
     @Test
     public void TC_12_02test() {
 
         String expectedResult = "MySQL";
-        getDriver().get(url);
+        getDriver().get(BASE_URL);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='m.html']")).click();
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//td/a[@href='language-mysql-1252.html']")).getText(), expectedResult);
-
     }
 
     @Test
-    public void TC_12_03test() {
+    public void TC_12_03test() throws InterruptedException {
 
-        String expectedResult = "LanguageAuthorDateCommentsRate";
+        String expectedLanguage = "Language";
+        String expectedAuthor = "Author";
+        String expectedDate = "Date";
+        String expectedComment = "Comments";
+        String expectedRate = "Rate";
 
-        getDriver().get(url);
+        StringBuilder expectedResult = new StringBuilder();
+        expectedResult.append(expectedLanguage).append(expectedAuthor).append(expectedDate)
+                .append(expectedComment).append(expectedRate);
+
+        getDriver().get(BASE_URL);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
-        getDriver().findElement(By.xpath("//tr/th")).getText();
+        getDriver().findElements(By.xpath("//tr/th"));
 
-        String[] tableTitles = new String[5];
-        for (int i = 0; i < tableTitles.length; i++) {
-            int index = i + 1;
-            tableTitles[i] = getDriver().findElement(By.xpath("//tr/th[" + index + "]")).getText();
+        StringBuilder actualResult = new StringBuilder();
+
+        List<WebElement> tableTitles = getDriver().findElements(By.xpath("//tr/th"));
+
+        for (WebElement trs : tableTitles) {
+            actualResult.append(trs.getText());
         }
 
-        String actualResult = "";
-        for (int i = 0; i < tableTitles.length; i++) {
-            actualResult = actualResult + tableTitles[i];
-        }
-
-        Assert.assertEquals(actualResult, expectedResult);
-
+        Assert.assertEquals(actualResult.toString(), expectedResult.toString());
     }
 
     @Test
-    public void TC_12_04Test() {
+    public void TC_12_04test() {
 
-        String expectedResult = "Brenton Bostick".concat("03/16/06").concat("1");
+        String expectedTitle = "Mathematica";
+        String authorExpected = "Brenton Bostick";
+        String dateExpected = "03/16/06";
+        String commentExpected = "1";
+        StringBuilder expectedResult = new StringBuilder();
+        expectedResult.append(expectedTitle).append(authorExpected).append(dateExpected).append(commentExpected);
 
-        getDriver().get(url);
+        getDriver().get(BASE_URL);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath("//li/a[@href='m.html']")).click();
-        String text = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mathematica-1090.html']")).getText();
+        List<WebElement> trs = getDriver().findElements(By.xpath("//tbody/tr/td"));
 
-        String[] columns = new String[4];
-        for (int i = 0; i < columns.length; i++) {
-            int index = i + 1;
-            columns[i] = getDriver().findElement(By.xpath("//tr/td/a[@href='language-mathematica-1090.html']/following::td[" + index + "]")).getText();
+        List<String> actualResult = new ArrayList<>();
+
+        for (WebElement tr : trs) {
+            if (tr.getText().contains(expectedTitle)) {
+                actualResult.add(tr.getText());
+            }
         }
-
-        String actualResult = "";
-        for (int i = 0; i < columns.length; i++) {
-            actualResult = actualResult + columns[i];
-        }
-
-        Assert.assertEquals(actualResult, expectedResult);
-
+        Assert.assertEquals(actualResult.size(), 1);
     }
 
     @Test
     public void TC_12_05Test() {
         int expectedResult = 10;
-        getDriver().get(url);
+        getDriver().get(BASE_URL);
         getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
         getDriver().findElement(By.xpath(("//a[@href='0.html']"))).click();
 
-        String[] numbersLg = new String[10];
-        int count = 0;
-        for (int i = 0; i < numbersLg.length; i++) {
-            if (getDriver().findElement(By.xpath("//td/a")).getText().charAt(0) >= '0' ||
-                    getDriver().findElement(By.xpath("//td/a")).getText().charAt(0) <= '9')
-                count++;
-        }
+        List<WebElement> tableNum = getDriver().findElements(By.xpath("//tbody/tr"));
+        int actualResult = tableNum.size() - 1;
 
-        Assert.assertEquals(count, expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
     public void TC_12_06() {
-        /**TC_12_06 Подтвердите, что если на странице Sign Guestbook http://www.99-bottles-of-beer.net/signv2.html
-         вы заполните все поля формы, но введете случайно сгенерированное трехзначное число в поле  Security Code:
-         , то вы получите сообщение об ошибке  Error: Error: Invalid security code.*/
-
         String expectedResult = "Error: Error: Invalid security code.";
 
         getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
@@ -248,13 +180,61 @@ public class Song99BottlesTatianaPTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@name='homepage']")).submit();
 
         getDriver().findElement(By.xpath("//input[@name='captcha']"))
-                .sendKeys(Integer.toString((int)(Math.random() * 1000 + 100)));
+                .sendKeys(Integer.toString((int) (Math.random() * 1000 + 100)));
         getDriver().findElement(By.xpath("//textarea[@name='comment']")).sendKeys("great work");
 
         getDriver().findElement(By.xpath("//input[@name='submit']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p")).getText(),expectedResult);
-
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main']/p")).getText(), expectedResult);
     }
 
+    @Test
+    public void TC_12_07() {
+        String expectedResult = "reddit.com: Log in";
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath("//a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='j.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-3.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-1162.html']")).click();
+        getDriver().findElement(By.xpath("//a[@title='reddit']")).click();
+
+        Assert.assertEquals(getDriver().getTitle(), expectedResult);
+    }
+
+    @Test
+    public void TC_12_09() {
+        int expectedResult = 6;
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath("//li/a[@href='/search.html']")).click();
+        getDriver().findElement(By.name("search")).sendKeys("Java");
+        getDriver().findElement(By.name("submitsearch")).click();
+        getDriver().findElement(By.xpath("//a[@href='/language-java-3.html']")).click();
+
+        int javaVersion = getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr/td[1]")).size() + 1;
+
+        Assert.assertEquals(javaVersion, expectedResult);
+    }
+
+    @Test
+    public void TC_12_10() {
+        int expectedResult = 33;
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.xpath("//li/a[@href='/search.html']")).click();
+        getDriver().findElement(By.name("search")).sendKeys("Java");
+        getDriver().findElement(By.name("submitsearch")).click();
+
+        List<WebElement> java = getDriver().findElements(By.xpath("//tbody/tr/td[4]"));
+
+        int maxValue = Integer.MIN_VALUE;
+        for (WebElement comments : java) {
+            if (maxValue < Integer.parseInt(comments.getText())) {
+                maxValue = Integer.parseInt(comments.getText());
+            }
+        }
+
+        Assert.assertEquals(maxValue, expectedResult);
+    }
 }
