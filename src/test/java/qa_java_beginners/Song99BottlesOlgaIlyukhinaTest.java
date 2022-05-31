@@ -5,10 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class Song99BottlesOlgaIlyukhinaTest extends BaseTest {
 
@@ -20,9 +17,8 @@ public class Song99BottlesOlgaIlyukhinaTest extends BaseTest {
 
         getDriver().get(baseUrl);
 
-        String menuTopLists = getDriver().findElement
-                (By.xpath
-                ("//body/div/div/ul/li/a[@href='/toplist.html']"))
+        String menuTopLists = getDriver().findElement(By.xpath
+                        ("//li/a[@href='/toplist.html']"))
                 .getAttribute("href");
 
         Assert.assertEquals(menuTopLists, expectedResult);
@@ -33,11 +29,10 @@ public class Song99BottlesOlgaIlyukhinaTest extends BaseTest {
         getDriver().get(baseUrl);
 
         getDriver().findElement(By.xpath
-                ("//body/div/div/ul/li/a[@href='/submitnewlanguage.html']"))
+                        ("//li/a[@href='/submitnewlanguage.html']"))
                 .click();
         List<WebElement> submitNewLanguageForm = getDriver().findElements(
-                By.xpath
-                ("//body/div/div[@id='main']/form/p/strong"));
+                By.xpath("//form/p/strong"));
 
         List<String> actualResult = new ArrayList<>();
         for (WebElement webElement : submitNewLanguageForm) {
@@ -58,5 +53,25 @@ public class Song99BottlesOlgaIlyukhinaTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-}
 
+    @Test
+    public void testBrowseLanguagesLetterJSort() {
+        getDriver().get(baseUrl);
+
+        getDriver().findElement(By.xpath
+                ("//li/a[@href='/abc.html']"))
+                .click();
+
+        getDriver().findElement(By.xpath
+                ("//a[@href='j.html']"))
+                .click();
+
+        String expectedResult = "All languages starting with the letter J are "
+                + "shown, sorted by Language.";
+        String actualResult = getDriver().findElement(By.xpath
+                ("//p[contains(text(),'All languages')]"))
+                .getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
+}
