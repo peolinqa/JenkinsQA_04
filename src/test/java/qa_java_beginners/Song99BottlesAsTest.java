@@ -17,7 +17,6 @@ public class Song99BottlesAsTest extends BaseTest {
     private void getBottles(StringBuilder lyrics, int number, String btl) {
         lyrics.append(number).append(btl);
     }
-
     private void getNoMore(StringBuilder lyrics, String noMore, String btl) {
         lyrics.append(noMore).append(btl);
     }
@@ -53,10 +52,8 @@ public class Song99BottlesAsTest extends BaseTest {
                 getBottles(lyrics, i, BOTTLES_DOT_LN);
             }
         }
-
         lyrics.append(GO);
         getBottles(lyrics, 99, BOTTLES_DOT);
-
         return lyrics.toString();
     }
 
@@ -75,7 +72,6 @@ public class Song99BottlesAsTest extends BaseTest {
         for (WebElement p : pAll) {
             actualResult.append(p.getText());
         }
-
         Assert.assertEquals(actualResult.toString(), expectedResult);
     }
 
@@ -85,10 +81,8 @@ public class Song99BottlesAsTest extends BaseTest {
         String expectedResalt = "All languages starting with the letter J are shown, sorted by Language.";
 
         getDriver().get(URL);
-
         getDriver().findElement(
                 By.xpath("//div/ul/li/a[@href='/abc.html']")).click();
-
         getDriver().findElement(
                 By.xpath("//div/ul/li/a[@href='j.html']")).click();
 
@@ -156,7 +150,7 @@ public class Song99BottlesAsTest extends BaseTest {
     }
 
     @Test
-    public void testHW_12_06()  {
+    public void testHW_12_06() {
         String expectedResalt = "Error: Error: Invalid security code.";
 
         getDriver().get(URL);
@@ -172,11 +166,11 @@ public class Song99BottlesAsTest extends BaseTest {
         getDriver().findElement(By.xpath("//form[@id='addentry']/p/input[@type='submit']")).click();
         String actualyResalt = getDriver().findElement(By.xpath("//div[@id='main']/p")).getText();
 
-        Assert.assertEquals(actualyResalt,expectedResalt);
+        Assert.assertEquals(actualyResalt, expectedResalt);
     }
 
     @Test
-    public void testHW_12_7(){
+    public void testHW_12_7() {
 
         String expectedResalt = "https://www.reddit.com/login/?dest=https%3A%2F%2Fwww.reddit." +
                 "com%2Fsubmit%3Furl%3Dhttps%253A%252F%252Fwww.99-bottles-of-beer" +
@@ -187,9 +181,10 @@ public class Song99BottlesAsTest extends BaseTest {
         getDriver().findElement(By.xpath("//table[@id='category']/tbody/tr/td/a[@href='language-actionscript-1010.html']")).click();
         getDriver().findElement(By.xpath("//a[@title='reddit']")).click();
 
-        Assert.assertEquals(getDriver().getCurrentUrl(),expectedResalt);
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedResalt);
 
     }
+
     @Test
     public void testHW_12_8_ShakespeareIncludeTop() {
 
@@ -200,11 +195,83 @@ public class Song99BottlesAsTest extends BaseTest {
         for (WebElement tr : textFindShakespeare) {
             if (tr.getText().contains("Shakespeare")) {
 
-                int i = Integer.parseInt(tr.getText().substring(0, 2));
-                Assert.assertTrue(i <= 20);
+                int numberShakespeare = Integer.parseInt(tr.getText().substring(0, 2));
+
+                Assert.assertFalse(tr.getText().isEmpty());
+                Assert.assertTrue(numberShakespeare <= 20);
             }
         }
+    }
 
+    @Test
+    public void testHW_12_8_ShakespeareIncludeTopEsotericLanguages() {
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_esoteric.html']")).click();
+
+        List<WebElement> textFindShakespeare = getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr"));
+        for (WebElement tr : textFindShakespeare) {
+            if (tr.getText().contains("Shakespeare")) {
+                int numberShakespeare = Integer.parseInt(tr.getText().substring(0, 1));
+
+                Assert.assertFalse(tr.getText().isEmpty());
+                Assert.assertTrue(numberShakespeare <= 10);
+            }
+        }
+    }
+
+    @Test
+    public void testHW_12_8_ShakespeareIncludeTopHits() {
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./tophits.html']")).click();
+
+        List<WebElement> textFindShakespeare = getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr"));
+        for (WebElement tr : textFindShakespeare) {
+            if (tr.getText().contains("Shakespeare")) {
+                int numberShakespeare = Integer.parseInt(tr.getText().substring(0, 1));
+
+                Assert.assertFalse(tr.getText().isEmpty());
+                Assert.assertTrue(numberShakespeare <= 6);
+            }
+        }
+    }
+
+    @Test
+    public void testHW_12_8_ShakespeareNotIncludeTopRatedReal() {
+
+        getDriver().get(URL);
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/toplist.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='./toplist_real.html']")).click();
+
+        List<WebElement> textFindShakespeare = getDriver().findElements(By.xpath("//table[@id='category']/tbody/tr"));
+        for (WebElement tr : textFindShakespeare) {
+
+            Assert.assertFalse(tr.getText().isEmpty());
+            Assert.assertFalse(tr.getText().contains("Shakespeare"));
+        }
+    }
+
+    @Test
+    public void HW_12_9JavaSixVersion() {
+
+        getDriver().get(URL);
+        getDriver().findElement(By.linkText("Search Languages")).click();
+        getDriver().findElement(By.xpath("//input[@ name='search']")).sendKeys("Java");
+        getDriver().findElement(By.xpath("//input[@ type='submit']")).click();
+
+        StringBuilder getTextJava = new StringBuilder();
+        int actualyResaltCountJava = 0;
+        List<WebElement> getText = getDriver().findElements(By.xpath("//table/tbody/tr"));
+        for (WebElement p : getText) {
+            getTextJava.append(p.getText().contains("Java"));
+            actualyResaltCountJava++;
+        }
+        if (actualyResaltCountJava >= 6) {
+            Assert.assertTrue(true);
+        }
     }
 
 
