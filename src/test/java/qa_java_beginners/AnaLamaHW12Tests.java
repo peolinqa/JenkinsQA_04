@@ -29,7 +29,6 @@ public class AnaLamaHW12Tests extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
     @Test
     public void testMLastLanguageMySQL() {
 
@@ -43,9 +42,7 @@ public class AnaLamaHW12Tests extends BaseTest {
         String actualResult = mLet.getText();
 
         Assert.assertEquals(actualResult, expectedResult);
-
     }
-
     @Test
     public void testTableColumnsTitles() {
 
@@ -61,7 +58,6 @@ public class AnaLamaHW12Tests extends BaseTest {
 
         Assert.assertEquals(tabTitlesActual.toString(), expectedResult.toString());
     }
-
     @Test
     public void testMathLanguageRow() {
         getDriver().get(BASE_URL);
@@ -74,7 +70,6 @@ public class AnaLamaHW12Tests extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
-
     @Test
     public void testNumericalLanguagesNames() {
         int expectedResult = 10;
@@ -116,5 +111,41 @@ public class AnaLamaHW12Tests extends BaseTest {
         String actualResult = getDriver().getTitle();
 
         Assert.assertEquals(actualResult, expectedResult);
+    }
+    @Test
+    public void testShakespeareTopLanguage() {
+        String expectedResult1 = "99 Bottles of Beer | Top Rated";
+        String expectedResult2 = "99 Bottles of Beer | Top Rated Esoteric Languages";
+        String expectedResult3 = "99 Bottles of Beer | Top Hits";
+
+        getDriver().get(BASE_URL);
+        getDriver().findElement(By.linkText("Top Lists")).click();
+        String actResult1 = getDriver().getTitle();
+        WebElement shek = getDriver().findElement(
+                By.xpath("//a[contains(text(),'Shakespeare')]/parent::td/parent::tr"));
+        String[] shek1 = shek.getText().split(" ");
+        int topNum = Integer.parseInt(shek1[0].replace(".", ""));
+
+        getDriver().findElement(By.linkText("Top Rated Esoteric")).click();
+        String actResult2 = getDriver().getTitle();
+        WebElement shekEsot = getDriver().findElement(
+                By.xpath("//a[contains(text(),'Shakespeare')]/../.."));
+        String[] shekEsot1 = shekEsot.getText().split(" ");
+        int topEsotNum = Integer.parseInt(shekEsot1[0].replace(".", ""));
+
+        getDriver().findElement(By.linkText("Top Hits")).click();
+        String actResult3 = getDriver().getTitle();
+        WebElement shekTopHits = getDriver().findElement(
+                By.xpath("//a[contains(text(),'Shakespeare')]/../.."));
+        String[] shekTopHits1 = shekTopHits.getText().split(" ");
+        int topHitsNum = Integer.parseInt(shekTopHits1[0].replace(".", ""));
+
+
+        Assert.assertEquals(actResult1, expectedResult1);
+        Assert.assertTrue(topNum <= 20);
+        Assert.assertEquals(actResult2, expectedResult2);
+        Assert.assertTrue(topEsotNum <= 10);
+        Assert.assertEquals(actResult3, expectedResult3);
+        Assert.assertTrue(topHitsNum <= 6);
     }
 }
