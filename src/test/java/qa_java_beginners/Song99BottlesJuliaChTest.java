@@ -166,5 +166,36 @@ public class Song99BottlesJuliaChTest extends BaseTest {
 
         Assert.assertEquals(text.getText(), expectedResult);
     }
+
+    @Test
+    public void testTitleOfTable() {
+
+        String expectedResult = "Language Author Date Comments Rate";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']" +
+                "/ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        WebElement table = getDriver().findElement(By.xpath("//div[@id='main']/table//tr"));
+
+        Assert.assertEquals(table.getText(), expectedResult);
+    }
+
+    @Test
+    public void testMathematica() {
+
+        String expectedResult = "Mathematica Brenton Bostick 03/16/06 1";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//body/div[@id='wrap']/div[@id='navigation']/" +
+                "ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(
+                By.xpath("//div[@id='navigation']/ul[@id='submenu']/li/a[@href='m.html']")).click();
+        WebElement text = getDriver().findElement(
+                By.xpath("//table[@id='category']//a[@href='language-mathematica-1090.html']/../.."));
+
+        Assert.assertEquals(text.getText(), expectedResult);
+    }
 }
 
