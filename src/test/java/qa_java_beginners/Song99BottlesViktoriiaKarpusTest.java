@@ -253,6 +253,23 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
         Assert.assertEquals(actualResult, expectedResult);
 
     }
+    @Test
+    public void testRedditLoginPage() {
+
+        String expectedResult = "https://www.reddit.com/login/?dest=https%3A%2F%2F" +
+                "www.reddit.com%2Fsubmit%3Furl%3Dhttps%253A%252F%252Fwww.99-bottles-of-beer.net%252Flanguage-java-950." +
+                "html%26title%3D99%2520Bottles%2520of%2520Beer%2520%257C%2520Language%2520Java";
+
+        getDriver().get("http://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href ='j.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-3.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='language-java-950.html']")).click();
+        getDriver().findElement(By.xpath("//a[@title='reddit']")).click();
+
+        Assert.assertEquals(getDriver().getCurrentUrl(), expectedResult);
+    }
 
 }
 
