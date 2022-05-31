@@ -271,5 +271,25 @@ public class Song99BottlesViktoriiaKarpusTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), expectedResult);
     }
 
+    @Test
+    public void testSixLanguages() {
+
+        int expectedResult = 6;
+
+        getDriver().get("http://www.99-bottles-of-beer.net");
+
+        getDriver().findElement(By.xpath("//ul[@id='menu']/li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//ul[@id='submenu']/li/a[@href='j.html']")).click();
+        getDriver().findElement(By.xpath("//tbody/tr/td/a[@href='language-java-3.html']")).click();
+
+        int actualResult = getDriver().findElements(
+                By.xpath("//tr[starts-with(@onmouseover,'setPointer')]")).size() + 1;
+
+        Assert.assertEquals(actualResult,expectedResult);
+
+    }
+
+
+
 }
 
