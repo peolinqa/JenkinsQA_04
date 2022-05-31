@@ -13,14 +13,10 @@ public class IvanTodorov99BottlesOfBeerTest extends BaseTest {
         String expectedResult = "All languages starting with the letter J are shown, sorted by Language.";
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
-        WebElement menuBrowseLanguages = getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a"));
-        menuBrowseLanguages.click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[2]/li[11]/a")).click();
 
-        WebElement submenuJ = getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[2]/li[11]/a"));
-        submenuJ.click();
-
-        WebElement categoryJText = getDriver().findElement(By.xpath("/html/body/div/div[3]/p[1]"));
-        String actualResult = categoryJText.getText();
+        String actualResult = getDriver().findElement(By.xpath("/html/body/div/div[3]/p[1]")).getText();
 
         Assert.assertEquals(actualResult,expectedResult);
     }
@@ -31,16 +27,12 @@ public class IvanTodorov99BottlesOfBeerTest extends BaseTest {
         String expectedResult = "MySQL";
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
-        WebElement menuBrowseLanguages = getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a"));
-        menuBrowseLanguages.click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[2]/li[14]/a")).click();
 
-        WebElement submenuJ = getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[2]/li[14]/a"));
-        submenuJ.click();
-
-        WebElement categoryMLastColumn = getDriver().findElement(By.xpath(
+        String actualResult = getDriver().findElement(By.xpath(
                 "/html/body/div/div[3]/table/tbody/tr[89]/td[1]/a"
-        ));
-        String actualResult = categoryMLastColumn.getText();
+        )).getText();
 
         Assert.assertEquals(actualResult,expectedResult);
     }
@@ -51,11 +43,9 @@ public class IvanTodorov99BottlesOfBeerTest extends BaseTest {
         String expectedResult = "Language Author Date Comments Rate";
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
-        WebElement menuBrowseLanguages = getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a"));
-        menuBrowseLanguages.click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a")).click();
 
-        WebElement titlesOfColumn = getDriver().findElement(By.xpath("//*[@id=\"category\"]/tbody/tr[1]"));
-        String actualResult = titlesOfColumn.getText();
+        String actualResult = getDriver().findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[1]")).getText();
 
         Assert.assertEquals(actualResult,expectedResult);
     }
@@ -64,44 +54,33 @@ public class IvanTodorov99BottlesOfBeerTest extends BaseTest {
 
     @Test
     public void testMenuBrowseLanguagesMathematicaAuthorAndDate() {
-        String expectedResult1 = "Author: Brenton Bostick";
-        String expectedResult2 = "Date: 03/16/06";
+        String expectedResult = "Author: Brenton BostickDate: 03/16/06";
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
-        WebElement menuBrowseLanguages = getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a"));
-        menuBrowseLanguages.click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[2]/li[14]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[22]/td[1]/a")).click();
 
-        WebElement submenuM = getDriver().findElement(By.xpath("//*[@id=\"submenu\"]/li[14]/a"));
-        submenuM.click();
+        WebElement date = getDriver().findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[1]"));
+        WebElement author = getDriver().findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[2]"));
 
-        WebElement languageMathematica = getDriver().findElement(By.xpath(
-                "//*[@id=\"category\"]/tbody/tr[22]/td[1]/a"
-        ));
-        languageMathematica.click();
+        String actualResult = author.getText() + date.getText();
 
-        WebElement date = getDriver().findElement(By.xpath("//*[@id=\"main\"]/table/tbody/tr[1]"));
-        WebElement author = getDriver().findElement(By.xpath("//*[@id=\"main\"]/table/tbody/tr[2]"));
-
-        String actualResult1 = author.getText();
-        String actualResult2 = date.getText();
-
-        Assert.assertEquals(actualResult1, expectedResult1);
-        Assert.assertEquals(actualResult2, expectedResult2);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
 
 
     @Test
     public void testLanguagesStartedByNumbers() {
-        boolean expectedResult = true;
         getDriver().get("http://www.99-bottles-of-beer.net/");
 
-        getDriver().findElement(By.xpath("//*[@id=\"menu\"]/li[2]/a")).click();
-        getDriver().findElement(By.xpath("//*[@id=\"submenu\"]/li[1]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[2]/li[1]/a")).click();
 
         WebElement[] arrTable = new WebElement[10];
         for (int i = 2, index = 0; i < 12; i++, index++) {
-            arrTable[index] = getDriver().findElement(By.xpath("//*[@id=\"category\"]/tbody/tr["+i+"]/td[1]"));
+            arrTable[index] = getDriver().findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr["+i+"]/td[1]"));
         }
 
         boolean actualResult = true;
@@ -111,9 +90,46 @@ public class IvanTodorov99BottlesOfBeerTest extends BaseTest {
             }
         }
 
+        Assert.assertTrue(actualResult);
+    }
+
+
+    @Test
+    public void testMenuSignGuestbookErrorSecurityCode() {
+        String expectedResult = "Error: Error: Invalid security code.";
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/form/p/input[1]")).sendKeys("Ivan");
+        getDriver().findElement(By.xpath(
+                "/html/body/div/div[3]/form/p/input[3]")).sendKeys("12345@gmail.com");
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/form/p/textarea")).sendKeys("qwerty");
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/form/p/input[5]"))
+                .sendKeys(Integer.toString((int)(Math.random() * 1000)));
+
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/form/p/input[6]")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("/html/body/div/div[3]/p")).getText();
+
         Assert.assertEquals(actualResult,expectedResult);
     }
 
 
+    @Test
+    public void testRepostLanguageToReddit() {
+        String expectedResult = "Log in";
+        getDriver().get("https://www.99-bottles-of-beer.net/");
+
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[1]/li[2]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[2]/ul[2]/li[11]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/table/tbody/tr[5]/td[1]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/div[2]/table/tbody/tr[2]/td[1]/a")).click();
+        getDriver().findElement(By.xpath("/html/body/div/div[3]/div[1]/p[2]/a[11]/img")).click();
+
+        String actualResult = getDriver().findElement(By.xpath(
+                "/html/body/div/main/div[1]/div/div[2]/h1"
+        )).getText();
+
+        Assert.assertEquals(actualResult,expectedResult);
+    }
 
 }
