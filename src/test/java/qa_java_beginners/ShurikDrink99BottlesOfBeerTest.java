@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -114,5 +115,45 @@ public class ShurikDrink99BottlesOfBeerTest extends BaseTest {
                 By.xpath("//table[@id='category']/tbody/tr"));
 
         Assert.assertEquals(languagesWithNumeric.size() - 1, 10);
+    }
+
+    @Test
+    public void test_TC_12_06() throws InterruptedException {
+        getDriver().get("http://www.99-bottles-of-beer.net/signv2.html");
+
+        WebElement boxName = getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='name']"));
+        boxName.sendKeys("Shurik");
+
+        WebElement boxLocation = getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='location']"));
+        boxLocation.sendKeys("Cyprus");
+
+        WebElement boxE_Mail = getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='email']"));
+        boxE_Mail.sendKeys("beginners@the.best");
+
+        WebElement boxHomepage = getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='homepage']"));
+        boxHomepage.sendKeys("www.99-bottles-of-beer.net");
+
+        WebElement boxSecurity_Code = getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@name='captcha']"));
+        Integer captcha = (int) (Math.random() * 1000);
+        boxSecurity_Code.sendKeys(captcha.toString());
+
+        WebElement boxMessage = getDriver().findElement(
+                By.xpath("//form[@id='addentry']//textarea"));
+        boxMessage.sendKeys("Test Message");
+
+        WebElement submit = getDriver().findElement(
+                By.xpath("//form[@id='addentry']//input[@type='submit']"));
+        submit.click();
+
+        WebElement errorMessage = getDriver().findElement(
+                By.xpath("//div[@id='main']/p"));
+
+        Assert.assertEquals(errorMessage.getText(),
+                "Error: Error: Invalid security code.");
     }
 }
