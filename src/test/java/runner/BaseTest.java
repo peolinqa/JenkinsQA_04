@@ -10,10 +10,12 @@ public abstract class BaseTest {
     @BeforeMethod
     protected void beforeMethod() {
         driver = BaseUtils.createDriver();
+        ProjectUtils.login(driver);
     }
 
     @AfterMethod
     protected void afterMethod() {
+        ProjectUtils.logout(driver);
         driver.quit();
     }
 
