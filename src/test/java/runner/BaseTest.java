@@ -3,6 +3,8 @@ package runner;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
 
+import java.lang.reflect.Method;
+
 public abstract class BaseTest {
 
     private WebDriver driver;

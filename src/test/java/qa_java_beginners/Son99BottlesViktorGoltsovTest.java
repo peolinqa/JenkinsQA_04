@@ -2,10 +2,11 @@ package qa_java_beginners;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-
+@Ignore
 public class Son99BottlesViktorGoltsovTest extends BaseTest {
     @Test
     public void testSongLyricTest() {

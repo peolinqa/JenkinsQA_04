@@ -6,6 +6,7 @@ import org.testng.annotations.*;
 import runner.BaseTest;
 import java.util.Random;
 
+@Ignore
 public class IgorKadach99BottlesOfBeerTest extends BaseTest {
 
     private String url = "http://www.99-bottles-of-beer.net/";

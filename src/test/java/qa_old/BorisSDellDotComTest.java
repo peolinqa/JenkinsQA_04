@@ -16,9 +16,7 @@ public class BorisSDellDotComTest extends BaseTest {
     private static final String EXPECTED_PRICE = "$2,899.00";
 
     @BeforeMethod
-    @Override
     protected void beforeMethod() {
-        super.beforeMethod();
         getDriver().get("https://www.dell.com");
         getDriver().manage().deleteAllCookies();
     }

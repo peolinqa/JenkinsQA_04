@@ -7,6 +7,7 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore
 public class KaterinaTerekhovaHomework12Test extends BaseTest {
     /**
      * TC_12_07 Выберите любой язык программирования (из меню BROWSE LANGUAGES) и любую версию решения

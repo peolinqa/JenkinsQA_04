@@ -5,11 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
 
+@Ignore
 public class Song99BottlesAsTest extends BaseTest {
 
     private static final String URL = "http://www.99-bottles-of-beer.net/lyrics.html";

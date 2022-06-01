@@ -3,6 +3,7 @@ package qa_java_beginners;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+@Ignore
 public class Fabriana99BottlesOfBeerTest extends BaseTest {
 
     private static final String URL = "http://www.99-bottles-of-beer.net/";

@@ -3,11 +3,13 @@ package qa_java_beginners;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
 
+@Ignore
 public class Song99BottlesNataliiaOliverTest extends BaseTest {
     private static final String BASE_URL = "http://99-bottles-of-beer.net/lyrics.html";
 

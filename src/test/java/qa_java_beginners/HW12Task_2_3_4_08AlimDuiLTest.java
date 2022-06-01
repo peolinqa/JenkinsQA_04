@@ -3,9 +3,11 @@ package qa_java_beginners;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore
 public class HW12Task_2_3_4_08AlimDuiLTest extends BaseTest {
 
     private String BASE_URL = "http://www.99-bottles-of-beer.net/";

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+@Ignore
 public class EugeniaSrednitskayaTest extends BaseTest {
 
     private final String urlDefault = "http://www.99-bottles-of-beer.net/";

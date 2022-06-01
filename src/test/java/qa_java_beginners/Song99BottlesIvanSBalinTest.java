@@ -2,9 +2,11 @@ package qa_java_beginners;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+@Ignore
 public class Song99BottlesIvanSBalinTest extends BaseTest {
     public static final String URL = "http://www.99-bottles-of-beer.net/";
 
