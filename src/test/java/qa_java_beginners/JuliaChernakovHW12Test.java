@@ -25,5 +25,23 @@ public class JuliaChernakovHW12Test extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    /**
+     * Подтвердите, что в меню BROWSE LANGUAGES, подменю  M, последний программный язык в таблице -  MySQL
+     */
+    @Test
+    public void testLastLanguage() {
+
+        String expectedResult = "MySQL";
+
+        getDriver().get("http://www.99-bottles-of-beer.net");
+
+        getDriver().findElement(By.xpath("//li/a[@href='/abc.html']")).click();
+        getDriver().findElement(By.xpath("//a[@href='m.html']")).click();
+        WebElement text = getDriver().findElement(By.xpath("//tr[last()]/td/a"));
+        String actualResult = text.getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
+    }
 }
 
