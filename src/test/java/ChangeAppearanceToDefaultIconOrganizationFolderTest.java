@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ChangeAppearanceToDefaultIconOrganizationFolderTest extends BaseTest {
 
-    final String VALID_VALUE_FOR_NAME = "New organization folder";
+    private final String VALID_VALUE_FOR_NAME = "New organization folder";
 
     private void preconditionCreateOrganizationFolder(){
         getDriver().findElement(By.linkText("New Item")).click();
