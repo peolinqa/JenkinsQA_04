@@ -26,7 +26,8 @@ public class CreateOrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen17-button")).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
 
-        List<WebElement> tableOnDashboard = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr"));
+        List<WebElement> tableOnDashboard =
+                getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td/a"));
         for (WebElement item : tableOnDashboard){
             if (item.getText().contains(VALID_VALUE_FOR_NAME)) {
                 Assert.assertTrue(item.isDisplayed());
