@@ -10,7 +10,7 @@ import runner.BaseTest;
 
 import java.util.Date;
 
-public class GudenkoPipelineCreatePipelineTest extends BaseTest {
+public class GudenkoRPipelineCreatePipelineTest extends BaseTest {
 
     private JavascriptExecutor javascriptExecutor;
     private Date date;
@@ -21,7 +21,7 @@ public class GudenkoPipelineCreatePipelineTest extends BaseTest {
         date = new Date();
     }
 
-    @Test(description = "This test method is testing of 'Jenkins Credentials Provider: Jenkins' window opening ")
+    @Test(description = "TC_017_007")
     public void testJenkinsCredentialsProviderWindow() {
 
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
