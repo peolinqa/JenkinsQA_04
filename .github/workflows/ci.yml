@@ -21,13 +21,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Сache jenkins
-        uses: actions/cache@v2
-        with:
-          path: /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar
-          key: ${{ runner.os }}-jenkins-${{ hashFiles('**/jenkins_backup.tar') }}
-          restore-keys: ${{ runner.os }}-jenkins-
-
       - name: Сache maven
         uses: actions/cache@v2
         with:
@@ -35,11 +28,10 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
 
-      - name: Load Jenkins data
+      - name: Prepare Jenkins data
         run: |
-          if [ ! -f /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar ]; then
-              curl http://buildemojis.com/jenkins_backup.tar -o /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar
-          fi
+          cat /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_data/jenkins_backup0* > /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar
+          md5sum /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar
 
       - name: Extract Jenkins data and set permission
         run: |
