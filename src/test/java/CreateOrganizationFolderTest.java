@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CreateOrganizationFolderTest extends BaseTest {
 
-    final String VALID_VALUE_FOR_NAME = "New organization folder";
+    private final String VALID_VALUE_FOR_NAME = "New organization folder";
 
     private void deleteFolderAfterTest(){
         getDriver().findElement(By.linkText("" + VALID_VALUE_FOR_NAME + "")).click();
