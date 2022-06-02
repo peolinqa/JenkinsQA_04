@@ -24,17 +24,12 @@ public class ChangeAppearanceToDefaultIconOrganizationFolderTest extends BaseTes
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
     @Test
-    public void testChangeAppearanceToDefaultIconOrganizationFolder() {
+    public void testChangeAppearanceToDefaultIconOrganizationFolder() throws InterruptedException {
         preconditionCreateOrganizationFolder();
-        List<WebElement> tableOnDashboard =
-                getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td/a"));
-        for (WebElement item : tableOnDashboard){
-            if (item.getText().contains(VALID_VALUE_FOR_NAME)) {
-                item.click();
-            }
-        }
+        getDriver().findElement(By.linkText(VALID_VALUE_FOR_NAME)).click();
         getDriver().findElement(By.linkText("Configure")).click();
         getDriver().findElement(By.xpath("//div[@class = 'tab config-section-activator config_appearance']")).click();
+        Thread.sleep(2000);
         getDriver().findElement(By.xpath(
                 "//div[@class = 'jenkins-form-item has-help config_appearance active']" +
                         "//div/select[@class = 'setting-input dropdownList']")).click();
