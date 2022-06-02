@@ -8,13 +8,17 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Date;
+
 public class GudenkoPipelineCreatePipelineTest extends BaseTest {
 
     private JavascriptExecutor javascriptExecutor;
+    private Date date;
 
     @BeforeMethod
     public void beforeTest() {
         javascriptExecutor = (JavascriptExecutor) getDriver();
+        date = new Date();
     }
 
     @Test(description = "This test method is testing of 'Jenkins Credentials Provider: Jenkins' window opening ")
@@ -22,7 +26,7 @@ public class GudenkoPipelineCreatePipelineTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
         getDriver().findElement(By.xpath("//input[@id='name']"))
-                .sendKeys("Ruslan Gudenko Pipeline Project");
+                .sendKeys("Ruslan Gudenko Pipeline Project" + date.getTime());
         getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']"))
                 .click();
 
