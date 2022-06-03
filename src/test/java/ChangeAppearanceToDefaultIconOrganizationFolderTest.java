@@ -4,8 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.List;
-
 public class ChangeAppearanceToDefaultIconOrganizationFolderTest extends BaseTest {
 
     private final String VALID_VALUE_FOR_NAME = "New organization folder";
