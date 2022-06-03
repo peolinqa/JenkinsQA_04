@@ -15,7 +15,7 @@ public class RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li"))
                 .click();
         getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//button[@id='yui-gen25-button']")).click();
+        getDriver().findElement(By.xpath("//div[2]/div[2]/span[1]/span/button")).click();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a")).click();
 
         assertTrue(getDriver().findElement(By.xpath("//tr[@id='job_item 123']/td[3]/a"))
