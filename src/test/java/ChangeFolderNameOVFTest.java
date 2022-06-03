@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.concurrent.TimeUnit;
 
-public class ChangeFolderNameTest extends BaseTest {
+public class ChangeFolderNameOVFTest extends BaseTest {
 
     public void сreateFolder(String folderName) {
         getDriver().findElement(By.xpath("//span[normalize-space(text())='New Item']")).click();
