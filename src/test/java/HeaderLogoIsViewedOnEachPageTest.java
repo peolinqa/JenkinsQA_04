@@ -15,8 +15,7 @@ public class HeaderLogoIsViewedOnEachPageTest extends BaseTest {
 
         WebElement logo = getDriver().findElement(By.id("jenkins-head-icon"));
 
-        Assert.assertEquals(logo.getAttribute("src"), currentUrl + "static/51d19e46/images/svgs/logo.svg");
-
+        Assert.assertTrue(logo.getAttribute("src").contains("/images/svgs/logo.svg"));
     }
 
     @Test
