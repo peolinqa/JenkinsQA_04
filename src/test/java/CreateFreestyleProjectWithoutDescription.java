@@ -32,6 +32,11 @@ public class CreateFreestyleProjectWithoutDescription extends BaseTest {
         getDriver().findElement(By.xpath(String.format("//a[text()='%s']", PROJECT_NAME))).click();
     }
 
+    private void deleteProject() {
+        getDriver().findElement(By.linkText("Delete Project")).click();
+        getDriver().switchTo().alert().accept();
+    }
+
     @Test
     public void testUserCanConfigureNewProject() {
         startToCreateNewFreestyleProject();
@@ -41,10 +46,12 @@ public class CreateFreestyleProjectWithoutDescription extends BaseTest {
         String alert = String.valueOf(ExpectedConditions.alertIsPresent());
 
         completeCreateNewFreestyleProject();
-        WebElement description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row"));
+        String description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row")).getText();
+
+       deleteProject();
 
         Assert.assertTrue(projectConfig);
         Assert.assertEquals(alert, "alert to be present");
-        Assert.assertEquals(description.getText(), "Add description");
+        Assert.assertEquals(description, "Add description");
     }
 }
