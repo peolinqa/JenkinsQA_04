@@ -19,7 +19,7 @@ public class ChangeAppearanceToDefaultIconOrganizationFolderTest extends BaseTes
         getDriver().findElement(By.linkText("Dashboard")).click();
     }
     private void postconditionDeleteFolderAfterTest(){
-        getDriver().findElement(By.linkText("" + VALID_VALUE_FOR_NAME + "")).click();
+        getDriver().findElement(By.linkText(VALID_VALUE_FOR_NAME)).click();
         getDriver().findElement(By.linkText("Delete Organization Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
