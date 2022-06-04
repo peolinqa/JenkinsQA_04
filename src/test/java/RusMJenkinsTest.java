@@ -41,13 +41,6 @@ public class RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a")).click();
     }
 
-    public void setInputRenameProjectName() {
-        WebElement renameProjectName = getDriver().findElement(By
-                .xpath("//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"));
-        renameProjectName.clear();
-        renameProjectName.sendKeys("project987");
-    }
-
     static String inputNewItemName = "//input[@id='name']";
 
     @Test
@@ -62,8 +55,6 @@ public class RusMJenkinsTest extends BaseTest {
 
         assertTrue(getDriver().findElement(By.xpath("//tr[@id='job_item 123']/td[3]/a"))
                 .isDisplayed());
-
-        //*[@id="job_item 123"]/td[3]/a
     }
 
     @Test
@@ -77,7 +68,10 @@ public class RusMJenkinsTest extends BaseTest {
                         .xpath("//ul/li[6]/a/span")))
                             .click().perform();
 
-        setInputRenameProjectName();
+        WebElement renameProjectName = getDriver().findElement(By.xpath("//div/div[2]/input"));
+        renameProjectName.clear();
+        renameProjectName.sendKeys("project987");
+
         clickTheButton();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id=\"main-panel\"]/h1"))
@@ -93,7 +87,8 @@ public class RusMJenkinsTest extends BaseTest {
     public void testFolderDelete() {
         clickNewItemButton();
         getDriver().findElement(By.xpath((inputNewItemName))).sendKeys("Folder 1");
-        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-nested-projects']/ul/li[1]/label")).click();
+        getDriver().findElement(By
+                .xpath("//div[@id='j-add-item-type-nested-projects']/ul/li[1]/label")).click();
         clickOkButton();
         clickSaveButton();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[5]/span/a/span[2]")).click();
