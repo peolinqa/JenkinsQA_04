@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.testng.Assert.*;
 
 public class RusMJenkinsTest extends BaseTest {
@@ -68,7 +70,10 @@ public class RusMJenkinsTest extends BaseTest {
                         .xpath("//ul/li[6]/a/span")))
                             .click().perform();
 
-        WebElement renameProjectName = getDriver().findElement(By.xpath("//div/div[2]/input"));
+        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        WebElement renameProjectName = getDriver().findElement(By
+                .xpath("//body/div[4]/div[2]/form/div[1]/div[1]/div[2]/input"));
         renameProjectName.clear();
         renameProjectName.sendKeys("project987");
 
