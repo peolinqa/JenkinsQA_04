@@ -1,16 +1,17 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.List;
 
-public class KorelovPipelineAddTest extends BaseTest {
-    @Ignore
+
+public class KorelovPipelineCreateTest extends BaseTest {
     @Test
-    public void testAddPipeline() {
+    public void testCreatePipeline() {
 
-        final String namePipeline = "Pipeline";
+        final String namePipeline = "NewPipeline";
 
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
         getDriver().findElement(By.id("name")).sendKeys(namePipeline);
@@ -23,7 +24,14 @@ public class KorelovPipelineAddTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
 
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//td/a[contains(@href," + namePipeline + ")]")).getText(), namePipeline);
+        List<WebElement> actualDashboardProject = getDriver()
+                .findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
+
+        for (WebElement webElement : actualDashboardProject) {
+            if (webElement.getText().contains(namePipeline)) {
+                Assert.assertTrue(true);
+                break;
+            }
+        }
     }
 }
