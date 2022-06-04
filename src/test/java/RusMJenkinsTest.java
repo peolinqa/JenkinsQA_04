@@ -43,7 +43,7 @@ public class RusMJenkinsTest extends BaseTest {
 
     public void setInputRenameProjectName() {
         WebElement renameProjectName = getDriver().findElement(By
-                .xpath("//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"));
+                .xpath("//div/div[2]/input"));
         renameProjectName.clear();
         renameProjectName.sendKeys("project987");
     }
@@ -62,8 +62,6 @@ public class RusMJenkinsTest extends BaseTest {
 
         assertTrue(getDriver().findElement(By.xpath("//tr[@id='job_item 123']/td[3]/a"))
                 .isDisplayed());
-
-        //*[@id="job_item 123"]/td[3]/a
     }
 
     @Test
@@ -80,7 +78,7 @@ public class RusMJenkinsTest extends BaseTest {
         setInputRenameProjectName();
         clickTheButton();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id=\"main-panel\"]/h1"))
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))
                 .getText(), "Project project987");
 
         clickBackToDashboard();
