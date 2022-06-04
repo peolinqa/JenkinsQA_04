@@ -21,6 +21,15 @@ public class CreateFolderTest extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
     }
 
+    private void createFolder(String nameFolder) {
+        clickNewItem();
+        getDriver().findElement(NAME).sendKeys(nameFolder);
+        clickFolderItem();
+        clickOKButton();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+        getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']")).click();
+    }
+
     /**
      * TC_009.001 Create Folder
      */
@@ -81,7 +90,7 @@ public class CreateFolderTest extends BaseTest {
     }
 
     /**
-     * TC_009.003
+     * TC_009.007
      */
     @Test
     public void testCreateFolderWithUnsafeCharacter() {
@@ -92,6 +101,34 @@ public class CreateFolderTest extends BaseTest {
         clickNewItem();
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
+        String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
+
+        Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
+
+        clickFolderItem();
+        clickOKButton();
+
+        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
+        String actualErrorMessage2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
+
+        Assert.assertEquals(actualError, expectedError);
+        Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
+    }
+
+    /**
+     * TC_009.008
+     */
+    @Test
+    public void testCreateFolderWithTheSameName() {
+
+        createFolder("TestFolder_2");
+
+        String expectedErrorMessage = "» A job already exists with the name ‘TestFolder_2’";
+        String expectedError = "Error";
+
+        clickNewItem();
+
+        getDriver().findElement(NAME).sendKeys("TestFolder_2");
         String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
 
         Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
