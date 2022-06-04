@@ -4,8 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.List;
-
 public class ChangeAppearanceToDefaultIconOrganizationFolderTest extends BaseTest {
 
     private final String VALID_VALUE_FOR_NAME = "New organization folder";
@@ -19,7 +17,7 @@ public class ChangeAppearanceToDefaultIconOrganizationFolderTest extends BaseTes
         getDriver().findElement(By.linkText("Dashboard")).click();
     }
     private void postconditionDeleteFolderAfterTest(){
-        getDriver().findElement(By.linkText("" + VALID_VALUE_FOR_NAME + "")).click();
+        getDriver().findElement(By.linkText(VALID_VALUE_FOR_NAME)).click();
         getDriver().findElement(By.linkText("Delete Organization Folder")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
