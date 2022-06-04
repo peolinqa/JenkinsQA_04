@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class CreateMultibranchPipelineTest extends BaseTest {
 
-    private final String PROJECT_NAME = "MultibranchPipelineTestProject";
+    private final String PROJECT_NAME = "MBPLTestProject";
     private final char[] unsafeCharacters = {'!', '@', '#', '$', '%', '^', '&', '*', '[', ']', ';', ':'};
 
     private void deleteProject() {
