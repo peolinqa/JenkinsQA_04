@@ -4,21 +4,45 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public class RusMJenkinsTest extends BaseTest {
 
+    public void clickNewItemButton() {
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a/span[2]")).click();
+    }
+
+    public void clickOkButton() {
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
+    }
+
+    public void clickSaveButton() {
+        getDriver().findElement(By.xpath("//div[2]/div[2]/span[1]/span/button")).click();
+    }
+
+    public void clickTheButton() {
+        getDriver().findElement(By.xpath("//button")).click();
+    }
+
+    public void clickBackToDashboard() {
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a")).click();
+    }
+
+    static String inputNewItemName = "//input[@id='name']";
+    static String inputRenameProjectName = "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input";
+    static String projectName = "//tr/td[3]/a";
+
     @Test
     public void testFreestyleNewItemValidName() {
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a/span[2]")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("item 123");
+        clickNewItemButton();
+        getDriver().findElement(By.xpath(inputNewItemName)).sendKeys("item 123");
         getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']/ul/li"))
                 .click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//div[2]/div[2]/span[1]/span/button")).click();
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a")).click();
+        clickOkButton();
+        clickSaveButton();
+        clickBackToDashboard();
 
-        assertTrue(getDriver().findElement(By.xpath("//tr[@id='job_item 123']/td[3]/a"))
+        assertTrue(getDriver().findElement(By.xpath(projectName))
                 .isDisplayed());
     }
 
@@ -26,25 +50,37 @@ public class RusMJenkinsTest extends BaseTest {
     public void testFreestyleRename() {
         Actions dropdown = new Actions(getDriver());
         dropdown.moveToElement(getDriver().findElement(By
-                .xpath("//tr[@id='job_item 123']/td[3]/a"))).perform();
+                .xpath(projectName))).perform();
 
         getDriver().findElement(By.xpath("//div[@id='menuSelector']")).click();
         dropdown.moveToElement(getDriver().findElement(By
-                        .xpath("/html/body/div[2]/div/div[2]/div[2]/div/div/div/div[1]/ul/li[6]/a")))
+                        .xpath("//ul/li[6]/a/span")))
                             .click().perform();
 
-        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"))
-                .clear();
-        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"))
+        getDriver().findElement(By.xpath(inputRenameProjectName)).clear();
+        getDriver().findElement(By.xpath(inputRenameProjectName))
                 .sendKeys("project987");
-        getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
+        clickTheButton();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id=\"main-panel\"]/h1"))
                 .getText(), "Project project987");
 
-        getDriver().findElement(By.xpath("//div/span/a/span[2]")).click();
+        clickBackToDashboard();
 
-        Assert.assertEquals(getDriver().findElement(By
-                .xpath("//tr[@id='job_project987']/td[3]/a")).getText(), "project987");
+        Assert.assertEquals(getDriver().findElement(By.xpath(projectName))
+                .getText(), "project987");
+    }
+
+    @Test
+    public void testFolderDelete() {
+        clickNewItemButton();
+        getDriver().findElement(By.xpath(inputNewItemName)).sendKeys("Folder 1");
+        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-nested-projects']/ul/li[1]/label")).click();
+        clickOkButton();
+        clickSaveButton();
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[5]/span/a/span[2]")).click();
+        clickTheButton();
+
+        assertTrue(getDriver().findElements(By.xpath(projectName)).isEmpty());
     }
 }
