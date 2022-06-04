@@ -64,7 +64,8 @@ public class RusMJenkinsTest extends BaseTest {
                 .xpath("//tr[@id='job_item 123']/td[3]/a"))).perform();
 
         getDriver().findElement(By.xpath("//div[@id='menuSelector']")).click();
-        getDriver().findElement(By.xpath("//ul/li[6]/a/span")).click();
+        getDriver().findElement(By
+                .xpath("//html/body/div[2]/div/div[2]/div[2]/div/div/div/div[1]/ul/li[6]/a")).click();
 
         WebElement renameProjectName = getDriver().findElement(By
                 .xpath("//body/div[4]/div[2]/form/div[1]/div[1]/div[2]/input"));
