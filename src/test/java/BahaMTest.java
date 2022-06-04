@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -42,6 +43,7 @@ public class BahaMTest extends BaseTest {
                 "freestyle\n" + "-project\n" +"-()+-_~-1");
     }
 
+    @Ignore
     @Test
     public void TC_001_002_newFreestyleItem_negative() {
 
