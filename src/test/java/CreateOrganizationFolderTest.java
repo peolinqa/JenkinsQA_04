@@ -15,7 +15,6 @@ public class CreateOrganizationFolderTest extends BaseTest {
 
     @Test
     public void testCreateOrganizationFolder () {
-
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(VALID_VALUE_FOR_NAME);
         getDriver().findElement(By.className("jenkins_branch_OrganizationFolder")).click();
