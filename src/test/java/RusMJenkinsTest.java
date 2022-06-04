@@ -3,6 +3,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -57,6 +58,7 @@ public class RusMJenkinsTest extends BaseTest {
                 .isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testFreestyleRename() {
         Actions dropdown = new Actions(getDriver());
