@@ -24,7 +24,7 @@ public class RuslanGPipelineCreatePipelineTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
         getDriver().findElement(By.xpath("//input[@id='name']"))
-                .sendKeys("Ruslan Gudenko Pipeline Project" + date.getTime());
+                .sendKeys("Ruslan Gudenko Pipeline Project+" + date.getTime());
         getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']"))
                 .click();
 
