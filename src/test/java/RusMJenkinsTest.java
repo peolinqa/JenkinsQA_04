@@ -28,9 +28,9 @@ public class RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a")).click();
     }
 
-    static String inputNewItemName = "//input[@id='name']";
-    static String inputRenameProjectName = "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input";
-    static String projectName = "//tr/td[3]/a";
+    public static String inputNewItemName = "//input[@id='name']";
+    public static String inputRenameProjectName = "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input";
+    public static String projectName = "//tr/td[3]/a";
 
     @Test
     public void testFreestyleNewItemValidName() {
@@ -81,6 +81,6 @@ public class RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[5]/span/a/span[2]")).click();
         clickTheButton();
 
-        assertTrue(getDriver().findElements(By.xpath(projectName)).isEmpty());
+        assertEquals(getDriver().findElements(By.xpath(projectName)).isEmpty(), true);
     }
 }
