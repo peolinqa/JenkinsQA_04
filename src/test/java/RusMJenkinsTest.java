@@ -6,8 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.concurrent.TimeUnit;
-
 import static org.testng.Assert.*;
 
 public class RusMJenkinsTest extends BaseTest {
@@ -66,11 +64,7 @@ public class RusMJenkinsTest extends BaseTest {
                 .xpath("//tr[@id='job_item 123']/td[3]/a"))).perform();
 
         getDriver().findElement(By.xpath("//div[@id='menuSelector']")).click();
-        dropdown.moveToElement(getDriver().findElement(By
-                        .xpath("//ul/li[6]/a/span")))
-                            .click().perform();
-
-        getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        getDriver().findElement(By.xpath("//ul/li[6]/a/span")).click();
 
         WebElement renameProjectName = getDriver().findElement(By
                 .xpath("//body/div[4]/div[2]/form/div[1]/div[1]/div[2]/input"));
@@ -84,8 +78,9 @@ public class RusMJenkinsTest extends BaseTest {
 
         clickBackToDashboard();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//tr[@id='job_project987']/td[3]/a"))
-                .getText(), "project987");
+        Assert.assertEquals(getDriver().findElement(By
+                        .xpath("//tr[@id='job_project987']/td[3]/a"))
+                            .getText(), "project987");
     }
 
     @Test
