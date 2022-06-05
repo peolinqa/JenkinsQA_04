@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -14,11 +15,14 @@ public class KICreatePipelineTest extends BaseTest {
     private static final By INPUT_LINE = By.id("name");
     private static final By PIPELINE = By.xpath("//span[text()='Pipeline']");
     private static final By OK_BUTTON = By.id("ok-button");
-    private final String NAME_INPUT = "test123";
+    private static final By ADVANCED_BUTTON = By.xpath("//span[@id='yui-gen4']");
+    private static final String NAME_INPUT = "test123";
+    private JavascriptExecutor javascriptExecutor;
     private Date date;
 
     @BeforeMethod
     public void setUp() {
+        javascriptExecutor = (JavascriptExecutor) getDriver();
         date = new Date();
     }
 
@@ -59,13 +63,34 @@ public class KICreatePipelineTest extends BaseTest {
     public void testCheckDropDownMenuPipeline() {
         fillRandomNameAndClick();
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.cssSelector(
-                "[class='tab config-section-activator config_pipeline']"))
-                .click();
+        getDriver().findElement(By.cssSelector("[class='tab config-section" +
+                "-activator config_pipeline']")).click();
 
         List<WebElement> optionsDropDown = getDriver().findElements(
                 By.xpath("//div[1][@class='samples']//select/option"));
 
+        WebElement logOut = getDriver().findElement(By.cssSelector(
+                "[href='/logout']"));
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
+                logOut);
+
         Assert.assertEquals(optionsDropDown.size(), 4);
+    }
+
+    @Test(description = "TC_017.013")
+    public void testCheckLinkHelpMenuAdvancedProjectOptions() {
+        fillRandomNameAndClick();
+        getDriver().findElement(OK_BUTTON).click();
+
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
+                getDriver().findElement(ADVANCED_BUTTON));
+
+        getDriver().findElement(ADVANCED_BUTTON).click();
+        getDriver().findElement(By.cssSelector("a[tooltip$='Display Name']"))
+                .click();
+        WebElement link = getDriver().findElement(By.cssSelector(
+                "[href='https://plugins.jenkins.io/workflow-job']"));
+
+        Assert.assertTrue(link.isDisplayed());
     }
 }
