@@ -1,7 +1,7 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -32,6 +32,7 @@ public class CreateFreestyleProjectWithoutDescription extends BaseTest {
         getDriver().findElement(By.xpath(String.format("//a[text()='%s']", PROJECT_NAME))).click();
     }
 
+    @AfterMethod
     private void deleteProject() {
         getDriver().findElement(By.linkText("Delete Project")).click();
         getDriver().switchTo().alert().accept();
@@ -48,10 +49,20 @@ public class CreateFreestyleProjectWithoutDescription extends BaseTest {
         completeCreateNewFreestyleProject();
         String description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row")).getText();
 
-       deleteProject();
-
         Assert.assertTrue(projectConfig);
         Assert.assertEquals(alert, "alert to be present");
         Assert.assertEquals(description, "Add description");
+    }
+
+    @Test
+    public void testUserEnableDisableProject() {
+        startToCreateNewFreestyleProject();
+        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Save']")).click();
+
+        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Disable Project']")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//form[contains(text(), 'This project is currently disabled')]")).isDisplayed());
+
+        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Enable']")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='Build Now']")).isEnabled());
     }
 }
