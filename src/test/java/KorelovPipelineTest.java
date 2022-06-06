@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -24,6 +25,28 @@ public class KorelovPipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen6-button")).click();
     }
 
+    private void buttonBackToDashboard() {
+        getDriver().findElement
+                (By.xpath("//a[@title='Back to Dashboard']")).click();
+    }
+
+    private void checkProjectAfterDelete(String projectName) {
+        try {
+            Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText()
+                    ,"Welcome to Jenkins!");
+        } catch (Exception e) {
+            List<WebElement> actualDashboardProject = getActualDashboardProject();
+            for (WebElement webElement : actualDashboardProject) {
+                if (webElement.getText().contains(projectName)) {
+                    Assert.fail();
+                    break;
+                } else {
+                    Assert.assertTrue(true);
+                }
+            }
+        }
+    }
+
     @Test
     public void testTC_017_006CreatePipeline() {
 
@@ -35,10 +58,9 @@ public class KorelovPipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//h1"))
                 .getText().contains(namePipeline));
 
-        getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
+        buttonBackToDashboard();
 
         List<WebElement> actualDashboardProject = getActualDashboardProject();
-
         for (WebElement webElement : actualDashboardProject) {
             if (webElement.getText().contains(namePipeline)) {
                 Assert.assertTrue(true);
@@ -62,7 +84,8 @@ public class KorelovPipelineTest extends BaseTest {
 
         for (int i = 0; i < listOfCheckBoxWithHelps.size(); i++) {
             Assert.assertEquals(checkBoxHelpsText.get(i).getAttribute("title")
-                    .replace("Help for feature: ", ""), listOfCheckBoxWithHelps.get(i).getText());
+                    .replace("Help for feature: ", "")
+                    , listOfCheckBoxWithHelps.get(i).getText());
         }
     }
 
@@ -88,24 +111,29 @@ public class KorelovPipelineTest extends BaseTest {
         createPipeline(namePipeline);
         saveButtonPipelineClick();
 
-        getDriver().findElement(By.xpath("//a[@class='task-link  confirmation-link']")).click();
-
+        getDriver().findElement
+                (By.xpath("//a[@class='task-link  confirmation-link']")).click();
         getDriver().switchTo().alert().accept();
 
-        try {
-            if ((getDriver().findElement(By.xpath("//h1")).getText().contains("Welcome to Jenkins!"))) {
-                Assert.assertTrue(true);
-            }
-        } catch (Exception e) {
-            List<WebElement> actualDashboardProject = getActualDashboardProject();
-            for (WebElement webElement : actualDashboardProject) {
-                if (webElement.getText().contains(namePipeline)) {
-                    Assert.fail();
-                    break;
-                } else {
-                    Assert.assertTrue(true);
-                }
-            }
-        }
+        checkProjectAfterDelete(namePipeline);
+    }
+
+    @Test
+    public void testTC_021_004DeletePipelineFromDashboard() {
+
+        final String namePipeline = "DeletePipelineFromDashboard";
+
+        createPipeline(namePipeline);
+        saveButtonPipelineClick();
+        buttonBackToDashboard();
+
+        new Actions(getDriver()).moveToElement(getDriver().findElement
+                (By.xpath("//a[text()='DeletePipelineFromDashboard']"))).build().perform();
+        getDriver().findElement(By.id("menuSelector")).click();
+
+        getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
+        getDriver().switchTo().alert().accept();
+
+        checkProjectAfterDelete(namePipeline);
     }
 }
