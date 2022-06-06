@@ -14,12 +14,16 @@ public class GroupBugHuntersEditBuildInformationTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@title='Build Now']")).click();
         getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
         boolean success = false;
+        int maxTries = 0;
         while (!success) {
             try {
                 getDriver().navigate().refresh();
                 getDriver().findElement(By.xpath("//*[local-name() = 'svg' and @tooltip='Success']"));
                 success = true;
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                if (++maxTries > 3) {
+                    throw e;
+                }
             }
         }
     }
