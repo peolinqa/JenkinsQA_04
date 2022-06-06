@@ -1,14 +1,10 @@
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import java.util.List;
 
 
-public class DeleteFreestyleProject extends BaseTest {
+public class DeleteFreestyleProjectTest extends BaseTest {
 
     @Test
     public void testUserCanDeleteFreestyleProject() {
@@ -25,13 +21,14 @@ public class DeleteFreestyleProject extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Delete Project']")).click();
         getDriver().switchTo().alert().accept();
 
-        List<WebElement> titles = getDriver().findElements(
-                By.xpath("//a[contains(@class,'model-link') and contains(@href,'job/')]"));
-
-        for (WebElement projects : titles) {
-
-            Assert.assertFalse(projects.getAttribute("href").contains("project-freestyle"));
+        boolean checkProjectExists;
+        try {
+            getDriver().findElement(By.linkText("project-freestyle")).isDisplayed();
+            checkProjectExists = true;
+        } catch (Exception ee) {
+            checkProjectExists = false;
         }
+        Assert.assertFalse(checkProjectExists);
     }
 }
 
