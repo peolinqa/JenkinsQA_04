@@ -5,7 +5,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class CreateFreestyleProjectWithoutDescription extends BaseTest {
+public class CreateFreestyleProjectWithoutDescriptionTest extends BaseTest {
     private static final String PROJECT_NAME = "New Freestyle project";
 
     private void dashboardClick() {
