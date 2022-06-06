@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -118,6 +119,7 @@ public class CreateFolderTest extends BaseTest {
     /**
      * TC_009.008
      */
+    @Ignore
     @Test
     public void testCreateFolderWithTheSameName() {
 
