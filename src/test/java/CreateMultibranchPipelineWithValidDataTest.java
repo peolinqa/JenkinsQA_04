@@ -14,7 +14,6 @@ public class CreateMultibranchPipelineWithValidDataTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Multibranch Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
 
-
         getDriver().findElement(By.xpath("//button[@id='yui-gen8-button']")).click();
 
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
