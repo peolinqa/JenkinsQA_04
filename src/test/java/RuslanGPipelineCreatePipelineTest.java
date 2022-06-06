@@ -1,30 +1,41 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.Date;
 import java.util.List;
 
-@Ignore
 public class RuslanGPipelineCreatePipelineTest extends BaseTest {
-    private void createPipelineProjectPipelineTab() {
-        Date date = new Date();
+    private final String PIPELINE_PROJECT_NAME = "Ruslan Gudenko Pipeline Project+";
 
+    private final By PIPELINE_ITEM_CONFIGURATION = By.xpath(
+            "//div[@class='tab config-section-activator config_pipeline']");
+
+    private Date date;
+
+    private void createPipelineProject() {
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']"))
-                .sendKeys("Ruslan Gudenko Pipeline Project+" + date.getTime());
-        getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']"))
-                .click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(
+                PIPELINE_PROJECT_NAME + date.getTime());
+        getDriver().findElement(By.xpath(
+                "//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']")).click();
         getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-        getDriver().findElement(By.xpath("//div[@class='tab config-section-activator config_pipeline']"))
-                .click();
+    }
+
+    @BeforeMethod
+    public void beforeTest() {
+        date = new Date();
     }
 
     @Test(description = "TC_017.008")
     public void testPipelineSyntaxPageOpening() {
-        createPipelineProjectPipelineTab();
+        createPipelineProject();
+
+        getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
 
         String pipelineSyntaxLink = getDriver().findElement(By.xpath("//a[@href='pipeline-syntax']"))
                 .getAttribute("href");
@@ -38,11 +49,28 @@ public class RuslanGPipelineCreatePipelineTest extends BaseTest {
 
     @Test(description = "TC_017.012")
     public void testPipelineGroovyPageOpening() {
-        createPipelineProjectPipelineTab();
+        createPipelineProject();
+
+        getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
 
         String useGroovySandboxCheckbox = getDriver().findElement(By.xpath(
                 "//input[@name='_.sandbox']")).getAttribute("checked");
 
-        Assert.assertTrue(useGroovySandboxCheckbox.contains("true"));
+        Assert.assertEquals(useGroovySandboxCheckbox, "true");
+    }
+
+    @Test(description = "TC_017.014")
+    public void testTitleConfigPageContainsProjectTitle() {
+        createPipelineProject();
+
+        String titleOfConfigurationPipelinePage = getDriver().getTitle();
+
+        Assert.assertTrue(titleOfConfigurationPipelinePage.contains(PIPELINE_PROJECT_NAME + date.getTime()));
+    }
+
+    @AfterMethod
+    public void afterTest() {
+        getDriver().get("http://localhost:8080");
     }
 }
+
