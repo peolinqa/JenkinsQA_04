@@ -23,9 +23,7 @@ public class DeleteFreestyleProject extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath("//a[@href='job/project-freestyle/']")).isDisplayed());
         getDriver().findElement(By.xpath("//a[@href='job/project-freestyle/']")).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Project']")).click();
-        WebDriver driver = getDriver();
-        Alert alertOK = driver.switchTo().alert();
-        alertOK.accept();
+        getDriver().switchTo().alert().accept();
 
         List<WebElement> titles = getDriver().findElements(
                 By.xpath("//a[contains(@class,'model-link') and contains(@href,'job/')]"));
