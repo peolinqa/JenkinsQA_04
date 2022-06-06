@@ -17,11 +17,11 @@ public class ManageUsersTest extends BaseTest {
         return getDriver().findElement(By.id("username"));
     }
 
-    public WebElement passwordOne() {
+    public WebElement password() {
         return getDriver().findElement(By.name("password1"));
     }
 
-    public WebElement passwordTwo() {
+    public WebElement passwordConfirm() {
         return getDriver().findElement(By.name("password2"));
     }
 
@@ -29,11 +29,11 @@ public class ManageUsersTest extends BaseTest {
         return getDriver().findElement(By.name("fullname"));
     }
 
-    public WebElement email() {
+    public WebElement emailAddress() {
         return getDriver().findElement(By.name("email"));
     }
 
-    public WebElement createUserButtonSubmit() {
+    public WebElement buttonCreateUser() {
         return getDriver().findElement(By.id("yui-gen1-button"));
     }
 
@@ -44,56 +44,59 @@ public class ManageUsersTest extends BaseTest {
     public void fillOutFieldsCreateUser(String userName, String password, String fullName, String email) {
 
         userName().sendKeys(userName);
-        passwordOne().sendKeys(password);
-        passwordTwo().sendKeys(password);
+        password().sendKeys(password);
+        passwordConfirm().sendKeys(password);
         fullName().sendKeys(fullName);
-        email().sendKeys(email);
+        emailAddress().sendKeys(email);
     }
 
-    @Test
+    public List<WebElement> createListWithErrorMessages() {
+
+        return getDriver().findElements(By.xpath("//div[@class='form-content']/div"));
+    }
+
+    @Test(groups = {"Elements_are_displayed"})
     public void testUserNameFieldIsDisplayed() {
         urlPageCreateUser();
         Assert.assertTrue(userName().isDisplayed());
     }
 
-    @Test
-    public void testPasswordOneFieldIsDisplayed() {
+    @Test(groups = {"Elements_are_displayed"})
+    public void testPasswordFieldIsDisplayed() {
         urlPageCreateUser();
-        Assert.assertTrue(passwordOne().isDisplayed());
+        Assert.assertTrue(password().isDisplayed());
     }
 
-    @Test
-    public void testPasswordTwoFieldIsDisplayed() {
+    @Test(groups = {"Elements_are_displayed"})
+    public void testPasswordConfirmFieldIsDisplayed() {
         urlPageCreateUser();
-        Assert.assertTrue(passwordTwo().isDisplayed());
+        Assert.assertTrue(passwordConfirm().isDisplayed());
     }
 
-    @Test
+    @Test(groups = {"Elements_are_displayed"})
     public void testFullNameFieldIsDisplayed() {
         urlPageCreateUser();
         Assert.assertTrue(fullName().isDisplayed());
     }
 
-    @Test
-    public void testEmailFieldIsDisplayed() {
+    @Test(groups = {"Elements_are_displayed"})
+    public void testEmailAddressFieldIsDisplayed() {
         urlPageCreateUser();
-        Assert.assertTrue(email().isDisplayed());
+        Assert.assertTrue(emailAddress().isDisplayed());
     }
 
-    @Test
-    public void testCreateUserButtonSubmitIsDisplayed() {
+    @Test(groups = {"Elements_are_displayed"})
+    public void testButtonCreateUserIsDisplayed() {
         urlPageCreateUser();
-        Assert.assertTrue(createUserButtonSubmit().isDisplayed());
+        Assert.assertTrue(buttonCreateUser().isDisplayed());
     }
 
-    @Test(dependsOnMethods = {"testUserNameFieldIsDisplayed", "testPasswordOneFieldIsDisplayed",
-            "testPasswordTwoFieldIsDisplayed", "testFullNameFieldIsDisplayed", "testEmailFieldIsDisplayed",
-            "testCreateUserButtonSubmitIsDisplayed"})
+    @Test(dependsOnGroups = {"Elements_are_displayed"})
     public void testUserCanCreateNewUser() {
 
         urlPageCreateUser();
         fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
-        createUserButtonSubmit().click();
+        buttonCreateUser().click();
 
         List<WebElement> users = getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr"));
         for (WebElement user : users) {
@@ -104,7 +107,7 @@ public class ManageUsersTest extends BaseTest {
         }
     }
 
-    @Test(dependsOnMethods = {"testUserCanCreateNewUser"}, priority = 1)
+    @Test(dependsOnMethods = {"testUserCanCreateNewUser"})
     public void testUserCanDeleteUser() {
 
         getDriver().get("http://localhost:8080/securityRealm/");
@@ -112,14 +115,13 @@ public class ManageUsersTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
 
         List<WebElement> users = getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr"));
-
         for (WebElement user : users) {
 
             Assert.assertFalse(user.getText().contains(USER_NAME) && user.getText().contains(FULL_NAME));
         }
     }
 
-    @Test(dependsOnMethods = {"testUserCanCreateNewUser"}, priority = 2)
+    @Test(dependsOnGroups = {"Elements_are_displayed"})
     public void testUsernameFieldDoesNotAcceptSpecialCharacters() {
 
         urlPageCreateUser();
@@ -137,11 +139,48 @@ public class ManageUsersTest extends BaseTest {
             for (String nameWithSpecialCharacter : namesWithSpecialCharacter) {
                 userName().clear();
                 userName().sendKeys(nameWithSpecialCharacter);
-                createUserButtonSubmit().click();
+                buttonCreateUser().click();
 
-                Assert.assertEquals(getDriver().findElement(
-                                By.xpath("//div[@id='main-panel']//div[@class='error']")).getText(),
-                        "User name must only contain alphanumeric characters, underscore and dash");
+                for (WebElement errorMessage : createListWithErrorMessages()) {
+                    Assert.assertEquals(errorMessage.getText(),
+                            "User name must only contain alphanumeric characters, underscore and dash");
+                }
+            }
+        }
+    }
+
+    @Test(dependsOnGroups = {"Elements_are_displayed"},
+            dependsOnMethods = {"testUsernameFieldDoesNotAcceptSpecialCharacters"})
+    public void testErrorMessagesHaveValidCssValues() {
+
+        urlPageCreateUser();
+        fillOutFieldsCreateUser(USER_NAME.concat("*"), PASSWORD, FULL_NAME, EMAIL);
+        buttonCreateUser().click();
+
+        List<String> cssValues = new ArrayList<>(Arrays.asList(
+                "color", "font-weight", "padding-left", "min-height", "line-height",
+                "background-image",
+                "background-position", "background-repeat", "background-size"));
+
+        List<String> expectedResults = new ArrayList<>(Arrays.asList(
+                "rgba(204, 0, 0, 1)", "700", "20px", "16px", "16px",
+                "error.svg",
+                "0% 0%", "no-repeat", "16px 16px"));
+
+
+        for (WebElement errorMessageElement : createListWithErrorMessages()) {
+            int index = 0;
+
+            for (String expectedResult : expectedResults) {
+                String actualResult = errorMessageElement.getCssValue(cssValues.get(index));
+                if (actualResult.contains("http://localhost:8080")) {
+
+                    Assert.assertTrue(actualResult.contains(expectedResults.get(index)));
+                } else {
+
+                    Assert.assertEquals(actualResult, expectedResult);
+                }
+                index++;
             }
         }
     }
