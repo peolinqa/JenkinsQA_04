@@ -20,7 +20,6 @@ public class CreateMultibranchPipelineWithValidDataTest extends BaseTest {
         String newName = getDriver().findElement(By.xpath("//a[@href='job/MultiPipeline/']")).getText();
         Assert.assertEquals(newName, "MultiPipeline");
 
-
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         getDriver().findElement(By.xpath("//a[contains(@href, 'job/MultiPipeline/')]")).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Multibranch Pipeline']")).click();
