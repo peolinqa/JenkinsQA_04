@@ -1,12 +1,13 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.Date;
 import java.util.List;
 
+@Ignore
 public class RuslanGPipelineCreatePipelineTest extends BaseTest {
     private void createPipelineProjectPipelineTab() {
         Date date = new Date();
