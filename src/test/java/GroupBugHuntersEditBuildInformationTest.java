@@ -5,7 +5,7 @@ import runner.BaseTest;
 
 public class GroupBugHuntersEditBuildInformationTest extends BaseTest {
 
-    public void createFreestyleProject() throws InterruptedException {
+    public void createAndBuildFreestyleProject() {
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("NewFreestyleProject");
         getDriver().findElement(By.xpath("//li[contains(@class,'hudson_model_FreeStyleProject')]")).click();
@@ -13,14 +13,20 @@ public class GroupBugHuntersEditBuildInformationTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).submit();
         getDriver().findElement(By.xpath("//a[@title='Build Now']")).click();
         getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
-        Thread.sleep(2000);
-        getDriver().navigate().refresh();
-        getDriver().findElement(By.xpath("//*[local-name() = 'svg' and @tooltip='Success']"));
+        boolean success = false;
+        while (!success) {
+            try {
+                getDriver().navigate().refresh();
+                getDriver().findElement(By.xpath("//*[local-name() = 'svg' and @tooltip='Success']"));
+                success = true;
+            } catch (Exception ignored) {
+            }
+        }
     }
 
     @Test
-    public void testVerifyChangeOnBuildStatusPage_TC_032_001() throws InterruptedException {
-        createFreestyleProject();
+    public void testVerifyChangeOnBuildStatusPage_TC_032_001() {
+        createAndBuildFreestyleProject();
         getDriver().findElement(By.xpath("//a[@href='job/NewFreestyleProject/']")).click();
         getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
         getDriver().findElement(By.xpath("//a[@title='Edit Build Information']")).click();
@@ -34,6 +40,7 @@ public class GroupBugHuntersEditBuildInformationTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/job/NewFreestyleProject/lastBuild/");
         Assert.assertTrue(buildName.contains("Build New build 123"));
         Assert.assertTrue(buildDescription.contains("Build 123 description test"));
+
     }
 
     @Test(dependsOnMethods = {"testVerifyChangeOnBuildStatusPage_TC_032_001"})
@@ -51,7 +58,7 @@ public class GroupBugHuntersEditBuildInformationTest extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = {"testVerifyChangeOnBuildStatusPage_TC_032_001"})
+    @Test(dependsOnMethods = {"testVerifyChangeOnProjectStatusPage_TC_032_002"})
     public void testVerifyChangeOnBuildHistoryPage_TC_032_003() {
         getDriver().findElement(By.xpath("//a[@href='job/NewFreestyleProject/']")).click();
         getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
