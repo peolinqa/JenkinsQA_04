@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -22,8 +23,8 @@ public class DeleteBuildTest extends BaseTest {
     public void clickFreestyleProjectItem() {getDriver().findElement(By.xpath("//*[contains(text(),\"Freestyle project\")]")).click();}
     public void clickOKButton() {getDriver().findElement(By.id("ok-button")).click();}
     private static final By NAME = By.id("name");
-
-    @Test
+@Ignore
+    @Test (enabled=false)
     public void testDeleteBuild() {
         createNewJob(EV_JOB_NAME);
         getDriver().findElement(By.xpath("//span[contains(text(),'" + EV_JOB_NAME + "')]")).click();
