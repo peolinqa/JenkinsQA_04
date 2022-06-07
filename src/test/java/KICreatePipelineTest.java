@@ -32,10 +32,10 @@ public class KICreatePipelineTest extends BaseTest {
         getDriver().findElement(PIPELINE).click();
     }
 
-    private void fillRandomNameAndClick() {
+    private void fillNameAndClick(Long date) {
         getDriver().findElement(NEW_ITEM).click();
         getDriver().findElement(INPUT_LINE)
-                .sendKeys(NAME_INPUT + date.getTime());
+                .sendKeys(NAME_INPUT + date);
         getDriver().findElement(PIPELINE).click();
     }
 
@@ -61,7 +61,7 @@ public class KICreatePipelineTest extends BaseTest {
     @Ignore
     @Test(description = "TC_017.009")
     public void testCheckDropDownMenuPipeline() {
-        fillRandomNameAndClick();
+        fillNameAndClick(date.getTime());
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.cssSelector("[class='tab config-section" +
                 "-activator config_pipeline']")).click();
@@ -79,7 +79,7 @@ public class KICreatePipelineTest extends BaseTest {
 
     @Test(description = "TC_017.013")
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
-        fillRandomNameAndClick();
+        fillNameAndClick(date.getTime());
         getDriver().findElement(OK_BUTTON).click();
 
         javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
@@ -88,9 +88,14 @@ public class KICreatePipelineTest extends BaseTest {
         getDriver().findElement(ADVANCED_BUTTON).click();
         getDriver().findElement(By.cssSelector("a[tooltip$='Display Name']"))
                 .click();
-        WebElement link = getDriver().findElement(By.cssSelector(
-                "[href='https://plugins.jenkins.io/workflow-job']"));
+        String urlAttribute = getDriver().findElement(By.cssSelector(
+                "[href='https://plugins.jenkins.io/workflow-job']"))
+                .getAttribute("href");
 
-        Assert.assertTrue(link.isDisplayed());
+        getDriver().navigate().to(urlAttribute);
+        String url = getDriver().getCurrentUrl();
+        getDriver().navigate().back();
+
+        Assert.assertTrue(url.contains("plugins.jenkins.io/workflow-job"));
     }
 }
