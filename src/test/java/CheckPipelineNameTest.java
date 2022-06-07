@@ -5,7 +5,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class VZverevNamePipelineTest extends BaseTest {
+public class CheckPipelineNameTest extends BaseTest {
 
     @DataProvider(name = "errorMessageData")
     public Object[][] errorData() {
