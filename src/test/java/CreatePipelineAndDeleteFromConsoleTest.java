@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.Date;
 
-public class AbrarovPipelineTest extends BaseTest {
+public class CreatePipelineAndDeleteFromConsoleTest extends BaseTest {
 
     private void homePageClick(){
         getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
