@@ -7,7 +7,7 @@ import runner.BaseTest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DeleteBuild extends BaseTest {
+public class DeleteBuildTest extends BaseTest {
 
     private final static String BASE_URL = "http:localhost:8080";
     private final static String EV_JOB_NAME = "First Job";
@@ -16,7 +16,7 @@ public class DeleteBuild extends BaseTest {
     private final static String YES_BUTTON_XPATH = "//button[contains(text(),'Yes')]";
 
     @Test
-    public void deleteBuild() {
+    public void testDeleteBuild() {
         getDriver().findElement(By.xpath("//span[contains(text(),'" + EV_JOB_NAME + "')]")).click();
         List<WebElement> buildsNumbers = getBuildsNumbers();
         WebElement lastBuild = buildsNumbers.get(0);
