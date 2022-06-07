@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CreateMultiConfigurationProjectXbrookxTest extends BaseTest {
+    private static final String PROJECT_NAME = "Neeew Multi configuration project";
 
     private void createMultiConfigurationProject(String projectName) {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -27,12 +28,27 @@ public class CreateMultiConfigurationProjectXbrookxTest extends BaseTest {
                 .stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
+    public void deleteMultiConfigurationProject() {
+        getDriver().findElement(By.xpath(
+                "//table[@id='projectstatus']//a[normalize-space(.)='" + PROJECT_NAME + "']")).click();
+        getDriver().findElement(By.xpath("//a[contains(@class, 'confirmation-link')] ")).click();
+        getDriver().switchTo().alert().accept();
+    }
+
     @Test
     public void TC_041_003_testCreateMultiConfigurationProject() {
-        final String PROJECT_NAME = "Neeew Multi configuration project";
         createMultiConfigurationProject(PROJECT_NAME);
         returnHomePage();
 
         Assert.assertTrue(getListProjects().contains(PROJECT_NAME));
+    }
+
+    @Test
+    public void TC_041_004_testDeleteMultiConfigurationProject() {
+        returnHomePage();
+        deleteMultiConfigurationProject();
+        getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
+
+        Assert.assertFalse(getListProjects().contains(PROJECT_NAME));
     }
 }
