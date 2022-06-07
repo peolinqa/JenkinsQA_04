@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -10,8 +11,8 @@ public class JulSabSingleCategoryUITest extends BaseTest {
     private static final By XPATH_LIST_OF_LABEL = By.xpath("//li/label");
     private static final By XPATH_LIST_DESC_OF_LABEL = By.xpath("//div[@class='desc']");
     private static final By XPATH_LIST_ICON = By.xpath("//div[@class='icon']/img");
-
-    @Test
+@Ignore
+    @Test (enabled=false)
     public void testCheckLabelStyle129001() {
         String expectedFontWeightResult = "700";
         String expectedFontSizeResult = "16px";
@@ -25,8 +26,8 @@ public class JulSabSingleCategoryUITest extends BaseTest {
             Assert.assertEquals(value.getCssValue("color"), expectedColorResult);
         }
     }
-
-    @Test
+@Ignore
+    @Test (enabled=false)
     public void testCheckDescriptionStyle129002() {
         String expectedFontSizeResult = "14px";
         String expectedColorResult = "rgba(51, 51, 51, 1)";
@@ -38,8 +39,8 @@ public class JulSabSingleCategoryUITest extends BaseTest {
             Assert.assertEquals(value.getCssValue("color"), expectedColorResult);
         }
     }
-
-    @Test
+@Ignore
+    @Test (enabled=false)
     public void testCheckIconAvailabilityDisplaying129003() {
         getDriver().findElement(XPATH_NEW_ITEM).click();
         List<WebElement> icons = getDriver().findElements(XPATH_LIST_ICON);
