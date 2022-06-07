@@ -1,21 +1,18 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.TestRunner;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class ShurikCheckDDMNewDomainTest extends BaseTest {
 
+    private void preconditionGoToNewDomain () {
+        getDriver().get("http://localhost:8080/credentials/store/system/newDomain");
+    }
 
     @Test
     public void testCheckDDMNewDomain() {
@@ -45,7 +42,7 @@ public class ShurikCheckDDMNewDomainTest extends BaseTest {
 
         String expectedResult = "Help for feature: Domain Name";
 
-        getDriver().get("http://localhost:8080/credentials/store/system/newDomain");
+        preconditionGoToNewDomain();
 
         WebElement help = getDriver().findElement(
                 By.xpath("//a[@tooltip='Help for feature: Domain Name']"));
@@ -54,7 +51,7 @@ public class ShurikCheckDDMNewDomainTest extends BaseTest {
     }
 
     @Test
-    public void testHelpForFeatureDomainHelpAfterClic() throws InterruptedException {
+    public void testHelpForFeatureDomainHelpAfterClick() throws InterruptedException {
         List<String> expectedResult = new ArrayList<>();
         expectedResult.add("A short name to use for identifying this " +
                 "credential domain. Credential domains are used to group " +
@@ -62,23 +59,31 @@ public class ShurikCheckDDMNewDomainTest extends BaseTest {
                 "e.g. where the same username/password combination is used " +
                 "across multiple services/hosts.");
         expectedResult.add("A description for the domain, not used by Jenkins itself.");
+        expectedResult.add("The list of specifications that define how to " +
+                "identify requests for credentials as being valid for this " +
+                "credential domain.");
 
-        getDriver().get("http://localhost:8080/credentials/store/system/newDomain");
+        preconditionGoToNewDomain();
 
         Actions actions = new Actions(getDriver());
-
         WebElement helpDomainName = getDriver().findElement(
-                By.xpath("//a[@tooltip='Help for feature: Domain Name']"));
-        actions.moveToElement(helpDomainName).click().build().perform();
+                By.xpath("//a[contains(@tooltip,'Domain Name')]"));
+        actions.moveToElement(helpDomainName).click().perform();
         WebElement helpDescription = getDriver().findElement(
-                By.xpath("//a[@tooltip='Help for feature: Description']"));
-        actions.moveToElement(helpDescription).click().build().perform();
+                By.xpath("//a[contains(@tooltip,'Description')]"));
+        actions.moveToElement(helpDescription).click().perform();
+        WebElement helpSpecification = getDriver().findElement(
+               By.xpath("//a[contains(@tooltip,'Specification')]"));
+        actions.moveToElement(helpSpecification).click().perform();
 
         List<String> actualResult = new ArrayList<>();
         actualResult.add(getDriver().findElement(
                 By.xpath("//div[contains(text(),'A short name')]")).getText());
         actualResult.add(getDriver().findElement(
                 By.xpath("//div[contains(text(),'A description')]")).getText());
+        actualResult.add(getDriver().findElement(
+                By.xpath("//div[contains(text(),'The " +
+                        "list')]")).getText());
 
         Assert.assertEquals(actualResult, expectedResult);
     }
