@@ -9,7 +9,7 @@ import runner.BaseTest;
 import java.util.Date;
 import java.util.List;
 
-public class RuslanGPipelineCreatePipelineTest extends BaseTest {
+public class CreatePipelinePipelineProjectTest extends BaseTest {
     private final String PIPELINE_PROJECT_NAME = "Ruslan Gudenko Pipeline Project+";
 
     private final By PIPELINE_ITEM_CONFIGURATION = By.xpath(
