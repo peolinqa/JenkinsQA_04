@@ -19,7 +19,7 @@ public class CreateMultibranchPipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
-    @Test
+    @Test (priority = 1)
     public void testCreateMultiBranchNegative() {
 
         getDriver().manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
@@ -44,7 +44,7 @@ public class CreateMultibranchPipelineTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test (priority = 2)
     public void testCreateMultiBranchPositive() {
 
         String expectedURL = String.format("http://localhost:8080/job/%s/", PROJECT_NAME);
@@ -69,8 +69,7 @@ public class CreateMultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), expectedURL);
     }
 
-    @Ignore
-    @Test
+    @Test (priority = 3)
     public void testProjectIsOnDashboard() {
 
         boolean isProjectOnDashboard = getDriver().findElement(
