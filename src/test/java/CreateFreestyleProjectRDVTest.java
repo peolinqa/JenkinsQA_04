@@ -3,10 +3,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class DmitriyRudoiTest extends BaseTest {
+public class CreateFreestyleProjectRDVTest extends BaseTest {
     private void clickNewItem(){
         getDriver().findElement(By.className("task-link-text")).click();
-
     }
 
     @Test
