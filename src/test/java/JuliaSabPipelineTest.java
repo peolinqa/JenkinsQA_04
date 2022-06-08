@@ -4,7 +4,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -17,7 +16,6 @@ public class JuliaSabPipelineTest extends BaseTest {
     private static final By XPATH_APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");
     private static final By XPATH_SAVE_BUTTON = By.xpath("//button[contains(text(), 'Save')]");
     private static final By XPATH_BACK_TO_DASHBOARD = By.xpath("//span[text()='Back to Dashboard']");
-    private static final By XPATH_JOB_LIST = By.xpath("//td[3]/a");
     private static final By XPATH_JOB_DESCRIPTION = By.xpath("//div[@id='description']/div[1]");
     private static final By XPATH_DISAPPEARING_BUTTON = By.xpath("//div[@id='menuSelector']");
     private static final By XPATH_PREVIEW_BUTTON = By.xpath("//a[@previewendpoint='/markupFormatter/previewDescription']");
@@ -32,7 +30,8 @@ public class JuliaSabPipelineTest extends BaseTest {
 
     @Test
     public void testCheckNameAndDescriptionForPipeline025001() {
-        WebElement pipeline = getDriver().findElement(XPATH_JOB_LIST);
+        WebElement pipeline = getDriver()
+                .findElement(By.xpath("//td[3]/a[text()='First Pipeline']"));
         String actualNameResult = pipeline.getText();
         Assert.assertEquals(actualNameResult, "First Pipeline");
 
@@ -42,7 +41,7 @@ public class JuliaSabPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testEditNewDescriptionPipeline025001() {
+    public void testEditNewDescriptionPipeline025001() throws InterruptedException {
         selectItemFromDropDownMenu("First Pipeline", "Configure");
         getDriver().findElement(XPATH_TEXT_AREA_DESCRIPTION).clear();
         getDriver().findElement(XPATH_TEXT_AREA_DESCRIPTION).sendKeys("new description");
@@ -54,7 +53,7 @@ public class JuliaSabPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCheckPreviewAndHideDescription025001() {
+    public void testCheckPreviewAndHideDescription025001() throws InterruptedException {
         selectItemFromDropDownMenu("First Pipeline", "Configure");
         if (!getDriver().findElement(XPATH_HIDE_PREVIEW_BUTTON).isDisplayed()) {
             Assert.assertFalse(getDriver().findElement(XPATH_HIDE_PREVIEW_BUTTON).isDisplayed());
@@ -69,33 +68,36 @@ public class JuliaSabPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCheckIconWithTip023002() {
+    public void testCheckIconWithTip023002() throws InterruptedException {
         findAndChooseErrorOptInSampleStep();
+        Thread.sleep(2000);
         String actualResultTip = getDriver().findElement(XPATH_ICON_TOOLTIP).getAttribute("tooltip");
         getDriver().findElement(XPATH_ICON_TOOLTIP).click();
 
         Assert.assertEquals(actualResultTip, "Help for feature: error");
     }
 
-    @Ignore
     @Test
-    public void testCheckClickIconWithTipCheckElementIsDisplaying023002() {
+    public void testCheckClickIconWithTipCheckElementIsDisplaying023002() throws InterruptedException {
         findAndChooseErrorOptInSampleStep();
-
+        Thread.sleep(1000);
         getDriver().findElement(XPATH_ICON_TOOLTIP).click();
+        Thread.sleep(1000);
         Assert.assertTrue(getDriver()
                 .findElement(XPATH_HIDDEN_TEXT_OPT_ERROR)
                 .isDisplayed());
 
         getDriver().findElement(XPATH_ICON_TOOLTIP).click();
+        Thread.sleep(1000);
         Assert.assertFalse(getDriver()
                 .findElement(XPATH_HIDDEN_TEXT_OPT_ERROR)
                 .isDisplayed());
     }
 
     @Test
-    public void testCheckHiddenTextBelowIconWithTipAfterClick023002() {
+    public void testCheckHiddenTextBelowIconWithTipAfterClick023002() throws InterruptedException {
         findAndChooseErrorOptInSampleStep();
+        Thread.sleep(1000);
         getDriver().findElement(XPATH_ICON_TOOLTIP).click();
         String expectedResult = "Signals an error. Useful if you want to conditionally abort some part of your program. " +
                 "You can also just throw new Exception(), but this step will avoid printing a stack trace.";
@@ -105,7 +107,7 @@ public class JuliaSabPipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCheckGenerateScript023001() {
+    public void testCheckGenerateScript023001() throws InterruptedException {
         findAndChooseErrorOptInSampleStep();
         getDriver().findElement(By.xpath("//input[@name='_.message']"))
                 .sendKeys("an error has been detected");
@@ -121,12 +123,13 @@ public class JuliaSabPipelineTest extends BaseTest {
     }
 
     @AfterMethod
-    protected void setDown() {
+    protected void setDown() throws InterruptedException {
         deletePipeline("First Pipeline", "Delete Pipeline");
     }
 
-    private void findAndChooseErrorOptInSampleStep() {
-        getDriver().findElement(XPATH_JOB_LIST).click();
+    private void findAndChooseErrorOptInSampleStep() throws InterruptedException {
+        getDriver().findElement(By.xpath("//td[3]/a[text()='First Pipeline']")).click();
+        Thread.sleep(1000);
         getDriver().findElement(XPATH_PIPELINE_SYNTAX).click();
         getDriver().findElement(XPATH_SAMPLE_STEP_DROP_DOWN).click();
         getDriver().findElement(XPATH_ERROR_OPTION).click();
@@ -142,16 +145,17 @@ public class JuliaSabPipelineTest extends BaseTest {
         getDriver().findElement(XPATH_BACK_TO_DASHBOARD).click();
     }
 
-    private void selectItemFromDropDownMenu(String nameJob, String item) {
+    private void selectItemFromDropDownMenu(String nameJob, String item) throws InterruptedException {
         Actions action = new Actions(getDriver());
         action.moveToElement(getDriver()
                 .findElement(By.xpath("//a[text()='" + nameJob + "']"))).build().perform();
+        Thread.sleep(1000);
         action.moveToElement(getDriver()
                 .findElement(XPATH_DISAPPEARING_BUTTON)).click().build().perform();
         getDriver().findElement(By.xpath("//span[text()='" + item + "']")).click();
     }
 
-    private void deletePipeline(String nameJob, String item) {
+    private void deletePipeline(String nameJob, String item) throws InterruptedException {
         selectItemFromDropDownMenu(nameJob, item);
         getDriver().switchTo().alert().accept();
     }
