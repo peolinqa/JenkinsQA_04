@@ -116,12 +116,12 @@ public class JuliaSabPipelineTest extends BaseTest {
     }
 
     @BeforeMethod
-    protected void beforeMethod() {
+    protected void setUp() {
         createNewPipeline("First Pipeline", "First test");
     }
 
     @AfterMethod
-    protected void afterMethod() {
+    protected void setDown() {
         deletePipeline("First Pipeline", "Delete Pipeline");
     }
 

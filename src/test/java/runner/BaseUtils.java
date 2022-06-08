@@ -1,10 +1,15 @@
 package runner;
 
+import com.google.common.io.Files;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -75,4 +80,15 @@ public final class BaseUtils {
 
         return driver;
     }
+
+    static void captureScreenFile(WebDriver driver, String methodName, String className) {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File file = ts.getScreenshotAs(OutputType.FILE);
+         try {
+             FileUtils.copyFile(file, new File(String.format("ScreenshotsFailure/%s-%s.png", className, methodName)));
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
