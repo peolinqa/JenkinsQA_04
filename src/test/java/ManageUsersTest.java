@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 
 import java.util.*;
@@ -12,28 +13,35 @@ public class ManageUsersTest extends BaseTest {
     private static final String PASSWORD = "123456ABC";
     private static final String FULL_NAME = "Viktor P";
     private static final String EMAIL = "testemail.@gmail.com";
+    private static final String URL_PAGE_WITH_LIST_OF_USERS = "http://localhost:8080/securityRealm/";
 
     public WebElement userName() {
+
         return getDriver().findElement(By.id("username"));
     }
 
-    public WebElement password() {
+    public WebElement passwordOne() {
+
         return getDriver().findElement(By.name("password1"));
     }
 
     public WebElement passwordConfirm() {
+
         return getDriver().findElement(By.name("password2"));
     }
 
     public WebElement fullName() {
+
         return getDriver().findElement(By.name("fullname"));
     }
 
     public WebElement emailAddress() {
+
         return getDriver().findElement(By.name("email"));
     }
 
     public WebElement buttonCreateUser() {
+
         return getDriver().findElement(By.id("yui-gen1-button"));
     }
 
@@ -44,15 +52,25 @@ public class ManageUsersTest extends BaseTest {
     public void fillOutFieldsCreateUser(String userName, String password, String fullName, String email) {
 
         userName().sendKeys(userName);
-        password().sendKeys(password);
+        passwordOne().sendKeys(password);
         passwordConfirm().sendKeys(password);
         fullName().sendKeys(fullName);
         emailAddress().sendKeys(email);
     }
 
+    public void getUrlWithCreateUserFieldsAndFillOutThem() {
+        urlPageCreateUser();
+        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
+    }
+
     public List<WebElement> createListWithErrorMessages() {
 
         return getDriver().findElements(By.xpath("//div[@class='form-content']/div"));
+    }
+
+    public List<WebElement> getListWithAllUsers() {
+
+        return getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr"));
     }
 
     @Test(groups = {"Elements_are_displayed"})
@@ -64,7 +82,7 @@ public class ManageUsersTest extends BaseTest {
     @Test(groups = {"Elements_are_displayed"})
     public void testPasswordFieldIsDisplayed() {
         urlPageCreateUser();
-        Assert.assertTrue(password().isDisplayed());
+        Assert.assertTrue(passwordOne().isDisplayed());
     }
 
     @Test(groups = {"Elements_are_displayed"})
@@ -94,12 +112,10 @@ public class ManageUsersTest extends BaseTest {
     @Test(dependsOnGroups = {"Elements_are_displayed"})
     public void testUserCanCreateNewUser() {
 
-        urlPageCreateUser();
-        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
+        getUrlWithCreateUserFieldsAndFillOutThem();
         buttonCreateUser().click();
 
-        List<WebElement> users = getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr"));
-        for (WebElement user : users) {
+        for (WebElement user : getListWithAllUsers()) {
             if (user.getText().contains(USER_NAME) && user.getText().contains(FULL_NAME)) {
 
                 Assert.assertTrue(user.isDisplayed());
@@ -110,22 +126,24 @@ public class ManageUsersTest extends BaseTest {
     @Test(dependsOnMethods = {"testUserCanCreateNewUser"})
     public void testUserCanDeleteUser() {
 
-        getDriver().get("http://localhost:8080/securityRealm/");
+        getDriver().get(URL_PAGE_WITH_LIST_OF_USERS);
         getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", USER_NAME))).click();
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
 
-        List<WebElement> users = getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr"));
-        for (WebElement user : users) {
+        for (WebElement user : getListWithAllUsers()) {
 
             Assert.assertFalse(user.getText().contains(USER_NAME) && user.getText().contains(FULL_NAME));
         }
     }
 
-    @Test(dependsOnGroups = {"Elements_are_displayed"})
+    @Test(dependsOnGroups = {"Elements_are_displayed"}, dependsOnMethods = {"testUserCanCreateNewUser"})
     public void testUsernameFieldDoesNotAcceptSpecialCharacters() {
 
-        urlPageCreateUser();
-        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
+        SoftAssert asserts = new SoftAssert();
+
+        String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
+
+        getUrlWithCreateUserFieldsAndFillOutThem();
 
         List<String> specialCharacters = new ArrayList<>(Arrays.asList(
                 "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", ";", ":", "?", "=",
@@ -137,21 +155,38 @@ public class ManageUsersTest extends BaseTest {
                     "vik".concat(specialCharacter).concat("torp")));
 
             for (String nameWithSpecialCharacter : namesWithSpecialCharacter) {
+                if (getDriver().getCurrentUrl().equals(URL_PAGE_WITH_LIST_OF_USERS)) {
+                    getUrlWithCreateUserFieldsAndFillOutThem();
+                }
                 userName().clear();
                 userName().sendKeys(nameWithSpecialCharacter);
                 buttonCreateUser().click();
 
-                for (WebElement errorMessage : createListWithErrorMessages()) {
-                    Assert.assertEquals(errorMessage.getText(),
-                            "User name must only contain alphanumeric characters, underscore and dash");
+                if (getDriver().getCurrentUrl().equals("http://localhost:8080/securityRealm/createAccountByAdmin")) {
+                    for (WebElement errorMessage : createListWithErrorMessages()) {
+
+                        asserts.assertEquals(errorMessage.getText(), expectedResult);
+                    }
+                } else {
+                    for (WebElement user : getListWithAllUsers()) {
+                        if (user.getText().contains(nameWithSpecialCharacter)) {
+
+                            asserts.assertEquals(nameWithSpecialCharacter, expectedResult);
+
+                            break;
+                        }
+                    }
                 }
             }
         }
+        asserts.assertAll();
     }
 
     @Test(dependsOnGroups = {"Elements_are_displayed"},
             dependsOnMethods = {"testUsernameFieldDoesNotAcceptSpecialCharacters"})
     public void testErrorMessagesHaveValidCssValues() {
+
+        SoftAssert asserts = new SoftAssert();
 
         urlPageCreateUser();
         fillOutFieldsCreateUser(USER_NAME.concat("*"), PASSWORD, FULL_NAME, EMAIL);
@@ -175,13 +210,14 @@ public class ManageUsersTest extends BaseTest {
                 String actualResult = errorMessageElement.getCssValue(cssValues.get(index));
                 if (actualResult.contains("http://localhost:8080")) {
 
-                    Assert.assertTrue(actualResult.contains(expectedResults.get(index)));
+                    asserts.assertTrue(actualResult.contains(expectedResults.get(index)));
                 } else {
 
-                    Assert.assertEquals(actualResult, expectedResult);
+                    asserts.assertEquals(actualResult, expectedResult);
                 }
                 index++;
             }
         }
+        asserts.assertAll();
     }
 }

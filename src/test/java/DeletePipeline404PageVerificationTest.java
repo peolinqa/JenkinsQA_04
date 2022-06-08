@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class RuslanGPipelineDeletePipelineTest extends BaseTest {
+public class DeletePipeline404PageVerificationTest extends BaseTest {
     private void createPipelineProject() {
         Date date = new Date();
 

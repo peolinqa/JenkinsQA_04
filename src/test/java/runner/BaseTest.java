@@ -2,6 +2,8 @@ package runner;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.*;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 
 import java.lang.reflect.Method;
 
@@ -16,7 +18,11 @@ public abstract class BaseTest {
     }
 
     @AfterMethod
-    protected void afterMethod() {
+    protected void afterMethod(Method method, ITestResult result) {
+        if (!result.isSuccess() && BaseUtils.isServerRun()) {
+            BaseUtils.captureScreenFile(driver, method.getName(), this.getClass().getName());
+        }
+
         ProjectUtils.logout(driver);
         driver.quit();
     }
