@@ -1,25 +1,45 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class FreestyleProjectTest extends BaseTest {
+    private final String FREESTYLE_PROJECT_NAME = "NewProject";
+    private final String DESCRIPTION = "NewDescription";
+
+    @AfterMethod
+    public void deleteFreestyleProject() {
+        getDriver().findElement(By.xpath("//span[text() = 'Delete Project']")).click();
+        getDriver().switchTo().alert().accept();
+    }
 
     @Test
     public void testAddDescription() {
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[1]/span/a/span[2]")).click();
+        createNewFreestyleProject();
 
-        getDriver().findElement(By.id("name")).
-                sendKeys("new Freestyle project");
-        getDriver().findElement(By.xpath("//*[@id='j-add-item-type-standalone-projects']/ul/li[1]/label/span")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+        addDescriptionToFreestyleProject();
 
-        getDriver().findElement(By.cssSelector("[name='description']"))
-                .sendKeys("New description");
-        getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1[text() = 'Project " + FREESTYLE_PROJECT_NAME + "']")).getText(),
+                "Project " + FREESTYLE_PROJECT_NAME + "");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[text() = '" + DESCRIPTION + "']")).getText(), DESCRIPTION);
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h1[text() = 'Project new Freestyle project']")).isDisplayed());
-        Assert.assertEquals(getDriver().findElement(By.xpath("//*[@id='description']/div[1]")).getText(),
-                "New description");
+    }
+
+    public void createNewFreestyleProject() {
+        getDriver().findElement(By.xpath("//a[@title = \"New Item\"]")).click();
+
+        getDriver().findElement(By.xpath("//input[@id = 'name']")).
+                sendKeys(FREESTYLE_PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[text() = 'Freestyle project']")).click();
+        getDriver().findElement(By.xpath("//button[text() = 'OK']")).click();
+    }
+
+    public void addDescriptionToFreestyleProject() {
+        getDriver().findElement(By.xpath("//textarea[@name = 'description']"))
+                    .sendKeys(DESCRIPTION);
+        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
+
     }
 }
+

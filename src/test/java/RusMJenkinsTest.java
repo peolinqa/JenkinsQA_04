@@ -115,6 +115,7 @@ public class  RusMJenkinsTest extends BaseTest {
         assertTrue(notPresent());
     }
 
+    @Ignore
     @Test
     public void testPipelineBuild() {
 
