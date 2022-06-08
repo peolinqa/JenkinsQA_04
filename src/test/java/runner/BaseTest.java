@@ -29,6 +29,8 @@ public abstract class BaseTest {
 
         ProjectUtils.logout(driver);
         driver.quit();
+        wait20 = null;
+        wait5 = null;
     }
 
     protected WebDriver getDriver() {
