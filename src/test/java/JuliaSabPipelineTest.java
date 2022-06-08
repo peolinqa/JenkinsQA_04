@@ -115,6 +115,7 @@ public class JuliaSabPipelineTest extends BaseTest {
         Assert.assertTrue(actualResult.contains("responseText"));
     }
 
+    @Ignore
     @BeforeMethod
     @Override
     protected void beforeMethod() {
