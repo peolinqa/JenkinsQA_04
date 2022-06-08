@@ -5,9 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CreateOrganizationFolderDariaKozhTest extends BaseTest {
+public class CreateOrganizationFolder_Test extends BaseTest {
 
     private final String VALID_FOLDER_NAME = "folder1";
     private final By BUTTON_NEW_ITEM = By.linkText("New Item");
@@ -16,8 +17,9 @@ public class CreateOrganizationFolderDariaKozhTest extends BaseTest {
             "//ul[@class='j-item-options']/li[@class='jenkins_branch_OrganizationFolder']");
     private final By OK_BUTTON = By.id("ok-button");
     private final By SAVE_BUTTON = By.id("yui-gen17-button");
-    private final By FOLDER1_ON_DASHBOARD = By.xpath("//tr[@id='job_folder1']/td/a[text()='folder1']");
-    private final By JENKINS = By.id("jenkins-name-icon");
+    private final By FOLDER1_ON_DASHBOARD = By.xpath(
+            "//table[@id='projectstatus']/tbody/tr[@id='job_folder1']/td/a[@href='job/folder1/']");
+    private final By JENKINS = By.id("jenkins-home-link");
 
     private void fillNameAndClickOrganizationFolder() {
         getDriver().findElement(BUTTON_NEW_ITEM).click();
@@ -40,7 +42,6 @@ public class CreateOrganizationFolderDariaKozhTest extends BaseTest {
         getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li/a[@href='/job/folder1/delete']/span"))
                 .click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
-
     }
 
     @Test
@@ -90,7 +91,7 @@ public class CreateOrganizationFolderDariaKozhTest extends BaseTest {
     }
 
     @Test
-    public void TC34_004CreateOrganizationFolderWhisMetadataFolderIcon() {
+    public void TC34_004CreateOrganizationFolderWithMetadataFolderIcon() {
         fillNameAndClickOrganizationFolder();
         getDriver().findElement(OK_BUTTON).click();
         getDriver().findElement(By.xpath(
@@ -158,4 +159,59 @@ public class CreateOrganizationFolderDariaKozhTest extends BaseTest {
         Assert.assertEquals(error.getCssValue("color").toString(), "rgba(255, 0, 0, 1)");
         Assert.assertEquals(getDriver().findElement(OK_BUTTON).getAttribute("class").toString(), "disabled");
     }
+
+    @Test
+    public void TC34_008CreateOrganizationFolderNavigation() {
+        fillNameAndClickOrganizationFolder();
+        getDriver().findElement(OK_BUTTON).click();
+
+        getDriver().findElement(By.xpath("//div[@class='tabBar config-section-activators']/div[text()='Projects']")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@colspan='4']/div[text()='Projects']")).isDisplayed());
+
+        getDriver().findElement(By.xpath(
+                "//div[@class='tabBar config-section-activators']/div[text()='Health metrics']")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@colspan='4']/div[text()='Health metrics']"))
+                .isDisplayed());
+
+        getDriver().findElement(By.xpath(
+                        "//div[@class='tabBar config-section-activators']/div[text()='Automatic branch project triggering']"))
+                .click();
+        Assert.assertTrue(getDriver().findElement(By.xpath(
+                "//div[@colspan='4']/div[text()='Automatic branch project triggering']")).isDisplayed());
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        deleteFolder();
+    }
+
+    @Test
+    public void TC34_009CreateOrganizationFolderWithDisplayName() {
+        fillNameAndClickOrganizationFolder();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(By.name("_.displayNameOrNull")).sendKeys("FolderTestDisplayName");
+        getDriver().findElement(By.id("yui-gen13-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='notification-bar']/span")).getText(),
+                "Saved");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='notification-bar']/span")).getCssValue("color"),
+                "rgba(19, 131, 71, 1)");
+
+        getDriver().findElement(SAVE_BUTTON).click();
+        getDriver().findElement(JENKINS).click();
+
+        List<String> result = new ArrayList<>();
+        List<WebElement> namesFoldersFromTable = getDriver().findElements(By.xpath(
+                "//table[@id='projectstatus']/tbody/tr/td[3]/a"));
+
+        for (WebElement name : namesFoldersFromTable) {
+            result.add(name.getText());
+        }
+
+        Assert.assertTrue(result.contains("FolderTestDisplayName"));
+        Assert.assertFalse(result.contains(VALID_FOLDER_NAME));
+
+        getDriver().findElement(FOLDER1_ON_DASHBOARD).click();
+        getDriver().findElement(By.xpath("//span[text()='Delete Organization Folder']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+    }
+
 }
