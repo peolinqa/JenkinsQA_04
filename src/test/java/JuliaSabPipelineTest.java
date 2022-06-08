@@ -114,17 +114,13 @@ public class JuliaSabPipelineTest extends BaseTest {
     }
 
     @BeforeMethod
-    @Override
     protected void beforeMethod() {
-        super.beforeMethod();
         createNewPipeline("First Pipeline", "First test");
     }
 
     @AfterMethod
-    @Override
     protected void afterMethod() {
         deletePipeline("First Pipeline", "Delete Pipeline");
-        super.afterMethod();
     }
 
     private void findAndChooseErrorOptInSampleStep() {
