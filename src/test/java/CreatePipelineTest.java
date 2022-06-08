@@ -10,7 +10,7 @@ import runner.BaseTest;
 import java.util.Date;
 import java.util.List;
 
-public class KICreatePipelineTest extends BaseTest {
+public class CreatePipelineTest extends BaseTest {
     private static final By NEW_ITEM = By.cssSelector("[title='New Item']");
     private static final By INPUT_LINE = By.id("name");
     private static final By PIPELINE = By.xpath("//span[text()='Pipeline']");
