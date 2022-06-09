@@ -1,11 +1,11 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class JulSabDropDownMenuDashboardTest extends BaseTest {
@@ -16,11 +16,13 @@ public class JulSabDropDownMenuDashboardTest extends BaseTest {
     @Test
     public void testCommonCheckDropDownMenu105001() {
         List<String> expectedItems = List.of("New Item", "People", "Build History", "Manage Jenkins", "My Views", "Lockable Resources", "New View");
-        getDriver().manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS);
 
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DASHBOARD));
         Actions action = new Actions(getDriver());
         action.moveToElement(getDriver()
                 .findElement(XPATH_DASHBOARD)).build().perform();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
         action.moveToElement(getDriver()
                 .findElement(XPATH_DISAPPEARING_BUTTON)).click().build().perform();
 

@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -12,14 +13,15 @@ public class JulSabSingleCategoryUITest extends BaseTest {
     private static final By XPATH_LIST_ICON = By.xpath("//div[@class='icon']/img");
 
     @Test
-    public void testCheckLabelStyle129001() throws InterruptedException {
+    public void testCheckLabelStyle129001() {
         String expectedFontWeightResult = "700";
         String expectedFontSizeResult = "16px";
         String expectedColorResult = "rgba(51, 51, 51, 1)";
 
         getDriver().findElement(XPATH_NEW_ITEM).click();
-        Thread.sleep(1000);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_LIST_OF_LABEL));
         List<WebElement> labels = getDriver().findElements(XPATH_LIST_OF_LABEL);
+
         for (WebElement value : labels) {
             Assert.assertEquals(value.getCssValue("font-weight"), expectedFontWeightResult);
             Assert.assertEquals(value.getCssValue("font-size"), expectedFontSizeResult);
@@ -28,13 +30,14 @@ public class JulSabSingleCategoryUITest extends BaseTest {
     }
 
     @Test
-    public void testCheckDescriptionStyle129002() throws InterruptedException {
+    public void testCheckDescriptionStyle129002() {
         String expectedFontSizeResult = "14px";
         String expectedColorResult = "rgba(51, 51, 51, 1)";
 
         getDriver().findElement(XPATH_NEW_ITEM).click();
-        Thread.sleep(1000);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_LIST_DESC_OF_LABEL));
         List<WebElement> descriptions = getDriver().findElements(XPATH_LIST_DESC_OF_LABEL);
+
         for (WebElement value : descriptions) {
             Assert.assertEquals(value.getCssValue("font-size"), expectedFontSizeResult);
             Assert.assertEquals(value.getCssValue("color"), expectedColorResult);
@@ -42,10 +45,11 @@ public class JulSabSingleCategoryUITest extends BaseTest {
     }
 
     @Test
-    public void testCheckIconAvailabilityDisplaying129003() throws InterruptedException {
+    public void testCheckIconAvailabilityDisplaying129003() {
         getDriver().findElement(XPATH_NEW_ITEM).click();
-        Thread.sleep(1000);
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_LIST_ICON));
         List<WebElement> icons = getDriver().findElements(XPATH_LIST_ICON);
+
         for (WebElement icon : icons) {
             Assert.assertTrue(icon.isDisplayed());
             Assert.assertTrue(icon.isEnabled());
