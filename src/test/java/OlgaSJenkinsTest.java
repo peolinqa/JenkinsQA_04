@@ -46,4 +46,28 @@ public class OlgaSJenkinsTest extends BaseTest {
 
         Assert.assertEquals(actualResult, projectDescription);
     }
+
+    @Test
+    public void testFreestyleProjectNameEmpty() {
+        String expectedResultError = "Error";
+        String expectedResultDoshboard = "Dashboard";
+        getDriver().findElement(By.xpath("//div[@id='side-panel']/div[@id='tasks']//a[@href='/view/all/newJob']"))
+                .click();
+        getDriver().findElement(By.id("name"))
+                .sendKeys("          ");
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']"))
+                .click();
+        getDriver().findElement(By.id("ok-button"))
+                .click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[@id='page-body']/div[@id='main-panel']/h1")).getText(),expectedResultError);
+
+        getDriver().findElement(By.xpath(
+                "//div[@id='breadcrumbBar']//a[@class=' inside breadcrumbBarAnchor']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(
+                        "//div[@id='breadcrumbBar']//a[@class='model-link inside breadcrumbBarAnchor']"))
+                .getText(),expectedResultDoshboard);
+    }
 }
