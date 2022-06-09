@@ -57,7 +57,6 @@ public class  RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
     }
 
-    private List<WebElement> value;
 
     @Test
     public void testFreestyleNewItemValidName() {
@@ -134,7 +133,6 @@ public class  RusMJenkinsTest extends BaseTest {
                 .sendKeys("Description of parameter");
         getDriver().findElement(By.xpath("//button[@id='yui-gen6-button']")).click();
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a")).click();
-        getDriver().findElement(By.xpath("//div[@id=\"main-panel\"]/h1")).getText();
 
         SoftAssert asserts = new SoftAssert();
 
@@ -166,10 +164,14 @@ public class  RusMJenkinsTest extends BaseTest {
                 .xpath("//div[@id='main-panel']/form/div[1]/div[1]/div[4]/div[2]"))
                 .getText(), "Description of parameter");
 
-        getDriver().findElement(By.xpath("//button[@id=\"yui-gen1-button\"]")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href,'/job/First%20Pipeline%20Project/1/')]"))
-                .click();
-        getDriver().findElement(By.xpath("//div[@id=\"tasks\"]/div[7]/span/a")).click();
+        getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
+
+
+        getDriver().findElement(By.xpath("//div[@id=\"buildHistory\"]/div[1]/div/a")).click();
+
+        getDriver().navigate().to("http://localhost:8080/job/First%20Pipeline%20Project/1/");
+
+        getDriver().findElement(By.xpath("//div[@id='tasks']/div[7]/span/a")).click();
 
         asserts.assertEquals(getDriver().findElement(By
                 .xpath("//div[@id=\"main-panel\"]/div/div/div[2]/div/div[1]"))
