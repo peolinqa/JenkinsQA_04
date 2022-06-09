@@ -3,7 +3,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -58,21 +57,17 @@ public class CreatePipelineTest extends BaseTest {
         Assert.assertEquals(errorMessageTwo, "Error");
     }
 
-    @Ignore
     @Test(description = "TC_017.009")
     public void testCheckDropDownMenuPipeline() {
         fillNameAndClick(date.getTime());
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.cssSelector("[class='tab config-section" +
-                "-activator config_pipeline']")).click();
+
+        WebElement dropDownMenu = getDriver().findElement(By.className("samples"));
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
+                dropDownMenu);
 
         List<WebElement> optionsDropDown = getDriver().findElements(
                 By.xpath("//div[1][@class='samples']//select/option"));
-
-        WebElement logOut = getDriver().findElement(By.cssSelector(
-                "[href='/logout']"));
-        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
-                logOut);
 
         Assert.assertEquals(optionsDropDown.size(), 4);
     }
