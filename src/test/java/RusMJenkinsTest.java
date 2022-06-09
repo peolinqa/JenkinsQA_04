@@ -166,7 +166,6 @@ public class  RusMJenkinsTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
 
-
         getDriver().findElement(By.xpath("//div[@id=\"buildHistory\"]/div[1]/div/a")).click();
 
         getDriver().navigate().to("http://localhost:8080/job/First%20Pipeline%20Project/1/");
