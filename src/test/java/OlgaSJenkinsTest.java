@@ -20,19 +20,6 @@ public class OlgaSJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("side-panel")).isDisplayed());
     }
 
-    /** TC_001.001
-     * Steps:
-     * -login
-     * -click on New item
-     * -provide name
-     * -select Freestyle project
-     * -click button OK
-     * -provide description
-     * -click button SAVE
-     *
-     * Expected results:
-     * -check freestyle project with correct name is open
-     */
     @Test
     public void testCreatedFreestyleProject () {
         final String projectName = "My first item";
