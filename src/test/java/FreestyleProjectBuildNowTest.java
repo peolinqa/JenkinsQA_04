@@ -2,7 +2,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -15,41 +14,29 @@ import static org.testng.Assert.assertTrue;
 public class FreestyleProjectBuildNowTest extends BaseTest {
 
     private static final String PROJECT_NAME = RandomStringUtils.randomAlphanumeric(3, 10);
+    private static final String[] PAGE_NAMES = {"Changes", "Workspace", "Rename"};
 
-    protected boolean isBuildDisplayed() {
+    private boolean isSuccessfulBuildDisplayed() {
         return getDriver().findElement(
-                        By.xpath("//td[@class='build-row-cell']//span/span/*[name()='svg' and (contains(@tooltip, 'Success'))]")).
+                By.xpath("//td[@class='build-row-cell']//span/span/*[name()='svg' and (contains(@tooltip,'Success'))]")).
                 isDisplayed();
     }
 
-    protected void clickBuildNow() {
-        getDriver().findElement(By.linkText("Build Now")).click();
-    }
-
-    protected void getChangesPage() {
-        getDriver().findElement(By.linkText("Changes")).click();
-    }
-
-    protected void getWorkspacePage() {
-        getDriver().findElement(By.linkText("Workspace")).click();
-    }
-
-    protected void getRenamePage() {
-        getDriver().findElement(By.linkText("Rename")).click();
-    }
-
-    protected boolean isBuildOnTheTopOfTheBuildHistory() {
-        List<WebElement> finishedBuilds = new WebDriverWait(getDriver(), 10)
+    private boolean isBuildOnTopOfBuildHistory() {
+        List<WebElement> finishedBuilds = getWait20()
                 .until(ExpectedConditions.numberOfElementsToBe(
-                        By.xpath("//a[@class='tip model-link inside build-link display-name']"), 3));
+                        By.cssSelector("td.build-row-cell a.display-name"), 3));
 
         return finishedBuilds.get(2).getText().equals("#1") && finishedBuilds.get(0).getText().equals("#3");
     }
 
-    @Test
+    private void clickLinkInPipelinePage(String pageName) {
+        getDriver().findElement(By.linkText(pageName)).click();
+    }
+
+    @Test(priority = 1)
     public void testBuildNow_TC_006_001() {
-        getDriver().findElement(
-                By.xpath("//a[@class='model-link inside breadcrumbBarAnchor']")).click();
+        getDriver().findElement(By.className("breadcrumbBarAnchor")).click();
         getDriver().findElement(By.linkText("New Item")).click();
         getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
         getDriver().findElement(
@@ -59,49 +46,39 @@ public class FreestyleProjectBuildNowTest extends BaseTest {
                 By.xpath("//button[contains(text(),'Save')]")).click();
 
         Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//h1[@class = 'job-index-headline page-headline']")).getText(),
+                By.className("page-headline")).getText(),
                 "Project " + PROJECT_NAME);
         Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//a[contains(@class, 'task-link--active')]//span[@class='task-link-text']")).getText(),
+                By.className("task-link--active")).getAttribute("title"),
                 "Status");
 
-        clickBuildNow();
+        clickLinkInPipelinePage("Build Now");
 
         getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
-        assertTrue(isBuildDisplayed());
-
-        getChangesPage();
-        assertTrue(isBuildDisplayed());
-
-        getWorkspacePage();
-        assertTrue(isBuildDisplayed());
-
-        getRenamePage();
-        assertTrue(isBuildDisplayed());
+        for (String name : PAGE_NAMES) {
+            clickLinkInPipelinePage(name);
+            assertTrue(isSuccessfulBuildDisplayed());
+        }
 
         getDriver().findElement(
                 By.xpath("//a[contains(text(), 'trend')]")).click();
 
         assertTrue(getDriver().findElement(
-                By.xpath("//a[@class='model-link inside']")).isDisplayed());
+                By.className("inside")).isDisplayed());
     }
 
-    @Test(dependsOnMethods = {"testBuildNow_TC_006_001"})
+    @Test(priority = 2)
     public void testBuildIsOnTheTopOfTheBuildHistory_TC_006_002() {
         getDriver().findElement(By.xpath("//a[text()='" + PROJECT_NAME + "']")).click();
 
         for (int i = 0; i < 2; i++) {
-            clickBuildNow();
+            clickLinkInPipelinePage("Build Now");
         }
 
-        getChangesPage();
-        assertTrue(isBuildOnTheTopOfTheBuildHistory());
-
-        getWorkspacePage();
-        assertTrue(isBuildOnTheTopOfTheBuildHistory());
-
-        getRenamePage();
-        assertTrue(isBuildOnTheTopOfTheBuildHistory());
+        for (String name : PAGE_NAMES) {
+            clickLinkInPipelinePage(name);
+            assertTrue(isBuildOnTopOfBuildHistory());
+        }
     }
 }
