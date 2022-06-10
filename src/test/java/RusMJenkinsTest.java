@@ -114,7 +114,6 @@ public class  RusMJenkinsTest extends BaseTest {
         assertTrue(notPresent());
     }
 
-    @Ignore
     @Test
     public void testPipelineBuild() {
 
@@ -169,9 +168,7 @@ public class  RusMJenkinsTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//div[@id=\"buildHistory\"]/div[1]/div/a")).click();
 
-        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
-
-        WebElement link = wait
+        WebElement link = getWait5()
                 .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='#1']")));
         JavascriptExecutor executor = (JavascriptExecutor)getDriver();
         executor.executeScript("arguments[0].click();", link);
