@@ -5,10 +5,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
@@ -78,4 +75,3 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
         project.click();
     }
 }
-
