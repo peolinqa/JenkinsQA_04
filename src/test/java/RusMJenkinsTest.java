@@ -1,13 +1,14 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-import org.testng.util.Strings;
 import runner.BaseTest;
 
 import java.util.ArrayList;
@@ -56,7 +57,6 @@ public class  RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id=\"j-add-item-type-standalone-projects\"]/ul/li[2]")).click();
         getDriver().findElement(By.id("ok-button")).click();
     }
-
 
     @Test
     public void testFreestyleNewItemValidName() {
@@ -168,7 +168,12 @@ public class  RusMJenkinsTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//div[@id=\"buildHistory\"]/div[1]/div/a")).click();
 
-        getDriver().navigate().to("http://localhost:8080/job/First%20Pipeline%20Project/1/");
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+
+        WebElement link = wait
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='#1']")));
+        JavascriptExecutor executor = (JavascriptExecutor)getDriver();
+        executor.executeScript("arguments[0].click();", link);
 
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[7]/span/a")).click();
 
