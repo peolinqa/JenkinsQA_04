@@ -20,19 +20,6 @@ public class OlgaSJenkinsTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("side-panel")).isDisplayed());
     }
 
-    /** TC_001.001
-     * Steps:
-     * -login
-     * -click on New item
-     * -provide name
-     * -select Freestyle project
-     * -click button OK
-     * -provide description
-     * -click button SAVE
-     *
-     * Expected results:
-     * -check freestyle project with correct name is open
-     */
     @Test
     public void testCreatedFreestyleProject () {
         final String projectName = "My first item";
@@ -58,5 +45,29 @@ public class OlgaSJenkinsTest extends BaseTest {
         deleteFreestyleProject();
 
         Assert.assertEquals(actualResult, projectDescription);
+    }
+
+    @Test
+    public void testFreestyleProjectNameEmpty() {
+        String expectedResultError = "Error";
+        String expectedResultDoshboard = "Dashboard";
+        getDriver().findElement(By.xpath("//div[@id='side-panel']/div[@id='tasks']//a[@href='/view/all/newJob']"))
+                .click();
+        getDriver().findElement(By.id("name"))
+                .sendKeys("          ");
+        getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']"))
+                .click();
+        getDriver().findElement(By.id("ok-button"))
+                .click();
+
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[@id='page-body']/div[@id='main-panel']/h1")).getText(),expectedResultError);
+
+        getDriver().findElement(By.xpath(
+                "//div[@id='breadcrumbBar']//a[@class=' inside breadcrumbBarAnchor']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(
+                        "//div[@id='breadcrumbBar']//a[@class='model-link inside breadcrumbBarAnchor']"))
+                .getText(),expectedResultDoshboard);
     }
 }

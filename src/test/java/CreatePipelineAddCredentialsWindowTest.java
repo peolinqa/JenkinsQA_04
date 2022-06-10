@@ -10,7 +10,7 @@ import runner.BaseTest;
 
 import java.util.Date;
 
-public class RuslanGCreatePipelineAddCredentialsWindowTest extends BaseTest {
+public class CreatePipelineAddCredentialsWindowTest extends BaseTest {
 
     private JavascriptExecutor javascriptExecutor;
     private Date date;
@@ -29,11 +29,7 @@ public class RuslanGCreatePipelineAddCredentialsWindowTest extends BaseTest {
                 .sendKeys("Ruslan Gudenko Pipeline Project+" + date.getTime());
         getDriver().findElement(By.xpath("//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']"))
                 .click();
-
-        WebElement okButton = getDriver().findElement(By.xpath("//button[@id='ok-button']"));
-        javascriptExecutor.executeScript("arguments[0].scrollIntoView();", okButton);
-        okButton.click();
-
+        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
         getDriver().findElement(By.xpath("//div[@class='tab config-section-activator config_pipeline']"))
                 .click();
 

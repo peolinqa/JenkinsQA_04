@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -21,13 +22,24 @@ public class CreateFolderTest extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
     }
 
+    public void clickJenkinsHome() {
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+    }
+
     private void createFolder(String nameFolder) {
         clickNewItem();
         getDriver().findElement(NAME).sendKeys(nameFolder);
         clickFolderItem();
         clickOKButton();
         getDriver().findElement(By.id("yui-gen6-button")).click();
-        getDriver().findElement(By.xpath("//a[normalize-space()='Dashboard']")).click();
+        clickJenkinsHome();
+    }
+
+    public void deleteFolder(String nameFolder) {
+        clickJenkinsHome();
+        getDriver().findElement(By.xpath("//a[@href='job/" + nameFolder + "/']")).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
     /**
@@ -121,17 +133,20 @@ public class CreateFolderTest extends BaseTest {
     @Test
     public void testCreateFolderWithTheSameName() {
 
-        createFolder("TestFolder_2");
+        String nameFolder = "TestRomanFolder";
 
-        String expectedErrorMessage = "» A job already exists with the name ‘TestFolder_2’";
+        createFolder(nameFolder);
+
+        String expectedErrorMessage = "» A job already exists with the name ‘" + nameFolder + "’";
         String expectedError = "Error";
 
         clickNewItem();
 
-        getDriver().findElement(NAME).sendKeys("TestFolder_2");
-        String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
+        getDriver().findElement(NAME).sendKeys(nameFolder);
+        WebElement actualErrorMessage1 = getWait20()
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid")));
 
-        Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
+        Assert.assertEquals(actualErrorMessage1.getText(), expectedErrorMessage);
 
         clickFolderItem();
         clickOKButton();
@@ -141,5 +156,7 @@ public class CreateFolderTest extends BaseTest {
 
         Assert.assertEquals(actualError, expectedError);
         Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
+
+        deleteFolder(nameFolder);
     }
 }
