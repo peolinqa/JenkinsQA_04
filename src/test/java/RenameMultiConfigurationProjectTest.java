@@ -92,7 +92,7 @@ public class RenameMultiConfigurationProjectTest extends BaseTest {
         ).isDisplayed());
     }
 
-    @Test(priority = 2, description = "TC_043.002| Multi-configuration project > rename with the same name")
+    @Test(priority = 2, description = "TC_043.002| Multi-configuration project > rename with the same name", enabled = false)
     public void testRenameMCPSameName() {
         String warningMes = "The new name is the same as the current name.";
 
