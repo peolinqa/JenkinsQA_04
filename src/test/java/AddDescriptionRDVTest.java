@@ -1,5 +1,7 @@
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -9,16 +11,19 @@ public class AddDescriptionRDVTest extends BaseTest {
         getDriver().findElement(By.className("task-link-text")).click();
     }
 
-    public void deleteItem() throws InterruptedException {
+    public void deleteItem() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 10);
+
         getDriver().findElement(By.linkText("Test Add Description")).click();
         getDriver().findElement(By.linkText("Delete Project")).click();
+
+        wait.until(ExpectedConditions.alertIsPresent());
         Alert alert = getDriver().switchTo().alert();
         alert.accept();
     }
 
-
     @Test
-    public void testFreestyleProjectAddDescription() throws InterruptedException {
+    public void testFreestyleProjectAddDescription() {
         String expectedDescription = "Test Add Description RDV";
 
         clickNewItem();

@@ -8,7 +8,7 @@ import runner.BaseTest;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JulSabDropDownMenuDashboardTest extends BaseTest {
+public class DropDownMenuDashboardTest extends BaseTest {
     private static final By XPATH_DISAPPEARING_BUTTON = By.xpath("//div[@id='menuSelector']");
     private static final By XPATH_DROP_DOWN_MENU = By.xpath("//ul[@class='first-of-type']/li");
     private static final By XPATH_DASHBOARD = By.xpath("//a[contains(text(), 'Dashboard')]");

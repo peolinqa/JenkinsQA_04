@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
 
-public class JulSabSingleCategoryUITest extends BaseTest {
+public class SingleCategoryUITest extends BaseTest {
     private static final By XPATH_NEW_ITEM = By.xpath("//span[contains(text(), 'New Item')]");
     private static final By XPATH_LIST_OF_LABEL = By.xpath("//li/label");
     private static final By XPATH_LIST_DESC_OF_LABEL = By.xpath("//div[@class='desc']");

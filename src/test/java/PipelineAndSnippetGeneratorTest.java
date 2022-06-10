@@ -8,7 +8,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class JuliaSabPipelineTest extends BaseTest {
+public class PipelineAndSnippetGeneratorTest extends BaseTest {
     private static final By XPATH_NEW_ITEM = By.xpath("//span[contains(text(), 'New Item')]");
     private static final By XPATH_ENTER_AN_ITEM_NAME = By.xpath("//input[@id='name']");
     private static final By XPATH_PIPELINE_LABEL = By.xpath("//span[text()='Pipeline']");
