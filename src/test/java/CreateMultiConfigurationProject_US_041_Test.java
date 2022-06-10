@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -42,6 +43,22 @@ public class CreateMultiConfigurationProject_US_041_Test extends BaseTest {
         getDriver().findElement(By.id("yui-gen2-button")).click();
 
         String actualResult = getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+        Assert.assertEquals(actualResult, expectedResult);
+
+        deleteMCProject();
+    }
+
+    @Test
+    public void TC_043_004_RenameMCProjectTest() {
+        String expectedResult = "Project McprojectRename";
+
+        createMCProject(PROJECT_NAME);
+        getDriver().findElement(By.linkText("Rename")).click();
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"))
+                .sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "McprojectRename");
+        getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
         Assert.assertEquals(actualResult, expectedResult);
 
         deleteMCProject();
