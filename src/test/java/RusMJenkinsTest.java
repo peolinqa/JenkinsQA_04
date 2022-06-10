@@ -4,7 +4,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -51,9 +50,9 @@ public class  RusMJenkinsTest extends BaseTest {
 
     static String inputNewItemName = "//input[@id='name']";
 
-    private void createPipeline(String itemPipelineName) {
+    private void createPipeline() {
         getDriver().findElement(By.xpath("//div[@id=\"tasks\"]/div[1]/span/a")).click();
-        getDriver().findElement(By.id("name")).sendKeys(itemPipelineName);
+        getDriver().findElement(By.id("name")).sendKeys("First Pipeline Project");
         getDriver().findElement(By.xpath("//div[@id=\"j-add-item-type-standalone-projects\"]/ul/li[2]")).click();
         getDriver().findElement(By.id("ok-button")).click();
     }
@@ -116,10 +115,7 @@ public class  RusMJenkinsTest extends BaseTest {
 
     @Test
     public void testPipelineBuild() {
-
-        final String itemPipelineName = "First Pipeline Project";
-
-        createPipeline(itemPipelineName);
+        createPipeline();
         getDriver().findElement(By
                 .xpath("//div[@id='main-panel']//div[11]/div[2]/div/div/div/div[1]/div/label")).click();
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
@@ -166,7 +162,7 @@ public class  RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
         getDriver().findElement(By.xpath("//div[@id=\"buildHistory\"]/div[1]/div/a")).click();
 
-        WebElement buildOne = getWait5()
+        WebElement buildOne = getWait20()
                 .until(ExpectedConditions.elementToBeClickable(
                         By.cssSelector("td.build-row-cell a.display-name")));
         JavascriptExecutor executor = (JavascriptExecutor)getDriver();
