@@ -39,8 +39,6 @@ public class OrganizationFolderRenameTest extends BaseTest {
                 .findElement(By.tagName("h1")).getText();
 
         Assert.assertEquals(actualResult, NEW_ORGANIZATION_FOLDER_NAME);
-
         postConditionCreateOrganizationFolder();
     }
-
 }
