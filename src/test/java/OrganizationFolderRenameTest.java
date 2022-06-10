@@ -16,7 +16,7 @@ public class OrganizationFolderRenameTest extends BaseTest {
 
     }
 
-    private void postConditionCreateOrganizationFolder() {
+    private void postConditionDeleteOrganizationFolder() {
         getDriver().findElement(By.linkText(NEW_ORGANIZATION_FOLDER_NAME)).click();
         getDriver().findElement(By.linkText("Delete Organization Folder")).click();
         getDriver().findElement(By.xpath("//button[@type = 'submit']")).click();
@@ -39,6 +39,6 @@ public class OrganizationFolderRenameTest extends BaseTest {
                 .findElement(By.tagName("h1")).getText();
 
         Assert.assertEquals(actualResult, NEW_ORGANIZATION_FOLDER_NAME);
-        postConditionCreateOrganizationFolder();
+        postConditionDeleteOrganizationFolder();
     }
 }
