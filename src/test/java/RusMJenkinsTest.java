@@ -120,7 +120,6 @@ public class  RusMJenkinsTest extends BaseTest {
         final String itemPipelineName = "First Pipeline Project";
 
         createPipeline(itemPipelineName);
-
         getDriver().findElement(By
                 .xpath("//div[@id='main-panel']//div[11]/div[2]/div/div/div/div[1]/div/label")).click();
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
@@ -165,13 +164,13 @@ public class  RusMJenkinsTest extends BaseTest {
                 .getText(), "Description of parameter");
 
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
-
         getDriver().findElement(By.xpath("//div[@id=\"buildHistory\"]/div[1]/div/a")).click();
 
-        WebElement link = getWait5()
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()='#1']")));
+        WebElement buildOne = getWait5()
+                .until(ExpectedConditions.elementToBeClickable(
+                        By.cssSelector("td.build-row-cell a.display-name")));
         JavascriptExecutor executor = (JavascriptExecutor)getDriver();
-        executor.executeScript("arguments[0].click();", link);
+        executor.executeScript("arguments[0].click();", buildOne);
 
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[7]/span/a")).click();
 
