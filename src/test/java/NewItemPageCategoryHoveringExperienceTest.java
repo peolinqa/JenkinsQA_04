@@ -31,7 +31,6 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
     @BeforeMethod
     public void setUp() {
         getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-        // Get all jobs names, because on every page re-load all web-elements become staile and selenium throws exception
         List<String> jobsNames = getDriver().findElements(By.xpath(ALL_NAMES_IN_TABLE_XPATH))
                 .stream()
                 .map(WebElement::getText)
