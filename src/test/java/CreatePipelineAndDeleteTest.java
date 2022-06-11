@@ -7,7 +7,7 @@ import runner.BaseTest;
 
 import java.util.List;
 
-public class KorelovPipelineTest extends BaseTest {
+public class CreatePipelineAndDeleteTest extends BaseTest {
 
     private void createPipeline(String namePipeline) {
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
@@ -31,10 +31,9 @@ public class KorelovPipelineTest extends BaseTest {
     }
 
     private void checkProjectAfterDelete(String projectName) {
-        try {
-            Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText()
-                    ,"Welcome to Jenkins!");
-        } catch (Exception e) {
+
+        List<WebElement> actual = getDriver().findElements(By.xpath("//h1"));
+        if (actual.size() == 0) {
             List<WebElement> actualDashboardProject = getActualDashboardProject();
             for (WebElement webElement : actualDashboardProject) {
                 if (webElement.getText().contains(projectName)) {
@@ -44,6 +43,9 @@ public class KorelovPipelineTest extends BaseTest {
                     Assert.assertTrue(true);
                 }
             }
+        } else {
+            Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText()
+                    , "Welcome to Jenkins!");
         }
     }
 
@@ -84,7 +86,7 @@ public class KorelovPipelineTest extends BaseTest {
 
         for (int i = 0; i < listOfCheckBoxWithHelps.size(); i++) {
             Assert.assertEquals(checkBoxHelpsText.get(i).getAttribute("title")
-                    .replace("Help for feature: ", "")
+                            .replace("Help for feature: ", "")
                     , listOfCheckBoxWithHelps.get(i).getText());
         }
     }
