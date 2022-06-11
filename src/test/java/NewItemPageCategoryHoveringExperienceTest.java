@@ -11,10 +11,8 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
     private final static String BASE_URL = "http://localhost:8080";
     private final static String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
     private final static String NEW_ITEM_LINK_TEXT = "New Item";
-    private final static String ALL_NAMES_IN_TABLE_XPATH = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
     private final static String EV_JOB_NAME = "First Job";
     private final static String OK_BUTTON_ID = "ok-button";
-    private final static String YES_DELETE_BUTTON_ID = "yui-gen1-button";
     private final static String JOB_INPUT_NAME_ID = "name";
 
     private static final String[] PROJECT_TYPES = {
