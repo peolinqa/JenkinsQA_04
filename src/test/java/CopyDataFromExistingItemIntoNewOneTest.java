@@ -11,29 +11,19 @@ import runner.ProjectUtils;
 
 public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
 
-    private final String NEW_ITEM_BUTTON = "//a[@class='task-link ']";
+    private final String NEW_ITEM_BUTTON = "//a[@title='New Item']";
     private final String NAME_FIELD = "name";
     private final String FREESTYLE_PROJECT = "//li[@tabindex='0']";
     private final String OK_BUTTON = "ok-button";
     private final String DESCRIPTION_FIELD = "description";
-    private final String GITHUB_PROJECT_MARK = "cb5";
-    private final String PROJECT_URL_FIELD = "_.projectUrlStr";
-    private final String TIMESTAMPS_MARK = "cb24";
-    private final String SAVE_BUTTON = "yui-gen25-button";
+    private final String INPUT_BUILD_TRIGGERS = "authToken";
+    private final String TOKEN_NAME = "token=TOKEN_1";
+    private final String TIMESTAMPS_MARK = "cb20";
+    private final String SAVE_BUTTON = "yui-gen13-button";
     private final String NAME = "NJ";
     private final String NAME2 = "NJ2";
     private final String DESCRIPTION_INPUT = "New Project created by TA";
     private final String URL_INPUT = "https://github.com/SergeiDemyanenko/JenkinsQA_04/";
-
-    private String startPage;
-    protected void saveStartPage() {
-        super.beforeMethod();
-        startPage = getDriver().getCurrentUrl();
-    }
-
-    protected void goToStartPage() {
-        getDriver().get(startPage);
-    }
 
     public void createBaseFreestyleProject() {
         getDriver().findElement(By.xpath(NEW_ITEM_BUTTON)).click();
@@ -48,46 +38,25 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
 
         getDriver().findElement(By.name(DESCRIPTION_FIELD)).sendKeys(DESCRIPTION_INPUT);
 
-        WebElement githubMark = getDriver().findElement(By.id(GITHUB_PROJECT_MARK));
-        action.moveToElement(githubMark).click().build().perform();
+        WebElement buildTriggerMark = getDriver().findElement(By.name("pseudoRemoteTrigger"));
+        action.moveToElement(buildTriggerMark).click().build().perform();
 
-        WebElement projectUrl = getDriver().findElement(By.name(PROJECT_URL_FIELD));
+        WebElement projectUrl = getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS));
         action.moveToElement(projectUrl).click().build().perform();
-        projectUrl.sendKeys(URL_INPUT);
+        projectUrl.sendKeys(TOKEN_NAME);
 
-        WebElement timeStampMark = getDriver().findElement(By.id(TIMESTAMPS_MARK));
-        action.moveToElement(timeStampMark).click().build().perform();
-
-        WebElement saveButton = getDriver().findElement(By.id(SAVE_BUTTON));
-        action.moveToElement(saveButton).click().build().perform();
-
-        goToStartPage();
+        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.id(TIMESTAMPS_MARK))).click();
+        getDriver().findElement(By.id(SAVE_BUTTON)).click();
     }
-
-//    private void deleteProject(String projectName) {
-//        String currentUrl = getDriver().getCurrentUrl();
-//        getDriver().get(currentUrl + "job/" + projectName);
-//
-//        if (!getDriver().findElement(By.xpath("/html/body/h2")).isDisplayed()) {
-//            Actions action = new Actions(getDriver());
-//            WebElement delete = getDriver().findElement(By.xpath("//div[@id='tasks']/div[7]/span/a"));
-//            action.moveToElement(delete).perform();
-//            delete.click();
-//            getDriver().switchTo().alert().accept();
-//        }
-//    }
 
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
-//        saveStartPage();
-//        deleteProject("NJ");
-//        goToStartPage();
-//        deleteProject("NJ2");
-//
-//        goToStartPage();
+
         createBaseFreestyleProject();
 
+        getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
         getDriver().findElement(By.xpath(NEW_ITEM_BUTTON)).click();
         getDriver().findElement(By.id(NAME_FIELD)).sendKeys(NAME2);
         getDriver().findElement(By.xpath(FREESTYLE_PROJECT)).click();
@@ -99,18 +68,16 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         getDriver().findElement(By.id(OK_BUTTON)).click();
 
         SoftAssert asserts = new SoftAssert();
+
         asserts.assertEquals(getDriver().findElement(By.name(DESCRIPTION_FIELD)).getText(), DESCRIPTION_INPUT);
-        asserts.assertTrue(getDriver().findElement(By.name(PROJECT_URL_FIELD)).isDisplayed());
-//        asserts.assertEquals(getDriver().findElement(By.name(PROJECT_URL_FIELD)).getText(), URL_INPUT);
-//        WebElement mark = getDriver().findElement(By.xpath("//div[@nameref='cb24']"));
-//        asserts.assertEquals(mark.getCssValue("class"), "rowvg-start tr");
+
+        asserts.assertTrue(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).isDisplayed());
+        asserts.assertEquals(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).getAttribute("value"), TOKEN_NAME);
+
+        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
+        asserts.assertTrue(getDriver().findElement(By.id(TIMESTAMPS_MARK)).isSelected());
         asserts.assertAll();
 
         getDriver().findElement(By.id(SAVE_BUTTON)).click();
-
-//        goToStartPage();
-//        asserts.assertTrue(getDriver().findElement(By.xpath("//a[@href ='job/\" + NAME2 + \"/']")).isDisplayed());
-
-
     }
 }
