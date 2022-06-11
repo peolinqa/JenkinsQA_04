@@ -9,7 +9,6 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +112,7 @@ public class  RusMJenkinsTest extends BaseTest {
         assertTrue(notPresent());
     }
 
+    @Ignore
     @Test
     public void testPipelineBuild() {
         createPipeline();
@@ -162,7 +162,7 @@ public class  RusMJenkinsTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
         getDriver().findElement(By.xpath("//div[@id=\"buildHistory\"]/div[1]/div/a")).click();
 
-        WebElement buildOne = getWait20()
+        WebElement buildOne = getWait5()
                 .until(ExpectedConditions.elementToBeClickable(
                         By.cssSelector("td.build-row-cell a.display-name")));
         JavascriptExecutor executor = (JavascriptExecutor)getDriver();
