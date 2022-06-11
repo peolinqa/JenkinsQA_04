@@ -10,13 +10,11 @@ public class OrganizationFolderTest extends BaseTest {
 
     private final String VALID_VALUE_FOR_NAME1 = "Organization Test";
     private final String VALID_VALUE_FOR_NAME2 = "Test";
-    private final String VALID_VALUE_FOR_NAME3 = "Organization TestTest";
 
-
-    public void getHomePage() {
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-    }
-
+    public void getDashboardPage(){ getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click(); }
+    public void getButtonOk(){ getDriver().findElement(By.id("ok-button")).click(); }
+    public void getButtonSave(){ getDriver().findElement(By.id("yui-gen17-button")).click(); }
+    public void getButtonYes(){ getDriver().findElement(By.id("yui-gen1-button")).click(); }
 
     @Test(priority = 1)
     public void createOrganizationFolder (){
@@ -27,24 +25,25 @@ public class OrganizationFolderTest extends BaseTest {
         jse.executeScript("window.scrollBy(0,350)");
 
         getDriver().findElement(By.xpath("//span[@class ='label'][text()='Organization Folder']")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.id("yui-gen17-button")).click();
-        getHomePage();
+        getButtonOk();
+        getButtonSave();
+        getDashboardPage();
 
         Assert.assertEquals
                 (getDriver().findElement(By.xpath("//a[text()='Organization Test']"))
-                                .getText(),"Organization Test");
+                                .getText(),VALID_VALUE_FOR_NAME1);
     }
 
 
     @Test(priority = 2)
     public void renameOrganizationFolder() {
-        String expectedResult = VALID_VALUE_FOR_NAME3;
+        String expectedResult = VALID_VALUE_FOR_NAME2;
         getDriver().findElement(By.xpath("//a[text()='Organization Test']")).click();
         getDriver().findElement(By.xpath("//span[contains(text(),'Rename')]")).click();
+        getDriver().findElement(By.name("newName")).clear();
         getDriver().findElement(By.name("newName")).sendKeys(VALID_VALUE_FOR_NAME2);
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-        String actualResult = getDriver().findElement(By.xpath("//a[text()='Organization TestTest']")).getText();
+        getButtonYes();
+        String actualResult = getDriver().findElement(By.xpath("//a[text()='Test']")).getText();
 
         Assert.assertEquals(actualResult,expectedResult);
     }
@@ -52,17 +51,17 @@ public class OrganizationFolderTest extends BaseTest {
 
     @Test(priority = 3)
     public void deleteOrganizationFolder() {
-        getHomePage();
+        getDashboardPage();
         List<WebElement> tableOnDashboard =
                 getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td/a"));
         for (WebElement item : tableOnDashboard){
-            if (item.getText().contains(VALID_VALUE_FOR_NAME1)) {
-                getDriver().findElement(By.xpath("//a[text()='Organization TestTest']")).click();
+            if (item.getText().contains(VALID_VALUE_FOR_NAME2)) {
+                getDriver().findElement(By.xpath("//a[text()='Test']")).click();
                 getDriver().findElement(By.linkText("Delete Organization Folder")).click();
-                getDriver().findElement(By.id("yui-gen1-button")).click();
+                getButtonYes();
                 break;
             }
         }
-        Assert.assertNotEquals(getDriver().getTitle(),VALID_VALUE_FOR_NAME3);
+        Assert.assertEquals(getDriver().findElements(By.xpath("//a[text()='Test']")).size(),0);
     }
 }
