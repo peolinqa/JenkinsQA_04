@@ -5,18 +5,14 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
 
     private final static String BASE_URL = "http://localhost:8080";
     private final static String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
     private final static String NEW_ITEM_LINK_TEXT = "New Item";
-    private final static String ALL_NAMES_IN_TABLE_XPATH = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
     private final static String EV_JOB_NAME = "First Job";
     private final static String OK_BUTTON_ID = "ok-button";
-    private final static String YES_DELETE_BUTTON_ID = "yui-gen1-button";
     private final static String JOB_INPUT_NAME_ID = "name";
 
     private static final String[] PROJECT_TYPES = {
@@ -30,19 +26,7 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-        List<String> jobsNames = getDriver().findElements(By.xpath(ALL_NAMES_IN_TABLE_XPATH))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-        jobsNames
-                .forEach(jobsName -> {
-                    if (jobsName.startsWith(EV_JOB_NAME)) {
-                        String jobWithPercent = jobsName.replace(" ", "%20");
-                        getDriver().get(BASE_URL + "/job/" + jobWithPercent + "/delete");
-                        getDriver().findElement(By.id(YES_DELETE_BUTTON_ID)).click();
-                    }
-                });
+        DeleteBuildTest.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
     }
 
     @Test
