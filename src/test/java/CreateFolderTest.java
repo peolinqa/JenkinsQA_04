@@ -3,7 +3,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -131,8 +130,7 @@ public class CreateFolderTest extends BaseTest {
     /**
      * TC_009.008
      */
-    @Ignore
-    @Test(enabled = false)
+    @Test
     public void testCreateFolderWithTheSameName() {
 
         String nameFolder = "TestRomanFolder";
@@ -145,12 +143,12 @@ public class CreateFolderTest extends BaseTest {
         clickNewItem();
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
+        clickFolderItem();
         WebElement actualErrorMessage1 = getWait20()
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid")));
 
         Assert.assertEquals(actualErrorMessage1.getText(), expectedErrorMessage);
 
-        clickFolderItem();
         clickOKButton();
 
         String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
