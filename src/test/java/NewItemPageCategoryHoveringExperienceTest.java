@@ -5,8 +5,6 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
 
@@ -30,19 +28,7 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-        List<String> jobsNames = getDriver().findElements(By.xpath(ALL_NAMES_IN_TABLE_XPATH))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-        jobsNames
-                .forEach(jobsName -> {
-                    if (jobsName.startsWith(EV_JOB_NAME)) {
-                        String jobWithPercent = jobsName.replace(" ", "%20");
-                        getDriver().get(BASE_URL + "/job/" + jobWithPercent + "/delete");
-                        getDriver().findElement(By.id(YES_DELETE_BUTTON_ID)).click();
-                    }
-                });
+        CreateFreestyleProjectTestEP.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
     }
 
     @Test

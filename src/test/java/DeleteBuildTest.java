@@ -15,15 +15,27 @@ public class DeleteBuildTest extends BaseTest {
     private final static String DELETE_BUILD_XPATH = "//span[contains(text(),'Delete build ')]/..";
     private final static String BUILD_XPATH = "//div[@class='build-icon']";
     private final static String YES_BUTTON_XPATH = "//button[contains(text(),'Yes')]";
-    private final static String ALL_NAMES_IN_TABLE_XPATH = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
     private final static String BUILD_HISTORY_XPATH = "//a[@href=\"/view/all/builds\"]";
+
 
     public void clickNewItem() {
         getDriver().findElement(By.linkText("New Item")).click();
     }
-    public void clickFreestyleProjectItem() {getDriver().findElement(By.xpath("//*[contains(text(),\"Freestyle project\")]")).click();}
-    public void clickOKButton() {getDriver().findElement(By.id("ok-button")).click();}
+
+    public void clickFreestyleProjectItem() {
+        getDriver().findElement(By.xpath("//*[contains(text(),\"Freestyle project\")]")).click();
+    }
+
+    public void clickOKButton() {
+        getDriver().findElement(By.id("ok-button")).click();
+    }
+
     private static final By NAME = By.id("name");
+
+    @BeforeMethod
+    public void setUp() {
+        CreateFreestyleProjectTestEP.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
+    }
 
     @Test
     public void testDeleteBuild() {
@@ -32,7 +44,7 @@ public class DeleteBuildTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='job/First%20Job/']")).click();
         getDriver().findElement(By.xpath("//a[@href='/job/First%20Job/build?delay=0sec']")).click();
         getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(BUILD_XPATH)));
-        getDriver().get(BASE_URL + "/job/" +EV_JOB_NAME+ "/1/");
+        getDriver().get(BASE_URL + "/job/" + EV_JOB_NAME + "/1/");
         WebElement deleteButton = getDriver().findElement(By.xpath(DELETE_BUILD_XPATH));
         getDriver().get(deleteButton.getAttribute("href"));
         getDriver().findElement(By.xpath(YES_BUTTON_XPATH)).click();
@@ -57,18 +69,5 @@ public class DeleteBuildTest extends BaseTest {
         clickFreestyleProjectItem();
         clickOKButton();
         getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-    }
-
-    @BeforeMethod
-    public void deleteNewJob() {
-        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-        boolean jobExists = getDriver().findElements(By.xpath(ALL_NAMES_IN_TABLE_XPATH))
-                .stream()
-                .anyMatch(x -> x.getText().equals(EV_JOB_NAME));
-        if (jobExists) {
-            String jobWithPercent = EV_JOB_NAME.replace(" ", "%20");
-            getDriver().get(BASE_URL + "/job/" + jobWithPercent + "/delete");
-            getDriver().findElement(By.id("yui-gen1-button")).click();
-        }
     }
 }
