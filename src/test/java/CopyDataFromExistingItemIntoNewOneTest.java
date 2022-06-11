@@ -45,9 +45,9 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         action.moveToElement(projectUrl).click().build().perform();
         projectUrl.sendKeys(TOKEN_NAME);
 
-        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.id(TIMESTAMPS_MARK))).click();
-        getDriver().findElement(By.id(SAVE_BUTTON)).click();
+//        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
+//        getWait5().until(ExpectedConditions.elementToBeClickable(By.id(TIMESTAMPS_MARK))).click();
+        action.moveToElement(getDriver().findElement(By.id(SAVE_BUTTON))).click().build().perform();
     }
 
 
@@ -74,8 +74,8 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         asserts.assertTrue(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).isDisplayed());
         asserts.assertEquals(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).getAttribute("value"), TOKEN_NAME);
 
-        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
-        asserts.assertTrue(getDriver().findElement(By.id(TIMESTAMPS_MARK)).isSelected());
+//        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
+//        asserts.assertTrue(getDriver().findElement(By.id(TIMESTAMPS_MARK)).isSelected());
         asserts.assertAll();
 
         getDriver().findElement(By.id(SAVE_BUTTON)).click();
