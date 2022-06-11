@@ -26,7 +26,7 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        CreateFreestyleProjectTestEP.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
+        DeleteBuildTest.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
     }
 
     @Test
