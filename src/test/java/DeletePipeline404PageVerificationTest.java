@@ -1,8 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -24,7 +22,6 @@ public class DeletePipeline404PageVerificationTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text() = 'Dashboard']")).click();
     }
 
-    @Ignore
     @Test(description = "TC_021.002")
     public void test404PageAfterDeletedPipeline() {
         createPipelineProject();
@@ -41,12 +38,8 @@ public class DeletePipeline404PageVerificationTest extends BaseTest {
         String titleOf404Page = getDriver().getTitle();
 
         Assert.assertTrue(titleOf404Page.contains("Error 404 Not Found"));
-    }
 
-    @Ignore
-    @AfterMethod
-    public void afterTest() {
-        getDriver().get("http://localhost:8080");
+        getDriver().navigate().back();
     }
 
 }
