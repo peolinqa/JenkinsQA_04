@@ -157,16 +157,17 @@ public class PipelineAndSnippetGeneratorTest extends BaseTest {
         Actions action = new Actions(getDriver());
         action.moveToElement(getDriver()
                 .findElement(By.xpath("//a[text()='" + nameJob + "']"))).build().perform();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
 
         action.moveToElement(getDriver()
                 .findElement(XPATH_DISAPPEARING_BUTTON)).click().build().perform();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + item + "']")));
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='" + item + "']")));
         getDriver().findElement(By.xpath("//span[text()='" + item + "']")).click();
     }
 
     private void deletePipeline(String nameJob, String item) {
         selectItemFromDropDownMenu(nameJob, item);
+        getWait5().until(ExpectedConditions.alertIsPresent());
         getDriver().switchTo().alert().accept();
     }
 }
