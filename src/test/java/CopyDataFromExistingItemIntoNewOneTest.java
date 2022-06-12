@@ -18,8 +18,8 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
     private final String DESCRIPTION_FIELD = "description";
     private final String INPUT_BUILD_TRIGGERS = "authToken";
     private final String TOKEN_NAME = "token=TOKEN_1";
-    private final String TIMESTAMPS_MARK = "cb20";
-    private final String SAVE_BUTTON = "yui-gen13-button";
+    private final String TIMESTAMPS_MARK = "pseudoRemoteTrigger";
+    private final String SAVE_BUTTON = "yui-gen25-button";
     private final String NAME = "NJ";
     private final String NAME2 = "NJ2";
     private final String DESCRIPTION_INPUT = "New Project created by TA";
@@ -33,23 +33,33 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         Actions action = new Actions(getDriver());
 
         WebElement okButton = getDriver().findElement(By.id(OK_BUTTON));
-        action.moveToElement(okButton).perform();
+        action.moveToElement(okButton).build().perform();
         okButton.click();
 
         getDriver().findElement(By.name(DESCRIPTION_FIELD)).sendKeys(DESCRIPTION_INPUT);
 
-        WebElement buildTriggerMark = getDriver().findElement(By.name("pseudoRemoteTrigger"));
-        action.moveToElement(buildTriggerMark).click().build().perform();
+        action.moveToElement(
+                getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div/div/div/form/div[1]/div[9]/div[1]/div/div"))
+        ).build().perform();
+
+        WebElement buildTriggerMark = getWait20().until(
+                ExpectedConditions.elementToBeClickable(getDriver().findElement(By.name(TIMESTAMPS_MARK)))
+        );
+        buildTriggerMark.click();
 
         WebElement projectUrl = getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS));
-        action.moveToElement(projectUrl).click().build().perform();
+        action.moveToElement(projectUrl).build().perform();
         projectUrl.sendKeys(TOKEN_NAME);
 
-//        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
-//        getWait5().until(ExpectedConditions.elementToBeClickable(By.id(TIMESTAMPS_MARK))).click();
-        action.moveToElement(getDriver().findElement(By.id(SAVE_BUTTON))).click().build().perform();
-    }
+        action.moveToElement(
+                getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div/div/div/form/div[1]/div[10]/div[1]/div/div"))
+        ).build().perform();
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.name(TIMESTAMPS_MARK))).click();
 
+        WebElement saveButton = getDriver().findElement(By.id(SAVE_BUTTON));
+        action.moveToElement(saveButton).build().perform();
+        saveButton.click();
+    }
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
@@ -63,7 +73,7 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
 
         Actions action = new Actions(getDriver());
         WebElement copFromButton = getDriver().findElement(By.id("from"));
-        action.moveToElement(copFromButton).perform();
+        action.moveToElement(copFromButton).build().perform();
         copFromButton.sendKeys(NAME);
         getDriver().findElement(By.id(OK_BUTTON)).click();
 
@@ -71,13 +81,22 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
 
         asserts.assertEquals(getDriver().findElement(By.name(DESCRIPTION_FIELD)).getText(), DESCRIPTION_INPUT);
 
-        asserts.assertTrue(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).isDisplayed());
-        asserts.assertEquals(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).getAttribute("value"), TOKEN_NAME);
+        //asserts.assertTrue(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).isDisplayed());
+        //asserts.assertEquals(getDriver().findElement(By.name(INPUT_BUILD_TRIGGERS)).getAttribute("value"), TOKEN_NAME);
 
-//        action.moveToElement(getDriver().findElement(By.id("yui-gen7-button"))).build().perform();
-//        asserts.assertTrue(getDriver().findElement(By.id(TIMESTAMPS_MARK)).isSelected());
+        action.moveToElement(
+                getDriver().findElement(By.xpath("//*[@id=\"main-panel\"]/div/div/div/form/div[1]/div[10]/div[1]/div/div"))
+        ).build().perform();
+
+//        asserts.assertTrue(
+//                getDriver().findElement(
+//                        By.name("hudson-plugins-timestamper-TimestamperBuildWrapper")
+//                ).isSelected()
+//        );
         asserts.assertAll();
 
-        getDriver().findElement(By.id(SAVE_BUTTON)).click();
+        WebElement saveButton = getDriver().findElement(By.id(SAVE_BUTTON));
+        action.moveToElement(saveButton).build().perform();
+        saveButton.click();
     }
 }
