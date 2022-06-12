@@ -4,11 +4,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import static org.testng.Assert.assertTrue;
 
+@Ignore
 public class RenamePipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(3, 5);
@@ -64,6 +66,7 @@ public class RenamePipelineTest extends BaseTest {
         actions.click().build().perform();
     }
 
+    @Ignore
     @Test(priority = 1)
     public void testRenamePipelineWithValidName() {
         getDashboard();
@@ -97,6 +100,7 @@ public class RenamePipelineTest extends BaseTest {
         assertTrue(getPipelineOnTheDashboard(NEW_PIPELINE_NAME).isDisplayed());
     }
 
+    @Ignore
     @Test(priority = 2)
     public void testRenamePipelineWithTheSameName() {
         getDashboard();
@@ -118,6 +122,7 @@ public class RenamePipelineTest extends BaseTest {
                 "The new name is the same as the current name.");
     }
 
+    @Ignore
     @Test(priority = 3)
     public void testRenamePipelineWithInvalidName() {
         String[] invalidCharacters = {"!", "@", "#", "$", "%", "^", "*", ":", ";", "\\", "|", "?"};
