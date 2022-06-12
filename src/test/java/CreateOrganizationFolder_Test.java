@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -126,6 +127,7 @@ public class CreateOrganizationFolder_Test extends BaseTest {
         Assert.assertFalse(result.toString().contains("12345Folder67890"));
     }
 
+    @Ignore
     @Test
     public void TC34_006CreateOrganizationFolderIncorrectName() {
         getDriver().findElement(BUTTON_NEW_ITEM).click();
