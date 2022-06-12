@@ -11,13 +11,13 @@ import java.util.stream.Collectors;
 
 public class DeleteBuildTest extends BaseTest {
 
-    private final static String DASHBOARD_XPATH = "//a[contains(text(),\"Dashboard\")]";
+    private final static String DASHBOARD_XPATH = "//a[contains(text(),\'Dashboard\')]";
     private final static String BASE_URL = "http:localhost:8080";
     private final static String EV_JOB_NAME = "First Job";
     private final static String DELETE_BUILD_XPATH = "//span[contains(text(),'Delete build ')]/..";
     private final static String BUILD_XPATH = "//div[@class='build-icon']";
     private final static String YES_BUTTON_XPATH = "//button[contains(text(),'Yes')]";
-    private final static String BUILD_HISTORY_XPATH = "//a[@href=\"/view/all/builds\"]";
+    private final static String BUILD_HISTORY_XPATH = "//a[@href=\'/view/all/builds\']";
     private final static String ALL_NAMES_IN_TABLE_XPATH = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
 
 
@@ -26,7 +26,7 @@ public class DeleteBuildTest extends BaseTest {
     }
 
     public void clickFreestyleProjectItem() {
-        getDriver().findElement(By.xpath("//*[contains(text(),\"Freestyle project\")]")).click();
+        getDriver().findElement(By.xpath("//*[contains(text(),\'Freestyle project\')]")).click();
     }
 
     public void clickOKButton() {
