@@ -17,6 +17,14 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
     private final String NAME2 = "NJ2";
     private final String DESCRIPTION_INPUT = "New Project created by TA";
     private final String URL_INPUT = "https://github.com/SergeiDemyanenko/JenkinsQA_04/";
+    private Actions action;
+
+    private Actions getAction() {
+        if (action == null) {
+            action = new Actions(getDriver());
+        }
+        return action;
+    }
 
     public void startFreestyleProject(String name) {
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
@@ -25,8 +33,7 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
     }
 
     public void okButton() {
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement(By.id("ok-button"))).click().perform();
+        getAction().moveToElement(getDriver().findElement(By.id("ok-button"))).click().perform();
     }
 
     public void saveButton() {
@@ -46,7 +53,6 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
     }
 
-
     @Test
     public void testCopyDataFromExistingItemPositive() {
 
@@ -54,17 +60,15 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
 
         startFreestyleProject(NAME2);
 
-        Actions action = new Actions(getDriver());
         WebElement copFromButton = getDriver().findElement(By.id("from"));
-        action.moveToElement(copFromButton).perform();
+        getAction().moveToElement(copFromButton).perform();
         copFromButton.sendKeys(NAME);
         okButton();
 
         SoftAssert asserts = new SoftAssert();
-
         asserts.assertEquals(getDriver().findElement(By.name(DESCRIPTION_FIELD)).getText(), DESCRIPTION_INPUT);
-
         asserts.assertEquals(getDriver().findElement(By.name(GITHUB_URL)).getAttribute("value"),URL_INPUT);
+        asserts.assertAll();
 
         saveButton();
     }
