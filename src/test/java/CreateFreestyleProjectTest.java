@@ -16,14 +16,7 @@ public class CreateFreestyleProjectTest extends BaseTest {
 
         getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
         getDriver().findElement(By.id("ok-button")).click();
-
-        WebElement saveButton = getWait5().until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        By.id("yui-gen25-button")
-                )
-        );
-        saveButton.click();
-        
+        getDriver().findElement(By.xpath("//div[@id='bottom-sticker']//button[@type='submit']")).click();
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[@href='/']")).click();
         String actualResult = getDriver().findElement(By.id("main-panel")).findElement(By.linkText("MSTest")).getText();
 
