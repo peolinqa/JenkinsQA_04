@@ -4,6 +4,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -65,8 +66,14 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
        homePage();
     }
 
+    @Ignore
     @Test
     public void testCopyDataFromExistingItemNegative() {
+        startFreestyleProject("A");
+        okButton();
+        saveButton();
+        homePage();
+
         startFreestyleProject("NJ3");
         copyFrom("NJ4");
 
