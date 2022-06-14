@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -35,7 +36,7 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
             String jobName = EV_JOB_NAME + " " + PROJECT_TYPES[i];
             getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
             getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
-            clickProjectItem(PROJECT_TYPES[i]);
+            clickProjectItem(getDriver(), PROJECT_TYPES[i]);
             clickOKButton();
             getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
             getDriver().get(BASE_URL + "/job/" + jobName.replace(" ", "%20"));
@@ -50,10 +51,10 @@ public class NewItemPageCategoryHoveringExperienceTest extends BaseTest {
         getDriver().findElement(By.id(OK_BUTTON_ID)).click();
     }
 
-    private void clickProjectItem(String name) {
-        WebElement project = getDriver().findElement(By.xpath("//span[text()='" + name + "']/../.."));
+    public static void clickProjectItem(WebDriver driver,String name) {
+        WebElement project = driver.findElement(By.xpath("//span[text()='" + name + "']/../.."));
         if (!project.isDisplayed())
-            ((JavascriptExecutor) getDriver())
+            ((JavascriptExecutor) driver)
                     .executeScript("arguments[0].scrollIntoView(true);", project);
         project.click();
     }

@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -12,7 +11,7 @@ public class DisableEnableOrganizationFolderEP extends BaseTest {
     private final static String EV_JOB_NAME = "First Job";
     private final static String NEW_ITEM_LINK_TEXT = "New Item";
     private final static String DISABLE_XPATH = "//button[text()='Disable Organization Folder']";
-    private final static String[] PROJECT_TYPES = {"Organization Folder"};
+    private final static String PROJECT_TYPES = "Organization Folder";
     private final static String ENABLE_XPATH = "//span[@class='first-child']";
 
     public void clickOKButton() {
@@ -43,16 +42,8 @@ public class DisableEnableOrganizationFolderEP extends BaseTest {
         String jobName = EV_JOB_NAME;
         getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
         getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
-        clickProjectItem(PROJECT_TYPES[0]);
+        NewItemPageCategoryHoveringExperienceTest.clickProjectItem(getDriver(),PROJECT_TYPES);
         clickOKButton();
         getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-    }
-
-    private void clickProjectItem(String name) {
-        WebElement project = getDriver().findElement(By.xpath("//span[text()='" + name + "']/../.."));
-        if (!project.isDisplayed())
-            ((JavascriptExecutor) getDriver())
-                    .executeScript("arguments[0].scrollIntoView(true);", project);
-        project.click();
     }
 }
