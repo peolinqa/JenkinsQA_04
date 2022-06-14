@@ -2,25 +2,22 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class DreamTeamJavaGroupTest extends BaseTest {
 
-    public static final String FOOTER_REST_API = "//div[@class='page-footer__links rest_api hidden-xs']";
-    public static final String REST_API_PAGE_HEADER = "//div[@id='main-panel']/h1";
+    public static final String FOOTER_REST_API = "//a[@href='api/']";
+    public static final String REST_API_PAGE_URL = "http://localhost:8080/api/";
     public static final String XPATH_FOR_SIZE_CHECK = "//*[@id='person-admin']/td[4]";
     public static final String ITEMNAME = "Valid item name" + (int) (Math.random() * 1000);
     public static final String CREATE_PROJECT_SAVE_BUTTON = "//button[@type='submit']";
     public static final String DASHBOARD_BUTTON = "//a[text()='Dashboard']";
 
-    @Ignore
-    @Test(enabled = false)
+    @Test
     public void testTC_132_001_FooterCheckLinksFelix_IX() {
-
         getDriver().findElement(By.xpath(FOOTER_REST_API)).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath(REST_API_PAGE_HEADER)).getText(), "REST API");
+        Assert.assertEquals(getDriver().getCurrentUrl(), REST_API_PAGE_URL);
     }
 
     @Test
@@ -36,18 +33,19 @@ public class DreamTeamJavaGroupTest extends BaseTest {
         String temp = getDriver().findElement(By.id("job_" + ITEMNAME)).getText();
         Assert.assertTrue(temp.contains(ITEMNAME));
     }
-/*
-* Steps:
-*go to the menu People
-*click the icon with the size M
-*click the icon with the size L
-*click the icon with the size S
-*
-*Expected results:
-*The size is 40px
-*The size is 50px
-*The size is 34px
-* */
+
+    /*
+     * Steps:
+     *go to the menu People
+     *click the icon with the size M
+     *click the icon with the size L
+     *click the icon with the size S
+     *
+     *Expected results:
+     *The size is 40px
+     *The size is 50px
+     *The size is 34px
+     * */
     @Test
     public void testTC_106_001_CheckFunctionalityIconsMariaShy() {
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[2]/span/a")).click();
@@ -70,4 +68,6 @@ public class DreamTeamJavaGroupTest extends BaseTest {
                 By.xpath(XPATH_FOR_SIZE_CHECK));
         Assert.assertEquals(sizeS.getSize().height, 34);
     }
+
+
 }
