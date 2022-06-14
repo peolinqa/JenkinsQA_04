@@ -12,6 +12,8 @@ public class CreatePipelineCheckStatusIconAfterBuildTest extends BaseTest {
 
     @Test(description = "TC_017.001")
     public void testCheckIcon() {
+        int count = 25;
+
         $("[title='New Item']").click();
         $("#name").sendKeys(NAME);
         $x("//li[contains(@class,'WorkflowJob')]").click();
@@ -23,8 +25,11 @@ public class CreatePipelineCheckStatusIconAfterBuildTest extends BaseTest {
         $x(String.format("//span[contains(text(), '%s')]/following-sibling::*[name()='svg']", NAME)).click();
         String iconLocator = String.format("//tr[@id='job_%s']/td/div/span/*[@tooltip]", NAME);
         while ($x(iconLocator).getAttribute("tooltip").equals("In progress")
-                || $x(iconLocator).getAttribute("tooltip").equals("Not built")) {
+                || $x(iconLocator).getAttribute("tooltip").equals("Not built")
+                && count > 0) {
             getDriver().navigate().refresh();
+            count--;
+            System.out.println(count);
         }
         Assert.assertEquals($x(iconLocator).getAttribute("tooltip"), "Success");
     }
