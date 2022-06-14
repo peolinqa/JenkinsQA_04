@@ -68,4 +68,6 @@ public class DreamTeamJavaGroupTest extends BaseTest {
                 By.xpath(XPATH_FOR_SIZE_CHECK));
         Assert.assertEquals(sizeS.getSize().height, 34);
     }
+
+
 }
