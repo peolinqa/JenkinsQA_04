@@ -13,9 +13,8 @@ public class CreateNewFreestyleProjectTest_TC001_038 extends BaseTest {
         getDriver().get("http://localhost:8080/");
     }
 
-    protected void findItemOnJobsTableAndClick(String itemName) {
+    public void findItemOnJobsTableAndClick(String itemName) {
         itemName = itemName.replaceAll(" ", "%20");
-        System.out.println(itemName);
         getDriver().findElement(By.xpath("//a[@href=\"job/".concat(itemName).concat("/\"]"))).click();
     }
 
