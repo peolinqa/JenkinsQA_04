@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -26,6 +27,10 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         return action;
     }
 
+    public void homePage() {
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+    }
+
     public void startFreestyleProject(String name) {
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
         getDriver().findElement(By.id("name")).sendKeys(name);
@@ -40,6 +45,13 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         getDriver().findElement(By.xpath("//div[@id='bottom-sticker']//button[@type='submit']")).click();
     }
 
+    public void copyFrom (String name){
+        WebElement copFromButton = getDriver().findElement(By.id("from"));
+        getAction().moveToElement(copFromButton).perform();
+        copFromButton.sendKeys(name);
+        okButton();
+    }
+
     public void createBaseFreestyleProject() {
         startFreestyleProject(NAME);
 
@@ -50,20 +62,26 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         getDriver().findElement(By.name(GITHUB_URL)).sendKeys(URL_INPUT);
         saveButton();
 
-        getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
+       homePage();
+    }
+
+    @Test
+    public void testCopyDataFromExistingItemNegative() {
+        startFreestyleProject("NJ3");
+        copyFrom("NJ4");
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+        homePage();
     }
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
-
+        homePage();
         createBaseFreestyleProject();
 
         startFreestyleProject(NAME2);
-
-        WebElement copFromButton = getDriver().findElement(By.id("from"));
-        getAction().moveToElement(copFromButton).perform();
-        copFromButton.sendKeys(NAME);
-        okButton();
+        copyFrom(NAME);
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertEquals(getDriver().findElement(By.name(DESCRIPTION_FIELD)).getText(), DESCRIPTION_INPUT);
@@ -71,5 +89,6 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         asserts.assertAll();
 
         saveButton();
+        homePage();
     }
 }
