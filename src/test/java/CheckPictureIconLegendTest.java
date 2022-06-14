@@ -6,15 +6,13 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 
-public class CheckIconLegendTest extends BaseTest {
+public class CheckPictureIconLegendTest extends BaseTest {
 
-    //эти нужны для поиска всех иконок на странице
     String[] nameIcons = {"icon-nobuilt icon", "icon-nobuilt-anime", "icon-disabled icon",
         "icon-disabled-anime", "icon-aborted icon", "icon-aborted-anime", "icon-blue icon",
         "icon-blue-anime", "icon-yellow icon", "icon-yellow-anime", "icon-red icon",
         "icon-red-anime", "80plus", "60to79", "40to59", "20to39", "00to19"};
 
-    //описания иконок
     String[] textDescriptionIcon = {"The project has never been built.", "The first build is in progress.",
             "The project is disabled.", "The project is disabled, but a build is in progress.",
             "The last build was aborted.", "The last build was aborted. A new build is in progress.",
@@ -43,21 +41,4 @@ public class CheckIconLegendTest extends BaseTest {
         }
         asserts1.assertAll();
     }
-
-    @Test
-    public void testTC_133_002_CheckTextIconLegendGizzyatov_DA() {
-
-        getDriver().findElement(By.xpath("//a[@href='/legend']")).click();
-
-        SoftAssert asserts2 = new SoftAssert();
-
-        for (int i = 0; i<nameIcons.length; i++) {
-            String elementIcon = String.format("//td/*[contains(@class, '%s')]/..", nameIcons[i]);
-            WebElement iconWebElement = getDriver().findElement(By.xpath(elementIcon));
-            String textElement = iconWebElement.getText();
-            asserts2.assertEquals(textElement, textDescriptionIcon[i]);
-        }
-        asserts2.assertAll();
-    }
-
 }
