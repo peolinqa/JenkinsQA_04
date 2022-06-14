@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import java.util.List;
 
 public class MultiConfigurationProjectTest extends BaseTest {
   private final String NAME_FOLDER = "TestMultiConfigurationProject";
@@ -39,9 +40,9 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
   }
 
-  protected void runBuildNow(){
+  protected void runBuildNow(String name){
     getDriver().findElement(By.id("jenkins-home-link")).click();
-    getDriver().findElement(By.xpath("//a[contains(text(),'" +NAME_FOLDER+ "')]")).click();
+    getDriver().findElement(By.xpath("//a[contains(text(),'" +name+ "')]")).click();
     getDriver().findElement(By.linkText("Build Now")).click();
   }
 
@@ -54,21 +55,29 @@ public class MultiConfigurationProjectTest extends BaseTest {
                     By.xpath("//span/span/*[name()='svg' and (contains(@tooltip, 'Success'))]")).isDisplayed();
   }
 
+  protected void openProjectJob(String name){
+    WebElement nameOnDashboard = getDriver().findElement(By.xpath("//a[@href='job/"+name+"/']"));
+    nameOnDashboard.click();
+  }
+
+  protected String getFolderNameOnDashboard(String name){
+    WebElement nameOnDashboard = getDriver().findElement(By.xpath("//tr[@id='job_" + NAME_FOLDER + "']//td[3]"));
+    return nameOnDashboard.getText();
+  }
+
   @Test
   public void testCreateMultiConfigFolder_TC_041_001() {
 
     createMultiConfigFolder(NAME_FOLDER);
     returnToMainPage();
 
-    WebElement nameOnDashboard = getDriver().findElement(By.xpath("//tr[@id='job_" + NAME_FOLDER + "']//td[3]"));
-
-    Assert.assertEquals(nameOnDashboard.getText(), NAME_FOLDER);
+    Assert.assertEquals(getFolderNameOnDashboard(NAME_FOLDER), NAME_FOLDER);
   }
 
   @Test(dependsOnMethods={"testCreateMultiConfigFolder_TC_041_001"})
   public void testBuildNow_TC_044_001(){
 
-    runBuildNow();
+    runBuildNow(NAME_FOLDER);
     getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("build-status-link")));
     selectTopBuildInHistory();
 
@@ -77,11 +86,32 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
   @Test(dependsOnMethods={"testBuildNow_TC_044_001"})
   public void testDeleteMultiConfigFolder_TC_041_002(){
+    String nameTestedFolder = "testToDelete";
 
-    createMultiConfigFolder("testToDelete");
+    createMultiConfigFolder(nameTestedFolder);
     returnToMainPage();
-    deleteFolder("testToDelete");
+    deleteFolder(nameTestedFolder);
 
-    Assert.assertFalse(isElementPresent("testToDelete"));
+    Assert.assertFalse(isElementPresent(nameTestedFolder));
+  }
+
+  @Test
+  public void testBuildNowInDisabledProject_TC_045_002(){
+    String nameTestedFolder = "disabledFolder";
+    boolean isBuildNowDisplayed = false;
+
+    createMultiConfigFolder(nameTestedFolder);
+    returnToMainPage();
+    openProjectJob(nameTestedFolder);
+    getDriver().findElement(By.id("yui-gen1-button")).click();
+
+    List<WebElement> jobMenu = getDriver().findElements(By.xpath("//div[@id='tasks']//span[2]"));
+    for(WebElement menu : jobMenu){
+      if(menu.getText().contains("Build Now")){
+        isBuildNowDisplayed = true;
+      }
+    }
+
+    Assert.assertFalse(isBuildNowDisplayed);
   }
 }
