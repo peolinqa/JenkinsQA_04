@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class DisableEnableOrganizationFolderEP extends BaseTest {
-    private final static String DASHBOARD_XPATH = "//a[contains(text(),\'Dashboard\')]";
+    private final static String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
     private final static String JOB_INPUT_NAME_ID = "name";
     private final static String EV_JOB_NAME = "First Job";
     private final static String NEW_ITEM_LINK_TEXT = "New Item";
@@ -16,6 +16,15 @@ public class DisableEnableOrganizationFolderEP extends BaseTest {
 
     public void clickOKButton() {
         getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    public void createNewOrganizationFolder() {
+        String jobName = EV_JOB_NAME;
+        getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
+        getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
+        NewItemPageCategoryHoveringExperienceTest.clickProjectItem(getDriver(),PROJECT_TYPES);
+        clickOKButton();
+        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
     }
 
     @BeforeMethod
@@ -36,14 +45,5 @@ public class DisableEnableOrganizationFolderEP extends BaseTest {
         getDriver().findElement(By.xpath(ENABLE_XPATH)).click();
         WebElement iconEnable = getDriver().findElement(By.xpath("//*[@class='icon-branch-api-organization-folder icon-xlg']"));
         Assert.assertTrue(iconEnable.isDisplayed());
-    }
-
-    public void createNewOrganizationFolder() {
-        String jobName = EV_JOB_NAME;
-        getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
-        getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
-        NewItemPageCategoryHoveringExperienceTest.clickProjectItem(getDriver(),PROJECT_TYPES);
-        clickOKButton();
-        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
     }
 }
