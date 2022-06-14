@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -111,6 +112,8 @@ public class RusMJenkinsTest extends BaseTest {
         assertTrue(notPresent());
     }
 
+
+    @Ignore
     @Test
     public void testPipelineBuild() {
         createPipeline();
