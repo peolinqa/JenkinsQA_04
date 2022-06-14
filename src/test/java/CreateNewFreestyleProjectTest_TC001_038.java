@@ -29,7 +29,7 @@ public class CreateNewFreestyleProjectTest_TC001_038 extends BaseTest {
         getDriver().findElement(By.className(itemType)).click();
     }
 
-    @Test (invocationCount = 20)
+    @Test (description = "TC_001.038 New item > Create Freestyle project ")
     public void createFreestyleProjectWithValidName() {
         String projectBName = "newFreestyleProject";
         getDriver().findElement(By.linkText("New Item")).click();
@@ -42,7 +42,7 @@ public class CreateNewFreestyleProjectTest_TC001_038 extends BaseTest {
         deleteFreestyleProject(projectBName);
     }
 
-    @Test (invocationCount = 20)
+    @Test (description = "TC_001.038 New item > Create Freestyle project ")
     public void createFreestyleProjectWithInvalidName() {
         String projectBName = "[]//*";
         getDriver().findElement(By.linkText("New Item")).click();
@@ -51,7 +51,7 @@ public class CreateNewFreestyleProjectTest_TC001_038 extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("itemname-invalid")).isEnabled());
     }
 
-    @Test (invocationCount = 20)
+    @Test (description = "TC_001.038 New item > Create Freestyle project ")
     public void createFreestyleProjectWithSpacesInName() {
         String projectBName = "new Freestyle Project";
         getDriver().findElement(By.linkText("New Item")).click();
@@ -63,7 +63,8 @@ public class CreateNewFreestyleProjectTest_TC001_038 extends BaseTest {
         Assert.assertEquals(getDriver().getCurrentUrl(), "http://localhost:8080/job/new%20Freestyle%20Project/");
         deleteFreestyleProject(projectBName);
     }
-    @Test (invocationCount = 20)
+
+    @Test (description = "TC_001.038 New item > Create Freestyle project ")
     public void createFreestyleProjectNullName()  {
         String projectBName = "lalala";
         getDriver().findElement(By.linkText("New Item")).click();
