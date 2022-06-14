@@ -1,5 +1,4 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -7,16 +6,25 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class DisableEnableOrganizationFolderEP extends BaseTest {
-    private final static String DASHBOARD_XPATH = "//a[contains(text(),\'Dashboard\')]";
+    private final static String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
     private final static String JOB_INPUT_NAME_ID = "name";
     private final static String EV_JOB_NAME = "First Job";
     private final static String NEW_ITEM_LINK_TEXT = "New Item";
     private final static String DISABLE_XPATH = "//button[text()='Disable Organization Folder']";
-    private final static String[] PROJECT_TYPES = {"Organization Folder"};
+    private final static String PROJECT_TYPES = "Organization Folder";
     private final static String ENABLE_XPATH = "//span[@class='first-child']";
 
     public void clickOKButton() {
         getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    public void createNewOrganizationFolder() {
+        String jobName = EV_JOB_NAME;
+        getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
+        getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
+        NewItemPageCategoryHoveringExperienceTest.clickProjectItem(getDriver(),PROJECT_TYPES);
+        clickOKButton();
+        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
     }
 
     @BeforeMethod
@@ -37,22 +45,5 @@ public class DisableEnableOrganizationFolderEP extends BaseTest {
         getDriver().findElement(By.xpath(ENABLE_XPATH)).click();
         WebElement iconEnable = getDriver().findElement(By.xpath("//*[@class='icon-branch-api-organization-folder icon-xlg']"));
         Assert.assertTrue(iconEnable.isDisplayed());
-    }
-
-    public void createNewOrganizationFolder() {
-        String jobName = EV_JOB_NAME;
-        getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
-        getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
-        clickProjectItem(PROJECT_TYPES[0]);
-        clickOKButton();
-        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-    }
-
-    private void clickProjectItem(String name) {
-        WebElement project = getDriver().findElement(By.xpath("//span[text()='" + name + "']/../.."));
-        if (!project.isDisplayed())
-            ((JavascriptExecutor) getDriver())
-                    .executeScript("arguments[0].scrollIntoView(true);", project);
-        project.click();
     }
 }
