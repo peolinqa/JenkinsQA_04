@@ -29,7 +29,6 @@ public class CreatePipelineCheckStatusIconAfterBuildTest extends BaseTest {
                 && count > 0) {
             getDriver().navigate().refresh();
             count--;
-            System.out.println(count);
         }
         Assert.assertEquals($x(iconLocator).getAttribute("tooltip"), "Success");
     }
