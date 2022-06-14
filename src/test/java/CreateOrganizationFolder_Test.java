@@ -1,6 +1,10 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.WrapsDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -127,12 +131,12 @@ public class CreateOrganizationFolder_Test extends BaseTest {
         Assert.assertFalse(result.toString().contains("12345Folder67890"));
     }
 
-    @Ignore
     @Test
     public void TC34_006CreateOrganizationFolderIncorrectName() {
+        WebDriverWait wait = new WebDriverWait(getDriver(), 15);
         getDriver().findElement(BUTTON_NEW_ITEM).click();
         getDriver().findElement(INPUT_ITEM_NAME).sendKeys("@");
-        WebElement error = getDriver().findElement(By.id("itemname-invalid"));
+        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-invalid")));
 
         Assert.assertEquals(error.getText(), "» ‘@’ is an unsafe character");
         Assert.assertEquals(error.getCssValue("color").toString(), "rgba(255, 0, 0, 1)");
