@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -30,7 +31,7 @@ public class OrganizationFolderChangeAppearanceTest extends BaseTest {
                 By.xpath("//span[contains(text(),'Delete')]")).click();
         getDriver().findElement(By.xpath("//span[@name='Submit']")).click();
     }
-
+    @Ignore
     @Test
     public void testOrganizationFolderChangeAppearance() {
         final String FOLDER_NAME = "Organization Folder TC_039.002";

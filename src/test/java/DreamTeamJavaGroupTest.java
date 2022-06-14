@@ -12,7 +12,7 @@ public class DreamTeamJavaGroupTest extends BaseTest {
     public static final String REST_API_PAGE_HEADER = "//div[@id='main-panel']/h1";
     public static final String XPATH_FOR_SIZE_CHECK = "//*[@id='person-admin']/td[4]";
     public static final String ITEMNAME = "Valid item name" + (int) (Math.random() * 1000);
-    public static final String CREATE_PROJECT_SAVE_BUTTON = "//div[@class='bottom-sticker-inner']//button[@type='submit']";
+    public static final String CREATE_PROJECT_SAVE_BUTTON = "//button[@type='submit']";
     public static final String DASHBOARD_BUTTON = "//a[text()='Dashboard']";
 
     @Ignore
@@ -70,5 +70,4 @@ public class DreamTeamJavaGroupTest extends BaseTest {
                 By.xpath(XPATH_FOR_SIZE_CHECK));
         Assert.assertEquals(sizeS.getSize().height, 34);
     }
-
 }
