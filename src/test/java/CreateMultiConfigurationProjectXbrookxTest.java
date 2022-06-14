@@ -114,12 +114,43 @@ public class CreateMultiConfigurationProjectXbrookxTest extends BaseTest {
 
         Assert.assertEquals(applyMessage.getText(), expectedResultMessage);
 
-        WebDriverWait wait = new WebDriverWait(getDriver(),10);
+        WebDriverWait wait = new WebDriverWait(getDriver(), 9);
 
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("notification-bar")));
     }
 
-    @Test(dependsOnMethods="TC_041_005_testCheckSubMenuConfigureAfterCreatingProject")
+    @Test
+    public void TC_043_006_testMultiConfigurationProjectRenameUsingInvalidName() {
+        String[] invalidName =
+                new String[]{"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", "|", "<", ">", "?", "", " "};
+
+        getDriver().findElement(PROJECT_ON_DAHBOARD).click();
+        getDriver().findElement(By.linkText("Rename")).click();
+
+        for (String unsafeChar : invalidName) {
+            getDriver().findElement(By.name("newName")).clear();
+            getDriver().findElement(By.name("newName")).sendKeys(unsafeChar);
+            getDriver().findElement(By.id("yui-gen1-button")).click();
+            String expectedResult = "‘" + unsafeChar + "’ is an unsafe character";
+            if ("&" == unsafeChar) {
+                expectedResult = "‘&amp;’ is an unsafe character";
+            } else if (unsafeChar == "<") {
+                expectedResult = "‘&lt;’ is an unsafe character";
+            } else if (unsafeChar == ">") {
+                expectedResult = "‘&gt;’ is an unsafe character";
+            } else if (unsafeChar == "" || unsafeChar == " ") {
+                expectedResult = "No name is specified";
+            }
+
+            String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
+
+            Assert.assertEquals(actualResult, expectedResult);
+
+            getDriver().navigate().back();
+        }
+    }
+
+    @Test(dependsOnMethods = "TC_043_006_testMultiConfigurationProjectRenameUsingInvalidName")
     public void TC_041_004_testDeleteMultiConfigurationProject() {
         returnHomePage();
         Assert.assertTrue(getListProjects().contains(PROJECT_NAME));

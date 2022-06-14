@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class FreestyleProjectRenameOlaTest extends BaseTest {
+public class FreestyleProjectRenameTest extends BaseTest {
 
     private static final By NEW_ITEM = By.xpath(
             "//span[normalize-space(text())='New Item']");
@@ -13,13 +13,13 @@ public class FreestyleProjectRenameOlaTest extends BaseTest {
     private static final By DASHBOARD = By.xpath("//a[normalize-space(text())='Dashboard']");
     private static final By OK_BUTTON = By.xpath("//button[@id='ok-button']");
     private static final By SAVE_BUTTON = By.xpath(
-            "/html/body/div[5]/div/div/div/div/form/div[1]/div[12]/div/div[2]/div[2]/span[1]");
+            "//div[@class='bottom-sticker-inner']/span/span/button[@type='submit']");
     private static final By FREESTYLE_PROJECT = By.xpath(
-            "//*[@id=\"j-add-item-type-standalone-projects\"]/ul/li[1]/div[1]");
+            "//div[@id='j-add-item-type-standalone-projects']/ul/li[1]/label/span");
     private static final By RENAME_FIELD = By.xpath(
-            "//*[@id=\"main-panel\"]/form/div[1]/div[1]/div[2]/input");
-    private static final By RENAME_BUTTON = By.xpath("//*[@id=\"yui-gen1\"]");
-    private String actualResult;
+            "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input");
+    private static final By RENAME_BUTTON = By.xpath(
+            "//div[@class='bottom-sticker-inner']/span/span/button");
 
     private String createRandomName() {
         String projectNameSubstrate = "0123456789qwertyuiopasdfghjklzxcvbnm";
@@ -54,8 +54,8 @@ public class FreestyleProjectRenameOlaTest extends BaseTest {
 
     }
 
-    @Test(description = "TC_003.001")
-    public void testFreestyleProjectRename() {
+    @Test
+    public void test_TC_003_001_FreestyleProjectRename() {
 
         String projectName = createRandomName();
         String newProjectName = createRandomName();
