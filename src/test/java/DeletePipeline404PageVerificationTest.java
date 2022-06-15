@@ -41,5 +41,4 @@ public class DeletePipeline404PageVerificationTest extends BaseTest {
 
         getDriver().navigate().back();
     }
-
 }
