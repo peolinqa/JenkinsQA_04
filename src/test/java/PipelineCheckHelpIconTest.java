@@ -10,6 +10,7 @@ import java.util.List;
 public class PipelineCheckHelpIconTest extends BaseTest {
 
     final String HELP_ICON = "//label[text() = 'Discard old builds']//following-sibling::a";
+    final String HELP_ICON_TEXT_BLOCK = "//div[@ref='cb4']//following-sibling::div[1]/div";
 
     private void isEmptyTable() {
         List<WebElement> tableOfProjects = getDriver().findElements((By
@@ -46,5 +47,17 @@ public class PipelineCheckHelpIconTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath(HELP_ICON)).getText(), "?");
         Assert.assertEquals(getDriver().findElement(By.xpath(HELP_ICON)).getAttribute("title"),
                 "Help for feature: Discard old builds");
+    }
+
+    @Test
+    public void testCheckHelpIconText() {
+        isEmptyTable();
+        goToDropDownConfigure();
+        getDriver().findElement(By.xpath(HELP_ICON)).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(HELP_ICON_TEXT_BLOCK))
+                .getAttribute("style"), "display: block;");
+        Assert.assertTrue(getDriver().findElement(By.xpath(HELP_ICON_TEXT_BLOCK.concat("/div"))).getText()
+                .contains("This determines when, if ever, build records for this project should be discarded."));
     }
 }
