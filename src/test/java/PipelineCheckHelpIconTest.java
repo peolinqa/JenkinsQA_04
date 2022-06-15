@@ -60,4 +60,16 @@ public class PipelineCheckHelpIconTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.xpath(HELP_ICON_TEXT_BLOCK.concat("/div"))).getText()
                 .contains("This determines when, if ever, build records for this project should be discarded."));
     }
+
+    @Test
+    public void testCheckHelpIconNoText() {
+        isEmptyTable();
+        goToDropDownConfigure();
+        getDriver().findElement(By.xpath(HELP_ICON)).click();
+        getDriver().findElement(By.xpath(HELP_ICON)).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath(HELP_ICON_TEXT_BLOCK))
+                .getAttribute("style"), "display: none;");
+        Assert.assertFalse(getDriver().findElement(By.xpath(HELP_ICON_TEXT_BLOCK.concat("/div"))).isDisplayed());
+    }
 }
