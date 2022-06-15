@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -49,6 +50,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
 
+    @Ignore
     @Test(priority = 3)
     public void deleteOrganizationFolder() {
         getDashboardPage();

@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -68,6 +69,7 @@ public class FreestyleProjectBuildNowTest extends BaseTest {
                 By.className("inside")).isDisplayed());
     }
 
+    @Ignore
     @Test(priority = 2)
     public void testBuildIsOnTheTopOfTheBuildHistory_TC_006_002() {
         getDriver().findElement(By.xpath("//a[text()='" + PROJECT_NAME + "']")).click();

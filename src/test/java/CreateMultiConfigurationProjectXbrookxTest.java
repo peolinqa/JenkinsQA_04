@@ -4,6 +4,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -46,6 +47,7 @@ public class CreateMultiConfigurationProjectXbrookxTest extends BaseTest {
         Assert.assertTrue(getListProjects().contains(PROJECT_NAME));
     }
 
+    @Ignore
     @Test
     public void TC_041_005_testCheckSubMenuConfigureAfterCreatingProject() {
         String expectedResultDiscardOldBuilds = "Help for feature: Discard old builds";

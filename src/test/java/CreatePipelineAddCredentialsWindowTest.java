@@ -5,11 +5,13 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.Date;
 
+@Ignore
 public class CreatePipelineAddCredentialsWindowTest extends BaseTest {
 
     private JavascriptExecutor javascriptExecutor;

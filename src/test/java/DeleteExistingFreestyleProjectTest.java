@@ -4,6 +4,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -13,6 +14,7 @@ public class DeleteExistingFreestyleProjectTest extends BaseTest {
     public static final String ITEMNAME = "Valid item name" + (int) (Math.random() * 1100);
     public static final String DASHBOARD_BUTTON = "//a[text()='Dashboard']";
 
+    @Ignore
     @Test
     public void test_TC_008_002_DeleteExistingFreestyleProject_AD_DreamTeam() {
         getDriver().findElement(By.className("task-link-text")).click();
