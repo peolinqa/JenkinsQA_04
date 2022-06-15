@@ -49,7 +49,6 @@ public class PipelineCheckHelpDiscardOldBuildsTest extends BaseTest {
         helpButton.click();
         Assert.assertFalse(getDriver().findElement(By.xpath("//div[@class = 'help-area tr config-table-top-row']/div/div")).isDisplayed());
         deletePipelineFolder();
-        Thread.sleep(2000);
 
     }
 }
