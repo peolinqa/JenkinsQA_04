@@ -63,4 +63,20 @@ public class CreateMultiConfigurationProject_US_041_Test extends BaseTest {
 
         deleteMCProject();
     }
+
+    @Test
+    public void TC_043_005_RenameMCProjectErrorTest() {
+        String expectedResult = "Error\nThe new name is the same as the current name.";
+
+        createMCProject(PROJECT_NAME);
+        getDriver().findElement(By.linkText("Rename")).click();
+        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"));
+        getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText();
+        Assert.assertEquals(actualResult, expectedResult);
+
+        getDriver().findElement(By.xpath("//div/ul/li/a[@href='/job/Mcproject/']")).click();
+        deleteMCProject();
+    }
 }
