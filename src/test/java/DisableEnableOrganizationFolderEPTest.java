@@ -5,7 +5,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class DisableEnableOrganizationFolderEP extends BaseTest {
+public class DisableEnableOrganizationFolderEPTest extends BaseTest {
     private final static String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
     private final static String JOB_INPUT_NAME_ID = "name";
     private final static String EV_JOB_NAME = "First Job";
