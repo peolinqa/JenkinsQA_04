@@ -15,10 +15,10 @@ public class ChangeFolderNameOVFTest extends BaseTest {
     }
 
     private void сreateFolder(String folderName) {
-        getDriver().findElement(By.xpath("//span[normalize-space(text())='New Item']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(folderName);
+        getDriver().findElement(By.partialLinkText("New Item")).click();
+        getDriver().findElement(By.id("name")).sendKeys(folderName);
         getDriver().findElement(By.xpath("//li[contains(@class,'folder_Folder')]")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
     }
 
     private void deleteFolder(String newFolderName) {
@@ -28,17 +28,15 @@ public class ChangeFolderNameOVFTest extends BaseTest {
         action.moveToElement(getDriver().findElement(
                         By.xpath("//a[@href='job/" + newFolderName + "/']")))
                 .build().perform();
-        action.moveToElement(getDriver().findElement(
-                        By.xpath("//div[@id='menuSelector']")))
-                .click().build().perform();
+        action.moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
         action.moveToElement(getDriver().findElement(
                         By.xpath("//a[@href='/job/" + newFolderName + "/delete']")))
                 .click().build().perform();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
     private void clickBreadcrumbDashboard() {
-        getDriver().findElement(By.xpath("//a[normalize-space(text())='Dashboard']")).click();
+        getDriver().findElement(By.partialLinkText("Dashboard")).click();
     }
 
     private void clickMenuRenameFolder(String folderName) {
@@ -55,9 +53,9 @@ public class ChangeFolderNameOVFTest extends BaseTest {
     }
 
     private void setNewFolderName(String newFolderName) {
-        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
-        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).sendKeys(newFolderName);
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.name("newName")).clear();
+        getDriver().findElement(By.name("newName")).sendKeys(newFolderName);
+        getDriver().findElement(By.name("Submit")).click();
     }
 
     private String checkErrorMessage() {
