@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 import java.util.List;
-@Ignore
+
 public class OrganizationFolderChangeAppearanceTest extends BaseTest {
 
     private static final By MENU_DASHBOARD = By.xpath("//li[@class='item']");
@@ -26,19 +26,19 @@ public class OrganizationFolderChangeAppearanceTest extends BaseTest {
 
         for (WebElement a : itemNamesInTable) {
             if (a.getText().contains(NAME_MY_ITEM)) {
-                action.moveToElement(a).perform();
+                action.moveToElement(a).build().perform();
             }
         }
         getDriver().findElement(By.id("menuSelector")).click();
         getDriver().findElement(
-                By.xpath("//span[contains(text(),'Delete Organization Folder')]"))
+                By.xpath("//span[contains(text(),'Delete')]"))
                 .click();
         getDriver().findElement(By.xpath("//span[@name='Submit']")).click();
 
-        getWait5().until(ExpectedConditions.elementToBeClickable(
+        getWait20().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//a[@href='/logout']")));
     }
-    @Ignore
+
     @Test
     public void testOrganizationFolderChangeAppearance() {
         final String FOLDER_NAME = "Servachak Organization Folder TC_039.002";
