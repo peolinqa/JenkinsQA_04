@@ -1,11 +1,14 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -14,15 +17,18 @@ import java.util.List;
 
 public class _PipelineTest extends BaseTest {
     private static final By NEW_ITEM = By.cssSelector("[title='New Item']");
-    private static final By INPUT_LINE = By.id("name");
+    private static final By INPUT_NAME = By.id("name");
     private static final By PIPELINE = By.xpath("//span[text()='Pipeline']");
     private static final By OK_BUTTON = By.id("ok-button");
+    private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By ADVANCED_BUTTON = By.xpath("//span[@id='yui-gen4']");
+    private static final By H1 = By.xpath("//h1");
     private static final By PIPELINE_ITEM_CONFIGURATION = By.xpath(
             "//div[@class='tab config-section-activator config_pipeline']");
-    private static final String NAME_INPUT = "test123";
-    private static final String PIPELINE_PROJECT_NAME = "Ruslan Gudenko Pipeline Project+";
-
+    private static final String BASE_NAME = "name";
+    private static final String NAME = "test123";
+    private static final String NAME_FOR_ICON = RandomStringUtils.randomAlphanumeric(4, 8);
+    private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private JavascriptExecutor javascriptExecutor;
     private Date date;
 
@@ -32,46 +38,96 @@ public class _PipelineTest extends BaseTest {
         date = new Date();
     }
 
-    private void fillNameAndClick() {
+    private void createPipeline() {
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_LINE).sendKeys(NAME_INPUT);
+        getDriver().findElement(INPUT_NAME).sendKeys(NAME);
         getDriver().findElement(PIPELINE).click();
     }
 
-    private void fillNameAndClick(Long date) {
+    private void createPipeline(String namePipeline) {
         getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_LINE)
-                .sendKeys(NAME_INPUT + date);
+        getDriver().findElement(INPUT_NAME).sendKeys(namePipeline);
         getDriver().findElement(PIPELINE).click();
+        getDriver().findElement(OK_BUTTON).click();
+    }
+
+    private void createPipeline(Long date) {
+        getDriver().findElement(NEW_ITEM).click();
+        getDriver().findElement(INPUT_NAME).sendKeys(BASE_NAME + date);
+        getDriver().findElement(PIPELINE).click();
+        getDriver().findElement(OK_BUTTON).click();
+    }
+
+    private void js(WebElement locator) {
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView();", locator);
+    }
+
+    private void saveButtonClick() {
+        getDriver().findElement(By.xpath("//button[@id='yui-gen6-button']")).click();
+    }
+
+    private WebElement $(String locator) {
+        return getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(locator))));
+    }
+
+    private WebElement $x(String locator) {
+        return getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.xpath(locator))));
+    }
+
+    private void homePageClick() {
+        getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
+    }
+
+    private List<WebElement> getActualDashboardProject() {
+        return getDriver().findElements(
+                By.xpath("//a[@class='jenkins-table__link model-link inside']"));
+    }
+
+    private void buttonBackToDashboard() {
+        getDriver().findElement(
+                By.xpath("//a[@title='Back to Dashboard']")).click();
+    }
+
+    private void checkProjectAfterDelete(String projectName) {
+
+        List<WebElement> actual = getDriver().findElements(H1);
+        if (actual.size() == 0) {
+            List<WebElement> actualDashboardProject = getActualDashboardProject();
+            for (WebElement webElement : actualDashboardProject) {
+                if (webElement.getText().contains(projectName)) {
+                    Assert.fail();
+                    break;
+                } else {
+                    Assert.assertTrue(true);
+                }
+            }
+        } else {
+            Assert.assertEquals(getDriver().findElement(H1).getText(), JENKINS_HEADER);
+        }
     }
 
     @Test
     public void testCheckValidationItemName() {
-        fillNameAndClick();
+        createPipeline();
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.cssSelector("[type='submit']")).click();
+        getDriver().findElement(SUBMIT_BUTTON).click();
         getDriver().findElement(By.xpath("//li//a[@href='/']")).click();
-        fillNameAndClick();
-        String errorMessage = getDriver().findElement(
-                By.id("itemname-invalid")).getText();
+        createPipeline();
+        String errorMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
 
         getDriver().findElement(OK_BUTTON).click();
-        String errorMessageTwo = getDriver().findElement(
-                By.xpath("//h1")).getText();
+        String errorMessageTwo = getDriver().findElement(H1).getText();
 
-        Assert.assertEquals(errorMessage,
-                "» A job already exists with the name ‘test123’");
+        Assert.assertEquals(errorMessage, "» A job already exists with the name ‘test123’");
         Assert.assertEquals(errorMessageTwo, "Error");
     }
 
     @Test
     public void testCheckDropDownMenuPipeline() {
-        fillNameAndClick(date.getTime());
-        getDriver().findElement(OK_BUTTON).click();
+        createPipeline(date.getTime());
 
         WebElement dropDownMenu = getDriver().findElement(By.className("samples"));
-        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
-                dropDownMenu);
+        js(dropDownMenu);
 
         List<WebElement> optionsDropDown = getDriver().findElements(
                 By.xpath("//div[1][@class='samples']//select/option"));
@@ -81,18 +137,14 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
-        fillNameAndClick(date.getTime());
-        getDriver().findElement(OK_BUTTON).click();
+        createPipeline(date.getTime());
 
-        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
-                getDriver().findElement(ADVANCED_BUTTON));
+        js(getDriver().findElement(ADVANCED_BUTTON));
 
         getDriver().findElement(ADVANCED_BUTTON).click();
-        getDriver().findElement(By.cssSelector("a[tooltip$='Display Name']"))
-                .click();
+        getDriver().findElement(By.cssSelector("a[tooltip$='Display Name']")).click();
         String urlAttribute = getDriver().findElement(By.cssSelector(
-                        "[href='https://plugins.jenkins.io/workflow-job']"))
-                .getAttribute("href");
+                "[href='https://plugins.jenkins.io/workflow-job']")).getAttribute("href");
 
         getDriver().navigate().to(urlAttribute);
         String url = getDriver().getCurrentUrl();
@@ -101,25 +153,9 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(url.contains("plugins.jenkins.io/workflow-job"));
     }
 
-    private void createPipelineProject() {
-        getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(
-                PIPELINE_PROJECT_NAME + date.getTime());
-        getDriver().findElement(By.xpath(
-                "//li[@class='org_jenkinsci_plugins_workflow_job_WorkflowJob']")).click();
-        getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
-    }
-
-    private void closeJenkinsCredProvWindowMethod() {
-        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
-                getDriver().findElement(By.xpath("//button[@id='credentials-add-abort-button']")));
-        getDriver().navigate().back();
-        getDriver().switchTo().alert().accept();
-    }
-
     @Test
     public void testJenkinsCredentialsProviderWindow() {
-        createPipelineProject();
+        createPipeline(date.getTime());
 
         getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
 
@@ -135,22 +171,27 @@ public class _PipelineTest extends BaseTest {
 
         WebElement titleOfJenkinsCredentialsProviderWindow = getDriver().findElement(By.xpath("//h2"));
 
-        Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow.getText(), "Jenkins Credentials Provider: Jenkins");
+        Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow.getText(),
+                "Jenkins Credentials Provider: Jenkins");
 
-        closeJenkinsCredProvWindowMethod();
+        js(getDriver().findElement(By.xpath("//button[@id='credentials-add-abort-button']")));
+
+        getDriver().navigate().back();
+        getDriver().switchTo().alert().accept();
     }
 
     @Test
     public void testPipelineSyntaxPageOpening() {
-        createPipelineProject();
+        createPipeline(date.getTime());
 
         getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
 
-        String pipelineSyntaxLink = getDriver().findElement(By.xpath("//a[@href='pipeline-syntax']"))
-                .getAttribute("href");
+        String pipelineSyntaxLink = getDriver().findElement(
+                By.xpath("//a[@href='pipeline-syntax']")).getAttribute("href");
         getDriver().get(pipelineSyntaxLink);
 
-        List<WebElement> breadcrumbsOfLinksMenu = getDriver().findElements(By.xpath("//li[@class='item']/a"));
+        List<WebElement> breadcrumbsOfLinksMenu = getDriver().findElements(
+                By.xpath("//li[@class='item']/a"));
         String breadcrumbsPipelineSyntaxPageItem = breadcrumbsOfLinksMenu.get(2).getAttribute("href");
 
         Assert.assertTrue(breadcrumbsPipelineSyntaxPageItem.contains("pipeline-syntax"));
@@ -158,63 +199,23 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineGroovyPageOpening() {
-        createPipelineProject();
+        createPipeline(date.getTime());
 
         getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
 
-        String useGroovySandboxCheckbox = getDriver().findElement(By.xpath(
-                "//input[@name='_.sandbox']")).getAttribute("checked");
+        String useGroovySandboxCheckbox = getDriver().findElement(
+                By.xpath("//input[@name='_.sandbox']")).getAttribute("checked");
 
         Assert.assertEquals(useGroovySandboxCheckbox, "true");
     }
 
     @Test
     public void testTitleConfigPageContainsProjectTitle() {
-        createPipelineProject();
+        createPipeline(date.getTime());
 
         String titleOfConfigurationPipelinePage = getDriver().getTitle();
 
-        Assert.assertTrue(titleOfConfigurationPipelinePage.contains(PIPELINE_PROJECT_NAME + date.getTime()));
-    }
-
-    private void createPipeline(String namePipeline) {
-        getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(namePipeline);
-        getDriver().findElement(By.xpath("//li[contains(@class,'WorkflowJob')]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-    }
-
-    private List<WebElement> getActualDashboardProject() {
-        return getDriver().findElements
-                (By.xpath("//a[@class='jenkins-table__link model-link inside']"));
-    }
-
-    private void saveButtonPipelineClick() {
-        getDriver().findElement(By.id("yui-gen6-button")).click();
-    }
-
-    private void buttonBackToDashboard() {
-        getDriver().findElement
-                (By.xpath("//a[@title='Back to Dashboard']")).click();
-    }
-
-    private void checkProjectAfterDelete(String projectName) {
-
-        List<WebElement> actual = getDriver().findElements(By.xpath("//h1"));
-        if (actual.size() == 0) {
-            List<WebElement> actualDashboardProject = getActualDashboardProject();
-            for (WebElement webElement : actualDashboardProject) {
-                if (webElement.getText().contains(projectName)) {
-                    Assert.fail();
-                    break;
-                } else {
-                    Assert.assertTrue(true);
-                }
-            }
-        } else {
-            Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText()
-                    , "Welcome to Jenkins!");
-        }
+        Assert.assertTrue(titleOfConfigurationPipelinePage.contains(BASE_NAME + date.getTime()));
     }
 
     @Test
@@ -223,9 +224,9 @@ public class _PipelineTest extends BaseTest {
         final String namePipeline = "NewPipeline";
 
         createPipeline(namePipeline);
-        saveButtonPipelineClick();
+        saveButtonClick();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//h1"))
+        Assert.assertTrue(getDriver().findElement(H1)
                 .getText().contains(namePipeline));
 
         buttonBackToDashboard();
@@ -254,8 +255,8 @@ public class _PipelineTest extends BaseTest {
 
         for (int i = 0; i < listOfCheckBoxWithHelps.size(); i++) {
             Assert.assertEquals(checkBoxHelpsText.get(i).getAttribute("title")
-                            .replace("Help for feature: ", "")
-                    , listOfCheckBoxWithHelps.get(i).getText());
+                            .replace("Help for feature: ", ""),
+                    listOfCheckBoxWithHelps.get(i).getText());
         }
     }
 
@@ -278,10 +279,10 @@ public class _PipelineTest extends BaseTest {
         final String namePipeline = "DeletePipelineFromSideMenu";
 
         createPipeline(namePipeline);
-        saveButtonPipelineClick();
+        saveButtonClick();
 
-        getDriver().findElement
-                (By.xpath("//a[@class='task-link  confirmation-link']")).click();
+        getDriver().findElement(
+                By.xpath("//a[@class='task-link  confirmation-link']")).click();
         getDriver().switchTo().alert().accept();
 
         checkProjectAfterDelete(namePipeline);
@@ -293,11 +294,11 @@ public class _PipelineTest extends BaseTest {
         final String namePipeline = "DeletePipelineFromDashboard";
 
         createPipeline(namePipeline);
-        saveButtonPipelineClick();
+        saveButtonClick();
         buttonBackToDashboard();
 
-        new Actions(getDriver()).moveToElement(getDriver().findElement
-                (By.xpath("//a[text()='DeletePipelineFromDashboard']"))).build().perform();
+        new Actions(getDriver()).moveToElement(getDriver().findElement(
+                By.xpath("//a[text()='DeletePipelineFromDashboard']"))).build().perform();
         getDriver().findElement(By.id("menuSelector")).click();
 
         getDriver().findElement(By.xpath("//span[text()='Delete Pipeline']")).click();
@@ -306,25 +307,14 @@ public class _PipelineTest extends BaseTest {
         checkProjectAfterDelete(namePipeline);
     }
 
-    private void homePageClick(){
-        getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
-    }
+    @Test
+    public void testCreatePipeline() {
 
-    private void saveButtonClick(){
-        getDriver().findElement(By.xpath("//button[@id='yui-gen6-button']")).click();
-    }
+        createPipeline(date.getTime());
 
-    @Test(description = "TC_017.011")
-    public void testCreatePipeline(){
-
-        getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
-        getDriver().findElement(By.id("name")).sendKeys("testJob-" + date.getTime());
-        getDriver().findElement(By.xpath("//li[contains(@class,'WorkflowJob')]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-
-        Actions actions = new Actions(getDriver());
-        actions
-                .moveToElement(getDriver().findElement(By.xpath("//input[@name='hasCustomQuietPeriod']")))
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(
+                        By.xpath("//input[@name='hasCustomQuietPeriod']")))
                 .click()
                 .moveToElement(getDriver().findElement(By.name("quiet_period")))
                 .click()
@@ -334,43 +324,82 @@ public class _PipelineTest extends BaseTest {
                 .build()
                 .perform();
 
-        String actualResult = getDriver().findElement(By.xpath(
-                "//input[@name='quiet_period']/../following-sibling::div[contains(@class, 'validation-error-area')]/div/div[@class='error']")).getText();
+        String actualResult =
+                getDriver().findElement(By.xpath("//input[@name='quiet_period']/.." +
+                                "/following-sibling::div[contains(@class, 'validation-error-area')]/div/div[@class='error']"))
+                        .getText();
 
         Assert.assertEquals(actualResult, "This value should be larger than 0");
 
         saveButtonClick();
     }
 
-    @Test(description = "TC_021.003")
+    @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
 
-        getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
-        getDriver().findElement(By.id("name")).sendKeys("testJob-" + date.getTime());
-        getDriver().findElement(By.xpath("//li[contains(@class,'WorkflowJob')]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+        createPipeline(date.getTime());
 
         final String allJobsDeleteScript = "for(j in jenkins.model.Jenkins.theInstance.getAllItems()) {j.delete()}";
 
-        getDriver().findElement(By.xpath("//button[@id='yui-gen6-button']")).click();
+        saveButtonClick();
         homePageClick();
         getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
         getDriver().findElement(By.xpath("//a[@href='script']")).click();
 
-        Actions actions = new Actions(getDriver());
-        actions
-                .moveToElement(getDriver().findElement(By.xpath("//div[@class='CodeMirror-scroll cm-s-default']")))
+        new Actions(getDriver())
+                .moveToElement(getDriver().findElement(
+                        By.xpath("//div[@class='CodeMirror-scroll cm-s-default']")))
                 .click()
                 .sendKeys(allJobsDeleteScript)
-                .moveToElement(getDriver().findElement(By.xpath("//button[@type='submit']")))
+                .moveToElement(getDriver().findElement(SUBMIT_BUTTON))
                 .click()
                 .build()
                 .perform();
 
         homePageClick();
-        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+        String actualResult = getDriver().findElement(H1).getText();
 
-        Assert.assertEquals(actualResult, "Welcome to Jenkins!");
+        Assert.assertEquals(actualResult, JENKINS_HEADER);
     }
 
+    @DataProvider(name = "errorMessageData")
+    public Object[][] errorData() {
+        return new Object[][]{
+                {"!", "» ‘!’"}, {"@", "» ‘@’"}, {"#", "» ‘#’"}, {"$", "» ‘$’"},
+                {"%", "» ‘%’"}, {"^", "» ‘^’"}, {"&", "» ‘&’"}, {"*", "» ‘*’"},
+                {":", "» ‘:’"}, {";", "» ‘;’"}, {"<", "» ‘<’"}, {">", "» ‘>’"},
+                {"?", "» ‘?’"}, {"/", "» ‘/’"}, {"\\\\", "» ‘\\’"}
+        };
+    }
+
+    @Test(dataProvider = "errorMessageData")
+    public void testInvalidName(String name, String expectedMessage) {
+
+        $x("//a[@title='New Item']").click();
+        $("#name").sendKeys(name);
+        $x("//li[contains(@class,'WorkflowJob')]").click();
+        WebElement errorMessage = $("#itemname-invalid");
+
+        Assert.assertEquals(errorMessage.getText(), expectedMessage + " is an unsafe character");
+    }
+
+    @Test
+    public void testCheckIcon() {
+        int count = 25;
+
+        createPipeline(NAME_FOR_ICON);
+        $("#cb16 ~ label").click();
+        new Select($(".samples select")).selectByValue("hello");
+        $("[type='submit']").click();
+        $("#jenkins-home-link").click();
+        $x(String.format("//span[contains(text(), '%s')]/following-sibling::*[name()='svg']", NAME_FOR_ICON)).click();
+        String iconLocator = String.format("//tr[@id='job_%s']/td/div/span/*[@tooltip]", NAME_FOR_ICON);
+        while ($x(iconLocator).getAttribute("tooltip").equals("In progress")
+                || $x(iconLocator).getAttribute("tooltip").equals("Not built")
+                && count > 0) {
+            getDriver().navigate().refresh();
+            count--;
+        }
+        Assert.assertEquals($x(iconLocator).getAttribute("tooltip"), "Success");
+    }
 }
