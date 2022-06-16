@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
 
-public class MultiConfigurationProjectTest extends BaseTest {
+public class _MultiConfigurationProjectTest extends BaseTest {
   private final String NAME_FOLDER = "TestMultiConfigurationProject";
 
   protected void createMultiConfigFolder(String name) {

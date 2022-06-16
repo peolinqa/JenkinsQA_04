@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class ManageCredentialsTest extends BaseTest {
+public class _ManageCredentialsTest extends BaseTest {
     private static final String ICON_XPATH = "//td[@data='Jenkins Credentials Provider']";
 
     @Test

@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
 
-public class OrganizationFolderTest extends BaseTest {
+public class _OrganizationFolderTest extends BaseTest {
 
     private final String VALID_VALUE_FOR_NAME1 = "Organization Test";
     private final String VALID_VALUE_FOR_NAME2 = "Test";

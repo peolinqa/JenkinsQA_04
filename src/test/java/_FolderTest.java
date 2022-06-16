@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class FolderTest extends BaseTest {
+public class _FolderTest extends BaseTest {
   private final String NAME_FOLDER = "Configure";
 
   protected void createFolder(){

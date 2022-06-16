@@ -8,7 +8,7 @@ import runner.BaseTest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadStatisticsTest extends BaseTest {
+public class _LoadStatisticsTest extends BaseTest {
     private static final By XPATH_MANAGE_JENKINS = By.xpath("//span[text()='Manage Jenkins']");
     private static final By XPATH_LOAD_STATISTICS = By.xpath("//dt[text()='Load Statistics']");
     private static final By XPATH_TIME_SPAN_LIST = By.xpath("//div[contains(text(), 'Timespan')]/child::*");

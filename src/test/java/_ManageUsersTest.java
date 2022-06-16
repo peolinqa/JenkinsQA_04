@@ -7,7 +7,7 @@ import runner.BaseTest;
 
 import java.util.*;
 
-public class ManageUsersTest extends BaseTest {
+public class _ManageUsersTest extends BaseTest {
 
     private static final String USER_NAME = "viktorp";
     private static final String PASSWORD = "123456ABC";
