@@ -219,6 +219,26 @@ public class _PipelineTest extends BaseTest {
     }
 
     @Test
+    public void test404PageAfterDeletedPipeline() {
+        createPipeline(date.getTime());
+
+        getDriver().findElement(SUBMIT_BUTTON).click();
+        buttonBackToDashboard();
+
+        List<WebElement> pipelineProjects = getDriver().findElements(By.xpath(
+                "//a[contains(@href, 'job/name')]"));
+
+        getDriver().navigate().to( pipelineProjects.get(pipelineProjects.size() -2).getAttribute("href"));
+        getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete the Pipeline ')]")).click();
+        getDriver().switchTo().alert().accept();
+
+        getDriver().navigate().back();
+        String titleOf404Page = getDriver().getTitle();
+
+        Assert.assertTrue(titleOf404Page.contains("Error 404 Not Found"));
+    }
+
+    @Test
     public void testCreatePipelineAndCheckOnDashboard() {
 
         final String namePipeline = "NewPipeline";
