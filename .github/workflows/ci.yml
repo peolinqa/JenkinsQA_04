@@ -28,6 +28,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven-
 
+      - name: Get list of changed files
+        run: echo "LIST_OF_CHANGED_FILES=$(git diff --name-only origin/$GITHUB_HEAD_REF $(git merge-base origin/$GITHUB_HEAD_REF origin/main) | tr '\n' ';')" >> $GITHUB_ENV
+
       - name: Prepare Jenkins data
         run: |
           cat /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_data/jenkins_backup0* > /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar
