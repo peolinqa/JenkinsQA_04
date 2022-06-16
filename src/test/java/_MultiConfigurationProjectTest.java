@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -113,5 +114,80 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     }
 
     Assert.assertFalse(isBuildNowDisplayed);
+  }
+
+
+  private final String PROJECT_NAME = "Mcproject";
+
+  private void createMCProject(String name) {
+    getDriver().findElement(By.linkText("New Item")).click();
+    getDriver().findElement(By.id("name")).sendKeys(name);
+    getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+    getDriver().findElement(By.id("ok-button")).click();
+    getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
+  }
+
+  private void deleteMCProject() {
+    getDriver().findElement(By.linkText("Delete Multi-configuration project")).click();
+    getDriver().switchTo().alert().accept();
+  }
+
+  @Test
+  public void testCreateMultiConfigurationProject() {
+    String expectedResult = "Mcproject";
+
+    createMCProject(PROJECT_NAME);
+
+    String actualResult = getDriver().findElement(By.xpath("//div/ul/li/a[@href='/job/" + PROJECT_NAME +"/']")).getText();
+    Assert.assertEquals(actualResult, expectedResult);
+
+    deleteMCProject();
+  }
+
+  @Test
+  public void testAddDescription(){
+    String expectedResult = "test";
+    createMCProject(PROJECT_NAME);
+
+    getDriver().findElement(By.id("description-link")).click();
+    getDriver().findElement(By.xpath("//div/textarea[@name=\"description\"]")).sendKeys("test");
+    getDriver().findElement(By.id("yui-gen2-button")).click();
+
+    String actualResult = getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
+    Assert.assertEquals(actualResult, expectedResult);
+
+    deleteMCProject();
+  }
+
+  @Test
+  public void testRenameMCProject() {
+    String expectedResult = "Project McprojectRename";
+
+    createMCProject(PROJECT_NAME);
+    getDriver().findElement(By.linkText("Rename")).click();
+    getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"))
+            .sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "McprojectRename");
+    getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
+
+    String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
+    Assert.assertEquals(actualResult, expectedResult);
+
+    deleteMCProject();
+  }
+
+  @Test
+  public void testRenameMCProjectError() {
+    String expectedResult = "Error\nThe new name is the same as the current name.";
+
+    createMCProject(PROJECT_NAME);
+    getDriver().findElement(By.linkText("Rename")).click();
+    getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"));
+    getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
+
+    String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText();
+    Assert.assertEquals(actualResult, expectedResult);
+
+    getDriver().findElement(By.xpath("//div/ul/li/a[@href='/job/Mcproject/']")).click();
+    deleteMCProject();
   }
 }
