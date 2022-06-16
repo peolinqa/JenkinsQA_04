@@ -1,5 +1,5 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -16,6 +16,7 @@ public class CreatePipelinePipelineProjectTest extends BaseTest {
             "//div[@class='tab config-section-activator config_pipeline']");
 
     private Date date;
+    private JavascriptExecutor javascriptExecutor;
 
     private void createPipelineProject() {
         getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
@@ -26,9 +27,40 @@ public class CreatePipelinePipelineProjectTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@id='ok-button']")).click();
     }
 
+    private void closeJenkinsCredProvWindowMethod() {
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView();",
+                getDriver().findElement(By.xpath("//button[@id='credentials-add-abort-button']")));
+        getDriver().navigate().back();
+        getDriver().switchTo().alert().accept();
+    }
+
     @BeforeMethod
     public void beforeTest() {
         date = new Date();
+        javascriptExecutor = (JavascriptExecutor) getDriver();
+    }
+
+    @Test(description = "TC_017_007")
+    public void testJenkinsCredentialsProviderWindow() {
+        createPipelineProject();
+
+        getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
+
+        Select pipelineScriptDropDownList = new Select(getDriver()
+                .findElement(By.xpath("//div[@class='jenkins-form-item config_pipeline active']//select")));
+        pipelineScriptDropDownList.selectByIndex(1);
+        Select scmDropDownList = new Select(getDriver()
+                .findElement(By.xpath("//div[@class='jenkins-form-item has-help']//select")));
+        scmDropDownList.selectByIndex(1);
+
+        getDriver().findElement(By.xpath("//button[@id='yui-gen15-button']")).click();
+        getDriver().findElement(By.xpath("//li[@id='yui-gen17']")).click();
+
+        WebElement titleOfJenkinsCredentialsProviderWindow = getDriver().findElement(By.xpath("//h2"));
+
+        Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow.getText(), "Jenkins Credentials Provider: Jenkins");
+
+        closeJenkinsCredProvWindowMethod();
     }
 
     @Test(description = "TC_017.008")
@@ -70,7 +102,7 @@ public class CreatePipelinePipelineProjectTest extends BaseTest {
 
     @AfterMethod
     public void afterTest() {
-        getDriver().get("http://localhost:8080");
+        getDriver().navigate().back();
     }
 }
 

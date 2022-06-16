@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class VictorianJenkinsPlugins extends BaseTest {
+public class VictorianJenkinsPluginsTest extends BaseTest {
 
     public int getListSize(WebDriver webDriver) {
         return webDriver.findElements(By.xpath("//table[@id='plugins']//tbody//tr")).size();

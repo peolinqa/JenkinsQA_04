@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -37,6 +38,7 @@ public class CreateFreestyleProjectValidNameJChTest extends BaseTest {
                         "td[3]/a")).getText(), expectedResult);
     }
 
+    @Ignore
     @Test(priority = 2)
     public void deleteProject() {
         getDriver().findElement(

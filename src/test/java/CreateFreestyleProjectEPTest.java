@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 
 
-public class CreateFreestyleProjectTestEP extends BaseTest {
+public class CreateFreestyleProjectEPTest extends BaseTest {
     private final static String DASHBOARD_XPATH = "//a[contains(text(),\'Dashboard\')]";
     private final static String EV_JOB_NAME = "First Job";
     private final static String RENAME_XPATH = "//span[text()='Rename']";

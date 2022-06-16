@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -54,6 +55,10 @@ public class DisableEnableFreestyleProjectTest extends BaseTest {
         getDriver().findElement(By.cssSelector("[type='submit']")).click();
     }
 
+    private void clickIconHome() {
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+    }
+
     private void checkBoxDisableProject() {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
                 "//label[text()='Disable this project']"))).click();
@@ -98,6 +103,32 @@ public class DisableEnableFreestyleProjectTest extends BaseTest {
 
         Assert.assertEquals(clickAndFindIcon().getAttribute("tooltip"),
                 project.getStatusIcons());
+    }
+
+    @Test
+    public void testDeleteAllProject() {
+        String scriptDeleteAllProjects = "for(j in jenkins.model.Jenkins." +
+                "theInstance.getAllItems()) {j.delete()}";
+
+        clickIconHome();
+        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']"))
+                .click();
+        getDriver().findElement(By.xpath("//a[@href='script']")).click();
+
+        Actions actions = new Actions(getDriver());
+        actions.moveToElement(getDriver()
+                        .findElement(By.cssSelector("[class$='default']")))
+                .click()
+                .sendKeys(scriptDeleteAllProjects)
+                .moveToElement(getDriver().findElement(By.cssSelector(
+                        "[type='submit']")))
+                .click()
+                .build()
+                .perform();
+        clickIconHome();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),
+                "Welcome to Jenkins!");
     }
 }
 

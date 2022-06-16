@@ -13,8 +13,12 @@ public final class ProjectUtils {
     private static final String PROP_ADMIN_USERNAME = PREFIX_PROP + "admin.username";
     private static final String PROP_ADMIN_PAS = PREFIX_PROP + "admin.password";
 
-    static void login(WebDriver driver) {
+    static void get(WebDriver driver) {
         driver.get(String.format("http://localhost:%s", getProperties().getProperty(PROP_PORT)));
+    }
+
+    static void login(WebDriver driver) {
+        get(driver);
 
         WebElement name = driver.findElement(By.name("j_username"));
         name.sendKeys(getProperties().getProperty(PROP_ADMIN_USERNAME));
@@ -27,6 +31,8 @@ public final class ProjectUtils {
     }
 
     static void logout(WebDriver driver) {
+        get(driver);
+
         driver.findElement(By.xpath("//a[@href='/logout']")).click();
     }
 }

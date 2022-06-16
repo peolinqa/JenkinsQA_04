@@ -125,7 +125,6 @@ public class PipelineAndSnippetGeneratorTest extends BaseTest {
 
     @BeforeMethod
     protected void setUp() {
-        super.beforeMethod();
         createNewPipeline("First Pipeline", "First test");
     }
 
