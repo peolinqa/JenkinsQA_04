@@ -5,26 +5,20 @@ import runner.BaseTest;
 import java.util.Arrays;
 
 public class ManageCredentialsOVFTest extends BaseTest {
-    @Test
-    public void testIconSizeChangePositive() {
-        String[] expectedResult = new String[] {"icon-credentials-system-store icon-sm",
-                "icon-credentials-system-store icon-md", "icon-credentials-system-store icon-lg"};
-        String[] actualResult = new String[3];
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//dt[contains(text(),'Manage Credentials')]")).click();
+    private final By SMALL_SIZE_ICONS = By.xpath("//a[@href='/iconSize?16x16']");
+    private final By MEDIUM_SIZE_ICONS = By.xpath("//a[@href='/iconSize?24x24']");
+    private final By LARGE_SIZE_ICONS = By.xpath("//a[@href='/iconSize?32x32']");
 
-        getDriver().findElement(By.xpath("//a[@href='/iconSize?16x16']")).click();
-        actualResult[0] = getDriver().findElement(
-                By.xpath(".//td[@data='Jenkins Credentials Provider']//img")).getAttribute("class");
-        getDriver().findElement(By.xpath("//a[@href='/iconSize?24x24']")).click();
-        actualResult[1] = getDriver().findElement(
-                By.xpath(".//td[@data='Jenkins Credentials Provider']//img")).getAttribute("class");
-        getDriver().findElement(By.xpath("//a[@href='/iconSize?32x32']")).click();
-        actualResult[2] = getDriver().findElement(
-                By.xpath(".//td[@data='Jenkins Credentials Provider']//img")).getAttribute("class");
+    private void goToManageCredentials() {
+        getDriver().findElement(By.partialLinkText("Manage")).click();
+        getDriver().findElement(By.partialLinkText("Manage Credentials")).click();
+    }
 
-        Assert.assertEquals(expectedResult, actualResult);
+    private String getAttributeClass() {
+
+        return getDriver().findElement(By.xpath(".//td[@data='Jenkins Credentials Provider']//img"))
+                .getAttribute("class");
     }
 
     public String[] elementBGColor() {
@@ -40,30 +34,49 @@ public class ManageCredentialsOVFTest extends BaseTest {
     }
 
     @Test
+    public void testIconSizeChangePositive() {
+        String[] expectedResult = new String[] {"icon-credentials-system-store icon-sm",
+                "icon-credentials-system-store icon-md", "icon-credentials-system-store icon-lg"};
+        String[] actualResult = new String[3];
+
+        goToManageCredentials();
+
+        getDriver().findElement(SMALL_SIZE_ICONS).click();
+        actualResult[0] = getAttributeClass();
+        getDriver().findElement(MEDIUM_SIZE_ICONS).click();
+        actualResult[1] = getAttributeClass();
+        getDriver().findElement(LARGE_SIZE_ICONS).click();
+        actualResult[2] = getAttributeClass();
+
+        Assert.assertEquals(expectedResult, actualResult);
+    }
+
+    @Test
     public void testIconSizeCSSChangePositive() {
-        String[] buttonSPressed = new String[] {"rgba(248, 248, 248, 1)", "rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0)"};
-        String[] buttonMPressed = new String[] {"rgba(0, 0, 0, 0)", "rgba(248, 248, 248, 1)", "rgba(0, 0, 0, 0)"};
-        String[] buttonLPressed = new String[] {"rgba(0, 0, 0, 0)", "rgba(0, 0, 0, 0)", "rgba(248, 248, 248, 1)"};
+        String grey = "rgba(248, 248, 248, 1)";
+        String transparent = "rgba(0, 0, 0, 0)";
+        String[] buttonSPressed = new String[] {grey, transparent, transparent};
+        String[] buttonMPressed = new String[] {transparent, grey, transparent};
+        String[] buttonLPressed = new String[] {transparent, transparent, grey};
         String[] currentButtonResult = new String[3];
         boolean[] expectedResult = new boolean[] {true, true, true};
         boolean[] actualResult = new boolean[] {false, false, false};
 
-        getDriver().findElement(By.xpath("//a[@href='/manage']")).click();
-        getDriver().findElement(By.xpath("//dt[contains(text(),'Manage Credentials')]")).click();
+        goToManageCredentials();
 
-        getDriver().findElement(By.xpath("//a[@href='/iconSize?16x16']")).click();
+        getDriver().findElement(SMALL_SIZE_ICONS).click();
         currentButtonResult = elementBGColor();
         if (Arrays.equals(currentButtonResult, buttonSPressed)) {
             actualResult[0] = true;
         }
 
-        getDriver().findElement(By.xpath("//a[@href='/iconSize?24x24']")).click();
+        getDriver().findElement(MEDIUM_SIZE_ICONS).click();
         currentButtonResult = elementBGColor();
         if (Arrays.equals(currentButtonResult, buttonMPressed)) {
             actualResult[1] = true;
         }
 
-        getDriver().findElement(By.xpath("//a[@href='/iconSize?32x32']")).click();
+        getDriver().findElement(LARGE_SIZE_ICONS).click();
         currentButtonResult = elementBGColor();
         if (Arrays.equals(currentButtonResult, buttonLPressed)) {
             actualResult[2] = true;
