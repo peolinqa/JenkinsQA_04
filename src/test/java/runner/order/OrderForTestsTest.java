@@ -9,7 +9,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-class OrderForTestsTest {
+public class OrderForTestsTest {
 
     private static final List<Integer> EXPECTED_LIST_INTEGER = List.of(4, 5);
     private static final List<Integer> EXPECTED_LIST_INTEGER_2 = List.of(4, 6);

@@ -40,14 +40,12 @@ public class CheckDDMNewDomainTest extends BaseTest {
     @Test
     public void testHelpForFeatureDomainHelpBeforeClick() {
 
-        String expectedResult = "Help for feature: Domain Name";
-
         preconditionGoToNewDomain();
 
         WebElement help = getDriver().findElement(
                 By.xpath("//a[@tooltip='Help for feature: Domain Name']"));
 
-        Assert.assertEquals(help.getAttribute("title"), expectedResult);
+        Assert.assertEquals(help.getAttribute("title"), "Help for feature: Domain Name");
     }
 
     @Test
