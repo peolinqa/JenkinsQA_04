@@ -8,7 +8,7 @@ import runner.BaseTest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShurikCheckDDMNewDomainTest extends BaseTest {
+public class CheckDDMNewDomainTest extends BaseTest {
 
     private void preconditionGoToNewDomain () {
         getDriver().get("http://localhost:8080/credentials/store/system/newDomain");
@@ -38,7 +38,7 @@ public class ShurikCheckDDMNewDomainTest extends BaseTest {
     }
 
     @Test
-    public void testHelpForFeatureDomainHelpBeforeClick() throws InterruptedException {
+    public void testHelpForFeatureDomainHelpBeforeClick() {
 
         String expectedResult = "Help for feature: Domain Name";
 
@@ -51,7 +51,7 @@ public class ShurikCheckDDMNewDomainTest extends BaseTest {
     }
 
     @Test
-    public void testHelpForFeatureDomainHelpAfterClick() throws InterruptedException {
+    public void testHelpForFeatureDomainHelpAfterClick() {
         List<String> expectedResult = new ArrayList<>();
         expectedResult.add("A short name to use for identifying this " +
                 "credential domain. Credential domains are used to group " +
