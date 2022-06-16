@@ -16,8 +16,6 @@ public class AddDescriptionToFolderEPTest extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
     }
 
-    private static final By NAME = By.id("name");
-
     @BeforeMethod
     public void deletePreviousFolder() {
         DeleteBuildTest.deleteJobsWithPrefix(getDriver(), TEST_FOLDER_NAME);
@@ -34,5 +32,4 @@ public class AddDescriptionToFolderEPTest extends BaseTest {
         String description = getDriver().findElement(By.xpath("//div[@id ='description']")).getText();
         Assert.assertTrue(description.contains("Done"));
     }
-
 }
