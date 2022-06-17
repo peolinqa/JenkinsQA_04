@@ -19,6 +19,7 @@ public class CreateMultibranchPipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
+    @Ignore
     @Test (priority = 1)
     public void testCreateMultiBranchNegative() {
 
