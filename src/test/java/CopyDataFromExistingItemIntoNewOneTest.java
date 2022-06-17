@@ -81,6 +81,7 @@ public class CopyDataFromExistingItemIntoNewOneTest extends BaseTest {
         getDriver().findElement(By.id("jenkins-home-link")).click();
         homePage();
     }
+
     @Ignore
     @Test
     public void testCopyDataFromExistingItemPositive() {
