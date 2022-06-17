@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -46,7 +47,7 @@ public class _NewItemTest extends BaseTest {
 
         okButton();
 
-        getDriver().findElement(By.name(DESCRIPTION_FIELD)).sendKeys(DESCRIPTION_INPUT);
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.name(DESCRIPTION_FIELD))).sendKeys(DESCRIPTION_INPUT);
         getDriver().findElement(By.name("githubProject")).click();
         getDriver().findElement(By.name(GITHUB_URL)).sendKeys(URL_INPUT);
         saveButton();
@@ -75,6 +76,8 @@ public class _NewItemTest extends BaseTest {
 
         startFreestyleProject("NJ2");
         copyFrom(NAME);
+
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.name(DESCRIPTION_FIELD))).isDisplayed();
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertEquals(getDriver().findElement(By.name(DESCRIPTION_FIELD)).getText(), DESCRIPTION_INPUT);
