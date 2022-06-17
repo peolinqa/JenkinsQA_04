@@ -1,9 +1,104 @@
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
 public class _FreestyleTest extends BaseTest {
+    private static String NAME;
+
+    public void createFreestyleProjectRandomName() {
+        NAME = RandomStringUtils.randomAlphanumeric(3, 9);
+        getDriver().findElement(By.cssSelector("[title='New Item']")).click();
+        getDriver().findElement(By.id("name")).sendKeys(NAME);
+        getDriver().findElement(By.xpath(
+                "//li[contains(@class,'FreeStyleProject')]")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    private enum CheckBox {
+        ENABLE("Not built", "Disable Project"),
+        DISABLE("Disabled", "Enable");
+
+        private final String statusIcons;
+        private final String statusFreestyleProject;
+
+        CheckBox(String statusIcons, String statusFreestyleProject) {
+            this.statusIcons = statusIcons;
+            this.statusFreestyleProject = statusFreestyleProject;
+        }
+
+        public String getStatusIcons() {
+            return statusIcons;
+        }
+
+        public String getStatusFreestyleProject() {
+            return statusFreestyleProject;
+        }
+    }
+
+    @DataProvider(name = "data")
+    public Object[][] data() {
+        return new Object[][]{
+                {_FreestyleTest.CheckBox.ENABLE},
+                {_FreestyleTest.CheckBox.DISABLE}
+        };
+    }
+
+    private void saveButton() {
+        getDriver().findElement(By.cssSelector("[type='submit']")).click();
+    }
+
+    private void checkBoxDisableProject() {
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                "//label[text()='Disable this project']"))).click();
+    }
+
+    private WebElement clickAndFindIcon() {
+        getDriver().findElement(By.id("jenkins-home-link")).click();
+
+        return getDriver().findElement(By.xpath(
+                String.format("//tr[@id='job_%s']/td/div/span/*[@tooltip]",
+                        NAME)));
+    }
+
+    @Test(dataProvider = "data")
+    public void testDisableEnableFreestyleProject(_FreestyleTest.CheckBox project) {
+        createFreestyleProjectRandomName();
+        if (project.equals(_FreestyleTest.CheckBox.DISABLE)) {
+            checkBoxDisableProject();
+        }
+
+        saveButton();
+        WebElement button = getDriver().findElement(By.cssSelector(
+                "[type='submit']"));
+
+        Assert.assertEquals(button.getText(),
+                project.getStatusFreestyleProject());
+
+        if (project.equals(_FreestyleTest.CheckBox.DISABLE)) {
+            WebElement actualText = getDriver().findElement(By.cssSelector(
+                    "[method='post']"));
+
+            Assert.assertTrue(actualText.getText().contains(
+                    "This project is currently disabled"));
+        }
+    }
+
+    @Test(dataProvider = "data")
+    public void testDisableEnableIconsDashboard(_FreestyleTest.CheckBox project) {
+        createFreestyleProjectRandomName();
+        if (project.equals(_FreestyleTest.CheckBox.DISABLE)) {
+            checkBoxDisableProject();
+        }
+        saveButton();
+
+        Assert.assertEquals(clickAndFindIcon().getAttribute("tooltip"),
+                project.getStatusIcons());
+    }
     @Test
     public void testUserCanDeleteFreestyleProject() {
 
