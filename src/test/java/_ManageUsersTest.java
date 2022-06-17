@@ -12,12 +12,26 @@ public class _ManageUsersTest extends BaseTest {
     private static final String USER_NAME = "viktorp";
     private static final String PASSWORD = "123456ABC";
     private static final String FULL_NAME = "Viktor P";
+    private static final String NEW_USER_FULL_NAME = "Michael";
     private static final String EMAIL = "testemail.@gmail.com";
-    private static final String URL_PAGE_WITH_LIST_OF_USERS = "http://localhost:8080/securityRealm/";
+    private static final By BUTTON_SUBMIT_TYPE = By.id("yui-gen1-button");
+    private static final String USER_NAME_XPATH = "username";
+
+    public void getManageJenkinsClick() {
+        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
+    }
+
+    public void getManageUsersClick() {
+        getDriver().findElement(By.xpath("//dt[text()='Manage Users']")).click();
+    }
+
+    public void getCreateUserClick() {
+        getDriver().findElement(By.xpath("//span[text()='Create User']")).click();
+    }
 
     public WebElement userName() {
 
-        return getDriver().findElement(By.id("username"));
+        return getDriver().findElement(By.id(USER_NAME_XPATH));
     }
 
     public WebElement passwordOne() {
@@ -42,11 +56,12 @@ public class _ManageUsersTest extends BaseTest {
 
     public WebElement buttonCreateUser() {
 
-        return getDriver().findElement(By.id("yui-gen1-button"));
+        return getDriver().findElement(BUTTON_SUBMIT_TYPE);
     }
 
-    public void urlPageCreateUser() {
-        getDriver().get("http://localhost:8080/securityRealm/addUser");
+    public WebElement fullNameConfigure() {
+
+        return getDriver().findElement(By.name("_.fullName"));
     }
 
     public void fillOutFieldsCreateUser(String userName, String password, String fullName, String email) {
@@ -58,14 +73,9 @@ public class _ManageUsersTest extends BaseTest {
         emailAddress().sendKeys(email);
     }
 
-    public void getUrlWithCreateUserFieldsAndFillOutThem() {
-        urlPageCreateUser();
-        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
-    }
-
     public List<WebElement> createListWithErrorMessages() {
 
-        return getDriver().findElements(By.xpath("//div[@class='form-content']/div"));
+        return getDriver().findElements(By.className("error"));
     }
 
     public List<WebElement> getListWithAllUsers() {
@@ -73,46 +83,19 @@ public class _ManageUsersTest extends BaseTest {
         return getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr"));
     }
 
-    @Test(groups = {"Elements_are_displayed"})
-    public void testUserNameFieldIsDisplayed() {
-        urlPageCreateUser();
-        Assert.assertTrue(userName().isDisplayed());
+    public boolean displayedWebElement(String webElement) {
+
+        return getDriver().getPageSource().contains(webElement);
     }
 
-    @Test(groups = {"Elements_are_displayed"})
-    public void testPasswordFieldIsDisplayed() {
-        urlPageCreateUser();
-        Assert.assertTrue(passwordOne().isDisplayed());
-    }
 
-    @Test(groups = {"Elements_are_displayed"})
-    public void testPasswordConfirmFieldIsDisplayed() {
-        urlPageCreateUser();
-        Assert.assertTrue(passwordConfirm().isDisplayed());
-    }
-
-    @Test(groups = {"Elements_are_displayed"})
-    public void testFullNameFieldIsDisplayed() {
-        urlPageCreateUser();
-        Assert.assertTrue(fullName().isDisplayed());
-    }
-
-    @Test(groups = {"Elements_are_displayed"})
-    public void testEmailAddressFieldIsDisplayed() {
-        urlPageCreateUser();
-        Assert.assertTrue(emailAddress().isDisplayed());
-    }
-
-    @Test(groups = {"Elements_are_displayed"})
-    public void testButtonCreateUserIsDisplayed() {
-        urlPageCreateUser();
-        Assert.assertTrue(buttonCreateUser().isDisplayed());
-    }
-
-    @Test(dependsOnGroups = {"Elements_are_displayed"})
+    @Test
     public void testUserCanCreateNewUser() {
 
-        getUrlWithCreateUserFieldsAndFillOutThem();
+        getManageJenkinsClick();
+        getManageUsersClick();
+        getCreateUserClick();
+        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
         buttonCreateUser().click();
 
         for (WebElement user : getListWithAllUsers()) {
@@ -124,26 +107,45 @@ public class _ManageUsersTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testUserCanCreateNewUser"})
+    public void testEditUserFullName() {
+
+        getManageJenkinsClick();
+        getManageUsersClick();
+        getDriver().findElement(By.xpath("//a[@href='user/".concat(USER_NAME.toLowerCase()).concat("/configure']")))
+                .click();
+        fullNameConfigure().clear();
+        fullNameConfigure().sendKeys(NEW_USER_FULL_NAME);
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                NEW_USER_FULL_NAME);
+    }
+
+    @Test(dependsOnMethods = {"testEditUserFullName"})
     public void testUserCanDeleteUser() {
 
-        getDriver().get(URL_PAGE_WITH_LIST_OF_USERS);
+        getManageJenkinsClick();
+        getManageUsersClick();
         getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", USER_NAME))).click();
-        getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
+        getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
         for (WebElement user : getListWithAllUsers()) {
 
-            Assert.assertFalse(user.getText().contains(USER_NAME) && user.getText().contains(FULL_NAME));
+            Assert.assertFalse(user.getText().contains(USER_NAME));
         }
     }
 
-    @Test(dependsOnGroups = {"Elements_are_displayed"}, dependsOnMethods = {"testUserCanCreateNewUser"})
+    @Test(dependsOnMethods = {"testUserCanCreateNewUser"})
     public void testUsernameFieldDoesNotAcceptSpecialCharacters() {
 
         SoftAssert asserts = new SoftAssert();
 
-        String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
+        final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
 
-        getUrlWithCreateUserFieldsAndFillOutThem();
+        getManageJenkinsClick();
+        getManageUsersClick();
+        getCreateUserClick();
+        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
 
         List<String> specialCharacters = new ArrayList<>(Arrays.asList(
                 "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", ";", ":", "?", "=",
@@ -155,14 +157,16 @@ public class _ManageUsersTest extends BaseTest {
                     "vik".concat(specialCharacter).concat("torp")));
 
             for (String nameWithSpecialCharacter : namesWithSpecialCharacter) {
-                if (getDriver().getCurrentUrl().equals(URL_PAGE_WITH_LIST_OF_USERS)) {
-                    getUrlWithCreateUserFieldsAndFillOutThem();
+                if (!displayedWebElement(USER_NAME_XPATH)) {
+                    getDriver().navigate().back();
+                    passwordOne().sendKeys(PASSWORD);
+                    passwordConfirm().sendKeys(PASSWORD);
                 }
                 userName().clear();
                 userName().sendKeys(nameWithSpecialCharacter);
                 buttonCreateUser().click();
 
-                if (getDriver().getCurrentUrl().equals("http://localhost:8080/securityRealm/createAccountByAdmin")) {
+                if (displayedWebElement(USER_NAME_XPATH)) {
                     for (WebElement errorMessage : createListWithErrorMessages()) {
 
                         asserts.assertEquals(errorMessage.getText(), expectedResult);
@@ -182,13 +186,14 @@ public class _ManageUsersTest extends BaseTest {
         asserts.assertAll();
     }
 
-    @Test(dependsOnGroups = {"Elements_are_displayed"},
-            dependsOnMethods = {"testUsernameFieldDoesNotAcceptSpecialCharacters"})
+    @Test(dependsOnMethods = {"testUsernameFieldDoesNotAcceptSpecialCharacters"})
     public void testErrorMessagesHaveValidCssValues() {
 
         SoftAssert asserts = new SoftAssert();
 
-        urlPageCreateUser();
+        getManageJenkinsClick();
+        getManageUsersClick();
+        getCreateUserClick();
         fillOutFieldsCreateUser(USER_NAME.concat("*"), PASSWORD, FULL_NAME, EMAIL);
         buttonCreateUser().click();
 
@@ -202,13 +207,12 @@ public class _ManageUsersTest extends BaseTest {
                 "error.svg",
                 "0% 0%", "no-repeat", "16px 16px"));
 
-
         for (WebElement errorMessageElement : createListWithErrorMessages()) {
             int index = 0;
 
             for (String expectedResult : expectedResults) {
                 String actualResult = errorMessageElement.getCssValue(cssValues.get(index));
-                if (actualResult.contains("http://localhost:8080")) {
+                if (actualResult.contains("url")) {
 
                     asserts.assertTrue(actualResult.contains(expectedResults.get(index)));
                 } else {

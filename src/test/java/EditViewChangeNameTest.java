@@ -3,6 +3,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -16,6 +17,8 @@ public class EditViewChangeNameTest extends BaseTest {
         getDriver().findElement(By.xpath("//label[text()='My View']")).click();
         getDriver().findElement(By.id("ok")).click();
     }
+
+    @Ignore
     @Test
     public void testEditView_TC_027_001() {
         getDriver()
@@ -37,6 +40,8 @@ public class EditViewChangeNameTest extends BaseTest {
                         .getText()
         );
     }
+
+    @Ignore
     @AfterMethod
     public void deleteCreatedView() {
         getDriver().findElement(By.linkText("Dashboard")).click();

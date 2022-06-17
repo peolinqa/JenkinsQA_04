@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -105,6 +106,7 @@ public class DisableEnableFreestyleProjectTest extends BaseTest {
                 project.getStatusIcons());
     }
 
+    @Ignore
     @Test
     public void testDeleteAllProject() {
         String scriptDeleteAllProjects = "for(j in jenkins.model.Jenkins." +
