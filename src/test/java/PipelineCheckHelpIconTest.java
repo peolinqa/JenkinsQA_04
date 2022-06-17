@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -39,6 +40,7 @@ public class PipelineCheckHelpIconTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text() = 'Configure']")).click();
     }
 
+    @Ignore
     @Test
     public void testCheckHelpIcon() {
         isEmptyTable();
@@ -49,6 +51,7 @@ public class PipelineCheckHelpIconTest extends BaseTest {
                 "Help for feature: Discard old builds");
     }
 
+    @Ignore
     @Test
     public void testCheckHelpIconText() {
         isEmptyTable();
@@ -61,6 +64,7 @@ public class PipelineCheckHelpIconTest extends BaseTest {
                 .contains("This determines when, if ever, build records for this project should be discarded."));
     }
 
+    @Ignore
     @Test
     public void testCheckHelpIconNoText() {
         isEmptyTable();

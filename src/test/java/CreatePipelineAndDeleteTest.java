@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -49,6 +50,7 @@ public class CreatePipelineAndDeleteTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testTC_017_006CreatePipeline() {
 
@@ -91,6 +93,7 @@ public class CreatePipelineAndDeleteTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testTC_017_010ApplyNotificationAlert() {
 

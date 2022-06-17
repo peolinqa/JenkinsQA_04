@@ -1,6 +1,7 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -22,7 +23,8 @@ public class CreateNewViewWithSelectLabelMyViewTest extends BaseTest {
         );
     }
 
-    @AfterMethod
+    @Ignore
+    //@AfterMethod
     public void deleteCreatedView() {
         getDriver().findElement(By.linkText("Dashboard")).click();
         getDriver().findElement(
