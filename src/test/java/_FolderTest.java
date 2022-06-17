@@ -4,11 +4,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.TestException;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,6 +50,15 @@ public class _FolderTest extends BaseTest {
                         driver.findElement(By.id("yui-gen1-button")).click();
                     }
                 });
+    }
+
+    private boolean isFolderPresent(String name) {
+        try {
+            getDriver().findElement(By.xpath("//tr[@id='job_" + name + "']//td[3]"));
+            return true;
+        } catch (org.openqa.selenium.NoSuchElementException e) {
+            return false;
+        }
     }
 
     @Test
