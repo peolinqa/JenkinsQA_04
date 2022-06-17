@@ -27,6 +27,15 @@ public class _FolderTest extends BaseTest {
     getDriver().findElement(By.id("yui-gen1-button")).click();
   }
 
+  private boolean isFolderPresent(String name) {
+    try {
+      getDriver().findElement(By.xpath("//tr[@id='job_" + name + "']//td[3]"));
+      return true;
+    } catch (org.openqa.selenium.NoSuchElementException e) {
+      return false;
+    }
+  }
+
   @Test
   public void testConfigurePage(){
 
@@ -40,7 +49,6 @@ public class _FolderTest extends BaseTest {
 
     String actualURL = getDriver().getCurrentUrl();
     Assert.assertEquals(actualURL,expectedUrl);
-    deleteFolder(NAME_FOLDER);
   }
 
   @Test
@@ -78,5 +86,14 @@ public class _FolderTest extends BaseTest {
     getWait5().until(ExpectedConditions.textToBePresentInElement(warningText, "» “.” is not an allowed name"));
     Assert.assertEquals(warningText.getText(), "» “.” is not an allowed name");
     inputField.clear();
+  }
+
+  @Test(dependsOnMethods = {"testConfigurePage"})
+  public void testDeleteFolder(){
+
+    deleteFolder(NAME_FOLDER);
+
+    Assert.assertFalse(isFolderPresent(NAME_FOLDER));
+
   }
 }
