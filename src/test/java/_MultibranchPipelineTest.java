@@ -3,11 +3,9 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import java.util.List;
 import java.util.UUID;
 
 public class _MultibranchPipelineTest extends BaseTest {
@@ -16,21 +14,52 @@ public class _MultibranchPipelineTest extends BaseTest {
     private static final String ITEM_LOCATOR = String.format("//tr[@id='job_%s']//a[@href='job/%s/']", PROJECT_NAME, PROJECT_NAME);
     private static final String URL_GITHUB = "https://github.com/GitForProjects/javaJenkins";
 
+    private WebElement findElementXpath(String xPath) {
+        return getDriver().findElement(By.xpath(xPath));
+    }
+
+    private WebElement findElementId(String id) {
+        return getDriver().findElement(By.id(id));
+    }
+
+    private WebElement waitPresenceOfElement(WebDriverWait wait, By by) {
+        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
+    }
+
+    private void clickOnJob(String xPath) {
+        findElementXpath(xPath).click();
+    }
+
+    private void clickSaveButton() {
+        findElementId("yui-gen8-button").click();
+    }
+
+    private void goToDashboard() {
+        findElementXpath("//ul[@id='breadcrumbs']//a[contains(text(), 'Dashboard')]").click();
+    }
+
     @Test
-    public void testCreateNewItemMultibranch() {
-        createNewMultibranchJob();
+    public void testCreateNewJob() {
+        WebElement newItemButton = waitPresenceOfElement(getWait5(), By.xpath("//span[@class='task-link-text' and contains (text(), 'New Item')]"));
+        newItemButton.click();
+
+        findElementId("name").sendKeys(PROJECT_NAME);
+        findElementXpath("//span[@class='label' and contains(text(), 'Multibranch Pipeline')]").click();
+        findElementId("ok-button").click();
+
+        clickSaveButton();
+
         goToDashboard();
         String itemListLocator = String.format("//tr[@id='job_%s']", PROJECT_NAME);
-        int itemList = findElements(By.xpath(itemListLocator)).size();
+        int itemList = getDriver().findElements(By.xpath(itemListLocator)).size();
 
         Assert.assertEquals(itemList, 1);
     }
 
-    @Ignore
-    @Test
-    public void testScanResult() {
-        WebElement multibranchJob = waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
-        multibranchJob.click();
+    @Test (dependsOnMethods = "testCreateNewJob")
+    public void testAddLink() {
+        waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
+        clickOnJob(ITEM_LOCATOR);
 
         WebElement configureProject = waitPresenceOfElement(getWait5(), By.xpath("//a[@href='./configure']"));
         configureProject.click();
@@ -53,95 +82,27 @@ public class _MultibranchPipelineTest extends BaseTest {
 
         Assert.assertEquals(validationStatus, String.format("Credentials ok. Connected to %s.", URL_GITHUB));
 
-        WebElement branchesDropDown = findElementXpath("//div[@descriptorid='org.jenkinsci.plugins.github_branch_source.BranchDiscoveryTrait']//select");
-        action.moveToElement(branchesDropDown)
-                .click()
-                .pause(500)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER)
-                .perform();
-
-        WebElement pullRequestsDropdownOrigin = findElementXpath("//div[@descriptorid='org.jenkinsci.plugins.github_branch_source.OriginPullRequestDiscoveryTrait']//select");
-        action.moveToElement(pullRequestsDropdownOrigin)
-                .click()
-                .pause(500)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER)
-                .perform();
-
-        WebElement listForksStrategy = findElement(By.xpath("//div[@descriptorid='org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait']" +
-                "//div[@class='jenkins-form-item tr has-help config-table-top-row']//select"));
-        action.moveToElement(listForksStrategy)
-                .click()
-                .pause(500)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER)
-                .perform();
-
-        WebElement pullRequestsForksTrust = findElementXpath("//div[@descriptorid='org.jenkinsci.plugins.github_branch_source.ForkPullRequestDiscoveryTrait']" +
-                "//div[@class='jenkins-form-item has-help']//select");
-        action.moveToElement(pullRequestsForksTrust)
-                .click()
-                .pause(500)
-                .sendKeys(Keys.ARROW_UP)
-                .sendKeys(Keys.ENTER)
-                .perform();
-
         clickSaveButton();
-
-        waitTextToBePresentInElement(getWait20(), findElementXpath("//pre[@id='out']"), "Finished: SUCCESS");
-
         goToDashboard();
 
-        waitPresenceOfElement(getWait20(), By.xpath(ITEM_LOCATOR));
-        findElementXpath(ITEM_LOCATOR).click();
-        findElementXpath("//tr[@id='job_main']//a[contains(text(), 'main')]").click();
+        clickOnJob(ITEM_LOCATOR);
+        findElementXpath("//span[@class='task-link-text' and contains(text(), 'Configure')]").click();
 
-        Assert.assertNotNull(
-                waitPresenceOfElement(
-                        new WebDriverWait(getDriver(), 30),
-                        By.xpath("//tbody[@class='tobsTable-body']//td[@class='stage-cell stage-cell-0 SUCCESS']")));
+        final String textField = waitPresenceOfElement(getWait5(), By.xpath("//input[@name='_.repositoryUrl']")).getAttribute("value");
+
+        Assert.assertEquals(textField, URL_GITHUB);
     }
 
-    private void createNewMultibranchJob() {
-        WebElement newItemButton = waitPresenceOfElement(getWait5(), By.xpath("//span[@class='task-link-text' and contains (text(), 'New Item')]"));
-        newItemButton.click();
-        findElementId("name").sendKeys(PROJECT_NAME);
-        findElementXpath("//span[@class='label' and contains(text(), 'Multibranch Pipeline')]").click();
-        findElementId("ok-button").click();
-        clickSaveButton();
-    }
+    @Test (dependsOnMethods = "testAddLink")
+    public void testScanResult() {
+        waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
+        clickOnJob(ITEM_LOCATOR);
 
-    private void goToDashboard() {
-        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[contains(text(), 'Dashboard')]")).click();
-    }
+        findElementXpath("//span[@class='task-link-text' and contains(text(), 'Scan Repository Log')]").click();
+        findElementXpath("//span[@class='task-link-text' and contains(text(), 'View as plain text')]").click();
 
-    private void clickSaveButton() {
-        findElementId("yui-gen8-button").click();
-    }
+        WebElement scanLog = waitPresenceOfElement(getWait5(), By.xpath("//pre"));
 
-    private WebElement findElement(By by) {
-        return getDriver().findElement(by);
-    }
-
-    private List<WebElement> findElements(By by) {
-        return getDriver().findElements(by);
-    }
-
-    private WebElement findElementXpath(String xPath) {
-        return findElement(By.xpath(xPath));
-    }
-
-    private WebElement findElementId(String id) {
-        return findElement(By.id(id));
-    }
-
-    private WebElement waitPresenceOfElement(WebDriverWait wait, By by) {
-        return wait.until(ExpectedConditions.presenceOfElementLocated(by));
-    }
-
-    private void waitTextToBePresentInElement(WebDriverWait wait, WebElement element, String text) {
-        wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+        Assert.assertTrue(scanLog.getText().contains("Finished: SUCCESS"));
     }
 }
