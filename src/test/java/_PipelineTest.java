@@ -17,17 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class _PipelineTest extends BaseTest {
-    private static final By NEW_ITEM = By.cssSelector("[title='New Item']");
-    private static final By INPUT_NAME = By.id("name");
-    private static final By PIPELINE = By.xpath("//span[text()='Pipeline']");
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By ADVANCED_BUTTON = By.xpath("//button[@id='yui-gen4-button']");
     private static final By H1 = By.xpath("//h1");
     private static final By PIPELINE_ITEM_CONFIGURATION =
             By.cssSelector(".config-section-activators .config_pipeline");
-    private static final String BASE_NAME = "name";
-    private static final String NAME = "test123";
     private static final By LINK_JENKINS_HOMEPAGE = By.id("jenkins-name-icon");
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(4, 8);
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
@@ -36,10 +31,12 @@ public class _PipelineTest extends BaseTest {
     private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
 
     private JavascriptExecutor javascriptExecutor;
+    SoftAssert asserts;
 
     @BeforeMethod
     public void setUp() {
         javascriptExecutor = (JavascriptExecutor) getDriver();
+        asserts = new SoftAssert();
         cleanAllPipelines();
     }
 
@@ -50,26 +47,6 @@ public class _PipelineTest extends BaseTest {
         if (buttonOk) {
             getDriver().findElement(OK_BUTTON).click();
         }
-    }
-
-    private void createPipeline() {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(NAME);
-        getDriver().findElement(PIPELINE).click();
-    }
-
-    private void createPipeline(String namePipeline) {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(namePipeline);
-        getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(OK_BUTTON).click();
-    }
-
-    private void createPipeline(Long date) {
-        getDriver().findElement(NEW_ITEM).click();
-        getDriver().findElement(INPUT_NAME).sendKeys(BASE_NAME + date);
-        getDriver().findElement(PIPELINE).click();
-        getDriver().findElement(OK_BUTTON).click();
     }
 
     private void js(WebElement webElement) {
@@ -442,7 +419,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testBuildPipelineWithParameters() {
-        createPipeline("First Pipeline Project");
+        createPipeline("First Pipeline Project", Boolean.TRUE);
         getDriver().findElement(By
                 .xpath("//label[contains(text(),'This project is parameterized')]")).click();
         clickAddParameterOrBuildButton();
@@ -455,8 +432,6 @@ public class _PipelineTest extends BaseTest {
                 .sendKeys("Description of parameter");
         saveButtonClick();
         getDriver().findElement(By.xpath(BUILD_WITH_PARAMETERS_BUTTON)).click();
-
-        SoftAssert asserts = new SoftAssert();
 
         asserts.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))
                 .getText(), "Pipeline First Pipeline Project");
@@ -513,4 +488,3 @@ public class _PipelineTest extends BaseTest {
         asserts.assertAll();
     }
 }
-
