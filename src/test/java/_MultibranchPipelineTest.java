@@ -3,6 +3,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -56,6 +57,7 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(itemList, 1);
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testCreateNewJob")
     public void testAddLink() {
         waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
