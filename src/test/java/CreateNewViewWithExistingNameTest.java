@@ -25,11 +25,9 @@ public class CreateNewViewWithExistingNameTest extends BaseTest {
     }
     @AfterMethod
     public void deleteCreatedView() {
-        getDriver().findElement(By.linkText("Dashboard")).click();
-        getDriver()
-                .findElement(By.xpath("//div[@id='projectstatus-tabBar']//a[contains(@href, '/view')]"))
-                .click();
+        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href='/view/My%20new%20view/']")).click();
         getDriver().findElement(By.xpath("//a[@href='delete']")).click();
-        getDriver().findElement(By.id("yui-gen1")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 }
