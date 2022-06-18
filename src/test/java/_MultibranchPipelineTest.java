@@ -57,7 +57,6 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(itemList, 1);
     }
 
-    @Ignore
     @Test (dependsOnMethods = "testCreateNewJob")
     public void testAddLink() {
         waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
