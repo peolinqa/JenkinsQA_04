@@ -111,8 +111,8 @@ public class _FreestyleTest extends BaseTest {
 
             Assert.assertTrue(actualText.getText().contains(
                     "This project is currently disabled"));
-            deleteFreestyleProject();
         }
+        deleteFreestyleProject();
     }
 
     @Test(dataProvider = "data")
@@ -125,6 +125,7 @@ public class _FreestyleTest extends BaseTest {
 
         Assert.assertEquals(clickAndFindIcon().getAttribute("tooltip"),
                 project.getStatusIcons());
+
         deleteFreestyleProject();
     }
 
