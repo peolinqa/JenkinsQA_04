@@ -73,6 +73,7 @@ public class _DashboardTest extends BaseTest {
 //            _FolderTest.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
         }
 
+        @Ignore
         @Test
         public void testCheckLinkIconLegendEP() {
             createNewItem();
