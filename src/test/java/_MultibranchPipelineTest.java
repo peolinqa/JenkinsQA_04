@@ -38,7 +38,7 @@ public class _MultibranchPipelineTest extends BaseTest {
     private void goToDashboard() {
         findElementXpath("//ul[@id='breadcrumbs']//a[contains(text(), 'Dashboard')]").click();
     }
-
+    @Ignore
     @Test
     public void testCreateNewJob() {
         WebElement newItemButton = waitPresenceOfElement(getWait5(), By.xpath("//span[@class='task-link-text' and contains (text(), 'New Item')]"));
