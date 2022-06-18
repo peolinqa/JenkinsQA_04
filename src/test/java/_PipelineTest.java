@@ -168,7 +168,8 @@ public class _PipelineTest extends BaseTest {
         scmDropDownList.selectByIndex(1);
 
         getDriver().findElement(By.xpath("//button[@id='yui-gen15-button']")).click();
-        getDriver().findElement(By.xpath("//li[@id='yui-gen17']")).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable( getDriver().findElement(
+                By.xpath("//li[@id='yui-gen17']")))).click();
 
         WebElement titleOfJenkinsCredentialsProviderWindow = getDriver().findElement(By.xpath("//h2"));
 
