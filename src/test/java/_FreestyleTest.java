@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -10,6 +11,7 @@ import runner.BaseTest;
 
 public class _FreestyleTest extends BaseTest {
     private static String NAME;
+    private static String NAMERANDOM = RandomStringUtils.randomAlphabetic(5);
 
     public void createFreestyleProjectRandomName() {
         NAME = RandomStringUtils.randomAlphanumeric(3, 9);
@@ -89,6 +91,33 @@ public class _FreestyleTest extends BaseTest {
         return getDriver().findElement(By.xpath(
                 String.format("//tr[@id='job_%s']/td/div/span/*[@tooltip]",
                         NAME)));
+    }
+
+    private void clickNewItem(){
+        getDriver().findElement(By.className("task-link-text")).click();
+    }
+
+    private void deleteItem() {
+        getDriver().findElement(By.linkText(NAMERANDOM)).click();
+        getDriver().findElement(By.linkText("Delete Project")).click();
+
+        getWait5().until(ExpectedConditions.alertIsPresent());
+        Alert alert = getDriver().switchTo().alert();
+        alert.accept();
+    }
+
+    private void createNEWFreeStyleProject(){
+        clickNewItem();
+        getDriver().findElement(By.id("name")).sendKeys(NAMERANDOM);
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    private void createDisabledFreeStyleProject(){
+        createNEWFreeStyleProject();
+
+        getDriver().findElement(By.name("disable")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
     @Test(dataProvider = "data")
@@ -208,4 +237,117 @@ public class _FreestyleTest extends BaseTest {
 
         deleteProject();
     }
+
+    @Test
+    public void testFreestyleProjectAddDescription() {
+        createNEWFreeStyleProject();
+
+        getDriver().findElement(By.name("description")).sendKeys("Test description");
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+        String actualDescription = getDriver().findElement(
+                By.xpath("//div[@id='description']/div[1]")).getText();
+
+        deleteItem();
+
+        Assert.assertEquals(actualDescription, "Test description");
+    }
+    @Test
+    public void testDisabledFreestyleProject() {
+        createDisabledFreeStyleProject();
+
+        String actualText = getDriver()
+                .findElement(By.id("enable-project"))
+                .getText();
+
+        deleteItem();
+
+        Assert.assertTrue(actualText.contains("This project is currently disabled"));
+    }
+
+    @Test
+    public void testDisabledEnabledFreestyleProject() {
+        createDisabledFreeStyleProject();
+
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+
+        String actualText = getDriver()
+                .findElement(By.id("yui-gen1-button"))
+                .getText();
+
+        deleteItem();
+
+        Assert.assertEquals(actualText,"Disable Project");
+    }
+
+    @Test
+    public void testRenameFreestyleProject() {
+        clickNewItem();
+
+        getDriver().findElement(By.id("name")).sendKeys("First name");
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.linkText("Rename")).click();
+        getDriver().findElement(By.name("newName")).clear();
+        getDriver().findElement(By.name("newName")).sendKeys(NAMERANDOM);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        String actualText = getDriver()
+                .findElement(By.id("main-panel"))
+                .findElement(By.tagName("h1"))
+                .getText();
+
+        deleteItem();
+
+        Assert.assertEquals(actualText,"Project " + NAMERANDOM);
+    }
+
+    @Test
+    public void testNoEnterNameFreestyleItem() {
+        String expectedText = "» This field cannot be empty, please enter a valid name";
+
+        clickNewItem();
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
+
+        String actualErrorMessage = getDriver().findElement(By.id("itemname-required")).getText();
+
+        Assert.assertEquals(actualErrorMessage,expectedText);
+    }
+
+    @Test
+    public void testEnterSeveralSpaces() {
+        String expectedText = "No name is specified";
+
+        clickNewItem();
+        getDriver().findElement(By.id("name")).sendKeys("    ");
+        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+
+        String actualErrorMessage = getDriver().findElement(
+                By.xpath("//div[@id='main-panel']/p")).getText();
+
+        Assert.assertEquals(actualErrorMessage,expectedText);
+    }
+
+    @Test
+    public void testCheckHelpButton() {
+        createNEWFreeStyleProject();
+
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+        getDriver().findElement(By.linkText("Configure")).click();
+        getDriver().findElement(By.cssSelector(".tab.config-section-activator.config_build_triggers")).click();
+
+        new Actions(getDriver())
+                .pause(500)
+                .moveToElement(getDriver().findElement(
+                                By.xpath("//a[@tooltip='Help for feature: Build periodically']")))
+                .perform();
+
+        String actualText = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText();
+
+        deleteItem();
+
+        Assert.assertEquals(actualText,"Help for feature: Build periodically");
+    }
+
 }
