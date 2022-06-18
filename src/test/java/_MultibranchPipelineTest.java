@@ -93,6 +93,7 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(textField, URL_GITHUB);
     }
 
+
     @Test (dependsOnMethods = "testAddLink")
     public void testScanResult() {
         waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
