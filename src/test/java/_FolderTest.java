@@ -62,7 +62,7 @@ public class _FolderTest extends BaseTest {
         driver.findElement(By.id("yui-gen6-button")).click();
     }
 
-    private static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
+    public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
         driver.findElement(By.xpath(DASHBOARD_XPATH)).click();
         List<String> jobsNames = driver.findElements(By.xpath(ALL_NAMES_IN_TABLE_XPATH))
                 .stream()
