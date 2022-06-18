@@ -1,6 +1,7 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -38,6 +39,31 @@ public class _FreestyleTest extends BaseTest {
         public String getStatusFreestyleProject() {
             return statusFreestyleProject;
         }
+    }
+
+    private static final String PROJECT_NAME = "New Freestyle project";
+
+    private void dashboardClick() {
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+    }
+
+    private void createNewProject() {
+        getDriver().findElement(By.cssSelector("[title='New Item']")).click();
+        getDriver().findElement(By.id("name")).sendKeys(PROJECT_NAME);
+        getDriver().findElement(By.xpath("//span[text()='Freestyle project']")).click();
+        getDriver().findElement(By.id("ok-button")).click();
+    }
+
+    private void deleteProject() {
+        getDriver().findElement(By.linkText("Delete Project")).click();
+        getDriver().switchTo().alert().accept();
+    }
+
+    private void deleteFreestyleProject() {
+        new Actions(getDriver()).moveToElement(getDriver().findElement(
+                By.xpath(String.format("//a[text()='%s']", NAME)))).build().perform();
+        getDriver().findElement(By.id("menuSelector")).click();
+        deleteProject();
     }
 
     @DataProvider(name = "data")
@@ -85,6 +111,7 @@ public class _FreestyleTest extends BaseTest {
 
             Assert.assertTrue(actualText.getText().contains(
                     "This project is currently disabled"));
+            deleteFreestyleProject();
         }
     }
 
@@ -98,7 +125,9 @@ public class _FreestyleTest extends BaseTest {
 
         Assert.assertEquals(clickAndFindIcon().getAttribute("tooltip"),
                 project.getStatusIcons());
+        deleteFreestyleProject();
     }
+
     @Test
     public void testUserCanDeleteFreestyleProject() {
 
@@ -124,7 +153,9 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertFalse(checkProjectExists);
     }
 
-    private void createProject() {
+    @Test
+    public void testCreateFreestyleProject() {
+        String expectedResult = "FirstProject";
         getDriver().findElement(By.className("task-link-text")).click();
         getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys("FirstProject");
 
@@ -133,20 +164,46 @@ public class _FreestyleTest extends BaseTest {
         getDriver().findElement(
                 By.xpath("//html/body/div[5]/div/div/div/div/form/div[1]/div[12]/div/div[2]/div[2]/span[1]/span/button")
         ).click();
-    }
-
-    private void deleteProject() {
-        getDriver().findElement(By.linkText("Delete Project")).click();
-        getDriver().switchTo().alert().accept();
-    }
-
-    @Test
-    public void testCreateFreestyleProject() {
-        String expectedResult = "FirstProject";
-        createProject();
 
         String actualResult = getDriver().findElement(By.xpath("//ul/li/a[@href='/job/FirstProject/']")).getText();
         Assert.assertEquals(actualResult, expectedResult);
+
+        deleteProject();
+    }
+
+    @Test
+    public void testUserCanConfigureNewProject() {
+        createNewProject();
+        boolean projectConfig = getDriver().findElements(By.cssSelector(".config-section-activator")).size() > 0;
+
+        getDriver().findElement(By.cssSelector("[name='description']"))
+                .sendKeys("This is a description for a Freestyle project");
+        dashboardClick();
+        String alert = String.valueOf(ExpectedConditions.alertIsPresent());
+
+        getDriver().switchTo().alert().dismiss();
+        dashboardClick();
+        getDriver().switchTo().alert().accept();
+        getDriver().findElement(By.xpath(String.format("//a[text()='%s']", PROJECT_NAME))).click();
+        String description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row")).getText();
+
+        Assert.assertTrue(projectConfig);
+        Assert.assertEquals(alert, "alert to be present");
+        Assert.assertEquals(description, "Add description");
+
+        deleteProject();
+    }
+
+    @Test
+    public void testUserEnableDisableProject() {
+        createNewProject();
+        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Save']")).click();
+
+        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Disable Project']")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//form[contains(text(), 'This project is currently disabled')]")).isDisplayed());
+
+        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Enable']")).click();
+        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='Build Now']")).isEnabled());
 
         deleteProject();
     }
