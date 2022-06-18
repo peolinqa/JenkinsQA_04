@@ -4,6 +4,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -66,10 +67,10 @@ public class _DashboardTest extends BaseTest {
             clickOKButton();
             getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
         }
-
+        @Ignore
         @BeforeMethod
         public void deleteNewJob() {
-            _FolderTest.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
+//            _FolderTest.deleteJobsWithPrefix(getDriver(), EV_JOB_NAME);
         }
 
         @Test
