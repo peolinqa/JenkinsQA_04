@@ -315,4 +315,26 @@ public class _FolderTest extends BaseTest {
 
         Assert.assertEquals(actualResult, expectedResult);
     }
+
+    @Test
+    public void testCheckButtonApply(){
+
+        String expectedResult = "notif-alert-show";
+        if (checkNameforNewFolder(FOLDER_NAME)) {
+            deleteFolderName(FOLDER_NAME);
+        }
+
+        getDriver().findElement(By.xpath(NEW_ITEM)).click();
+        getDriver().findElement(By.id("name")).sendKeys(FOLDER_NAME);
+        getDriver()
+                .findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']"))
+                .click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver().findElement(By.id("yui-gen4-button")).click();
+
+        String allert = getDriver().findElement(By.id("notification-bar")).getAttribute("class");
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".notif-alert-clear")));
+
+        Assert.assertTrue(allert.contains(expectedResult));
+    }
 }
