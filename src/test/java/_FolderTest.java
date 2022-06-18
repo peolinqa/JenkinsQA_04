@@ -30,6 +30,8 @@ public class _FolderTest extends BaseTest {
     private final static String ALL_NAMES_IN_TABLE_XPATH = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
     private final static String BASE_URL = "http:localhost:"+PROP_PORT;
     private static final By NAME = By.id("name");
+    private final String FOLDER_NAME = "genashepel";
+    private final String NEW_ITEM = "//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']";
 
     private void clickNewItem() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -98,6 +100,36 @@ public class _FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='job/" + nameFolder + "/']")).click();
         getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
+    }
+
+    private void deleteFolderName(String name) {
+        if (name != null && !name.equals("")) {
+            getDriver().findElement(By.xpath("//li[@class='item']/a")).click();
+            getDriver().findElement(By.xpath("//td/a[@href='job/".concat(FOLDER_NAME).concat("/']"))).click();
+            getDriver()
+                    .findElement(By.xpath("//span[@class='task-link-wrapper ']/a[@title='Delete Folder']"))
+                    .click();
+            getDriver().findElement(By.id("yui-gen1-button")).click();
+        }
+    }
+
+
+    private boolean checkNameforNewFolder(String name) {
+
+        getDriver().findElement(By.xpath("//li[@class='item']/a")).click();
+
+        List<WebElement> getElementsDashboard = getDriver()
+                .findElements(By.xpath("//table[@id='projectstatus']/tbody"));
+
+        if (getElementsDashboard != null && getElementsDashboard.size() != 0) {
+            for (WebElement element : getElementsDashboard) {
+
+                if (element.getText().contains(name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Test
@@ -257,5 +289,30 @@ public class _FolderTest extends BaseTest {
         Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
 
         deleteFolder(nameFolder);
+    }
+
+    @Test
+    public void testCheckButtonSave() {
+
+        String expectedResult = "genashepel_folder";
+
+        if (checkNameforNewFolder(FOLDER_NAME)) {
+            deleteFolderName(FOLDER_NAME);
+        }
+
+        getDriver().findElement(By.xpath(NEW_ITEM)).click();
+        getDriver().findElement(By.id("name")).sendKeys(FOLDER_NAME);
+        getDriver()
+                .findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']"))
+                .click();
+        getDriver().findElement(By.id("ok-button")).click();
+        getDriver()
+                .findElement(By.xpath("//div[@class='setting-main'] /input"))
+                .sendKeys("genashepel_folder");
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+
+        String actualResult = getDriver().findElement(By.cssSelector("h1")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
