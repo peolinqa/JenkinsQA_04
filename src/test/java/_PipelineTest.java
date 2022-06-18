@@ -355,9 +355,6 @@ public class _PipelineTest extends BaseTest {
         saveButtonClick();
     }
 
-
-
-    @Ignore
     @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
 
