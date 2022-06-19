@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -440,6 +441,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals($x(iconLocator).getAttribute("tooltip"), "Success");
     }
 
+    @Ignore
     @Test
     public void testBuildPipelineWithParameters() {
         createPipeline("First Pipeline Project");
