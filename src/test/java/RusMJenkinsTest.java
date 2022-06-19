@@ -83,6 +83,7 @@ public class RusMJenkinsTest extends BaseTest {
                 .isDisplayed());
     }
 
+    @Ignore
     @Test
     public void testFreestyleRename() {
         clickNewItemOrBackToDashboardButtons();
