@@ -35,13 +35,17 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     }
 
     private boolean isElementPresent(String name) {
-        try {
-            getDriver().findElement(By.xpath("//tr[@id='job_" + name + "']//td[3]"));
-            return true;
-        } catch (org.openqa.selenium.NoSuchElementException e) {
-            return false;
+            boolean isPresent = false;
+
+            List<WebElement> projectsOnDashboard = getDriver().findElements(
+                    By.xpath("//table[@id='projectstatus']//tbody//td[3]"));
+            for (WebElement jobs : projectsOnDashboard) {
+                if (jobs.getText().contains(name)) {
+                    isPresent= true;
+                }
+            }
+            return isPresent;
         }
-    }
 
     private void runBuildNow(String name){
         getDriver().findElement(By.id("jenkins-home-link")).click();
