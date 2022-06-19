@@ -9,13 +9,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class _LoadStatisticsTest extends BaseTest {
-    private static final By XPATH_MANAGE_JENKINS = By.xpath("//span[text()='Manage Jenkins']");
-    private static final By XPATH_LOAD_STATISTICS = By.xpath("//dt[text()='Load Statistics']");
     private static final By XPATH_TIME_SPAN_LIST = By.xpath("//div[contains(text(), 'Timespan')]/child::*");
 
+    private void goLoadStatisticsPage() {
+        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
+        getWait5().until(ExpectedConditions
+                .visibilityOfElementLocated(By.xpath("//dt[text()='Load Statistics']"))).click();
+    }
+
+    private boolean timeSpanIsSelected(WebElement period) {
+        return period.getTagName().equals("span");
+    }
+
     @Test
-    public void testCheckToolTipForEachTimeSpan118001() {
-        List<String> expectedToolTips = List.of("Every tick is 10 seconds", "Every tick is one minute", "Every tick is one hour");
+    public void testCheckToolTipForEachTimeSpan() {
+        final List<String> expectedToolTips = List.of("Every tick is 10 seconds", "Every tick is one minute", "Every tick is one hour");
 
         goLoadStatisticsPage();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_TIME_SPAN_LIST));
@@ -23,19 +31,19 @@ public class _LoadStatisticsTest extends BaseTest {
         var timeSpan = getDriver().findElements(XPATH_TIME_SPAN_LIST);
         List<String> actualToolTips = new ArrayList<>();
         for (var period : timeSpan) {
-            getWait5().until(ExpectedConditions.attributeToBeNotEmpty(period,"tooltip"));
+            getWait5().until(ExpectedConditions.attributeToBeNotEmpty(period, "tooltip"));
             actualToolTips.add(period.getAttribute("tooltip"));
         }
         Assert.assertEquals(actualToolTips, expectedToolTips);
     }
 
     @Test
-    public void testCheckButtonsForEachTimeSpan118002() {
+    public void testCheckButtonsStatusForEachTimeSpan() {
         SoftAssert asserts = new SoftAssert();
 
         goLoadStatisticsPage();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_TIME_SPAN_LIST));
-        var timeSpan = findTimeSpanList();
+        var timeSpan = getDriver().findElements(XPATH_TIME_SPAN_LIST);
 
         asserts.assertEquals(timeSpan.size(), 3);
 
@@ -54,21 +62,6 @@ public class _LoadStatisticsTest extends BaseTest {
             asserts.assertFalse(timeSpanIsSelected(shortButton));
             asserts.assertFalse(timeSpanIsSelected(mediumButton));
         }
-
         asserts.assertAll();
-    }
-
-    private List<WebElement> findTimeSpanList() {
-        return getDriver().findElements(XPATH_TIME_SPAN_LIST);
-    }
-
-    private void goLoadStatisticsPage() {
-        getDriver().findElement(XPATH_MANAGE_JENKINS).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_LOAD_STATISTICS));
-        getDriver().findElement(XPATH_LOAD_STATISTICS).click();
-    }
-
-    private boolean timeSpanIsSelected(WebElement period) {
-        return period.getTagName().equals("span");
     }
 }
