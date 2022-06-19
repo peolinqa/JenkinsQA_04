@@ -1,4 +1,3 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -6,56 +5,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class _MyViewTest extends BaseTest {
-
-    private WebElement dashboardMyViews() {
-        return getDriver().findElement(By.xpath("//a[contains(@href, 'me/my-views')]"));
-    }
-
-    private WebElement buttonEditDescription() {
-        return getDriver().findElement(By.xpath("//a[contains(@href, 'editDescription')]"));
-    }
-
-    private WebElement textareaDescription() {
-        return getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]"));
-    }
-
-    private WebElement buttonSave() {
-        return getDriver().findElement(By.xpath("//button[@type='submit' and contains(text(), 'Save')]"));
-    }
-
-    private WebElement fieldDescriptionOnThePage() {
-        return getDriver().findElement(By.xpath("//div[@id='description']/div[not(@class)]"));
-    }
-
-    private WebElement buttonPreview() {
-        return getDriver().findElement(By.xpath("//a[@previewendpoint='/markupFormatter/previewDescription']"));
-    }
-
-    private WebElement textareaPreview() {
-        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
-    }
-
-    private WebElement buttonHidePreview() {
-        return getDriver().findElement(By.xpath("//a[@class='textarea-hide-preview']"));
-    }
-
-    private String actualResultDescription() {
-        return fieldDescriptionOnThePage().getText();
-    }
-
-    private String expectedResultDescription = RandomStringUtils.randomAscii(10);
-
-    private String textareaPreviewText() {
-        return textareaPreview().getText();
-    }
-
-    private void clearDescription() {
-        buttonEditDescription().click();
-        textareaDescription().clear();
-        buttonSave().click();
-    }
-
+    private static final String NAME_OF_VIEW = "My new view";
+    private static final String EDIT_NAME_OF_VIEW = String.valueOf((int) (Math.random() * 999));
 
     @Test
     public void testCreateNewView() {
@@ -78,73 +33,67 @@ public class _MyViewTest extends BaseTest {
     }
 
     @Test
-    public void testAddDescriptionOnMyViews() {
-        dashboardMyViews().click();
+    public void testCreateNewViewWithSelectLabelMyView() {
+        getDriver().findElement(By.xpath("//a[@title='New View']")).click();
+        getDriver().findElement(By.id("name")).sendKeys(NAME_OF_VIEW);
+        getDriver().findElement(By.xpath("//label[text()='My View']")).click();
+        getDriver().findElement(By.id("ok")).click();
 
-        buttonEditDescription().isDisplayed();
-        clearDescription();
-        buttonEditDescription().click();
-
-        textareaDescription().sendKeys(expectedResultDescription);
-        buttonSave().click();
-
-        Assert.assertEquals(actualResultDescription(), expectedResultDescription);
+        Assert.assertEquals(
+                NAME_OF_VIEW,
+                getDriver()
+                        .findElement(By.xpath("//ul[@id='breadcrumbs']//a[contains(@href, '/view')]"))
+                        .getText()
+        );
     }
 
-    @Test
-    public void testEditDescriptionOnMyViews() {
-        dashboardMyViews().click();
+    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyView"})
+    public void testCreateNewViewWithAnExistingName() {
+        getDriver().findElement(By.xpath("//a[@title='New View']")).click();
+        getDriver().findElement(By.id("name")).sendKeys(NAME_OF_VIEW);
+        getDriver().findElement(By.xpath("//label[text()='My View']")).click();
 
-        buttonEditDescription().isDisplayed();
-        clearDescription();
-        buttonEditDescription().click();
+        String errorMessageActual = getDriver().findElement(By.className("error")).getText();
+        String errorMessageExpected = "A view already exists with the name " + '"' + NAME_OF_VIEW + '"';
 
-        textareaDescription().sendKeys(expectedResultDescription);
-        buttonSave().click();
-
-        Assert.assertEquals(actualResultDescription(), expectedResultDescription);
-
-        buttonEditDescription().click();
-        expectedResultDescription = "Jenkins Test Description Two";
-        textareaDescription().clear();
-        textareaDescription().sendKeys(expectedResultDescription);
-        buttonSave().click();
-
-        Assert.assertEquals(actualResultDescription(), expectedResultDescription);
+        Assert.assertEquals(errorMessageActual, errorMessageExpected);
     }
 
-    @Test
-    public void testCheckButtonPreviewDescriptionOnMyViews() {
-        dashboardMyViews().click();
+    @Test(dependsOnMethods = {"testCreateNewViewWithAnExistingName"})
+    public void testEditViewChangeName() {
+        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
+        getDriver().findElement(By.xpath("//li/a[@href='/view/My%20new%20view/']")).click();
 
-        buttonEditDescription().isDisplayed();
-        clearDescription();
-        buttonEditDescription().click();
+        getDriver().findElement(By.linkText("Edit View")).click();
 
-        textareaDescription().sendKeys(expectedResultDescription);
-        buttonPreview().isDisplayed();
-        buttonPreview().click();
+        WebElement name = getDriver().findElement(By.name("name"));
+        name.clear();
+        name.sendKeys(EDIT_NAME_OF_VIEW);
 
-        textareaPreview().isDisplayed();
-        Assert.assertEquals(textareaPreviewText(), expectedResultDescription);
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+
+        Assert.assertEquals(
+                EDIT_NAME_OF_VIEW,
+                getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[contains(@href, '"
+                                + EDIT_NAME_OF_VIEW + "')]"))
+                        .getText()
+        );
     }
 
-    @Test
-    public void testCheckButtonHidePreviewDescriptionOnMyViews() {
-        dashboardMyViews().click();
+    @Test(dependsOnMethods = {"testEditViewChangeName"})
+    public void testDeleteCreatedView() {
+        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
+        getDriver().findElement(By.xpath("//li/a[contains(@href, '" + "/view/" + EDIT_NAME_OF_VIEW + "')]")).click();
+        getDriver().findElement(By.xpath("//a[@href='delete']")).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
 
-        buttonEditDescription().isDisplayed();
-        clearDescription();
-        buttonEditDescription().click();
+        List<WebElement> namesView = getDriver().findElements(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']"));
+        List<String> names = new ArrayList<>();
+        for (WebElement name : namesView) {
+            names.add(name.getText());
+        }
 
-        textareaDescription().sendKeys(expectedResultDescription);
-        buttonPreview().isDisplayed();
-        buttonPreview().click();
-        textareaPreview().isDisplayed();
-        Assert.assertEquals(textareaPreviewText(), expectedResultDescription);
-
-        buttonHidePreview().isDisplayed();
-        buttonHidePreview().click();
-        Assert.assertFalse(textareaPreview().isDisplayed());
+        Assert.assertTrue(names.get(0).isEmpty());
+        Assert.assertFalse(names.contains(EDIT_NAME_OF_VIEW));
     }
 }
