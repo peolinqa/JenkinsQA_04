@@ -18,6 +18,8 @@ public class _FolderTest extends BaseTest {
     private static final String NAME_FOLDER = "Configure";
     private static final char[] INVALID_SYMBOLS =
             {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
+    protected static final char[] CHARS =
+            {',', 39, '`', '~', '-',' ','(',')','{','}','+','=', '_', '"'};
     private final static String DASHBOARD_XPATH = "//a[contains(text(),\"Dashboard\")]";
     private final static String FOLDERS_NAMES_XPATH = "//*[contains(text(),\"Folder\")]";
     private final static String TEST_FOLDER_NAME = "First Job";
@@ -220,6 +222,24 @@ public class _FolderTest extends BaseTest {
       getWait5().until(ExpectedConditions.textToBePresentInElement(warningText, "» “.” is not an allowed name"));
       Assert.assertEquals(warningText.getText(), "» “.” is not an allowed name");
       inputField.clear();
+    }
+
+    @Test
+    public void testCycleTypeAnItemNameWithValidSpecialCharacters() {
+        getDriver().findElement(By.className("task-link-text")).click();
+
+        WebElement text = getDriver().findElement(By.className("input-help"));
+
+        for (char x : CHARS) {
+            getDriver().findElement(By.id("name")).sendKeys(Character.toString(x));
+
+            getWait5().until(ExpectedConditions.textToBePresentInElement(text,
+                    "» Required field"));
+
+            Assert.assertEquals(text.getText(), "» Required field");
+
+            getDriver().findElement(By.id("name")).clear();
+        }
     }
 
     @Test
