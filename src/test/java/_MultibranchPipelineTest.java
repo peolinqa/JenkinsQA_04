@@ -1,9 +1,7 @@
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -71,29 +69,23 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(itemList, 1);
     }
 
-    @Ignore
     @Test (dependsOnMethods = "testCreateNewJob")
     public void testAddLink() {
         waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
         clickOnJob(ITEM_LOCATOR);
 
-        WebElement configureProject = waitPresenceOfElement(getWait5(), By.xpath("//a[@href='./configure']"));
-        configureProject.click();
+        waitPresenceOfElement(getWait5(), By.xpath("//a[@href='./configure']"))
+                .click();
 
-        WebElement addSourceButton = waitPresenceOfElement(getWait5(), By.id("yui-gen1-button"));
-        Actions action = new Actions(getDriver());
-        action.moveToElement(addSourceButton)
-                .click()
-                .pause(500)
-                .sendKeys(Keys.ARROW_DOWN)
-                .sendKeys(Keys.ENTER)
-                .perform();
+        waitPresenceOfElement(getWait5(), By.id("yui-gen1-button"))
+                .click();
+        waitPresenceOfElement(getWait5(),By.xpath("//div[@class='yui-module yui-overlay yuimenu yui-button-menu yui-menu-button-menu visible']"));
+        findElementId("yui-gen10").click();
 
-        waitPresenceOfElement(getWait5(), By.xpath("//input[@name='_.repositoryUrl']"))
+        final String urlField = "//input[@name='_.repositoryUrl']";
+        waitPresenceOfElement(getWait5(), By.xpath(urlField))
                 .sendKeys(URL_GITHUB);
-        action.moveToElement(findElementId("yui-gen20-button"))
-                .click()
-                .perform();
+        findElementId("yui-gen20-button").click();
         final String validationStatus = waitPresenceOfElement(getWait20(), By.className("ok")).getText();
 
         Assert.assertEquals(validationStatus, String.format("Credentials ok. Connected to %s.", URL_GITHUB));
@@ -104,12 +96,11 @@ public class _MultibranchPipelineTest extends BaseTest {
         clickOnJob(ITEM_LOCATOR);
         findElementXpath("//span[@class='task-link-text' and contains(text(), 'Configure')]").click();
 
-        final String textField = waitPresenceOfElement(getWait5(), By.xpath("//input[@name='_.repositoryUrl']")).getAttribute("value");
+        final String textField = waitPresenceOfElement(getWait5(), By.xpath(urlField)).getAttribute("value");
 
         Assert.assertEquals(textField, URL_GITHUB);
     }
 
-    @Ignore
     @Test (dependsOnMethods = "testAddLink")
     public void testScanResult() {
         waitPresenceOfElement(getWait5(), By.xpath(ITEM_LOCATOR));
