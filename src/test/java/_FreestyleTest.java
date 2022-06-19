@@ -11,7 +11,7 @@ import runner.BaseTest;
 
 public class _FreestyleTest extends BaseTest {
     private static String NAME;
-    private static String NAMERANDOM = RandomStringUtils.randomAlphabetic(5);
+    private static String nameRandom = RandomStringUtils.randomAlphabetic(5);
 
     public void createFreestyleProjectRandomName() {
         NAME = RandomStringUtils.randomAlphanumeric(3, 9);
@@ -98,7 +98,7 @@ public class _FreestyleTest extends BaseTest {
     }
 
     private void deleteItem() {
-        getDriver().findElement(By.linkText(NAMERANDOM)).click();
+        getDriver().findElement(By.linkText(nameRandom)).click();
         getDriver().findElement(By.linkText("Delete Project")).click();
 
         getWait5().until(ExpectedConditions.alertIsPresent());
@@ -108,7 +108,7 @@ public class _FreestyleTest extends BaseTest {
 
     private void createNEWFreeStyleProject(){
         clickNewItem();
-        getDriver().findElement(By.id("name")).sendKeys(NAMERANDOM);
+        getDriver().findElement(By.id("name")).sendKeys(nameRandom);
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
     }
@@ -290,7 +290,7 @@ public class _FreestyleTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         getDriver().findElement(By.linkText("Rename")).click();
         getDriver().findElement(By.name("newName")).clear();
-        getDriver().findElement(By.name("newName")).sendKeys(NAMERANDOM);
+        getDriver().findElement(By.name("newName")).sendKeys(nameRandom);
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
         String actualText = getDriver()
                 .findElement(By.id("main-panel"))
@@ -299,7 +299,7 @@ public class _FreestyleTest extends BaseTest {
 
         deleteItem();
 
-        Assert.assertEquals(actualText,"Project " + NAMERANDOM);
+        Assert.assertEquals(actualText,"Project " + nameRandom);
     }
 
     @Test
