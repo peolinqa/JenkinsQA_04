@@ -1,4 +1,3 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -8,21 +7,22 @@ import runner.BaseTest;
 public class _JenkinsCLITest extends BaseTest {
 
     private static final String AddJobToViewElement = "//table[@class='jenkins-table sortable']/tbody/tr[1]";
+    private static final String BuildElement = "//table[@class='jenkins-table sortable']/tbody/tr[2]";
 
-    private void goToCliPage(){
+    private void goToCliPage() {
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a/span[@class='task-link-text']")).click();
         getDriver().findElement(By.xpath("//div[@class='jenkins-section__item']/a[@href='cli']/dl/dt")).click();
     }
 
-    private void returnToCLIPage(){
+    private void returnToCLIPage() {
         getDriver().findElement(By.xpath("//a[@href='/cli/']")).click();
     }
 
     @Test
-    public void checkAddJobToViewCommandTest(){
+    public void checkAddJobToViewCommandTest() {
         goToCliPage();
         Assert.assertEquals(getDriver().findElement(By
-                .xpath(AddJobToViewElement + "/td[2]")).getText(),
+                        .xpath(AddJobToViewElement + "/td[2]")).getText(),
                 "Adds jobs to view.");
 
         getDriver().findElement(By.xpath(AddJobToViewElement + "/td[1]/a")).click();
@@ -31,4 +31,19 @@ public class _JenkinsCLITest extends BaseTest {
                 .contains("-webSocket add-job-to-view VIEW JOB"));
         returnToCLIPage();
     }
+
+    @Test
+    public void checkBuildCommandTest() {
+        goToCliPage();
+        Assert.assertEquals(getDriver().findElement(By
+                        .xpath(BuildElement + "/td[2]")).getText(),
+                "Builds a job, and optionally waits until its completion.");
+
+        getDriver().findElement(By.xpath(BuildElement + "/td[1]/a")).click();
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//pre[@id='example']")).getText()
+                .contains("-webSocket build JOB [-c] [-f] [-p] [-r N] [-s] [-v] [-w]"));
+        returnToCLIPage();
+    }
+
 }
