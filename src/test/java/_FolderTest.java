@@ -32,6 +32,8 @@ public class _FolderTest extends BaseTest {
     private static final By NAME = By.id("name");
     private final String FOLDER_NAME = "genashepel";
     private final String NEW_ITEM = "//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']";
+    private static final By INPUT_LINE = By.id("name");
+    private static final String F_NAME = "ProjectsSg28832842";
 
     private void clickNewItem() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -165,6 +167,11 @@ public class _FolderTest extends BaseTest {
             }
         }
         return false;
+    }
+
+    private void deleteFolderFromSideMenu() {
+        getDriver().findElement(By.xpath("//a[@href='/job/".concat(F_NAME).concat("/delete']"))).click();
+        getDriver().findElement(By.xpath("//span[@name='Submit']")).click();
     }
 
     @Test
@@ -471,5 +478,25 @@ public class _FolderTest extends BaseTest {
         asserts.assertAll();
 
         deleteFolder(folderName);
+    }
+
+    @Test
+    public void testCheckDescriptionInPreviewAndOnTheFolderPage() {
+        final String expectedResult = "General";
+
+        clickNewItem();
+        getDriver().findElement(INPUT_LINE).sendKeys(F_NAME);
+        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
+        clickOKButton();
+        getDriver().findElement(By.name("_.description")).sendKeys("General");
+        getDriver().findElement(By.className("textarea-show-preview")).click();
+        String actualPreview = getDriver().findElement(By.className("textarea-preview")).getText();
+        getDriver().findElement(By.id("yui-gen6-button")).click();
+        String actualFolderPage = getDriver().findElement(By.id("view-message")).getText();
+
+        Assert.assertEquals(actualPreview, expectedResult);
+        Assert.assertEquals(actualFolderPage, expectedResult);
+
+        deleteFolderFromSideMenu();
     }
 }
