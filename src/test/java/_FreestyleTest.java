@@ -120,6 +120,11 @@ public class _FreestyleTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
+    private void openConfigurePage() {
+
+        getDriver().findElement(By.partialLinkText("Configure")).click();
+    }
+
     @Test(dataProvider = "data")
     public void testDisableEnableFreestyleProject(_FreestyleTest.CheckBox project) {
         createFreestyleProjectRandomName();
@@ -350,4 +355,40 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(actualText,"Help for feature: Build periodically");
     }
 
+    @Test
+    public void testConfigureApplyButton() {
+
+        String expectedAlertMessage = "Saved";
+
+        createNEWFreeStyleProject();
+        saveButton();
+        openConfigurePage();
+
+        getDriver().findElement(By.xpath("//button[contains(text(),'Apply')]")).click();
+        String alertMessage = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector("div[id='notification-bar'][class='notif-alert-success notif-alert-show']")
+        )).getText();
+
+        Assert.assertEquals(alertMessage, expectedAlertMessage);
+
+        deleteItem();
+    }
+
+    @Test
+    public void testConfigureSaveButton() {
+
+        String expectedLink = "/job/" + nameRandom + "/";
+
+        createNEWFreeStyleProject();
+        saveButton();
+        openConfigurePage();
+
+        getDriver().findElement(
+                By.xpath("//button[contains(text(),'Save')]")
+        ).click();
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains(expectedLink));
+
+        deleteItem();
+    }
 }
