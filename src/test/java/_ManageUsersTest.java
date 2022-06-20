@@ -145,7 +145,7 @@ public class _ManageUsersTest extends BaseTest {
         getManageJenkinsClick();
         getManageUsersClick();
         getCreateUserClick();
-        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
+        fillOutFieldsCreateUser("", PASSWORD, FULL_NAME, EMAIL);
 
         List<String> specialCharacters = new ArrayList<>(Arrays.asList(
                 "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", ";", ":", "?", "=",
@@ -159,8 +159,13 @@ public class _ManageUsersTest extends BaseTest {
             for (String nameWithSpecialCharacter : namesWithSpecialCharacter) {
                 if (!displayedWebElement(USER_NAME_XPATH)) {
                     getDriver().navigate().back();
-                    passwordOne().sendKeys(PASSWORD);
-                    passwordConfirm().sendKeys(PASSWORD);
+                    getDriver().navigate().refresh();
+                    List<WebElement> createUserFields = getDriver().findElements(
+                            By.xpath("//input[@id='username']/ancestor::tbody//input"));
+                    for (WebElement createUserField : createUserFields) {
+                        createUserField.clear();
+                    }
+                    fillOutFieldsCreateUser("", PASSWORD, FULL_NAME, EMAIL);
                 }
                 userName().clear();
                 userName().sendKeys(nameWithSpecialCharacter);
