@@ -6,15 +6,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.TestException;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class _FolderTest extends BaseTest {
 
-    private static final String PROP_PORT = "8080";
     private static final String NAME_FOLDER = "Configure";
     private static final char[] INVALID_SYMBOLS =
             {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
@@ -27,8 +26,6 @@ public class _FolderTest extends BaseTest {
     private final static String YES_BUTTON_XPATH = "//button[contains(text(),'Yes')]";
     private final static String MY_VIEWS_XPATH = "//a[@href='/me/my-views']";
     private final static String SEARCH_XPATH = "//*[@id=\"search-box\"]\t";
-    private final static String ALL_NAMES_IN_TABLE_XPATH = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
-    private final static String BASE_URL = "http:localhost:"+PROP_PORT;
     private static final By NAME = By.id("name");
     private final String FOLDER_NAME = "genashepel";
     private final String NEW_ITEM = "//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']";
@@ -66,22 +63,6 @@ public class _FolderTest extends BaseTest {
         driver.findElement(By.id("yui-gen6-button")).click();
     }
 
-    public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
-        driver.findElement(By.xpath(DASHBOARD_XPATH)).click();
-        List<String> jobsNames = driver.findElements(By.xpath(ALL_NAMES_IN_TABLE_XPATH))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-        jobsNames
-                .forEach(jobsName -> {
-                    if (jobsName.startsWith(prefix)) {
-                        String jobWithPercent = jobsName.replace(" ", "%20");
-                        driver.get(BASE_URL + "/job/" + jobWithPercent + "/delete");
-                        driver.findElement(By.id("yui-gen1-button")).click();
-                    }
-                });
-    }
-
     private boolean isFolderPresent(String name) {
 
     boolean isPresent = false;
@@ -99,6 +80,7 @@ public class _FolderTest extends BaseTest {
 
     private void deleteFolder(String nameFolder) {
         clickJenkinsHome();
+        nameFolder.replace(" ","%20");
         getDriver().findElement(By.xpath("//a[@href='job/" + nameFolder + "/']")).click();
         getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
@@ -177,17 +159,16 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testConfigurePage () {
 
-      final String expectedUrl = String.format("http://localhost:%s", PROP_PORT)
-              .concat("/job/")
-              .concat(NAME_FOLDER)
-              .concat("/configure");
+      final String expected = "General";
 
-      deleteJobsWithPrefix(getDriver(), NAME_FOLDER);
       createFolderWithoutSaveButton(NAME_FOLDER);
       getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("jenkins")));
 
-      String actualURL = getDriver().getCurrentUrl();
-      Assert.assertEquals(actualURL, expectedUrl);
+      WebElement actual = getDriver().findElement(
+              By.xpath("//div[@class='jenkins-config-widgets']//div[text()='General']")
+      );
+
+      Assert.assertEquals(actual.getText(), expected);
     }
 
     @Test(dependsOnMethods = {"testConfigurePage"})
@@ -195,7 +176,7 @@ public class _FolderTest extends BaseTest {
 
       Assert.assertTrue(isFolderPresent(NAME_FOLDER));
 
-      deleteJobsWithPrefix(getDriver(), NAME_FOLDER);
+      deleteFolder(NAME_FOLDER);
     }
 
     @Test
@@ -252,7 +233,6 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testDeleteFolder() {
 
-    deleteJobsWithPrefix(getDriver(), TEST_FOLDER_NAME);
     createFolder(getDriver(), TEST_FOLDER_NAME);
     getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
     getDriver().findElement(By.xpath("//a[@href='job/First%20Job/']")).click();
@@ -330,7 +310,6 @@ public class _FolderTest extends BaseTest {
         final String expectedErrorMessage = "» A job already exists with the name ‘" + nameFolder + "’";
         final String expectedError = "Error";
 
-        deleteJobsWithPrefix(getDriver(), nameFolder);
         createFolder(getDriver(), nameFolder);
         clickJenkinsHome();
         clickNewItem();
