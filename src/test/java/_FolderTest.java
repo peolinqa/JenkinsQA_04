@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.TestException;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -230,6 +231,7 @@ public class _FolderTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void testDeleteFolder() {
 
