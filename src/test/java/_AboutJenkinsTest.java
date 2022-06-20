@@ -45,16 +45,18 @@ public class _AboutJenkinsTest extends BaseTest {
         String aboutJenkins = getDriver().getWindowHandle();
         String actualResult = "";
 
-        Iterator<String> windowStrings = getDriver().getWindowHandles().iterator();
+        Iterator<String> windowStrings = getDriver()
+                .getWindowHandles()
+                .iterator();
 
         while (windowStrings.hasNext()) {
-
             String secondWindow = windowStrings.next();
 
             if (!aboutJenkins.equals(secondWindow)) {
-                getDriver().switchTo().window(secondWindow);
-
-                actualResult = getDriver().switchTo().window(secondWindow).getTitle();
+                actualResult = getDriver()
+                        .switchTo()
+                        .window(secondWindow)
+                        .getTitle();
             }
         }
 
