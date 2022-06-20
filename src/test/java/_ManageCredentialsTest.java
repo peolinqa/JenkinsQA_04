@@ -136,4 +136,26 @@ public class _ManageCredentialsTest extends BaseTest {
 
         Assert.assertEquals(expectedResult, actualResult);
     }
+
+    @Test
+    public void testCheckDropDownMenuAddDomain() {
+        final String expectedResult
+                = "/credentials/store/system/newDomain";
+
+        getDriver().findElement(
+                By.xpath("//span[contains(text(), 'Manage Jenkins')]")).click();
+        getDriver().findElement(
+                By.xpath("//a[@href='credentials']")).click();
+
+        WebElement domainName = getDriver().findElement(
+                By.xpath("//a[@href='/credentials/store/system']"));
+        Actions action = new Actions(getDriver());
+        action.moveToElement(domainName).perform();
+
+        getDriver().findElement(By.id("menuSelector")).click();
+        getDriver().findElement(
+                By.xpath("//span[contains(text(), 'Add domain')]")).click();
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains(expectedResult));
+    }
 }

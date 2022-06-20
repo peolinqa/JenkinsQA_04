@@ -14,28 +14,6 @@ public class CheckDDMNewDomainTest extends BaseTest {
         getDriver().get("http://localhost:8080/credentials/store/system/newDomain");
     }
 
-    @Test
-    public void testCheckDDMNewDomain() {
-        String expectedResult
-                = "http://localhost:8080/credentials/store/system/newDomain";
-
-        getDriver().findElement(
-                By.xpath("//span[contains(text(), 'Manage Jenkins')]")).click();
-        getDriver().findElement(
-                By.xpath("//a[@href='credentials']")).click();
-
-        WebElement domainName = getDriver().findElement(
-                By.xpath("//a[@href='/credentials/store/system']"));
-        Actions action = new Actions(getDriver());
-        action.moveToElement(domainName).perform();
-        getDriver().findElement(By.id("menuSelector")).click();
-        getDriver().findElement(
-                By.xpath("//span[contains(text(), 'Add domain')]")).click();
-
-        String actualResult = getDriver().getCurrentUrl();
-
-        Assert.assertEquals(actualResult, expectedResult);
-    }
 
     @Test
     public void testHelpForFeatureDomainHelpBeforeClick() {
