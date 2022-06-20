@@ -4,13 +4,12 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class _AboutJenkinsTest extends BaseTest {
     private static final String MAVENIZED_DEPENDECIES = "Mavenized dependencies";
     private static final String STATIC_RESOURCES = "Static resources";
-    private static final String LICENSE_AND_DEPENDENCY_INFORMATION_FOR_PLUGINS =
-            "License and dependency information for plugins";
 
     private void enterAboutJenkins() {
         getDriver().findElement(By.linkText("Manage Jenkins")).click();
@@ -36,6 +35,30 @@ public class _AboutJenkinsTest extends BaseTest {
     @Test
     public void testAmountLinksStaticResources() {
         Assert.assertEquals(amountLinks(STATIC_RESOURCES), 4);
+    }
+
+    @Test
+    public void testLinkAntLRParserGenerator() {
+        enterAboutJenkins();
+        getDriver().findElement(By.xpath("//a[text()='AntLR Parser Generator']")).click();
+
+        String aboutJenkins = getDriver().getWindowHandle();
+        String actualResult = "";
+
+        Iterator<String> windowStrings = getDriver().getWindowHandles().iterator();
+
+        while (windowStrings.hasNext()) {
+
+            String secondWindow = windowStrings.next();
+
+            if (!aboutJenkins.equals(secondWindow)) {
+                getDriver().switchTo().window(secondWindow);
+
+                actualResult = getDriver().switchTo().window(secondWindow).getTitle();
+            }
+        }
+
+        Assert.assertEquals(actualResult, "ANTLR");
     }
 
 }
