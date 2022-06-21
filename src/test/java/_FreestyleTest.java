@@ -12,6 +12,8 @@ import runner.BaseTest;
 public class _FreestyleTest extends BaseTest {
     private static String NAME;
     private static String nameRandom = RandomStringUtils.randomAlphabetic(5);
+    private static String descriptionRandom = RandomStringUtils.randomAlphabetic(5);
+    private static String editDescriptionRandom = RandomStringUtils.randomAlphabetic(5);
 
     public void createFreestyleProjectRandomName() {
         NAME = RandomStringUtils.randomAlphanumeric(3, 9);
@@ -168,6 +170,23 @@ public class _FreestyleTest extends BaseTest {
 
         getDriver().findElement(By.name("disable")).click();
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+    }
+
+    private void addDescriptionToFreestyleProject() {
+        getDriver().findElement(By.xpath("//textarea[@name = 'description']"))
+                .sendKeys(descriptionRandom);
+        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
+
+    }
+
+    private void editDescription() {
+        getDriver().findElement(By.xpath("//a[text() = \"Edit description\"]")).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
+                "//textarea[@name = 'description']"))).click();
+
+        getDriver().findElement(By.xpath("//textarea[@name = 'description']")).clear();
+        getDriver().findElement(By.xpath("//textarea[@name = 'description']")).sendKeys(editDescriptionRandom);
+        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
     }
 
     @Test(dataProvider = "data")
@@ -513,5 +532,21 @@ public class _FreestyleTest extends BaseTest {
         }
 
         deleteCreatedProject(projectName);
+    }
+
+    @Test
+    public void testFreestyleProjectEditDescription() {
+        createNEWFreeStyleProject();
+
+        addDescriptionToFreestyleProject();
+
+        editDescription();
+
+        String actualEditedDescription = getDriver().findElement(
+                By.xpath("//div[@id='description']/div[1]")).getText();
+
+        deleteItem();
+
+        Assert.assertEquals(actualEditedDescription,editDescriptionRandom);
     }
 }
