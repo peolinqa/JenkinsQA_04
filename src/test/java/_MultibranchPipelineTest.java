@@ -127,4 +127,30 @@ public class _MultibranchPipelineTest extends BaseTest {
 
         deleteMultibranchPipeline();
     }
+    @Test
+    public void testCreateMultibranchWithInvalidData() {
+
+        char[] unsafeCharacters = {'!', '@', '#', '$', '%', '^', '&', '*', '[', ']', ';', ':'};
+
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        WebElement projectNameField = getDriver().findElement(By.name("name"));
+
+        getDriver().findElement(
+                By.xpath("//div[@id='j-add-item-type-nested-projects']//li[2]")
+        ).click();
+
+        for (char unsafeChar : unsafeCharacters) {
+            String expectedError = String.format("» ‘%s’ is an unsafe character", unsafeChar);
+
+            projectNameField.sendKeys(String.format("%s%s", unsafeChar, PROJECT_NAME));
+            String actualError = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                    By.xpath("//div[@id='itemname-invalid'][@class='input-validation-message']"))
+            ).getText();
+
+            Assert.assertEquals(actualError, expectedError);
+
+            projectNameField.clear();
+        }
+    }
 }
