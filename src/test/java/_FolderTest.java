@@ -6,12 +6,11 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.TestException;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class _FolderTest extends BaseTest {
 
@@ -32,10 +31,27 @@ public class _FolderTest extends BaseTest {
     private final String NEW_ITEM = "//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']";
     private static final By INPUT_LINE = By.id("name");
     private static final String F_NAME = "ProjectsSg28832842";
+    private final static String ALL_NAMES_IN_TABLE_XPATH = "//table[@id='projectstatus']/tbody/tr/td[3]/a";
     private static final By FOLDER_IN_THE_TOP_MENU = By.xpath("//a[@href='/job/ProjectsSg28832842/']");
     private static final By DELETE_FOLDER = By.xpath("//a[@href='/job/ProjectsSg28832842/delete']");
     private static final By MENU_SELECTOR = By.id("menuSelector");
 
+    public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
+            driver.findElement(By.xpath(DASHBOARD_XPATH)).click();
+            List<String> jobsNames = driver.findElements(By.xpath(ALL_NAMES_IN_TABLE_XPATH))
+                    .stream()
+                    .map(WebElement::getText)
+                    .collect(Collectors.toList());
+            jobsNames
+                    .forEach(jobsName -> {
+                        if (jobsName.startsWith(prefix)) {
+                            String jobWithPercent = jobsName.replace(" ", "%20");
+                            driver.findElement(By.xpath("//a[@href='job/" + jobWithPercent + "/']")).click();
+                            driver.findElement(By.xpath("//a[@data-url='/job/" + jobWithPercent + "/doDelete']")).click();
+                            driver.switchTo().alert().accept();
+                        }
+                    });
+        }
     private void clickNewItem() {
         getDriver().findElement(By.linkText("New Item")).click();
     }
@@ -97,11 +113,6 @@ public class _FolderTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(DELETE_FOLDER));
         getDriver().findElement(DELETE_FOLDER).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
-    }
-
-    private void deleteFolderFromSideMenu() {
-        getDriver().findElement(By.xpath("//a[@href='/job/".concat(F_NAME).concat("/delete']"))).click();
-        getDriver().findElement(By.xpath("//span[@name='Submit']")).click();
     }
 
     private String createRandomName() {
@@ -167,6 +178,11 @@ public class _FolderTest extends BaseTest {
             }
         }
         return false;
+    }
+
+    private void deleteFolderFromSideMenu() {
+        getDriver().findElement(By.xpath("//a[@href='/job/".concat(F_NAME).concat("/delete']"))).click();
+        getDriver().findElement(By.xpath("//span[@name='Submit']")).click();
     }
 
     @Test
@@ -243,28 +259,27 @@ public class _FolderTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
     public void testDeleteFolder() {
+        _FolderTest.deleteJobsWithPrefix(getDriver(), TEST_FOLDER_NAME);
+        createFolder(getDriver(), TEST_FOLDER_NAME);
+        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
+        getDriver().findElement(By.xpath("//a[@href='job/First%20Job/']")).click();
+        getDriver().findElement(By.xpath(DELETE_FOLDER_XPATH)).click();
+        getDriver().findElement(By.xpath(YES_BUTTON_XPATH)).click();
+        List<WebElement> foldersNamesAfterDelete = getDriver().findElements(By.xpath(FOLDERS_NAMES_XPATH));
+        for (WebElement element : foldersNamesAfterDelete)
+            if (element.getText().contains(TEST_FOLDER_NAME))
+                throw new TestException("Folder " + TEST_FOLDER_NAME + " has not been deleted");
+        getDriver().findElement(By.xpath(MY_VIEWS_XPATH)).click();
 
-    createFolder(getDriver(), TEST_FOLDER_NAME);
-    getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-    getDriver().findElement(By.xpath("//a[@href='job/First%20Job/']")).click();
-    getDriver().findElement(By.xpath(DELETE_FOLDER_XPATH)).click();
-    getDriver().findElement(By.xpath(YES_BUTTON_XPATH)).click();
-    List<WebElement> foldersNamesAfterDelete = getDriver().findElements(By.xpath(FOLDERS_NAMES_XPATH));
+        Assert.assertFalse(foldersNamesAfterDelete.contains(TEST_FOLDER_NAME));
 
-    for (WebElement element : foldersNamesAfterDelete)
-      if (element.getText().contains(TEST_FOLDER_NAME))
-        throw new TestException("Folder " + TEST_FOLDER_NAME + " has not been deleted");
+        getDriver().findElement(By.xpath(SEARCH_XPATH)).sendKeys(TEST_FOLDER_NAME + "\n");
+        String folderNotFoundText = getDriver().findElement(By.xpath("//div [contains(text(),'Nothing seems to match.')]")).getText();
 
-    getDriver().findElement(By.xpath(MY_VIEWS_XPATH)).click();
-    Assert.assertFalse(foldersNamesAfterDelete.contains(TEST_FOLDER_NAME));
-
-    getDriver().findElement(By.xpath(SEARCH_XPATH)).sendKeys(TEST_FOLDER_NAME + "\n");
-    String folderNotFoundText = getDriver().findElement(By.xpath("//div [contains(text(),'Nothing seems to match.')]")).getText();
-    Assert.assertEquals(folderNotFoundText, "Nothing seems to match.");
-  }
+        Assert.assertEquals(folderNotFoundText, "Nothing seems to match.");
+    }
 
     @Test
     public void testCreateFolderThatStartsWithUnsafeCharacter() {

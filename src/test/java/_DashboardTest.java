@@ -3,8 +3,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -15,9 +13,9 @@ public class _DashboardTest extends BaseTest {
 
   private static final String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
   private static final String JOB_INPUT_NAME_ID = "name";
-  private static final String EV_JOB_NAME = "testCheckLinkIconLegend";
   private static final String NEW_ITEM_LINK_TEXT = "New Item";
   private static final String PROJECT_TYPES = "Freestyle project";
+  private final static String TEST_FOLDER_NAME = "First Job";
 
   String[] ICONS_DESCRIPTIONS = {
           "The project has never been built.", "The first build is in progress.",
@@ -38,8 +36,8 @@ public class _DashboardTest extends BaseTest {
     getDriver().findElement(By.id("ok-button")).click();
   }
 
-  private void createNewItem() {
-    String jobName = EV_JOB_NAME;
+  public void createNewItem() {
+    String jobName = TEST_FOLDER_NAME;
     getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
     getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
     NewItemPageCategoryHoveringExperienceTest.clickProjectItem(getDriver(), PROJECT_TYPES);
@@ -91,28 +89,22 @@ public class _DashboardTest extends BaseTest {
     Assert.assertEquals(actualItems, expectedItems);
   }
 
-  @Test
-  public void testCheckLinkIconLegend() {
-
-    createNewItem();
-    getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-    WebElement iconLegendVisible = getDriver().findElement(By.xpath("//a[@href='/legend']"));
-
-    Assert.assertTrue(iconLegendVisible.isDisplayed());
-
-    getDriver().findElement(By.xpath("//a[@href='/legend']")).click();
-    List<String> iconsTableDescriptions = getDriver().findElements(By.xpath("//table[@id='legend-table']//tbody/tr/td"))
-            .stream()
-            .map(WebElement::getText)
-            .collect(Collectors.toList());
-    Assert.assertEquals(iconsTableDescriptions, List.of(ICONS_DESCRIPTIONS));
-
-    getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-    getDriver().findElement(By.xpath("//span[text()='Build History']")).click();
-    WebElement iconLegendVisiblePageBuildHistory = getDriver().findElement(By.xpath("//a[@href='/legend']"));
-
-    Assert.assertTrue(iconLegendVisiblePageBuildHistory.isDisplayed());
-
-    deleteFolder(EV_JOB_NAME);
-  }
+    @Test
+    public void testCheckLinkIconLegend() {
+        _FolderTest.deleteJobsWithPrefix(getDriver(), TEST_FOLDER_NAME);
+        createNewItem();
+        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
+        WebElement iconLegendVisible = getDriver().findElement(By.xpath("//a[@href='/legend']"));
+        Assert.assertTrue(iconLegendVisible.isDisplayed());
+        getDriver().findElement(By.xpath("//a[@href='/legend']")).click();
+        List<String> iconsTableDescriptions = getDriver().findElements(By.xpath("//table[@id='legend-table']//tbody/tr/td"))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        Assert.assertEquals(iconsTableDescriptions, List.of(ICONS_DESCRIPTIONS));
+        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
+        getDriver().findElement(By.xpath("//span[text()='Build History']")).click();
+        WebElement iconLegendVisiblePageBuildHistory = getDriver().findElement(By.xpath("//a[@href='/legend']"));
+        Assert.assertTrue(iconLegendVisiblePageBuildHistory.isDisplayed());
+    }
 }
