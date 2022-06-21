@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -17,6 +18,12 @@ public class _ManageUsersTest extends BaseTest {
     private static final By BUTTON_SUBMIT_TYPE = By.id("yui-gen1-button");
     private static final String USER_NAME_XPATH = "username";
 
+    private void goOnCreateUserPage() {
+        getManageJenkinsClick();
+        getManageUsersClick();
+        getCreateUserClick();
+    }
+
     public void getManageJenkinsClick() {
         getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
     }
@@ -30,37 +37,30 @@ public class _ManageUsersTest extends BaseTest {
     }
 
     public WebElement userName() {
-
         return getDriver().findElement(By.id(USER_NAME_XPATH));
     }
 
     public WebElement passwordOne() {
-
         return getDriver().findElement(By.name("password1"));
     }
 
     public WebElement passwordConfirm() {
-
         return getDriver().findElement(By.name("password2"));
     }
 
     public WebElement fullName() {
-
         return getDriver().findElement(By.name("fullname"));
     }
 
     public WebElement emailAddress() {
-
         return getDriver().findElement(By.name("email"));
     }
 
     public WebElement buttonCreateUser() {
-
         return getDriver().findElement(BUTTON_SUBMIT_TYPE);
     }
 
     public WebElement fullNameConfigure() {
-
         return getDriver().findElement(By.name("_.fullName"));
     }
 
@@ -92,9 +92,7 @@ public class _ManageUsersTest extends BaseTest {
     @Test
     public void testUserCanCreateNewUser() {
 
-        getManageJenkinsClick();
-        getManageUsersClick();
-        getCreateUserClick();
+        goOnCreateUserPage();
         fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
         buttonCreateUser().click();
 
@@ -142,9 +140,7 @@ public class _ManageUsersTest extends BaseTest {
 
         final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
 
-        getManageJenkinsClick();
-        getManageUsersClick();
-        getCreateUserClick();
+        goOnCreateUserPage();
         fillOutFieldsCreateUser("", PASSWORD, FULL_NAME, EMAIL);
 
         List<String> specialCharacters = new ArrayList<>(Arrays.asList(
@@ -196,9 +192,7 @@ public class _ManageUsersTest extends BaseTest {
 
         SoftAssert asserts = new SoftAssert();
 
-        getManageJenkinsClick();
-        getManageUsersClick();
-        getCreateUserClick();
+        goOnCreateUserPage();
         fillOutFieldsCreateUser(USER_NAME.concat("*"), PASSWORD, FULL_NAME, EMAIL);
         buttonCreateUser().click();
 
@@ -228,5 +222,25 @@ public class _ManageUsersTest extends BaseTest {
             }
         }
         asserts.assertAll();
+    }
+
+    @Test
+    public void testCreateUserEmptyFields() {
+        final List<String> expectedErrorsText = List.of("Password is required",
+                "\"\" is prohibited as a full name for security reasons.",
+                "Invalid e-mail address",
+                "\"\" is prohibited as a username for security reasons.");
+
+        goOnCreateUserPage();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(BUTTON_SUBMIT_TYPE)).click();
+
+        List<WebElement> actualErrors = createListWithErrorMessages();
+        List<String> actualErrorsText = new ArrayList<>();
+        for (WebElement error : actualErrors) {
+            actualErrorsText.add(error.getText());
+        }
+
+        Assert.assertEquals(actualErrorsText.size(), 4);
+        Assert.assertEquals(actualErrorsText, expectedErrorsText);
     }
 }
