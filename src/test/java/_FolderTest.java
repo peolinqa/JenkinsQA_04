@@ -32,6 +32,9 @@ public class _FolderTest extends BaseTest {
     private final String NEW_ITEM = "//span[@class='task-link-wrapper ']/a[@href='/view/all/newJob']";
     private static final By INPUT_LINE = By.id("name");
     private static final String F_NAME = "ProjectsSg28832842";
+    private static final By FOLDER_IN_THE_TOP_MENU = By.xpath("//a[@href='/job/ProjectsSg28832842/']");
+    private static final By DELETE_FOLDER = By.xpath("//a[@href='/job/ProjectsSg28832842/delete']");
+    private static final By MENU_SELECTOR = By.id("menuSelector");
 
     private void clickNewItem() {
         getDriver().findElement(By.linkText("New Item")).click();
@@ -85,6 +88,20 @@ public class _FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='job/" + nameFolder + "/']")).click();
         getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
+    }
+
+    private void deleteFolderFromTopMenu() {
+        Actions action = new Actions(getDriver());
+        action.moveToElement(getDriver().findElement((FOLDER_IN_THE_TOP_MENU))).build().perform();
+        action.moveToElement(getDriver().findElement(MENU_SELECTOR)).click().build().perform();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(DELETE_FOLDER));
+        getDriver().findElement(DELETE_FOLDER).click();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+    }
+
+    private void deleteFolderFromSideMenu() {
+        getDriver().findElement(By.xpath("//a[@href='/job/".concat(F_NAME).concat("/delete']"))).click();
+        getDriver().findElement(By.xpath("//span[@name='Submit']")).click();
     }
 
     private String createRandomName() {
@@ -150,11 +167,6 @@ public class _FolderTest extends BaseTest {
             }
         }
         return false;
-    }
-
-    private void deleteFolderFromSideMenu() {
-        getDriver().findElement(By.xpath("//a[@href='/job/".concat(F_NAME).concat("/delete']"))).click();
-        getDriver().findElement(By.xpath("//span[@name='Submit']")).click();
     }
 
     @Test
@@ -479,5 +491,19 @@ public class _FolderTest extends BaseTest {
         Assert.assertEquals(actualFolderPage, expectedResult);
 
         deleteFolderFromSideMenu();
+    }
+
+    @Test
+    public void testDeleteFolderFromTheTopMenu() {
+        final String expectedResult = "Nothing seems to match.";
+
+        createFolderWithoutSaveButton(F_NAME);
+
+        deleteFolderFromTopMenu();
+
+        getDriver().findElement(By.id("search-box")).sendKeys(F_NAME.concat("\n"));
+        String actualResult = getDriver().findElement(By.xpath("//div[@class='error']")).getText();
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 }
