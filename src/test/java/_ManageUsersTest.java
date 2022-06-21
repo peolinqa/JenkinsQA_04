@@ -243,4 +243,25 @@ public class _ManageUsersTest extends BaseTest {
         Assert.assertEquals(actualErrorsText.size(), 4);
         Assert.assertEquals(actualErrorsText, expectedErrorsText);
     }
+
+    @Test
+    public void testCheckValueInUsernameEqualValueFromFullName() {
+        goOnCreateUserPage();
+        fillOutFieldsCreateUser("Balthazarrr", "", "", "");
+        getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.name("fullname")));
+
+        String actualResultFullName = fullName().getAttribute("value");
+        Assert.assertEquals(actualResultFullName, "Balthazarrr");
+
+        final List<String> expectedErrorsText = List.of("Password is required", "Invalid e-mail address");
+        List<WebElement> actualErrors = createListWithErrorMessages();
+        List<String> actualErrorsText = new ArrayList<>();
+        for (WebElement error : actualErrors) {
+            actualErrorsText.add(error.getText());
+        }
+
+        Assert.assertEquals(actualErrorsText.size(), 2);
+        Assert.assertEquals(actualErrorsText, expectedErrorsText);
+    }
 }
