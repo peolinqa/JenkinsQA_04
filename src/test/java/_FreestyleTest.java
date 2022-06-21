@@ -22,6 +22,43 @@ public class _FreestyleTest extends BaseTest {
         getDriver().findElement(By.id("ok-button")).click();
     }
 
+    private String createRandomName() {
+        String projectNameSubstrate = "0123456789qwertyuiopasdfghjklzxcvbnm";
+        StringBuilder builder = new StringBuilder("");
+        for (int i = 0; i < 10; i++) {
+            builder.append(
+                    projectNameSubstrate.charAt((int) (Math.random() * projectNameSubstrate.length())));
+        }
+        String projectName = builder.toString();
+        return projectName;
+    }
+
+    private void deleteCreatedProject(String newProjectName) {
+        dashboardClick();
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(getDriver().findElement(
+                By.xpath("//a[@href='job/" + newProjectName + "/']"))).click().build().perform();
+
+        getDriver().findElement(By.xpath("//span[text()='Delete Project']")).click();
+
+        getDriver().switchTo().alert().accept();
+
+    }
+
+    private String checkErrorMessage() {
+
+        return getDriver().findElement(By.xpath("//div[@id='main-panel']//p")).getText();
+    }
+
+    private void clearSendClick(String newProjectName) {
+        getDriver().findElement(By.xpath("//input[@checkdependson='newName']")).clear();
+        getDriver().findElement(
+                By.xpath("//input[@checkdependson='newName']")).sendKeys(newProjectName);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
+
+    }
+
     private enum CheckBox {
         ENABLE("Not built", "Disable Project"),
         DISABLE("Disabled", "Enable");
@@ -313,7 +350,7 @@ public class _FreestyleTest extends BaseTest {
 
         deleteItem();
 
-        Assert.assertEquals(actualText,"Project " + nameRandom);
+        Assert.assertEquals(actualText, "Project " + nameRandom);
     }
 
     @Test
@@ -403,5 +440,78 @@ public class _FreestyleTest extends BaseTest {
         WebElement errorMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p"));
         Assert.assertTrue(errorMessage.isDisplayed());
         Assert.assertEquals(errorMessage.getText(), "‘!’ is an unsafe character");
+    }
+
+    @Test
+    public void testRename() {
+
+        String projectName = createRandomName();
+        String newProjectName = createRandomName();
+
+        createProject(projectName);
+
+        dashboardClick();
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(getDriver().findElement(
+                        By.xpath("//a[@href='job/" + projectName + "/']")))
+                .build().perform();
+
+        action.moveToElement(getDriver().findElement(By.xpath(
+                        "//div[@id='menuSelector']")))
+                .click().build().perform();
+
+        action.moveToElement(getDriver().findElement(By.xpath(
+                        "//a[@href='/job/" + projectName + "/confirm-rename']")))
+                .click().build().perform();
+        getDriver().findElement(By.xpath(
+                "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input")).clear();
+
+        getDriver().findElement(By.xpath(
+                        "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"))
+                .sendKeys(newProjectName);
+
+        getDriver().findElement(By.xpath(
+                "//div[@class='bottom-sticker-inner']/span/span/button")).click();
+
+        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
+
+        deleteCreatedProject(newProjectName);
+
+        Assert.assertEquals(actualResult, "Project " + newProjectName);
+    }
+
+    @Test
+    public void testRenameWithInvalidData() {
+
+        String projectName = createRandomName();
+        String newProjectName = " ";
+        String invalidData = "!@#$%^*/|\\;:?";
+
+        createProject(projectName);
+
+        getDriver().findElement(By.xpath("//a[(text())='Dashboard']")).click();
+
+        Actions action = new Actions(getDriver());
+        action.moveToElement(getDriver().findElement(By.xpath("//a[@href='job/" + projectName + "/']")))
+                .build().perform();
+        action.moveToElement(getDriver().findElement(By.xpath("//div[@id='menuSelector']")))
+                .click().build().perform();
+        action.moveToElement(getDriver().findElement(By.xpath(
+                        "//a[@href='/job/" + projectName + "/confirm-rename']")))
+                .click().build().perform();
+
+        for (int i = 0; i < invalidData.length(); i++) {
+            newProjectName = invalidData.substring(i, (i + 1));
+
+            clearSendClick(newProjectName);
+
+            String expectedResult = "‘" + newProjectName + "’ is an unsafe character";
+            System.out.println("expectedResult = " + expectedResult);
+            Assert.assertEquals(checkErrorMessage(), expectedResult);
+            getDriver().navigate().back();
+        }
+
+        deleteCreatedProject(projectName);
     }
 }
