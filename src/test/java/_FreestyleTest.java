@@ -369,7 +369,7 @@ public class _FreestyleTest extends BaseTest {
 
         deleteItem();
 
-        Assert.assertEquals(actualText, "Project " + nameRandom);
+        Assert.assertEquals(actualText,"Project " + nameRandom);
     }
 
     @Test
@@ -548,5 +548,24 @@ public class _FreestyleTest extends BaseTest {
         deleteItem();
 
         Assert.assertEquals(actualEditedDescription,editDescriptionRandom);
+    }
+
+    @Test
+    public void testCreateProjectNameWithCharacterSymbols() {
+        getDriver().findElement(By.linkText("New Item")).click();
+
+        String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":", "."};
+        boolean resultButtonOkDisabled = true;
+
+        for (int i = 0; i < characterName.length; i++) {
+            getDriver().findElement(By.xpath("//input[@name='name']")).sendKeys(characterName[i]);
+            getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+            if (!getDriver().findElement(By.xpath("//button[@class]")).getAttribute("class").equals("disabled")) {
+                resultButtonOkDisabled = false;
+            }
+            getDriver().navigate().refresh();
+
+            Assert.assertTrue(resultButtonOkDisabled);
+        }
     }
 }
