@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 public class _ConfigureSystemTest extends BaseTest {
 
@@ -12,12 +13,6 @@ public class _ConfigureSystemTest extends BaseTest {
     private static final By SYSTEM_MESSAGE_FORM = By.name("system_message");
     private static final By MAIN_PAGE_SYSTEM_MESSAGE = By.id("systemmessage");
     private static final By DASHBOARD = By.id("jenkins-home-link");
-
-    private String createRandomText() {
-        String nameSubstrate = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        return RandomStringUtils.random(20, nameSubstrate);
-    }
 
     private void goToConfigureSystemPage() {
         getDriver().findElement(By.xpath("//span[contains(text(),'Manage Jenkins')]")).click();
@@ -27,12 +22,11 @@ public class _ConfigureSystemTest extends BaseTest {
     @Test
     public void testConfigureSystemMessageTestPositive() {
 
-        String randomSystemMessage = createRandomText();
+        final String randomSystemMessage = TestUtils.getRandomStr();
 
         goToConfigureSystemPage();
 
-        getDriver().findElement(SYSTEM_MESSAGE_FORM).clear();
-        getDriver().findElement(SYSTEM_MESSAGE_FORM).sendKeys(randomSystemMessage);
+        TestUtils.clearAndSend(getDriver(), SYSTEM_MESSAGE_FORM, randomSystemMessage);
 
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("window.scrollTo(0, document.body.scrollHeight)");

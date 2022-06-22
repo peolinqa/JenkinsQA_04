@@ -2,15 +2,18 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 
 public class _BuildHistoryTest extends BaseTest {
 
-    private final String PROJECT_NAME = "BuildHistoryPageProject";
-    private String buildName;
+    private static final String PROJECT_NAME = "BuildHistoryPageProject";
 
-    private final By HEADER_TEXT_XPATH = By.xpath("//span[@class='jenkins-icon-adjacent']");
+    private static final By HEADER_TEXT_XPATH = By.xpath("//span[@class='jenkins-icon-adjacent']");
+
+    private String buildName;
 
     private void createNewProject() {
 
@@ -18,29 +21,26 @@ public class _BuildHistoryTest extends BaseTest {
             deleteProject();
         }
 
-        getDriver().findElement(By.linkText("New Item")).click();
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         WebElement projectName = getDriver().findElement(By.name("name"));
         projectName.sendKeys(PROJECT_NAME);
 
-        getDriver().findElement(
-                By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[1]")
-        ).click();
+        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[1]")).click();
+
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(
-                By.xpath("//button[contains(text(),'Save')]")
-        ).click();
+        getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
     }
 
     private String buildAndReturnBuildName() {
 
-        getDriver().findElement(By.partialLinkText("Build Now")).click();
+        ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
 
         WebElement buildName = getWait20().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//tr[@class='build-row single-line overflow-checked']/td/div/a"))
         );
 
-        return buildName.getText();
+        return buildName.getText().substring(1);
     }
 
     private void homePage() {
@@ -80,6 +80,7 @@ public class _BuildHistoryTest extends BaseTest {
         int maxTries = 0;
         while (!success) {
             try {
+
                 getDriver().navigate().refresh();
                 getDriver().findElement(By.xpath("//*[local-name() = 'svg' and @tooltip='Success']"));
                 success = true;
@@ -93,20 +94,18 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test
     public void testBuildHistoryChanges() {
-
         createNewProject();
-
-        buildName = buildAndReturnBuildName().substring(1);
+        buildName = buildAndReturnBuildName();
 
         homePage();
         buildHistoryPage();
         clickProjectSpanMenu();
         getDriver().findElement(By.partialLinkText("Changes")).click();
 
-        String expectedChangesURL = String.format("job/%s/%s/changes", PROJECT_NAME, buildName);
+        final String expectedChangesURL = String.format("job/%s/%s/changes", PROJECT_NAME, buildName);
         String actualChangesURL = getDriver().getCurrentUrl().substring(22);
 
-        String expectedChangesHeader = "Changes";
+        final String expectedChangesHeader = "Changes";
         String actualChangesHeader = getDriver().findElement(HEADER_TEXT_XPATH).getText();
 
         Assert.assertEquals(actualChangesURL, expectedChangesURL);

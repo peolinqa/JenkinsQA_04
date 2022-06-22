@@ -35,4 +35,38 @@ public final class ProjectUtils {
 
         driver.findElement(By.xpath("//a[@href='/logout']")).click();
     }
+
+    public static class Dashboard {
+
+        public enum Main {
+            NewItem(By.linkText("New Item")),
+            People(By.linkText("People")),
+            BuildHistory(By.linkText("Build History"));
+
+            private final By locator;
+
+            Main(By locator) {
+                this.locator = locator;
+            }
+
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+
+        }
+
+        public enum Project {
+            BuildNow(By.partialLinkText("Build Now"));
+
+            private final By locator;
+
+            Project(By locator) {
+                this.locator = locator;
+            }
+
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+        }
+    }
 }

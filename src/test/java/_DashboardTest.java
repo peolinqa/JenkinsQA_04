@@ -15,9 +15,9 @@ public class _DashboardTest extends BaseTest {
   private static final String JOB_INPUT_NAME_ID = "name";
   private static final String NEW_ITEM_LINK_TEXT = "New Item";
   private static final String PROJECT_TYPES = "Freestyle project";
-  private final static String TEST_FOLDER_NAME = "First Job";
+  private static final String TEST_FOLDER_NAME = "First Job";
 
-  String[] ICONS_DESCRIPTIONS = {
+  private static final List<String> ICONS_DESCRIPTIONS = List.of(
           "The project has never been built.", "The first build is in progress.",
           "The project is disabled.", "The project is disabled, but a build is in progress.",
           "The last build was aborted.", "The last build was aborted. A new build is in progress.",
@@ -30,36 +30,29 @@ public class _DashboardTest extends BaseTest {
           "Project health is over 60% and up to 80%. You can hover the mouse over the project’s icon for a more detailed explanation.",
           "Project health is over 40% and up to 60%. You can hover the mouse over the project’s icon for a more detailed explanation.",
           "Project health is over 20% and up to 40%. You can hover the mouse over the project’s icon for a more detailed explanation.",
-          "Project health is 20% or less. You can hover the mouse over the project’s icon for a more detailed explanation."};
-
-  private void clickOKButton() {
-    getDriver().findElement(By.id("ok-button")).click();
-  }
+          "Project health is 20% or less. You can hover the mouse over the project’s icon for a more detailed explanation.");
 
   public void createNewItem() {
     String jobName = TEST_FOLDER_NAME;
     getDriver().findElement(By.linkText(NEW_ITEM_LINK_TEXT)).click();
     getDriver().findElement(By.id(JOB_INPUT_NAME_ID)).sendKeys(jobName);
     NewItemPageCategoryHoveringExperienceTest.clickProjectItem(getDriver(), PROJECT_TYPES);
-    clickOKButton();
+    getDriver().findElement(By.id("ok-button")).click();
     getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
   }
 
-  private void clickJenkinsHome() {
-    getDriver().findElement(By.id("jenkins-home-link")).click();
-  }
-
   private void deleteFolder(String nameFolder) {
-    clickJenkinsHome();
+    getDriver().findElement(By.id("jenkins-home-link")).click();
     getDriver().findElement(By.xpath("//a[@href='job/" + nameFolder + "/']")).click();
     getDriver().findElement(By.xpath("//span[contains(text(),'Delete Project')]")).click();
     getDriver().switchTo().alert().accept();
   }
 
   @Test
+  /*
+  * To pass this test you should have "Lockable Resources" plugin installed on local machine
+  * */
   public void testCommonCheckDropDownMenu() {
-
-    // To pass this test you should have "Lockable Resources" plugin installed on local machine
 
     final List<String> expectedItems = List.of(
             "New Item",
@@ -76,9 +69,8 @@ public class _DashboardTest extends BaseTest {
     action.moveToElement(getDriver()
             .findElement(By.xpath(DASHBOARD_XPATH))).build().perform();
 
-    getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
-    action.moveToElement(getDriver()
-            .findElement(XPATH_DISAPPEARING_BUTTON)).click().build().perform();
+    WebElement button = getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
+    action.moveToElement(button).click().build().perform();
 
     List<String> actualItems = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"))
             .stream()
@@ -101,7 +93,8 @@ public class _DashboardTest extends BaseTest {
                 .stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
-        Assert.assertEquals(iconsTableDescriptions, List.of(ICONS_DESCRIPTIONS));
+
+        Assert.assertEquals(iconsTableDescriptions, ICONS_DESCRIPTIONS);
         getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
         getDriver().findElement(By.xpath("//span[text()='Build History']")).click();
         WebElement iconLegendVisiblePageBuildHistory = getDriver().findElement(By.xpath("//a[@href='/legend']"));

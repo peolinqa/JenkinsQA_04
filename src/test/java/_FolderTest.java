@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.TestException;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -221,9 +222,9 @@ public class _FolderTest extends BaseTest {
         getWait5().until(ExpectedConditions.textToBePresentInElement(warningText,
                 "» ‘" + INVALID_SYMBOLS[i] + "’ is an unsafe character"));
 
-      String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + "’ is an unsafe character";
-      Assert.assertEquals(warningText.getText(), expectedResult);
-      inputField.clear();
+          String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + "’ is an unsafe character";
+          Assert.assertEquals(warningText.getText(), expectedResult);
+          inputField.clear();
       }
     }
 
@@ -364,26 +365,20 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCheckButtonSave() {
 
-        String expectedResult = "genashepel_folder";
-
         if (checkNameforNewFolder(FOLDER_NAME)) {
             deleteFolderName(FOLDER_NAME);
         }
 
         getDriver().findElement(By.xpath(NEW_ITEM)).click();
         getDriver().findElement(By.id("name")).sendKeys(FOLDER_NAME);
-        getDriver()
-                .findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']"))
-                .click();
+        getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")).click();
         getDriver().findElement(By.id("ok-button")).click();
-        getDriver()
-                .findElement(By.xpath("//div[@class='setting-main'] /input"))
-                .sendKeys("genashepel_folder");
+        getDriver().findElement(By.xpath("//div[@class='setting-main'] /input")).sendKeys("genashepel_folder");
         getDriver().findElement(By.id("yui-gen6-button")).click();
 
-        String actualResult = getDriver().findElement(By.cssSelector("h1")).getText();
-
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(
+                getDriver().findElement(By.cssSelector("h1")).getText(),
+                "genashepel_folder");
     }
 
     @Test
@@ -396,9 +391,7 @@ public class _FolderTest extends BaseTest {
 
         getDriver().findElement(By.xpath(NEW_ITEM)).click();
         getDriver().findElement(By.id("name")).sendKeys(FOLDER_NAME);
-        getDriver()
-                .findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']"))
-                .click();
+        getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")).click();
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.id("yui-gen4-button")).click();
 
@@ -411,8 +404,8 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testRenameFolderPositive() {
 
-        String randomFolderName = createRandomName();
-        String newRandomFolderName = createRandomName();
+        final String randomFolderName = createRandomName();
+        final String newRandomFolderName = createRandomName();
 
         сreateFolderForRename(randomFolderName);
         clickJenkinsHome();
@@ -487,7 +480,9 @@ public class _FolderTest extends BaseTest {
 
         deleteFolder(folderName);
     }
-    @Test(enabled = false)
+
+    @Ignore
+    @Test
     public void testCheckDescriptionInPreviewAndOnTheFolderPage() {
         final String expectedResult = "General";
 
@@ -506,7 +501,9 @@ public class _FolderTest extends BaseTest {
 
         deleteFolderFromSideMenu();
     }
-    @Test(enabled = false)
+
+    @Ignore
+    @Test
     public void testDeleteFolderFromTheTopMenu() {
         final String expectedResult = "Nothing seems to match.";
 

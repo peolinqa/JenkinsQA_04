@@ -4,8 +4,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class _AboutJenkinsTest extends BaseTest {
     private static final String MAVENIZED_DEPENDECIES = "Mavenized dependencies";
@@ -29,7 +32,7 @@ public class _AboutJenkinsTest extends BaseTest {
 
     @Test
     public void testAmountLinksMavenizedDependencies() {
-        Assert.assertEquals(amountLinks(MAVENIZED_DEPENDECIES), 107);
+        Assert.assertEquals(amountLinks("Mavenized dependencies"), 107);
     }
 
     @Test
@@ -40,27 +43,17 @@ public class _AboutJenkinsTest extends BaseTest {
     @Test
     public void testLinkAntLRParserGenerator() {
         enterAboutJenkins();
+
+        final Set<String> expectedSet = Set.of(getDriver().getTitle(), "ANTLR");
+
         getDriver().findElement(By.xpath("//a[text()='AntLR Parser Generator']")).click();
 
-        String aboutJenkins = getDriver().getWindowHandle();
-        String actualResult = "";
-
-        Iterator<String> windowStrings = getDriver()
-                .getWindowHandles()
-                .iterator();
-
-        while (windowStrings.hasNext()) {
-            String secondWindow = windowStrings.next();
-
-            if (!aboutJenkins.equals(secondWindow)) {
-                actualResult = getDriver()
-                        .switchTo()
-                        .window(secondWindow)
-                        .getTitle();
-            }
+        Set<String> actualSet = new HashSet<>();
+        for (String handle : getDriver().getWindowHandles()) {
+            actualSet.add(getDriver().switchTo().window(handle).getTitle());
         }
 
-        Assert.assertEquals(actualResult, "ANTLR");
+        Assert.assertEquals(actualSet, expectedSet);
     }
 
 }
