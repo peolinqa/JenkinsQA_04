@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -213,6 +214,7 @@ public class _FreestyleTest extends BaseTest {
         deleteFreestyleProject();
     }
 
+    @Ignore
     @Test(dataProvider = "data")
     public void testDisableEnableIconsDashboard(_FreestyleTest.CheckBox project) {
         createFreestyleProjectRandomName();
