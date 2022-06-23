@@ -3,29 +3,23 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class _AboutJenkinsTest extends BaseTest {
-    private static final String MAVENIZED_DEPENDECIES = "Mavenized dependencies";
-    private static final String STATIC_RESOURCES = "Static resources";
-
     private void enterAboutJenkins() {
-        getDriver().findElement(By.linkText("Manage Jenkins")).click();
-        getDriver().findElement(By.xpath("//dt[text()='About Jenkins']")).click();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.AboutJenkins.click(getDriver());
     }
 
     private int amountLinks(String text) {
         enterAboutJenkins();
 
-        String locator = String.format("//h2[text()='%s']//parent::div//tbody/tr", text);
-
         List<WebElement> columnName = getDriver().findElements(
-                By.xpath(locator));
+                By.xpath(String.format("//h2[text()='%s']//parent::div//tbody/tr", text)));
 
         return columnName.size();
     }
@@ -37,7 +31,7 @@ public class _AboutJenkinsTest extends BaseTest {
 
     @Test
     public void testAmountLinksStaticResources() {
-        Assert.assertEquals(amountLinks(STATIC_RESOURCES), 4);
+        Assert.assertEquals(amountLinks("Static resources"), 4);
     }
 
     @Test
