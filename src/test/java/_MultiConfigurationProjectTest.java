@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import java.util.List;
@@ -122,25 +123,22 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testAddDescription() {
-        String expectedResult = "test";
         createMultiConfigFolder(PROJECT_NAME);
 
         getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//div/textarea[@name=\"description\"]")).sendKeys("test");
+        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys("test");
         getDriver().findElement(By.id("yui-gen2-button")).click();
 
-        String actualResult = getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText();
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), "test");
 
         returnToMainPage();
-        deleteFolder(PROJECT_NAME);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testAddDescription"})
     public void testRenameMCProject() {
         String expectedResult = "Project McprojectRename";
 
-        createMultiConfigFolder(PROJECT_NAME);
+        openProjectJob(PROJECT_NAME);
         getDriver().findElement(By.linkText("Rename")).click();
         getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"))
                 .sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "McprojectRename");
@@ -153,7 +151,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         deleteFolder("McprojectRename");
     }
 
-    @Test
     public void testRenameMCProjectError() {
         String expectedResult = "Error\nThe new name is the same as the current name.";
 
