@@ -4,23 +4,34 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.util.List;
 
 public class _HeaderTest extends BaseTest {
 
-    private final By HEADER = By.id("header");
+    private static final By HEADER = By.id("header");
+    private static final By HEADER_ICON = By.id("jenkins-head-icon");
+
+    public void verifyPositionOfElements(By locator, String attribute, String... expectedResult) {
+        List<WebElement> elementList = TestUtils.getList(getDriver(), locator);
+
+        SoftAssert asserts = new SoftAssert();
+        asserts.assertNotNull(elementList);
+        asserts.assertEquals(elementList.size(), expectedResult.length);
+
+        for(int i = 0; i < expectedResult.length; i++){
+            asserts.assertEquals(elementList.get(i).getAttribute(attribute), expectedResult[i]);
+        }
+    }
 
     public void verifyImageOrder(String uri){
         String currentUrl = getDriver().getCurrentUrl();
         if(uri != null){
             getDriver().get(currentUrl + uri);
         }
-        List<WebElement> images = getDriver().findElements(By.xpath("//div[@class='logo']/a/img"));
-        Assert.assertNotNull(images);
-        Assert.assertEquals(images.size(), 2);
-        Assert.assertEquals(images.get(0).getAttribute("id"), "jenkins-head-icon");
-        Assert.assertEquals(images.get(1).getAttribute("id"), "jenkins-name-icon");
+        verifyPositionOfElements(By.xpath("//div[@class='logo']/a/img"), "id",
+                "jenkins-head-icon","jenkins-name-icon");
     }
 
     public void clickableLogo(String uri){
@@ -39,7 +50,7 @@ public class _HeaderTest extends BaseTest {
             getDriver().get(currentUrl + uri);
         }
 
-        WebElement logo = getDriver().findElement(By.id("jenkins-head-icon"));
+        WebElement logo = getDriver().findElement(HEADER_ICON);
 
         Assert.assertTrue(logo.getAttribute("src").contains("/images/svgs/logo.svg"));
     }
@@ -121,12 +132,12 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderLogoIsImage() {
-        Assert.assertEquals(getDriver().findElement(By.id("jenkins-head-icon")).getTagName(), "img");
+        Assert.assertEquals(getDriver().findElement(HEADER_ICON).getTagName(), "img");
     }
 
     @Test
     public void testHeaderLogoImageExtensionIsSvg() {
-        Assert.assertTrue(getDriver().findElement(By.id("jenkins-head-icon")).getAttribute("src").contains(".svg"));
+        Assert.assertTrue(getDriver().findElement(HEADER_ICON).getAttribute("src").contains(".svg"));
     }
 
     @Test
@@ -139,37 +150,15 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderPositionOfElementsUI(){
-        List<WebElement> divHeaders = getDriver().findElements(By.xpath("//header/div"));
+        verifyPositionOfElements(By.xpath("//header/div"), "class",
+                "page-header__brand","searchbox hidden-xs","login page-header__hyperlinks");
+        verifyPositionOfElements(By.xpath("//div[@class='logo']/a/img"), "id",
+                "jenkins-head-icon","jenkins-name-icon");
 
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertNotNull(divHeaders);
-        asserts.assertEquals(divHeaders.size(), 3);
-        asserts.assertEquals(divHeaders.get(0).getAttribute("class"), "page-header__brand");
-        asserts.assertEquals(divHeaders.get(1).getAttribute("class"), "searchbox hidden-xs");
-        asserts.assertEquals(divHeaders.get(2).getAttribute("class"), "login page-header__hyperlinks");
+        verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/div"),"id",
+                "visible-am-insertion", "visible-sec-am-insertion");
 
-        List<WebElement> logoImgHeaders = getDriver().findElements(By.xpath("//a[@id='jenkins-home-link']/img"));
-        asserts.assertNotNull(logoImgHeaders);
-        asserts.assertEquals(logoImgHeaders.size(), 2);
-        asserts.assertEquals(logoImgHeaders.get(0).getAttribute("id"), "jenkins-head-icon");
-        asserts.assertEquals(logoImgHeaders.get(1).getAttribute("id"), "jenkins-name-icon");
-
-        List<WebElement> divHeaderHyperlinks = getDriver().findElements(By.xpath(
-                "//header/div[@class='login page-header__hyperlinks']/div"));
-        asserts.assertNotNull(divHeaderHyperlinks);
-        asserts.assertEquals(divHeaderHyperlinks.size(), 2);
-        asserts.assertEquals(divHeaderHyperlinks.get(0).getAttribute("id"), "visible-am-insertion");
-        asserts.assertEquals(divHeaderHyperlinks.get(1).getAttribute("id"), "visible-sec-am-insertion");
-
-        List<WebElement> aHeaderHyperlinks = getDriver().findElements(By.xpath(
-                "//header/div[@class='login page-header__hyperlinks']/a"));
-        asserts.assertNotNull(aHeaderHyperlinks);
-        asserts.assertEquals(aHeaderHyperlinks.size(), 2);
-        asserts.assertEquals(aHeaderHyperlinks.get(0).getAttribute("href"),
-                getDriver().getCurrentUrl() + "user/admin");
-        asserts.assertEquals(aHeaderHyperlinks.get(1).getAttribute("href"),
-                getDriver().getCurrentUrl() + "logout");
-
-        asserts.assertAll();
+        verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/a"),"href",
+                getDriver().getCurrentUrl() + "user/admin", getDriver().getCurrentUrl() + "logout");
     }
 }
