@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -21,11 +20,15 @@ import java.util.List;
 public class _PipelineTest extends BaseTest {
     private static final By OK_BUTTON = By.id("ok-button");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
+    private static final By APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");
+    private static final By ADD_COLUMN_BUTTON = By.xpath("//button[contains(text(), 'Add column')]");
+    private static final By DELETE_BUTTON = By.cssSelector("[title='Delete View']");
     private static final By ADVANCED_BUTTON = By.xpath("//button[@id='yui-gen4-button']");
     private static final By H1 = By.xpath("//h1");
     private static final By PIPELINE_ITEM_CONFIGURATION =
             By.cssSelector(".config-section-activators .config_pipeline");
     private static final By LINK_JENKINS_HOMEPAGE = By.id("jenkins-name-icon");
+
     private static final String PIPELINE_NAME = RandomStringUtils.randomAlphanumeric(4, 8);
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
@@ -53,6 +56,10 @@ public class _PipelineTest extends BaseTest {
 
     private void js(WebElement webElement) {
         javascriptExecutor.executeScript("arguments[0].scrollIntoView();", webElement);
+    }
+
+    private void scrollPageDown() {
+        javascriptExecutor.executeScript("window.scrollBy(0, 500)");
     }
 
     private void saveButtonClick() {
@@ -152,6 +159,28 @@ public class _PipelineTest extends BaseTest {
     private void goToPipelinePage(String pipelineName) {
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[@href='/']")).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
+    }
+
+    private List<String> getTextFromListWebElements(List<WebElement> listWebElements) {
+        List<String> existingColumnsNames = new ArrayList<>();
+        for (WebElement existingLisWebElements : listWebElements) {
+            existingColumnsNames.add(existingLisWebElements.getText());
+        }
+
+        return existingColumnsNames;
+    }
+
+    private void click(By button) {
+        getDriver().findElement(button).click();
+    }
+
+    private void click(By clickFirst, By clickSecond) {
+        getDriver().findElement(clickFirst).click();
+        getDriver().findElement(clickSecond).click();
+    }
+
+    private String myWatchlistName() {
+        return createRandomName();
     }
 
     @Test
@@ -498,8 +527,9 @@ public class _PipelineTest extends BaseTest {
         clickAddParameterOrBuildButton();
 
         if ("expand".equals((getDriver().findElement(By.cssSelector(".collapse"))
-                .getAttribute("title")))) {getDriver().findElement(By
-                .xpath("//div[@id='buildHistory']/div[1]/div/a")).click();
+                .getAttribute("title")))) {
+            getDriver().findElement(By
+                    .xpath("//div[@id='buildHistory']/div[1]/div/a")).click();
         }
 
         WebElement buildOne = getWait5()
@@ -527,7 +557,7 @@ public class _PipelineTest extends BaseTest {
     public void testPipelineBuildNow() {
         String[] buildSuccessfulPermalinks = new String[]{"Last build", "Last stable build", "Last successful build",
                 "Last completed build"};
-        String[] expectedBuildNumbers = new String[] {"#3", "#2", "#1"};
+        String[] expectedBuildNumbers = new String[]{"#3", "#2", "#1"};
 
         String pipelineName = createRandomName();
         createNewPipeline(pipelineName);
@@ -568,5 +598,84 @@ public class _PipelineTest extends BaseTest {
         asserts.assertAll();
 
         deleteCreatedPipeline(pipelineName);
+    }
+
+    @Test
+    public void testAddAllColumnsFromDashboardInOwnWatchlist() {
+        final String name = PIPELINE_NAME;
+        createPipeline(name, Boolean.TRUE);
+        click(SUBMIT_BUTTON);
+        homePageClick();
+
+        getDriver().findElement(By.cssSelector(".addTab")).click();
+        getDriver().findElement(By.xpath("//input[@id = 'name']")).sendKeys(myWatchlistName());
+        getDriver().findElement(By.xpath("//label[@for = 'hudson.model.ListView']")).click();
+        click(SUBMIT_BUTTON);
+
+        getDriver().findElement(By.xpath("//input[@name = '" + name + "']")).click();
+        scrollPageDown();
+        List<String> existingColumnsNames = getTextFromListWebElements(
+                getDriver().findElements(By.xpath("//div[@descriptorid]//b")));
+        click(ADD_COLUMN_BUTTON);
+        List<String> columnsCanAddNames = getTextFromListWebElements(
+                getDriver().findElements(By.cssSelector("#yui-gen4  li a")));
+        columnsCanAddNames.removeAll(existingColumnsNames);
+
+        for (String columnsCanAddName : columnsCanAddNames) {
+            getDriver().findElement(By.xpath("//a[contains(text(), '" + columnsCanAddName + "')]")).click();
+            scrollPageDown();
+            click(ADD_COLUMN_BUTTON);
+        }
+
+        click(APPLY_BUTTON, SUBMIT_BUTTON);
+
+        List<WebElement> countColumns = getDriver().findElements(By.xpath("//thead/tr/th/a"));
+        Assert.assertEquals(countColumns.size(), 11);
+    }
+
+    @Test
+    public void testRemoveAllColumnsFromDashboardInOwnWatchlist() {
+        final String name = PIPELINE_NAME;
+        createPipeline(name, Boolean.TRUE);
+        click(SUBMIT_BUTTON, LINK_JENKINS_HOMEPAGE);
+
+        getDriver().findElement(By.cssSelector(".addTab")).click();
+        getDriver().findElement(By.xpath("//input[@id = 'name']")).sendKeys(myWatchlistName());
+        getDriver().findElement(By.xpath("//label[@for = 'hudson.model.ListView']")).click();
+        click(SUBMIT_BUTTON);
+
+        getDriver().findElement(By.xpath("//input[@name = '" + name + "']")).click();
+        scrollPageDown();
+        List<String> existingColumnsNames = getTextFromListWebElements(
+                getDriver().findElements(By.xpath("//div[@descriptorid]//b")));
+        click(ADD_COLUMN_BUTTON);
+        List<String> columnsCanAddNames = getTextFromListWebElements(
+                getDriver().findElements(By.cssSelector("#yui-gen4  li a")));
+        columnsCanAddNames.removeAll(existingColumnsNames);
+
+        for (String columnsCanAddName : columnsCanAddNames) {
+            getDriver().findElement(By.xpath("//a[contains(text(), '" + columnsCanAddName + "')]")).click();
+            scrollPageDown();
+            click(ADD_COLUMN_BUTTON);
+        }
+
+        click(APPLY_BUTTON, SUBMIT_BUTTON);
+
+        getDriver().findElement(By.xpath("//a[@title = 'Edit View']")).click();
+        scrollPageDown();
+
+        List<WebElement> countDeleteButtons = getDriver().findElements(DELETE_BUTTON);
+        for (int i = 0; i < countDeleteButtons.size(); i++) {
+            getWait5().until(ExpectedConditions.elementToBeClickable(
+                    getDriver().findElement(
+                            By.xpath("//button[@id = 'yui-gen" + (i + 6) + "-button']")))).click();
+        }
+
+        click(APPLY_BUTTON, SUBMIT_BUTTON);
+
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//table[@id = 'projectstatus']//td")).getText().isEmpty());
+
+        click(DELETE_BUTTON, SUBMIT_BUTTON);
     }
 }
