@@ -96,6 +96,30 @@ public final class ProjectUtils {
                 driver.findElement(locator).click();
             }
         }
+
+        public enum Folder {
+            Up(By.linkText("Up")),
+            Status(By.linkText("Status")),
+            Configure(By.linkText("Configure")),
+            NewItem(By.linkText("New Item")),
+            DeleteFolder(By.linkText("Delete Folder")),
+            People(By.linkText("People")),
+            BuildHistory(By.linkText("Build History")),
+            Move(By.linkText("Move")),
+            Rename(By.linkText("Rename")),
+            Credentials(By.linkText("Credentials")),
+            NewView(By.linkText("NewView"));
+
+            private final By locator;
+
+            Folder(By locator) {
+                this.locator = locator;
+            }
+
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+        }
     }
 
     public enum ManageJenkins {
@@ -128,28 +152,4 @@ public final class ProjectUtils {
                 driver.findElement(locator).click();
             }
         }
-
-        public enum Folder {
-            Up(By.linkText("Up")),
-            Status(By.linkText("Status")),
-            Configure(By.linkText("Configure")),
-            NewItem(By.linkText("New Item")),
-            DeleteFolder(By.linkText("Delete Folder")),
-            People(By.linkText("People")),
-            BuildHistory(By.linkText("Build History")),
-            Move(By.linkText("Move")),
-            Rename(By.linkText("Rename")),
-            Credentials(By.linkText("Credentials")),
-            NewView(By.linkText("NewView"));
-
-            private final By locator;
-
-            Folder(By locator) {
-                this.locator = locator;
-            }
-
-        public void click(WebDriver driver) {
-            driver.findElement(locator).click();
-        }
-    }
 }
