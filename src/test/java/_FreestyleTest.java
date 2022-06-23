@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.TestUtils;
 
 public class _FreestyleTest extends BaseTest {
@@ -49,10 +50,6 @@ public class _FreestyleTest extends BaseTest {
         return getDriver().findElement(By.xpath(
                 String.format("//tr[@id='job_%s']/td/div/span/*[@tooltip]",
                         RANDOM_NAME)));
-    }
-
-    private void clickNewItem() {
-        getDriver().findElement(By.className("task-link-text")).click();
     }
 
     private void renameFreestyleProject(String currentName, String newName) {
@@ -241,7 +238,7 @@ public class _FreestyleTest extends BaseTest {
 
     @Test
     public void testNoEnterNameFreestyleItem() {
-        clickNewItem();
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
 
         Assert.assertEquals(
@@ -251,7 +248,7 @@ public class _FreestyleTest extends BaseTest {
 
     @Test
     public void testEnterSeveralSpaces() {
-        clickNewItem();
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys("    ");
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
         getDriver().findElement(By.id("ok-button")).click();
