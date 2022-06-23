@@ -14,10 +14,8 @@ import java.util.Random;
 
 public class EditBuildRRenameBuildCheckBuildInTimelineAndBuildHistoryTest extends BaseTest {
 
-    private String jobName = "project1";
     private String jobNameRes = "";
     private String newNameJob = "newNmaeJob";
-    private String textForInputDescriptionTextArea = "Maven + Selenium project = TESTNG +  Rest Assured + Jackson = project";
     private final By descriptionSignOfTheProj = By.xpath("//div[@id='description']/div[1]");
     private final By projNameSign = By.xpath("//div[@id='main-panel']//h1[contains(text(),'Project " + newNameJob + "')]");
 
@@ -88,7 +86,7 @@ public class EditBuildRRenameBuildCheckBuildInTimelineAndBuildHistoryTest extend
 
     @Test(description = "US_032 Rename Build")
     public void testRenameBuild() {
-        jobNameRes = checkJobName(jobName);
+        jobNameRes = checkJobName("project1");
         createNewFreeStyleProject();
         renameJobAndAddDescriptionSaveIt();
         String elementDescriptionSignOfTheProj = getDriver().findElement(descriptionSignOfTheProj).getText();
@@ -116,7 +114,7 @@ public class EditBuildRRenameBuildCheckBuildInTimelineAndBuildHistoryTest extend
         inputNewNameSendK(newNameJob);
         clickRenameButton();
         clickDescriptionLink();
-        inputDescriptionTextArea(textForInputDescriptionTextArea);
+        inputDescriptionTextArea("Maven + Selenium project = TESTNG +  Rest Assured + Jackson = project");
         saveButtonClick();
     }
 
