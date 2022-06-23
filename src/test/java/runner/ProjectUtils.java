@@ -120,6 +120,33 @@ public final class ProjectUtils {
                 driver.findElement(locator).click();
             }
         }
+
+        /**
+         * именование enum
+         * https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
+         */
+        public enum Pipeline {
+            BACK_TO_DASHBOARD(By.linkText("Back to Dashboard")),
+            STATUS(By.linkText("Status")),
+            CHANGES(By.linkText("Changes")),
+            BUILD_NOW(By.linkText("Build Now")),
+            CONFIGURE(By.linkText("Configure")),
+            DELETE_PIPELINE(By.linkText("Delete Pipeline")),
+            MOVE(By.linkText("Move")),
+            FULL_STAGE_VIEW(By.linkText("Full Stage View")),
+            RENAME(By.linkText("Rename")),
+            PIPELINE_SYNTAX(By.linkText("Pipeine Syntax"));
+
+            private final By locator;
+
+            Pipeline(By locator) {
+                this.locator = locator;
+            }
+
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+        }
     }
 
     public enum ManageJenkins {
