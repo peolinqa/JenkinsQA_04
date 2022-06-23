@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 public class _FreestyleTest extends BaseTest {
     private static final String RANDOM_NAME = RandomStringUtils.randomAlphabetic(5);
@@ -57,17 +58,13 @@ public class _FreestyleTest extends BaseTest {
     private void renameFreestyleProject(String currentName, String newName) {
         openFreestyleProjectProject(currentName);
         getDriver().findElement(By.linkText("Rename")).click();
-        getDriver().findElement(By.name("newName")).clear();
-        getDriver().findElement(By.name("newName")).sendKeys(newName);
+        TestUtils.clearAndSend(getDriver(), By.name("newName"), newName);
         getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
     private void editDescription() {
         getDriver().findElement(By.xpath("//a[text() = 'Edit description']")).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//textarea[@name = 'description']"))).click();
-        getDriver().findElement(By.xpath("//textarea[@name = 'description']")).clear();
-        getDriver().findElement(By.xpath("//textarea[@name = 'description']")).sendKeys(EDITED_RANDOM_DESCRIPTION);
+        TestUtils.clearAndSend(getDriver(), By.xpath("//textarea[@name = 'description']"), EDITED_RANDOM_DESCRIPTION);
         getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
     }
 
