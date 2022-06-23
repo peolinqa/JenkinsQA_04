@@ -54,7 +54,10 @@ public final class ProjectUtils {
             NewItem(By.linkText("New Item")),
             People(By.linkText("People")),
             BuildHistory(By.linkText("Build History")),
-            ManageJenkins(By.linkText("Manage Jenkins"));
+            ManageJenkins(By.linkText("Manage Jenkins")),
+            MyViews(By.linkText("My Views")),
+            LockableResources(By.linkText("Lockable Resources")),
+            NewView(By.linkText("New View"));
 
             private final By locator;
 
@@ -65,11 +68,18 @@ public final class ProjectUtils {
             public void click(WebDriver driver) {
                 driver.findElement(locator).click();
             }
-
         }
 
         public enum Project {
-            BuildNow(By.partialLinkText("Build Now"));
+            BackToDashboard(By.linkText("Back to Dashboard")),
+            Status(By.linkText("Status")),
+            Changes(By.linkText("Changes")),
+            Workspace(By.linkText("Workspace")),
+            BuildNow(By.partialLinkText("Build Now")),
+            Configure(By.linkText("Configure")),
+            DeleteProject(By.xpath("//span[text()='Delete Project']")),
+            Move(By.linkText("Move")),
+            Rename(By.linkText("Rename"));
 
             private final By locator;
 
@@ -83,8 +93,10 @@ public final class ProjectUtils {
         }
 
         public enum JenkinsOwnUserDatabase {
-
-            CreateUser(By.xpath("//span[text()='Create User']"));
+            BackToDashboard(By.linkText("Back to Dashboard")),
+            ManageJenkins(By.linkText("Manage Jenkins")),
+            Users(By.linkText("Users")),
+            CreateUser(By.linkText("Create User"));
 
             private final By locator;
 
@@ -175,8 +187,8 @@ public final class ProjectUtils {
             this.locator = locator;
         }
 
-            public void click(WebDriver driver) {
-                driver.findElement(locator).click();
-            }
+        public void click(WebDriver driver) {
+            driver.findElement(locator).click();
         }
+    }
 }
