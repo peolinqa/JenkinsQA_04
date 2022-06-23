@@ -1,7 +1,9 @@
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -12,6 +14,7 @@ public class _MultibranchPipelineTest extends BaseTest {
     private static final String PROJECT_NAME = UUID.randomUUID().toString();
     private static final String ITEM_LOCATOR = String.format("//tr[@id='job_%s']//a[@href='job/%s/']", PROJECT_NAME, PROJECT_NAME);
     private static final String URL_GITHUB = "https://github.com/GitForProjects/javaJenkins";
+    private static final String PIPELINE_NAME = "MultiPipeline";
 
     private WebElement findElementXpath(String xPath) {
         return getDriver().findElement(By.xpath(xPath));
@@ -39,7 +42,7 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     private void createMultibranchPipeline(){
         getDriver().findElement(By.className("task-link-text")).click();
-        getDriver().findElement(By.id("name")).sendKeys("MultiPipeline");
+        getDriver().findElement(By.id("name")).sendKeys(PIPELINE_NAME);
         getDriver().findElement(By.xpath("//span[text()='Multibranch Pipeline']")).click();
         getDriver().findElement(By.id("ok-button")).click();
     }
@@ -124,9 +127,21 @@ public class _MultibranchPipelineTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
         String newName = getDriver().findElement(By.xpath("//a[@href='job/MultiPipeline/']")).getText();
         Assert.assertEquals(newName, "MultiPipeline");
-
-        deleteMultibranchPipeline();
     }
+
+    @Ignore
+    @Test (dependsOnMethods = "testCreateMultibranchPipelineWithValidData")
+    public void testDeleteMultibranchPipelineProject() {
+        String headerEmptyDashboard = "Welcome to Jenkins!";
+
+        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
+        getDriver().findElement(By.xpath("//a[contains(@href,'" + PIPELINE_NAME + "')]")).click();
+        getDriver().findElement(By.xpath("//span[text()='Delete Multibranch Pipeline']")).click();
+        getDriver().findElement(By.xpath("//button[text()='Yes']")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.tagName("h1")).getText(), headerEmptyDashboard);
+    }
+
     @Test
     public void testCreateMultibranchWithInvalidData() {
 

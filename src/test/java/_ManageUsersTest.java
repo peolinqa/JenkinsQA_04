@@ -5,6 +5,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
+import runner.ProjectUtils;
+import runner.TestUtils;
 
 import java.util.*;
 
@@ -15,72 +17,27 @@ public class _ManageUsersTest extends BaseTest {
     private static final String FULL_NAME = "Viktor P";
     private static final String NEW_USER_FULL_NAME = "Michael";
     private static final String EMAIL = "testemail.@gmail.com";
-    private static final By BUTTON_SUBMIT_TYPE = By.id("yui-gen1-button");
     private static final String USER_NAME_XPATH = "username";
 
+    private static final By BUTTON_SUBMIT_TYPE = By.id("yui-gen1-button");
+    private static final By ERROR_MESSAGES = By.className("error");
+    private static final By ALL_USERS = By.xpath("//table[@id='people']/tbody/tr");
+    private static final By FULL_NAME_XPATH = By.name("fullname");
+
     private void goOnCreateUserPage() {
-        getManageJenkinsClick();
-        getManageUsersClick();
-        getCreateUserClick();
-    }
 
-    public void getManageJenkinsClick() {
-        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
-    }
-
-    public void getManageUsersClick() {
-        getDriver().findElement(By.xpath("//dt[text()='Manage Users']")).click();
-    }
-
-    public void getCreateUserClick() {
-        getDriver().findElement(By.xpath("//span[text()='Create User']")).click();
-    }
-
-    public WebElement userName() {
-        return getDriver().findElement(By.id(USER_NAME_XPATH));
-    }
-
-    public WebElement passwordOne() {
-        return getDriver().findElement(By.name("password1"));
-    }
-
-    public WebElement passwordConfirm() {
-        return getDriver().findElement(By.name("password2"));
-    }
-
-    public WebElement fullName() {
-        return getDriver().findElement(By.name("fullname"));
-    }
-
-    public WebElement emailAddress() {
-        return getDriver().findElement(By.name("email"));
-    }
-
-    public WebElement buttonCreateUser() {
-        return getDriver().findElement(BUTTON_SUBMIT_TYPE);
-    }
-
-    public WebElement fullNameConfigure() {
-        return getDriver().findElement(By.name("_.fullName"));
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageUsers.click(getDriver());
+        ProjectUtils.Dashboard.JenkinsOwnUserDatabase.CreateUser.click(getDriver());
     }
 
     public void fillOutFieldsCreateUser(String userName, String password, String fullName, String email) {
 
-        userName().sendKeys(userName);
-        passwordOne().sendKeys(password);
-        passwordConfirm().sendKeys(password);
-        fullName().sendKeys(fullName);
-        emailAddress().sendKeys(email);
-    }
-
-    public List<WebElement> createListWithErrorMessages() {
-
-        return getDriver().findElements(By.className("error"));
-    }
-
-    public List<WebElement> getListWithAllUsers() {
-
-        return getDriver().findElements(By.xpath("//table[@id='people']/tbody/tr"));
+        getDriver().findElement(By.id(USER_NAME_XPATH)).sendKeys(userName);
+        getDriver().findElement(By.name("password1")).sendKeys(password);
+        getDriver().findElement(By.name("password2")).sendKeys(password);
+        getDriver().findElement(FULL_NAME_XPATH).sendKeys(fullName);
+        getDriver().findElement(By.name("email")).sendKeys(email);
     }
 
     public boolean displayedWebElement(String webElement) {
@@ -88,15 +45,14 @@ public class _ManageUsersTest extends BaseTest {
         return getDriver().getPageSource().contains(webElement);
     }
 
-
     @Test
     public void testUserCanCreateNewUser() {
 
         goOnCreateUserPage();
         fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
-        buttonCreateUser().click();
+        getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
-        for (WebElement user : getListWithAllUsers()) {
+        for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
             if (user.getText().contains(USER_NAME) && user.getText().contains(FULL_NAME)) {
 
                 Assert.assertTrue(user.isDisplayed());
@@ -107,12 +63,11 @@ public class _ManageUsersTest extends BaseTest {
     @Test(dependsOnMethods = {"testUserCanCreateNewUser"})
     public void testEditUserFullName() {
 
-        getManageJenkinsClick();
-        getManageUsersClick();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageUsers.click(getDriver());
         getDriver().findElement(By.xpath("//a[@href='user/".concat(USER_NAME.toLowerCase()).concat("/configure']")))
                 .click();
-        fullNameConfigure().clear();
-        fullNameConfigure().sendKeys(NEW_USER_FULL_NAME);
+        TestUtils.clearAndSend(getDriver(), By.name("_.fullName"), NEW_USER_FULL_NAME);
         getDriver().findElement(By.id("yui-gen2-button")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
@@ -122,12 +77,12 @@ public class _ManageUsersTest extends BaseTest {
     @Test(dependsOnMethods = {"testEditUserFullName"})
     public void testUserCanDeleteUser() {
 
-        getManageJenkinsClick();
-        getManageUsersClick();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageUsers.click(getDriver());
         getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", USER_NAME))).click();
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
-        for (WebElement user : getListWithAllUsers()) {
+        for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
 
             Assert.assertFalse(user.getText().contains(USER_NAME));
         }
@@ -163,17 +118,17 @@ public class _ManageUsersTest extends BaseTest {
                     }
                     fillOutFieldsCreateUser("", PASSWORD, FULL_NAME, EMAIL);
                 }
-                userName().clear();
-                userName().sendKeys(nameWithSpecialCharacter);
-                buttonCreateUser().click();
+
+                TestUtils.clearAndSend(getDriver(), By.id(USER_NAME_XPATH), nameWithSpecialCharacter);
+                getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
                 if (displayedWebElement(USER_NAME_XPATH)) {
-                    for (WebElement errorMessage : createListWithErrorMessages()) {
+                    for (WebElement errorMessage : TestUtils.getList(getDriver(), ERROR_MESSAGES)) {
 
                         asserts.assertEquals(errorMessage.getText(), expectedResult);
                     }
                 } else {
-                    for (WebElement user : getListWithAllUsers()) {
+                    for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
                         if (user.getText().contains(nameWithSpecialCharacter)) {
 
                             asserts.assertEquals(nameWithSpecialCharacter, expectedResult);
@@ -194,7 +149,7 @@ public class _ManageUsersTest extends BaseTest {
 
         goOnCreateUserPage();
         fillOutFieldsCreateUser(USER_NAME.concat("*"), PASSWORD, FULL_NAME, EMAIL);
-        buttonCreateUser().click();
+        getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
         List<String> cssValues = new ArrayList<>(Arrays.asList(
                 "color", "font-weight", "padding-left", "min-height", "line-height",
@@ -206,7 +161,7 @@ public class _ManageUsersTest extends BaseTest {
                 "error.svg",
                 "0% 0%", "no-repeat", "16px 16px"));
 
-        for (WebElement errorMessageElement : createListWithErrorMessages()) {
+        for (WebElement errorMessageElement : TestUtils.getList(getDriver(), ERROR_MESSAGES)) {
             int index = 0;
 
             for (String expectedResult : expectedResults) {
@@ -234,7 +189,7 @@ public class _ManageUsersTest extends BaseTest {
         goOnCreateUserPage();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(BUTTON_SUBMIT_TYPE)).click();
 
-        List<WebElement> actualErrors = createListWithErrorMessages();
+        List<WebElement> actualErrors = TestUtils.getList(getDriver(), ERROR_MESSAGES);
         List<String> actualErrorsText = new ArrayList<>();
         for (WebElement error : actualErrors) {
             actualErrorsText.add(error.getText());
@@ -249,13 +204,13 @@ public class _ManageUsersTest extends BaseTest {
         goOnCreateUserPage();
         fillOutFieldsCreateUser("Balthazarrr", "", "", "");
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.name("fullname")));
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(FULL_NAME_XPATH));
 
-        String actualResultFullName = fullName().getAttribute("value");
+        String actualResultFullName = getDriver().findElement(FULL_NAME_XPATH).getAttribute("value");
         Assert.assertEquals(actualResultFullName, "Balthazarrr");
 
         final List<String> expectedErrorsText = List.of("Password is required", "Invalid e-mail address");
-        List<WebElement> actualErrors = createListWithErrorMessages();
+        List<WebElement> actualErrors = TestUtils.getList(getDriver(), ERROR_MESSAGES);
         List<String> actualErrorsText = new ArrayList<>();
         for (WebElement error : actualErrors) {
             actualErrorsText.add(error.getText());
