@@ -5,17 +5,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
+import runner.ProjectUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class _LoadStatisticsTest extends BaseTest {
     private static final By XPATH_TIME_SPAN_LIST = By.xpath("//div[contains(text(), 'Timespan')]/child::*");
-
-    private void goLoadStatisticsPage() {
-        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
-        getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//dt[text()='Load Statistics']"))).click();
-    }
 
     private boolean timeSpanIsSelected(WebElement period) {
         return period.getTagName().equals("span");
@@ -25,7 +21,7 @@ public class _LoadStatisticsTest extends BaseTest {
     public void testCheckToolTipForEachTimeSpan() {
         final List<String> expectedToolTips = List.of("Every tick is 10 seconds", "Every tick is one minute", "Every tick is one hour");
 
-        goLoadStatisticsPage();
+        ProjectUtils.goLoadStatisticsPage(getDriver());
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_TIME_SPAN_LIST));
 
         var timeSpan = getDriver().findElements(XPATH_TIME_SPAN_LIST);
@@ -41,7 +37,7 @@ public class _LoadStatisticsTest extends BaseTest {
     public void testCheckButtonsStatusForEachTimeSpan() {
         SoftAssert asserts = new SoftAssert();
 
-        goLoadStatisticsPage();
+        ProjectUtils.goLoadStatisticsPage(getDriver());
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_TIME_SPAN_LIST));
         var timeSpan = getDriver().findElements(XPATH_TIME_SPAN_LIST);
 

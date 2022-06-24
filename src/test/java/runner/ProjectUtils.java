@@ -44,8 +44,15 @@ public final class ProjectUtils {
         driver.findElement(By.id("ok-button")).click();
     }
 
+
+    public static void goLoadStatisticsPage(WebDriver driver){
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(driver);
+        ProjectUtils.ManageJenkins.LoadStatistics.click(driver);
+    }
+
     public static void clickSaveButton(WebDriver driver) {
         driver.findElement(By.xpath("//div[@id='bottom-sticker']//button[@type='submit']")).click();
+
     }
 
     public static class Dashboard {
