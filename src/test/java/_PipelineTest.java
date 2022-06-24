@@ -15,6 +15,7 @@ import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class _PipelineTest extends BaseTest {
@@ -28,6 +29,9 @@ public class _PipelineTest extends BaseTest {
     private static final By PIPELINE_ITEM_CONFIGURATION =
             By.cssSelector(".config-section-activators .config_pipeline");
     private static final By LINK_JENKINS_HOMEPAGE = By.id("jenkins-name-icon");
+    private static final By CHECKBOX_PROJECT_PARAMETERIZED =
+            By.xpath("//label[text()='This project is parameterized']");
+    private static final By ADD_BOOLEAN_PARAMETER = By.xpath("//b[text()='Boolean Parameter']");
 
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
@@ -678,5 +682,37 @@ public class _PipelineTest extends BaseTest {
                 By.xpath("//table[@id = 'projectstatus']//td")).getText().isEmpty());
 
         click(DELETE_BUTTON, SUBMIT_BUTTON);
+    }
+
+    @Test
+    public void testDragAndDropProjectParameters() {
+        final String name = pipelineName();
+
+        List<String> expectedResult = Arrays.asList("Choice Parameter", "Boolean Parameter");
+
+        createPipeline(name, Boolean.TRUE);
+        getDriver().findElement(CHECKBOX_PROJECT_PARAMETERIZED).click();
+        clickAddParameterOrBuildButton();
+        getDriver().findElement(By.id("yui-gen8")).click();
+
+        js(getDriver().findElement(CHECKBOX_PROJECT_PARAMETERIZED));
+
+        clickAddParameterOrBuildButton();
+        getDriver().findElement(By.id("yui-gen9")).click();
+
+        js(getDriver().findElement(By.xpath("//label[text()='Do not allow concurrent builds']")));
+
+        action.clickAndHold(getDriver().findElement(By.xpath("//b[text()='Choice Parameter']")))
+                .moveToElement(getDriver().findElement(ADD_BOOLEAN_PARAMETER))
+                .release(getDriver().findElement(ADD_BOOLEAN_PARAMETER))
+                .perform();
+
+        List<WebElement> projectParametersLocation = getDriver().findElements(
+                By.xpath("//div[@class='dd-handle']/b"));
+        for (int i = 0; i < projectParametersLocation.size(); i++) {
+
+            Assert.assertEquals(projectParametersLocation.get(i).getText(), expectedResult.get(i));
+        }
+        saveButtonClick();
     }
 }
