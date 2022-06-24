@@ -44,6 +44,14 @@ public final class ProjectUtils {
         driver.findElement(By.id("ok-button")).click();
     }
 
+    public static void createFreestyleProjectWithRandomName(WebDriver driver) {
+        ProjectUtils.Dashboard.Main.NewItem.click(driver);
+
+        driver.findElement(By.id("name")).sendKeys(TestUtils.getRandomStr());
+        driver.findElement(By.cssSelector("li.hudson_model_FreeStyleProject")).click();
+        driver.findElement(By.id("ok-button")).click();
+        driver.findElement(By.id("jenkins-home-link")).click();
+    }
 
     public static void goLoadStatisticsPage(WebDriver driver){
         ProjectUtils.Dashboard.Main.ManageJenkins.click(driver);
@@ -140,10 +148,25 @@ public final class ProjectUtils {
             }
         }
 
-        /**
-         * именование enum
-         * https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html
-         */
+        public enum View {
+            NewItem(By.linkText("New Item")),
+            People(By.linkText("People")),
+            BuildHistory(By.linkText("Build History")),
+            EditView(By.linkText("Edit View")),
+            DeleteView(By.linkText("Delete View")),
+            NewView(By.linkText("New View"));
+
+            private final By locator;
+
+            View(By locator) {
+                this.locator = locator;
+            }
+
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+        }
+
         public enum Pipeline {
             BACK_TO_DASHBOARD(By.linkText("Back to Dashboard")),
             STATUS(By.linkText("Status")),
