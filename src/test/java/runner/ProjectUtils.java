@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.List;
+
 import static runner.BaseUtils.PREFIX_PROP;
 import static runner.BaseUtils.getProperties;
 
@@ -60,13 +62,23 @@ public final class ProjectUtils {
         clickDashboard(driver);
     }
 
-    public static void openProject (WebDriver driver, String name) {
+    public static void openProject(WebDriver driver, String name) {
         driver.findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
     }
 
-    public static void goLoadStatisticsPage(WebDriver driver){
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(driver);
-        ProjectUtils.ManageJenkins.LoadStatistics.click(driver);
+    public static void goLoadStatisticsPage(WebDriver driver) {
+        Dashboard.Main.ManageJenkins.click(driver);
+        ManageJenkins.LoadStatistics.click(driver);
+    }
+
+    public static void goOnManageNodesAndCloudsPage(WebDriver driver) {
+        Dashboard.Main.ManageJenkins.click(driver);
+        ManageJenkins.ManageNodesAndClouds.click(driver);
+    }
+
+    public static List<WebElement> getComputerNames(WebDriver driver) {
+        goOnManageNodesAndCloudsPage(driver);
+        return driver.findElements(By.xpath("//table[@id='computers']/tbody/*/td[2]"));
     }
 
     public static void clickSaveButton(WebDriver driver) {
@@ -136,9 +148,11 @@ public final class ProjectUtils {
             OrganizationFolder(By.className("jenkins_branch_OrganizationFolder"));
 
             private final By locator;
+
             NewItem(By locator) {
                 this.locator = locator;
             }
+
             public void click(WebDriver driver) {
                 driver.findElement(locator).click();
             }

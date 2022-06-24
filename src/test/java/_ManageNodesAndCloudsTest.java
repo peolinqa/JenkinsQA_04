@@ -5,14 +5,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 
 import java.util.List;
 
 public class _ManageNodesAndCloudsTest extends BaseTest {
 
-    private static final By XPATH_MANAGE_JENKINS = By.xpath("//span[text()='Manage Jenkins']");
-    private static final By XPATH_MANAGE_NODES_AND_CLOUDS = By.xpath("//dt[text()='Manage Nodes and Clouds']");
-    private static final By XPATH_NEW_NODE = By.xpath("//span[text()='New Node']");
+    private static final String COMPUTER_NAME = "first test node 456";
     private static final By XPATH_MENU_SELECTOR_BTN = By.xpath("//div[@id='menuSelector']");
 
     private WebElement findBuildQueueBtn() {
@@ -31,39 +30,6 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
     private String getTitleValueBuildExecutorStatusBtn() {
         return findBuildExecutorStatusBtn().getAttribute("title");
-    }
-
-    private void deleteNode(String name) {
-        List<WebElement> listComputerNames = getComputerNames();
-
-        for (WebElement computerName : listComputerNames) {
-            if (computerName.getText().equals(name)) {
-
-                Actions action = new Actions(getDriver());
-                action.moveToElement(computerName).build().perform();
-
-                getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_MENU_SELECTOR_BTN));
-                action.moveToElement(getDriver().findElement(XPATH_MENU_SELECTOR_BTN)).click().build().perform();
-
-                getWait20().until(ExpectedConditions
-                        .visibilityOfElementLocated(By.xpath("//span[text()='Delete Agent']"))).click();
-                getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
-                break;
-            }
-        }
-    }
-
-    private List<WebElement> getComputerNames() {
-        getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']")).click();
-        getDriver().findElement(XPATH_MANAGE_JENKINS).click();
-        getDriver().findElement(XPATH_MANAGE_NODES_AND_CLOUDS).click();
-        return getDriver().findElements(By.xpath("//table[@id='computers']/tbody/*/td[2]"));
-    }
-
-    private void goOnNewNodePage() {
-        getDriver().findElement(XPATH_MANAGE_JENKINS).click();
-        getDriver().findElement(XPATH_MANAGE_NODES_AND_CLOUDS).click();
-        getDriver().findElement(XPATH_NEW_NODE).click();
     }
 
     @Test
@@ -97,7 +63,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     }
 
     @Test
-    public void testCheckManageJenkins() {
+    public void testCheckManageJenkinsAndNavigation() {
         final String expectedResultURL = getDriver().getCurrentUrl();
 
         getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
@@ -112,20 +78,44 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
     @Test
     public void testCreateNewNodeWithValidName() {
-        goOnNewNodePage();
+        ProjectUtils.goOnManageNodesAndCloudsPage(getDriver());
 
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("first test node");
+        getDriver().findElement(By.xpath("//span[text()='New Node']")).click();
+        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(COMPUTER_NAME);
         getDriver().findElement(By.xpath("//label[text()='Permanent Agent']")).click();
         getDriver().findElement(By.xpath("//input[@id='ok']")).click();
         getDriver().findElement(By.xpath("//button[@id='yui-gen7-button']")).click();
-        getDriver().findElement(By.xpath("//img[@id='jenkins-name-icon']")).click();
 
-        List<WebElement> listComputerNames = getComputerNames();
+        List<WebElement> listComputerNames = ProjectUtils.getComputerNames(getDriver());
         var actualName = listComputerNames.stream()
-                .filter(element -> element.getText().equals("first test node"))
+                .filter(element -> element.getText().equals(COMPUTER_NAME))
                 .findFirst();
-        Assert.assertTrue(actualName.isPresent());
 
-        deleteNode("first test node");
+        Assert.assertTrue(actualName.isPresent());
+    }
+
+    @Test(dependsOnMethods = "testCreateNewNodeWithValidName")
+    public void testCheckDeleteNode() {
+        ProjectUtils.goOnManageNodesAndCloudsPage(getDriver());
+        List<WebElement> listComputerNames = ProjectUtils.getComputerNames(getDriver());
+
+        for (WebElement computerName : listComputerNames) {
+            if (computerName.getText().equals(COMPUTER_NAME)) {
+                Actions action = new Actions(getDriver());
+                action.moveToElement(computerName).build().perform();
+
+                WebElement selectorButton = getWait5().until(ExpectedConditions
+                        .visibilityOfElementLocated(By.xpath("//div[@id='menuSelector']")));
+                action.moveToElement(selectorButton).click().build().perform();
+
+                getWait20().until(ExpectedConditions
+                        .visibilityOfElementLocated(By.xpath("//span[text()='Delete Agent']"))).click();
+                getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
+                break;
+            }
+        }
+
+        List<WebElement> listComputerNamesAfterDelete = ProjectUtils.getComputerNames(getDriver());
+        Assert.assertFalse(listComputerNamesAfterDelete.contains(COMPUTER_NAME));
     }
 }
