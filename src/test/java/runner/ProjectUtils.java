@@ -47,9 +47,21 @@ public final class ProjectUtils {
     public static void createFreestyleProjectWithRandomName(WebDriver driver) {
         Dashboard.Main.NewItem.click(driver);
         driver.findElement(By.id("name")).sendKeys(TestUtils.getRandomStr());
-        driver.findElement(By.cssSelector("li.hudson_model_FreeStyleProject")).click();
-        driver.findElement(By.id("ok-button")).click();
-        driver.findElement(By.id("jenkins-home-link")).click();
+        Dashboard.NewItem.FreestyleProject.click(driver);
+        clickOKButton(driver);
+        clickDashboard(driver);
+    }
+
+    public static void createFreestyleProjectWithName(WebDriver driver, String name) {
+        Dashboard.Main.NewItem.click(driver);
+        driver.findElement(By.id("name")).sendKeys(name);
+        Dashboard.NewItem.FreestyleProject.click(driver);
+        clickOKButton(driver);
+        clickDashboard(driver);
+    }
+
+    public static void openProject (WebDriver driver, String name) {
+        driver.findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
     }
 
     public static void goLoadStatisticsPage(WebDriver driver){

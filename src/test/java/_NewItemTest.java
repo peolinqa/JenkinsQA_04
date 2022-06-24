@@ -17,37 +17,30 @@ public class _NewItemTest extends BaseTest {
     private static final String DESCRIPTION_INPUT = "New Project created by TA";
     private static final String URL_INPUT = "https://github.com/SergeiDemyanenko/JenkinsQA_04/";
 
-    public void startFreestyleProject(String name) {
+    public void copyFromFreestyleProject(String nameNew, String nameCopyFrom) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        getDriver().findElement(By.id("name")).sendKeys(name);
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-    }
-
-    public void copyFrom(String name) {
+        getDriver().findElement(By.id("name")).sendKeys(nameNew);
+        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
         WebElement copFromButton = getDriver().findElement(By.id("from"));
-        Actions action = new Actions(getDriver());
-        action.moveToElement(copFromButton).perform();
-        copFromButton.sendKeys(name);
+        new Actions(getDriver()).pause(500).moveToElement(copFromButton).perform();
+        copFromButton.sendKeys(nameCopyFrom);
         ProjectUtils.clickOKButton(getDriver());
     }
 
     @Test
     public void testCopyDataFromExistingItemNegative() {
-        startFreestyleProject(TestUtils.getRandomStr(5));
-        ProjectUtils.clickOKButton(getDriver());
-        ProjectUtils.clickSaveButton(getDriver());
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.createFreestyleProjectWithRandomName(getDriver());
 
-        startFreestyleProject("NJ3");
-        copyFrom("NJ4");
+        copyFromFreestyleProject("NJ3", "NJ4");
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
     }
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
-        startFreestyleProject("NJ");
-        ProjectUtils.clickOKButton(getDriver());
+        ProjectUtils.createFreestyleProjectWithName(getDriver(), "NJ");
+        ProjectUtils.openProject(getDriver(), "NJ");
+        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.name(DESCRIPTION_FIELD))).sendKeys(DESCRIPTION_INPUT);
         getDriver().findElement(By.name("githubProject")).click();
@@ -55,9 +48,9 @@ public class _NewItemTest extends BaseTest {
         ProjectUtils.clickSaveButton(getDriver());
 
         ProjectUtils.clickDashboard(getDriver());
-
-        startFreestyleProject("NJ2");
-        copyFrom("NJ");
+        copyFromFreestyleProject("NJ2", "NJ");
+        ProjectUtils.openProject(getDriver(), "NJ2");
+        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertEquals(getDriver().findElement(By.name(DESCRIPTION_FIELD)).getText(), DESCRIPTION_INPUT);
