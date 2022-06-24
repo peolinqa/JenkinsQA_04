@@ -1,7 +1,5 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -11,28 +9,21 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
+import static runner.TestUtils.getRandomStr;
+
 public class _FreestyleTest extends BaseTest {
-    private static final String RANDOM_NAME = RandomStringUtils.randomAlphabetic(5);
+    private static final String RANDOM_NAME = getRandomStr(5);
     private static final String EDITED_RANDOM_NAME = "New " + RANDOM_NAME;
     private static final String NAME_WITH_SPECIAL_CHARACTERS = "-()+-_~-1";
     private static final String INVALID_DATA = "!@#$;%^&?*[]/:.";
-    private static final String RANDOM_DESCRIPTION = RandomStringUtils.randomAlphabetic(15);
-    private static final String EDITED_RANDOM_DESCRIPTION = RandomStringUtils.randomAlphabetic(15);
+    private static final String RANDOM_DESCRIPTION = getRandomStr(15);
+    private static final String EDITED_RANDOM_DESCRIPTION = getRandomStr(15);
 
     public void createFreestyleProjectRandomName(String name) {
-        getDriver().findElement(By.cssSelector("[title='New Item']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(name);
-        getDriver().findElement(By.xpath(
-                "//li[contains(@class,'FreeStyleProject')]")).click();
-        getDriver().findElement(By.id("ok-button")).click();
-    }
-
-    private void dashboardClick() {
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-    }
-
-    private void saveButton() {
-        getDriver().findElement(By.cssSelector("[type='submit']")).click();
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
+        TestUtils.clearAndSend(getDriver(), By.id("name"), name);
+        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
+        ProjectUtils.clickOKButton(getDriver());
     }
 
     private void openFreestyleProjectProject(String name) {
@@ -40,8 +31,7 @@ public class _FreestyleTest extends BaseTest {
     }
 
     private void checkBoxDisableProject() {
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(
-                "//label[text()='Disable this project']"))).click();
+        getDriver().findElement(By.xpath(String.format("//label[text()='Disable this project']"))).click();
     }
 
     private WebElement clickAndFindIcon() {
@@ -62,15 +52,13 @@ public class _FreestyleTest extends BaseTest {
     private void editDescription() {
         getDriver().findElement(By.xpath("//a[text() = 'Edit description']")).click();
         TestUtils.clearAndSend(getDriver(), By.xpath("//textarea[@name = 'description']"), EDITED_RANDOM_DESCRIPTION);
-        getDriver().findElement(By.xpath("//button[text() = 'Save']")).click();
+        ProjectUtils.clickSaveButton(getDriver());
     }
 
     private void deleteFreestyleProject(String name) {
-        dashboardClick();
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement(
-                By.xpath("//a[text()='" + name + "']"))).click().build().perform();
-        getDriver().findElement(By.xpath("//span[text()='Delete Project']")).click();
+        ProjectUtils.clickDashboard(getDriver());
+        TestUtils.actionsClick(getDriver(), By.xpath("//a[text()='" + name + "']"));
+        ProjectUtils.Dashboard.Project.DeleteProject.click(getDriver());
         getDriver().switchTo().alert().accept();
     }
 
@@ -110,7 +98,7 @@ public class _FreestyleTest extends BaseTest {
             checkBoxDisableProject();
         }
 
-        saveButton();
+        ProjectUtils.clickSaveButton(getDriver());
         WebElement button = getDriver().findElement(By.cssSelector(
                 "[type='submit']"));
 
@@ -134,7 +122,7 @@ public class _FreestyleTest extends BaseTest {
         if (project.equals(CheckBox.DISABLE)) {
             checkBoxDisableProject();
         }
-        saveButton();
+        ProjectUtils.clickSaveButton(getDriver());
 
         Assert.assertEquals(clickAndFindIcon().getAttribute("tooltip"),
                 project.getStatusIcons());
@@ -161,11 +149,11 @@ public class _FreestyleTest extends BaseTest {
 
         getDriver().findElement(By.cssSelector("[name='description']"))
                 .sendKeys("This is a description for a Freestyle project");
-        dashboardClick();
+        ProjectUtils.clickDashboard(getDriver());
         String alert = String.valueOf(ExpectedConditions.alertIsPresent());
 
         getDriver().switchTo().alert().dismiss();
-        dashboardClick();
+        ProjectUtils.clickDashboard(getDriver());
         getDriver().switchTo().alert().accept();
         getDriver().findElement(By.xpath(String.format("//a[text()='%s']", RANDOM_NAME))).click();
         String description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row")).getText();
@@ -215,7 +203,7 @@ public class _FreestyleTest extends BaseTest {
     @Test(dependsOnMethods = "testFreestyleProjectEditDescription")
     public void testDisabledFreestyleProject() {
         openFreestyleProjectProject(RANDOM_NAME);
-        getDriver().findElement(By.id("yui-gen1-button")).click();
+        ProjectUtils.clickDisableProject(getDriver());
 
         Assert.assertTrue(getDriver()
                 .findElement(By.id("enable-project")).getText().contains("This project is currently disabled"));
@@ -224,23 +212,20 @@ public class _FreestyleTest extends BaseTest {
     @Test(dependsOnMethods = "testDisabledFreestyleProject")
     public void testDisabledEnabledFreestyleProject() {
         openFreestyleProjectProject(RANDOM_NAME);
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-
+        ProjectUtils.clickEnableProject(getDriver());
         Assert.assertEquals(getDriver().findElement(By.id("yui-gen1-button")).getText(), "Disable Project");
     }
 
     @Test(dependsOnMethods = "testDisabledEnabledFreestyleProject")
     public void testRenameFreestyleProject() {
         renameFreestyleProject(RANDOM_NAME, EDITED_RANDOM_NAME);
-
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + EDITED_RANDOM_NAME);
     }
 
     @Test
     public void testNoEnterNameFreestyleItem() {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-
+        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
         Assert.assertEquals(
                 getDriver().findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
@@ -250,24 +235,20 @@ public class _FreestyleTest extends BaseTest {
     public void testEnterSeveralSpaces() {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys("    ");
-        getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
-        getDriver().findElement(By.id("ok-button")).click();
+        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
+        ProjectUtils.clickOKButton(getDriver());
 
         Assert.assertEquals(getDriver().findElement(
                 By.xpath("//div[@id='main-panel']/p")).getText(), "No name is specified");
     }
 
     @Test(dependsOnMethods = "testRenameFreestyleProject")
-    public void testCheckHelpButtonBuildTriggersBuildPeriodically() {
+    public void testCheckHelpButtonBuildTriggersBuildPeriodically() throws InterruptedException {
         openFreestyleProjectProject(EDITED_RANDOM_NAME);
         getDriver().findElement(By.linkText("Configure")).click();
         getDriver().findElement(By.cssSelector(".tab.config-section-activator.config_build_triggers")).click();
-
-        new Actions(getDriver())
-                .pause(500)
-                .moveToElement(getDriver().findElement(
-                        By.xpath("//a[@tooltip='Help for feature: Build periodically']")))
-                .perform();
+        Thread.sleep(500);
+        TestUtils.actionsClick(getDriver(), By.xpath("//a[@tooltip='Help for feature: Build periodically']"));
 
         String actualText = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText();
 
@@ -314,25 +295,17 @@ public class _FreestyleTest extends BaseTest {
     public void testRenameCopyDeleteLater() {
         createFreestyleProjectRandomName(RANDOM_NAME);
 
-        dashboardClick();
+        ProjectUtils.clickDashboard(getDriver());
 
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement(
-                By.xpath("//a[@href='job/" + RANDOM_NAME + "/']")))
-                .build().perform();
+        TestUtils.actionsClick(getDriver(), By.xpath("//a[@href='job/" + RANDOM_NAME + "/']"));
+        TestUtils.actionsClick(getDriver(), By.xpath("//div[@id='menuSelector']"));
+        TestUtils.actionsClick(getDriver(), By.xpath("//a[@href='/job/" + RANDOM_NAME + "/confirm-rename']"));
 
-        action.moveToElement(getDriver().findElement(By.xpath(
-                "//div[@id='menuSelector']")))
-                .click().build().perform();
-
-        action.moveToElement(getDriver().findElement(By.xpath(
-                "//a[@href='/job/" + RANDOM_NAME + "/confirm-rename']")))
-                .click().build().perform();
         getDriver().findElement(By.xpath(
                 "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input")).clear();
 
         getDriver().findElement(By.xpath(
-                "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"))
+                        "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"))
                 .sendKeys(EDITED_RANDOM_NAME);
 
         getDriver().findElement(By.xpath(
@@ -347,14 +320,14 @@ public class _FreestyleTest extends BaseTest {
 
     @Test
     public void testCannotCreateProjectNameWithInvalidCharacter() {
-        getDriver().findElement(By.linkText("New Item")).click();
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":", "."};
         boolean resultButtonOkDisabled = true;
 
         for (String character : characterName) {
             getDriver().findElement(By.id("name")).sendKeys(character);
-            getDriver().findElement(By.xpath("//li[@class='hudson_model_FreeStyleProject']")).click();
+            ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
             if (!getDriver().findElement(By.xpath("//button[@class]")).getAttribute("class").equals("disabled")) {
                 resultButtonOkDisabled = false;
             }

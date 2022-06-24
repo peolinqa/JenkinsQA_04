@@ -45,8 +45,7 @@ public final class ProjectUtils {
     }
 
     public static void createFreestyleProjectWithRandomName(WebDriver driver) {
-        ProjectUtils.Dashboard.Main.NewItem.click(driver);
-
+        Dashboard.Main.NewItem.click(driver);
         driver.findElement(By.id("name")).sendKeys(TestUtils.getRandomStr());
         driver.findElement(By.cssSelector("li.hudson_model_FreeStyleProject")).click();
         driver.findElement(By.id("ok-button")).click();
@@ -59,9 +58,18 @@ public final class ProjectUtils {
     }
 
     public static void clickSaveButton(WebDriver driver) {
-        driver.findElement(By.xpath("//div[@id='bottom-sticker']//button[@type='submit']")).click();
-
+        driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Save')]")).click();
     }
+
+    public static void clickDisableProject(WebDriver driver) {
+        driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Disable')]")).click();
+    }
+
+    public static void clickEnableProject(WebDriver driver) {
+        driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Enable')]")).click();
+    }
+
+    //button[@type='submit' and contains(text(), 'Enable')]
 
     public static class Dashboard {
 
@@ -90,7 +98,7 @@ public final class ProjectUtils {
             Status(By.linkText("Status")),
             Changes(By.linkText("Changes")),
             Workspace(By.linkText("Workspace")),
-            BuildNow(By.partialLinkText("Build Now")),
+            BuildNow(By.linkText("Build Now")),
             Configure(By.linkText("Configure")),
             DeleteProject(By.xpath("//span[text()='Delete Project']")),
             Move(By.linkText("Move")),
@@ -102,6 +110,23 @@ public final class ProjectUtils {
                 this.locator = locator;
             }
 
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+        }
+
+        public enum NewItem {
+            FreestyleProject(By.className("hudson_model_FreeStyleProject")),
+            Pipeline(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")),
+            MultiConfigurationProject(By.className("hudson_matrix_MatrixProject")),
+            Folder(By.className("com_cloudbees_hudson_plugins_folder_Folder")),
+            MultiBranchPipeline(By.className("org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")),
+            OrganizationFolder(By.className("jenkins_branch_OrganizationFolder"));
+
+            private final By locator;
+            NewItem(By locator) {
+                this.locator = locator;
+            }
             public void click(WebDriver driver) {
                 driver.findElement(locator).click();
             }
@@ -173,7 +198,7 @@ public final class ProjectUtils {
             CHANGES(By.linkText("Changes")),
             BUILD_NOW(By.linkText("Build Now")),
             CONFIGURE(By.linkText("Configure")),
-            DELETE_PIPELINE(By.linkText("Delete Pipeline")),
+            DELETE_PIPELINE(By.xpath("//span[text()='Delete Pipeline']")),
             MOVE(By.linkText("Move")),
             FULL_STAGE_VIEW(By.linkText("Full Stage View")),
             RENAME(By.linkText("Rename")),
