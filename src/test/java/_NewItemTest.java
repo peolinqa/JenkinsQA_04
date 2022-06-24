@@ -18,7 +18,7 @@ public class _NewItemTest extends BaseTest {
     private static final String URL_INPUT = "https://github.com/SergeiDemyanenko/JenkinsQA_04/";
 
     public void startFreestyleProject(String name) {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(name);
         getDriver().findElement(By.className("hudson_model_FreeStyleProject")).click();
     }
@@ -67,7 +67,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckLabelStyle() {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         List<WebElement> labels = TestUtils.getList(getDriver(),By.xpath("//li/label"));
 
         for (WebElement value : labels) {
@@ -81,7 +81,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckDescriptionStyle() {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         List<WebElement> descriptions = TestUtils.getList(getDriver(),By.xpath("//div[@class='desc']"));
         for (WebElement value : descriptions) {
@@ -94,7 +94,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckIconAvailabilityDisplaying() {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         List<WebElement> icons = TestUtils.getList(getDriver(),By.xpath("//div[@class='icon']/img"));
         for (WebElement icon : icons) {
@@ -107,7 +107,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckLabelDisplayingOnNewItemPage() {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         String[] expectedIcons = {
                 "Freestyle project",
@@ -126,7 +126,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testOKButtonErrorDisplaying() {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.cssSelector("div.btn-decorator")).click();
 
         String actualError = getDriver().findElement(
@@ -137,7 +137,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckBreadcrumbs() {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         List<WebElement> breadcrumbs = TestUtils.getList(getDriver(),By.xpath("//ul[@id='breadcrumbs']/li"));
 

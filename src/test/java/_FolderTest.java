@@ -57,7 +57,7 @@ public class _FolderTest extends BaseTest {
     }
 
     private static void createFolder(WebDriver driver, String folderName) {
-        driver.findElement(By.linkText("New Item")).click();
+        ProjectUtils.Dashboard.Main.NewItem.click(driver);
         driver.findElement(NAME).sendKeys(folderName);
         driver.findElement(By.xpath("//span[text()='Folder']")).click();
         driver.findElement(OK_BUTTON).click();
