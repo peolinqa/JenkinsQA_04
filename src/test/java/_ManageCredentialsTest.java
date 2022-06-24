@@ -4,12 +4,14 @@ import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
+
 import java.util.Arrays;
 
 public class _ManageCredentialsTest extends BaseTest {
     private static final String ICON_XPATH = "//td[@data='Jenkins Credentials Provider']";
-    public static final String NEW_USERNAME = "Felix";
-    public static final String NEW_PASSWORD = "QA12345";
+    public static final String NEW_USERNAME = TestUtils.getRandomStr(8);
+    public static final String NEW_PASSWORD = TestUtils.getRandomStr(9);
     private static final By SMALL_SIZE_ICONS = By.xpath("//a[@href='/iconSize?16x16']");
     private static final By MEDIUM_SIZE_ICONS = By.xpath("//a[@href='/iconSize?24x24']");
     private static final By LARGE_SIZE_ICONS = By.xpath("//a[@href='/iconSize?32x32']");
