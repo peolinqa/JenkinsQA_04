@@ -40,10 +40,6 @@ public final class ProjectUtils {
         driver.findElement(By.linkText("Dashboard")).click();
     }
 
-    public static void clickNewItem(WebDriver driver) {
-        driver.findElement(By.linkText("New Item")).click();
-    }
-
     public static void clickOKButton(WebDriver driver) {
         driver.findElement(By.id("ok-button")).click();
     }

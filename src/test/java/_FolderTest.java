@@ -50,7 +50,7 @@ public class _FolderTest extends BaseTest {
     }
 
     private void createFolderWithoutSaveButton(String folderName) {
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(folderName);
         clickFolderItem();
         ProjectUtils.clickOKButton(getDriver());
@@ -223,7 +223,7 @@ public class _FolderTest extends BaseTest {
 
         final String symbols = "!@#$%^&*:;<>?/\\.";
 
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         WebElement name = getDriver().findElement(NAME);
 
@@ -250,7 +250,7 @@ public class _FolderTest extends BaseTest {
         final String expectedErrorMessage = "» ‘@’ is an unsafe character";
         final String expectedError = "Error";
 
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
         clickFolderItem();
@@ -276,7 +276,7 @@ public class _FolderTest extends BaseTest {
 
         createFolder(getDriver(), nameFolder);
         ProjectUtils.clickDashboard(getDriver());
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
         clickFolderItem();
@@ -299,7 +299,7 @@ public class _FolderTest extends BaseTest {
 
         final String nameFolder = TestUtils.getRandomStr();
 
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(nameFolder);
         getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")).click();
         ProjectUtils.clickOKButton(getDriver());
@@ -314,7 +314,7 @@ public class _FolderTest extends BaseTest {
 
         final String nameFolder = TestUtils.getRandomStr();
 
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(nameFolder);
         getDriver().findElement(By.xpath("//li[@class='com_cloudbees_hudson_plugins_folder_Folder']")).click();
         ProjectUtils.clickOKButton(getDriver());
@@ -405,7 +405,7 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
         final String folderDescription = TestUtils.getRandomStr();
 
-        ProjectUtils.clickNewItem(getDriver());
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(folderName);
         getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
         ProjectUtils.clickOKButton(getDriver());
