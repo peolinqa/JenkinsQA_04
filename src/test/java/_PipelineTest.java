@@ -433,7 +433,7 @@ public class _PipelineTest extends BaseTest {
                 By.xpath(String.format("//a[text()='%s']", name)))).build().perform();
         getDriver().findElement(By.id("menuSelector")).click();
 
-        ProjectUtils.Dashboard.Pipeline.DELETE_PIPELINE.click(getDriver());
+        ProjectUtils.Dashboard.Pipeline.DeletePipeline.click(getDriver());
         getDriver().switchTo().alert().accept();
 
         checkProjectAfterDelete(name);
@@ -472,7 +472,7 @@ public class _PipelineTest extends BaseTest {
         createPipeline(pipelineName(), Boolean.TRUE);
 
         homePageClick();
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
         getDriver().findElement(By.xpath("//a[@href='script']")).click();
 
         cleanAllPipelines();

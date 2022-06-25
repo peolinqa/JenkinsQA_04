@@ -214,16 +214,16 @@ public final class ProjectUtils {
         }
 
         public enum Pipeline {
-            BACK_TO_DASHBOARD(By.linkText("Back to Dashboard")),
-            STATUS(By.linkText("Status")),
-            CHANGES(By.linkText("Changes")),
-            BUILD_NOW(By.linkText("Build Now")),
-            CONFIGURE(By.linkText("Configure")),
-            DELETE_PIPELINE(By.xpath("//span[text()='Delete Pipeline']")),
-            MOVE(By.linkText("Move")),
-            FULL_STAGE_VIEW(By.linkText("Full Stage View")),
-            RENAME(By.linkText("Rename")),
-            PIPELINE_SYNTAX(By.linkText("Pipeine Syntax"));
+            BackToDashboard(By.linkText("Back to Dashboard")),
+            Status(By.linkText("Status")),
+            Changes(By.linkText("Changes")),
+            BuildNow(By.linkText("Build Now")),
+            Configure(By.linkText("Configure")),
+            DeletePipeline(By.xpath("//span[text()='Delete Pipeline']")),
+            Move(By.linkText("Move")),
+            FullStageView(By.linkText("Full Stage View")),
+            Rename(By.linkText("Rename")),
+            PipelineSyntax(By.linkText("Pipeine Syntax"));
 
             private final By locator;
 
