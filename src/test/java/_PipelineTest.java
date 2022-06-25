@@ -298,6 +298,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(getDriver().getTitle().contains(name));
     }
 
+    @Ignore
     @Test
     public void test404PageAfterDeletedPipeline() {
 
