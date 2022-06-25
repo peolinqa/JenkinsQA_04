@@ -134,16 +134,14 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testAddDescription"})
     public void testRenameMCProject() {
-        String expectedResult = "Project McprojectRename";
-
         openProjectJob(PROJECT_NAME);
+
         getDriver().findElement(By.linkText("Rename")).click();
         getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"))
                 .sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "McprojectRename");
         getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
 
-        String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project McprojectRename");
 
         returnToMainPage();
         deleteFolder("McprojectRename");
