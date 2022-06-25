@@ -27,7 +27,7 @@ public class _FolderTest extends BaseTest {
     private static final By OK_BUTTON = By.id("ok-button");
 
     public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
-        ProjectUtils.clickDashboard(driver);
+        ProjectUtils.Dashboard.Main.Dashboard.click(driver);
 
         List<String> jobsNames = driver.findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"))
                 .stream()
@@ -45,21 +45,17 @@ public class _FolderTest extends BaseTest {
                 });
     }
 
-    private void clickFolderItem() {
-        getDriver().findElement(By.xpath("//span[text()='Folder']")).click();
-    }
-
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(folderName);
-        clickFolderItem();
+        ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
         ProjectUtils.clickOKButton(getDriver());
     }
 
     private static void createFolder(WebDriver driver, String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(driver);
         driver.findElement(NAME).sendKeys(folderName);
-        driver.findElement(By.xpath("//span[text()='Folder']")).click();
+        ProjectUtils.Dashboard.NewItem.Folder.click(driver);
         driver.findElement(OK_BUTTON).click();
         driver.findElement(SUBMIT_BUTTON).click();
     }
@@ -196,7 +192,7 @@ public class _FolderTest extends BaseTest {
         deleteJobsWithPrefix(getDriver(), randomFolderName);
         createFolder(getDriver(), randomFolderName);
 
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         getDriver().findElement(By.xpath("//a[@href='job/" + randomFolderName + "/']")).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Folder']")).click();
         getDriver().findElement(By.xpath("//button[contains(text(),'Yes')]")).click();
@@ -231,7 +227,7 @@ public class _FolderTest extends BaseTest {
             name.clear();
             String s = String.valueOf(symbols.charAt(i));
             name.sendKeys(s);
-            clickFolderItem();
+            ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
 
             String expectedResult = "";
             if (s.equals(".")) {
@@ -253,7 +249,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
-        clickFolderItem();
+        ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
         String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
 
         Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
@@ -275,11 +271,11 @@ public class _FolderTest extends BaseTest {
         final String expectedError = "Error";
 
         createFolder(getDriver(), nameFolder);
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
-        clickFolderItem();
+        ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
         WebElement actualErrorMessage1 = getWait20()
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid")));
 
@@ -333,7 +329,7 @@ public class _FolderTest extends BaseTest {
         final String newRandomFolderName = TestUtils.getRandomStr();
 
         сreateFolderForRename(randomFolderName);
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         clickMenuRenameFolder(randomFolderName);
         setNewFolderName(newRandomFolderName);
 
@@ -348,7 +344,7 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
 
         сreateFolderForRename(folderName);
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
 
         for (int i = 0; i < unsafeCharacters.length(); i++) {
@@ -382,7 +378,7 @@ public class _FolderTest extends BaseTest {
         final String[] expectedResult = new String[]{"Error", "No name is specified"};
 
         сreateFolderForRename(folderName);
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
         setNewFolderName(newFolderName);
 
@@ -391,7 +387,7 @@ public class _FolderTest extends BaseTest {
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText()
         };
 
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertEquals(expectedResult, actualResult);

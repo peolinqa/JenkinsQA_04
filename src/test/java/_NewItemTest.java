@@ -47,7 +47,7 @@ public class _NewItemTest extends BaseTest {
         getDriver().findElement(By.name(GITHUB_URL)).sendKeys(URL_INPUT);
         ProjectUtils.clickSaveButton(getDriver());
 
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         copyFromFreestyleProject("NJ2", "NJ");
         ProjectUtils.openProject(getDriver(), "NJ2");
         ProjectUtils.Dashboard.Project.Configure.click(getDriver());

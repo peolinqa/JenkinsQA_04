@@ -38,10 +38,6 @@ public final class ProjectUtils {
         driver.findElement(By.xpath("//a[@href='/logout']")).click();
     }
 
-    public static void clickDashboard(WebDriver driver) {
-        driver.findElement(By.linkText("Dashboard")).click();
-    }
-
     public static void clickOKButton(WebDriver driver) {
         driver.findElement(By.id("ok-button")).click();
     }
@@ -51,7 +47,7 @@ public final class ProjectUtils {
         driver.findElement(By.id("name")).sendKeys(TestUtils.getRandomStr());
         Dashboard.NewItem.FreestyleProject.click(driver);
         clickOKButton(driver);
-        clickDashboard(driver);
+        Dashboard.Main.Dashboard.click(driver);
     }
 
     public static void createFreestyleProjectWithName(WebDriver driver, String name) {
@@ -59,7 +55,7 @@ public final class ProjectUtils {
         driver.findElement(By.id("name")).sendKeys(name);
         Dashboard.NewItem.FreestyleProject.click(driver);
         clickOKButton(driver);
-        clickDashboard(driver);
+        Dashboard.Main.Dashboard.click(driver);
     }
 
     public static void openProject(WebDriver driver, String name) {
@@ -93,11 +89,10 @@ public final class ProjectUtils {
         driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Enable')]")).click();
     }
 
-    //button[@type='submit' and contains(text(), 'Enable')]
-
     public static class Dashboard {
 
         public enum Main {
+            Dashboard(By.linkText("Dashboard")),
             NewItem(By.linkText("New Item")),
             People(By.linkText("People")),
             BuildHistory(By.linkText("Build History")),

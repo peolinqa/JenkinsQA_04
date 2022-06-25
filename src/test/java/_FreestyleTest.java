@@ -56,7 +56,7 @@ public class _FreestyleTest extends BaseTest {
     }
 
     private void deleteFreestyleProject(String name) {
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         TestUtils.actionsClick(getDriver(), By.xpath("//a[text()='" + name + "']"));
         ProjectUtils.Dashboard.Project.DeleteProject.click(getDriver());
         getDriver().switchTo().alert().accept();
@@ -149,11 +149,11 @@ public class _FreestyleTest extends BaseTest {
 
         getDriver().findElement(By.cssSelector("[name='description']"))
                 .sendKeys("This is a description for a Freestyle project");
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         String alert = String.valueOf(ExpectedConditions.alertIsPresent());
 
         getDriver().switchTo().alert().dismiss();
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         getDriver().switchTo().alert().accept();
         getDriver().findElement(By.xpath(String.format("//a[text()='%s']", RANDOM_NAME))).click();
         String description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row")).getText();
@@ -295,7 +295,7 @@ public class _FreestyleTest extends BaseTest {
     public void testRenameCopyDeleteLater() {
         createFreestyleProjectRandomName(RANDOM_NAME);
 
-        ProjectUtils.clickDashboard(getDriver());
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
 
         TestUtils.actionsClick(getDriver(), By.xpath("//a[@href='job/" + RANDOM_NAME + "/']"));
         TestUtils.actionsClick(getDriver(), By.xpath("//div[@id='menuSelector']"));
