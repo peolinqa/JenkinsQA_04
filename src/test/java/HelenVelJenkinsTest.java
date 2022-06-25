@@ -16,7 +16,7 @@ public class HelenVelJenkinsTest extends BaseTest {
     static String itemButtonSave="//*[@id='yui-gen6-button']";
 
     @Test
-    public void testTC_017_015_сreateAPipeline() {
+    public void testTC_017_015_createAPipeline() {
 
         getDriver().findElement(By.xpath(newItemButton)).click();
         getDriver().findElement(By.xpath(itemNameField)).sendKeys("Pipeline");

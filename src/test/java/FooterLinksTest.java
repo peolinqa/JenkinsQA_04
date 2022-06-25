@@ -1,5 +1,6 @@
 import org.openqa.selenium.By;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -7,6 +8,7 @@ import java.util.Set;
 
 public class FooterLinksTest extends BaseTest {
 
+    @Ignore
     @Test
     public void linkRestApiTest() {
         getDriver().findElement(By.xpath("//div[@class = 'page-footer__links rest_api hidden-xs']")).click();
