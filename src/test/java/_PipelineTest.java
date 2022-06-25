@@ -1,4 +1,3 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -14,6 +13,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,12 +33,8 @@ public class _PipelineTest extends BaseTest {
     private static final By CHECKBOX_PROJECT_PARAMETERIZED =
             By.xpath("//label[text()='This project is parameterized']");
     private static final By ADD_BOOLEAN_PARAMETER = By.xpath("//b[text()='Boolean Parameter']");
-
-    private static final By NEW_VIEW = By.cssSelector("[title='New View']");
-
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
-    private static final String BUILD_WITH_PARAMETERS_BUTTON = "//span[contains(text(),'Build with Parameters')]";
     private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
 
     private JavascriptExecutor javascriptExecutor;
@@ -50,11 +46,10 @@ public class _PipelineTest extends BaseTest {
         javascriptExecutor = (JavascriptExecutor) getDriver();
         asserts = new SoftAssert();
         action = new Actions(getDriver());
-        cleanAllPipelines();
     }
 
     private String pipelineName() {
-        return RandomStringUtils.randomAlphanumeric(4, 8);
+        return TestUtils.getRandomStr(7);
     }
 
     private void createPipeline(String name, boolean buttonOk) {
@@ -136,16 +131,6 @@ public class _PipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
-    private void clickOnParameters() {
-        getDriver().findElement(By.xpath("//span[contains(text(),'Parameters')]")).click();
-    }
-
-    private String createRandomName() {
-        String nameSubstrate = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-        return RandomStringUtils.random(7, nameSubstrate);
-    }
-
     private void createNewPipeline(String pipelineName) {
         createPipeline(pipelineName, Boolean.TRUE);
         getDriver().findElement(By.name("description")).sendKeys("Test pipeline");
@@ -186,10 +171,6 @@ public class _PipelineTest extends BaseTest {
         getDriver().findElement(clickSecond).click();
     }
 
-    private String myWatchlistName() {
-        return createRandomName();
-    }
-
     private void createFewPipelines(int countPipelines, boolean buttonOk) {
         for (int i = 0; i < countPipelines; i++) {
             getDriver().findElement(By.cssSelector("[title='New Item']")).click();
@@ -217,9 +198,9 @@ public class _PipelineTest extends BaseTest {
     }
 
     private void createNewView(){
-        String myViewName = myWatchlistName();
+        String myViewName = "PipelineAC";
 
-        click(NEW_VIEW);
+        ProjectUtils.Dashboard.Main.NewView.click(getDriver());
         getDriver().findElement(By.xpath("//input[@id = 'name']")).sendKeys(myViewName);
         getDriver().findElement(By.xpath("//label[@for = 'hudson.model.ListView']")).click();
         click(SUBMIT_BUTTON);
@@ -285,8 +266,8 @@ public class _PipelineTest extends BaseTest {
         scmDropDownList.selectByIndex(1);
 
         getDriver().findElement(By.xpath("//button[@id='yui-gen15-button']")).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable(getDriver().findElement(
-                By.xpath("//li[@id='yui-gen17']")))).click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated((
+                By.id("yui-gen17")))).click();
 
         WebElement titleOfJenkinsCredentialsProviderWindow = getDriver().findElement(By.xpath("//h2"));
 
@@ -516,7 +497,7 @@ public class _PipelineTest extends BaseTest {
         getDriver().findElement(By.name("parameter.description"))
                 .sendKeys("Description of parameter");
         saveButtonClick();
-        getDriver().findElement(By.xpath(BUILD_WITH_PARAMETERS_BUTTON)).click();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Build with Parameters')]")).click();
 
         asserts.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))
                 .getText(), "Pipeline First Pipeline Project");
@@ -558,7 +539,7 @@ public class _PipelineTest extends BaseTest {
                         By.xpath("//a[text()='#1']//ancestor::tr")));
         buildOne.click();
 
-        clickOnParameters();
+        getDriver().findElement(By.xpath("//span[contains(text(),'Parameters')]")).click();
 
         asserts.assertEquals(getDriver().findElement(By.xpath(CHOICE_PARAMETER_NAME))
                 .getText(), "Name of the Choice Parameter");
@@ -580,7 +561,7 @@ public class _PipelineTest extends BaseTest {
                 "Last completed build"};
         String[] expectedBuildNumbers = new String[]{"#3", "#2", "#1"};
 
-        String pipelineName = createRandomName();
+        String pipelineName = pipelineName();
         createNewPipeline(pipelineName);
         goToPipelinePage(pipelineName);
 
@@ -623,16 +604,16 @@ public class _PipelineTest extends BaseTest {
     @Test
     public void testAddAllColumnsFromDashboardInOwnWatchlist() {
         final String name = pipelineName();
-        final String viewName = pipelineName();
         createPipeline(name, Boolean.TRUE);
         click(SUBMIT_BUTTON, LINK_JENKINS_HOMEPAGE);
 
         createNewView();
-
-        getDriver().findElement(By.xpath("//input[@name = '" + name + "']")).click();
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath(String.format("//input[@name = '%s']", name)))).click();
         scrollPageDown();
         List<String> existingColumnsNames = getTextFromListWebElements(getDriver().findElements(
                 By.xpath("//div[@descriptorid]//b")));
+        scrollPageDown();
         click(ADD_COLUMN_BUTTON);
         List<String> columnsCanAddNames = getTextFromListWebElements(getDriver().findElements(
                 By.cssSelector("#yui-gen4  li a")));
@@ -651,33 +632,11 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(countColumns.size(), 11);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
     public void testRemoveAllColumnsFromDashboardInOwnWatchlist() {
-        final String name = pipelineName();
-        final String viewName = pipelineName();
-        createPipeline(name, Boolean.TRUE);
-        click(SUBMIT_BUTTON, LINK_JENKINS_HOMEPAGE);
 
-        createNewView();
-
-        getDriver().findElement(By.xpath(String.format("//input[@name = '%s']", name))).click();
-        scrollPageDown();
-        List<String> existingColumnsNames = getTextFromListWebElements(
-                getDriver().findElements(By.xpath("//div[@descriptorid]//b")));
-        click(ADD_COLUMN_BUTTON);
-        List<String> columnsCanAddNames = getTextFromListWebElements(
-                getDriver().findElements(By.cssSelector("#yui-gen4  li a")));
-        columnsCanAddNames.removeAll(existingColumnsNames);
-
-        for (String columnsCanAddName : columnsCanAddNames) {
-            getDriver().findElement(By.xpath(String.format("//a[contains(text(), '%s')]", columnsCanAddName))).click();
-            scrollPageDown();
-            click(ADD_COLUMN_BUTTON);
-        }
-
-        click(APPLY_BUTTON, SUBMIT_BUTTON);
-
-        getDriver().findElement(By.xpath("//a[@title = 'Edit View']")).click();
+        getDriver().findElement(By.xpath("//a[contains(text(),'PipelineAC')]")).click();
+        getDriver().findElement(By.linkText("Edit View")).click();
         scrollPageDown();
 
         List<WebElement> countDeleteButtons = getDriver().findElements(DELETE_BUTTON);
