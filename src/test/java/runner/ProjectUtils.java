@@ -89,6 +89,10 @@ public final class ProjectUtils {
         driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Enable')]")).click();
     }
 
+    public static void clickAddOrEditDescriptionButton(WebDriver driver) {
+        driver.findElement(By.xpath("//a[contains(@href, 'editDescription')]")).click();
+    }
+
     public static class Dashboard {
 
         public enum Header {
