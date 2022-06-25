@@ -3,7 +3,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -12,12 +11,12 @@ import runner.TestUtils;
 import static runner.TestUtils.getRandomStr;
 
 public class _FreestyleTest extends BaseTest {
-    private static final String RANDOM_NAME = getRandomStr(5);
+    private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
     private static final String EDITED_RANDOM_NAME = "New " + RANDOM_NAME;
     private static final String NAME_WITH_SPECIAL_CHARACTERS = "-()+-_~-1";
     private static final String INVALID_DATA = "!@#$;%^&?*[]/:.";
-    private static final String RANDOM_DESCRIPTION = getRandomStr(15);
-    private static final String EDITED_RANDOM_DESCRIPTION = getRandomStr(15);
+    private static final String RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
+    private static final String EDITED_RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
 
     public void createFreestyleProjectRandomName(String name) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
@@ -115,7 +114,6 @@ public class _FreestyleTest extends BaseTest {
         deleteFreestyleProject(RANDOM_NAME);
     }
 
-    @Ignore
     @Test(dataProvider = "data")
     public void testDisableEnableIconsDashboard(CheckBox project) {
         createFreestyleProjectRandomName(RANDOM_NAME);

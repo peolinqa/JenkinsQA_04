@@ -2,7 +2,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -15,57 +14,24 @@ public class _BuildHistoryTest extends BaseTest {
 
     private String buildName;
 
-    private void createNewProject() {
+    private void createNewProjectAndBuild() {
 
-        if (getDriver().findElements(By.partialLinkText(PROJECT_NAME)).size() > 0) {
-            deleteProject();
+        if (getDriver().findElements(By.partialLinkText(PROJECT_NAME)).size() == 0) {
+            ProjectUtils.CreateProject.FreestyleProject.createSampleProject(getDriver(), PROJECT_NAME);
+            ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         }
 
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
+        getDriver().findElement(By.linkText(PROJECT_NAME)).click();
 
-        WebElement projectName = getDriver().findElement(By.name("name"));
-        projectName.sendKeys(PROJECT_NAME);
+        if (getDriver().findElement(By.id("no-builds")).isDisplayed()) {
+            ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
+        }
 
-        getDriver().findElement(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[1]")).click();
-
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//button[contains(text(),'Save')]")).click();
-    }
-
-    private String buildAndReturnBuildName() {
-
-        ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
-
-        WebElement buildName = getWait20().until(ExpectedConditions.presenceOfElementLocated(
+        WebElement build = getWait20().until(ExpectedConditions.presenceOfElementLocated(
                 By.xpath("//tr[@class='build-row single-line overflow-checked']/td/div/a"))
         );
 
-        return buildName.getText().substring(1);
-    }
-
-    private void homePage() {
-
-        getDriver().findElement(By.xpath("//a[@href='/']")).click();
-    }
-
-    private void buildHistoryPage() {
-
-        getDriver().findElement(By.partialLinkText("Build History")).click();
-    }
-
-    private void clickProjectSpanMenu() {
-
-        getDriver().findElement(
-                By.xpath(String.format("//a[@href='/job/%s/%s/']", PROJECT_NAME, buildName))
-        ).click();
-    }
-
-    private void deleteProject() {
-
-        homePage();
-        getDriver().findElement(By.xpath(String.format("//a[@href='job/%s/']", PROJECT_NAME))).click();
-        getDriver().findElement(By.partialLinkText("Delete Project")).click();
-        getDriver().switchTo().alert().accept();
+        buildName = build.getText().substring(1);
     }
 
     public void createAndBuildFreestyleProject() {
@@ -94,42 +60,33 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test
     public void testBuildHistoryChanges() {
-        createNewProject();
-        buildName = buildAndReturnBuildName();
+        createNewProjectAndBuild();
 
-        homePage();
-        buildHistoryPage();
-        clickProjectSpanMenu();
-        getDriver().findElement(By.partialLinkText("Changes")).click();
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Main.BuildHistory.click(getDriver());
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/%s/']", PROJECT_NAME, buildName))).click();
+        ProjectUtils.Dashboard.Build.Changes.click(getDriver());
 
-        final String expectedChangesURL = String.format("job/%s/%s/changes", PROJECT_NAME, buildName);
         String actualChangesURL = getDriver().getCurrentUrl().substring(22);
-
-        final String expectedChangesHeader = "Changes";
         String actualChangesHeader = getDriver().findElement(HEADER_TEXT_XPATH).getText();
 
-        Assert.assertEquals(actualChangesURL, expectedChangesURL);
-        Assert.assertEquals(actualChangesHeader, expectedChangesHeader);
+        Assert.assertEquals(actualChangesURL, String.format("job/%s/%s/changes", PROJECT_NAME, buildName));
+        Assert.assertEquals(actualChangesHeader, "Changes");
     }
 
     @Test (dependsOnMethods = {"testBuildHistoryChanges"})
     public void testBuildHistoryConsole() {
 
-        homePage();
-        buildHistoryPage();
-        clickProjectSpanMenu();
-        getDriver().findElement(By.partialLinkText("Console Output")).click();
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Main.BuildHistory.click(getDriver());
+        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/%s/']", PROJECT_NAME, buildName))).click();
+        ProjectUtils.Dashboard.Build.ConsoleOutput.click(getDriver());
 
-        String expectedConsoleURL = String.format("job/%s/%s/console", PROJECT_NAME, buildName);
         String actualConsoleURL = getDriver().getCurrentUrl().substring(22);
-
-        String expectedConsoleHeader = "Console Output";
         String actualConsoleHeader = getDriver().findElement(HEADER_TEXT_XPATH).getText();
 
-        Assert.assertEquals(actualConsoleURL, expectedConsoleURL);
-        Assert.assertEquals(actualConsoleHeader, expectedConsoleHeader);
-
-        deleteProject();
+        Assert.assertEquals(actualConsoleURL, String.format("job/%s/%s/console", PROJECT_NAME, buildName));
+        Assert.assertEquals(actualConsoleHeader, "Console Output");
     }
 
     @Test

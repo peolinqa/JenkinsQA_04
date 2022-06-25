@@ -91,6 +91,20 @@ public final class ProjectUtils {
 
     public static class Dashboard {
 
+        public enum Header {
+            Dashboard(By.linkText("Dashboard"));
+
+            private final By locator;
+
+            Header(By locator) {
+                this.locator = locator;
+            }
+
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+        }
+
         public enum Main {
             Dashboard(By.linkText("Dashboard")),
             NewItem(By.linkText("New Item")),
@@ -134,6 +148,21 @@ public final class ProjectUtils {
             }
         }
 
+        public enum Build {
+            ConsoleOutput(By.linkText("Console Output")),
+            Changes(By.linkText("Changes"));
+
+            private final By locator;
+
+            Build(By locator) {
+                this.locator = locator;
+            }
+
+            public void click(WebDriver driver) {
+                driver.findElement(locator).click();
+            }
+        }
+      
         public enum NewItem {
             FreestyleProject(By.className("hudson_model_FreeStyleProject")),
             Pipeline(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")),
@@ -214,16 +243,16 @@ public final class ProjectUtils {
         }
 
         public enum Pipeline {
-            BACK_TO_DASHBOARD(By.linkText("Back to Dashboard")),
-            STATUS(By.linkText("Status")),
-            CHANGES(By.linkText("Changes")),
-            BUILD_NOW(By.linkText("Build Now")),
-            CONFIGURE(By.linkText("Configure")),
-            DELETE_PIPELINE(By.xpath("//span[text()='Delete Pipeline']")),
-            MOVE(By.linkText("Move")),
-            FULL_STAGE_VIEW(By.linkText("Full Stage View")),
-            RENAME(By.linkText("Rename")),
-            PIPELINE_SYNTAX(By.linkText("Pipeine Syntax"));
+            BackToDashboard(By.linkText("Back to Dashboard")),
+            Status(By.linkText("Status")),
+            Changes(By.linkText("Changes")),
+            BuildNow(By.linkText("Build Now")),
+            Configure(By.linkText("Configure")),
+            DeletePipeline(By.xpath("//span[text()='Delete Pipeline']")),
+            Move(By.linkText("Move")),
+            FullStageView(By.linkText("Full Stage View")),
+            Rename(By.linkText("Rename")),
+            PipelineSyntax(By.linkText("Pipeine Syntax"));
 
             private final By locator;
 
@@ -237,6 +266,34 @@ public final class ProjectUtils {
         }
     }
 
+
+    public enum CreateProject {
+        FreestyleProject(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[1]")),
+        Pipeline(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[2]")),
+        MultiConfigurationProject(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[3]")),
+        Folder(By.xpath("//div[@id='j-add-item-type-nested-projects']//li[1]")),
+        MultibranchPipeline(By.xpath("//div[@id='j-add-item-type-nested-projects']//li[2]")),
+        OrganizationFolder(By.xpath("//div[@id='j-add-item-type-nested-projects']//li[3]"));
+
+        private final By locator;
+
+        CreateProject(By locator) {
+            this.locator = locator;
+        }
+
+        public void createSampleProject(WebDriver driver, String projectName) {
+            ProjectUtils.Dashboard.Main.NewItem.click(driver);
+
+            WebElement elementName = driver.findElement(By.name("name"));
+            elementName.sendKeys(projectName);
+
+            driver.findElement(locator).click();
+
+            driver.findElement(By.id("ok-button")).click();
+            driver.findElement(By.xpath("//button[contains(text(),'Save')]")).click();
+        }
+    }
+  
     public enum ManageJenkins {
 
         ConfigureSystem(By.xpath("//dt[text()='Configure System']")),
