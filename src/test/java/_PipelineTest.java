@@ -55,7 +55,7 @@ public class _PipelineTest extends BaseTest {
     private void createPipeline(String name, boolean buttonOk) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(name);
-        ProjectUtils.NewItem.Pipeline.click(getDriver());
+        ProjectUtils.NewItemTypes.Pipeline.click(getDriver());
         if (buttonOk) {
             ProjectUtils.clickOKButton(getDriver());
         }

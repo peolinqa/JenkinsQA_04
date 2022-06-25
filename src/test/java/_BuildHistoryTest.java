@@ -17,7 +17,7 @@ public class _BuildHistoryTest extends BaseTest {
     private void createNewProjectAndBuild() {
 
         if (getDriver().findElements(By.partialLinkText(PROJECT_NAME)).size() == 0) {
-            ProjectUtils.CreateProject.FreestyleProject.createSampleProject(getDriver(), PROJECT_NAME);
+            ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, PROJECT_NAME);
             ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         }
 

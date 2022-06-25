@@ -21,7 +21,7 @@ public class _FreestyleTest extends BaseTest {
     public void createFreestyleProjectRandomName(String name) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         TestUtils.clearAndSend(getDriver(), By.id("name"), name);
-        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
+        ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
         ProjectUtils.clickOKButton(getDriver());
     }
 
@@ -223,7 +223,7 @@ public class _FreestyleTest extends BaseTest {
     @Test
     public void testNoEnterNameFreestyleItem() {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
+        ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
         Assert.assertEquals(
                 getDriver().findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
@@ -233,7 +233,7 @@ public class _FreestyleTest extends BaseTest {
     public void testEnterSeveralSpaces() {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys("    ");
-        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
+        ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
         ProjectUtils.clickOKButton(getDriver());
 
         Assert.assertEquals(getDriver().findElement(
@@ -325,7 +325,7 @@ public class _FreestyleTest extends BaseTest {
 
         for (String character : characterName) {
             getDriver().findElement(By.id("name")).sendKeys(character);
-            ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
+            ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
             if (!getDriver().findElement(By.xpath("//button[@class]")).getAttribute("class").equals("disabled")) {
                 resultButtonOkDisabled = false;
             }
