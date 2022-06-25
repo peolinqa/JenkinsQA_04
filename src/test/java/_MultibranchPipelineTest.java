@@ -2,6 +2,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -127,6 +128,7 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(newName, "MultiPipeline");
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithValidData")
     public void testDeleteMultibranchPipelineProject() {
         String headerEmptyDashboard = "Welcome to Jenkins!";
