@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class _PipelineTest extends BaseTest {
-    private static final By OK_BUTTON = By.id("ok-button");
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");
     private static final By ADD_COLUMN_BUTTON = By.xpath("//button[contains(text(), 'Add column')]");
@@ -33,6 +32,7 @@ public class _PipelineTest extends BaseTest {
     private static final By CHECKBOX_PROJECT_PARAMETERIZED =
             By.xpath("//label[text()='This project is parameterized']");
     private static final By ADD_BOOLEAN_PARAMETER = By.xpath("//b[text()='Boolean Parameter']");
+
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
     private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
@@ -55,9 +55,9 @@ public class _PipelineTest extends BaseTest {
     private void createPipeline(String name, boolean buttonOk) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(name);
-        getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
+        ProjectUtils.NewItem.Pipeline.click(getDriver());
         if (buttonOk) {
-            getDriver().findElement(OK_BUTTON).click();
+            ProjectUtils.clickOKButton(getDriver());
         }
     }
 
@@ -67,10 +67,6 @@ public class _PipelineTest extends BaseTest {
 
     private void scrollPageDown() {
         javascriptExecutor.executeScript("window.scrollBy(0, 500)");
-    }
-
-    private void saveButtonClick() {
-        getDriver().findElement(By.xpath("//button[@id='yui-gen6-button']")).click();
     }
 
     private void homePageClick() {
@@ -86,20 +82,13 @@ public class _PipelineTest extends BaseTest {
     }
 
     private List<WebElement> getActualDashboardProject() {
-        return getDriver().findElements(
-                By.xpath("//a[@class='jenkins-table__link model-link inside']"));
-    }
-
-    private void buttonBackToDashboard() {
-        getDriver().findElement(
-                By.xpath("//a[@title='Back to Dashboard']")).click();
+        return getDriver().findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
     }
 
     private void checkProjectAfterDelete(String projectName) {
         List<WebElement> actual = getDriver().findElements(H1);
         if (actual.size() == 0) {
-            List<WebElement> actualDashboardProject = getActualDashboardProject();
-            for (WebElement webElement : actualDashboardProject) {
+            for (WebElement webElement : getActualDashboardProject()) {
                 if (webElement.getText().contains(projectName)) {
                     Assert.fail();
                     break;
@@ -177,7 +166,7 @@ public class _PipelineTest extends BaseTest {
             getDriver().findElement(By.id("name")).sendKeys(pipelineName());
             getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
             if (buttonOk) {
-                getDriver().findElement(OK_BUTTON).click();
+                ProjectUtils.clickOKButton(getDriver());
             }
             click(LINK_JENKINS_HOMEPAGE);
         }
@@ -210,12 +199,12 @@ public class _PipelineTest extends BaseTest {
     public void testCheckValidationItemName() {
         final String name = pipelineName();
         createPipeline(name, Boolean.TRUE);
-        saveButtonClick();
+        ProjectUtils.clickSaveButton(getDriver());
         getDriver().findElement(By.xpath("//li//a[@href='/']")).click();
         createPipeline(name, Boolean.FALSE);
         String errorMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
 
-        getDriver().findElement(OK_BUTTON).click();
+        ProjectUtils.clickOKButton(getDriver());
         String errorMessageTwo = getDriver().findElement(H1).getText();
 
         Assert.assertEquals(errorMessage, "» A job already exists with the name ‘" + name + "’");
@@ -265,8 +254,9 @@ public class _PipelineTest extends BaseTest {
                 .findElement(By.xpath("//div[@class='jenkins-form-item has-help']//select")));
         scmDropDownList.selectByIndex(1);
 
-        getDriver().findElement(By.xpath("//button[@id='yui-gen15-button']")).click();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated((
+        getWait5().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[@id='yui-gen15-button']"))).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable((
                 By.id("yui-gen17")))).click();
 
         WebElement titleOfJenkinsCredentialsProviderWindow = getDriver().findElement(By.xpath("//h2"));
@@ -319,12 +309,11 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void test404PageAfterDeletedPipeline() {
-
         final String name = pipelineName();
-        createPipeline(name, Boolean.TRUE);
 
+        createPipeline(name, Boolean.TRUE);
         getDriver().findElement(SUBMIT_BUTTON).click();
-        buttonBackToDashboard();
+        homePageClick();
 
         List<WebElement> pipelineProjects = getDriver().findElements(
                 By.xpath(String.format("//a[contains(@href, 'job/%s')]", name)));
@@ -341,18 +330,17 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineAndCheckOnDashboard() {
-
         final String name = pipelineName();
+
         createPipeline(name, Boolean.TRUE);
-        saveButtonClick();
+        ProjectUtils.clickSaveButton(getDriver());
 
         Assert.assertTrue(getDriver().findElement(H1)
                 .getText().contains(name));
 
-        buttonBackToDashboard();
+        homePageClick();
 
-        List<WebElement> actualDashboardProject = getActualDashboardProject();
-        for (WebElement webElement : actualDashboardProject) {
+        for (WebElement webElement : getActualDashboardProject()) {
             if (webElement.getText().contains(name)) {
                 Assert.assertTrue(true);
                 break;
@@ -389,10 +377,10 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testDeletePipelineFromSideMenu() {
-
         final String name = pipelineName();
+
         createPipeline(name, Boolean.TRUE);
-        saveButtonClick();
+        ProjectUtils.clickSaveButton(getDriver());
 
         getDriver().findElement(
                 By.xpath("//a[@class='task-link  confirmation-link']")).click();
@@ -403,12 +391,11 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testDeletePipelineFromDashboard() {
-
         final String name = pipelineName();
 
         createPipeline(name, Boolean.TRUE);
-        saveButtonClick();
-        buttonBackToDashboard();
+        ProjectUtils.clickSaveButton(getDriver());
+        homePageClick();
 
         action.moveToElement(getDriver().findElement(
                 By.xpath(String.format("//a[text()='%s']", name)))).build().perform();
@@ -444,7 +431,7 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(actualResult, "This value should be larger than 0");
 
-        saveButtonClick();
+        ProjectUtils.clickSaveButton(getDriver());
     }
 
     @Test
@@ -496,7 +483,7 @@ public class _PipelineTest extends BaseTest {
                 .sendKeys("First Choice" + '\n' + "Second Choice" + '\n' + "Third Choice");
         getDriver().findElement(By.name("parameter.description"))
                 .sendKeys("Description of parameter");
-        saveButtonClick();
+        ProjectUtils.clickSaveButton(getDriver());
         getDriver().findElement(By.xpath("//span[contains(text(),'Build with Parameters')]")).click();
 
         asserts.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))
@@ -604,6 +591,7 @@ public class _PipelineTest extends BaseTest {
     @Test
     public void testAddAllColumnsFromDashboardInOwnWatchlist() {
         final String name = pipelineName();
+
         createPipeline(name, Boolean.TRUE);
         click(SUBMIT_BUTTON, LINK_JENKINS_HOMEPAGE);
 
@@ -683,7 +671,7 @@ public class _PipelineTest extends BaseTest {
 
             Assert.assertEquals(projectParametersLocation.get(i).getText(), expectedResult.get(i));
         }
-        saveButtonClick();
+        ProjectUtils.clickSaveButton(getDriver());
     }
 
     @Test
