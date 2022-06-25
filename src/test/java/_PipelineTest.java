@@ -486,10 +486,11 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals($x(iconLocator).getAttribute("tooltip"), "Success");
     }
 
-    @Ignore
     @Test
     public void testBuildPipelineWithParameters() {
+
         createPipeline("First Pipeline Project", Boolean.TRUE);
+        
         getDriver().findElement(By
                 .xpath("//label[contains(text(),'This project is parameterized')]")).click();
         clickAddParameterOrBuildButton();
@@ -550,13 +551,12 @@ public class _PipelineTest extends BaseTest {
 
         asserts.assertEquals(getDriver().findElement(By
                         .xpath("//input[@name='value']"))
-                .getAttribute("value"), "First Choice");
+                , "First Choice");
+
 
         asserts.assertEquals(getDriver().findElement(By
                         .xpath(DESCRIPTION_OF_PARAMETER))
                 .getText(), "Description of parameter");
-
-        asserts.assertAll();
     }
 
     @Test
