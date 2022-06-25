@@ -4,9 +4,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
+import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,21 +15,20 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     private final String NAME_FOLDER = "TestMultiConfigurationProject";
     private final String PROJECT_NAME = "Mcproject";
-    private final By PROJECT_ON_DAHBOARD = By.xpath("//table[@id='projectstatus']//a[normalize-space(.)='" + PROJECT_NAME + "']");
+    private final By PROJECT_ON_DAHBOARD = By.xpath("//table[@id='projectstatus']//a[normalize-space(.)='" + NAME_FOLDER + "']");
 
     private void createMultiConfigFolder(String name) {
-        getDriver().findElement(By.linkText("New Item")).click();
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(name);
-        getDriver().findElement(By.xpath("//span[text()='Multi-configuration project']")).click();
+        ProjectUtils.NewItem.MultiConfigurationProject.click(getDriver());
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
     }
 
     private void deleteFolder(String name) {
-
         Actions action = new Actions(getDriver());
         action.moveToElement(getDriver().findElement(
-                By.xpath("//a[@href='job/" + name + "/']"))).click().build().perform();
+                By.xpath("//table[@id='projectstatus']//a[normalize-space()='" + name + "']"))).click().build().perform();
         getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
         getDriver().switchTo().alert().accept();
     }
@@ -51,9 +51,9 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     }
 
     private void runBuildNow(String name) {
-        getDriver().findElement(By.id("jenkins-home-link")).click();
+        returnToMainPage();
         getDriver().findElement(By.xpath("//a[contains(text(),'" + name + "')]")).click();
-        getDriver().findElement(By.linkText("Build Now")).click();
+        ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
     }
 
     private void selectTopBuildInHistory() {
@@ -84,7 +84,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigFolder() {
-
         createMultiConfigFolder(NAME_FOLDER);
         returnToMainPage();
 
@@ -93,7 +92,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateMultiConfigFolder"})
     public void testBuildNow() {
-
         runBuildNow(NAME_FOLDER);
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("build-status-link")));
         selectTopBuildInHistory();
@@ -151,11 +149,12 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         deleteFolder("McprojectRename");
     }
 
+    @Test
     public void testRenameMCProjectError() {
-        String expectedResult = "Error\nThe new name is the same as the current name.";
+        final String expectedResult = "Error\nThe new name is the same as the current name.";
 
         createMultiConfigFolder(PROJECT_NAME);
-        getDriver().findElement(By.linkText("Rename")).click();
+        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
         getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"));
         getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
 
@@ -168,7 +167,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testBuildNow"})
     public void testDeleteMultiConfigFolder() {
-        String nameTestedFolder = "testToDelete";
+        final String nameTestedFolder = "testToDelete";
 
         createMultiConfigFolder(nameTestedFolder);
         returnToMainPage();
@@ -177,10 +176,9 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertFalse(isElementPresent(nameTestedFolder));
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testBuildNow"})
     public void testCheckSubMenuConfigureAfterCreatingProject() {
-        String expectedResultDiscardOldBuilds = "Help for feature: Discard old builds";
-        String expectedResult1 = "This determines when, if ever, build records for this project should be discarded. " +
+        final String expectedResult = "This determines when, if ever, build records for this project should be discarded. " +
                 "Build records include the console output, archived artifacts, and any other metadata related " +
                 "to a particular build.\n" +
                 "Keeping fewer builds means less disk space will be used in the Build Record Root Directory," +
@@ -207,10 +205,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 "Note that Jenkins does not discard items immediately when this configuration is updated, " +
                 "or as soon as any of the configured values are exceeded; these rules are evaluated " +
                 "each time a build of this project completes.";
-        String expectedResultMessage = "Saved";
-
-        createMultiConfigFolder(PROJECT_NAME);
-        returnToMainPage();
 
         Actions actions = new Actions(getDriver());
         actions.moveToElement(getDriver().findElement(PROJECT_ON_DAHBOARD)).perform();
@@ -221,13 +215,13 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
         WebElement helpTitle = getDriver().findElement(By.xpath("//a[contains(@tooltip, 'Discard old builds')]"));
 
-        Assert.assertEquals(helpTitle.getAttribute("title"), expectedResultDiscardOldBuilds);
+        Assert.assertEquals(helpTitle.getAttribute("title"), "Help for feature: Discard old builds");
 
         helpTitle.click();
 
         String textHelp = getDriver().findElement(By.xpath("//div[@class='help']/div")).getText();
 
-        Assert.assertEquals(textHelp, expectedResult1);
+        Assert.assertEquals(textHelp, expectedResult);
 
         WebElement checkBoxDiscardOldBuilds = getDriver().findElement(
                 By.xpath("//label[text()='Discard old builds']/preceding-sibling::input"));
@@ -246,28 +240,22 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
         WebElement applyMessage = getDriver().findElement(By.xpath("//div[@id='notification-bar']/span"));
 
-        Assert.assertEquals(applyMessage.getText(), expectedResultMessage);
+        Assert.assertEquals(applyMessage.getText(), "Saved");
 
         getWait20().until(ExpectedConditions.invisibilityOfElementLocated(By.id("notification-bar")));
 
-        returnToMainPage();
-        deleteFolder(PROJECT_NAME);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testCheckSubMenuConfigureAfterCreatingProject"})
     public void testMultiConfigurationProjectRenameUsingInvalidName() {
-        String[] invalidName =
+        final String[] invalidName =
                 new String[]{"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", "|", "<", ">", "?", "", " "};
 
-        createMultiConfigFolder(PROJECT_NAME);
-        returnToMainPage();
-
         getDriver().findElement(PROJECT_ON_DAHBOARD).click();
-        getDriver().findElement(By.linkText("Rename")).click();
+        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
 
         for (String unsafeChar : invalidName) {
-            getDriver().findElement(By.name("newName")).clear();
-            getDriver().findElement(By.name("newName")).sendKeys(unsafeChar);
+            TestUtils.clearAndSend(getDriver(), By.name("newName"), unsafeChar);
             getDriver().findElement(By.id("yui-gen1-button")).click();
             String expectedResult = "‘" + unsafeChar + "’ is an unsafe character";
             if ("&" == unsafeChar) {
@@ -286,19 +274,22 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
             getDriver().navigate().back();
         }
-
-        returnToMainPage();
-        deleteFolder(PROJECT_NAME);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testMultiConfigurationProjectRenameUsingInvalidName"})
     public void testDeleteMultiConfigurationProject() {
-        createMultiConfigFolder(PROJECT_NAME);
-        returnToMainPage();
-        Assert.assertTrue(getListProjects().contains(PROJECT_NAME));
-        deleteFolder(PROJECT_NAME);
-        getDriver().findElement(By.xpath("//a[@id='jenkins-home-link']")).click();
+        deleteFolder(NAME_FOLDER);
 
-        Assert.assertFalse(getListProjects().contains(PROJECT_NAME));
+        boolean isPresent = false;
+
+        List<WebElement> projectsOnDashboard = getDriver().findElements(PROJECT_ON_DAHBOARD);
+        for (WebElement jobs : projectsOnDashboard) {
+            if (jobs.getText().contains(NAME_FOLDER)) {
+                isPresent = true;
+            }
+        }
+
+        Assert.assertFalse(isPresent);
     }
 }
+

@@ -267,4 +267,23 @@ public final class ProjectUtils {
             driver.findElement(locator).click();
         }
     }
+
+    public enum NewItem {
+        FreestyleProject(By.xpath("//span[text()='Freestyle project']")),
+        Pipeline(By.xpath("//span[text()='Pipeline']")),
+        MultiConfigurationProject(By.xpath("//span[text()='Multi-configuration project']")),
+        Folder(By.xpath("//span[text()='Folder']")),
+        MultibranchPipeline(By.xpath("//span[text()='Multibranch Pipeline']")),
+        OrganizationFolder(By.xpath("//span[text()='Organization Folder']"));
+
+        private final By locator;
+
+        NewItem(By locator) {
+            this.locator = locator;
+        }
+
+        public void click(WebDriver driver) {
+            driver.findElement(locator).click();
+        }
+    }
 }
