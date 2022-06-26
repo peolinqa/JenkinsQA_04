@@ -1,6 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -65,12 +64,11 @@ public class _DashboardTest extends BaseTest {
     );
 
     getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(DASHBOARD_XPATH)));
-    Actions action = new Actions(getDriver());
-    action.moveToElement(getDriver()
+    getActions().moveToElement(getDriver()
             .findElement(By.xpath(DASHBOARD_XPATH))).build().perform();
 
     WebElement button = getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
-    action.moveToElement(button).click().build().perform();
+    getActions().moveToElement(button).click().build().perform();
 
     List<String> actualItems = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"))
             .stream()

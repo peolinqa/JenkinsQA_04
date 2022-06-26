@@ -1,7 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.TestException;
@@ -76,9 +75,8 @@ public class _FolderTest extends BaseTest {
     }
 
     private void deleteFolderFromTopMenu(String folderName) {
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement((By.xpath("//a[@href='/job/" + folderName + "/']")))).build().perform();
-        action.moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
+        getActions().moveToElement(getDriver().findElement((By.xpath("//a[@href='/job/" + folderName + "/']")))).build().perform();
+        getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + folderName + "/delete']")));
         getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/delete']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
@@ -93,14 +91,13 @@ public class _FolderTest extends BaseTest {
     }
 
     private void clickMenuRenameFolder(String folderName) {
-        Actions renameFolder = new Actions(getDriver());
-        renameFolder.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                         By.xpath("//a[@href='job/" + folderName + "/']")))
                 .build().perform();
-        renameFolder.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                         By.xpath("//div[@id='menuSelector']")))
                 .click().build().perform();
-        renameFolder.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                         By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")))
                 .click().build().perform();
     }

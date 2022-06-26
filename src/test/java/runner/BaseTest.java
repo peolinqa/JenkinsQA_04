@@ -1,6 +1,7 @@
 package runner;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 import org.testng.ITestResult;
@@ -92,6 +93,8 @@ public abstract class BaseTest {
     protected WebDriver getDriver() {
         return driver;
     }
+
+    protected Actions getActions() { return new Actions(driver); }
 
     protected WebDriverWait getWait20() {
         if (wait20 == null) {

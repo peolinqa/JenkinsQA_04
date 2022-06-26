@@ -1,6 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -22,7 +21,7 @@ public class _NewItemTest extends BaseTest {
         getDriver().findElement(By.id("name")).sendKeys(nameNew);
         ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
         WebElement copFromButton = getDriver().findElement(By.id("from"));
-        new Actions(getDriver()).pause(500).moveToElement(copFromButton).perform();
+        getActions().pause(500).moveToElement(copFromButton).perform();
         copFromButton.sendKeys(nameCopyFrom);
         ProjectUtils.clickOKButton(getDriver());
     }

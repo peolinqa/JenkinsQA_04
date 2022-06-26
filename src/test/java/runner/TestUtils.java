@@ -5,7 +5,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
@@ -36,13 +35,5 @@ public class TestUtils {
 
     public static List<WebElement> getList(WebDriver driver, By locator) {
         return driver.findElements(locator);
-    }
-
-    public static void actionsClick(WebDriver driver, By locator) {
-        new Actions(driver).moveToElement(driver.findElement(locator)).click().build().perform();
-    }
-
-    public static void actionsMove(WebDriver driver, By locator, long pause) {
-        new Actions(driver).moveToElement(driver.findElement(locator)).pause(pause).build().perform();
     }
 }
