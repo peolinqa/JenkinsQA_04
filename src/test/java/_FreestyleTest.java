@@ -177,8 +177,8 @@ public class _FreestyleTest extends BaseTest {
     public void testHelpButtonGeneralTabDiscardOldBuildsPopup() {
         ProjectUtils.openProject(getDriver(),RANDOM_NAME);
         ProjectUtils.Dashboard.Project.Configure.click(getDriver());
-        TestUtils.actionsMove(getDriver(), By.xpath("//label[text()='Discard old builds']/../a"), 500);
-        TestUtils.actionsMove(getDriver(), By.xpath("//a[@tooltip='Help for feature: Discard old builds']"), 0);
+        getActions().moveToElement(getDriver().findElement(By.xpath("//label[text()='Discard old builds']/../a"))).pause(500).build().perform();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@tooltip='Help for feature: Discard old builds']"))).build().perform();
 
         Assert.assertEquals(getWait5().
                 until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id = 'tt']"))).getText(),
@@ -232,7 +232,7 @@ public class _FreestyleTest extends BaseTest {
         getDriver().findElement(By.linkText("Configure")).click();
         getDriver().findElement(By.cssSelector(".tab.config-section-activator.config_build_triggers")).click();
         Thread.sleep(500);
-        TestUtils.actionsClick(getDriver(), By.xpath("//a[@tooltip='Help for feature: Build periodically']"));
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@tooltip='Help for feature: Build periodically']"))).click().build().perform();
 
         String actualText = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText();
         Assert.assertEquals(actualText, "Help for feature: Build periodically");
@@ -280,9 +280,9 @@ public class _FreestyleTest extends BaseTest {
 
         ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
 
-        TestUtils.actionsClick(getDriver(), By.xpath("//a[@href='job/" + RANDOM_NAME + "/']"));
-        TestUtils.actionsClick(getDriver(), By.xpath("//div[@id='menuSelector']"));
-        TestUtils.actionsClick(getDriver(), By.xpath("//a[@href='/job/" + RANDOM_NAME + "/confirm-rename']"));
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@href='job/" + RANDOM_NAME + "/']"))).click().build().perform();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//div[@id='menuSelector']"))).click().build().perform();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@href='/job/" + RANDOM_NAME + "/confirm-rename']"))).click().build().perform();
 
         getDriver().findElement(By.xpath(
                 "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input")).clear();
@@ -330,5 +330,34 @@ public class _FreestyleTest extends BaseTest {
             checkProjectExists = false;
         }
         Assert.assertFalse(checkProjectExists);
+    }
+
+    @Test (dependsOnMethods = "testDeleteFreestyleProject")
+    public void testConfigureSaveButton() {
+
+        String expectedLink = "/job/" + RANDOM_NAME + "/";
+
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, RANDOM_NAME);
+        ProjectUtils.clickSaveButton(getDriver());
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains(expectedLink));
+    }
+
+    @Test (dependsOnMethods = "testConfigureSaveButton")
+    public void testConfigureApplyButton() {
+
+        String expectedAlertMessage = "Saved";
+
+        ProjectUtils.openProject(getDriver(), RANDOM_NAME);
+        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
+
+        getDriver().findElement(By.xpath("//button[contains(text(),'Apply')]")).click();
+        String alertMessage = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector("div[id='notification-bar'][class='notif-alert-success notif-alert-show']")
+        )).getText();
+
+        ProjectUtils.deleteProject(getDriver(), RANDOM_NAME);
+
+        Assert.assertEquals(alertMessage, expectedAlertMessage);
     }
 }

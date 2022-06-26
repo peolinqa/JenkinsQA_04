@@ -2,7 +2,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
@@ -39,13 +38,12 @@ public class _PipelineTest extends BaseTest {
 
     private JavascriptExecutor javascriptExecutor;
     private SoftAssert asserts;
-    private Actions action;
 
     @BeforeMethod
     public void setUp() {
         javascriptExecutor = (JavascriptExecutor) getDriver();
         asserts = new SoftAssert();
-        action = new Actions(getDriver());
+        getActions();
     }
 
     private String pipelineName() {
@@ -105,7 +103,7 @@ public class _PipelineTest extends BaseTest {
         getDriver().findElement(LINK_JENKINS_HOMEPAGE).click();
         ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
         getDriver().findElement(By.xpath("//a[@href='script']")).click();
-        action.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                         By.xpath("//div[@class='CodeMirror-scroll cm-s-default']")))
                 .click()
                 .sendKeys("for(j in jenkins.model.Jenkins.theInstance.getAllItems()) {j.delete()}")
@@ -128,11 +126,11 @@ public class _PipelineTest extends BaseTest {
 
     private void deleteCreatedPipeline(String pipelineName) {
         getDriver().findElement(By.xpath("//a[normalize-space(text())='Dashboard']")).click();
-        action.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                 By.xpath("//a[@href='job/" + pipelineName + "/']"))).build().perform();
-        action.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                 By.xpath("//div[@id='menuSelector']"))).click().build().perform();
-        action.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                 By.xpath("//a/span[contains(text(),'Delete Pipeline')]"))).click().build().perform();
         getDriver().switchTo().alert().accept();
     }
@@ -397,7 +395,7 @@ public class _PipelineTest extends BaseTest {
         ProjectUtils.clickSaveButton(getDriver());
         homePageClick();
 
-        action.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                 By.xpath(String.format("//a[text()='%s']", name)))).build().perform();
         getDriver().findElement(By.id("menuSelector")).click();
 
@@ -413,7 +411,7 @@ public class _PipelineTest extends BaseTest {
 
         createPipeline(pipelineName(), Boolean.TRUE);
 
-        action.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                         By.xpath("//input[@name='hasCustomQuietPeriod']")))
                 .click()
                 .moveToElement(getDriver().findElement(By.name("quiet_period")))
@@ -660,7 +658,7 @@ public class _PipelineTest extends BaseTest {
 
         js(getDriver().findElement(By.xpath("//label[text()='Do not allow concurrent builds']")));
 
-        action.clickAndHold(getDriver().findElement(By.xpath("//b[text()='Choice Parameter']")))
+        getActions().clickAndHold(getDriver().findElement(By.xpath("//b[text()='Choice Parameter']")))
                 .moveToElement(getDriver().findElement(ADD_BOOLEAN_PARAMETER))
                 .release(getDriver().findElement(ADD_BOOLEAN_PARAMETER))
                 .perform();

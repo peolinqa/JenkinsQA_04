@@ -1,6 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -67,9 +66,7 @@ public class _ManageCredentialsTest extends BaseTest {
     public void testManageCredentialsChekMenu() {
 
         WebElement hoverable = getDriver().findElement(By.xpath("//a[@class='model-link inside inverse']"));
-        new Actions(getDriver())
-                .moveToElement(hoverable)
-                .perform();
+        getActions().moveToElement(hoverable).perform();
 
         getDriver().findElement(By.id("menuSelector")).click();
         getDriver().findElement(By.id("yui-gen4")).click();
@@ -151,8 +148,7 @@ public class _ManageCredentialsTest extends BaseTest {
 
         WebElement domainName = getDriver().findElement(
                 By.xpath("//a[@href='/credentials/store/system']"));
-        Actions action = new Actions(getDriver());
-        action.moveToElement(domainName).perform();
+        getActions().moveToElement(domainName).perform();
 
         getDriver().findElement(By.id("menuSelector")).click();
         getDriver().findElement(
