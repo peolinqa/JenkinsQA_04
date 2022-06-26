@@ -35,6 +35,7 @@ public class _PipelineTest extends BaseTest {
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
     private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
+    private static final By WARNING_MESSAGE = By.className("error");
 
     private JavascriptExecutor javascriptExecutor;
     private SoftAssert asserts;
@@ -693,5 +694,22 @@ public class _PipelineTest extends BaseTest {
         for (String s : listExistingJobsOnMyWathlist) {
             Assert.assertTrue(listExistingJobsOnDashboard.contains(s));
         }
+    }
+
+    @Test
+    public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
+        createNewPipeline("General");
+        ProjectUtils.Dashboard.Pipeline.Rename.click(getDriver());
+        TestUtils.clearAndSend(getDriver(), By.xpath("//input[@checkdependson='newName']"), "GENERAL");
+        getDriver().findElement(By.id("main-panel")).click();
+
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(WARNING_MESSAGE));
+
+        String actualWarning = getDriver().findElement(WARNING_MESSAGE).getText();
+        getDriver().findElement(By.id("yui-gen1-button")).click();
+        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
+
+        Assert.assertEquals(actualWarning,"The name “GENERAL” is already in use.");
+        Assert.assertEquals(actualError, "Error");
     }
 }
