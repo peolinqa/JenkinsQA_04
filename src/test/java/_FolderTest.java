@@ -48,14 +48,14 @@ public class _FolderTest extends BaseTest {
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(folderName);
-        ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
+        ProjectUtils.NewItemTypes.Folder.click(getDriver());
         ProjectUtils.clickOKButton(getDriver());
     }
 
     private static void createFolder(WebDriver driver, String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(driver);
         driver.findElement(NAME).sendKeys(folderName);
-        ProjectUtils.Dashboard.NewItem.Folder.click(driver);
+        ProjectUtils.NewItemTypes.Folder.click(driver);
         driver.findElement(OK_BUTTON).click();
         driver.findElement(SUBMIT_BUTTON).click();
     }
@@ -227,7 +227,7 @@ public class _FolderTest extends BaseTest {
             name.clear();
             String s = String.valueOf(symbols.charAt(i));
             name.sendKeys(s);
-            ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
+            ProjectUtils.NewItemTypes.Folder.click(getDriver());
 
             String expectedResult = "";
             if (s.equals(".")) {
@@ -249,7 +249,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
-        ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
+        ProjectUtils.NewItemTypes.Folder.click(getDriver());
         String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
 
         Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
@@ -275,7 +275,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
-        ProjectUtils.Dashboard.NewItem.Folder.click(getDriver());
+        ProjectUtils.NewItemTypes.Folder.click(getDriver());
         WebElement actualErrorMessage1 = getWait20()
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid")));
 

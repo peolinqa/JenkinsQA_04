@@ -42,26 +42,30 @@ public final class ProjectUtils {
         driver.findElement(By.id("ok-button")).click();
     }
 
-    public static void createFreestyleProjectWithRandomName(WebDriver driver) {
+    public static void createProject(WebDriver driver, NewItemTypes itemType) {
         Dashboard.Main.NewItem.click(driver);
         driver.findElement(By.id("name")).sendKeys(TestUtils.getRandomStr());
-        Dashboard.NewItem.FreestyleProject.click(driver);
+        itemType.click(driver);
         clickOKButton(driver);
-        Dashboard.Main.Dashboard.click(driver);
     }
 
-    public static void createFreestyleProjectWithName(WebDriver driver, String name) {
+    public static void createProject(WebDriver driver, NewItemTypes itemType, String name) {
         Dashboard.Main.NewItem.click(driver);
         driver.findElement(By.id("name")).sendKeys(name);
-        Dashboard.NewItem.FreestyleProject.click(driver);
+        itemType.click(driver);
         clickOKButton(driver);
-        Dashboard.Main.Dashboard.click(driver);
     }
 
     public static void openProject(WebDriver driver, String name) {
         driver.findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
     }
 
+    public static void deleteProject(WebDriver driver, String name) {
+        Dashboard.Main.Dashboard.click(driver);
+        openProject(driver, name);
+        Dashboard.Project.DeleteProject.click(driver);
+        driver.switchTo().alert().accept();
+    }
     public static void goLoadStatisticsPage(WebDriver driver) {
         Dashboard.Main.ManageJenkins.click(driver);
         ManageJenkins.LoadStatistics.click(driver);
@@ -163,25 +167,6 @@ public final class ProjectUtils {
             }
         }
       
-        public enum NewItem {
-            FreestyleProject(By.className("hudson_model_FreeStyleProject")),
-            Pipeline(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")),
-            MultiConfigurationProject(By.className("hudson_matrix_MatrixProject")),
-            Folder(By.className("com_cloudbees_hudson_plugins_folder_Folder")),
-            MultiBranchPipeline(By.className("org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")),
-            OrganizationFolder(By.className("jenkins_branch_OrganizationFolder"));
-
-            private final By locator;
-
-            NewItem(By locator) {
-                this.locator = locator;
-            }
-
-            public void click(WebDriver driver) {
-                driver.findElement(locator).click();
-            }
-        }
-
         public enum JenkinsOwnUserDatabase {
             BackToDashboard(By.linkText("Back to Dashboard")),
             ManageJenkins(By.linkText("Manage Jenkins")),
@@ -266,34 +251,6 @@ public final class ProjectUtils {
         }
     }
 
-
-    public enum CreateProject {
-        FreestyleProject(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[1]")),
-        Pipeline(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[2]")),
-        MultiConfigurationProject(By.xpath("//div[@id='j-add-item-type-standalone-projects']//li[3]")),
-        Folder(By.xpath("//div[@id='j-add-item-type-nested-projects']//li[1]")),
-        MultibranchPipeline(By.xpath("//div[@id='j-add-item-type-nested-projects']//li[2]")),
-        OrganizationFolder(By.xpath("//div[@id='j-add-item-type-nested-projects']//li[3]"));
-
-        private final By locator;
-
-        CreateProject(By locator) {
-            this.locator = locator;
-        }
-
-        public void createSampleProject(WebDriver driver, String projectName) {
-            ProjectUtils.Dashboard.Main.NewItem.click(driver);
-
-            WebElement elementName = driver.findElement(By.name("name"));
-            elementName.sendKeys(projectName);
-
-            driver.findElement(locator).click();
-
-            driver.findElement(By.id("ok-button")).click();
-            driver.findElement(By.xpath("//button[contains(text(),'Save')]")).click();
-        }
-    }
-  
     public enum ManageJenkins {
 
         ConfigureSystem(By.xpath("//dt[text()='Configure System']")),
@@ -325,17 +282,17 @@ public final class ProjectUtils {
         }
     }
 
-    public enum NewItem {
-        FreestyleProject(By.xpath("//span[text()='Freestyle project']")),
-        Pipeline(By.xpath("//span[text()='Pipeline']")),
-        MultiConfigurationProject(By.xpath("//span[text()='Multi-configuration project']")),
-        Folder(By.xpath("//span[text()='Folder']")),
-        MultibranchPipeline(By.xpath("//span[text()='Multibranch Pipeline']")),
-        OrganizationFolder(By.xpath("//span[text()='Organization Folder']"));
+    public enum NewItemTypes {
+        FreestyleProject(By.className("hudson_model_FreeStyleProject")),
+        Pipeline(By.className("org_jenkinsci_plugins_workflow_job_WorkflowJob")),
+        MultiConfigurationProject(By.className("hudson_matrix_MatrixProject")),
+        Folder(By.className("com_cloudbees_hudson_plugins_folder_Folder")),
+        MultiBranchPipeline(By.className("org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")),
+        OrganizationFolder(By.className("jenkins_branch_OrganizationFolder"));
 
         private final By locator;
 
-        NewItem(By locator) {
+        NewItemTypes(By locator) {
             this.locator = locator;
         }
 
@@ -343,4 +300,5 @@ public final class ProjectUtils {
             driver.findElement(locator).click();
         }
     }
+
 }

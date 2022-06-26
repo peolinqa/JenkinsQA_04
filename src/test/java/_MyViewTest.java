@@ -66,8 +66,8 @@ public class _MyViewTest extends BaseTest {
 
     @Test
     public void testCreateNewViewWithSelectLabelListView() {
-        ProjectUtils.createFreestyleProjectWithRandomName(getDriver());
-
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
 
         getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME);

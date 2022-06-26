@@ -20,7 +20,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     private void createMultiConfigFolder(String name) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(name);
-        ProjectUtils.NewItem.MultiConfigurationProject.click(getDriver());
+        ProjectUtils.NewItemTypes.MultiConfigurationProject.click(getDriver());
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
     }

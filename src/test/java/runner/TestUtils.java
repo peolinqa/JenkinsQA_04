@@ -41,4 +41,8 @@ public class TestUtils {
     public static void actionsClick(WebDriver driver, By locator) {
         new Actions(driver).moveToElement(driver.findElement(locator)).click().build().perform();
     }
+
+    public static void actionsMove(WebDriver driver, By locator, long pause) {
+        new Actions(driver).moveToElement(driver.findElement(locator)).pause(pause).build().perform();
+    }
 }
