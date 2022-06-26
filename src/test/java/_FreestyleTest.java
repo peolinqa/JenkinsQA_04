@@ -331,4 +331,33 @@ public class _FreestyleTest extends BaseTest {
         }
         Assert.assertFalse(checkProjectExists);
     }
+
+    @Test (dependsOnMethods = "testDeleteFreestyleProject")
+    public void testConfigureSaveButton() {
+
+        String expectedLink = "/job/" + RANDOM_NAME + "/";
+
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, RANDOM_NAME);
+        ProjectUtils.clickSaveButton(getDriver());
+
+        Assert.assertTrue(getDriver().getCurrentUrl().contains(expectedLink));
+    }
+
+    @Test (dependsOnMethods = "testConfigureSaveButton")
+    public void testConfigureApplyButton() {
+
+        String expectedAlertMessage = "Saved";
+
+        ProjectUtils.openProject(getDriver(), RANDOM_NAME);
+        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
+
+        getDriver().findElement(By.xpath("//button[contains(text(),'Apply')]")).click();
+        String alertMessage = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.cssSelector("div[id='notification-bar'][class='notif-alert-success notif-alert-show']")
+        )).getText();
+
+        ProjectUtils.deleteProject(getDriver(), RANDOM_NAME);
+
+        Assert.assertEquals(alertMessage, expectedAlertMessage);
+    }
 }
