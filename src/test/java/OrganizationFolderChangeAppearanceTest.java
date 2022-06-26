@@ -39,6 +39,7 @@ public class OrganizationFolderChangeAppearanceTest extends BaseTest {
                 By.xpath("//a[@href='/logout']")));
     }
 
+    @Ignore
     @Test
     public void testOrganizationFolderChangeAppearance() {
         final String FOLDER_NAME = "Servachak Organization Folder TC_039.002";
