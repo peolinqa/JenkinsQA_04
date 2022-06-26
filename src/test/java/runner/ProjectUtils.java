@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static runner.BaseUtils.PREFIX_PROP;
 import static runner.BaseUtils.getProperties;
@@ -61,11 +62,20 @@ public final class ProjectUtils {
     }
 
     public static void deleteProject(WebDriver driver, String name) {
-        Dashboard.Main.Dashboard.click(driver);
+        //Dashboard.Main.Dashboard.click(driver);
         openProject(driver, name);
         Dashboard.Project.DeleteProject.click(driver);
         driver.switchTo().alert().accept();
     }
+
+    public static List<String> getListOfJobs(WebDriver driver) {
+    List<String> jobsNames = driver.findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"))
+            .stream()
+            .map(WebElement::getText)
+            .collect(Collectors.toList());
+    return  jobsNames;
+    }
+
     public static void goLoadStatisticsPage(WebDriver driver) {
         Dashboard.Main.ManageJenkins.click(driver);
         ManageJenkins.LoadStatistics.click(driver);

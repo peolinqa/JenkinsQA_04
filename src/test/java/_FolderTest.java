@@ -26,11 +26,7 @@ public class _FolderTest extends BaseTest {
 
     public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
         ProjectUtils.Dashboard.Main.Dashboard.click(driver);
-
-        List<String> jobsNames = driver.findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+        List<String> jobsNames = ProjectUtils.getListOfJobs(driver);
         jobsNames
                 .forEach(jobsName -> {
                     if (jobsName.startsWith(prefix)) {

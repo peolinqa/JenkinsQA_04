@@ -7,6 +7,8 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 public class _FreestyleTest extends BaseTest {
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
@@ -247,20 +249,6 @@ public class _FreestyleTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testNewFreestyleWithSpecialCharacters")
-    public void testNewFreestyleItemProhibitedCharCopyDeleteLater() {
-
-        ProjectUtils.openProject(getDriver(), NAME_WITH_SPECIAL_CHARACTERS);
-        renameFreestyleProject(NAME_WITH_SPECIAL_CHARACTERS, "!");
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
-
-        WebElement errorMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p"));
-        Assert.assertTrue(errorMessage.isDisplayed());
-        Assert.assertEquals(errorMessage.getText(), "‘!’ is an unsafe character");
-    }
-
-    @Test(dependsOnMethods = "testNewFreestyleItemProhibitedCharCopyDeleteLater")
     public void testRenameWithInvalidData() {
         for (int i = 0; i < INVALID_DATA.length(); i++) {
             String newProjectName = INVALID_DATA.substring(i, (i + 1));
@@ -272,31 +260,6 @@ public class _FreestyleTest extends BaseTest {
                     || alertMessage.contains("is not an allowed name"));
             getDriver().navigate().back();
         }
-    }
-
-    @Test(dependsOnMethods = "testRenameWithInvalidData")
-    public void testRenameCopyDeleteLater() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, RANDOM_NAME);
-
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
-
-        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@href='job/" + RANDOM_NAME + "/']"))).click().build().perform();
-        getActions().moveToElement(getDriver().findElement(By.xpath("//div[@id='menuSelector']"))).click().build().perform();
-        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@href='/job/" + RANDOM_NAME + "/confirm-rename']"))).click().build().perform();
-
-        getDriver().findElement(By.xpath(
-                "//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input")).clear();
-
-        TestUtils.clearAndSend(getDriver(), By.xpath("//div[@id='main-panel']/form/div[1]/div[1]/div[2]/input"), EDITED_RANDOM_NAME);
-
-        getDriver().findElement(By.xpath(
-                "//div[@class='bottom-sticker-inner']/span/span/button")).click();
-
-        String editedName = getDriver().findElement(By.xpath("//h1")).getText();
-
-        ProjectUtils.deleteProject(getDriver(), EDITED_RANDOM_NAME);
-
-        Assert.assertEquals(editedName, "Project " + EDITED_RANDOM_NAME);
     }
 
     @Test
@@ -318,21 +281,19 @@ public class _FreestyleTest extends BaseTest {
         }
     }
 
-    @Test(dependsOnMethods = "testRenameWithInvalidData")
+    @Test (dependsOnMethods = "testRenameWithInvalidData")
     public void testDeleteFreestyleProject() {
+        List<String> jobsNames = ProjectUtils.getListOfJobs(getDriver());
         ProjectUtils.deleteProject(getDriver(), NAME_WITH_SPECIAL_CHARACTERS);
+        List<String> jobsNames2 = ProjectUtils.getListOfJobs(getDriver());
 
-        boolean checkProjectExists;
-        try {
-            getDriver().findElement(By.linkText(NAME_WITH_SPECIAL_CHARACTERS)).isDisplayed();
-            checkProjectExists = true;
-        } catch (Exception ee) {
-            checkProjectExists = false;
-        }
-        Assert.assertFalse(checkProjectExists);
+        List<String> differences = new ArrayList<>(jobsNames);
+        differences.removeAll(jobsNames2);
+
+        Assert.assertTrue(differences.contains(NAME_WITH_SPECIAL_CHARACTERS));
     }
 
-    @Test (dependsOnMethods = "testDeleteFreestyleProject")
+    @Test
     public void testConfigureSaveButton() {
 
         String expectedLink = "/job/" + RANDOM_NAME + "/";
