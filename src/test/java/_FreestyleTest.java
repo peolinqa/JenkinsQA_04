@@ -8,7 +8,7 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
-import static runner.TestUtils.getRandomStr;
+import static runner.TestUtils.*;
 
 public class _FreestyleTest extends BaseTest {
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
@@ -30,7 +30,7 @@ public class _FreestyleTest extends BaseTest {
     }
 
     private void checkBoxDisableProject() {
-        getDriver().findElement(By.xpath(String.format("//label[text()='Disable this project']"))).click();
+        getDriver().findElement(By.xpath("//label[text()='Disable this project']")).click();
     }
 
     private WebElement clickAndFindIcon() {
@@ -199,7 +199,20 @@ public class _FreestyleTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testFreestyleProjectEditDescription")
+    public void testHelpButtonGeneralTabDiscardOldBuildsPopup() {
+        openFreestyleProjectProject(RANDOM_NAME);
+        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
+        actionsMove(getDriver(), By.xpath("//label[text()='Discard old builds']/../a"), 500);
+        actionsMove(getDriver(), By.xpath("//a[@tooltip='Help for feature: Discard old builds']"), 0);
+
+        Assert.assertEquals(getWait5().
+                until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id = 'tt']"))).getText(),
+                "Help for feature: Discard old builds");
+    }
+
+    @Test(dependsOnMethods = "testHelpButtonGeneralTabDiscardOldBuildsPopup")
     public void testDisabledFreestyleProject() {
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         openFreestyleProjectProject(RANDOM_NAME);
         ProjectUtils.clickDisableProject(getDriver());
 
