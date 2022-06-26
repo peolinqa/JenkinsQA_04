@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -16,7 +17,7 @@ public class _MyViewTest extends BaseTest {
     private static final String EDIT_VIEW_NAME = TestUtils.getRandomStr();
     private static final String VIEW_DESCRIPTION = TestUtils.getRandomStr();
 
-    private  final By VIEW_NAMES_ON_TABBAR = By.cssSelector("div .tab a");
+    private final By VIEW_NAMES_ON_TABBAR = By.cssSelector("div .tab a");
     private final By VIEW_NAMES_ON_BREADCRUMBS = By.xpath("//ul[@id='breadcrumbs']/li[@class='item']");
 
     private WebElement dashboardMyViews() {
@@ -137,6 +138,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertEquals(VIEW_DESCRIPTION, fieldDescriptionOnThePage().getText());
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
     public void testCreateNewViewWithAnExistingName() {
         ProjectUtils.Dashboard.View.NewView.click(getDriver());

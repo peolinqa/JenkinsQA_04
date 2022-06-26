@@ -86,6 +86,12 @@ public final class ProjectUtils {
         ManageJenkins.ManageNodesAndClouds.click(driver);
     }
 
+    public static void goOnCreateUserPage(WebDriver driver) {
+        Dashboard.Main.ManageJenkins.click(driver);
+        ManageJenkins.ManageUsers.click(driver);
+        Dashboard.JenkinsOwnUserDatabase.CreateUser.click(driver);
+    }
+
     public static List<WebElement> getComputerNames(WebDriver driver) {
         goOnManageNodesAndCloudsPage(driver);
         return driver.findElements(By.xpath("//table[@id='computers']/tbody/*/td[2]"));
@@ -176,7 +182,7 @@ public final class ProjectUtils {
                 driver.findElement(locator).click();
             }
         }
-      
+
         public enum JenkinsOwnUserDatabase {
             BackToDashboard(By.linkText("Back to Dashboard")),
             ManageJenkins(By.linkText("Manage Jenkins")),

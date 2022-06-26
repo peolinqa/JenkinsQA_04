@@ -468,6 +468,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), expectedMessage + " is an unsafe character");
     }
 
+    @Ignore
     @Test
     public void testBuildPipelineWithParameters() {
 
