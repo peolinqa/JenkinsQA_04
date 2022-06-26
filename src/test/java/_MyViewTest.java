@@ -1,5 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -7,7 +8,6 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +15,9 @@ public class _MyViewTest extends BaseTest {
     private static final String VIEW_NAME = TestUtils.getRandomStr();
     private static final String EDIT_VIEW_NAME = TestUtils.getRandomStr();
     private static final String VIEW_DESCRIPTION = TestUtils.getRandomStr();
+
+    private  final By VIEW_NAMES_ON_TABBAR = By.cssSelector("div .tab a");
+    private final By VIEW_NAMES_ON_BREADCRUMBS = By.xpath("//ul[@id='breadcrumbs']/li[@class='item']");
 
     private WebElement dashboardMyViews() {
         return getDriver().findElement(By.xpath("//a[contains(@href, 'me/my-views')]"));
@@ -48,6 +51,18 @@ public class _MyViewTest extends BaseTest {
         return getDriver().findElement(By.xpath("//a[@class='textarea-hide-preview']"));
     }
 
+    private WebElement buttonOk1() {
+        return getDriver().findElement(By.id("yui-gen1-button"));
+    }
+
+    private WebElement buttonOk2() {
+        return getDriver().findElement(By.id("yui-gen2-button"));
+    }
+
+    private WebElement buttonOk13() {
+        return getDriver().findElement(By.id("yui-gen13-button"));
+    }
+
     private String actualResultDescription() {
         return fieldDescriptionOnThePage().getText();
     }
@@ -64,56 +79,60 @@ public class _MyViewTest extends BaseTest {
         buttonSave().click();
     }
 
+    private List<String> getTextFromList(WebDriver driver, By locator) {
+        driver.findElements(locator);
+        return driver.findElements(locator).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+    private void fillFieldViewNameAndSelectLabelOfView(WebDriver driver, By locator) {
+        driver.findElement(By.id("name")).sendKeys(VIEW_NAME);
+        driver.findElement(locator).click();
+    }
+    private void clickNameOfViewOnBreadcrumbs(){
+        getDriver().findElement(VIEW_NAMES_ON_BREADCRUMBS).click();
+        getDriver().findElement(By.xpath("//a[contains(@href, '" + VIEW_NAME + "')]")).click();
+    }
+
     @Test
-    public void testCreateNewViewWithSelectLabelListView() {
+    public void testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs() {
         ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
         ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
 
-        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME);
-        getDriver().findElement(By.xpath("//label[text() = 'List View']")).click();
+        fillFieldViewNameAndSelectLabelOfView(getDriver(), By.xpath("//label[text() = 'List View']"));
         getDriver().findElement(By.id("ok")).click();
 
         getDriver().findElement(By.name("description")).sendKeys(VIEW_DESCRIPTION);
-        getDriver().findElement(By.id("yui-gen13-button")).click();
+        buttonOk13().click();
 
-        Assert.assertEquals(VIEW_NAME, getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='item']/a[starts-with(@href, '/view')]")).getText());
-        Assert.assertEquals(VIEW_DESCRIPTION,getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText());
+        Assert.assertTrue(getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(VIEW_NAME));
+        Assert.assertEquals(VIEW_DESCRIPTION,fieldDescriptionOnThePage().getText());
     }
 
     @Test
-    public void testCreateNewViewWithSelectLabelMyView() {
+    public void testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs() {
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
-
-        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME);
-        getDriver().findElement(By.xpath("//label[text()='My View']")).click();
+        fillFieldViewNameAndSelectLabelOfView(getDriver(), By.xpath("//label[text() = 'My View']"));
         getDriver().findElement(By.id("ok")).click();
 
-        Assert.assertEquals(VIEW_NAME, getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[contains(@href, '/view')]")).getText());
+        Assert.assertTrue(getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(VIEW_NAME));
     }
 
-    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyView"})
+    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
     public void testCreateNewViewWithAnExistingName() {
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
-
-        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME);
-        getDriver().findElement(By.xpath("//label[text()='My View']")).click();
+        fillFieldViewNameAndSelectLabelOfView(getDriver(), By.xpath("//label[text() = 'My View']"));
 
         Assert.assertEquals(getDriver().findElement(By.className("error")).getText(), "A view already exists with the name " + '"' + VIEW_NAME + '"');
     }
 
-    @Test(dependsOnMethods = {"testCreateNewViewWithAnExistingName"})
+    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
     public void testEditViewChangeName() {
-        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
-        getDriver().findElement(By.xpath("//a[contains(@href, '" + VIEW_NAME + "')]")).click();
+        clickNameOfViewOnBreadcrumbs();
 
         ProjectUtils.Dashboard.View.EditView.click(getDriver());
-
-        WebElement name = getDriver().findElement(By.name("name"));
-        name.clear();
-        name.sendKeys(EDIT_VIEW_NAME);
-
-        getDriver().findElement(By.id("yui-gen2-button")).click();
+        TestUtils.clearAndSend(getDriver(), By.name("name"), EDIT_VIEW_NAME);
+        buttonOk2().click();
 
         Assert.assertEquals(EDIT_VIEW_NAME, getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[contains(@href, '" + EDIT_VIEW_NAME + "')]")).getText());
     }
@@ -191,31 +210,21 @@ public class _MyViewTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testEditViewChangeName"})
     public void testDeleteViewViaBreadcrumbs() {
-        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
-        getDriver().findElement(By.xpath("//li/a[contains(@href, '" + "/view/" + EDIT_VIEW_NAME + "')]")).click();
+       getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
+       getDriver().findElement(By.xpath("//li/a[contains(@href, '" + EDIT_VIEW_NAME + "')]")).click();
 
         ProjectUtils.Dashboard.View.DeleteView.click(getDriver());
-        getDriver().findElement(By.id("yui-gen1-button")).click();
+        buttonOk1().click();
 
-        List<WebElement> namesView = getDriver().findElements(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']"));
-        List<String> names = new ArrayList<>();
-        for (WebElement name : namesView) {
-            names.add(name.getText());
-        }
-
-        Assert.assertTrue(names.get(0).isEmpty());
-        Assert.assertFalse(names.contains(EDIT_VIEW_NAME));
+        Assert.assertFalse(getTextFromList(getDriver(),VIEW_NAMES_ON_BREADCRUMBS).contains(EDIT_VIEW_NAME));
     }
 
-    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelListView"})
+    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs"})
     public void testDeleteViewViaTabBarFrame() {
         getDriver().findElement(By.xpath("//div/a[contains(text(),'" + VIEW_NAME + "')]")).click();
         ProjectUtils.Dashboard.View.DeleteView.click(getDriver());
-        getDriver().findElement(By.id("yui-gen1-button")).click();
+        buttonOk1().click();
 
-        List<WebElement> listViews = getDriver().findElements(By.cssSelector("div .tab a"));
-        List<String> namesOfViews = listViews.stream().map(WebElement::getText).collect(Collectors.toList());
-
-        Assert.assertFalse(namesOfViews.contains(VIEW_NAME));
+        Assert.assertFalse(getTextFromList(getDriver(),VIEW_NAMES_ON_TABBAR ).contains(VIEW_NAME));
     }
 }
