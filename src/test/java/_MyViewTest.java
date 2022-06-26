@@ -83,11 +83,13 @@ public class _MyViewTest extends BaseTest {
         driver.findElements(locator);
         return driver.findElements(locator).stream().map(WebElement::getText).collect(Collectors.toList());
     }
+
     private void fillFieldViewNameAndSelectLabelOfView(WebDriver driver, By locator) {
         driver.findElement(By.id("name")).sendKeys(VIEW_NAME);
         driver.findElement(locator).click();
     }
-    private void clickNameOfViewOnBreadcrumbs(){
+
+    private void clickNameOfViewOnBreadcrumbs() {
         getDriver().findElement(VIEW_NAMES_ON_BREADCRUMBS).click();
         getDriver().findElement(By.xpath("//a[contains(@href, '" + VIEW_NAME + "')]")).click();
     }
@@ -106,7 +108,7 @@ public class _MyViewTest extends BaseTest {
         buttonOk13().click();
 
         Assert.assertTrue(getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(VIEW_NAME));
-        Assert.assertEquals(VIEW_DESCRIPTION,fieldDescriptionOnThePage().getText());
+        Assert.assertEquals(VIEW_DESCRIPTION, fieldDescriptionOnThePage().getText());
     }
 
     @Test
@@ -116,6 +118,23 @@ public class _MyViewTest extends BaseTest {
         getDriver().findElement(By.id("ok")).click();
 
         Assert.assertTrue(getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(VIEW_NAME));
+    }
+
+    @Test
+    public void testCreateNewViewWithSelectLabelListViewCheckTabBar() {
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+
+        ProjectUtils.Dashboard.View.NewView.click(getDriver());
+
+        fillFieldViewNameAndSelectLabelOfView(getDriver(), By.xpath("//label[text() = 'List View']"));
+        getDriver().findElement(By.id("ok")).click();
+
+        getDriver().findElement(By.name("description")).sendKeys(VIEW_DESCRIPTION);
+        buttonOk13().click();
+
+        Assert.assertTrue(getTextFromList(getDriver(), VIEW_NAMES_ON_TABBAR).contains(VIEW_NAME));
+        Assert.assertEquals(VIEW_DESCRIPTION, fieldDescriptionOnThePage().getText());
     }
 
     @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
@@ -210,13 +229,13 @@ public class _MyViewTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testEditViewChangeName"})
     public void testDeleteViewViaBreadcrumbs() {
-       getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
-       getDriver().findElement(By.xpath("//li/a[contains(@href, '" + EDIT_VIEW_NAME + "')]")).click();
+        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
+        getDriver().findElement(By.xpath("//li/a[contains(@href, '" + EDIT_VIEW_NAME + "')]")).click();
 
         ProjectUtils.Dashboard.View.DeleteView.click(getDriver());
         buttonOk1().click();
 
-        Assert.assertFalse(getTextFromList(getDriver(),VIEW_NAMES_ON_BREADCRUMBS).contains(EDIT_VIEW_NAME));
+        Assert.assertFalse(getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(EDIT_VIEW_NAME));
     }
 
     @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs"})
@@ -225,6 +244,6 @@ public class _MyViewTest extends BaseTest {
         ProjectUtils.Dashboard.View.DeleteView.click(getDriver());
         buttonOk1().click();
 
-        Assert.assertFalse(getTextFromList(getDriver(),VIEW_NAMES_ON_TABBAR ).contains(VIEW_NAME));
+        Assert.assertFalse(getTextFromList(getDriver(), VIEW_NAMES_ON_TABBAR).contains(VIEW_NAME));
     }
 }
