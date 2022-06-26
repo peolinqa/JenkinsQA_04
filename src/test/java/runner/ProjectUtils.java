@@ -47,7 +47,6 @@ public final class ProjectUtils {
         driver.findElement(By.id("name")).sendKeys(TestUtils.getRandomStr());
         itemType.click(driver);
         clickOKButton(driver);
-        Dashboard.Main.Dashboard.click(driver);
     }
 
     public static void createProject(WebDriver driver, NewItemTypes itemType, String name) {
@@ -55,13 +54,18 @@ public final class ProjectUtils {
         driver.findElement(By.id("name")).sendKeys(name);
         itemType.click(driver);
         clickOKButton(driver);
-        Dashboard.Main.Dashboard.click(driver);
     }
 
     public static void openProject(WebDriver driver, String name) {
         driver.findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
     }
 
+    public static void deleteProject(WebDriver driver, String name) {
+        Dashboard.Main.Dashboard.click(driver);
+        openProject(driver, name);
+        Dashboard.Project.DeleteProject.click(driver);
+        driver.switchTo().alert().accept();
+    }
     public static void goLoadStatisticsPage(WebDriver driver) {
         Dashboard.Main.ManageJenkins.click(driver);
         ManageJenkins.LoadStatistics.click(driver);
@@ -246,8 +250,6 @@ public final class ProjectUtils {
             }
         }
     }
-
-
 
     public enum ManageJenkins {
 

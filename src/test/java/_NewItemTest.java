@@ -30,7 +30,7 @@ public class _NewItemTest extends BaseTest {
     @Test
     public void testCopyDataFromExistingItemNegative() {
         ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
-
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         copyFromFreestyleProject("NJ3", "NJ4");
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
@@ -39,6 +39,7 @@ public class _NewItemTest extends BaseTest {
     @Test
     public void testCopyDataFromExistingItemPositive() {
         ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, "NJ");
+        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
         ProjectUtils.openProject(getDriver(), "NJ");
         ProjectUtils.Dashboard.Project.Configure.click(getDriver());
 
