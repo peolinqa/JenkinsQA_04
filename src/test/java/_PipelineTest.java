@@ -799,4 +799,22 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertTrue(getDriver().findElement(H1).getText().contains(pipelineName));
     }
+
+    @Test
+    public void testCheckIcon() {
+        final String name = pipelineName();
+
+        createPipeline(name, Boolean.TRUE);
+        new Select($(".samples select")).selectByValue("hello");
+        $("[type='submit']").click();
+        homePageClick();
+        $x(String.format("//span[contains(text(), '%s')]/following-sibling::*[name()='svg']", name)).click();
+
+        getDriver().navigate().refresh();
+
+        $x(String.format("//a[@href='job/%s/']", name)).click();
+
+        Assert.assertTrue(getWait20().until(ExpectedConditions.attributeToBe(
+                By.cssSelector(".tobsTable-body .job"), "class", "job SUCCESS")));
+    }
 }
