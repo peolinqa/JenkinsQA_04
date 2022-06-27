@@ -1,13 +1,13 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +41,8 @@ public class _OrganizationFolderTest extends BaseTest {
 
     private void deleteFolder() {
         getDriver().findElement(JENKINS).click();
-        Actions action = new Actions(getDriver());
         WebElement folder1 = getDriver().findElement(FOLDER_ON_DASHBOARD);
-        action.moveToElement(folder1, 20, 0).pause(500).click();
-        action.build().perform();
+        getActions().moveToElement(folder1, 20, 0).pause(500).click().build().perform();
         getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li/a[@href='/job/"
                 + VALID_FOLDER_NAME + "/delete']/span"))
                 .click();
@@ -271,14 +269,7 @@ public class _OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(JENKINS).click();
 
-        List<String> result = new ArrayList<>();
-        List<WebElement> namesFoldersFromTable = getDriver().findElements(By.xpath(
-                "//table[@id='projectstatus']/tbody/tr/td[3]/a"));
-
-        for (WebElement name : namesFoldersFromTable) {
-            result.add(name.getText());
-        }
-
+        List<String> result = ProjectUtils.getListOfJobs(getDriver());
         Assert.assertTrue(result.contains(VALID_VALUE_FOR_NAME1));
         Assert.assertFalse(result.contains(VALID_FOLDER_NAME));
 

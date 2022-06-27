@@ -1,6 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -12,7 +11,6 @@ import java.util.List;
 public class _ManageNodesAndCloudsTest extends BaseTest {
 
     private static final String COMPUTER_NAME = "first test node 456";
-    private static final By XPATH_MENU_SELECTOR_BTN = By.xpath("//div[@id='menuSelector']");
 
     private WebElement findBuildQueueBtn() {
         return getWait5().until(ExpectedConditions
@@ -101,12 +99,11 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
         for (WebElement computerName : listComputerNames) {
             if (computerName.getText().equals(COMPUTER_NAME)) {
-                Actions action = new Actions(getDriver());
-                action.moveToElement(computerName).build().perform();
+                getActions().moveToElement(computerName).build().perform();
 
                 WebElement selectorButton = getWait5().until(ExpectedConditions
                         .visibilityOfElementLocated(By.xpath("//div[@id='menuSelector']")));
-                action.moveToElement(selectorButton).click().build().perform();
+                getActions().moveToElement(selectorButton).click().build().perform();
 
                 getWait20().until(ExpectedConditions
                         .visibilityOfElementLocated(By.xpath("//span[text()='Delete Agent']"))).click();

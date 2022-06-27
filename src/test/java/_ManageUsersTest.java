@@ -10,9 +10,12 @@ import runner.TestUtils;
 
 import java.util.*;
 
+import static runner.ProjectUtils.goOnCreateUserPage;
+
 public class _ManageUsersTest extends BaseTest {
 
-    private static final String USER_NAME = "viktorp";
+    private static final String USER_NAME_FIRST = "viktorp";
+    private static final String USER_NAME_SECOND = "Balthazarrr";
     private static final String PASSWORD = "123456ABC";
     private static final String FULL_NAME = "Viktor P";
     private static final String NEW_USER_FULL_NAME = "Michael";
@@ -23,13 +26,6 @@ public class _ManageUsersTest extends BaseTest {
     private static final By ERROR_MESSAGES = By.className("error");
     private static final By ALL_USERS = By.xpath("//table[@id='people']/tbody/tr");
     private static final By FULL_NAME_XPATH = By.name("fullname");
-
-    private void goOnCreateUserPage() {
-
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.ManageUsers.click(getDriver());
-        ProjectUtils.Dashboard.JenkinsOwnUserDatabase.CreateUser.click(getDriver());
-    }
 
     public void fillOutFieldsCreateUser(String userName, String password, String fullName, String email) {
 
@@ -48,12 +44,12 @@ public class _ManageUsersTest extends BaseTest {
     @Test
     public void testUserCanCreateNewUser() {
 
-        goOnCreateUserPage();
-        fillOutFieldsCreateUser(USER_NAME, PASSWORD, FULL_NAME, EMAIL);
+        goOnCreateUserPage(getDriver());
+        fillOutFieldsCreateUser(USER_NAME_FIRST, PASSWORD, FULL_NAME, EMAIL);
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
         for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
-            if (user.getText().contains(USER_NAME) && user.getText().contains(FULL_NAME)) {
+            if (user.getText().contains(USER_NAME_FIRST) && user.getText().contains(FULL_NAME)) {
 
                 Assert.assertTrue(user.isDisplayed());
             }
@@ -65,7 +61,7 @@ public class _ManageUsersTest extends BaseTest {
 
         ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
         ProjectUtils.ManageJenkins.ManageUsers.click(getDriver());
-        getDriver().findElement(By.xpath("//a[@href='user/".concat(USER_NAME.toLowerCase()).concat("/configure']")))
+        getDriver().findElement(By.xpath("//a[@href='user/".concat(USER_NAME_FIRST.toLowerCase()).concat("/configure']")))
                 .click();
         TestUtils.clearAndSend(getDriver(), By.name("_.fullName"), NEW_USER_FULL_NAME);
         getDriver().findElement(By.id("yui-gen2-button")).click();
@@ -79,12 +75,12 @@ public class _ManageUsersTest extends BaseTest {
 
         ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
         ProjectUtils.ManageJenkins.ManageUsers.click(getDriver());
-        getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", USER_NAME))).click();
+        getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", USER_NAME_FIRST))).click();
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
         for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
 
-            Assert.assertFalse(user.getText().contains(USER_NAME));
+            Assert.assertFalse(user.getText().contains(USER_NAME_FIRST));
         }
     }
 
@@ -95,7 +91,7 @@ public class _ManageUsersTest extends BaseTest {
 
         final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
 
-        goOnCreateUserPage();
+        goOnCreateUserPage(getDriver());
         fillOutFieldsCreateUser("", PASSWORD, FULL_NAME, EMAIL);
 
         List<String> specialCharacters = new ArrayList<>(Arrays.asList(
@@ -104,7 +100,7 @@ public class _ManageUsersTest extends BaseTest {
 
         for (String specialCharacter : specialCharacters) {
             List<String> namesWithSpecialCharacter = new ArrayList<>(Arrays.asList(
-                    specialCharacter + USER_NAME, USER_NAME + specialCharacter,
+                    specialCharacter + USER_NAME_FIRST, USER_NAME_FIRST + specialCharacter,
                     "vik".concat(specialCharacter).concat("torp")));
 
             for (String nameWithSpecialCharacter : namesWithSpecialCharacter) {
@@ -147,8 +143,8 @@ public class _ManageUsersTest extends BaseTest {
 
         SoftAssert asserts = new SoftAssert();
 
-        goOnCreateUserPage();
-        fillOutFieldsCreateUser(USER_NAME.concat("*"), PASSWORD, FULL_NAME, EMAIL);
+        goOnCreateUserPage(getDriver());
+        fillOutFieldsCreateUser(USER_NAME_FIRST.concat("*"), PASSWORD, FULL_NAME, EMAIL);
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
         List<String> cssValues = new ArrayList<>(Arrays.asList(
@@ -186,7 +182,7 @@ public class _ManageUsersTest extends BaseTest {
                 "Invalid e-mail address",
                 "\"\" is prohibited as a username for security reasons.");
 
-        goOnCreateUserPage();
+        goOnCreateUserPage(getDriver());
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(BUTTON_SUBMIT_TYPE)).click();
 
         List<WebElement> actualErrors = TestUtils.getList(getDriver(), ERROR_MESSAGES);
@@ -201,13 +197,13 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testCheckValueInUsernameEqualValueFromFullName() {
-        goOnCreateUserPage();
-        fillOutFieldsCreateUser("Balthazarrr", "", "", "");
+        goOnCreateUserPage(getDriver());
+        fillOutFieldsCreateUser(USER_NAME_SECOND, "", "", "");
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(FULL_NAME_XPATH));
 
         String actualResultFullName = getDriver().findElement(FULL_NAME_XPATH).getAttribute("value");
-        Assert.assertEquals(actualResultFullName, "Balthazarrr");
+        Assert.assertEquals(actualResultFullName, USER_NAME_SECOND);
 
         final List<String> expectedErrorsText = List.of("Password is required", "Invalid e-mail address");
         List<WebElement> actualErrors = TestUtils.getList(getDriver(), ERROR_MESSAGES);

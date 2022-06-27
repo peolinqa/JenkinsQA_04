@@ -1,17 +1,22 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.TestUtils;
-
 import java.util.List;
 
 public class _HeaderTest extends BaseTest {
 
     private static final By HEADER = By.id("header");
     private static final By HEADER_ICON = By.id("jenkins-head-icon");
+
+    private static List<WebElement> getMenuItems(WebDriver driver){
+       return TestUtils.getList(driver,By.xpath("//div[@class='task ']//a"));
+    }
 
     public void verifyPositionOfElements(By locator, String attribute, String... expectedResult) {
         List<WebElement> elementList = TestUtils.getList(getDriver(), locator);
@@ -25,109 +30,54 @@ public class _HeaderTest extends BaseTest {
         }
     }
 
-    public void verifyImageOrder(String uri){
+    @Test
+    public void testIsHeaderDisplayedOnTopOnAllPages() {
+        getMenuItems(getDriver());
+        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
+            getDriver().findElement(
+                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
+
+            Assert.assertTrue(getDriver().findElement(HEADER).isDisplayed());
+            Assert.assertEquals(getDriver().findElement(HEADER).getLocation().toString(), "(0, 0)");
+            getDriver().navigate().back();
+        }
+    }
+
+    @Test
+    public void testVerifyImageOrderOnAllPages() {
+        getMenuItems(getDriver());
+        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
+            getDriver().findElement(
+                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
+            verifyPositionOfElements(By.xpath("//div[@class='logo']/a/img"), "id",
+                    "jenkins-head-icon", "jenkins-name-icon");
+            getDriver().navigate().back();
+        }
+    }
+
+    @Test
+    public void testHeaderLogoIsClickableOnAllPagesToHomepage(){
         String currentUrl = getDriver().getCurrentUrl();
-        if(uri != null){
-            getDriver().get(currentUrl + uri);
+        getMenuItems(getDriver());
+        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
+            getDriver().findElement(
+                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
+
+            Assert.assertEquals(getDriver().findElement(By.id("jenkins-home-link")).getAttribute("href"), currentUrl);
+            getDriver().navigate().back();
         }
-        verifyPositionOfElements(By.xpath("//div[@class='logo']/a/img"), "id",
-                "jenkins-head-icon","jenkins-name-icon");
     }
 
-    public void clickableLogo(String uri){
-        String mainPage = getDriver().getCurrentUrl();
-        if(uri != null){
-            getDriver().get(mainPage + uri);
+    @Test
+    public void testLogoIsViewedOnAllPages() {
+        getMenuItems(getDriver());
+        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
+            getDriver().findElement(
+                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
+            WebElement logo = getDriver().findElement(HEADER_ICON);
+            Assert.assertTrue(logo.getAttribute("src").contains("/images/svgs/logo.svg"));
+            getDriver().navigate().back();
         }
-        WebElement logoLink = getDriver().findElement(By.id("jenkins-home-link"));
-
-        Assert.assertEquals(logoLink.getAttribute("href"), mainPage);
-    }
-
-    public void verifyLogo(String uri){
-        String currentUrl = getDriver().getCurrentUrl();
-        if(uri != null){
-            getDriver().get(currentUrl + uri);
-        }
-
-        WebElement logo = getDriver().findElement(HEADER_ICON);
-
-        Assert.assertTrue(logo.getAttribute("src").contains("/images/svgs/logo.svg"));
-    }
-
-    @Test
-    public void testHeaderLogoIsConsistentOnMainPage() { verifyImageOrder(null); }
-
-    @Test
-    public void testHeaderLogoIsConsistentOnNewItemPage(){
-        verifyImageOrder("view/all/newJob");
-    }
-
-    @Test
-    public void testHeaderLogoIsConsistentOnPeoplePage(){
-        verifyImageOrder("asynchPeople/");
-    }
-
-    @Test
-    public void testHeaderLogoIsConsistentOnManageJenkinsPage(){
-        verifyImageOrder("manage");
-    }
-    @Test
-    public void testHeaderLogoIsConsistentOnMyViewsPage() {
-        verifyImageOrder("me/my-views/view/all/");
-    }
-
-    @Test
-    public void testHeaderLogoIsConsistentOnNewViewPage() {
-        verifyImageOrder("user/admin/my-views/newView");
-    }
-
-    @Test
-    public void testHeaderLogoIsClickableOnPageToHomepage(){
-        clickableLogo(null);
-    }
-
-    @Test
-    public void testHeaderLogoIsClickableFromNewItemPageToHomepage(){
-        clickableLogo("view/all/newJob");
-    }
-
-    @Test
-    public void testHeaderLogoIsClickableFromPeoplePageToHomepage(){
-        clickableLogo("asynchPeople/");
-    }
-
-    @Test
-    public void testHeaderLogoIsClickableFromManageJenkinsPageToHomepage(){
-        clickableLogo("manage");
-    }
-
-    @Test
-    public void testLogoIsViewedOnMainPage() { verifyLogo(null); }
-
-    @Test
-    public void testLogoIsViewedOnNewItemPage() {
-        verifyLogo("view/all/newJob");
-    }
-
-    @Test
-    public void testLogoIsViewedOnPeoplePage() {
-        verifyLogo("asynchPeople/");
-    }
-
-    @Test
-    public void testLogoIsViewedOnManageJenkinsPage() {
-        verifyLogo("manage");
-    }
-
-    @Test
-    public void testLogoIsViewedOnMyViewsPage() {
-        verifyLogo("me/my-views/view/all/");
-    }
-
-    @Test
-    public void testLogoIsViewedOnNewViewPage() {
-        verifyLogo("user/admin/my-views/newView");
     }
 
     @Test
@@ -149,16 +99,26 @@ public class _HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testHeaderPositionOfElementsUI(){
-        verifyPositionOfElements(By.xpath("//header/div"), "class",
-                "page-header__brand","searchbox hidden-xs","login page-header__hyperlinks");
-        verifyPositionOfElements(By.xpath("//div[@class='logo']/a/img"), "id",
-                "jenkins-head-icon","jenkins-name-icon");
+    public void testHeaderPositionOfElementsUI() {
+        getMenuItems(getDriver());
+        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
+            getDriver().findElement(
+                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
 
-        verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/div"),"id",
-                "visible-am-insertion", "visible-sec-am-insertion");
+            verifyPositionOfElements(By.xpath("//header/div"), "class",
+                    "page-header__brand", "searchbox hidden-xs", "login page-header__hyperlinks");
 
-        verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/a"),"href",
-                getDriver().getCurrentUrl() + "user/admin", getDriver().getCurrentUrl() + "logout");
+            verifyPositionOfElements(By.xpath("//div[@class='logo']/a/img"), "id",
+                    "jenkins-head-icon", "jenkins-name-icon");
+
+            verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/div"), "id",
+                    "visible-am-insertion", "visible-sec-am-insertion");
+
+            verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/a"), "href",
+                    getDriver().getCurrentUrl() + "user/admin", getDriver().getCurrentUrl() + "logout");
+
+            getDriver().navigate().back();
+        }
     }
+
 }

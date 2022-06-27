@@ -1,6 +1,5 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,17 +19,17 @@ public class _NewItemTest extends BaseTest {
     public void copyFromFreestyleProject(String nameNew, String nameCopyFrom) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(nameNew);
-        ProjectUtils.Dashboard.NewItem.FreestyleProject.click(getDriver());
+        ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
         WebElement copFromButton = getDriver().findElement(By.id("from"));
-        new Actions(getDriver()).pause(500).moveToElement(copFromButton).perform();
+        getActions().pause(500).moveToElement(copFromButton).perform();
         copFromButton.sendKeys(nameCopyFrom);
         ProjectUtils.clickOKButton(getDriver());
     }
 
     @Test
     public void testCopyDataFromExistingItemNegative() {
-        ProjectUtils.createFreestyleProjectWithRandomName(getDriver());
-
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         copyFromFreestyleProject("NJ3", "NJ4");
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
@@ -38,7 +37,8 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
-        ProjectUtils.createFreestyleProjectWithName(getDriver(), "NJ");
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, "NJ");
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         ProjectUtils.openProject(getDriver(), "NJ");
         ProjectUtils.Dashboard.Project.Configure.click(getDriver());
 
@@ -47,7 +47,7 @@ public class _NewItemTest extends BaseTest {
         getDriver().findElement(By.name(GITHUB_URL)).sendKeys(URL_INPUT);
         ProjectUtils.clickSaveButton(getDriver());
 
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         copyFromFreestyleProject("NJ2", "NJ");
         ProjectUtils.openProject(getDriver(), "NJ2");
         ProjectUtils.Dashboard.Project.Configure.click(getDriver());

@@ -1,40 +1,47 @@
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.TestUtils;
 
 public class _ConfigureSystemTest extends BaseTest {
 
-    private static final By SAVE_BUTTON = By.xpath("//button[@type='submit']");
     private static final By SYSTEM_MESSAGE_FORM = By.name("system_message");
-    private static final By MAIN_PAGE_SYSTEM_MESSAGE = By.id("systemmessage");
-    private static final By DASHBOARD = By.id("jenkins-home-link");
-
-    private void goToConfigureSystemPage() {
-        getDriver().findElement(By.xpath("//span[contains(text(),'Manage Jenkins')]")).click();
-        getDriver().findElement(By.xpath("//dt[contains(text(),'Configure System')]")).click();
-    }
 
     @Test
-    public void testConfigureSystemMessageTestPositive() {
+    public void testConfigureSystemMessagePositive() {
 
         final String randomSystemMessage = TestUtils.getRandomStr();
 
-        goToConfigureSystemPage();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ConfigureSystem.click(getDriver());
+
+        TestUtils.clearAndSend(getDriver(), SYSTEM_MESSAGE_FORM, randomSystemMessage);
+        getWait20().until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[@type='submit']"))).click();
+
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+
+        Assert.assertEquals(getDriver().findElement(By.id("systemmessage")).getText(), randomSystemMessage);
+    }
+
+
+    @Test
+    public void testConfigureSystemMessagePreviewPositive() {
+
+        final String randomSystemMessage = TestUtils.getRandomStr();
+
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ConfigureSystem.click(getDriver());
 
         TestUtils.clearAndSend(getDriver(), SYSTEM_MESSAGE_FORM, randomSystemMessage);
 
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        getDriver().findElement(By.xpath("//a[normalize-space(.)='Preview']")).click();
 
-        getWait20().until(ExpectedConditions.elementToBeClickable(SAVE_BUTTON)).click();
+        Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), randomSystemMessage);
 
-        getDriver().findElement(DASHBOARD).click();
-
-        Assert.assertEquals(getDriver().findElement(MAIN_PAGE_SYSTEM_MESSAGE).getText(), randomSystemMessage);
+        ProjectUtils.clickSaveButton(getDriver());
     }
 }

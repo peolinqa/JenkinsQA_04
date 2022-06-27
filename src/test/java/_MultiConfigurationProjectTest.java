@@ -1,7 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -20,14 +19,13 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     private void createMultiConfigFolder(String name) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(name);
-        ProjectUtils.NewItem.MultiConfigurationProject.click(getDriver());
+        ProjectUtils.NewItemTypes.MultiConfigurationProject.click(getDriver());
         getDriver().findElement(By.id("ok-button")).click();
         getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
     }
 
     private void deleteFolder(String name) {
-        Actions action = new Actions(getDriver());
-        action.moveToElement(getDriver().findElement(
+        getActions().moveToElement(getDriver().findElement(
                 By.xpath("//table[@id='projectstatus']//a[normalize-space()='" + name + "']"))).click().build().perform();
         getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
         getDriver().switchTo().alert().accept();
@@ -204,11 +202,10 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 "or as soon as any of the configured values are exceeded; these rules are evaluated " +
                 "each time a build of this project completes.";
 
-        Actions actions = new Actions(getDriver());
-        actions.moveToElement(getDriver().findElement(PROJECT_ON_DAHBOARD)).perform();
+        getActions().moveToElement(getDriver().findElement(PROJECT_ON_DAHBOARD)).perform();
         WebElement subMenuButton = getDriver().findElement(By.id("menuSelector"));
-        actions.moveToElement(subMenuButton).click().build().perform();
-        actions.moveToElement(getDriver().findElement(
+        getActions().moveToElement(subMenuButton).click().build().perform();
+        getActions().moveToElement(getDriver().findElement(
                 By.xpath("//a[@class='yuimenuitemlabel']//span[text()='Configure']"))).click().build().perform();
 
         WebElement helpTitle = getDriver().findElement(By.xpath("//a[contains(@tooltip, 'Discard old builds')]"));
@@ -234,7 +231,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
         Assert.assertTrue(checkBoxDiscardOldBuilds.isSelected());
 
-        actions.moveToElement(getDriver().findElement(By.xpath("//span[@name='Apply']"))).click().build().perform();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//span[@name='Apply']"))).click().build().perform();
 
         WebElement applyMessage = getDriver().findElement(By.xpath("//div[@id='notification-bar']/span"));
 

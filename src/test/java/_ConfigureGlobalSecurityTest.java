@@ -1,7 +1,6 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -64,7 +63,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", locator);
 
-        new Actions(getDriver()).pause(500).moveToElement(locator).perform();
+        getActions().pause(500).moveToElement(locator).perform();
 
         Assert.assertEquals(getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText(),
                 "Help for feature: SSHD Port");
