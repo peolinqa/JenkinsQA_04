@@ -165,6 +165,7 @@ public final class ProjectUtils {
             BuildNow(By.linkText("Build Now")),
             Configure(By.linkText("Configure")),
             DeleteProject(By.xpath("//span[text()='Delete Project']")),
+            DeleteMultiConfigurationProject(By.xpath("//span[text()='Delete Multi-configuration project']")),
             Move(By.linkText("Move")),
             Rename(By.linkText("Rename"));
 
