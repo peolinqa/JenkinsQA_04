@@ -35,8 +35,7 @@ public class _HeaderTest extends BaseTest {
 
     private void menuSelector(WebDriver driver) {
 
-        Actions actions = new Actions(driver);
-        actions.moveToElement(getDriver().findElement(MENU_SELECTOR_XPATH)).perform();
+        getActions().moveToElement(getDriver().findElement(MENU_SELECTOR_XPATH)).perform();
 
         driver.findElement(By.cssSelector("div[id='menuSelector']")).click();
     }
