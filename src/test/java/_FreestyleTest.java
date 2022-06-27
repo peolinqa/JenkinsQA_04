@@ -43,6 +43,12 @@ public class _FreestyleTest extends BaseTest {
         ProjectUtils.clickSaveButton(getDriver());
     }
 
+    private void deleteProject(String name) {
+        getDriver().findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
+        ProjectUtils.Dashboard.Project.DeleteProject.click(getDriver());
+        getDriver().switchTo().alert().accept();
+    }
+
     private enum CheckBox {
         ENABLE("Not built", "Disable Project"),
         DISABLE("Disabled", "Enable");
@@ -93,7 +99,7 @@ public class _FreestyleTest extends BaseTest {
             Assert.assertTrue(actualText.getText().contains(
                     "This project is currently disabled"));
         }
-        ProjectUtils.deleteProject(getDriver(), RANDOM_NAME);
+        deleteProject(RANDOM_NAME);
     }
 
     @Test(dataProvider = "data")
@@ -107,7 +113,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(clickAndFindIcon().getAttribute("tooltip"),
                 project.getStatusIcons());
 
-        ProjectUtils.deleteProject(getDriver(), RANDOM_NAME);
+        deleteProject(RANDOM_NAME);
     }
 
     @Test
@@ -127,11 +133,11 @@ public class _FreestyleTest extends BaseTest {
         boolean projectConfig = getDriver().findElements(By.cssSelector(".config-section-activator")).size() > 0;
 
         TestUtils.clearAndSend(getDriver(), By.cssSelector("[name='description']"), "This is a description for a Freestyle project");
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         String alert = String.valueOf(ExpectedConditions.alertIsPresent());
 
         getDriver().switchTo().alert().dismiss();
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         getDriver().switchTo().alert().accept();
         ProjectUtils.openProject(getDriver(), RANDOM_NAME);
         String description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row")).getText();
@@ -284,7 +290,7 @@ public class _FreestyleTest extends BaseTest {
     @Test (dependsOnMethods = "testRenameWithInvalidData")
     public void testDeleteFreestyleProject() {
         List<String> jobsNames = ProjectUtils.getListOfJobs(getDriver());
-        ProjectUtils.deleteProject(getDriver(), NAME_WITH_SPECIAL_CHARACTERS);
+        deleteProject(NAME_WITH_SPECIAL_CHARACTERS);
         List<String> jobsNames2 = ProjectUtils.getListOfJobs(getDriver());
 
         List<String> differences = new ArrayList<>(jobsNames);
@@ -317,7 +323,7 @@ public class _FreestyleTest extends BaseTest {
                 By.cssSelector("div[id='notification-bar'][class='notif-alert-success notif-alert-show']")
         )).getText();
 
-        ProjectUtils.deleteProject(getDriver(), RANDOM_NAME);
+        deleteProject(RANDOM_NAME);
 
         Assert.assertEquals(alertMessage, expectedAlertMessage);
     }

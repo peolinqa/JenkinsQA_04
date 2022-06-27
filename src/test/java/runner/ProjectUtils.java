@@ -61,13 +61,6 @@ public final class ProjectUtils {
         driver.findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
     }
 
-    public static void deleteProject(WebDriver driver, String name) {
-        //Dashboard.Main.Dashboard.click(driver);
-        openProject(driver, name);
-        Dashboard.Project.DeleteProject.click(driver);
-        driver.switchTo().alert().accept();
-    }
-
     public static List<String> getListOfJobs(WebDriver driver) {
     List<String> jobsNames = driver.findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"))
             .stream()
@@ -126,7 +119,6 @@ public final class ProjectUtils {
         }
 
         public enum Main {
-            Dashboard(By.linkText("Dashboard")),
             NewItem(By.linkText("New Item")),
             People(By.linkText("People")),
             BuildHistory(By.linkText("Build History")),

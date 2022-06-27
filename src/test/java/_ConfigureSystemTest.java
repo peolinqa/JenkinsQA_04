@@ -22,7 +22,7 @@ public class _ConfigureSystemTest extends BaseTest {
         getWait20().until(ExpectedConditions.elementToBeClickable(
                 By.xpath("//button[@type='submit']"))).click();
 
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
 
         Assert.assertEquals(getDriver().findElement(By.id("systemmessage")).getText(), randomSystemMessage);
     }

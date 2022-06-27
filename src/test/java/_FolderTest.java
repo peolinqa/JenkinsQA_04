@@ -25,7 +25,7 @@ public class _FolderTest extends BaseTest {
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
 
     public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
-        ProjectUtils.Dashboard.Main.Dashboard.click(driver);
+        ProjectUtils.Dashboard.Header.Dashboard.click(driver);
         List<String> jobsNames = ProjectUtils.getListOfJobs(driver);
         jobsNames
                 .forEach(jobsName -> {
@@ -176,7 +176,7 @@ public class _FolderTest extends BaseTest {
         deleteJobsWithPrefix(getDriver(), randomFolderName);
         createFolder(getDriver(), randomFolderName);
 
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         getDriver().findElement(By.xpath("//a[@href='job/" + randomFolderName + "/']")).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Folder']")).click();
         getDriver().findElement(By.xpath("//button[contains(text(),'Yes')]")).click();
@@ -246,7 +246,7 @@ public class _FolderTest extends BaseTest {
         final String expectedErrorMessage = String.format("» A job already exists with the name ‘%s’", nameFolder);
 
         createFolder(getDriver(), nameFolder);
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
@@ -302,7 +302,7 @@ public class _FolderTest extends BaseTest {
         final String newRandomFolderName = TestUtils.getRandomStr();
 
         createFolder(getDriver(), randomFolderName);
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(randomFolderName);
         setNewFolderName(newRandomFolderName);
 
@@ -317,7 +317,7 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
 
         createFolder(getDriver(), folderName);
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
 
         for (int i = 0; i < unsafeCharacters.length(); i++) {
@@ -351,7 +351,7 @@ public class _FolderTest extends BaseTest {
         final String[] expectedResult = new String[]{"Error", "No name is specified"};
 
         createFolder(getDriver(), folderName);
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
         setNewFolderName(newFolderName);
 
@@ -360,7 +360,7 @@ public class _FolderTest extends BaseTest {
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText()
         };
 
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertEquals(expectedResult, actualResult);

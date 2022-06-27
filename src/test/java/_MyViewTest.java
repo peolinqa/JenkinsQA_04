@@ -98,7 +98,7 @@ public class _MyViewTest extends BaseTest {
     @Test
     public void testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs() {
         ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
 
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
 
@@ -124,7 +124,7 @@ public class _MyViewTest extends BaseTest {
     @Test
     public void testCreateNewViewWithSelectLabelListViewCheckTabBar() {
         ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
-        ProjectUtils.Dashboard.Main.Dashboard.click(getDriver());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
 
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
 
