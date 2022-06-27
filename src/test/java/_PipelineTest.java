@@ -184,11 +184,11 @@ public class _PipelineTest extends BaseTest {
         return listString;
     }
 
-    private void chooseJobsOnCreateViewPage(List<String> jobsNames, int indexRequiredJobs){
+    private void chooseJobsOnCreateViewPage(List<String> jobsNames, int indexRequiredJobs) {
         getDriver().findElement(By.xpath(String.format("//input[@name = '%s']", jobsNames.get(indexRequiredJobs)))).click();
     }
 
-    private void createNewView(){
+    private void createNewView() {
         String myViewName = "PipelineAC";
 
         ProjectUtils.Dashboard.Main.NewView.click(getDriver());
@@ -334,13 +334,13 @@ public class _PipelineTest extends BaseTest {
                 By.xpath(String.format("//a[contains(@href, 'job/%s')]", name)));
 
         getDriver().navigate().to(pipelineProjects.get(pipelineProjects.size() - 2).getAttribute("href"));
-        getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete the Pipeline ')]")).click();
+        getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete the Pipeline')]")).click();
         getDriver().switchTo().alert().accept();
 
         getDriver().navigate().back();
         String titleOf404Page = getDriver().getTitle();
 
-        Assert.assertTrue(titleOf404Page.contains("Error 404 Not Found"));
+        Assert.assertEquals(titleOf404Page, "Error 404 Not Found");
     }
 
     @Test
@@ -549,7 +549,7 @@ public class _PipelineTest extends BaseTest {
                 .getText(), "Name of the Choice Parameter");
 
         asserts.assertEquals(getDriver().findElement(By
-                        .xpath("//input[@name='value']")), "First Choice");
+                .xpath("//input[@name='value']")), "First Choice");
 
         asserts.assertEquals(getDriver().findElement(By
                         .xpath(DESCRIPTION_OF_PARAMETER))
@@ -645,7 +645,7 @@ public class _PipelineTest extends BaseTest {
         for (int i = 0; i < countDeleteButtons.size(); i++) {
             getWait5().until(ExpectedConditions.elementToBeClickable(
                     getDriver().findElement(
-                            By.xpath(String.format("//button[@id = 'yui-gen%s-button']",(i + 6)))))).click();
+                            By.xpath(String.format("//button[@id = 'yui-gen%s-button']", (i + 6)))))).click();
         }
 
         click(APPLY_BUTTON, SUBMIT_BUTTON);
@@ -689,7 +689,7 @@ public class _PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCreateAndCheckNewMyView(){
+    public void testCreateAndCheckNewMyView() {
         final int countCreatedNewPipelines = 3;
 
         createFewPipelines(countCreatedNewPipelines, Boolean.TRUE);
@@ -726,7 +726,7 @@ public class _PipelineTest extends BaseTest {
         getDriver().findElement(By.id("yui-gen1-button")).click();
         String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
 
-        Assert.assertEquals(actualWarning,"The name “GENERAL” is already in use.");
+        Assert.assertEquals(actualWarning, "The name “GENERAL” is already in use.");
         Assert.assertEquals(actualError, "Error");
     }
 
