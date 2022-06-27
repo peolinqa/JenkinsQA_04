@@ -1,6 +1,8 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -13,6 +15,7 @@ public class _HeaderTest extends BaseTest {
 
     private static final By HEADER = By.id("header");
     private static final By HEADER_ICON = By.id("jenkins-head-icon");
+    private static final By MENU_SELECTOR_XPATH = By.cssSelector(".login");
 
     private static List<WebElement> getMenuItems(WebDriver driver){
        return TestUtils.getList(driver,By.xpath("//div[@class='task ']//a"));
@@ -28,6 +31,14 @@ public class _HeaderTest extends BaseTest {
         for(int i = 0; i < expectedResult.length; i++){
             asserts.assertEquals(elementList.get(i).getAttribute(attribute), expectedResult[i]);
         }
+    }
+
+    private void menuSelector(WebDriver driver) {
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(getDriver().findElement(MENU_SELECTOR_XPATH)).perform();
+
+        driver.findElement(By.cssSelector("div[id='menuSelector']")).click();
     }
 
     @Test
@@ -121,4 +132,47 @@ public class _HeaderTest extends BaseTest {
         }
     }
 
+    @Test
+    public void testCheckSearchPanel() {
+
+        TestUtils.clearAndSend(getDriver(), By.id("search-box"), "TryToFindSomething" + Keys.ENTER);
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Search for 'TryToFindSomething'");
+    }
+
+    @Test
+    public void testCheckAdminPage() {
+
+        getDriver().findElement(MENU_SELECTOR_XPATH).click();
+
+        Assert.assertTrue(getDriver().findElement(By.cssSelector("#main-panel > div:nth-child(4)")).getText().contains("Jenkins User ID:"));
+    }
+
+    @Test
+    public void testCheckExpandMenuBuilds() {
+
+        menuSelector(getDriver());
+        ProjectUtils.Dashboard.Header.Builds.click(getDriver());
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText().contains("Builds for"));
+    }
+
+    @Test
+    public void testCheckExpandMenuConfigure() {
+
+        menuSelector(getDriver());
+        ProjectUtils.Dashboard.Header.Configure.click(getDriver());
+
+        Assert.assertTrue(getDriver().findElement(By.id("yui-gen2-button")).getText().contains("Add new Token"));
+    }
+
+    @Test
+    public void testCheckExpandMenuMyViews() {
+
+        menuSelector(getDriver());
+        ProjectUtils.Dashboard.Header.MyViews.click(getDriver());
+
+        Assert.assertTrue(getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[5]")).getText().contains("My Views"));
+    }
 }
