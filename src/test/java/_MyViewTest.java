@@ -186,6 +186,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertFalse(buttonHidePreview().isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testEditViewChangeName"})
     public void testDeleteViewViaBreadcrumbs() {
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
