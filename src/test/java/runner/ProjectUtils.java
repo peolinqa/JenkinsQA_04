@@ -102,6 +102,25 @@ public final class ProjectUtils {
         driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Enable')]")).click();
     }
 
+    public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
+        ProjectUtils.Dashboard.Header.Dashboard.click(driver);
+
+        List<String> jobsNames = driver.findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
+        jobsNames
+                .forEach(jobsName -> {
+                    if (jobsName.startsWith(prefix)) {
+                        String jobWithPercent = jobsName.replace(" ", "%20");
+                        driver.findElement(By.xpath("//a[@href='job/" + jobWithPercent + "/']")).click();
+                        driver.findElement(
+                                By.xpath("//a[@data-url='/job/" + jobWithPercent + "/doDelete']")).click();
+                        driver.switchTo().alert().accept();
+                    }
+                });
+    }
+
     public static class Dashboard {
 
         public enum Header {

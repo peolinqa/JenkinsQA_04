@@ -23,21 +23,7 @@ public class _FolderTest extends BaseTest {
 
     private static final By NAME = By.id("name");
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
-
-    public static void deleteJobsWithPrefix(WebDriver driver, String prefix) {
-        ProjectUtils.Dashboard.Header.Dashboard.click(driver);
-        List<String> jobsNames = ProjectUtils.getListOfJobs(driver);
-        jobsNames
-                .forEach(jobsName -> {
-                    if (jobsName.startsWith(prefix)) {
-                        String jobWithPercent = jobsName.replace(" ", "%20");
-                        driver.findElement(By.xpath("//a[@href='job/" + jobWithPercent + "/']")).click();
-                        driver.findElement(
-                                By.xpath("//a[@data-url='/job/" + jobWithPercent + "/doDelete']")).click();
-                        driver.switchTo().alert().accept();
-                    }
-                });
-    }
+    private static final By OK_BUTTON = By.id("ok-button");
 
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
@@ -50,7 +36,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(driver);
         driver.findElement(NAME).sendKeys(folderName);
         ProjectUtils.NewItemTypes.Folder.click(driver);
-        ProjectUtils.clickOKButton(driver);
+        driver.findElement(OK_BUTTON).click();
         driver.findElement(SUBMIT_BUTTON).click();
     }
 
@@ -75,6 +61,14 @@ public class _FolderTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + folderName + "/delete']")));
         getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/delete']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
+    }
+
+    private void сreateFolderForRename(String folderName) {
+        getDriver().findElement(By.partialLinkText("New Item")).click();
+        getDriver().findElement(NAME).sendKeys(folderName);
+        getDriver().findElement(By.xpath("//li[contains(@class,'folder_Folder')]")).click();
+        getDriver().findElement(OK_BUTTON).click();
+        getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
     private void clickMenuRenameFolder(String folderName) {
@@ -173,7 +167,7 @@ public class _FolderTest extends BaseTest {
 
         final String randomFolderName = TestUtils.getRandomStr();
 
-        deleteJobsWithPrefix(getDriver(), randomFolderName);
+        ProjectUtils.deleteJobsWithPrefix(getDriver(), randomFolderName);
         createFolder(getDriver(), randomFolderName);
 
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
@@ -205,9 +199,12 @@ public class _FolderTest extends BaseTest {
 
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
+        WebElement name = getDriver().findElement(NAME);
+
         for (int i = 0; i < symbols.length(); i++) {
+            name.clear();
             String s = String.valueOf(symbols.charAt(i));
-            TestUtils.clearAndSend(getDriver(), NAME, s);
+            name.sendKeys(s);
             ProjectUtils.NewItemTypes.Folder.click(getDriver());
 
             String expectedResult = "";
@@ -224,26 +221,32 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCreateFolderWithUnsafeCharacter() {
 
+        final String expectedErrorMessage = "» ‘@’ is an unsafe character";
+        final String expectedError = "Error";
+
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
         ProjectUtils.NewItemTypes.Folder.click(getDriver());
+        String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
 
-        Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
-                "» ‘@’ is an unsafe character");
+        Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
 
         ProjectUtils.clickOKButton(getDriver());
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
-                "‘@’ is an unsafe character");
+        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
+        String actualErrorMessage2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
+
+        Assert.assertEquals(actualError, expectedError);
+        Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
     }
 
     @Test
     public void testCreateFolderWithTheSameName() {
 
         final String nameFolder = TestUtils.getRandomStr();
-        final String expectedErrorMessage = String.format("» A job already exists with the name ‘%s’", nameFolder);
+        final String expectedErrorMessage = "» A job already exists with the name ‘" + nameFolder + "’";
+        final String expectedError = "Error";
 
         createFolder(getDriver(), nameFolder);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
@@ -258,9 +261,11 @@ public class _FolderTest extends BaseTest {
 
         ProjectUtils.clickOKButton(getDriver());
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
-                expectedErrorMessage.substring(2));
+        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
+        String actualErrorMessage2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
+
+        Assert.assertEquals(actualError, expectedError);
+        Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
     }
 
     @Test
@@ -301,7 +306,7 @@ public class _FolderTest extends BaseTest {
         final String randomFolderName = TestUtils.getRandomStr();
         final String newRandomFolderName = TestUtils.getRandomStr();
 
-        createFolder(getDriver(), randomFolderName);
+        сreateFolderForRename(randomFolderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(randomFolderName);
         setNewFolderName(newRandomFolderName);
@@ -316,7 +321,7 @@ public class _FolderTest extends BaseTest {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
         final String folderName = TestUtils.getRandomStr();
 
-        createFolder(getDriver(), folderName);
+        сreateFolderForRename(folderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
 
@@ -350,7 +355,7 @@ public class _FolderTest extends BaseTest {
         final String newFolderName = " ";
         final String[] expectedResult = new String[]{"Error", "No name is specified"};
 
-        createFolder(getDriver(), folderName);
+        сreateFolderForRename(folderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
         setNewFolderName(newFolderName);
@@ -374,7 +379,10 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
         final String folderDescription = TestUtils.getRandomStr();
 
-        createFolderWithoutSaveButton(folderName);
+        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
+        getDriver().findElement(NAME).sendKeys(folderName);
+        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
+        ProjectUtils.clickOKButton(getDriver());
 
         getDriver().findElement(By.name("_.description")).sendKeys(folderDescription);
         getDriver().findElement(By.className("textarea-show-preview")).click();
