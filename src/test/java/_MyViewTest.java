@@ -84,6 +84,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertEquals(VIEW_DESCRIPTION, fieldDescriptionOnThePage().getText());
     }
 
+    @Ignore
     @Test
     public void testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs() {
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
