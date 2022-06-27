@@ -20,14 +20,6 @@ public class _MyViewTest extends BaseTest {
     private final By VIEW_NAMES_ON_TABBAR = By.cssSelector("div .tab a");
     private final By VIEW_NAMES_ON_BREADCRUMBS = By.xpath("//ul[@id='breadcrumbs']/li[@class='item']");
 
-    private WebElement dashboardMyViews() {
-        return getDriver().findElement(By.xpath("//a[contains(@href, 'me/my-views')]"));
-    }
-
-    private WebElement buttonEditDescription() {
-        return getDriver().findElement(By.xpath("//a[contains(@href, 'editDescription')]"));
-    }
-
     private WebElement textareaDescription() {
         return getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]"));
     }
@@ -58,22 +50,6 @@ public class _MyViewTest extends BaseTest {
 
     private WebElement buttonOk13() {
         return getDriver().findElement(By.id("yui-gen13-button"));
-    }
-
-    private String actualResultDescription() {
-        return fieldDescriptionOnThePage().getText();
-    }
-
-    private String expectedResultDescription = RandomStringUtils.randomAscii(10);
-
-    private String textareaPreviewText() {
-        return textareaPreview().getText();
-    }
-
-    private void clearDescription() {
-        buttonEditDescription().click();
-        textareaDescription().clear();
-        buttonSave().click();
     }
 
     private List<String> getTextFromList(WebDriver driver, By locator) {
