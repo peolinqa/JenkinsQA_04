@@ -10,7 +10,6 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class _FolderTest extends BaseTest {
 
@@ -176,7 +175,7 @@ public class _FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[contains(text(),'Yes')]")).click();
 
         List<WebElement> foldersNamesAfterDelete = getDriver().
-                findElements(By.xpath("//*[contains(text(),\"Folder\")]"));
+                findElements(By.xpath("//*[contains(text(),'Folder')]"));
         for (WebElement element : foldersNamesAfterDelete)
             if (element.getText().contains(randomFolderName))
                 throw new TestException("Folder " + randomFolderName + " has not been deleted");
@@ -184,7 +183,7 @@ public class _FolderTest extends BaseTest {
 
         Assert.assertFalse(foldersNamesAfterDelete.contains(randomFolderName));
 
-        getDriver().findElement(By.xpath("//*[@id=\"search-box\"]\t")).
+        getDriver().findElement(By.xpath("//input[@id='search-box']")).
                 sendKeys(randomFolderName + "\n");
         String folderNotFoundText = getDriver().findElement(
                 By.xpath("//div [contains(text(),'Nothing seems to match.')]")).getText();
