@@ -10,11 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class _DashboardTest extends BaseTest {
-    private static final By XPATH_DISAPPEARING_BUTTON = By.xpath("//div[@id='menuSelector']");
 
+    private static final By XPATH_DISAPPEARING_BUTTON = By.xpath("//div[@id='menuSelector']");
     private static final String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
     private static final String TEST_FOLDER_NAME = "First Job";
-
     private static final List<String> ICONS_DESCRIPTIONS = List.of(
             "The project has never been built.", "The first build is in progress.",
             "The project is disabled.", "The project is disabled, but a build is in progress.",
@@ -43,10 +42,8 @@ public class _DashboardTest extends BaseTest {
      * To pass this test you should have "Lockable Resources" plugin installed on local machine
      * */
     public void testCommonCheckDropDownMenu() {
-
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(DASHBOARD_XPATH)));
-        getActions().moveToElement(getDriver()
-                .findElement(By.xpath(DASHBOARD_XPATH))).build().perform();
+        WebElement dashboard = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(DASHBOARD_XPATH)));
+        getActions().moveToElement(dashboard).build().perform();
 
         WebElement button = getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
         getActions().moveToElement(button).click().build().perform();
@@ -56,7 +53,6 @@ public class _DashboardTest extends BaseTest {
                 .filter(s -> !s.getText().isEmpty())
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
-
         Assert.assertEquals(actualItems, EXPECTED_ITEMS);
     }
 
