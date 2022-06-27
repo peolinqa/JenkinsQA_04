@@ -124,7 +124,10 @@ public final class ProjectUtils {
     public static class Dashboard {
 
         public enum Header {
-            Dashboard(By.linkText("Dashboard"));
+            Dashboard(By.linkText("Dashboard")),
+            Builds(By.linkText("Builds")),
+            Configure(By.linkText("Configure")),
+            MyViews(By.linkText("My Views"));
 
             private final By locator;
 
