@@ -120,6 +120,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.className("error")).getText(), "A view already exists with the name " + '"' + VIEW_NAME + '"');
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
     public void testEditViewChangeName() {
         clickNameOfViewOnBreadcrumbs();
