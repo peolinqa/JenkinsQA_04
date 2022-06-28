@@ -484,11 +484,10 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), expectedMessage + " is an unsafe character");
     }
 
-    @Ignore
     @Test
     public void testBuildPipelineWithParameters() {
 
-        createPipeline("First Pipeline Project", Boolean.TRUE);
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.Pipeline, "First Pipeline Project");
 
         getDriver().findElement(By
                 .xpath("//label[contains(text(),'This project is parameterized')]")).click();
@@ -526,8 +525,7 @@ public class _PipelineTest extends BaseTest {
 
         asserts.assertEquals(actualRes, expectedRes);
 
-        asserts.assertEquals(getDriver().findElement(By
-                        .xpath(DESCRIPTION_OF_PARAMETER))
+        asserts.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_OF_PARAMETER))
                 .getText(), "Description of parameter");
 
         clickAddParameterOrBuildButton();
@@ -549,12 +547,14 @@ public class _PipelineTest extends BaseTest {
                 .getText(), "Name of the Choice Parameter");
 
         asserts.assertEquals(getDriver().findElement(By
-                .xpath("//input[@name='value']")), "First Choice");
+                .xpath("//input[@value='First Choice']")).getAttribute("value"), "First Choice");
 
         asserts.assertEquals(getDriver().findElement(By
                         .xpath(DESCRIPTION_OF_PARAMETER))
                 .getText(), "Description of parameter");
+        asserts.assertAll();
     }
+
 
     @Test
     public void testPipelineBuildNow() {
