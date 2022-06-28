@@ -15,7 +15,6 @@ public class _HeaderTest extends BaseTest {
     private static final By HEADER = By.id("header");
     private static final By HEADER_ICON = By.id("jenkins-head-icon");
     private static final By MENU_SELECTOR_XPATH = By.cssSelector(".login");
-    private static final SoftAssert ASSERTS = new SoftAssert();
 
     private static List<WebElement> getMenuItems(WebDriver driver){
        return TestUtils.getList(driver,By.xpath("//div[@class='task ']//a"));
@@ -24,13 +23,14 @@ public class _HeaderTest extends BaseTest {
     public void verifyPositionOfElements(By locator, String attribute, String... expectedResult) {
         List<WebElement> elementList = TestUtils.getList(getDriver(), locator);
 
-        ASSERTS.assertNotNull(elementList);
-        ASSERTS.assertEquals(elementList.size(), expectedResult.length);
+        SoftAssert asserts = new SoftAssert();
+        asserts.assertNotNull(elementList);
+        asserts.assertEquals(elementList.size(), expectedResult.length);
 
         for(int i = 0; i < expectedResult.length; i++){
-            ASSERTS.assertEquals(elementList.get(i).getAttribute(attribute), expectedResult[i]);
+            asserts.assertEquals(elementList.get(i).getAttribute(attribute), expectedResult[i]);
         }
-        ASSERTS.assertAll();
+        asserts.assertAll();
     }
 
     private void menuSelector(WebDriver driver) {
@@ -47,10 +47,11 @@ public class _HeaderTest extends BaseTest {
             getDriver().findElement(
                     By.xpath("//div[@class='task '][" + i + "]//a")).click();
 
-            ASSERTS.assertTrue(getDriver().findElement(HEADER).isDisplayed());
-            ASSERTS.assertEquals(getDriver().findElement(HEADER).getLocation().toString(), "(0, 0)");
+            SoftAssert asserts = new SoftAssert();
+            asserts.assertTrue(getDriver().findElement(HEADER).isDisplayed());
+            asserts.assertEquals(getDriver().findElement(HEADER).getLocation().toString(), "(0, 0)");
             getDriver().navigate().back();
-            ASSERTS.assertAll();
+            asserts.assertAll();
         }
     }
 
@@ -103,11 +104,12 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderDesignUI(){
-        ASSERTS.assertEquals(getDriver().findElement(HEADER).getCssValue("background-color"), "rgba(0, 0, 0, 1)");
-        ASSERTS.assertEquals(getDriver().findElement(HEADER).getCssValue("display"), "flex");
-        ASSERTS.assertEquals(getDriver().findElement(HEADER).getCssValue("height"), "56px");
-        ASSERTS.assertEquals(getDriver().findElement(HEADER).getCssValue("align-items"), "center");
-        ASSERTS.assertAll();
+        SoftAssert asserts = new SoftAssert();
+        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("background-color"), "rgba(0, 0, 0, 1)");
+        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("display"), "flex");
+        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("height"), "56px");
+        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("align-items"), "center");
+        asserts.assertAll();
     }
 
     @Test
