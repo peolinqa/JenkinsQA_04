@@ -7,9 +7,8 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
+import runner.TestUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class _OrganizationFolderTest extends BaseTest {
@@ -269,7 +268,7 @@ public class _OrganizationFolderTest extends BaseTest {
         getDriver().findElement(SAVE_BUTTON).click();
         getDriver().findElement(JENKINS).click();
 
-        List<String> result = ProjectUtils.getListOfJobs(getDriver());
+        List<String> result = TestUtils.getTextFromList(getDriver(), By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
         Assert.assertTrue(result.contains(VALID_VALUE_FOR_NAME1));
         Assert.assertFalse(result.contains(VALID_FOLDER_NAME));
 

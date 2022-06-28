@@ -17,11 +17,16 @@ public class _LoadStatisticsTest extends BaseTest {
         return period.getTagName().equals("span");
     }
 
+    private void goLoadStatisticsPage() {
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.LoadStatistics.click(getDriver());
+    }
+
     @Test
     public void testCheckToolTipForEachTimeSpan() {
         final List<String> expectedToolTips = List.of("Every tick is 10 seconds", "Every tick is one minute", "Every tick is one hour");
 
-        ProjectUtils.goLoadStatisticsPage(getDriver());
+        goLoadStatisticsPage();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_TIME_SPAN_LIST));
 
         var timeSpan = getDriver().findElements(XPATH_TIME_SPAN_LIST);
@@ -37,7 +42,7 @@ public class _LoadStatisticsTest extends BaseTest {
     public void testCheckButtonsStatusForEachTimeSpan() {
         SoftAssert asserts = new SoftAssert();
 
-        ProjectUtils.goLoadStatisticsPage(getDriver());
+        goLoadStatisticsPage();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_TIME_SPAN_LIST));
         var timeSpan = getDriver().findElements(XPATH_TIME_SPAN_LIST);
 

@@ -536,7 +536,7 @@ public class _PipelineTest extends BaseTest {
                     .xpath("//div[@id='buildHistory']/div[1]/div/a")).click();
         }
 
-        WebElement buildOne = getWait5()
+        WebElement buildOne = getWait20()
                 .until(ExpectedConditions.elementToBeClickable(
                         By.xpath("//a[text()='#1']//ancestor::tr")));
         buildOne.click();

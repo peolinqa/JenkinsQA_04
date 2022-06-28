@@ -61,35 +61,6 @@ public final class ProjectUtils {
         driver.findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
     }
 
-    public static List<String> getListOfJobs(WebDriver driver) {
-    List<String> jobsNames = driver.findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"))
-            .stream()
-            .map(WebElement::getText)
-            .collect(Collectors.toList());
-    return  jobsNames;
-    }
-
-    public static void goLoadStatisticsPage(WebDriver driver) {
-        Dashboard.Main.ManageJenkins.click(driver);
-        ManageJenkins.LoadStatistics.click(driver);
-    }
-
-    public static void goOnManageNodesAndCloudsPage(WebDriver driver) {
-        Dashboard.Main.ManageJenkins.click(driver);
-        ManageJenkins.ManageNodesAndClouds.click(driver);
-    }
-
-    public static void goOnCreateUserPage(WebDriver driver) {
-        Dashboard.Main.ManageJenkins.click(driver);
-        ManageJenkins.ManageUsers.click(driver);
-        Dashboard.JenkinsOwnUserDatabase.CreateUser.click(driver);
-    }
-
-    public static List<WebElement> getComputerNames(WebDriver driver) {
-        goOnManageNodesAndCloudsPage(driver);
-        return driver.findElements(By.xpath("//table[@id='computers']/tbody/*/td[2]"));
-    }
-
     public static void clickSaveButton(WebDriver driver) {
         driver.findElement(By.xpath("//button[@type='submit' and contains(text(), 'Save')]")).click();
     }

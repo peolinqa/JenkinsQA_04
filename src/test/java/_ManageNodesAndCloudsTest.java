@@ -12,6 +12,16 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
     private static final String COMPUTER_NAME = "first test node 456";
 
+    private void goOnManageNodesAndCloudsPage() {
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageNodesAndClouds.click(getDriver());
+    }
+
+    private List<WebElement> getComputerNames() {
+        goOnManageNodesAndCloudsPage();
+        return getDriver().findElements(By.xpath("//table[@id='computers']/tbody/*/td[2]"));
+    }
+
     private WebElement findBuildQueueBtn() {
         return getWait5().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//a[@href='/toggleCollapse?paneId=buildQueue']")));
@@ -64,7 +74,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     public void testCheckManageJenkinsAndNavigation() {
         final String expectedResultURL = getDriver().getCurrentUrl();
 
-        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
         Assert.assertTrue(getDriver().getCurrentUrl().contains("/manage"));
 
         String headerActualResult = getDriver().findElement(By.xpath("//h1")).getText();
@@ -76,7 +86,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
     @Test
     public void testCreateNewNodeWithValidName() {
-        ProjectUtils.goOnManageNodesAndCloudsPage(getDriver());
+        goOnManageNodesAndCloudsPage();
 
         getDriver().findElement(By.xpath("//span[text()='New Node']")).click();
         getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(COMPUTER_NAME);
@@ -84,7 +94,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
         getDriver().findElement(By.xpath("//input[@id='ok']")).click();
         getDriver().findElement(By.xpath("//button[@id='yui-gen7-button']")).click();
 
-        List<WebElement> listComputerNames = ProjectUtils.getComputerNames(getDriver());
+        List<WebElement> listComputerNames = getComputerNames();
         var actualName = listComputerNames.stream()
                 .filter(element -> element.getText().equals(COMPUTER_NAME))
                 .findFirst();
@@ -94,8 +104,8 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateNewNodeWithValidName")
     public void testCheckDeleteNode() {
-        ProjectUtils.goOnManageNodesAndCloudsPage(getDriver());
-        List<WebElement> listComputerNames = ProjectUtils.getComputerNames(getDriver());
+        goOnManageNodesAndCloudsPage();
+        List<WebElement> listComputerNames = getComputerNames();
 
         for (WebElement computerName : listComputerNames) {
             if (computerName.getText().equals(COMPUTER_NAME)) {
@@ -112,7 +122,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
             }
         }
 
-        List<WebElement> listComputerNamesAfterDelete = ProjectUtils.getComputerNames(getDriver());
+        List<WebElement> listComputerNamesAfterDelete = getComputerNames();
         Assert.assertFalse(listComputerNamesAfterDelete.contains(COMPUTER_NAME));
     }
 }

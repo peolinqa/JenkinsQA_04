@@ -289,9 +289,10 @@ public class _FreestyleTest extends BaseTest {
 
     @Test (dependsOnMethods = "testRenameWithInvalidData")
     public void testDeleteFreestyleProject() {
-        List<String> jobsNames = ProjectUtils.getListOfJobs(getDriver());
+        var driver = getDriver();
+        List<String> jobsNames = TestUtils.getTextFromList(driver, By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
         deleteProject(NAME_WITH_SPECIAL_CHARACTERS);
-        List<String> jobsNames2 = ProjectUtils.getListOfJobs(getDriver());
+        List<String> jobsNames2 = TestUtils.getTextFromList(driver, By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
 
         List<String> differences = new ArrayList<>(jobsNames);
         differences.removeAll(jobsNames2);

@@ -10,8 +10,6 @@ import runner.TestUtils;
 
 import java.util.*;
 
-import static runner.ProjectUtils.goOnCreateUserPage;
-
 public class _ManageUsersTest extends BaseTest {
 
     private static final String USER_NAME_FIRST = "viktorp";
@@ -27,8 +25,13 @@ public class _ManageUsersTest extends BaseTest {
     private static final By ALL_USERS = By.xpath("//table[@id='people']/tbody/tr");
     private static final By FULL_NAME_XPATH = By.name("fullname");
 
-    public void fillOutFieldsCreateUser(String userName, String password, String fullName, String email) {
+    private void goOnCreateUserPage() {
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageUsers.click(getDriver());
+        ProjectUtils.Dashboard.JenkinsOwnUserDatabase.CreateUser.click(getDriver());
+    }
 
+    private void fillOutFieldsCreateUser(String userName, String password, String fullName, String email) {
         getDriver().findElement(By.id(USER_NAME_XPATH)).sendKeys(userName);
         getDriver().findElement(By.name("password1")).sendKeys(password);
         getDriver().findElement(By.name("password2")).sendKeys(password);
@@ -36,15 +39,14 @@ public class _ManageUsersTest extends BaseTest {
         getDriver().findElement(By.name("email")).sendKeys(email);
     }
 
-    public boolean displayedWebElement(String webElement) {
-
+    private boolean displayedWebElement(String webElement) {
         return getDriver().getPageSource().contains(webElement);
     }
 
     @Test
     public void testUserCanCreateNewUser() {
 
-        goOnCreateUserPage(getDriver());
+        goOnCreateUserPage();
         fillOutFieldsCreateUser(USER_NAME_FIRST, PASSWORD, FULL_NAME, EMAIL);
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
@@ -91,7 +93,7 @@ public class _ManageUsersTest extends BaseTest {
 
         final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
 
-        goOnCreateUserPage(getDriver());
+        goOnCreateUserPage();
         fillOutFieldsCreateUser("", PASSWORD, FULL_NAME, EMAIL);
 
         List<String> specialCharacters = new ArrayList<>(Arrays.asList(
@@ -143,7 +145,7 @@ public class _ManageUsersTest extends BaseTest {
 
         SoftAssert asserts = new SoftAssert();
 
-        goOnCreateUserPage(getDriver());
+        goOnCreateUserPage();
         fillOutFieldsCreateUser(USER_NAME_FIRST.concat("*"), PASSWORD, FULL_NAME, EMAIL);
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
 
@@ -182,7 +184,7 @@ public class _ManageUsersTest extends BaseTest {
                 "Invalid e-mail address",
                 "\"\" is prohibited as a username for security reasons.");
 
-        goOnCreateUserPage(getDriver());
+        goOnCreateUserPage();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(BUTTON_SUBMIT_TYPE)).click();
 
         List<WebElement> actualErrors = TestUtils.getList(getDriver(), ERROR_MESSAGES);
@@ -197,7 +199,7 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testCheckValueInUsernameEqualValueFromFullName() {
-        goOnCreateUserPage(getDriver());
+        goOnCreateUserPage();
         fillOutFieldsCreateUser(USER_NAME_SECOND, "", "", "");
         getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(FULL_NAME_XPATH));
