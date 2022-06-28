@@ -801,12 +801,12 @@ public class _PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testCheckIcon() {
+    public void testCheckPositiveBuildIcon() {
         final String name = pipelineName();
 
         createPipeline(name, Boolean.TRUE);
         new Select($(".samples select")).selectByValue("hello");
-        $("[type='submit']").click();
+        ProjectUtils.clickSaveButton(getDriver());
         homePageClick();
         $x(String.format("//span[contains(text(), '%s')]/following-sibling::*[name()='svg']", name)).click();
 
