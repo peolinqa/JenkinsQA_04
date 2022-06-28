@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TestUtils {
 
@@ -35,5 +36,10 @@ public class TestUtils {
 
     public static List<WebElement> getList(WebDriver driver, By locator) {
         return driver.findElements(locator);
+    }
+
+    public static List<String> getTextFromList(WebDriver driver, By locator) {
+        driver.findElements(locator);
+        return driver.findElements(locator).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }
