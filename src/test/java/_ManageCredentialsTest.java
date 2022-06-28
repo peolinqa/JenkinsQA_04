@@ -3,22 +3,16 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.TestUtils;
 
 import java.util.Arrays;
 
 public class _ManageCredentialsTest extends BaseTest {
     private static final String ICON_XPATH = "//td[@data='Jenkins Credentials Provider']";
-    public static final String NEW_USERNAME = TestUtils.getRandomStr(8);
-    public static final String NEW_PASSWORD = TestUtils.getRandomStr(9);
     private static final By SMALL_SIZE_ICONS = By.xpath("//a[@href='/iconSize?16x16']");
     private static final By MEDIUM_SIZE_ICONS = By.xpath("//a[@href='/iconSize?24x24']");
     private static final By LARGE_SIZE_ICONS = By.xpath("//a[@href='/iconSize?32x32']");
-
-    private void goToManageCredentials() {
-        getDriver().findElement(By.partialLinkText("Manage")).click();
-        getDriver().findElement(By.partialLinkText("Manage Credentials")).click();
-    }
 
     private String getAttributeClass() {
 
@@ -41,7 +35,8 @@ public class _ManageCredentialsTest extends BaseTest {
     @Test
     public void testManageCredentials() {
 
-        goToManageCredentials();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
 
         String iconButtonName = getDriver().findElement(
                 By.xpath("//li[@class='jenkins-icon-size__items-item']")).getText().substring(0, 1);
@@ -50,11 +45,9 @@ public class _ManageCredentialsTest extends BaseTest {
                 By.xpath(ICON_XPATH)).getCssValue("height");
 
         if (iconButtonName.equals("L")) {
-            WebElement iconButtonS = getDriver().findElement(By.xpath("//a[@href='/iconSize?16x16']"));
-            iconButtonS.click();
+            getDriver().findElement(By.xpath("//a[@href='/iconSize?16x16']")).click();
         } else {
-            WebElement iconButtonL = getDriver().findElement(By.xpath("//a[@href='/iconSize?32x32']"));
-            iconButtonL.click();
+            getDriver().findElement(By.xpath("//a[@href='/iconSize?32x32']")).click();
         }
         String iconSizeAfter = getDriver().findElement(
                 By.xpath(ICON_XPATH)).getCssValue("height");
@@ -63,10 +56,13 @@ public class _ManageCredentialsTest extends BaseTest {
     }
 
     @Test
-    public void testManageCredentialsChekMenu() {
+    public void testManageCredentialsCheсkMenu() {
 
-        WebElement hoverable = getDriver().findElement(By.xpath("//a[@class='model-link inside inverse']"));
-        getActions().moveToElement(hoverable).perform();
+        final String NEW_USERNAME = TestUtils.getRandomStr(8);
+        final String NEW_PASSWORD = TestUtils.getRandomStr(9);
+
+        getActions().moveToElement(getDriver().findElement(
+                By.xpath("//a[@class='model-link inside inverse']"))).perform();
 
         getDriver().findElement(By.id("menuSelector")).click();
         getDriver().findElement(By.id("yui-gen4")).click();
@@ -86,11 +82,12 @@ public class _ManageCredentialsTest extends BaseTest {
     @Test
     public void testIconSizeChangePositive() {
 
-        String[] expectedResult = new String[] {"icon-credentials-system-store icon-sm",
+        final String[] expectedResult = new String[] {"icon-credentials-system-store icon-sm",
                 "icon-credentials-system-store icon-md", "icon-credentials-system-store icon-lg"};
         String[] actualResult = new String[3];
 
-        goToManageCredentials();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
 
         getDriver().findElement(SMALL_SIZE_ICONS).click();
         actualResult[0] = getAttributeClass();
@@ -99,21 +96,22 @@ public class _ManageCredentialsTest extends BaseTest {
         getDriver().findElement(LARGE_SIZE_ICONS).click();
         actualResult[2] = getAttributeClass();
 
-        Assert.assertEquals(expectedResult, actualResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
     public void testIconSizeCSSChangePositive() {
 
-        String grey = "rgba(248, 248, 248, 1)";
-        String transparent = "rgba(0, 0, 0, 0)";
-        String[] buttonSPressed = new String[] {grey, transparent, transparent};
-        String[] buttonMPressed = new String[] {transparent, grey, transparent};
-        String[] buttonLPressed = new String[] {transparent, transparent, grey};
-        boolean[] expectedResult = new boolean[] {true, true, true};
-        boolean[] actualResult = new boolean[] {false, false, false};
+        final String grey = "rgba(248, 248, 248, 1)";
+        final String transparent = "rgba(0, 0, 0, 0)";
+        final String[] buttonSPressed = new String[] {grey, transparent, transparent};
+        final String[] buttonMPressed = new String[] {transparent, grey, transparent};
+        final String[] buttonLPressed = new String[] {transparent, transparent, grey};
+        final boolean[] expectedResult = new boolean[] {true, true, true};
+        final boolean[] actualResult = new boolean[] {false, false, false};
 
-        goToManageCredentials();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
 
         getDriver().findElement(SMALL_SIZE_ICONS).click();
         String[] currentButtonResult = elementBGColor();
@@ -133,7 +131,8 @@ public class _ManageCredentialsTest extends BaseTest {
             actualResult[2] = true;
         }
 
-        Assert.assertEquals(expectedResult, actualResult);
+
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -141,14 +140,11 @@ public class _ManageCredentialsTest extends BaseTest {
         final String expectedResult
                 = "/credentials/store/system/newDomain";
 
-        getDriver().findElement(
-                By.xpath("//span[contains(text(), 'Manage Jenkins')]")).click();
-        getDriver().findElement(
-                By.xpath("//a[@href='credentials']")).click();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
 
-        WebElement domainName = getDriver().findElement(
-                By.xpath("//a[@href='/credentials/store/system']"));
-        getActions().moveToElement(domainName).perform();
+        getActions().moveToElement(getDriver().findElement(
+                By.xpath("//a[@href='/credentials/store/system']"))).perform();
 
         getDriver().findElement(By.id("menuSelector")).click();
         getDriver().findElement(

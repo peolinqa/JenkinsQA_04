@@ -9,8 +9,8 @@ import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class _FolderTest extends BaseTest {
 
@@ -23,7 +23,10 @@ public class _FolderTest extends BaseTest {
 
     private static final By NAME = By.id("name");
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
-    private static final By OK_BUTTON = By.id("ok-button");
+    private static final String WARNING_TEXT_WITH_DOT = "» “.” is not an allowed name";
+    private static final String WARNING_TEXT_UNSAFE = "’ is an unsafe character";
+    private static final String ELEMENT1 = "//div[@id='main-panel']/p";
+    private static final String ELEMENT2 = "//div[@id='main-panel']/h1";
 
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
@@ -36,7 +39,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(driver);
         driver.findElement(NAME).sendKeys(folderName);
         ProjectUtils.NewItemTypes.Folder.click(driver);
-        driver.findElement(OK_BUTTON).click();
+        ProjectUtils.clickOKButton(driver);
         driver.findElement(SUBMIT_BUTTON).click();
     }
 
@@ -61,14 +64,6 @@ public class _FolderTest extends BaseTest {
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + folderName + "/delete']")));
         getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/delete']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
-    }
-
-    private void сreateFolderForRename(String folderName) {
-        getDriver().findElement(By.partialLinkText("New Item")).click();
-        getDriver().findElement(NAME).sendKeys(folderName);
-        getDriver().findElement(By.xpath("//li[contains(@class,'folder_Folder')]")).click();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SUBMIT_BUTTON).click();
     }
 
     private void clickMenuRenameFolder(String folderName) {
@@ -100,10 +95,8 @@ public class _FolderTest extends BaseTest {
         createFolderWithoutSaveButton(NAME_FOLDER);
         getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("jenkins")));
 
-        WebElement actual = getDriver().findElement(
-                By.xpath("//div[@class='jenkins-config-widgets']//div[text()='General']"));
-
-        Assert.assertEquals(actual.getText(), "General");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[@class='jenkins-config-widgets']//div[text()='General']")).getText(), "General");
     }
 
     @Test(dependsOnMethods = {"testConfigurePage"})
@@ -123,9 +116,9 @@ public class _FolderTest extends BaseTest {
             WebElement warningText = getDriver().findElement(By.id("itemname-invalid"));
 
             getWait5().until(ExpectedConditions.textToBePresentInElement(warningText,
-                    "» ‘" + INVALID_SYMBOLS[i] + "’ is an unsafe character"));
+                    "» ‘" + INVALID_SYMBOLS[i] + WARNING_TEXT_UNSAFE));
 
-            String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + "’ is an unsafe character";
+            String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + WARNING_TEXT_UNSAFE;
 
             Assert.assertEquals(warningText.getText(), expectedResult);
             inputField.clear();
@@ -136,28 +129,24 @@ public class _FolderTest extends BaseTest {
     public void testCreateFolderWithDot() {
 
         getDriver().findElement(By.className("task-link-text")).click();
-        WebElement inputField = getDriver().findElement(NAME);
+        getDriver().findElement(NAME).sendKeys(".");
 
-        inputField.sendKeys(".");
         WebElement warningText = getDriver().findElement(By.id("itemname-invalid"));
 
-        getWait5().until(ExpectedConditions.textToBePresentInElement(warningText, "» “.” is not an allowed name"));
-        Assert.assertEquals(warningText.getText(), "» “.” is not an allowed name");
+        getWait5().until(ExpectedConditions.textToBePresentInElement(warningText, WARNING_TEXT_WITH_DOT));
+        Assert.assertEquals(warningText.getText(), WARNING_TEXT_WITH_DOT);
     }
 
     @Test
     public void testCycleTypeAnItemNameWithValidSpecialCharacters() {
         getDriver().findElement(By.className("task-link-text")).click();
-
         WebElement text = getDriver().findElement(By.className("input-help"));
 
         for (char x : CHARS) {
             getDriver().findElement(NAME).sendKeys(Character.toString(x));
-
             getWait5().until(ExpectedConditions.textToBePresentInElement(text, "» Required field"));
 
             Assert.assertEquals(text.getText(), "» Required field");
-
             getDriver().findElement(NAME).clear();
         }
     }
@@ -176,7 +165,7 @@ public class _FolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//button[contains(text(),'Yes')]")).click();
 
         List<WebElement> foldersNamesAfterDelete = getDriver().
-                findElements(By.xpath("//*[contains(text(),\"Folder\")]"));
+                findElements(By.xpath("//*[contains(text(),'Folder')]"));
         for (WebElement element : foldersNamesAfterDelete)
             if (element.getText().contains(randomFolderName))
                 throw new TestException("Folder " + randomFolderName + " has not been deleted");
@@ -184,7 +173,7 @@ public class _FolderTest extends BaseTest {
 
         Assert.assertFalse(foldersNamesAfterDelete.contains(randomFolderName));
 
-        getDriver().findElement(By.xpath("//*[@id=\"search-box\"]\t")).
+        getDriver().findElement(By.xpath("//input[@id='search-box']")).
                 sendKeys(randomFolderName + "\n");
         String folderNotFoundText = getDriver().findElement(
                 By.xpath("//div [contains(text(),'Nothing seems to match.')]")).getText();
@@ -199,19 +188,16 @@ public class _FolderTest extends BaseTest {
 
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
-        WebElement name = getDriver().findElement(NAME);
-
         for (int i = 0; i < symbols.length(); i++) {
-            name.clear();
             String s = String.valueOf(symbols.charAt(i));
-            name.sendKeys(s);
+            TestUtils.clearAndSend(getDriver(), NAME, s);
             ProjectUtils.NewItemTypes.Folder.click(getDriver());
 
             String expectedResult = "";
             if (s.equals(".")) {
                 expectedResult = "» “" + s + "” is not an allowed name";
             } else {
-                expectedResult = "» ‘" + s + "’ is an unsafe character";
+                expectedResult = "» ‘" + s + WARNING_TEXT_UNSAFE;
             }
 
             Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(), expectedResult);
@@ -221,32 +207,25 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCreateFolderWithUnsafeCharacter() {
 
-        final String expectedErrorMessage = "» ‘@’ is an unsafe character";
-        final String expectedError = "Error";
-
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
         ProjectUtils.NewItemTypes.Folder.click(getDriver());
-        String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
 
-        Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
+        Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
+                "» ‘@’ is an unsafe character");
 
         ProjectUtils.clickOKButton(getDriver());
 
-        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
-        String actualErrorMessage2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
-
-        Assert.assertEquals(actualError, expectedError);
-        Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
+        Assert.assertEquals(getDriver().findElement(By.xpath(ELEMENT1)).getText(), "‘@’ is an unsafe character");
+        Assert.assertEquals(getDriver().findElement(By.xpath(ELEMENT2)).getText(), "Error");
     }
 
     @Test
     public void testCreateFolderWithTheSameName() {
 
         final String nameFolder = TestUtils.getRandomStr();
-        final String expectedErrorMessage = "» A job already exists with the name ‘" + nameFolder + "’";
-        final String expectedError = "Error";
+        final String expectedErrorMessage = String.format("A job already exists with the name ‘%s’", nameFolder);
 
         createFolder(getDriver(), nameFolder);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
@@ -254,18 +233,14 @@ public class _FolderTest extends BaseTest {
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
         ProjectUtils.NewItemTypes.Folder.click(getDriver());
-        WebElement actualErrorMessage1 = getWait20()
-                .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid")));
 
-        Assert.assertEquals(actualErrorMessage1.getText(), expectedErrorMessage);
+        Assert.assertEquals(getWait20()
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid"))).getText(), "» " + expectedErrorMessage);
 
         ProjectUtils.clickOKButton(getDriver());
 
-        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
-        String actualErrorMessage2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
-
-        Assert.assertEquals(actualError, expectedError);
-        Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
+        Assert.assertEquals(getDriver().findElement(By.xpath(ELEMENT1)).getText(), expectedErrorMessage);
+        Assert.assertEquals(getDriver().findElement(By.xpath(ELEMENT2)).getText(), "Error");
     }
 
     @Test
@@ -294,10 +269,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.clickOKButton(getDriver());
         getDriver().findElement(By.id("yui-gen4-button")).click();
 
-        String allert = getDriver().findElement(By.id("notification-bar")).getAttribute("class");
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".notif-alert-clear")));
-
-        Assert.assertTrue(allert.contains("notif-alert-show"));
+        Assert.assertTrue(getDriver().findElement(By.id("notification-bar")).getAttribute("class").contains("notif-alert-show"));
     }
 
     @Test
@@ -306,13 +278,12 @@ public class _FolderTest extends BaseTest {
         final String randomFolderName = TestUtils.getRandomStr();
         final String newRandomFolderName = TestUtils.getRandomStr();
 
-        сreateFolderForRename(randomFolderName);
+        createFolder(getDriver(),randomFolderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(randomFolderName);
         setNewFolderName(newRandomFolderName);
 
-        String actualResult = getDriver().findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals(newRandomFolderName, actualResult);
+        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),newRandomFolderName);
     }
 
     @Test
@@ -321,7 +292,7 @@ public class _FolderTest extends BaseTest {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
         final String folderName = TestUtils.getRandomStr();
 
-        сreateFolderForRename(folderName);
+        createFolder(getDriver(),folderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
 
@@ -329,7 +300,7 @@ public class _FolderTest extends BaseTest {
             String newFolderName = unsafeCharacters.substring(i, (i + 1));
             if (newFolderName.equals("&")) {
                 setNewFolderName(newFolderName);
-                String expectedResult = "‘&amp;’ is an unsafe character";
+                String expectedResult = "‘&amp;" + WARNING_TEXT_UNSAFE;
                 Assert.assertEquals(expectedResult, checkErrorMessage());
                 getDriver().navigate().back();
                 continue;
@@ -342,7 +313,7 @@ public class _FolderTest extends BaseTest {
                 continue;
             }
             setNewFolderName(newFolderName);
-            String expectedResult = "‘" + newFolderName + "’ is an unsafe character";
+            String expectedResult = "‘" + newFolderName + WARNING_TEXT_UNSAFE;
             Assert.assertEquals(expectedResult, checkErrorMessage());
             getDriver().navigate().back();
         }
@@ -355,7 +326,7 @@ public class _FolderTest extends BaseTest {
         final String newFolderName = " ";
         final String[] expectedResult = new String[]{"Error", "No name is specified"};
 
-        сreateFolderForRename(folderName);
+        createFolder(getDriver(),folderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
         setNewFolderName(newFolderName);
@@ -379,10 +350,7 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
         final String folderDescription = TestUtils.getRandomStr();
 
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        getDriver().findElement(NAME).sendKeys(folderName);
-        getDriver().findElement(By.className("com_cloudbees_hudson_plugins_folder_Folder")).click();
-        ProjectUtils.clickOKButton(getDriver());
+        createFolderWithoutSaveButton(folderName);
 
         getDriver().findElement(By.name("_.description")).sendKeys(folderDescription);
         getDriver().findElement(By.className("textarea-show-preview")).click();
@@ -399,10 +367,8 @@ public class _FolderTest extends BaseTest {
 
         createFolderWithoutSaveButton(folderName);
         deleteFolderFromTopMenu(folderName);
-
         getDriver().findElement(By.id("search-box")).sendKeys(folderName.concat("\n"));
-        String actualResult = getDriver().findElement(By.xpath("//div[@class='error']")).getText();
 
-        Assert.assertEquals(actualResult, "Nothing seems to match.");
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@class='error']")).getText(), "Nothing seems to match.");
     }
 }

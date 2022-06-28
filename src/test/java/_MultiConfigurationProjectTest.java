@@ -1,180 +1,47 @@
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class _MultiConfigurationProjectTest extends BaseTest {
 
-    private final String NAME_FOLDER = "TestMultiConfigurationProject";
-    private final String PROJECT_NAME = "Mcproject";
-    private final By PROJECT_ON_DAHBOARD = By.xpath("//table[@id='projectstatus']//a[normalize-space(.)='" + NAME_FOLDER + "']");
-
-    private void createMultiConfigFolder(String name) {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        getDriver().findElement(By.id("name")).sendKeys(name);
-        ProjectUtils.NewItemTypes.MultiConfigurationProject.click(getDriver());
-        getDriver().findElement(By.id("ok-button")).click();
-        getDriver().findElement(By.xpath("//button[normalize-space()='Save']")).click();
-    }
-
-    private void deleteFolder(String name) {
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//table[@id='projectstatus']//a[normalize-space()='" + name + "']"))).click().build().perform();
-        getDriver().findElement(By.xpath("//span[text()='Delete Multi-configuration project']")).click();
-        getDriver().switchTo().alert().accept();
-    }
-
-    private void returnToMainPage() {
-        getDriver().findElement(By.id("jenkins-home-link")).click();
-    }
-
-    private boolean isElementPresent(String name) {
-        boolean isPresent = false;
-
-        List<WebElement> projectsOnDashboard = getDriver().findElements(
-                By.xpath("//table[@id='projectstatus']//tbody//td[3]"));
-        for (WebElement jobs : projectsOnDashboard) {
-            if (jobs.getText().contains(name)) {
-                isPresent = true;
-            }
-        }
-        return isPresent;
-    }
-
-    private void runBuildNow(String name) {
-        returnToMainPage();
-        getDriver().findElement(By.xpath("//a[contains(text(),'" + name + "')]")).click();
-        ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
-    }
-
-    private void selectTopBuildInHistory() {
-        getDriver().findElement(By.className("build-status-link")).click();
-    }
-
-    private boolean isSuccesedBuildIsDipslayed() {
-        return getDriver().findElement(
-                By.xpath("//span/span/*[name()='svg' and (contains(@tooltip, 'Success'))]")).isDisplayed();
-    }
-
-    private void openProjectJob(String name) {
-        WebElement nameOnDashboard = getDriver().findElement(By.xpath("//a[@href='job/" + name + "/']"));
-        nameOnDashboard.click();
-    }
-
-    private String getFolderNameOnDashboard(String name) {
-        WebElement nameOnDashboard = getDriver().findElement(By.xpath("//tr[@id='job_" + NAME_FOLDER + "']//td[3]"));
-        return nameOnDashboard.getText();
-    }
-
-    private List<String> getListProjects() {
-
-        return getDriver().findElements(
-                        By.xpath("//tbody/tr/td/a[@class='jenkins-table__link model-link inside']"))
-                .stream().map(WebElement::getText).collect(Collectors.toList());
+    private static final String NAME = "TestMultiConfigurationProject";
+    private static final String PROJECT_NAME = "Mcproject";
+    private static final String NAME_FOLDER = "DisabledFolder";
+    private static final String NAME_TO_DELETE = "TestToDelete";
+    public void clickRenameButton(){
+        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
     @Test
     public void testCreateMultiConfigFolder() {
-        createMultiConfigFolder(NAME_FOLDER);
-        returnToMainPage();
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, NAME);
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        WebElement nameOnDashboard = getDriver().findElement(By.xpath("//tr[@id='job_" + NAME + "']//td[3]"));
 
-        Assert.assertEquals(getFolderNameOnDashboard(NAME_FOLDER), NAME_FOLDER);
+        Assert.assertEquals(nameOnDashboard.getText(), NAME);
     }
 
-    @Test(dependsOnMethods = {"testCreateMultiConfigFolder"})
+    @Test (dependsOnMethods = "testCreateMultiConfigFolder")
     public void testBuildNow() {
-        runBuildNow(NAME_FOLDER);
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("build-status-link")));
-        selectTopBuildInHistory();
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        ProjectUtils.openProject(getDriver(), NAME);
+        ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("build-status-link"))).click();
 
-        Assert.assertTrue(isSuccesedBuildIsDipslayed());
+        Assert.assertTrue(getDriver().findElement(
+                By.xpath("//span/span/*[name()='svg' and (contains(@tooltip, 'Success'))]")).isDisplayed());
     }
 
-    @Test
-    public void testBuildNowInDisabledProject() {
-        String nameTestedFolder = "disabledFolder";
-        boolean isBuildNowDisplayed = false;
-
-        createMultiConfigFolder(nameTestedFolder);
-        returnToMainPage();
-        openProjectJob(nameTestedFolder);
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-
-        List<WebElement> jobMenu = getDriver().findElements(By.xpath("//div[@id='tasks']//span[2]"));
-        for (WebElement menu : jobMenu) {
-            if (menu.getText().contains("Build Now")) {
-                isBuildNowDisplayed = true;
-            }
-        }
-
-        Assert.assertFalse(isBuildNowDisplayed);
-    }
-
-    @Test
-    public void testAddDescription() {
-        createMultiConfigFolder(PROJECT_NAME);
-
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys("test");
-        getDriver().findElement(By.id("yui-gen2-button")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), "test");
-
-        returnToMainPage();
-    }
-
-    @Test(dependsOnMethods = {"testAddDescription"})
-    public void testRenameMCProject() {
-        openProjectJob(PROJECT_NAME);
-
-        getDriver().findElement(By.linkText("Rename")).click();
-        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"))
-                .sendKeys(Keys.HOME, Keys.chord(Keys.SHIFT, Keys.END), "McprojectRename");
-        getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
-
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Project McprojectRename");
-
-        returnToMainPage();
-        deleteFolder("McprojectRename");
-    }
-
-    @Test
-    public void testRenameMCProjectError() {
-        final String expectedResult = "Error\nThe new name is the same as the current name.";
-
-        createMultiConfigFolder(PROJECT_NAME);
-        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
-        getDriver().findElement(By.xpath("//div[@id='main-panel']/form/div/div/div[2]/input"));
-        getDriver().findElement(By.xpath("//div[@class='bottom-sticker-inner']/span/span/button")).click();
-
-        String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']")).getText();
-        Assert.assertEquals(actualResult, expectedResult);
-
-        returnToMainPage();
-        deleteFolder(PROJECT_NAME);
-    }
-
-    @Test(dependsOnMethods = {"testBuildNow"})
-    public void testDeleteMultiConfigFolder() {
-        final String nameTestedFolder = "testToDelete";
-
-        createMultiConfigFolder(nameTestedFolder);
-        returnToMainPage();
-        deleteFolder(nameTestedFolder);
-
-        Assert.assertFalse(isElementPresent(nameTestedFolder));
-    }
-
-    @Test(dependsOnMethods = {"testBuildNow"})
+    @Test (dependsOnMethods = "testCreateMultiConfigFolder")
     public void testCheckSubMenuConfigureAfterCreatingProject() {
-        final String expectedResult = "This determines when, if ever, build records for this project should be discarded. " +
+        final String DiscardOldBuildsText = "This determines when, if ever, build records for this project should be discarded. " +
                 "Build records include the console output, archived artifacts, and any other metadata related " +
                 "to a particular build.\n" +
                 "Keeping fewer builds means less disk space will be used in the Build Record Root Directory," +
@@ -202,56 +69,123 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 "or as soon as any of the configured values are exceeded; these rules are evaluated " +
                 "each time a build of this project completes.";
 
-        getActions().moveToElement(getDriver().findElement(PROJECT_ON_DAHBOARD)).perform();
-        WebElement subMenuButton = getDriver().findElement(By.id("menuSelector"));
-        getActions().moveToElement(subMenuButton).click().build().perform();
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        getActions().moveToElement(getDriver().findElement(By.xpath
+                ("//table[@id='projectstatus']//a[normalize-space(.)='" + NAME + "']"))).perform();
+        getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().perform();
         getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a[@class='yuimenuitemlabel']//span[text()='Configure']"))).click().build().perform();
+                By.xpath("//a[@class='yuimenuitemlabel']//span[text()='Configure']"))).click().perform();
 
         WebElement helpTitle = getDriver().findElement(By.xpath("//a[contains(@tooltip, 'Discard old builds')]"));
 
-        Assert.assertEquals(helpTitle.getAttribute("title"), "Help for feature: Discard old builds");
+        SoftAssert asserts = new SoftAssert();
+        asserts.assertEquals(helpTitle.getAttribute("title"), "Help for feature: Discard old builds");
 
         helpTitle.click();
 
-        String textHelp = getDriver().findElement(By.xpath("//div[@class='help']/div")).getText();
-
-        Assert.assertEquals(textHelp, expectedResult);
+        asserts.assertEquals(getDriver().findElement(By.xpath("//div[@class='help']/div")).getText(),
+                DiscardOldBuildsText);
 
         WebElement checkBoxDiscardOldBuilds = getDriver().findElement(
                 By.xpath("//label[text()='Discard old builds']/preceding-sibling::input"));
-
-        if (checkBoxDiscardOldBuilds.isSelected()) {
-        } else {
+        if (!checkBoxDiscardOldBuilds.isSelected()) {
             checkBoxDiscardOldBuilds.click();
         }
-
-        checkBoxDiscardOldBuilds = getDriver().findElement(
-                By.xpath("//label[text()='Discard old builds']/preceding-sibling::input"));
-
-        Assert.assertTrue(checkBoxDiscardOldBuilds.isSelected());
+        asserts.assertTrue(checkBoxDiscardOldBuilds.isSelected());
 
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[@name='Apply']"))).click().build().perform();
 
         WebElement applyMessage = getDriver().findElement(By.xpath("//div[@id='notification-bar']/span"));
 
-        Assert.assertEquals(applyMessage.getText(), "Saved");
+//        asserts.assertEquals(applyMessage.getText(), "Saved");
 
         getWait20().until(ExpectedConditions.invisibilityOfElementLocated(By.id("notification-bar")));
-
+        asserts.assertAll();
     }
 
-    @Test(dependsOnMethods = {"testCheckSubMenuConfigureAfterCreatingProject"})
-    public void testMultiConfigurationProjectRenameUsingInvalidName() {
+    @Test
+    public void testBuildNowInDisabledProject() {
+        boolean isBuildNowDisplayed = false;
+
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, NAME_FOLDER);
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        ProjectUtils.openProject(getDriver(), NAME_FOLDER);
+        ProjectUtils.clickDisableProject(getDriver());
+
+        List<WebElement> jobMenu = getDriver().findElements(By.xpath("//div[@id='tasks']//span[2]"));
+        for (WebElement menu : jobMenu) {
+            if (menu.getText().contains("Build Now")) {
+                isBuildNowDisplayed = true;
+            }
+        }
+        Assert.assertFalse(isBuildNowDisplayed);
+    }
+
+    @Test
+    public void testAddDescription() {
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, PROJECT_NAME);
+        ProjectUtils.openProject(getDriver(),PROJECT_NAME);
+
+        getDriver().findElement(By.id("description-link")).click();
+        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys("test");
+        getDriver().findElement(By.id("yui-gen2-button")).click();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), "test");
+    }
+
+    @Test(dependsOnMethods = {"testAddDescription"})
+    public void testRenameMCProject() {
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        ProjectUtils.openProject(getDriver(),PROJECT_NAME);
+        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
+
+        TestUtils.clearAndSend(getDriver(), By.xpath("//input[@checkdependson='newName']"),
+                "McprojectRename");
+        clickRenameButton();
+
+        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
+                "Project McprojectRename");
+    }
+
+    @Test
+    public void testRenameMCProjectErrorSameName() {
+        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, PROJECT_NAME);
+        ProjectUtils.openProject(getDriver(), PROJECT_NAME);
+        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
+
+        getActions().moveToElement(getDriver().findElement(By.xpath("//input[@checkdependson='newName']")))
+                .click().perform();
+        clickRenameButton();
+
+        Assert.assertEquals(getDriver().findElement(By.id("main-panel")).getText(),
+                "Error\nThe new name is the same as the current name.");
+    }
+
+    @Test (dependsOnMethods = "testRenameMCProjectErrorSameName")
+    public void testRenameMCPErrorNoName(){
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        ProjectUtils.openProject(getDriver(),PROJECT_NAME);
+        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
+
+        TestUtils.clearAndSend(getDriver(), By.xpath("//input[@checkdependson='newName']"),
+                "");
+        clickRenameButton();
+        Assert.assertEquals(getDriver().findElement(By.id("main-panel")).getText(),
+                "Error\nNo name is specified");
+
+    }
+    @Test (dependsOnMethods = "testRenameMCProjectErrorSameName")
+    public void testRenameMCProjectErrorInvalidName() {
         final String[] invalidName =
                 new String[]{"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", "|", "<", ">", "?", "", " "};
 
-        getDriver().findElement(PROJECT_ON_DAHBOARD).click();
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        ProjectUtils.openProject(getDriver(),PROJECT_NAME);
         ProjectUtils.Dashboard.Project.Rename.click(getDriver());
 
         for (String unsafeChar : invalidName) {
             TestUtils.clearAndSend(getDriver(), By.name("newName"), unsafeChar);
-            getDriver().findElement(By.id("yui-gen1-button")).click();
+            clickRenameButton();
             String expectedResult = "‘" + unsafeChar + "’ is an unsafe character";
             if ("&" == unsafeChar) {
                 expectedResult = "‘&amp;’ is an unsafe character";
@@ -262,29 +196,31 @@ public class _MultiConfigurationProjectTest extends BaseTest {
             } else if (unsafeChar == "" || unsafeChar == " ") {
                 expectedResult = "No name is specified";
             }
-
-            String actualResult = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
-
-            Assert.assertEquals(actualResult, expectedResult);
+            Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
+                    expectedResult);
 
             getDriver().navigate().back();
         }
     }
 
-    @Test(dependsOnMethods = {"testMultiConfigurationProjectRenameUsingInvalidName"})
-    public void testDeleteMultiConfigurationProject() {
-        deleteFolder(NAME_FOLDER);
+    @Test
+    public void testDeleteMultiConfigFolder() {
+      ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, NAME_TO_DELETE);
+      ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+      ProjectUtils.openProject(getDriver(),NAME_TO_DELETE);
+      ProjectUtils.Dashboard.Project.DeleteMultiConfigurationProject.click(getDriver());
+      getDriver().switchTo().alert().accept();
 
-        boolean isPresent = false;
-
-        List<WebElement> projectsOnDashboard = getDriver().findElements(PROJECT_ON_DAHBOARD);
+      boolean isPresent = false;
+      List<WebElement> projectsOnDashboard = TestUtils.getList(getDriver(),
+                By.xpath("//table[@id='projectstatus']//tbody//td[3]"));
         for (WebElement jobs : projectsOnDashboard) {
-            if (jobs.getText().contains(NAME_FOLDER)) {
-                isPresent = true;
+            if (jobs.getText().contains(NAME_TO_DELETE)) {
+                    isPresent = true;
             }
         }
-
         Assert.assertFalse(isPresent);
     }
+
 }
 
