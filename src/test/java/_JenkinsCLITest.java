@@ -20,7 +20,7 @@ public class _JenkinsCLITest extends BaseTest {
             "replay-pipeline", "restart", "restart-from-stage", "safe-restart", "safe-shutdown",
             "session-id", "set-build-description", "set-build-display-name", "shutdown", "stop-builds",
             "update-credentials-by-xml", "update-credentials-domain-by-xml", "update-job", "update-node", "update-view",
-            "version", "wait-node-offline", "wait-node-online", "who-am-i"};
+            "version", "wait-node-offline", "wait-node-online", "who-am-i" };
 
     private static final String[] EXPECTEDCOMMANDDESCRIPTIONS = {"Adds jobs to view.",
             "Builds a job, and optionally waits until its completion.",
@@ -66,18 +66,18 @@ public class _JenkinsCLITest extends BaseTest {
             "Updates the node definition XML from stdin. The opposite of the get-node command.",
             "Updates the view definition XML from stdin. The opposite of the get-view command.",
             "Outputs the current version.", "Wait for a node to become offline.",
-            "Wait for a node to become online.", "Reports your credential and permissions."};
+            "Wait for a node to become online.", "Reports your credential and permissions." };
 
     private void goToCliPage() {
         getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a/span[@class='task-link-text']")).click();
         getDriver().findElement(By.xpath("//div[@class='jenkins-section__item']/a[@href='cli']/dl/dt")).click();
     }
 
-    private int countCommands(){
+    private int countCommands() {
         return getDriver().findElements(By.xpath("//table[@class='jenkins-table sortable']/tbody/tr")).size();
     }
 
-    private String commandSetElement(int i){
+    private String commandSetElement(int i) {
         return "//table[@class='jenkins-table sortable']/tbody/tr" + "[" + i + "]/";
     }
 
@@ -85,8 +85,8 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkCommandNamesTest() {
         goToCliPage();
 
-        for (int i = 1; i<=countCommands(); i++){
-            Assert.assertEquals(getDriver().findElement(By.xpath(commandSetElement(i) + "td/a" )).getText(), EXPECTEDCOMMANDNAMES[i-1]);
+        for (int i = 1; i <= countCommands(); i++) {
+            Assert.assertEquals(getDriver().findElement(By.xpath(commandSetElement(i) + "td/a")).getText(), EXPECTEDCOMMANDNAMES[i - 1]);
         }
     }
 
@@ -94,8 +94,8 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkCommandDescriptionsTest() {
         goToCliPage();
 
-        for (int i = 1; i<=countCommands(); i++){
-            Assert.assertEquals(getDriver().findElement(By.xpath(commandSetElement(i) + "td[2]" )).getText(), EXPECTEDCOMMANDDESCRIPTIONS[i-1]);
+        for (int i = 1; i <= countCommands(); i++) {
+            Assert.assertEquals(getDriver().findElement(By.xpath(commandSetElement(i) + "td[2]")).getText(), EXPECTEDCOMMANDDESCRIPTIONS[i - 1]);
         }
     }
 
@@ -103,9 +103,9 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkCommandLinkTest() {
         goToCliPage();
 
-        for (int i = 1; i<=countCommands(); i++){
-            getDriver().findElement(By.xpath(commandSetElement(i) + "td/a" )).click();
-            Assert.assertTrue(getDriver().findElement(By.id("example")).getText().contains("-webSocket " + EXPECTEDCOMMANDNAMES[i-1]));
+        for (int i = 1; i <= countCommands(); i++) {
+            getDriver().findElement(By.xpath(commandSetElement(i) + "td/a")).click();
+            Assert.assertTrue(getDriver().findElement(By.id("example")).getText().contains("-webSocket " + EXPECTEDCOMMANDNAMES[i - 1]));
             getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[3]/a")).click();
         }
     }

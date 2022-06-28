@@ -23,6 +23,10 @@ public class _FolderTest extends BaseTest {
     private static final By NAME = By.id("name");
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
     private static final By OK_BUTTON = By.id("ok-button");
+    private static final String WARNINGTEXTWITHDOT = "» “.” is not an allowed name";
+    private static final String WARNINGTEXTUNSAFE = "’ is an unsafe character";
+    private static final String ELEMENT1 = "//div[@id='main-panel']/p";
+    private static final String ELEMENT2 = "//div[@id='main-panel']/h1";
 
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
@@ -99,10 +103,8 @@ public class _FolderTest extends BaseTest {
         createFolderWithoutSaveButton(NAME_FOLDER);
         getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("jenkins")));
 
-        WebElement actual = getDriver().findElement(
-                By.xpath("//div[@class='jenkins-config-widgets']//div[text()='General']"));
-
-        Assert.assertEquals(actual.getText(), "General");
+        Assert.assertEquals(getDriver().findElement(
+                By.xpath("//div[@class='jenkins-config-widgets']//div[text()='General']")).getText(), "General");
     }
 
     @Test(dependsOnMethods = {"testConfigurePage"})
@@ -122,9 +124,9 @@ public class _FolderTest extends BaseTest {
             WebElement warningText = getDriver().findElement(By.id("itemname-invalid"));
 
             getWait5().until(ExpectedConditions.textToBePresentInElement(warningText,
-                    "» ‘" + INVALID_SYMBOLS[i] + "’ is an unsafe character"));
+                    "» ‘" + INVALID_SYMBOLS[i] + WARNINGTEXTUNSAFE));
 
-            String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + "’ is an unsafe character";
+            String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + WARNINGTEXTUNSAFE;
 
             Assert.assertEquals(warningText.getText(), expectedResult);
             inputField.clear();
@@ -135,13 +137,12 @@ public class _FolderTest extends BaseTest {
     public void testCreateFolderWithDot() {
 
         getDriver().findElement(By.className("task-link-text")).click();
-        WebElement inputField = getDriver().findElement(NAME);
+        getDriver().findElement(NAME).sendKeys(".");
 
-        inputField.sendKeys(".");
         WebElement warningText = getDriver().findElement(By.id("itemname-invalid"));
 
-        getWait5().until(ExpectedConditions.textToBePresentInElement(warningText, "» “.” is not an allowed name"));
-        Assert.assertEquals(warningText.getText(), "» “.” is not an allowed name");
+        getWait5().until(ExpectedConditions.textToBePresentInElement(warningText, WARNINGTEXTWITHDOT));
+        Assert.assertEquals(warningText.getText(), WARNINGTEXTWITHDOT);
     }
 
     @Test
@@ -210,7 +211,7 @@ public class _FolderTest extends BaseTest {
             if (s.equals(".")) {
                 expectedResult = "» “" + s + "” is not an allowed name";
             } else {
-                expectedResult = "» ‘" + s + "’ is an unsafe character";
+                expectedResult = "» ‘" + s + WARNINGTEXTUNSAFE;
             }
 
             Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(), expectedResult);
@@ -220,7 +221,7 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCreateFolderWithUnsafeCharacter() {
 
-        final String expectedErrorMessage = "» ‘@’ is an unsafe character";
+        final String expectedErrorMessage = "‘@’ is an unsafe character";
         final String expectedError = "Error";
 
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
@@ -229,23 +230,22 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.NewItemTypes.Folder.click(getDriver());
         String actualErrorMessage1 = getDriver().findElement(By.id("itemname-invalid")).getText();
 
-        Assert.assertEquals(actualErrorMessage1, expectedErrorMessage);
+        Assert.assertEquals(actualErrorMessage1, "» " + expectedErrorMessage);
 
         ProjectUtils.clickOKButton(getDriver());
 
-        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
-        String actualErrorMessage2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
+        String actualError = getDriver().findElement(By.xpath(ELEMENT1)).getText();
+        String actualErrorMessage2 = getDriver().findElement(By.xpath(ELEMENT2)).getText();
 
-        Assert.assertEquals(actualError, expectedError);
-        Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
+        Assert.assertEquals(actualError, expectedErrorMessage);
+        Assert.assertEquals(actualErrorMessage2, expectedError);
     }
 
     @Test
     public void testCreateFolderWithTheSameName() {
 
         final String nameFolder = TestUtils.getRandomStr();
-        final String expectedErrorMessage = "» A job already exists with the name ‘" + nameFolder + "’";
-        final String expectedError = "Error";
+        final String expectedErrorMessage = "A job already exists with the name ‘" + nameFolder + "’";
 
         createFolder(getDriver(), nameFolder);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
@@ -253,18 +253,14 @@ public class _FolderTest extends BaseTest {
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
         ProjectUtils.NewItemTypes.Folder.click(getDriver());
-        WebElement actualErrorMessage1 = getWait20()
-                .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid")));
 
-        Assert.assertEquals(actualErrorMessage1.getText(), expectedErrorMessage);
+        Assert.assertEquals(getWait20()
+                .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid"))).getText(), "» " + expectedErrorMessage);
 
         ProjectUtils.clickOKButton(getDriver());
 
-        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
-        String actualErrorMessage2 = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
-
-        Assert.assertEquals(actualError, expectedError);
-        Assert.assertEquals(actualErrorMessage2, expectedErrorMessage.substring(2));
+        Assert.assertEquals(getDriver().findElement(By.xpath(ELEMENT1)).getText(),expectedErrorMessage);
+        Assert.assertEquals(getDriver().findElement(By.xpath(ELEMENT2)).getText(), "Error");
     }
 
     @Test
@@ -293,10 +289,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.clickOKButton(getDriver());
         getDriver().findElement(By.id("yui-gen4-button")).click();
 
-        String allert = getDriver().findElement(By.id("notification-bar")).getAttribute("class");
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".notif-alert-clear")));
-
-        Assert.assertTrue(allert.contains("notif-alert-show"));
+        Assert.assertTrue(getDriver().findElement(By.id("notification-bar")).getAttribute("class").contains("notif-alert-show"));
     }
 
     @Test
@@ -328,7 +321,7 @@ public class _FolderTest extends BaseTest {
             String newFolderName = unsafeCharacters.substring(i, (i + 1));
             if (newFolderName.equals("&")) {
                 setNewFolderName(newFolderName);
-                String expectedResult = "‘&amp;’ is an unsafe character";
+                String expectedResult = "‘&amp;" + WARNINGTEXTUNSAFE;
                 Assert.assertEquals(expectedResult, checkErrorMessage());
                 getDriver().navigate().back();
                 continue;
@@ -341,7 +334,7 @@ public class _FolderTest extends BaseTest {
                 continue;
             }
             setNewFolderName(newFolderName);
-            String expectedResult = "‘" + newFolderName + "’ is an unsafe character";
+            String expectedResult = "‘" + newFolderName + WARNINGTEXTUNSAFE;
             Assert.assertEquals(expectedResult, checkErrorMessage());
             getDriver().navigate().back();
         }
