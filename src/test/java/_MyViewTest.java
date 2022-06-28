@@ -2,14 +2,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
+
 public class _MyViewTest extends BaseTest {
     private static final String VIEW_NAME = TestUtils.getRandomStr();
+    private static final String VIEW_NAME_1 = TestUtils.getRandomStr();
+    private static final String VIEW_NAME_2 = TestUtils.getRandomStr();
     private static final String EDIT_VIEW_NAME = TestUtils.getRandomStr();
     private static final String VIEW_DESCRIPTION = TestUtils.getRandomStr();
 
@@ -36,15 +38,11 @@ public class _MyViewTest extends BaseTest {
         return getDriver().findElement(By.xpath("//a[@class='textarea-hide-preview']"));
     }
 
-    private WebElement buttonSubmitDelete() {
+    private WebElement buttonSubmitDeleteView() {
         return getDriver().findElement(By.id("yui-gen1-button"));
     }
 
-    private WebElement buttonSubmitEdit() {
-        return getDriver().findElement(By.id("yui-gen2-button"));
-    }
-
-    private WebElement buttonSubmitDescription() {
+    private WebElement buttonSubmitEditListViewName() {
         return getDriver().findElement(By.id("yui-gen13-button"));
     }
 
@@ -70,29 +68,26 @@ public class _MyViewTest extends BaseTest {
         getDriver().findElement(By.id("ok")).click();
 
         getDriver().findElement(By.name("description")).sendKeys(VIEW_DESCRIPTION);
-        buttonSubmitDescription().click();
+        buttonSubmitEditListViewName().click();
 
         Assert.assertTrue(TestUtils.getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(VIEW_NAME));
         Assert.assertEquals(VIEW_DESCRIPTION, fieldDescriptionOnThePage().getText());
     }
 
-    @Ignore
     @Test
     public void testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs() {
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
-        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME);
+
+        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME_1);
         getDriver().findElement(By.xpath("//label[text() = 'My View']")).click();
 
         getDriver().findElement(By.id("ok")).click();
 
-        Assert.assertTrue(TestUtils.getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(VIEW_NAME));
+        Assert.assertTrue(TestUtils.getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(VIEW_NAME_1));
     }
 
     @Test
     public void testCreateNewViewWithSelectLabelListViewCheckTabBar() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
 
         getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME);
@@ -101,29 +96,41 @@ public class _MyViewTest extends BaseTest {
         getDriver().findElement(By.id("ok")).click();
 
         getDriver().findElement(By.name("description")).sendKeys(VIEW_DESCRIPTION);
-        buttonSubmitDescription().click();
+        buttonSubmitEditListViewName().click();
 
         Assert.assertTrue(TestUtils.getTextFromList(getDriver(), VIEW_NAMES_ON_TABBAR).contains(VIEW_NAME));
         Assert.assertEquals(VIEW_DESCRIPTION, fieldDescriptionOnThePage().getText());
     }
 
-    @Ignore
+    @Test
+    public void testCreateNewViewWithSelectLabelMyViewCheckTabBar() {
+        ProjectUtils.Dashboard.View.NewView.click(getDriver());
+
+        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME_2);
+        getDriver().findElement(By.xpath("//label[text() = 'My View']")).click();
+        getDriver().findElement(By.id("ok")).click();
+
+        Assert.assertTrue(TestUtils.getTextFromList(getDriver(),VIEW_NAMES_ON_TABBAR).contains(VIEW_NAME_2));
+    }
+
+
     @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
     public void testCreateNewViewWithAnExistingName() {
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
-        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME);
+
+        getDriver().findElement(By.id("name")).sendKeys(VIEW_NAME_1);
         getDriver().findElement(By.xpath("//label[text() = 'My View']")).click();
 
-        Assert.assertEquals(getDriver().findElement(By.className("error")).getText(), "A view already exists with the name " + '"' + VIEW_NAME + '"');
+        Assert.assertEquals(getDriver().findElement(By.className("error")).getText(), "A view already exists with the name " + '"' + VIEW_NAME_1 + '"');
     }
-    @Ignore
+
     @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
     public void testEditViewChangeName() {
         clickNameOfViewOnBreadcrumbs();
 
         ProjectUtils.Dashboard.View.EditView.click(getDriver());
         TestUtils.clearAndSend(getDriver(), By.name("name"), EDIT_VIEW_NAME);
-        buttonSubmitEdit().click();
+        buttonSubmitEditListViewName().click();
 
         Assert.assertEquals(EDIT_VIEW_NAME, getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[contains(@href, '" + EDIT_VIEW_NAME + "')]")).getText());
     }
@@ -182,14 +189,13 @@ public class _MyViewTest extends BaseTest {
         Assert.assertFalse(buttonHidePreview().isDisplayed());
     }
 
-    @Ignore
     @Test(dependsOnMethods = {"testEditViewChangeName"})
     public void testDeleteViewViaBreadcrumbs() {
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
         getDriver().findElement(By.xpath("//li/a[contains(@href, '" + EDIT_VIEW_NAME + "')]")).click();
 
         ProjectUtils.Dashboard.View.DeleteView.click(getDriver());
-        buttonSubmitDelete().click();
+        buttonSubmitDeleteView().click();
 
         Assert.assertFalse(TestUtils.getTextFromList(getDriver(), VIEW_NAMES_ON_BREADCRUMBS).contains(EDIT_VIEW_NAME));
     }
@@ -198,7 +204,7 @@ public class _MyViewTest extends BaseTest {
     public void testDeleteViewViaTabBarFrame() {
         getDriver().findElement(By.xpath("//div/a[contains(text(),'" + VIEW_NAME + "')]")).click();
         ProjectUtils.Dashboard.View.DeleteView.click(getDriver());
-        buttonSubmitDelete().click();
+        buttonSubmitDeleteView().click();
 
         Assert.assertFalse(TestUtils.getTextFromList(getDriver(), VIEW_NAMES_ON_TABBAR).contains(VIEW_NAME));
     }
