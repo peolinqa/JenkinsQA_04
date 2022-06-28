@@ -1,5 +1,6 @@
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -48,17 +49,9 @@ public class _MyViewTest extends BaseTest {
         return getDriver().findElement(By.id("yui-gen13-button"));
     }
 
-    private String actualResultDescription() {
-        return fieldDescriptionOnThePage().getText();
+    public static void clickAddOrEditDescriptionButton(WebDriver driver) {
+        driver.findElement(By.xpath("//a[contains(@href, 'editDescription')]")).click();
     }
-
-    private String expectedResultDescription = RandomStringUtils.randomAscii(10);
-
-    private String textareaPreviewText() {
-        return textareaPreview().getText();
-    }
-
-
 
     private void clickNameOfViewOnBreadcrumbs() {
         getDriver().findElement(VIEW_NAMES_ON_BREADCRUMBS).click();
@@ -139,7 +132,7 @@ public class _MyViewTest extends BaseTest {
     public void testAddDescriptionOnMyViews() {
         ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
 
-        ProjectUtils.clickAddOrEditDescriptionButton(getDriver());
+        clickAddOrEditDescriptionButton(getDriver());
 
         textareaDescription().sendKeys(VIEW_NAME);
         ProjectUtils.clickSaveButton(getDriver());
@@ -151,7 +144,7 @@ public class _MyViewTest extends BaseTest {
     public void testEditDescriptionOnMyViews() {
         ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
 
-        ProjectUtils.clickAddOrEditDescriptionButton(getDriver());
+        clickAddOrEditDescriptionButton(getDriver());
 
         textareaDescription().clear();
         textareaDescription().sendKeys(VIEW_NAME);
@@ -164,7 +157,7 @@ public class _MyViewTest extends BaseTest {
     public void testCheckButtonPreviewDescriptionOnMyViews() {
         ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
 
-        ProjectUtils.clickAddOrEditDescriptionButton(getDriver());
+        clickAddOrEditDescriptionButton(getDriver());
 
         buttonPreview().isDisplayed();
         buttonPreview().click();
@@ -177,7 +170,7 @@ public class _MyViewTest extends BaseTest {
     public void testCheckButtonHidePreviewDescriptionOnMyViews() {
         ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
 
-        ProjectUtils.clickAddOrEditDescriptionButton(getDriver());
+        clickAddOrEditDescriptionButton(getDriver());
 
         buttonPreview().click();
         textareaPreview().isDisplayed();

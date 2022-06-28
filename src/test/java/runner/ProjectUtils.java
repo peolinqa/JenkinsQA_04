@@ -121,10 +121,6 @@ public final class ProjectUtils {
                 });
     }
 
-    public static void clickAddOrEditDescriptionButton(WebDriver driver) {
-        driver.findElement(By.xpath("//a[contains(@href, 'editDescription')]")).click();
-    }
-
     public static class Dashboard {
 
         public enum Header {

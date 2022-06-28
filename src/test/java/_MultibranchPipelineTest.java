@@ -128,7 +128,6 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(newName, "MultiPipeline");
     }
 
-    @Ignore
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithValidData")
     public void testDeleteMultibranchPipelineProject() {
         String headerEmptyDashboard = "Welcome to Jenkins!";
