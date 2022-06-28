@@ -34,11 +34,12 @@ public class _PipelineTest extends BaseTest {
     private static final By ADD_BOOLEAN_PARAMETER = By.xpath("//b[text()='Boolean Parameter']");
     private static final By NEW_NAME =
             By.xpath("//div[@class='setting-main']/input[@name='newName']");
+    private static final By WARNING_MESSAGE = By.className("error");
+    private static final By DROP_DOWN_MENU_PIPELINE_TAB = By.cssSelector(".samples");
 
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
     private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
-    private static final By WARNING_MESSAGE = By.className("error");
 
     private JavascriptExecutor javascriptExecutor;
     private SoftAssert asserts;
@@ -210,6 +211,10 @@ public class _PipelineTest extends BaseTest {
                 By.xpath("//tr[@id='job_" + pipelineName + "']//a[contains(@class,'jenkins-table__link')]"));
     }
 
+    private WebElement buttonScheduledBuildInDashboard(String pipelineName) {
+        return getDriver().findElement(By.xpath(String.format("//span[text()='Schedule a Build for %s']", pipelineName)));
+    }
+
     @Test
     public void testCheckValidationItemName() {
         final String name = pipelineName();
@@ -230,7 +235,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckDropDownMenuPipeline() {
         createPipeline(pipelineName(), Boolean.TRUE);
 
-        js(getDriver().findElement(By.cssSelector(".samples")));
+        js(getDriver().findElement(DROP_DOWN_MENU_PIPELINE_TAB));
 
         List<WebElement> optionsDropDown = getDriver().findElements(
                 By.xpath("//div[1][@class='samples']//select/option"));
@@ -555,7 +560,6 @@ public class _PipelineTest extends BaseTest {
         asserts.assertAll();
     }
 
-
     @Test
     public void testPipelineBuildNow() {
         String[] buildSuccessfulPermalinks = new String[]{"Last build", "Last stable build", "Last successful build",
@@ -816,5 +820,32 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertTrue(getWait20().until(ExpectedConditions.attributeToBe(
                 By.cssSelector(".tobsTable-body .job"), "class", "job SUCCESS")));
+    }
+
+    @Test
+    public void testCheckScheduledBuildInBuildHistory() {
+        final String name = pipelineName();
+
+        createPipeline(name, Boolean.TRUE);
+        scrollPageDown();
+
+        getActions().moveToElement(getDriver().findElement(DROP_DOWN_MENU_PIPELINE_TAB))
+                .click()
+                .sendKeys(Keys.ARROW_DOWN)
+                .click()
+                .perform();
+        ProjectUtils.clickSaveButton(getDriver());
+        homePageClick();
+
+        js(buttonScheduledBuildInDashboard(name));
+        getActions().moveToElement(buttonScheduledBuildInDashboard(name))
+                .doubleClick()
+                .perform();
+        ProjectUtils.Dashboard.Main.BuildHistory.click(getDriver());
+
+        List<WebElement> buildHistory = getDriver().findElements(
+                By.xpath(String.format("//a[@href='/job/%s/' and @class='jenkins-table__link model-link inside']", name)));
+
+        Assert.assertEquals(buildHistory.size(), 2);
     }
 }
