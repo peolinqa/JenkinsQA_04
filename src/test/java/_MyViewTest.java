@@ -8,7 +8,6 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
-
 public class _MyViewTest extends BaseTest {
     private static final String VIEW_NAME = TestUtils.getRandomStr();
     private static final String EDIT_VIEW_NAME = TestUtils.getRandomStr();
@@ -183,6 +182,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertFalse(buttonHidePreview().isDisplayed());
     }
 
+    @Ignore
     @Test(dependsOnMethods = {"testEditViewChangeName"})
     public void testDeleteViewViaBreadcrumbs() {
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[@class='children']")).click();
