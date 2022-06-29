@@ -21,7 +21,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigFolder() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, NAME);
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.MultiConfigurationProject, NAME);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         WebElement nameOnDashboard = getDriver().findElement(By.xpath("//tr[@id='job_" + NAME + "']//td[3]"));
 
@@ -107,7 +107,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testBuildNowInDisabledProject() {
         boolean isBuildNowDisplayed = false;
 
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, NAME_FOLDER);
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.MultiConfigurationProject, NAME_FOLDER);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         ProjectUtils.openProject(getDriver(), NAME_FOLDER);
         ProjectUtils.clickDisableProject(getDriver());
@@ -123,7 +123,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testAddDescription() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, PROJECT_NAME);
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.MultiConfigurationProject, PROJECT_NAME);
         ProjectUtils.openProject(getDriver(),PROJECT_NAME);
 
         getDriver().findElement(By.id("description-link")).click();
@@ -149,7 +149,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testRenameMCProjectErrorSameName() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, PROJECT_NAME);
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.MultiConfigurationProject, PROJECT_NAME);
         ProjectUtils.openProject(getDriver(), PROJECT_NAME);
         ProjectUtils.Dashboard.Project.Rename.click(getDriver());
 
@@ -205,7 +205,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDeleteMultiConfigFolder() {
-      ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.MultiConfigurationProject, NAME_TO_DELETE);
+      ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.MultiConfigurationProject, NAME_TO_DELETE);
       ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
       ProjectUtils.openProject(getDriver(),NAME_TO_DELETE);
       ProjectUtils.Dashboard.Project.DeleteMultiConfigurationProject.click(getDriver());

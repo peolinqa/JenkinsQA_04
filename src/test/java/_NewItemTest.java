@@ -19,7 +19,7 @@ public class _NewItemTest extends BaseTest {
     public void copyFromFreestyleProject(String nameNew, String nameCopyFrom) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(nameNew);
-        ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
+        ProjectUtils.ProjectType.Freestyle.click(getDriver());
         WebElement copFromButton = getDriver().findElement(By.id("from"));
         getActions().pause(500).moveToElement(copFromButton).perform();
         copFromButton.sendKeys(nameCopyFrom);
@@ -28,7 +28,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCopyDataFromExistingItemNegative() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Freestyle);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         copyFromFreestyleProject("NJ3", "NJ4");
 
@@ -37,7 +37,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, "NJ");
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Freestyle, "NJ");
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         ProjectUtils.openProject(getDriver(), "NJ");
         ProjectUtils.Dashboard.Project.Configure.click(getDriver());

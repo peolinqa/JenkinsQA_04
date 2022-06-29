@@ -57,7 +57,7 @@ public class _MyViewTest extends BaseTest {
 
     @Test
     public void testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject);
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Freestyle);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
 
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
@@ -114,7 +114,7 @@ public class _MyViewTest extends BaseTest {
     }
 
 
-    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
+    @Test(dependsOnMethods = "testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs")
     public void testCreateNewViewWithAnExistingName() {
         ProjectUtils.Dashboard.View.NewView.click(getDriver());
 
@@ -124,7 +124,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.className("error")).getText(), "A view already exists with the name " + '"' + VIEW_NAME_1 + '"');
     }
 
-    @Test(dependsOnMethods = {"testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs"})
+    @Test(dependsOnMethods = "testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs")
     public void testEditViewChangeName() {
         clickNameOfViewOnBreadcrumbs();
 
@@ -147,7 +147,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertEquals(fieldDescriptionOnThePage().getText(), VIEW_NAME);
     }
 
-    @Test(dependsOnMethods = {"testAddDescriptionOnMyViews"})
+    @Test(dependsOnMethods = "testAddDescriptionOnMyViews")
     public void testEditDescriptionOnMyViews() {
         ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
 
@@ -160,7 +160,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertEquals(fieldDescriptionOnThePage().getText(), VIEW_NAME);
     }
 
-    @Test(dependsOnMethods = {"testEditDescriptionOnMyViews"})
+    @Test(dependsOnMethods = "testEditDescriptionOnMyViews")
     public void testCheckButtonPreviewDescriptionOnMyViews() {
         ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
 

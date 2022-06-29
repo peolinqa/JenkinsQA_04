@@ -31,14 +31,14 @@ public class _FolderTest extends BaseTest {
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(folderName);
-        ProjectUtils.NewItemTypes.Folder.click(getDriver());
+        ProjectUtils.ProjectType.Folder.click(getDriver());
         ProjectUtils.clickOKButton(getDriver());
     }
 
     private static void createFolder(WebDriver driver, String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(driver);
         driver.findElement(NAME).sendKeys(folderName);
-        ProjectUtils.NewItemTypes.Folder.click(driver);
+        ProjectUtils.ProjectType.Folder.click(driver);
         ProjectUtils.clickOKButton(driver);
         driver.findElement(SUBMIT_BUTTON).click();
     }
@@ -191,7 +191,7 @@ public class _FolderTest extends BaseTest {
         for (int i = 0; i < symbols.length(); i++) {
             String s = String.valueOf(symbols.charAt(i));
             TestUtils.clearAndSend(getDriver(), NAME, s);
-            ProjectUtils.NewItemTypes.Folder.click(getDriver());
+            ProjectUtils.ProjectType.Folder.click(getDriver());
 
             String expectedResult = "";
             if (s.equals(".")) {
@@ -210,7 +210,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
-        ProjectUtils.NewItemTypes.Folder.click(getDriver());
+        ProjectUtils.ProjectType.Folder.click(getDriver());
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
                 "» ‘@’ is an unsafe character");
@@ -232,7 +232,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
-        ProjectUtils.NewItemTypes.Folder.click(getDriver());
+        ProjectUtils.ProjectType.Folder.click(getDriver());
 
         Assert.assertEquals(getWait20()
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid"))).getText(), "» " + expectedErrorMessage);

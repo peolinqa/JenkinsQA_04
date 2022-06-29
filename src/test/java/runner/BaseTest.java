@@ -94,7 +94,9 @@ public abstract class BaseTest {
         return driver;
     }
 
-    protected Actions getActions() { return new Actions(driver); }
+    protected Actions getActions() {
+        return new Actions(driver);
+    }
 
     protected WebDriverWait getWait20() {
         if (wait20 == null) {

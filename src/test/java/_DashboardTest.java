@@ -59,7 +59,7 @@ public class _DashboardTest extends BaseTest {
     @Test
     public void testCheckLinkIconLegend() {
         ProjectUtils.deleteJobsWithPrefix(getDriver(), TEST_FOLDER_NAME);
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.Folder,TEST_FOLDER_NAME );
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Folder,TEST_FOLDER_NAME );
 
         getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
         boolean iconLegendVisible = getDriver().findElement(By.xpath("//a[@href='/legend']")).isDisplayed();

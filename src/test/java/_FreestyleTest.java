@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,6 +10,8 @@ import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
+
+import static runner.ProjectUtils.ProjectType.Freestyle;
 
 public class _FreestyleTest extends BaseTest {
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
@@ -80,7 +83,7 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dataProvider = "data")
     public void testDisableEnableFreestyleProject(CheckBox project) {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, RANDOM_NAME);
+        ProjectUtils.createProject(getDriver(), Freestyle, RANDOM_NAME);
         if (project.equals(CheckBox.DISABLE)) {
             checkBoxDisableProject();
         }
@@ -104,7 +107,7 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dataProvider = "data")
     public void testDisableEnableIconsDashboard(CheckBox project) {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, RANDOM_NAME);
+        ProjectUtils.createProject(getDriver(), Freestyle, RANDOM_NAME);
         if (project.equals(CheckBox.DISABLE)) {
             checkBoxDisableProject();
         }
@@ -118,11 +121,15 @@ public class _FreestyleTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, RANDOM_NAME);
-        ProjectUtils.clickSaveButton(getDriver());
+        String projectName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(RANDOM_NAME)
+                .setProjectType(Freestyle)
+                .createAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .getProjectName();
 
-        WebElement projectName = getDriver().findElement(By.xpath(String.format("//li/a[@href='/job/%s/']", RANDOM_NAME)));
-        Assert.assertEquals(projectName.getText(), RANDOM_NAME);
+        Assert.assertEquals(projectName, RANDOM_NAME);
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
@@ -217,7 +224,7 @@ public class _FreestyleTest extends BaseTest {
     @Test
     public void testNoEnterNameFreestyleItem() {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
+        Freestyle.click(getDriver());
         Assert.assertEquals(
                 getDriver().findElement(By.id("itemname-required")).getText(),
                 "» This field cannot be empty, please enter a valid name");
@@ -227,7 +234,7 @@ public class _FreestyleTest extends BaseTest {
     public void testEnterSeveralSpaces() {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         TestUtils.clearAndSend(getDriver(), By.id("name"), "    ");
-        ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
+        Freestyle.click(getDriver());
         ProjectUtils.clickOKButton(getDriver());
 
         Assert.assertEquals(getDriver().findElement(
@@ -277,7 +284,7 @@ public class _FreestyleTest extends BaseTest {
 
         for (String character : characterName) {
             TestUtils.clearAndSend(getDriver(), By.id("name"), character);
-            ProjectUtils.NewItemTypes.FreestyleProject.click(getDriver());
+            Freestyle.click(getDriver());
             if (!getDriver().findElement(By.xpath("//button[@class]")).getAttribute("class").equals("disabled")) {
                 resultButtonOkDisabled = false;
             }
@@ -305,7 +312,7 @@ public class _FreestyleTest extends BaseTest {
 
         String expectedLink = "/job/" + RANDOM_NAME + "/";
 
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.FreestyleProject, RANDOM_NAME);
+        ProjectUtils.createProject(getDriver(), Freestyle, RANDOM_NAME);
         ProjectUtils.clickSaveButton(getDriver());
 
         Assert.assertTrue(getDriver().getCurrentUrl().contains(expectedLink));

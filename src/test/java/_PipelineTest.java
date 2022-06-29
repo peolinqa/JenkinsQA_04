@@ -58,7 +58,7 @@ public class _PipelineTest extends BaseTest {
     private void createPipeline(String name, boolean buttonOk) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(By.id("name")).sendKeys(name);
-        ProjectUtils.NewItemTypes.Pipeline.click(getDriver());
+        ProjectUtils.ProjectType.Pipeline.click(getDriver());
         if (buttonOk) {
             ProjectUtils.clickOKButton(getDriver());
         }
@@ -492,7 +492,7 @@ public class _PipelineTest extends BaseTest {
     @Test
     public void testBuildPipelineWithParameters() {
 
-        ProjectUtils.createProject(getDriver(), ProjectUtils.NewItemTypes.Pipeline, "First Pipeline Project");
+        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Pipeline, "First Pipeline Project");
 
         getDriver().findElement(By
                 .xpath("//label[contains(text(),'This project is parameterized')]")).click();
