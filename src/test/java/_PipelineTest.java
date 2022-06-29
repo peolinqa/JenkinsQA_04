@@ -28,7 +28,6 @@ public class _PipelineTest extends BaseTest {
     private static final By H1 = By.xpath("//h1");
     private static final By PIPELINE_ITEM_CONFIGURATION =
             By.cssSelector(".config-section-activators .config_pipeline");
-    private static final By LINK_JENKINS_HOMEPAGE = By.id("jenkins-name-icon");
     private static final By CHECKBOX_PROJECT_PARAMETERIZED =
             By.xpath("//label[text()='This project is parameterized']");
     private static final By ADD_BOOLEAN_PARAMETER = By.xpath("//b[text()='Boolean Parameter']");
@@ -73,7 +72,7 @@ public class _PipelineTest extends BaseTest {
     }
 
     private void homePageClick() {
-        getDriver().findElement(LINK_JENKINS_HOMEPAGE).click();
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
     }
 
     private WebElement $(String locator) {
@@ -105,7 +104,7 @@ public class _PipelineTest extends BaseTest {
     }
 
     private void cleanAllPipelines() {
-        getDriver().findElement(LINK_JENKINS_HOMEPAGE).click();
+        homePageClick();
         ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
         getDriver().findElement(By.xpath("//a[@href='script']")).click();
         getActions().moveToElement(getDriver().findElement(
@@ -171,7 +170,7 @@ public class _PipelineTest extends BaseTest {
             if (buttonOk) {
                 ProjectUtils.clickOKButton(getDriver());
             }
-            click(LINK_JENKINS_HOMEPAGE);
+            homePageClick();
         }
     }
 
@@ -218,8 +217,8 @@ public class _PipelineTest extends BaseTest {
     @Test
     public void testCheckValidationItemName() {
         final String name = pipelineName();
+
         createPipeline(name, Boolean.TRUE);
-        ProjectUtils.clickSaveButton(getDriver());
         getDriver().findElement(By.xpath("//li//a[@href='/']")).click();
         createPipeline(name, Boolean.FALSE);
         String errorMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
@@ -611,7 +610,7 @@ public class _PipelineTest extends BaseTest {
         final String name = pipelineName();
 
         createPipeline(name, Boolean.TRUE);
-        click(SUBMIT_BUTTON, LINK_JENKINS_HOMEPAGE);
+        click(SUBMIT_BUTTON, By.id("jenkins-name-icon"));
 
         createNewView();
         getWait20().until(ExpectedConditions.visibilityOfElementLocated(
@@ -826,6 +825,8 @@ public class _PipelineTest extends BaseTest {
     public void testCheckScheduledBuildInBuildHistory() {
         final String name = pipelineName();
 
+        List<String> expectedBuildHistory = Arrays.asList(name, name);
+
         createPipeline(name, Boolean.TRUE);
         scrollPageDown();
 
@@ -843,9 +844,11 @@ public class _PipelineTest extends BaseTest {
                 .perform();
         ProjectUtils.Dashboard.Main.BuildHistory.click(getDriver());
 
-        List<WebElement> buildHistory = getDriver().findElements(
-                By.xpath(String.format("//a[@href='/job/%s/' and @class='jenkins-table__link model-link inside']", name)));
+        List<String> actualBuildHistory = getTextFromListWebElements(getDriver().findElements(By.xpath(
+                String.format("//a[@href='/job/%s/' and @class='jenkins-table__link model-link inside']", name))));
+        for (int i = 0; i < actualBuildHistory.size(); i++) {
 
-        Assert.assertEquals(buildHistory.size(), 2);
+            Assert.assertEquals(actualBuildHistory.get(i),expectedBuildHistory.get(i));
+        }
     }
 }
