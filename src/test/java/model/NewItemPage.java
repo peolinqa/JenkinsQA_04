@@ -34,4 +34,10 @@ public class NewItemPage extends BasePage {
 
         return new ItemConfigPage(getDriver());
     }
+
+    public PipelineConfigPage createAndGoToPipelineConfigure() {
+        okButton.click();
+
+        return new PipelineConfigPage(getDriver());
+    }
 }
