@@ -4,7 +4,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -20,13 +19,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import static runner.ProjectUtils.ProjectType.Pipeline;
-@Ignore
+
 public class _PipelineTest extends BaseTest {
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");
     private static final By ADD_COLUMN_BUTTON = By.xpath("//button[contains(text(), 'Add column')]");
     private static final By DELETE_BUTTON = By.cssSelector("[title='Delete View']");
-    private static final By ADVANCED_BUTTON = By.xpath("//button[@id='yui-gen4-button']");
     private static final By RENAME_BUTTON = By.xpath("//button[text()='Rename']");
     private static final By H1 = By.xpath("//h1");
     private static final By PIPELINE_ITEM_CONFIGURATION =
@@ -37,7 +35,6 @@ public class _PipelineTest extends BaseTest {
     private static final By NEW_NAME =
             By.xpath("//div[@class='setting-main']/input[@name='newName']");
     private static final By WARNING_MESSAGE = By.className("error");
-    private static final By DROP_DOWN_MENU_PIPELINE_TAB = By.cssSelector(".samples");
 
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
@@ -221,9 +218,16 @@ public class _PipelineTest extends BaseTest {
     public void testCheckValidationItemName() {
         final String name = pipelineName();
 
-        createPipeline(name, Boolean.TRUE);
-        getDriver().findElement(By.xpath("//li//a[@href='/']")).click();
-        createPipeline(name, Boolean.FALSE);
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .clickDashboardButton()
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline);
+
         String errorMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
 
         ProjectUtils.clickOKButton(getDriver());
@@ -235,27 +239,31 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckDropDownMenuPipeline() {
-        createPipeline(pipelineName(), Boolean.TRUE);
+        final String name = pipelineName();
 
-        js(getDriver().findElement(DROP_DOWN_MENU_PIPELINE_TAB));
-
-        List<WebElement> optionsDropDown = getDriver().findElements(
-                By.xpath("//div[1][@class='samples']//select/option"));
-
-        Assert.assertEquals(optionsDropDown.size(), 4);
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .jsDropDownMenuPipelineTab()
+                .collectAndAssertDropDownMenu(4);
     }
 
     @Test
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
-        createPipeline(pipelineName(), Boolean.TRUE);
+        final String name = pipelineName();
 
-        js(getDriver().findElement(ADVANCED_BUTTON));
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .scrollAndClickAdvancedButton()
+                .clickHelpForFeatureDisplayName();
 
-        getDriver().findElement(ADVANCED_BUTTON).click();
-        getDriver().findElement(By.cssSelector("a[tooltip$='Display Name']")).click();
         String urlAttribute = getDriver().findElement(By.cssSelector(
                 "[href='https://plugins.jenkins.io/workflow-job']")).getAttribute("href");
-
         getDriver().navigate().to(urlAttribute);
         String url = getDriver().getCurrentUrl();
         getDriver().navigate().back();
@@ -266,31 +274,19 @@ public class _PipelineTest extends BaseTest {
     @Ignore
     @Test
     public void testJenkinsCredentialsProviderWindow() {
-        createPipeline(pipelineName(), Boolean.TRUE);
+        final String name = pipelineName();
 
-        getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
-
-        Select pipelineScriptDropDownList = new Select(getDriver()
-                .findElement(By.xpath("//div[@class='jenkins-form-item config_pipeline active']//select")));
-        pipelineScriptDropDownList.selectByIndex(1);
-        Select scmDropDownList = new Select(getDriver()
-                .findElement(By.xpath("//div[@class='jenkins-form-item has-help']//select")));
-        scmDropDownList.selectByIndex(1);
-
-        getWait5().until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//button[@id='yui-gen15-button']"))).click();
-        getWait5().until(ExpectedConditions.elementToBeClickable((
-                By.id("yui-gen17")))).click();
-
-        WebElement titleOfJenkinsCredentialsProviderWindow = getDriver().findElement(By.xpath("//h2"));
-
-        Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow.getText(),
-                "Jenkins Credentials Provider: Jenkins");
-
-        js(getDriver().findElement(By.xpath("//button[@id='credentials-add-abort-button']")));
-
-        getDriver().navigate().back();
-        getDriver().switchTo().alert().accept();
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .selectConfigurationMenuDefinition("Pipeline")
+                .collectPipelineScriptDropDownMenu()
+                .collectPipelineScriptScmDropDownMenu()
+                .clickCredentialsAddButton()
+                .clickJenkinsProviderButton()
+                .getH2TextAndAssert("Jenkins Credentials Provider: Jenkins");
     }
 
     @Test
@@ -840,12 +836,13 @@ public class _PipelineTest extends BaseTest {
         createPipeline(name, Boolean.TRUE);
         scrollPageDown();
 
-        getActions().moveToElement(getDriver().findElement(DROP_DOWN_MENU_PIPELINE_TAB))
+        getActions().moveToElement(getDriver().findElement(By.cssSelector(".samples")))
                 .click().sendKeys(Keys.ARROW_DOWN).click().build().perform();
         ProjectUtils.clickSaveButton(getDriver());
         homePageClick();
 
         js(buttonScheduledBuildInDashboard(name));
+
         getActions().moveToElement(buttonScheduledBuildInDashboard(name))
                 .doubleClick()
                 .perform();
