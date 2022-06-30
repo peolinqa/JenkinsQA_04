@@ -263,6 +263,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(url.contains("plugins.jenkins.io/workflow-job"));
     }
 
+    @Ignore
     @Test
     public void testJenkinsCredentialsProviderWindow() {
         createPipeline(pipelineName(), Boolean.TRUE);
