@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -68,4 +69,15 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
         Assert.assertEquals(getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText(),
                 "Help for feature: SSHD Port");
     }
+
+    @Test
+    public void testCheckHelpButtonSSHServerPOM() {
+        String tooltipHelpButtonSSHServer = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickConfigureGlobalSecurity()
+                .getTextTooltipButtonHelpSSHServerPOM(getDriver());
+
+        Assert.assertEquals(tooltipHelpButtonSSHServer, "Help for feature: SSHD Port");
+    }
+
 }

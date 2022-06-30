@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static runner.ProjectUtils.ProjectType.Pipeline;
-
+@Ignore
 public class _PipelineTest extends BaseTest {
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");

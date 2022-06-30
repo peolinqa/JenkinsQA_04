@@ -2,6 +2,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -55,7 +56,7 @@ public class _DashboardTest extends BaseTest {
                 .collect(Collectors.toList());
         Assert.assertEquals(actualItems, EXPECTED_ITEMS);
     }
-
+    @Ignore
     @Test
     public void testCheckLinkIconLegend() {
         ProjectUtils.deleteJobsWithPrefix(getDriver(), TEST_FOLDER_NAME);
