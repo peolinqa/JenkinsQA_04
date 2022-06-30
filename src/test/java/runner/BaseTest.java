@@ -23,6 +23,7 @@ public abstract class BaseTest {
 
     private WebDriverWait wait20;
     private WebDriverWait wait5;
+    private Actions actions;
 
     private List<List<Method>> methodList;
 
@@ -72,6 +73,7 @@ public abstract class BaseTest {
         driver.quit();
         wait20 = null;
         wait5 = null;
+        actions = null;
 
         BaseUtils.log("Browser closed");
     }
@@ -95,7 +97,10 @@ public abstract class BaseTest {
     }
 
     protected Actions getActions() {
-        return new Actions(driver);
+        if(actions == null) {
+            actions = new Actions(getDriver());
+        }
+        return actions;
     }
 
     protected WebDriverWait getWait20() {
@@ -113,5 +118,4 @@ public abstract class BaseTest {
 
         return wait5;
     }
-
 }

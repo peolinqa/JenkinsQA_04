@@ -491,7 +491,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorMessage.getText(), expectedMessage + " is an unsafe character");
     }
 
-
+    @Ignore
     @Test
     public void testBuildPipelineWithParameters() {
 
@@ -829,7 +829,7 @@ public class _PipelineTest extends BaseTest {
                 By.cssSelector(".tobsTable-body .job"), "class", "job SUCCESS")));
     }
 
-
+    @Ignore
     @Test
     public void testCheckScheduledBuildInBuildHistory() {
         final String name = pipelineName();
@@ -840,10 +840,7 @@ public class _PipelineTest extends BaseTest {
         scrollPageDown();
 
         getActions().moveToElement(getDriver().findElement(DROP_DOWN_MENU_PIPELINE_TAB))
-                .click()
-                .sendKeys(Keys.ARROW_DOWN)
-                .click()
-                .perform();
+                .click().sendKeys(Keys.ARROW_DOWN).click().build().perform();
         ProjectUtils.clickSaveButton(getDriver());
         homePageClick();
 
