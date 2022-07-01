@@ -75,7 +75,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
         String tooltipHelpButtonSSHServer = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getTextTooltipButtonHelpSSHServerPOM(getDriver());
+                .getTextTooltipButtonHelpSSHServerPOM();
 
         Assert.assertEquals(tooltipHelpButtonSSHServer, "Help for feature: SSHD Port");
     }

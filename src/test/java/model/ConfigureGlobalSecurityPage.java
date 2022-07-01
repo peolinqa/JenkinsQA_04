@@ -4,10 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ConfigureGlobalSecurityPage extends BasePage {
 
@@ -18,12 +16,12 @@ public class ConfigureGlobalSecurityPage extends BasePage {
         super(driver);
     }
 
-    public String getTextTooltipButtonHelpSSHServerPOM(WebDriver driver){
+    public String getTextTooltipButtonHelpSSHServerPOM(){
         JavascriptExecutor js = (JavascriptExecutor) getDriver();
         js.executeScript("arguments[0].scrollIntoView();", helpButton);
 
-        new Actions(driver).pause(500).moveToElement(helpButton).perform();
-        return new WebDriverWait(driver, 5).until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText();
+        getActions().pause(500).moveToElement(helpButton).perform();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText();
     }
 
 }
