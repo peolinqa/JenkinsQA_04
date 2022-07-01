@@ -8,6 +8,7 @@ import runner.TestUtils;
 
 import java.util.List;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.ProjectUtils;
 
 public class HomePage extends BasePage {
 
@@ -65,6 +66,12 @@ public class HomePage extends BasePage {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
 
         return new HomePage(getDriver());
+    }
+
+    public ProjectPage clickProjectName(String name) {
+        ProjectUtils.openProject(getDriver(), name);
+
+        return new ProjectPage(getDriver());
     }
 }
 

@@ -9,6 +9,10 @@ public class ItemConfigPage extends BasePage {
     @FindBy(xpath = "//button[@type='submit' and contains(text(), 'Save')]")
     private WebElement saveButton;
 
+    @FindBy(name = "description")
+    private WebElement descriptionTextarea;
+
+
     public ItemConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -17,5 +21,11 @@ public class ItemConfigPage extends BasePage {
         saveButton.click();
 
         return new ProjectPage(getDriver());
+    }
+
+    public ItemConfigPage setDescription(String text) {
+        descriptionTextarea.sendKeys(text);
+
+        return this;
     }
 }

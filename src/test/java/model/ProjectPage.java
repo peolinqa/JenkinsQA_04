@@ -12,6 +12,12 @@ public class ProjectPage extends BasePage {
     @FindBy(css = "h1")
     private WebElement folderName;
 
+    @FindBy(linkText = "Configure")
+    private WebElement configureButton;
+
+    @FindBy(xpath = "//div[@id='description']/div")
+    private WebElement textDescription;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -22,5 +28,15 @@ public class ProjectPage extends BasePage {
 
     public String getFolderName() {
         return folderName.getText();
+    }
+
+    public ItemConfigPage clickConfigure() {
+        configureButton.click();
+
+        return new ItemConfigPage(getDriver());
+    }
+
+    public String getDescriptionName() {
+        return textDescription.getText();
     }
 }

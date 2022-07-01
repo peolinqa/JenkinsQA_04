@@ -20,6 +20,7 @@ public class _FreestyleTest extends BaseTest {
     private static final String INVALID_DATA = "!@#$;%^&?*[]/:.";
     private static final String RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
     private static final String EDITED_RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
+    private static final String DESCRIPTION_TEXT = "This is a description for a Freestyle project";
 
     private void checkBoxDisableProject() {
         getDriver().findElement(By.xpath("//label[text()='Disable this project']")).click();
@@ -134,24 +135,15 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testUserCanConfigureFreestyleProject() {
-        ProjectUtils.openProject(getDriver(), RANDOM_NAME);
-        getDriver().findElement(By.cssSelector("[title='Configure']")).click();
 
-        boolean projectConfig = getDriver().findElements(By.cssSelector(".config-section-activator")).size() > 0;
+        String description = new HomePage(getDriver())
+                .clickProjectName(RANDOM_NAME)
+                .clickConfigure()
+                .setDescription(DESCRIPTION_TEXT)
+                .saveConfigAndGoToProject()
+                .getDescriptionName();
 
-        TestUtils.clearAndSend(getDriver(), By.cssSelector("[name='description']"), "This is a description for a Freestyle project");
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        String alert = String.valueOf(ExpectedConditions.alertIsPresent());
-
-        getDriver().switchTo().alert().dismiss();
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        getDriver().switchTo().alert().accept();
-        ProjectUtils.openProject(getDriver(), RANDOM_NAME);
-        String description = getDriver().findElement(By.cssSelector(".jenkins-buttons-row")).getText();
-
-        Assert.assertTrue(projectConfig);
-        Assert.assertEquals(alert, "alert to be present");
-        Assert.assertEquals(description, "Add description");
+        Assert.assertEquals(description, DESCRIPTION_TEXT);
     }
 
     @Test(dependsOnMethods = "testUserCanConfigureFreestyleProject")
