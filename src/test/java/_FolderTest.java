@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,6 +13,8 @@ import runner.TestUtils;
 
 import java.util.List;
 
+import static runner.ProjectUtils.ProjectType.Folder;
+
 public class _FolderTest extends BaseTest {
 
     private static final String NAME_FOLDER = "Configure";
@@ -20,6 +23,8 @@ public class _FolderTest extends BaseTest {
             {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
     protected static final char[] CHARS =
             {',', 39, '`', '~', '-', ' ', '(', ')', '{', '}', '+', '=', '_', '"'};
+
+    private static final String RANDOM_NAME = TestUtils.getRandomStr(10);
 
     private static final By NAME = By.id("name");
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
@@ -31,14 +36,14 @@ public class _FolderTest extends BaseTest {
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
         getDriver().findElement(NAME).sendKeys(folderName);
-        ProjectUtils.ProjectType.Folder.click(getDriver());
+        Folder.click(getDriver());
         ProjectUtils.clickOKButton(getDriver());
     }
 
     private static void createFolder(WebDriver driver, String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(driver);
         driver.findElement(NAME).sendKeys(folderName);
-        ProjectUtils.ProjectType.Folder.click(driver);
+        Folder.click(driver);
         ProjectUtils.clickOKButton(driver);
         driver.findElement(SUBMIT_BUTTON).click();
     }
@@ -87,6 +92,19 @@ public class _FolderTest extends BaseTest {
     private String checkErrorMessage() {
 
         return getDriver().findElement(By.xpath("//div[@id='main-panel']//p")).getText();
+    }
+
+    @Test
+    public void testCreateFolder() {
+        String projectName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(RANDOM_NAME)
+                .setProjectType(Folder)
+                .createAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .getFolderName();
+
+        Assert.assertEquals(projectName, RANDOM_NAME);
     }
 
     @Test
@@ -191,7 +209,7 @@ public class _FolderTest extends BaseTest {
         for (int i = 0; i < symbols.length(); i++) {
             String s = String.valueOf(symbols.charAt(i));
             TestUtils.clearAndSend(getDriver(), NAME, s);
-            ProjectUtils.ProjectType.Folder.click(getDriver());
+            Folder.click(getDriver());
 
             String expectedResult = "";
             if (s.equals(".")) {
@@ -210,7 +228,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys("TestFolder@Jenkins");
-        ProjectUtils.ProjectType.Folder.click(getDriver());
+        Folder.click(getDriver());
 
         Assert.assertEquals(getDriver().findElement(By.id("itemname-invalid")).getText(),
                 "» ‘@’ is an unsafe character");
@@ -232,7 +250,7 @@ public class _FolderTest extends BaseTest {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         getDriver().findElement(NAME).sendKeys(nameFolder);
-        ProjectUtils.ProjectType.Folder.click(getDriver());
+        Folder.click(getDriver());
 
         Assert.assertEquals(getWait20()
                 .until(ExpectedConditions.presenceOfElementLocated(By.id("itemname-invalid"))).getText(), "» " + expectedErrorMessage);

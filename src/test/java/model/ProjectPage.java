@@ -9,11 +9,18 @@ public class ProjectPage extends BasePage {
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
 
+    @FindBy(css = "h1")
+    private WebElement folderName;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
 
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
+    }
+
+    public String getFolderName() {
+        return folderName.getText();
     }
 }
