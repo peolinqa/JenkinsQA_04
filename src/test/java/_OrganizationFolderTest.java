@@ -1,20 +1,21 @@
+import model.HomePage;
+import model.NewItemPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ProjectUtils;
 import runner.TestUtils;
 
 import java.util.List;
 
 public class _OrganizationFolderTest extends BaseTest {
 
-    private final String VALID_VALUE_FOR_NAME1 = "Organization Test";
-    private final String VALID_FOLDER_NAME = "folder1";
+    private final String VALID_FOLDER_NAME1 = "Organization Test";
+    private final String VALID_FOLDER_NAME2 = "folder1";
     private final By BUTTON_NEW_ITEM = By.linkText("New Item");
     private final By INPUT_ITEM_NAME = By.id("name");
     private final By BUTTON_ORGANIZATION_FOLDER = By.xpath(
@@ -23,13 +24,13 @@ public class _OrganizationFolderTest extends BaseTest {
     private final By SAVE_BUTTON = By.id("yui-gen17-button");
     private final By YES_BUTTON = By.id("yui-gen1-button");
     private final By FOLDER_ON_DASHBOARD = By.xpath(
-            "//table[@id='projectstatus']/tbody/tr[@id='job_" + VALID_FOLDER_NAME
-                    + "']/td/a[@href='job/" + VALID_FOLDER_NAME + "/']");
+            "//table[@id='projectstatus']/tbody/tr[@id='job_" + VALID_FOLDER_NAME2
+                    + "']/td/a[@href='job/" + VALID_FOLDER_NAME2 + "/']");
     private final By JENKINS = By.id("jenkins-home-link");
 
     private void fillNameAndClickOrganizationFolder() {
         getDriver().findElement(BUTTON_NEW_ITEM).click();
-        getDriver().findElement(INPUT_ITEM_NAME).sendKeys(VALID_FOLDER_NAME);
+        getDriver().findElement(INPUT_ITEM_NAME).sendKeys(VALID_FOLDER_NAME2);
         getDriver().findElement(BUTTON_ORGANIZATION_FOLDER).click();
     }
 
@@ -43,7 +44,7 @@ public class _OrganizationFolderTest extends BaseTest {
         WebElement folder1 = getDriver().findElement(FOLDER_ON_DASHBOARD);
         getActions().moveToElement(folder1, 20, 0).pause(500).click().build().perform();
         getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li/a[@href='/job/"
-                + VALID_FOLDER_NAME + "/delete']/span"))
+                + VALID_FOLDER_NAME2 + "/delete']/span"))
                 .click();
         getDriver().findElement(YES_BUTTON).click();
     }
@@ -64,76 +65,54 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderTest (){
-        getDriver().findElement(By.xpath("//span[@class ='task-link-text'][text() = 'New Item']")).click();
-        getDriver().findElement(By.id("name")).sendKeys(VALID_VALUE_FOR_NAME1);
+    public void createOrganizationFolderTest () {
+        String projectName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(VALID_FOLDER_NAME1)
+                .setProjectType(ProjectUtils.ProjectType.OrganizationFolder)
+                .createAndGoToOrganizationFolderConfigure()
+                .saveConfigAndGoToProject()
+                .getProjectName();
 
-        JavascriptExecutor jse = (JavascriptExecutor)getDriver();
-        jse.executeScript("window.scrollBy(0,350)");
-
-        getDriver().findElement(By.xpath("//span[@class ='label'][text()='Organization Folder']")).click();
-        clickOkAndSaveButtons();
-        getDriver().findElement(JENKINS).click();
-
-        Assert.assertEquals
-                (getDriver().findElement(By.xpath("//a[text()='Organization Test']"))
-                                .getText(),VALID_VALUE_FOR_NAME1);
+        Assert.assertEquals(projectName, VALID_FOLDER_NAME1);
     }
 
-    @Test(dependsOnMethods = "createOrganizationFolderTest")
+    @Test (dependsOnMethods = "createOrganizationFolderTest")
     public void renameOrganizationFolderTest() {
-        getDriver().findElement(By.xpath("//a[text()='Organization Test']")).click();
-        getDriver().findElement(By.xpath("//span[contains(text(),'Rename')]")).click();
-        getDriver().findElement(By.name("newName")).clear();
-        getDriver().findElement(By.name("newName")).sendKeys(VALID_FOLDER_NAME);
-        getDriver().findElement(YES_BUTTON).click();
-        String actualResult = getDriver().findElement(By.xpath("//a[text()='"
-                + VALID_FOLDER_NAME + "']")).getText();
+        String projectName = new HomePage(getDriver())
+                .clickFolderOrganizationTestOnDashboard()
+                .renameOrganizationFolder()
+                .setNewProjectNameAndGoToProject(VALID_FOLDER_NAME2)
+                .getProjectName();
 
-        Assert.assertEquals(actualResult,VALID_FOLDER_NAME);
-
-        deleteFolder();
+        Assert.assertEquals(projectName, VALID_FOLDER_NAME2);
     }
 
-    @Ignore
-    @Test(priority = 3)
-    public void deleteOrganizationFolderTest() {
-        getDriver().findElement(By.xpath("//a[text()='Dashboard']")).click();
-        List<WebElement> tableOnDashboard =
-                getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td/a"));
-        for (WebElement item : tableOnDashboard){
-            if (item.getText().contains(VALID_FOLDER_NAME)) {
-                getDriver().findElement(By.xpath("//a[text()='Test']")).click();
-                getDriver().findElement(By.linkText("Delete Organization Folder")).click();
-                getDriver().findElement(YES_BUTTON).click();
-                break;
-            }
-        }
-        Assert.assertEquals(getDriver().findElements(By.xpath("//a[text()='Test']")).size(),0);
-    }
-
-    @Test
+    @Test(dependsOnMethods = "renameOrganizationFolderTest")
     public void createOrganizationFolderSameItemNameTest() {
-        fillNameAndClickOrganizationFolder();
-        clickOkAndSaveButtons();
-        getDriver().findElement(By.linkText("Up")).click();
+        WebElement nameError = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(VALID_FOLDER_NAME2)
+                .setProjectType(ProjectUtils.ProjectType.OrganizationFolder)
+                .getNameError();
 
-        Assert.assertTrue(getDriver().findElement(FOLDER_ON_DASHBOARD)
-                .isDisplayed());
+        Assert.assertTrue(nameError.isDisplayed());
+        Assert.assertEquals(new NewItemPage(getDriver()).getNameErrorText(),
+                "» A job already exists with the name ‘" + VALID_FOLDER_NAME2 + "’");
+        Assert.assertEquals(new NewItemPage(getDriver()).getNameErrorScc("color").toString(),
+                "rgba(255, 0, 0, 1)");
+    }
 
-        fillNameAndClickOrganizationFolder();
-        WebElement error = getDriver().findElement(By.id("itemname-invalid"));
 
-        Assert.assertTrue(error.isDisplayed());
-        Assert.assertEquals(error.getText(), "» A job already exists with the name ‘folder1’");
-        Assert.assertEquals(error.getCssValue("color").toString(), "rgba(255, 0, 0, 1)");
+    @Test(dependsOnMethods = "createOrganizationFolderSameItemNameTest")
+    public void deleteOrganizationFolderTest() {
+        List <String> textFolderNames = new HomePage(getDriver())
+        .clickFolder1OnDashboard()
+        .deleteOrganizationFolder()
+        .deleteOrganizationFolderAndGoHomePage()
+        .getTextFolderNamesOnDashboard();
 
-        getDriver().findElement(OK_BUTTON).click();
-        WebElement error2 = getDriver().findElement(By.id("main-panel"));
-        Assert.assertTrue(error2.isDisplayed());
-        Assert.assertEquals(error2.getText(), "Error\nA job already exists with the name ‘folder1’");
-
-        deleteFolder();
+        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_NAME2));
     }
 
     @Test
@@ -180,7 +159,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void createOrganizationFolderAbortCreationTest() {
         getDriver().findElement(BUTTON_NEW_ITEM).click();
-        getDriver().findElement(INPUT_ITEM_NAME).sendKeys(VALID_FOLDER_NAME);
+        getDriver().findElement(INPUT_ITEM_NAME).sendKeys(VALID_FOLDER_NAME2);
         getDriver().findElement(BUTTON_ORGANIZATION_FOLDER).click();
         getDriver().findElement(By.linkText("Dashboard")).click();
 
@@ -191,7 +170,7 @@ public class _OrganizationFolderTest extends BaseTest {
             result.append(name.getText());
         }
 
-        Assert.assertFalse(result.toString().contains(VALID_FOLDER_NAME));
+        Assert.assertFalse(result.toString().contains(VALID_FOLDER_NAME2));
     }
 
     @Test
@@ -257,7 +236,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void createOrganizationFolderWithDisplayNameTest() {
         fillNameAndClickOrganizationFolder();
         getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.name("_.displayNameOrNull")).sendKeys(VALID_VALUE_FOR_NAME1);
+        getDriver().findElement(By.name("_.displayNameOrNull")).sendKeys(VALID_FOLDER_NAME1);
         getDriver().findElement(By.id("yui-gen13-button")).click();
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='notification-bar']/span")).getText(),
@@ -269,8 +248,8 @@ public class _OrganizationFolderTest extends BaseTest {
         getDriver().findElement(JENKINS).click();
 
         List<String> result = TestUtils.getTextFromList(getDriver(), By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
-        Assert.assertTrue(result.contains(VALID_VALUE_FOR_NAME1));
-        Assert.assertFalse(result.contains(VALID_FOLDER_NAME));
+        Assert.assertTrue(result.contains(VALID_FOLDER_NAME1));
+        Assert.assertFalse(result.contains(VALID_FOLDER_NAME2));
 
         getDriver().findElement(FOLDER_ON_DASHBOARD).click();
         getDriver().findElement(By.xpath("//span[text()='Delete Organization Folder']")).click();

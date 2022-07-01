@@ -1,8 +1,10 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
 public class NewItemPage extends BasePage {
@@ -12,6 +14,9 @@ public class NewItemPage extends BasePage {
 
     @FindBy(id = "ok-button")
     private WebElement okButton;
+
+    @FindBy(id = "itemname-invalid")
+    private WebElement nameError;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -39,5 +44,25 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public OrganizationFolderConfigPage createAndGoToOrganizationFolderConfigure() {
+        okButton.click();
+
+        return new OrganizationFolderConfigPage(getDriver());
+    }
+
+    public String getNameErrorText() {
+
+        return nameError.getText();
+    }
+
+    public String getNameErrorScc(String sccValue) {
+
+       return nameError.getCssValue(sccValue);
+    }
+
+    public WebElement getNameError() {
+        return nameError;
     }
 }
