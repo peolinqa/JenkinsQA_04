@@ -1,8 +1,10 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class HomePage extends BasePage {
 
@@ -26,5 +28,11 @@ public class HomePage extends BasePage {
         manageJenkins.click();
 
         return new ManageJenkinsPage(getDriver());
+    }
+
+    public HomePage clickName(String name) {
+        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
+
+        return new HomePage(getDriver());
     }
 }

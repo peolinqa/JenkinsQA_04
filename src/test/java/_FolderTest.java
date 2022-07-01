@@ -1,3 +1,4 @@
+import model.FolderConfigPage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -18,6 +19,7 @@ import static runner.ProjectUtils.ProjectType.Folder;
 public class _FolderTest extends BaseTest {
 
     private static final String NAME_FOLDER = "Configure";
+    private static final String RANDOM_FOLDER_NAME = TestUtils.getRandomStr();
 
     private static final char[] INVALID_SYMBOLS =
             {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
@@ -41,11 +43,12 @@ public class _FolderTest extends BaseTest {
     }
 
     private static void createFolder(WebDriver driver, String folderName) {
-        ProjectUtils.Dashboard.Main.NewItem.click(driver);
-        driver.findElement(NAME).sendKeys(folderName);
-        Folder.click(driver);
-        ProjectUtils.clickOKButton(driver);
-        driver.findElement(SUBMIT_BUTTON).click();
+        new HomePage(driver)
+                .clickNewItem()
+                .setProjectName(folderName)
+                .setProjectType(Folder)
+                .createAndGoToConfig()
+                .saveConfigAndGoToProject();
     }
 
     private boolean isFolderPresent(String name) {
@@ -96,15 +99,16 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCreateFolder() {
-        String projectName = new HomePage(getDriver())
+
+        String folderName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(RANDOM_NAME)
+                .setProjectName(RANDOM_FOLDER_NAME)
                 .setProjectType(Folder)
                 .createAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getFolderName();
 
-        Assert.assertEquals(projectName, RANDOM_NAME);
+        Assert.assertEquals(folderName, RANDOM_FOLDER_NAME);
     }
 
     @Test
@@ -290,18 +294,20 @@ public class _FolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("notification-bar")).getAttribute("class").contains("notif-alert-show"));
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testCreateFolder"})
     public void testRenameFolderPositive() {
 
-        final String randomFolderName = TestUtils.getRandomStr();
+        final String folderName = TestUtils.getRandomStr();
         final String newRandomFolderName = TestUtils.getRandomStr();
 
-        createFolder(getDriver(),randomFolderName);
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        clickMenuRenameFolder(randomFolderName);
-        setNewFolderName(newRandomFolderName);
+        createFolder(getDriver(), folderName);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(),newRandomFolderName);
+        String actualResult = new FolderConfigPage(getDriver())
+                .clickRenameFolder()
+                .renameFolder(newRandomFolderName)
+                .getFolderName();
+
+        Assert.assertEquals(actualResult, newRandomFolderName);
     }
 
     @Test
@@ -310,7 +316,7 @@ public class _FolderTest extends BaseTest {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
         final String folderName = TestUtils.getRandomStr();
 
-        createFolder(getDriver(),folderName);
+        createFolder(getDriver(), folderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
 
@@ -344,7 +350,7 @@ public class _FolderTest extends BaseTest {
         final String newFolderName = " ";
         final String[] expectedResult = new String[]{"Error", "No name is specified"};
 
-        createFolder(getDriver(),folderName);
+        createFolder(getDriver(), folderName);
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         clickMenuRenameFolder(folderName);
         setNewFolderName(newFolderName);
