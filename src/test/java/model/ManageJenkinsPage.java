@@ -27,4 +27,10 @@ public class ManageJenkinsPage extends BasePage {
 
         return new ConfigureGlobalSecurityPage(getDriver());
     }
+
+    public LoadStatisticsPage clickLoadStatistics() {
+        loadStatistics.click();
+
+        return new LoadStatisticsPage(getDriver());
+    }
 }
