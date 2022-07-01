@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.TestException;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
@@ -25,8 +24,6 @@ public class _FolderTest extends BaseTest {
             {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
     protected static final char[] CHARS =
             {',', 39, '`', '~', '-', ' ', '(', ')', '{', '}', '+', '=', '_', '"'};
-
-    private static final String RANDOM_NAME = TestUtils.getRandomStr(10);
 
     private static final By NAME = By.id("name");
     private static final By SUBMIT_BUTTON = By.xpath("//button[@type='submit']");
@@ -297,10 +294,9 @@ public class _FolderTest extends BaseTest {
     @Test(dependsOnMethods = {"testCreateFolder"})
     public void testRenameFolderPositive() {
 
-        final String folderName = TestUtils.getRandomStr();
         final String newRandomFolderName = TestUtils.getRandomStr();
 
-        createFolder(getDriver(), folderName);
+        new HomePage(getDriver()).clickName(RANDOM_FOLDER_NAME);
 
         String actualResult = new FolderConfigPage(getDriver())
                 .clickRenameFolder()
@@ -346,26 +342,20 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testRenameFolderWithSpaceAsAName() {
 
-        final String folderName = TestUtils.getRandomStr();
-        final String newFolderName = " ";
         final String[] expectedResult = new String[]{"Error", "No name is specified"};
 
-        createFolder(getDriver(), folderName);
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        clickMenuRenameFolder(folderName);
-        setNewFolderName(newFolderName);
+        createFolder(getDriver(), RANDOM_FOLDER_NAME);
+
+        new FolderConfigPage(getDriver())
+                .clickRenameFolder()
+                .renameFolder(" ");
 
         String[] actualResult = new String[]{
                 getDriver().findElement(By.xpath("//h1")).getText(),
                 getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText()
         };
 
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(expectedResult, actualResult);
-        asserts.assertTrue(getDriver().findElement(By.xpath("//a[@href='job/" + folderName + "/']")).isDisplayed());
-        asserts.assertAll();
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
