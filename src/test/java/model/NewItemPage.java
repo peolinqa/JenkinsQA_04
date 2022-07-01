@@ -18,6 +18,10 @@ public class NewItemPage extends BasePage {
     @FindBy(id = "itemname-invalid")
     private WebElement nameError;
 
+    @FindBy(id = "from")
+    private WebElement copyFromInputName;
+
+
     public NewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -38,6 +42,12 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new ItemConfigPage(getDriver());
+    }
+
+    public NewItemPage setCopyFromName(String name){
+        copyFromInputName.sendKeys(name);
+
+        return this;
     }
 
     public PipelineConfigPage createAndGoToPipelineConfigure() {

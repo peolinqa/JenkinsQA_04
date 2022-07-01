@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.ItemConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -8,6 +10,8 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.List;
+
+import static runner.ProjectUtils.ProjectType.Freestyle;
 
 public class _NewItemTest extends BaseTest {
 
@@ -37,25 +41,24 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Freestyle, "NJ");
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.openProject(getDriver(), "NJ");
-        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
+        ItemConfigPage copyDataFromExistingItemToNew = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName("NJ")
+                .setProjectType(Freestyle)
+                .createAndGoToConfig()
+                .setDescription(DESCRIPTION_INPUT)
+                .clickGithubProjectCheckbox()
+                .setGithubUrl(URL_INPUT)
+                .saveConfigAndGoToProject()
+                .clickDashboardButton()
+                .clickNewItem()
+                .setProjectName("NJ2")
+                .setProjectType(Freestyle)
+                .setCopyFromName("NJ")
+                .createAndGoToConfig();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.name(DESCRIPTION_FIELD))).sendKeys(DESCRIPTION_INPUT);
-        getDriver().findElement(By.name("githubProject")).click();
-        getDriver().findElement(By.name(GITHUB_URL)).sendKeys(URL_INPUT);
-        ProjectUtils.clickSaveButton(getDriver());
-
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        copyFromFreestyleProject("NJ2", "NJ");
-        ProjectUtils.openProject(getDriver(), "NJ2");
-        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
-
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(getDriver().findElement(By.name(DESCRIPTION_FIELD)).getText(), DESCRIPTION_INPUT);
-        asserts.assertEquals(getDriver().findElement(By.name(GITHUB_URL)).getAttribute("value"), URL_INPUT);
-        asserts.assertAll();
+        Assert.assertEquals(copyDataFromExistingItemToNew.getDescription(), DESCRIPTION_INPUT);
+        Assert.assertEquals(copyDataFromExistingItemToNew.getGithubUrl(), URL_INPUT);
     }
 
     @Test

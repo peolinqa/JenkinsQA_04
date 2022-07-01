@@ -18,6 +18,9 @@ public class ProjectPage extends BasePage {
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
 
+    @FindBy(linkText = "Dashboard")
+    private WebElement dashboardButton;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -28,6 +31,11 @@ public class ProjectPage extends BasePage {
 
     public String getFolderName() {
         return folderName.getText();
+    }
+
+    public HomePage clickDashboardButton() {
+        dashboardButton.click();
+        return new HomePage(getDriver());
     }
 
     public ItemConfigPage clickConfigure() {

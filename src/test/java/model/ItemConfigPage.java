@@ -12,6 +12,11 @@ public class ItemConfigPage extends BasePage {
     @FindBy(name = "description")
     private WebElement descriptionTextarea;
 
+    @FindBy(name = "githubProject")
+    private WebElement githubProjectCheckbox;
+
+    @FindBy(name = "_.projectUrlStr")
+    private WebElement githubUrl;
 
     public ItemConfigPage(WebDriver driver) {
         super(driver);
@@ -27,5 +32,28 @@ public class ItemConfigPage extends BasePage {
         descriptionTextarea.sendKeys(text);
 
         return this;
+    }
+
+    public String getDescription() {
+
+        return  descriptionTextarea.getText();
+    }
+
+    public ItemConfigPage clickGithubProjectCheckbox() {
+        githubProjectCheckbox.click();
+
+        return this;
+    }
+
+    public ItemConfigPage setGithubUrl(String text) {
+
+        githubUrl.sendKeys(text);
+
+        return this;
+    }
+
+    public String getGithubUrl() {
+
+         return githubUrl.getAttribute("value");
     }
 }
