@@ -4,6 +4,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class ProjectPage extends BasePage {
 
     @FindBy(css = "h1.page-headline")
@@ -20,6 +22,15 @@ public class ProjectPage extends BasePage {
 
     @FindBy(linkText = "Dashboard")
     private WebElement dashboardButton;
+
+    @FindBy(xpath = "//div//button[@type='submit'][text()='Disable Project']")
+    private WebElement disableButton;
+
+    @FindBy(xpath = "//div//button[@type='submit'][text()='Enable']")
+    private WebElement enableButton;
+
+    @FindBy(id = "enable-project")
+    private WebElement text;
 
     public ProjectPage(WebDriver driver) {
         super(driver);
@@ -44,7 +55,28 @@ public class ProjectPage extends BasePage {
         return new ItemConfigPage(getDriver());
     }
 
+    public Boolean _disableButton() {
+        return disableButton.isDisplayed();
+
+    }
+
+    public ProjectPage clickDisable() {
+        disableButton.click();
+
+        return this;
+    }
+
+    public ProjectPage clickEnable() {
+        enableButton.click();
+
+        return this;
+    }
+
     public String getDescriptionName() {
         return textDescription.getText();
+    }
+
+    public String[] getDisableName() {
+        return text.getText().split("\n");
     }
 }

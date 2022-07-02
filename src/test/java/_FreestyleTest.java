@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.ProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -147,17 +148,26 @@ public class _FreestyleTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testUserCanConfigureFreestyleProject")
-    public void testUserEnableDisableProject() {
-        ProjectUtils.openProject(getDriver(), RANDOM_NAME);
-        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Disable Project']")).click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//form[contains(text(), 'This project is currently disabled')]")).isDisplayed());
+    public void testDisableProject() {
 
-        getDriver().findElement(By.xpath("//div//button[@type='submit'][text()='Enable']")).click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//span[text()='Build Now']")).isEnabled());
+        ProjectPage projectPage = new HomePage(getDriver())
+                .clickProjectName(RANDOM_NAME)
+                .clickDisable();
+
+        Assert.assertEquals(projectPage.getDisableName()[0], "This project is currently disabled");
     }
 
+    @Test(dependsOnMethods = "testDisableProject")
+    public void testEnableProject() {
 
-    @Test(dependsOnMethods = "testUserEnableDisableProject")
+        ProjectPage projectPage = new HomePage(getDriver())
+                .clickProjectName(RANDOM_NAME)
+                .clickEnable();
+
+        Assert.assertTrue(projectPage._disableButton());
+    }
+
+    @Test(dependsOnMethods = "testEnableProject")
     public void testFreestyleProjectAddDescription() {
         ProjectUtils.openProject(getDriver(), RANDOM_NAME);
         getDriver().findElement(By.xpath("//span[text()='Configure']")).click();
