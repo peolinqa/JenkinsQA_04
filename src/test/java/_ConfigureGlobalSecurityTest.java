@@ -8,66 +8,38 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class _ConfigureGlobalSecurityTest extends BaseTest {
-    private static final By SECURITY_CHAPTERS_CLASS_NAME = By.className("jenkins-section__header");
-
-    private static final List<String> EXPECTED_CHAPTERS = List.of(
-            "Authentication",
-            "Security Realm",
-            "Authorization",
-            "Markup Formatter",
-            "Agents",
-            "CSRF Protection",
-            "Hidden security warnings",
-            "API Token",
-            "SSH Server");
-
-    private void enterConfigureGlobalSecurity() {
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.ConfigureGlobalSecurity.click(getDriver());
-    }
-
     @Test
     public void test9ChaptersDisplayedOnGlobalSecurityPage() {
-        enterConfigureGlobalSecurity();
-
-        List<WebElement> chapters = getDriver().findElements(SECURITY_CHAPTERS_CLASS_NAME);
+        List<WebElement> chapters = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickConfigureGlobalSecurity()
+                .getSecurityChapters();
 
         Assert.assertEquals(chapters.size(), 9);
     }
 
     @Test
-    public void testCheckChapters() {
-        enterConfigureGlobalSecurity();
+    public void testCheckChaptersNames() {
+       List<String> expectedChaptersNames = List.of(
+                "Authentication",
+                "Security Realm",
+                "Authorization",
+                "Markup Formatter",
+                "Agents",
+                "CSRF Protection",
+                "Hidden security warnings",
+                "API Token",
+                "SSH Server");
 
-        List<WebElement> chapters = getDriver()
-                .findElements(SECURITY_CHAPTERS_CLASS_NAME);
+        List<String> actualSecurityChaptersNames = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickConfigureGlobalSecurity()
+                .getActualSecurityChaptersNames();
 
-        List<String> actualChapters = new ArrayList<>(chapters.size());
-        for (WebElement e : chapters) {
-            actualChapters.add(e.getText());
-        }
-
-        Assert.assertEquals(actualChapters, EXPECTED_CHAPTERS);
-    }
-
-    @Test
-    public void testCheckHelpButtonSSHServer() {
-        enterConfigureGlobalSecurity();
-
-        WebElement locator = getDriver().findElement(
-                By.xpath("//a[@title='Help for feature: SSHD Port']"));
-
-        JavascriptExecutor js = (JavascriptExecutor) getDriver();
-        js.executeScript("arguments[0].scrollIntoView();", locator);
-
-        getActions().pause(500).moveToElement(locator).perform();
-
-        Assert.assertEquals(getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText(),
-                "Help for feature: SSHD Port");
+        Assert.assertEquals(actualSecurityChaptersNames, expectedChaptersNames);
     }
 
     @Test
