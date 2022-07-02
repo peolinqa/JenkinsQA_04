@@ -4,7 +4,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
-
 import java.util.List;
 
 public class NewItemPage extends BasePage {
@@ -121,5 +120,10 @@ public class NewItemPage extends BasePage {
     public String getBreadCrumbs(int index){
         return breadCrumbs.get(index).getText();
     }
-}
 
+    public FolderConfigPage createAndGoToFolderConfigPage() {
+        okButton.click();
+
+        return new FolderConfigPage(getDriver());
+    }
+}

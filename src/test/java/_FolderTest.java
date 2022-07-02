@@ -1,4 +1,3 @@
-import model.FolderConfigPage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -101,8 +100,8 @@ public class _FolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME)
                 .setProjectType(Folder)
-                .createAndGoToConfig()
-                .saveConfigAndGoToProject()
+                .createAndGoToFolderConfigPage()
+                .saveConfigAndGoToFolderPage()
                 .getFolderName();
 
         Assert.assertEquals(folderName, RANDOM_FOLDER_NAME);
@@ -296,9 +295,8 @@ public class _FolderTest extends BaseTest {
 
         final String newRandomFolderName = TestUtils.getRandomStr();
 
-        new HomePage(getDriver()).clickName(RANDOM_FOLDER_NAME);
-
-        String actualResult = new FolderConfigPage(getDriver())
+        String actualResult = new HomePage(getDriver())
+                .clickFolderName(RANDOM_FOLDER_NAME)
                 .clickRenameFolder()
                 .renameFolder(newRandomFolderName)
                 .getFolderName();
@@ -342,18 +340,17 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testRenameFolderWithSpaceAsAName() {
 
-        final String[] expectedResult = new String[]{"Error", "No name is specified"};
+        final String expectedResult = "Error";
 
-        createFolder(getDriver(), RANDOM_FOLDER_NAME);
-
-        new FolderConfigPage(getDriver())
+        String actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(RANDOM_FOLDER_NAME)
+                .setProjectType(Folder)
+                .createAndGoToFolderConfigPage()
+                .saveConfigAndGoToFolderPage()
                 .clickRenameFolder()
-                .renameFolder(" ");
-
-        String[] actualResult = new String[]{
-                getDriver().findElement(By.xpath("//h1")).getText(),
-                getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText()
-        };
+                .renameFolderWithError(" ")
+                .errorMessage();
 
         Assert.assertEquals(actualResult, expectedResult);
     }

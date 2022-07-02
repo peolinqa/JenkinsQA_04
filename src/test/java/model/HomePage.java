@@ -62,10 +62,10 @@ public class HomePage extends BasePage {
         return textFolderNames;
     }
 
-    public HomePage clickName(String name) {
+    public FolderPage clickFolderName(String name) {
         getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
 
-        return new HomePage(getDriver());
+        return new FolderPage(getDriver());
     }
 
     public ProjectPage clickProjectName(String name) {
@@ -74,4 +74,3 @@ public class HomePage extends BasePage {
         return new ProjectPage(getDriver());
     }
 }
-
