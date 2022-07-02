@@ -1,11 +1,11 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
+
+import java.util.List;
 
 public class NewItemPage extends BasePage {
 
@@ -16,11 +16,25 @@ public class NewItemPage extends BasePage {
     private WebElement okButton;
 
     @FindBy(id = "itemname-invalid")
-    private WebElement nameError;
+    private WebElement errorInvalidName;
+
+    @FindBy(id = "itemname-required")
+    private WebElement errorNameRequired;
 
     @FindBy(id = "from")
     private WebElement copyFromInputName;
 
+    @FindBy(xpath = "//li/label")
+    private List<WebElement> projectTypeLabels;
+
+    @FindBy(xpath = "//div[@class='desc']")
+    private List<WebElement> description;
+
+    @FindBy(xpath = "//div[@class='icon']/img")
+    private List<WebElement> projectTypeImage;
+
+    @FindBy(xpath = "//ul[@id='breadcrumbs']/li")
+    private List<WebElement> breadCrumbs;
 
     public NewItemPage(WebDriver driver) {
         super(driver);
@@ -56,23 +70,56 @@ public class NewItemPage extends BasePage {
         return new PipelineConfigPage(getDriver());
     }
 
+    public NewItemPage clickCreateButton() {
+        getActions().moveToElement(okButton).click().perform();
+
+        return this;
+    }
+
     public OrganizationFolderConfigPage createAndGoToOrganizationFolderConfigure() {
         okButton.click();
 
         return new OrganizationFolderConfigPage(getDriver());
     }
 
+    public NoSuchJobErrorPage createAndGoToNoSuchJobError() {
+        okButton.click();
+
+        return new NoSuchJobErrorPage(getDriver());
+    }
+
     public String getNameErrorText() {
 
-        return nameError.getText();
+        return errorInvalidName.getText();
     }
 
     public String getNameErrorScc(String sccValue) {
 
-       return nameError.getCssValue(sccValue);
+       return errorInvalidName.getCssValue(sccValue);
+    }
+
+    public String getErrorNameRequiredText(){
+        return errorNameRequired.getText();
     }
 
     public WebElement getNameError() {
-        return nameError;
+        return errorInvalidName;
+    }
+
+    public List<WebElement> getProjectTypeLabels(){
+        return projectTypeLabels;
+    }
+
+    public List<WebElement> getDescriptionStyle(){
+        return description;
+    }
+
+    public List<WebElement> getProjectTypeImage(){
+        return projectTypeImage;
+    }
+
+    public String getBreadCrumbs(int index){
+        return breadCrumbs.get(index).getText();
     }
 }
+

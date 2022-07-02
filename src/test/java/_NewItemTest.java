@@ -1,42 +1,28 @@
 import model.HomePage;
 import model.ItemConfigPage;
-import org.openqa.selenium.By;
+import model.NewItemPage;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
-import runner.ProjectUtils;
-import runner.TestUtils;
-import java.util.List;
-
 import static runner.ProjectUtils.ProjectType.Freestyle;
 
 public class _NewItemTest extends BaseTest {
 
-    private static final String DESCRIPTION_FIELD = "description";
-    private static final String GITHUB_URL = "_.projectUrlStr";
     private static final String DESCRIPTION_INPUT = "New Project created by TA";
     private static final String URL_INPUT = "https://github.com/SergeiDemyanenko/JenkinsQA_04/";
 
-    public void copyFromFreestyleProject(String nameNew, String nameCopyFrom) {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        getDriver().findElement(By.id("name")).sendKeys(nameNew);
-        ProjectUtils.ProjectType.Freestyle.click(getDriver());
-        WebElement copFromButton = getDriver().findElement(By.id("from"));
-        getActions().pause(500).moveToElement(copFromButton).perform();
-        copFromButton.sendKeys(nameCopyFrom);
-        ProjectUtils.clickOKButton(getDriver());
-    }
-
     @Test
     public void testCopyDataFromExistingItemNegative() {
-        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Freestyle);
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        copyFromFreestyleProject("NJ3", "NJ4");
+        String ErrorNoSuchJob = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName("NJ3")
+                .setProjectType(Freestyle)
+                .setCopyFromName("NJ4")
+                .createAndGoToNoSuchJobError()
+                .errorMessage();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
+        Assert.assertEquals(ErrorNoSuchJob, "Error");
     }
 
     @Test
@@ -62,50 +48,40 @@ public class _NewItemTest extends BaseTest {
     }
 
     @Test
-    public void testCheckLabelStyle() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        List<WebElement> labels = TestUtils.getList(getDriver(),By.xpath("//li/label"));
+    public void testCheckItemLabelStyle() {
+        NewItemPage itemLabelStyle = new HomePage(getDriver()).clickNewItem();
 
-        for (WebElement value : labels) {
-            SoftAssert asserts = new SoftAssert();
-            asserts.assertEquals(value.getCssValue("font-weight"), "700");
-            asserts.assertEquals(value.getCssValue("font-size"), "16px");
-            asserts.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
-            asserts.assertAll();
+        for (WebElement value : itemLabelStyle.getProjectTypeLabels()) {
+            Assert.assertEquals(value.getCssValue("font-weight"), "700");
+            Assert.assertEquals(value.getCssValue("font-size"), "16px");
+            Assert.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
         }
     }
 
     @Test
     public void testCheckDescriptionStyle() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
+        NewItemPage descriptionStyle = new HomePage(getDriver()).clickNewItem();
 
-        List<WebElement> descriptions = TestUtils.getList(getDriver(),By.xpath("//div[@class='desc']"));
-        for (WebElement value : descriptions) {
-            SoftAssert asserts = new SoftAssert();
-            asserts.assertEquals(value.getCssValue("font-size"), "14px");
-            asserts.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
-            asserts.assertAll();
+        for (WebElement value : descriptionStyle.getDescriptionStyle()) {
+            Assert.assertEquals(value.getCssValue("font-weight"), "400");
+            Assert.assertEquals(value.getCssValue("font-size"), "14px");
+            Assert.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
         }
     }
 
     @Test
-    public void testCheckIconAvailabilityDisplaying() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
+    public void testCheckIconAvailabilityAndDisplaying() {
+        NewItemPage iconAvailability = new HomePage(getDriver()).clickNewItem();
 
-        List<WebElement> icons = TestUtils.getList(getDriver(),By.xpath("//div[@class='icon']/img"));
-        for (WebElement icon : icons) {
-            SoftAssert asserts = new SoftAssert();
-            asserts.assertTrue(icon.isDisplayed());
-            asserts.assertTrue(icon.isEnabled());
-            asserts.assertAll();
+        for (WebElement icon : iconAvailability.getProjectTypeImage()) {
+            Assert.assertTrue(icon.isDisplayed());
+            Assert.assertTrue(icon.isEnabled());
         }
     }
 
     @Test
     public void testCheckLabelDisplayingOnNewItemPage() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-
-        String[] expectedIcons = {
+        String[] expectedItemLabelText = {
                 "Freestyle project",
                 "Pipeline",
                 "Multi-configuration project",
@@ -114,33 +90,28 @@ public class _NewItemTest extends BaseTest {
                 "Organization Folder",
                 };
 
-        List<WebElement> iconsText = getDriver().findElements(By.xpath("//li[@role='radio']/label/span[@class='label']"));
-        for(int i = 0; i < expectedIcons.length; i++){
-            Assert.assertEquals(iconsText.get(i).getText(), expectedIcons[i]);
+        NewItemPage itemLabelText = new HomePage(getDriver()).clickNewItem();
+
+        for(int i = 0; i < expectedItemLabelText.length; i++){
+            Assert.assertEquals(itemLabelText.getProjectTypeLabels().get(i).getText(), expectedItemLabelText[i]);
         }
     }
 
     @Test
-    public void testOKButtonErrorDisplaying() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        getDriver().findElement(By.cssSelector("div.btn-decorator")).click();
+    public void testErrorMessageNameRequiredDisplaying() {
+        String NameRequiredErrorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .clickCreateButton()
+                .getErrorNameRequiredText();
 
-        String actualError = getDriver().findElement(
-                By.cssSelector("#itemname-required.input-validation-message")).getText();
-
-        Assert.assertEquals(actualError, "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(NameRequiredErrorMessage, "» This field cannot be empty, please enter a valid name");
     }
 
     @Test
     public void testCheckBreadcrumbs() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
+        NewItemPage checkBreadcrumbs = new HomePage(getDriver()).clickNewItem();
 
-        List<WebElement> breadcrumbs = TestUtils.getList(getDriver(),By.xpath("//ul[@id='breadcrumbs']/li"));
-
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(getDriver().getTitle(), "New Item [Jenkins]");
-        asserts.assertEquals(breadcrumbs.get(0).getText(), "Dashboard");
-        asserts.assertEquals(breadcrumbs.get(2).getText(), "All");
-        asserts.assertAll();
+        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(0), "Dashboard");
+        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(2), "All");
     }
 }
