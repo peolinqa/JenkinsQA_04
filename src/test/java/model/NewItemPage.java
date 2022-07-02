@@ -132,4 +132,17 @@ public class NewItemPage extends BasePage {
     public void checkErrorMessage(String extectedMessage) {
         Assert.assertEquals(errorInvalidName.getText(), extectedMessage);
     }
+
+    public NewItemPage checkPresenceErrorMessageAndAssert(String name) {
+        Assert.assertEquals(errorInvalidName.getText(),"» A job already exists with the name ‘" + name + "’");
+
+        return this;
+    }
+
+    public ErrorPage createAndGoToErrorPage() {
+        okButton.click();
+
+        return new ErrorPage(getDriver());
+    }
+
 }
