@@ -3,7 +3,9 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import runner.ProjectUtils;
+
 import java.util.List;
 
 public class NewItemPage extends BasePage {
@@ -57,7 +59,7 @@ public class NewItemPage extends BasePage {
         return new ItemConfigPage(getDriver());
     }
 
-    public NewItemPage setCopyFromName(String name){
+    public NewItemPage setCopyFromName(String name) {
         copyFromInputName.sendKeys(name);
 
         return this;
@@ -94,10 +96,10 @@ public class NewItemPage extends BasePage {
 
     public String getNameErrorScc(String sccValue) {
 
-       return errorInvalidName.getCssValue(sccValue);
+        return errorInvalidName.getCssValue(sccValue);
     }
 
-    public String getErrorNameRequiredText(){
+    public String getErrorNameRequiredText() {
         return errorNameRequired.getText();
     }
 
@@ -105,19 +107,19 @@ public class NewItemPage extends BasePage {
         return errorInvalidName;
     }
 
-    public List<WebElement> getProjectTypeLabels(){
+    public List<WebElement> getProjectTypeLabels() {
         return projectTypeLabels;
     }
 
-    public List<WebElement> getDescriptionStyle(){
+    public List<WebElement> getDescriptionStyle() {
         return description;
     }
 
-    public List<WebElement> getProjectTypeImage(){
+    public List<WebElement> getProjectTypeImage() {
         return projectTypeImage;
     }
 
-    public String getBreadCrumbs(int index){
+    public String getBreadCrumbs(int index) {
         return breadCrumbs.get(index).getText();
     }
 
@@ -125,5 +127,9 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new FolderConfigPage(getDriver());
+    }
+
+    public void checkErrorMessage(String extectedMessage) {
+        Assert.assertEquals(errorInvalidName.getText(), extectedMessage);
     }
 }
