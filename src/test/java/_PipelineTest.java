@@ -482,10 +482,10 @@ public class _PipelineTest extends BaseTest {
     @Test(dataProvider = "errorMessageData")
     public void testInvalidName(String name, String expectedMessage) {
 
-        createPipeline(name, Boolean.FALSE);
-        WebElement errorMessage = $("#itemname-invalid");
-
-        Assert.assertEquals(errorMessage.getText(), expectedMessage + " is an unsafe character");
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .checkErrorMessage(expectedMessage + " is an unsafe character");
     }
 
     @Ignore
@@ -794,7 +794,7 @@ public class _PipelineTest extends BaseTest {
 
             Assert.assertEquals(getDriver().findElement(
                     By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
-            Assert.assertEquals(getDriver().findElement(          By.xpath("//div[@id='main-panel']/p")).getText(),
+            Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
                     String.format("‘%s’ is an unsafe character", str));
 
             getDriver().navigate().back();
@@ -852,7 +852,7 @@ public class _PipelineTest extends BaseTest {
                 String.format("//a[@href='/job/%s/' and @class='jenkins-table__link model-link inside']", name))));
         for (int i = 0; i < actualBuildHistory.size(); i++) {
 
-            Assert.assertEquals(actualBuildHistory.get(i),expectedBuildHistory.get(i));
+            Assert.assertEquals(actualBuildHistory.get(i), expectedBuildHistory.get(i));
         }
     }
 }
