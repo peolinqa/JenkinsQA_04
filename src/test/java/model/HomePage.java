@@ -9,7 +9,6 @@ import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
 public class HomePage extends BasePage {
@@ -52,6 +51,9 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "div .tab a")
     private List<WebElement> viewNamesOnTabBar;
+
+    @FindBy(linkText = "My Views")
+    private WebElement myViews;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -160,5 +162,11 @@ public class HomePage extends BasePage {
         triangleOnBreadcrumbs.click();
 
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public MyViewPage clickMyView() {
+        myViews.click();
+
+        return new MyViewPage(getDriver());
     }
 }
