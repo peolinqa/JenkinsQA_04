@@ -813,17 +813,12 @@ public class _PipelineTest extends BaseTest {
                 .setProjectType(Pipeline)
                 .createAndGoToPipelineConfigure()
                 .selectScriptByValue("hello")
-                .saveConfigAndGoToProject();
-
-        homePageClick();
-        $x(String.format("//span[contains(text(), '%s')]/following-sibling::*[name()='svg']", name)).click();
-
-        getDriver().navigate().refresh();
-
-        $x(String.format("//a[@href='job/%s/']", name)).click();
-
-        Assert.assertTrue(getWait20().until(ExpectedConditions.attributeToBe(
-                By.cssSelector(".tobsTable-body .job"), "class", "job SUCCESS")));
+                .saveConfigAndGoToProject()
+                .clickDashboardButton()
+                .buildSelectPipeline(name)
+                .clickRefreshPage()
+                .clickProjectName(name)
+                .assertProjectStatus("job SUCCESS");
     }
 
     @Ignore
