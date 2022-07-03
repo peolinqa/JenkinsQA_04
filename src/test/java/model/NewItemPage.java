@@ -83,6 +83,12 @@ public class NewItemPage extends BasePage {
         return new OrganizationFolderConfigPage(getDriver());
     }
 
+    public FolderConfigPage createAndGoToFolderConfig() {
+        okButton.click();
+
+        return new FolderConfigPage(getDriver());
+    }
+
     public String getNameErrorText() {
 
         return errorInvalidName.getText();
