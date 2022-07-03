@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
@@ -32,6 +34,21 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//td/a[contains(@href, 'job/')]")
     private List<WebElement> listJobNameButtons;
+
+    @FindBy(linkText = "New View")
+    private WebElement newView;
+
+    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='children']")
+    private WebElement triangleOnBreadcrumbs;
+
+    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='item']")
+    private List<WebElement> viewNamesOnBreadcrumbs;
+
+    @FindBy(className = "yuimenuitemlabel")
+    private WebElement viewNameOnBreadcrumbs;
+
+    @FindBy(css = "div .tab a")
+    private List<WebElement> viewNamesOnTabBar;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -108,5 +125,31 @@ public class HomePage extends BasePage {
     public HomePage clickRefreshPage() {
         getDriver().navigate().refresh();
         return this;
+    }
+
+    public NewViewPage clickNewView() {
+        newView.click();
+
+        return new NewViewPage(getDriver());
+    }
+
+    public MyViewPage clickNameOfViewOnBreadcrumbs() {
+        triangleOnBreadcrumbs.click();
+
+        viewNameOnBreadcrumbs.click();
+
+        return new MyViewPage(getDriver());
+    }
+
+    public MyViewPage clickNameOfViewOnTabBar() {
+        viewNamesOnTabBar.get(1).click();
+
+        return new MyViewPage(getDriver());
+    }
+
+    public List<String> getNamesOfViewOnBreadcrumbs() {
+        triangleOnBreadcrumbs.click();
+
+        return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }
