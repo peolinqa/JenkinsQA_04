@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.LoadStatisticsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -7,34 +8,40 @@ public class _LoadStatisticsTest extends BaseTest {
 
     @Test
     public void testCheckToolTipForEachTimeSpan() {
-        String actualShortTooltip = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics().getShortTooltip();
-        Assert.assertEquals(actualShortTooltip, "Every tick is 10 seconds");
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics();
 
-        String actualMediumTooltip = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics().getMediumTooltip();
-        Assert.assertEquals(actualMediumTooltip, "Every tick is one minute");
-
-        String actualLongTooltip = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics().getLongTooltip();
-        Assert.assertEquals(actualLongTooltip, "Every tick is one hour");
+        Assert.assertEquals(loadStatisticsPage.getShortTooltip(), "Every tick is 10 seconds");
+        Assert.assertEquals(loadStatisticsPage.getMediumTooltip(), "Every tick is one minute");
+        Assert.assertEquals(loadStatisticsPage.getLongTooltip(), "Every tick is one hour");
     }
 
     @Test
-    public void testCheckButtonsStatusForEachTimeSpan() {
-        String actualShortTagName = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics().getShortTagName();
-        String actualMediumTagName = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics().getMediumTagName();
-        String actualLongTagName = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics().getLongTagName();
+    public void checkClickShortButton() {
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics()
+                .clickShortButton();
 
-        if (actualShortTagName.equals("span")) {
-            Assert.assertEquals(actualMediumTagName, "a");
-            Assert.assertEquals(actualLongTagName, "a");
+        Assert.assertEquals(loadStatisticsPage.getShortTagName(), "span");
+        Assert.assertEquals(loadStatisticsPage.getMediumTagName(), "a");
+        Assert.assertEquals(loadStatisticsPage.getLongTagName(), "a");
+    }
 
-        } else if (actualMediumTagName.equals("span")) {
-            Assert.assertEquals(actualShortTagName, "a");
-            Assert.assertEquals(actualLongTagName, "a");
+    @Test(dependsOnMethods = "checkClickShortButton")
+    public void checkClickMediumButton() {
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics()
+                .clickMediumButton();
 
-        } else {
-            Assert.assertEquals(actualShortTagName, "a");
-            Assert.assertEquals(actualMediumTagName, "a");
-            Assert.assertEquals(actualLongTagName, "span");
-        }
+        Assert.assertEquals(loadStatisticsPage.getShortTagName(), "a");
+        Assert.assertEquals(loadStatisticsPage.getMediumTagName(), "span");
+        Assert.assertEquals(loadStatisticsPage.getLongTagName(), "a");
+    }
+
+    @Test(dependsOnMethods = "checkClickMediumButton")
+    public void checkClickLongButton() {
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics()
+                .clickLongButton();
+
+        Assert.assertEquals(loadStatisticsPage.getShortTagName(), "a");
+        Assert.assertEquals(loadStatisticsPage.getMediumTagName(), "a");
+        Assert.assertEquals(loadStatisticsPage.getLongTagName(), "span");
     }
 }
