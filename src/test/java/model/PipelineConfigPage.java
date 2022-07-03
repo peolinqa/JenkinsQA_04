@@ -1,6 +1,5 @@
 package model;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -131,4 +130,8 @@ public class PipelineConfigPage extends BasePage {
         getDriver().switchTo().alert().accept();
     }
 
+    public PipelinePluginPage transitionToCorrectPage() {
+        getDriver().navigate().to(urlAttribute.getAttribute("href"));
+        return new PipelinePluginPage(getDriver());
+    }
 }
