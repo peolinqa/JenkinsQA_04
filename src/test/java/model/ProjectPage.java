@@ -1,10 +1,11 @@
 package model;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
-import java.util.List;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 public class ProjectPage extends BasePage {
 
@@ -78,5 +79,10 @@ public class ProjectPage extends BasePage {
 
     public String[] getDisableName() {
         return text.getText().split("\n");
+    }
+
+    public void assertProjectStatus(String value) {
+        Assert.assertTrue(getWait20().until(ExpectedConditions.attributeToBe(
+                By.cssSelector(".tobsTable-body .job"), "class", value)));
     }
 }

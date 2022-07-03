@@ -22,6 +22,13 @@ public class BaseModel {
         return wait;
     }
 
+    protected WebDriverWait getWait20() {
+        if (wait == null) {
+            wait = new WebDriverWait(getDriver(), 20);
+        }
+        return wait;
+    }
+
     protected Actions getActions() {
         if(actions == null) {
             actions = new Actions(driver);

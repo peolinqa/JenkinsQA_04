@@ -27,6 +27,12 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//a[text()='folder1']")
     private WebElement folderFolder1OnDashboard;
 
+    @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
+    private List<WebElement> listBuildButtons;
+
+    @FindBy(xpath = "//td/a[contains(@href, 'job/')]")
+    private List<WebElement> listJobNameButtons;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -88,5 +94,21 @@ public class HomePage extends BasePage {
         ProjectUtils.openProject(getDriver(), name);
 
         return new ProjectPage(getDriver());
+    }
+
+    public HomePage buildSelectPipeline(String pipelineName) {
+        System.out.println(listBuildButtons);
+        System.out.println(listJobNameButtons);
+        for (WebElement el : listBuildButtons) {
+            if (el.getText().contains(pipelineName)) {
+                el.click();
+            }
+        }
+        return this;
+    }
+
+    public HomePage clickRefreshPage() {
+        getDriver().navigate().refresh();
+        return this;
     }
 }
