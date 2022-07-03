@@ -3,7 +3,6 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import runner.ProjectUtils;
 
 public class RenameFolderPage extends FolderPage {
 
@@ -25,11 +24,11 @@ public class RenameFolderPage extends FolderPage {
         return new FolderPage(getDriver());
     }
 
-    public RenameFolderErrorPage renameFolderWithError(String text) {
+    public ErrorPage renameAndGoToErrorPage(String text) {
         renameFolderInput.clear();
         renameFolderInput.sendKeys(text);
         renameButton.click();
 
-        return new RenameFolderErrorPage(getDriver());
+        return new ErrorPage(getDriver());
     }
 }

@@ -85,7 +85,7 @@ public class HomePage extends BasePage {
     }
 
     public FolderPage clickFolderName(String name) {
-        getWait5().until(ExpectedConditions.elementToBeClickable(By.linkText(name))).click();
+        ProjectUtils.openProject(getDriver(), name);
 
         return new FolderPage(getDriver());
     }

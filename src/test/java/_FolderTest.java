@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.RenameFolderPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +19,7 @@ public class _FolderTest extends BaseTest {
 
     private static final String NAME_FOLDER = "Configure";
     private static final String RANDOM_FOLDER_NAME = TestUtils.getRandomStr();
+    private static String folderNameAfterRename = TestUtils.getRandomStr();
 
     private static final char[] INVALID_SYMBOLS =
             {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
@@ -63,34 +65,13 @@ public class _FolderTest extends BaseTest {
     }
 
     private void deleteFolderFromTopMenu(String folderName) {
-        getActions().moveToElement(getDriver().findElement((By.xpath("//a[@href='/job/" + folderName + "/']")))).build().perform();
+        getActions().moveToElement(getDriver().findElement((
+                By.xpath("//a[@href='/job/" + folderName + "/']")))).build().perform();
         getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[@href='/job/" + folderName + "/delete']")));
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//a[@href='/job/" + folderName + "/delete']")));
         getDriver().findElement(By.xpath("//a[@href='/job/" + folderName + "/delete']")).click();
         getDriver().findElement(By.id("yui-gen1-button")).click();
-    }
-
-    private void clickMenuRenameFolder(String folderName) {
-        getActions().moveToElement(getDriver().findElement(
-                        By.xpath("//a[@href='job/" + folderName + "/']")))
-                .build().perform();
-        getActions().moveToElement(getDriver().findElement(
-                        By.xpath("//div[@id='menuSelector']")))
-                .click().build().perform();
-        getActions().moveToElement(getDriver().findElement(
-                        By.xpath("//a[@href='/job/" + folderName + "/confirm-rename']")))
-                .click().build().perform();
-    }
-
-    private void setNewFolderName(String newFolderName) {
-        getDriver().findElement(By.name("newName")).clear();
-        getDriver().findElement(By.name("newName")).sendKeys(newFolderName);
-        getDriver().findElement(By.name("Submit")).click();
-    }
-
-    private String checkErrorMessage() {
-
-        return getDriver().findElement(By.xpath("//div[@id='main-panel']//p")).getText();
     }
 
     @Test
@@ -290,69 +271,66 @@ public class _FolderTest extends BaseTest {
         Assert.assertTrue(getDriver().findElement(By.id("notification-bar")).getAttribute("class").contains("notif-alert-show"));
     }
 
-    @Test(dependsOnMethods = {"testCreateFolder"})
+    @Test(dependsOnMethods = "testCreateFolder")
     public void testRenameFolderPositive() {
 
         final String newRandomFolderName = TestUtils.getRandomStr();
 
-        String actualResult = new HomePage(getDriver())
+        _FolderTest.folderNameAfterRename = new HomePage(getDriver())
                 .clickFolderName(RANDOM_FOLDER_NAME)
                 .clickRenameFolder()
                 .renameFolder(newRandomFolderName)
                 .getFolderName();
 
-        Assert.assertEquals(actualResult, newRandomFolderName);
+        Assert.assertEquals(_FolderTest.folderNameAfterRename, newRandomFolderName);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive", "testRenameFolderWithSpaceAsAName"})
     public void testRenameFolderWithUnsafeCharacters() {
 
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
-        final String folderName = TestUtils.getRandomStr();
 
-        createFolder(getDriver(), folderName);
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        clickMenuRenameFolder(folderName);
+        RenameFolderPage folderForRenameTest = new HomePage(getDriver())
+                .clickFolderName(_FolderTest.folderNameAfterRename)
+                .clickRenameFolder();
 
         for (int i = 0; i < unsafeCharacters.length(); i++) {
             String newFolderName = unsafeCharacters.substring(i, (i + 1));
             if (newFolderName.equals("&")) {
-                setNewFolderName(newFolderName);
-                String expectedResult = "‘&amp;" + WARNING_TEXT_UNSAFE;
-                Assert.assertEquals(expectedResult, checkErrorMessage());
+                String actualResult = folderForRenameTest
+                        .renameAndGoToErrorPage(newFolderName)
+                        .getErrorMessage();
+                Assert.assertEquals(actualResult, "‘&amp;’ is an unsafe character");
                 getDriver().navigate().back();
                 continue;
             }
             if (newFolderName.equals(".")) {
-                setNewFolderName(newFolderName);
-                String expectedResult = "“.” is not an allowed name";
-                Assert.assertEquals(expectedResult, checkErrorMessage());
+                String actualResult = folderForRenameTest
+                        .renameAndGoToErrorPage(newFolderName)
+                        .getErrorMessage();
+                Assert.assertEquals(actualResult, "“.” is not an allowed name");
                 getDriver().navigate().back();
                 continue;
             }
-            setNewFolderName(newFolderName);
+            String actualResult = folderForRenameTest
+                    .renameAndGoToErrorPage(newFolderName)
+                    .getErrorMessage();
             String expectedResult = "‘" + newFolderName + WARNING_TEXT_UNSAFE;
-            Assert.assertEquals(expectedResult, checkErrorMessage());
+            Assert.assertEquals(actualResult, expectedResult);
             getDriver().navigate().back();
         }
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive"})
     public void testRenameFolderWithSpaceAsAName() {
 
-        final String expectedResult = "Error";
-
         String actualResult = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(RANDOM_FOLDER_NAME)
-                .setProjectType(Folder)
-                .createAndGoToFolderConfigPage()
-                .saveConfigAndGoToFolderPage()
+                .clickFolderName(_FolderTest.folderNameAfterRename)
                 .clickRenameFolder()
-                .renameFolderWithError(" ")
-                .errorMessage();
+                .renameAndGoToErrorPage(" ")
+                .getErrorMessage();
 
-        Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(actualResult, "No name is specified");
     }
 
     @Test
@@ -362,7 +340,6 @@ public class _FolderTest extends BaseTest {
         final String folderDescription = TestUtils.getRandomStr();
 
         createFolderWithoutSaveButton(folderName);
-
         getDriver().findElement(By.name("_.description")).sendKeys(folderDescription);
         getDriver().findElement(By.className("textarea-show-preview")).click();
         Assert.assertEquals(getDriver().findElement(By.className("textarea-preview")).getText(), folderDescription);
