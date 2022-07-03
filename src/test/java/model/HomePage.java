@@ -18,8 +18,11 @@ public class HomePage extends BasePage {
     @FindBy(linkText = "Manage Jenkins")
     private WebElement manageJenkins;
 
-    @FindBy(xpath = "//a[text()='Organization Test']")
-    private WebElement folderOrganizationTestOnDashboard;
+    @FindBy(id = "jenkins-head-icon")
+    private WebElement headerIcon;
+
+    @FindBy(id = "header")
+    private WebElement pageHeader;
 
     @FindBy(xpath = "//a[text()='folder1']")
     private WebElement folderFolder1OnDashboard;
@@ -40,20 +43,33 @@ public class HomePage extends BasePage {
         return new ManageJenkinsPage(getDriver());
     }
 
-    public OrganizationFolderProjectPage clickFolderOrganizationTestOnDashboard() {
-        folderOrganizationTestOnDashboard.click();
-
-        return new OrganizationFolderProjectPage(getDriver());
+    public String getLogoIconTagName() {
+        return headerIcon.getTagName();
     }
 
-    public OrganizationFolderProjectPage clickFolder1OnDashboard() {
-        folderFolder1OnDashboard.click();
-
-        return new OrganizationFolderProjectPage(getDriver());
+    public String getLogoIconAttribute(String attribute) {
+        return headerIcon.getAttribute(attribute);
     }
 
-    public WebElement getFolderFolder1OnDashboard() {
-        return folderFolder1OnDashboard;
+    public WebElement getHeaderIcon() {
+        return headerIcon;
+    }
+
+    public String getPageHeaderLocation() {
+      return pageHeader.getLocation().toString();
+    }
+
+    public WebElement getPageHeader() {
+        return pageHeader;
+    }
+
+    public String getPageHeaderCssValue(String value) {
+        return pageHeader.getCssValue(value);
+    }
+
+    public OrganizationFolderProjectPage clickOrganizationFolderName(String name) {
+        ProjectUtils.openProject(getDriver(), name);
+        return new OrganizationFolderProjectPage(getDriver());
     }
 
     public List <String> getTextFolderNamesOnDashboard(){

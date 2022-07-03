@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +13,6 @@ import java.util.List;
 
 public class _HeaderTest extends BaseTest {
 
-    private static final By HEADER = By.id("header");
     private static final By HEADER_ICON = By.id("jenkins-head-icon");
     private static final By MENU_SELECTOR_XPATH = By.cssSelector(".login");
 
@@ -41,23 +41,15 @@ public class _HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnAllPages() {
-        getMenuItems(getDriver());
-        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
-            getDriver().findElement(
-                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
+    public void testIsHeaderDisplayedOnTopOnMainPage() {
+        HomePage isHeaderDisplayed = new HomePage(getDriver());
 
-            SoftAssert asserts = new SoftAssert();
-            asserts.assertTrue(getDriver().findElement(HEADER).isDisplayed());
-            asserts.assertEquals(getDriver().findElement(HEADER).getLocation().toString(), "(0, 0)");
-            getDriver().navigate().back();
-            asserts.assertAll();
+        Assert.assertTrue(isHeaderDisplayed.getPageHeader().isDisplayed());
+        Assert.assertEquals(isHeaderDisplayed.getPageHeaderLocation(), "(0, 0)");
         }
-    }
 
     @Test
     public void testVerifyImageOrderOnAllPages() {
-        getMenuItems(getDriver());
         for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
             getDriver().findElement(
                     By.xpath("//div[@class='task '][" + i + "]//a")).click();
@@ -70,7 +62,6 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testHeaderLogoIsClickableOnAllPagesToHomepage(){
         String currentUrl = getDriver().getCurrentUrl();
-        getMenuItems(getDriver());
         for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
             getDriver().findElement(
                     By.xpath("//div[@class='task '][" + i + "]//a")).click();
@@ -82,7 +73,6 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testLogoIsViewedOnAllPages() {
-        getMenuItems(getDriver());
         for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
             getDriver().findElement(
                     By.xpath("//div[@class='task '][" + i + "]//a")).click();
@@ -94,28 +84,32 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderLogoIsImage() {
-        Assert.assertEquals(getDriver().findElement(HEADER_ICON).getTagName(), "img");
+        HomePage headerLogoIsImage = new HomePage(getDriver());
+        Assert.assertEquals(headerLogoIsImage.getLogoIconTagName(), "img");
     }
 
     @Test
     public void testHeaderLogoImageExtensionIsSvg() {
-        Assert.assertTrue(getDriver().findElement(HEADER_ICON).getAttribute("src").contains(".svg"));
+        HomePage headerLogoIsSvg = new HomePage(getDriver());
+        Assert.assertTrue(headerLogoIsSvg.getLogoIconAttribute("src").contains(".svg"));
     }
 
     @Test
     public void testHeaderDesignUI(){
+        HomePage pageHeader = new HomePage(getDriver());
+
         SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("background-color"), "rgba(0, 0, 0, 1)");
-        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("display"), "flex");
-        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("height"), "56px");
-        asserts.assertEquals(getDriver().findElement(HEADER).getCssValue("align-items"), "center");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValue("background-color"), "rgba(0, 0, 0, 1)");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValue("display"), "flex");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValue("height"), "56px");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValue("align-items"), "center");
+
         asserts.assertAll();
     }
 
     @Test
     public void testHeaderPositionOfElementsUI() {
         String currentUrl = getDriver().getCurrentUrl();
-        getMenuItems(getDriver());
         for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
             getDriver().findElement(
                     By.xpath("//div[@class='task '][" + i + "]//a")).click();
@@ -138,7 +132,6 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testCheckSearchPanel() {
-
         TestUtils.clearAndSend(getDriver(), By.id("search-box"), "TryToFindSomething" + Keys.ENTER);
 
         Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),

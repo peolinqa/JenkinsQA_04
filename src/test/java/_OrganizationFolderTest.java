@@ -80,7 +80,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test (dependsOnMethods = "createOrganizationFolderTest")
     public void renameOrganizationFolderTest() {
         String projectName = new HomePage(getDriver())
-                .clickFolderOrganizationTestOnDashboard()
+                .clickOrganizationFolderName(VALID_FOLDER_NAME1)
                 .renameOrganizationFolder()
                 .setNewProjectNameAndGoToProject(VALID_FOLDER_NAME2)
                 .getProjectName();
@@ -104,10 +104,10 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
 
-    @Test(dependsOnMethods = "createOrganizationFolderSameItemNameTest")
+    @Test(dependsOnMethods = {"createOrganizationFolderTest", "renameOrganizationFolderTest"})
     public void deleteOrganizationFolderTest() {
         List <String> textFolderNames = new HomePage(getDriver())
-        .clickFolder1OnDashboard()
+        .clickOrganizationFolderName(VALID_FOLDER_NAME2)
         .deleteOrganizationFolder()
         .deleteOrganizationFolderAndGoHomePage()
         .getTextFolderNamesOnDashboard();
