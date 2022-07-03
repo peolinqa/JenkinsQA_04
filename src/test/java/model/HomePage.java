@@ -97,8 +97,6 @@ public class HomePage extends BasePage {
     }
 
     public HomePage buildSelectPipeline(String pipelineName) {
-        System.out.println(listBuildButtons);
-        System.out.println(listJobNameButtons);
         for (WebElement el : listBuildButtons) {
             if (el.getText().contains(pipelineName)) {
                 el.click();
