@@ -226,15 +226,10 @@ public class _PipelineTest extends BaseTest {
                 .clickDashboardButton()
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline);
-
-        String errorMessage = getDriver().findElement(By.id("itemname-invalid")).getText();
-
-        ProjectUtils.clickOKButton(getDriver());
-        String errorMessageTwo = getDriver().findElement(H1).getText();
-
-        Assert.assertEquals(errorMessage, "» A job already exists with the name ‘" + name + "’");
-        Assert.assertEquals(errorMessageTwo, "Error");
+                .setProjectType(Pipeline)
+                .checkPresenceErrorMessageAndAssert(name)
+                .createAndGoToErrorPage()
+                .checkHeaderWithErrorAndAssert("Error");
     }
 
     @Test
