@@ -223,26 +223,6 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + EDITED_RANDOM_NAME);
     }
 
-    @Test
-    public void testNoEnterNameFreestyleItem() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        Freestyle.click(getDriver());
-        Assert.assertEquals(
-                getDriver().findElement(By.id("itemname-required")).getText(),
-                "» This field cannot be empty, please enter a valid name");
-    }
-
-    @Test
-    public void testEnterSeveralSpaces() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        TestUtils.clearAndSend(getDriver(), By.id("name"), "    ");
-        Freestyle.click(getDriver());
-        ProjectUtils.clickOKButton(getDriver());
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//div[@id='main-panel']/p")).getText(), "No name is specified");
-    }
-
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testCheckHelpButtonBuildTriggersBuildPeriodically() throws InterruptedException {
         ProjectUtils.openProject(getDriver(), EDITED_RANDOM_NAME);

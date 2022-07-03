@@ -14,7 +14,19 @@ public class ErrorPage extends BasePage{
     @FindBy(xpath = "//h1")
     private WebElement headerWithError;
 
+    @FindBy(xpath = "//div[@id='main-panel']/p")
+    private WebElement errorMessage;
+
     public void checkHeaderWithErrorAndAssert() {
         Assert.assertEquals(headerWithError.getText(),"Error");
     }
+
+    public String getErrorHeader() {
+        return headerWithError.getText();
+    }
+
+    public String getErrorMessage() {
+        return errorMessage.getText();
+    }
+
 }

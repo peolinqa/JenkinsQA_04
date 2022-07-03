@@ -83,12 +83,6 @@ public class NewItemPage extends BasePage {
         return new OrganizationFolderConfigPage(getDriver());
     }
 
-    public NoSuchJobErrorPage createAndGoToNoSuchJobError() {
-        okButton.click();
-
-        return new NoSuchJobErrorPage(getDriver());
-    }
-
     public String getNameErrorText() {
 
         return errorInvalidName.getText();

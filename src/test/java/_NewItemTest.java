@@ -19,8 +19,8 @@ public class _NewItemTest extends BaseTest {
                 .setProjectName("NJ3")
                 .setProjectType(Freestyle)
                 .setCopyFromName("NJ4")
-                .createAndGoToNoSuchJobError()
-                .errorMessage();
+                .createAndGoToErrorPage()
+                .getErrorHeader();
 
         Assert.assertEquals(ErrorNoSuchJob, "Error");
     }
@@ -114,4 +114,17 @@ public class _NewItemTest extends BaseTest {
         Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(0), "Dashboard");
         Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(2), "All");
     }
+
+    @Test
+    public void testEnterSeveralSpaces() {
+        String NoNameSpecified = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName("     ")
+                .setProjectType(Freestyle)
+                .createAndGoToErrorPage()
+                .getErrorMessage();
+
+        Assert.assertEquals(NoNameSpecified, "No name is specified");
+    }
+
 }
