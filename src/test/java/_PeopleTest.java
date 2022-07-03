@@ -1,3 +1,4 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -6,28 +7,25 @@ import runner.TestUtils;
 
 public class _PeopleTest extends BaseTest {
 
-    private static final String XPATH_FOR_SIZE_CHECK = "//table[@id='people']/tbody/tr[1]/td[4]";
     private static final String NEW_USER_DESCRIPTION = TestUtils.getRandomStr();//"My new description";
 
     @Test
     public void checkFunctionalityIconsSMLTest() {
 
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[2]/span/a")).click();
+        int sizeM = new HomePage(getDriver())
+                .clickPeople()
+                .setSizeM()
+                .heightLastCommitActivityFirstCell();
 
-        getDriver().findElement(
-                By.xpath("//ol/li[2]/a")).click();
-        int sizeM = getDriver().findElement(
-                By.xpath(XPATH_FOR_SIZE_CHECK)).getSize().height;
+        int sizeL = new HomePage(getDriver())
+                .clickPeople()
+                .setSizeL()
+                .heightLastCommitActivityFirstCell();
 
-        getDriver().findElement(
-                By.xpath("//ol/li[3]/a")).click();
-        int sizeL = getDriver().findElement(
-                By.xpath(XPATH_FOR_SIZE_CHECK)).getSize().height;
-
-        getDriver().findElement(
-                By.xpath("//ol/li[1]")).click();
-        int sizeS = getDriver().findElement(
-                By.xpath(XPATH_FOR_SIZE_CHECK)).getSize().height;
+        int sizeS = new HomePage(getDriver())
+                .clickPeople()
+                .setSizeS()
+                .heightLastCommitActivityFirstCell();
 
         Assert.assertEquals(sizeM, 40);
         Assert.assertEquals(sizeL, 50);

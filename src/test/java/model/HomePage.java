@@ -17,6 +17,9 @@ public class HomePage extends BasePage {
     @FindBy(linkText = "New Item")
     private WebElement newItem;
 
+    @FindBy(linkText = "People")
+    private WebElement people;
+
     @FindBy(linkText = "Manage Jenkins")
     private WebElement manageJenkins;
 
@@ -58,6 +61,12 @@ public class HomePage extends BasePage {
         newItem.click();
 
         return new NewItemPage(getDriver());
+    }
+
+    public PeoplePage clickPeople() {
+        people.click();
+
+        return new PeoplePage(getDriver());
     }
 
     public ManageJenkinsPage clickManageJenkins() {
