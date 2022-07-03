@@ -18,6 +18,9 @@ public class PeoplePage extends BasePage {
     @FindBy(xpath = "//table[@id='people']/tbody/tr[1]/td[4]")
     private WebElement lastCommitActivityFirstCell;
 
+    @FindBy(xpath = "//table[@id='people']/tbody/tr[1]/td[2]/a")
+    private WebElement userIDFirstCell;
+
     public PeoplePage(WebDriver driver) {
         super(driver);
     }
@@ -39,5 +42,11 @@ public class PeoplePage extends BasePage {
 
     public int heightLastCommitActivityFirstCell() {
         return lastCommitActivityFirstCell.getSize().height;
+    }
+
+    public UserStatusPage goToUserStatusPage(){
+        userIDFirstCell.click();
+
+        return new UserStatusPage(getDriver());
     }
 }
