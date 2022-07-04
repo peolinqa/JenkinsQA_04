@@ -2,6 +2,7 @@ package model;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 import runner.ProjectUtils;
 
 public class HomePage extends BasePage {
+
+    private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
     @FindBy(linkText = "New Item")
     private WebElement newItem;
@@ -59,6 +62,9 @@ public class HomePage extends BasePage {
 
     @FindBy(linkText = "My Views")
     private WebElement myViews;
+
+    @FindBy(linkText = "Build History")
+    private WebElement buildHistory;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -135,9 +141,13 @@ public class HomePage extends BasePage {
         return new FreestylePage(getDriver());
     }
 
-    public HomePage buildSelectPipeline(String pipelineName) {
+    public HomePage buildSelectPipeline(String pipelineName, boolean isDoubleClick) {
         for (WebElement el : listBuildButtons) {
-            if (el.getText().contains(pipelineName)) {
+            if (el.getText().contains(pipelineName) && isDoubleClick) {
+                getActions().moveToElement(el)
+                .doubleClick()
+                .perform();
+            } else if (el.getText().contains(pipelineName) && !isDoubleClick) {
                 el.click();
             }
         }
@@ -186,6 +196,13 @@ public class HomePage extends BasePage {
         myViews.click();
 
         return new MyViewPage(getDriver());
+    }
+
+    public BuildHistoryPage clickAndGoToBuildHistoryPage () {
+        js.executeScript("arguments[0].scrollIntoView();", newItem);
+        buildHistory.click();
+
+        return new BuildHistoryPage(getDriver());
     }
 
     public SearchPage searchText(String text) {

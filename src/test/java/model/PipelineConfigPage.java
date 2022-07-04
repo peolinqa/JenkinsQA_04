@@ -1,8 +1,6 @@
 package model;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -12,7 +10,7 @@ import java.util.List;
 
 public class PipelineConfigPage extends BasePage {
 
-    private JavascriptExecutor js = (JavascriptExecutor) getDriver();
+    private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
@@ -80,6 +78,15 @@ public class PipelineConfigPage extends BasePage {
 
     @FindBy(xpath = "//label[text()='Do not allow concurrent builds']")
     private WebElement checkboxDoNotAllowConcurrentBuilds;
+
+    @FindBy(xpath = "//b[text()='Choice Parameter']")
+    private WebElement menuChoiceParameter;
+
+    @FindBy(xpath = "//b[text()='Boolean Parameter']")
+    private WebElement menuBooleanParameter;
+
+    @FindBy(xpath = "//div[@class='dd-handle']/b")
+    private List<WebElement> parametersLocation;
 
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
@@ -200,6 +207,34 @@ public class PipelineConfigPage extends BasePage {
 
     public PipelineConfigPage clickChoiceParameterButton() {
         choiceParameterButton.click();
+        return this;
+    }
+
+    public PipelineConfigPage menuChoiceParameterDragAndDrop() {
+        getActions()
+                .clickAndHold(menuChoiceParameter)
+                .moveToElement(menuBooleanParameter)
+                .release(menuBooleanParameter)
+                .perform();
+        return this;
+    }
+
+    public PipelineConfigPage checkLocationProjectParameterizedAndAssert(List<String> nameParameterized) {
+
+        for (int i = 0; i < parametersLocation.size(); i++) {
+
+            Assert.assertEquals(parametersLocation.get(i).getText(), nameParameterized.get(i));
+        }
+        return this;
+    }
+
+    public PipelineConfigPage clickDropDownMenuPipelineTab() {
+       getActions()
+               .moveToElement(dropDownMenuPipelineTab)
+               .click()
+               .sendKeys(Keys.ARROW_DOWN)
+               .click()
+               .perform();
         return this;
     }
 }
