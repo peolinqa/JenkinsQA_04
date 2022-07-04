@@ -3,9 +3,9 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import runner.ProjectUtils;
-
 import java.util.List;
 
 public class NewItemPage extends BasePage {
@@ -138,8 +138,10 @@ public class NewItemPage extends BasePage {
         return new FolderConfigPage(getDriver());
     }
 
-    public void checkErrorMessage(String extectedMessage) {
+    public NewItemPage checkErrorMessage(String extectedMessage) {
         Assert.assertEquals(errorInvalidName.getText(), extectedMessage);
+
+        return this;
     }
 
     public NewItemPage checkPresenceErrorMessageAndAssert(String name) {
@@ -159,4 +161,25 @@ public class NewItemPage extends BasePage {
 
         return new NewItemPage(getDriver());
     }
+    public NewItemPage clearNameText(){
+        nameText.clear();
+
+        return this;
+    }
+
+    public NewItemPage waitWarningMessage(char invalidSymbol, String text){
+        getWait5().until(ExpectedConditions.textToBePresentInElement(
+                getNameError(),
+                "» ‘" + invalidSymbol + text));
+
+        return this;
+    }
+
+    public NewItemPage waitDotWarningMessage(){
+        getWait5().until(ExpectedConditions.textToBePresentInElement(
+                getNameError(), "» “.” is not an allowed name"));
+
+        return this;
+    }
+
 }

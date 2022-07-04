@@ -1,5 +1,6 @@
 import model.FolderConfigPage;
 import model.HomePage;
+import model.NewItemPage;
 import model.RenameFolderPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -92,7 +93,7 @@ public class _FolderTest extends BaseTest {
         Assert.assertEquals(actual, "General");
     }
 
-    @Test(dependsOnMethods = {"testConfigurePage"})
+    @Test(dependsOnMethods = "testConfigurePage")
     public void testCreateFolderPositive() {
 
         Assert.assertTrue(isFolderPresent(NAME_FOLDER));
@@ -101,33 +102,30 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCycleCreateFolderWithInvalidData() {
 
-        getDriver().findElement(By.className("task-link-text")).click();
-        WebElement inputField = getDriver().findElement(NAME);
+        new HomePage(getDriver()).clickNewItem();
+        NewItemPage newItemPage = new NewItemPage(getDriver());
 
         for (int i = 0; i < INVALID_SYMBOLS.length; i++) {
-            inputField.sendKeys(Character.toString(INVALID_SYMBOLS[i]));
-            WebElement warningText = getDriver().findElement(By.id("itemname-invalid"));
-
-            getWait5().until(ExpectedConditions.textToBePresentInElement(warningText,
-                    "» ‘" + INVALID_SYMBOLS[i] + WARNING_TEXT_UNSAFE));
-
             String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + WARNING_TEXT_UNSAFE;
 
-            Assert.assertEquals(warningText.getText(), expectedResult);
-            inputField.clear();
+            newItemPage
+                    .setProjectName(Character.toString(INVALID_SYMBOLS[i]))
+                    .waitWarningMessage(INVALID_SYMBOLS[i],WARNING_TEXT_UNSAFE)
+                    .checkErrorMessage(expectedResult).clearNameText();
         }
     }
 
     @Test
     public void testCreateFolderWithDot() {
 
-        getDriver().findElement(By.className("task-link-text")).click();
-        getDriver().findElement(NAME).sendKeys(".");
+        new HomePage(getDriver()).clickNewItem();
 
-        WebElement warningText = getDriver().findElement(By.id("itemname-invalid"));
+        String warningText = new NewItemPage(getDriver())
+                .setProjectName(".")
+                .waitDotWarningMessage()
+                .getNameErrorText();
 
-        getWait5().until(ExpectedConditions.textToBePresentInElement(warningText, WARNING_TEXT_WITH_DOT));
-        Assert.assertEquals(warningText.getText(), WARNING_TEXT_WITH_DOT);
+        Assert.assertEquals(warningText, WARNING_TEXT_WITH_DOT);
     }
 
     @Test
