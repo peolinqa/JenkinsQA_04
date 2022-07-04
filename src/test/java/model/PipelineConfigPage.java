@@ -60,6 +60,21 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(tagName = "h2")
     private WebElement titleOfJenkinsCredentialsProviderWindow;
 
+    @FindBy(xpath = "//label[text()='This project is parameterized']")
+    private WebElement checkboxProjectParameterized;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement parameterAddProject;
+
+    @FindBy(id = "yui-gen8")
+    private WebElement booleanParameterButton;
+
+    @FindBy(id = "yui-gen9")
+    private WebElement choiceParameterButton;
+
+    @FindBy(xpath = "//label[text()='Do not allow concurrent builds']")
+    private WebElement checkboxDoNotAllowConcurrentBuilds;
+
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
         return this;
@@ -77,6 +92,16 @@ public class PipelineConfigPage extends BasePage {
 
     public PipelineConfigPage jsDropDownMenuPipelineTab() {
         js.executeScript("arguments[0].scrollIntoView();", dropDownMenuPipelineTab);
+        return this;
+    }
+
+    public PipelineConfigPage jsCheckboxProjectParameterized() {
+        js.executeScript("arguments[0].scrollIntoView();", checkboxProjectParameterized);
+        return this;
+    }
+
+    public PipelineConfigPage jsCheckboxDoNotAllowConcurrentBuilds() {
+        js.executeScript("arguments[0].scrollIntoView();", checkboxDoNotAllowConcurrentBuilds);
         return this;
     }
 
@@ -133,5 +158,25 @@ public class PipelineConfigPage extends BasePage {
     public PipelinePluginPage transitionToCorrectPage() {
         getDriver().navigate().to(urlAttribute.getAttribute("href"));
         return new PipelinePluginPage(getDriver());
+    }
+
+    public PipelineConfigPage clickCheckboxProjectParameterized() {
+        checkboxProjectParameterized.click();
+        return this;
+    }
+
+    public PipelineConfigPage clickAddParameterOfBuildButton() {
+        parameterAddProject.click();
+        return this;
+    }
+
+    public PipelineConfigPage clickBooleanParameterButton() {
+        booleanParameterButton.click();
+        return this;
+    }
+
+    public PipelineConfigPage clickChoiceParameterButton() {
+        choiceParameterButton.click();
+        return this;
     }
 }
