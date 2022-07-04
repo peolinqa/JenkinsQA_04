@@ -37,6 +37,9 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li")
     private List<WebElement> breadCrumbs;
 
+    @FindBy(xpath = "//label[@for='name']")
+    private WebElement h3Header;
+
     public NewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -151,4 +154,9 @@ public class NewItemPage extends BasePage {
         return new ErrorPage(getDriver());
     }
 
+    public NewItemPage clickToMoveMousePointer() {
+        h3Header.click();
+
+        return new NewItemPage(getDriver());
+    }
 }

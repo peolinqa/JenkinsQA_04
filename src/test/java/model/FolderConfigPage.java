@@ -1,6 +1,5 @@
 package model;
 
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,6 +10,15 @@ public class FolderConfigPage extends BasePage {
     @FindBy(css = "[type='submit']")
     private WebElement saveButton;
 
+    @FindBy(xpath = "//textarea[@name='_.description']")
+    private WebElement folderDescription;
+
+    @FindBy(xpath = "//a[@class='textarea-show-preview']")
+    private WebElement folderDescriptionPreview;
+
+    @FindBy(xpath = "//div[@class='textarea-preview']")
+    private WebElement folderDescriptionPreviewText;
+
     @FindBy(id = "jenkins")
     private WebElement configurePage;
 
@@ -18,7 +26,25 @@ public class FolderConfigPage extends BasePage {
     private WebElement generalTabBar;
 
     public FolderConfigPage(WebDriver driver) {
+
         super(driver);
+    }
+
+    public FolderConfigPage setFolderDescription (String text) {
+        folderDescription.sendKeys(text);
+
+        return this;
+    }
+
+    public FolderConfigPage clickFolderDescriptionPreview() {
+        folderDescriptionPreview.click();
+
+        return new FolderConfigPage(getDriver());
+    }
+
+    public String getFolderDescriptionPreviewText() {
+
+        return folderDescriptionPreviewText.getText();
     }
 
     public FolderPage saveConfigAndGoToFolderPage() {
@@ -34,7 +60,7 @@ public class FolderConfigPage extends BasePage {
     }
 
     public String getGeneralTabName(){
+
         return generalTabBar.getText();
     }
-
 }

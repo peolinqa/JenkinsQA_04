@@ -12,17 +12,45 @@ public class FolderPage extends BasePage {
     @FindBy(css = "h1")
     private WebElement folderName;
 
+    @FindBy(xpath = "//div[@id='view-message']")
+    private WebElement folderDescription;
+
+    @FindBy(xpath = "//span[text()='Delete Folder']")
+    private WebElement deleteFolder;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement yesButton;
+
     public FolderPage(WebDriver driver) {
+
         super(driver);
     }
 
     public String getFolderName() {
+
         return folderName.getText();
+    }
+
+    public String getFolderDescription() {
+
+        return folderDescription.getText();
     }
 
     public RenameFolderPage clickRenameFolder() {
         renameFolder.click();
 
         return new RenameFolderPage(getDriver());
+    }
+
+    public FolderPage clickDeleteFolder() {
+        deleteFolder.click();
+
+        return this;
+    }
+
+    public HomePage clickYesButton() {
+        yesButton.click();
+
+        return new HomePage(getDriver());
     }
 }

@@ -1,11 +1,13 @@
 package model;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
+import java.security.Key;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +53,9 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "div .tab a")
     private List<WebElement> viewNamesOnTabBar;
+
+    @FindBy(xpath = "//input[@name='q']")
+    private WebElement searchForm;
 
     @FindBy(linkText = "My Views")
     private WebElement myViews;
@@ -181,5 +186,11 @@ public class HomePage extends BasePage {
         myViews.click();
 
         return new MyViewPage(getDriver());
+    }
+
+    public SearchPage searchText(String text) {
+        searchForm.sendKeys(text, Keys.ENTER);
+
+        return new SearchPage(getDriver());
     }
 }
