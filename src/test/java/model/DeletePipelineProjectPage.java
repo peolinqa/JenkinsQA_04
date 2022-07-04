@@ -4,26 +4,26 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class DeletePipelineProject extends BasePage {
+public class DeletePipelineProjectPage extends BasePage {
 
 
-    public DeletePipelineProject(WebDriver driver) {
+    public DeletePipelineProjectPage(WebDriver driver) {
         super(driver);
     }
 
     @FindBy(xpath = "//a[contains(@data-message, 'Delete the Pipeline')]")
     private WebElement deletePipelineButton;
 
-    public DeletePipelineProject deletePipelineProject() {
+    public DeletePipelineProjectPage deletePipelineProject() {
         deletePipelineButton.click();
         getDriver().switchTo().alert().accept();
 
         return this;
     }
 
-    public Page404 switchToPage404() {
+    public Page404Page switchToPage404() {
         getDriver().navigate().back();
 
-        return new Page404(getDriver());
+        return new Page404Page(getDriver());
     }
 }

@@ -3,9 +3,9 @@ package model;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 
-public class Page404 extends BasePage {
+public class Page404Page extends BasePage {
 
-    public Page404(WebDriver driver) {
+    public Page404Page(WebDriver driver) {
         super(driver);
     }
 

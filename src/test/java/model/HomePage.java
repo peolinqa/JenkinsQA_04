@@ -8,7 +8,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
-import java.security.Key;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -185,11 +184,11 @@ public class HomePage extends BasePage {
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public DeletePipelineProject navigateToPreviousCreatedPipeline(String projectName) {
+    public DeletePipelineProjectPage navigateToPreviousCreatedPipeline(String projectName) {
         List<WebElement> createdJobFromListJobs = ProjectUtils.selectSpecificJobFromListOfJobs(getDriver(), projectName);
         getDriver().navigate().to(createdJobFromListJobs.get(0).getAttribute("href"));
 
-        return new DeletePipelineProject(getDriver());
+        return new DeletePipelineProjectPage(getDriver());
     }
 
     public MyViewPage clickMyView() {
