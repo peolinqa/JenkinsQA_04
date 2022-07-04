@@ -52,6 +52,9 @@ public class HomePage extends BasePage {
     @FindBy(css = "div .tab a")
     private List<WebElement> viewNamesOnTabBar;
 
+    @FindBy(linkText = "My Views")
+    private WebElement myViews;
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -166,5 +169,11 @@ public class HomePage extends BasePage {
         getDriver().navigate().to(createdJobFromListJobs.get(0).getAttribute("href"));
 
         return new DeletePipelineProject(getDriver());
+    }
+
+    public MyViewPage clickMyView() {
+        myViews.click();
+
+        return new MyViewPage(getDriver());
     }
 }

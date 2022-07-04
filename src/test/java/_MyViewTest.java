@@ -1,5 +1,6 @@
+import model.HomePage;
+import model.MyViewPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -18,24 +19,8 @@ public class _MyViewTest extends BaseTest {
     private final By VIEW_NAMES_ON_TABBAR = By.cssSelector("div .tab a");
     private final By VIEW_NAMES_ON_BREADCRUMBS = By.xpath("//ul[@id='breadcrumbs']/li[@class='item']");
 
-    private WebElement textareaDescription() {
-        return getDriver().findElement(By.xpath("//textarea[contains(@name, 'description')]"));
-    }
-
     private WebElement fieldDescriptionOnThePage() {
         return getDriver().findElement(By.xpath("//div[@id='description']/div[not(@class)]"));
-    }
-
-    private WebElement buttonPreview() {
-        return getDriver().findElement(By.xpath("//a[@previewendpoint='/markupFormatter/previewDescription']"));
-    }
-
-    private WebElement textareaPreview() {
-        return getDriver().findElement(By.xpath("//div[@class='textarea-preview']"));
-    }
-
-    private WebElement buttonHidePreview() {
-        return getDriver().findElement(By.xpath("//a[@class='textarea-hide-preview']"));
     }
 
     private WebElement buttonSubmitDeleteView() {
@@ -44,10 +29,6 @@ public class _MyViewTest extends BaseTest {
 
     private WebElement buttonSubmitEditListViewName() {
         return getDriver().findElement(By.id("yui-gen13-button"));
-    }
-
-    public static void clickAddOrEditDescriptionButton(WebDriver driver) {
-        driver.findElement(By.xpath("//a[contains(@href, 'editDescription')]")).click();
     }
 
     private void clickNameOfViewOnBreadcrumbs() {
@@ -137,56 +118,55 @@ public class _MyViewTest extends BaseTest {
 
     @Test
     public void testAddDescriptionOnMyViews() {
-        ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
+        MyViewPage myViewsPage = new HomePage(getDriver())
+                .clickMyView()
+                .clickAddOrEditDescriptionButton()
+                .sendTextareaDescription(VIEW_NAME)
+                .clickButtonSave();
 
-        clickAddOrEditDescriptionButton(getDriver());
-
-        textareaDescription().sendKeys(VIEW_NAME);
-        ProjectUtils.clickSaveButton(getDriver());
-
-        Assert.assertEquals(fieldDescriptionOnThePage().getText(), VIEW_NAME);
+        Assert.assertEquals(myViewsPage.getTextFromFieldDescriptionOnThePage(), VIEW_NAME);
     }
 
     @Test(dependsOnMethods = "testAddDescriptionOnMyViews")
     public void testEditDescriptionOnMyViews() {
-        ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
+        MyViewPage myViewsPage = new HomePage(getDriver())
+                .clickMyView()
+                .clickAddOrEditDescriptionButton()
+                .clearTextareaDescription()
+                .sendTextareaDescription(VIEW_NAME)
+                .clickButtonSave();
 
-        clickAddOrEditDescriptionButton(getDriver());
-
-        textareaDescription().clear();
-        textareaDescription().sendKeys(VIEW_NAME);
-        ProjectUtils.clickSaveButton(getDriver());
-
-        Assert.assertEquals(fieldDescriptionOnThePage().getText(), VIEW_NAME);
+        Assert.assertEquals(myViewsPage.getTextFromFieldDescriptionOnThePage(), VIEW_NAME);
     }
 
     @Test(dependsOnMethods = "testEditDescriptionOnMyViews")
     public void testCheckButtonPreviewDescriptionOnMyViews() {
-        ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
+        MyViewPage myViewsPage = new HomePage(getDriver())
+                .clickMyView()
+                .clickAddOrEditDescriptionButton()
+                .clickButtonPreview();
 
-        clickAddOrEditDescriptionButton(getDriver());
-
-        buttonPreview().isDisplayed();
-        buttonPreview().click();
-
-        textareaPreview().isDisplayed();
-        Assert.assertEquals(textareaPreview().getText(), textareaDescription().getText());
+        Assert.assertTrue(myViewsPage.getButtonPreview().isDisplayed());
+        Assert.assertTrue(myViewsPage.getTextareaPreview().isDisplayed());
+        Assert.assertEquals(myViewsPage.getTextFromTextareaPreview(), myViewsPage.getTextareaDescription());
     }
 
-    @Test(dependsOnMethods = {"testCheckButtonPreviewDescriptionOnMyViews"})
+    @Test(dependsOnMethods = "testCheckButtonPreviewDescriptionOnMyViews")
     public void testCheckButtonHidePreviewDescriptionOnMyViews() {
-        ProjectUtils.Dashboard.Main.MyViews.click(getDriver());
+        MyViewPage myViewsPage = new HomePage(getDriver())
+                .clickMyView()
+                .clickAddOrEditDescriptionButton()
+                .clickButtonPreview();
 
-        clickAddOrEditDescriptionButton(getDriver());
+        Assert.assertTrue(myViewsPage.getTextareaPreview().isDisplayed());
+        Assert.assertEquals(myViewsPage.getTextFromTextareaPreview(),
+                myViewsPage.getTextareaDescription());
+        Assert.assertTrue(myViewsPage.getButtonHidePreview().isDisplayed());
 
-        buttonPreview().click();
-        textareaPreview().isDisplayed();
-        Assert.assertEquals(textareaPreview().getText(), textareaDescription().getText());
-        Assert.assertTrue(buttonHidePreview().isDisplayed());
+        myViewsPage.clickButtonHidePreview();
 
-        buttonHidePreview().click();
-        Assert.assertFalse(textareaPreview().isDisplayed());
-        Assert.assertFalse(buttonHidePreview().isDisplayed());
+        Assert.assertFalse(myViewsPage.getTextareaPreview().isDisplayed());
+        Assert.assertFalse(myViewsPage.getButtonHidePreview().isDisplayed());
     }
 
     @Test(dependsOnMethods = {"testEditViewChangeName"})
