@@ -89,6 +89,12 @@ public class NewItemPage extends BasePage {
         return new FolderConfigPage(getDriver());
     }
 
+    public FreestyleConfigPage clickOkGoToConfig() {
+        okButton.click();
+
+        return new FreestyleConfigPage(getDriver());
+    }
+
     public String getNameErrorText() {
 
         return errorInvalidName.getText();

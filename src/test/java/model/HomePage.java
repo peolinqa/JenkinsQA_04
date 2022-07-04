@@ -124,6 +124,12 @@ public class HomePage extends BasePage {
         return new ProjectPage(getDriver());
     }
 
+    public FreestylePage clickFreestyleName(String name) {
+        ProjectUtils.openProject(getDriver(), name);
+
+        return new FreestylePage(getDriver());
+    }
+
     public HomePage buildSelectPipeline(String pipelineName) {
         for (WebElement el : listBuildButtons) {
             if (el.getText().contains(pipelineName)) {
