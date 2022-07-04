@@ -10,7 +10,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
-
 import java.util.List;
 
 import static runner.ProjectUtils.ProjectType.Folder;
@@ -19,7 +18,6 @@ public class _FolderTest extends BaseTest {
 
     private static final String NAME_FOLDER = "Configure";
     private static final String RANDOM_FOLDER_NAME = TestUtils.getRandomStr();
-    private static String folderNameAfterRename = TestUtils.getRandomStr();
 
     private static final char[] INVALID_SYMBOLS =
             {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
@@ -32,6 +30,8 @@ public class _FolderTest extends BaseTest {
     private static final String WARNING_TEXT_UNSAFE = "’ is an unsafe character";
     private static final String ELEMENT1 = "//div[@id='main-panel']/p";
     private static final String ELEMENT2 = "//div[@id='main-panel']/h1";
+
+    private static String folderNameAfterRename = TestUtils.getRandomStr();
 
     private void createFolderWithoutSaveButton(String folderName) {
         ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
@@ -91,11 +91,15 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testConfigurePage() {
 
-        createFolderWithoutSaveButton(NAME_FOLDER);
-        getWait5().until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.id("jenkins")));
+        String actual = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(NAME_FOLDER)
+                .setProjectType(Folder)
+                .createAndGoToFolderConfig()
+                .waitLoadingFolderConfigurePage()
+                .getGeneralTabName();
 
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//div[@class='jenkins-config-widgets']//div[text()='General']")).getText(), "General");
+        Assert.assertEquals(actual, "General");
     }
 
     @Test(dependsOnMethods = {"testConfigurePage"})
@@ -276,13 +280,13 @@ public class _FolderTest extends BaseTest {
 
         final String newRandomFolderName = TestUtils.getRandomStr();
 
-        _FolderTest.folderNameAfterRename = new HomePage(getDriver())
+        folderNameAfterRename = new HomePage(getDriver())
                 .clickFolderName(RANDOM_FOLDER_NAME)
                 .clickRenameFolder()
                 .renameFolder(newRandomFolderName)
                 .getFolderName();
 
-        Assert.assertEquals(_FolderTest.folderNameAfterRename, newRandomFolderName);
+        Assert.assertEquals(folderNameAfterRename, newRandomFolderName);
     }
 
     @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive", "testRenameFolderWithSpaceAsAName"})
@@ -291,7 +295,7 @@ public class _FolderTest extends BaseTest {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
 
         RenameFolderPage folderForRenameTest = new HomePage(getDriver())
-                .clickFolderName(_FolderTest.folderNameAfterRename)
+                .clickFolderName(folderNameAfterRename)
                 .clickRenameFolder();
 
         for (int i = 0; i < unsafeCharacters.length(); i++) {
@@ -325,7 +329,7 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderWithSpaceAsAName() {
 
         String actualResult = new HomePage(getDriver())
-                .clickFolderName(_FolderTest.folderNameAfterRename)
+                .clickFolderName(folderNameAfterRename)
                 .clickRenameFolder()
                 .renameAndGoToErrorPage(" ")
                 .getErrorMessage();

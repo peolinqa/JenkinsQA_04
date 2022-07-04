@@ -86,6 +86,10 @@ public final class ProjectUtils {
                 });
     }
 
+    public static List<WebElement> selectSpecificJobFromListOfJobs(WebDriver driver, String name) {
+        return driver.findElements(By.xpath(String.format("//a[contains(@href, 'job/%s')]", name)));
+    }
+
     public static class Dashboard {
 
         public enum Header {
