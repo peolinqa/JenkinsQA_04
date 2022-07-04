@@ -266,7 +266,6 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(url.contains("plugins.jenkins.io/workflow-job"));
     }
 
-    @Ignore
     @Test
     public void testJenkinsCredentialsProviderWindow() {
         final String name = pipelineName();
@@ -281,65 +280,61 @@ public class _PipelineTest extends BaseTest {
                 .collectPipelineScriptScmDropDownMenu()
                 .clickCredentialsAddButton()
                 .clickJenkinsProviderButton()
-                .getH2TextAndAssert("Jenkins Credentials Provider: Jenkins");
+                .assertTitleOfJenkinsCredentialsProviderWindow("Jenkins Credentials Provider: Jenkins");
     }
 
     @Test
     public void testPipelineSyntaxPageOpening() {
-        createPipeline(pipelineName(), Boolean.TRUE);
+        final String name = pipelineName();
 
-        getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
-
-        String pipelineSyntaxLink = getDriver().findElement(
-                By.xpath("//a[@href='pipeline-syntax']")).getAttribute("href");
-        getDriver().get(pipelineSyntaxLink);
-
-        List<WebElement> breadcrumbsOfLinksMenu = getDriver().findElements(
-                By.xpath("//li[@class='item']/a"));
-        String breadcrumbsPipelineSyntaxPageItem = breadcrumbsOfLinksMenu.get(2).getAttribute("href");
-
-        Assert.assertTrue(breadcrumbsPipelineSyntaxPageItem.contains("pipeline-syntax"));
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .selectConfigurationMenuDefinition("Pipeline")
+                .getHrefAndGoToPipelineSyntaxPage()
+                .assertPipelineSyntaxHrefAtt("pipeline-syntax");
     }
 
     @Test
     public void testPipelineGroovyPageOpening() {
-        createPipeline(pipelineName(), Boolean.TRUE);
+        final String name = pipelineName();
 
-        getDriver().findElement(PIPELINE_ITEM_CONFIGURATION).click();
-
-        String useGroovySandboxCheckbox = getDriver().findElement(
-                By.xpath("//input[@name='_.sandbox']")).getAttribute("checked");
-
-        Assert.assertEquals(useGroovySandboxCheckbox, "true");
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .assertUseGroovySandBoxCheckboxAtt();
     }
 
     @Test
     public void testTitleConfigPageContainsProjectTitle() {
         final String name = pipelineName();
-        createPipeline(name, Boolean.TRUE);
 
-        Assert.assertTrue(getDriver().getTitle().contains(name));
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .assertPipelineConfigUrlContainsPipelineName(name);
     }
 
     @Test
     public void test404PageAfterDeletedPipeline() {
         final String name = pipelineName();
 
-        createPipeline(name, Boolean.TRUE);
-        getDriver().findElement(SUBMIT_BUTTON).click();
-        homePageClick();
-
-        List<WebElement> pipelineProjects = getDriver().findElements(
-                By.xpath(String.format("//a[contains(@href, 'job/%s')]", name)));
-
-        getDriver().navigate().to(pipelineProjects.get(pipelineProjects.size() - 2).getAttribute("href"));
-        getDriver().findElement(By.xpath("//a[contains(@data-message, 'Delete the Pipeline')]")).click();
-        getDriver().switchTo().alert().accept();
-
-        getDriver().navigate().back();
-        String titleOf404Page = getDriver().getTitle();
-
-        Assert.assertEquals(titleOf404Page, "Error 404 Not Found");
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .clickDashboardButton()
+                .navigateToPreviousCreatedPipeline(name)
+                .deletePipelineProject()
+                .switchToPage404()
+                .assertTitleOfPage404();
     }
 
     @Test

@@ -9,7 +9,6 @@ import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 
 public class HomePage extends BasePage {
@@ -88,7 +87,7 @@ public class HomePage extends BasePage {
     }
 
     public String getPageHeaderLocation() {
-      return pageHeader.getLocation().toString();
+        return pageHeader.getLocation().toString();
     }
 
     public WebElement getPageHeader() {
@@ -104,8 +103,8 @@ public class HomePage extends BasePage {
         return new OrganizationFolderProjectPage(getDriver());
     }
 
-    public List <String> getTextFolderNamesOnDashboard(){
-        List <String> textFolderNames = TestUtils.getTextFromList(getDriver(), By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]"));
+    public List<String> getTextFolderNamesOnDashboard() {
+        List<String> textFolderNames = TestUtils.getTextFromList(getDriver(), By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]"));
 
         return textFolderNames;
     }
@@ -160,5 +159,12 @@ public class HomePage extends BasePage {
         triangleOnBreadcrumbs.click();
 
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public DeletePipelineProject navigateToPreviousCreatedPipeline(String projectName) {
+        List<WebElement> createdJobFromListJobs = ProjectUtils.selectSpecificJobFromListOfJobs(getDriver(), projectName);
+        getDriver().navigate().to(createdJobFromListJobs.get(0).getAttribute("href"));
+
+        return new DeletePipelineProject(getDriver());
     }
 }

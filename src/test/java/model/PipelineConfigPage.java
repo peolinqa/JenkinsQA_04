@@ -60,6 +60,12 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(tagName = "h2")
     private WebElement titleOfJenkinsCredentialsProviderWindow;
 
+    @FindBy(xpath = "//a[@href='pipeline-syntax']")
+    private WebElement pipelineSyntaxLink;
+
+    @FindBy(xpath = "//input[@name='_.sandbox']")
+    private WebElement useGroovySandboxCheckbox;
+
     @FindBy(xpath = "//label[text()='This project is parameterized']")
     private WebElement checkboxProjectParameterized;
 
@@ -149,15 +155,32 @@ public class PipelineConfigPage extends BasePage {
         return this;
     }
 
-    public void getH2TextAndAssert(String text) {
+    public PipelineSyntaxPage getHrefAndGoToPipelineSyntaxPage() {
+        String pipelineSyntaxAtt = pipelineSyntaxLink.getAttribute("href");
+        getDriver().get(pipelineSyntaxAtt);
+
+        return new PipelineSyntaxPage(getDriver());
+    }
+
+    public void assertTitleOfJenkinsCredentialsProviderWindow(String text) {
         Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow.getText(), text);
         getDriver().navigate().back();
         getDriver().switchTo().alert().accept();
     }
 
+    public void assertUseGroovySandBoxCheckboxAtt() {
+        String useGroovySandboxCheckboxAtt = useGroovySandboxCheckbox.getAttribute("checked");
+        Assert.assertEquals(useGroovySandboxCheckboxAtt, "true");
+    }
+
+    public void assertPipelineConfigUrlContainsPipelineName(String text) {
+        Assert.assertTrue(getDriver().getTitle().contains(text));
+    }
+
     public PipelinePluginPage transitionToCorrectPage() {
         getDriver().navigate().to(urlAttribute.getAttribute("href"));
         return new PipelinePluginPage(getDriver());
+
     }
 
     public PipelineConfigPage clickCheckboxProjectParameterized() {
