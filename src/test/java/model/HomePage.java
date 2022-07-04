@@ -50,9 +50,6 @@ public class HomePage extends BasePage {
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='item']")
     private List<WebElement> viewNamesOnBreadcrumbs;
 
-    @FindBy(className = "yuimenuitemlabel")
-    private WebElement viewNameOnBreadcrumbs;
-
     @FindBy(css = "div .tab a")
     private List<WebElement> viewNamesOnTabBar;
 
@@ -164,22 +161,26 @@ public class HomePage extends BasePage {
         return new NewViewPage(getDriver());
     }
 
-    public MyViewPage clickNameOfViewOnBreadcrumbs() {
+    public MyViewPage clickNameOfViewOnBreadcrumbs(String name) {
         triangleOnBreadcrumbs.click();
-
-        viewNameOnBreadcrumbs.click();
+        getDriver().findElement(By.xpath("//li/a[contains(@href, '" + name + "')]")).click();
 
         return new MyViewPage(getDriver());
     }
 
     public MyViewPage clickNameOfViewOnTabBar() {
-        viewNamesOnTabBar.get(1).click();
+        viewNamesOnTabBar.get(0).click();
 
         return new MyViewPage(getDriver());
     }
 
-    public List<String> getNamesOfViewOnBreadcrumbs() {
-        triangleOnBreadcrumbs.click();
+    public MyViewPage clickNameOfViewOnTabBar(String name) {
+       getDriver().findElement(By.xpath("//div/a[contains(text(), '" + name + "')]")).click();
+
+        return new MyViewPage(getDriver());
+    }
+
+    public List<String> getNamesOfViewsOnBreadcrumbs() {
 
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 public class MyViewPage extends BasePage {
 
-
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='item']")
     private List<WebElement> viewNamesOnBreadcrumbs;
 
@@ -46,6 +45,9 @@ public class MyViewPage extends BasePage {
     @FindBy(xpath = "//a[@class='textarea-hide-preview']")
     private WebElement buttonHidePreview;
 
+    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='children']")
+    private WebElement triangleOnBreadcrumbs;
+
     public MyViewPage(WebDriver driver) {
         super(driver);
     }
@@ -68,8 +70,8 @@ public class MyViewPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-
     public List<String> getNamesOfViewsOnBreadcrumbs() {
+        triangleOnBreadcrumbs.click();
 
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }
@@ -138,5 +140,4 @@ public class MyViewPage extends BasePage {
 
         return this;
     }
-
 }

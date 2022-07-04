@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class NewViewPage extends BasePage {
 
@@ -55,6 +56,6 @@ public class NewViewPage extends BasePage {
 
     public String getErrorText() {
 
-        return getDriver().findElement(By.className("error")).getText();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("error"))).getText();
     }
 }

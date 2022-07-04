@@ -40,6 +40,9 @@ public class NewItemPage extends BasePage {
     @FindBy(xpath = "//label[@for='name']")
     private WebElement h3Header;
 
+    @FindBy(id = "jenkins-head-icon")
+    private WebElement headerIcon;
+
     public NewItemPage(WebDriver driver) {
         super(driver);
     }
@@ -60,6 +63,13 @@ public class NewItemPage extends BasePage {
         okButton.click();
 
         return new ItemConfigPage(getDriver());
+    }
+
+    public HomePage createAndGoHome() {
+        okButton.click();
+        headerIcon.click();
+
+        return new HomePage(getDriver());
     }
 
     public NewItemPage setCopyFromName(String name) {

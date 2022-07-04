@@ -4,6 +4,7 @@ import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -94,6 +95,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(freestylePage._disableButton(), "Disable Project");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testEnableProject")
     public void testHelpButtonPopupGeneral() {
 
@@ -104,6 +106,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(freestyleConfigPage.getHelpNamesGeneral(), "Help for feature: Discard old builds");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testHelpButtonPopupGeneral")
     public void testHelpButtonPopupBuildPeriodically() {
 
@@ -115,12 +118,14 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(freestyleConfigPage.getHelpNamesBuildTriggers(), "Help for feature: Build periodically");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testHelpButtonPopupBuildPeriodically")
     public void testRenameFreestyleProject() {
         renameFreestyleProject(RANDOM_NAME, EDITED_RANDOM_NAME);
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + EDITED_RANDOM_NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testNewFreestyleWithSpecialCharacters() {
         ProjectUtils.openProject(getDriver(), EDITED_RANDOM_NAME);
@@ -129,6 +134,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + NAME_WITH_SPECIAL_CHARACTERS);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testNewFreestyleWithSpecialCharacters")
     public void testRenameWithInvalidData() {
         for (int i = 0; i < INVALID_DATA.length(); i++) {
@@ -162,6 +168,7 @@ public class _FreestyleTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test (dependsOnMethods = "testRenameWithInvalidData")
     public void testDeleteFreestyleProject() {
         var driver = getDriver();

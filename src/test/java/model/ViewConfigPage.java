@@ -9,14 +9,14 @@ public class ViewConfigPage extends BasePage {
     @FindBy(name = "name")
     private WebElement nameText;
 
-    @FindBy(name = "description")
-    private WebElement descriptionText;
+    @FindBy(xpath = "//textarea[contains(@name, 'description')]")
+    private WebElement descriptionField;
 
-    @FindBy(id = "yui-gen6-button")
-    private WebElement saveConfigListViewButton;
+    @FindBy(id = "yui-gen13-button")
+    private WebElement saveConfigViewButton;
 
     @FindBy(id = "yui-gen2-button")
-    private WebElement saveConfigMyViewButton;
+    private WebElement saveConfigViewButton1;
 
     public ViewConfigPage(WebDriver driver) {
         super(driver);
@@ -30,19 +30,19 @@ public class ViewConfigPage extends BasePage {
     }
 
     public ViewConfigPage setDescription(String text) {
-        descriptionText.sendKeys(text);
+        descriptionField.sendKeys(text);
 
         return new ViewConfigPage(getDriver());
     }
 
-    public ListViewPage saveConfigAndGoToListView() {
-        saveConfigListViewButton.click();
+    public MyViewPage saveConfigAndGoToView() {
+        saveConfigViewButton.click();
 
-        return new ListViewPage(getDriver());
+        return new MyViewPage(getDriver());
     }
 
-    public MyViewPage saveConfigAndGoToMyView() {
-        saveConfigMyViewButton.click();
+    public MyViewPage saveConfigAndGoToView1() {
+        saveConfigViewButton1.click();
 
         return new MyViewPage(getDriver());
     }
