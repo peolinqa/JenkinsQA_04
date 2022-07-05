@@ -39,4 +39,10 @@ public class ManageJenkinsPage extends HeaderFooterPage {
 
         return new LoadStatisticsPage(getDriver());
     }
+
+    public ManageNodesAndCloudsPage clickManageNodesAndClouds() {
+        manageNodesAndClouds.click();
+
+        return new ManageNodesAndCloudsPage(getDriver());
+    }
 }

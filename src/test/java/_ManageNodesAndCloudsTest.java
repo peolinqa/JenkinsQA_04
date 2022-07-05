@@ -1,10 +1,9 @@
-import org.openqa.selenium.By;
+import model.HomePage;
+import model.ManageNodesAndCloudsPage;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 
 import java.util.List;
 
@@ -12,117 +11,72 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
     private static final String COMPUTER_NAME = "first test node 456";
 
-    private void goOnManageNodesAndCloudsPage() {
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.ManageNodesAndClouds.click(getDriver());
-    }
-
-    private List<WebElement> getComputerNames() {
-        goOnManageNodesAndCloudsPage();
-        return getDriver().findElements(By.xpath("//table[@id='computers']/tbody/*/td[2]"));
-    }
-
-    private WebElement findBuildQueueBtn() {
-        return getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//a[@href='/toggleCollapse?paneId=buildQueue']")));
-    }
-
-    private String getTitleValueBuildQueueBtn() {
-        return findBuildQueueBtn().getAttribute("title");
-    }
-
-    private WebElement findBuildExecutorStatusBtn() {
-        return getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//a[@href='/toggleCollapse?paneId=executors']")));
-    }
-
-    private String getTitleValueBuildExecutorStatusBtn() {
-        return findBuildExecutorStatusBtn().getAttribute("title");
-    }
-
     @Test
-    public void testCheckBuildQueue() {
-        if (getDriver().findElements(By.xpath("//div[@id='buildQueue']//table")).size() > 0) {
-            Assert.assertEquals(getTitleValueBuildQueueBtn(), "collapse");
+    public void testCheckBuildQueueAndClick() {
+        HomePage homePage = new HomePage(getDriver());
 
-            findBuildQueueBtn().click();
-            Assert.assertEquals(getTitleValueBuildQueueBtn(), "expand");
+        if (homePage.getSizeOfListForElementsBuildsInQueue() > 0) {
+            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "collapse");
+
+            homePage.clickBuildQueueToggleButton();
+            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "expand");
         } else {
-            Assert.assertEquals(getTitleValueBuildQueueBtn(), "expand");
+            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "expand");
 
-            findBuildQueueBtn().click();
-            Assert.assertEquals(getTitleValueBuildQueueBtn(), "collapse");
+            homePage.clickBuildQueueToggleButton();
+            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "collapse");
         }
     }
 
     @Test
-    public void testCheckBuildExecutorStatus() {
-        if (getDriver().findElements(By.xpath("//div[@id='executors']//table")).size() > 0) {
-            Assert.assertEquals(getTitleValueBuildExecutorStatusBtn(), "collapse");
+    public void testCheckBuildExecutorStatusAndClick() {
+        HomePage homePage = new HomePage(getDriver());
 
-            findBuildExecutorStatusBtn().click();
-            Assert.assertEquals(getTitleValueBuildExecutorStatusBtn(), "expand");
+        if (homePage.getSizeOfListForElementsBuildExecutorStatus() > 0) {
+            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "collapse");
+
+            homePage.clickBuildExecutorToggleButton();
+            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "expand");
         } else {
-            Assert.assertEquals(getTitleValueBuildExecutorStatusBtn(), "expand");
+            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "expand");
 
-            findBuildExecutorStatusBtn().click();
-            Assert.assertEquals(getTitleValueBuildExecutorStatusBtn(), "collapse");
+            homePage.clickBuildExecutorToggleButton();
+            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "collapse");
         }
-    }
-
-    @Test
-    public void testCheckManageJenkinsAndNavigation() {
-        final String expectedResultURL = getDriver().getCurrentUrl();
-
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        Assert.assertTrue(getDriver().getCurrentUrl().contains("/manage"));
-
-        String headerActualResult = getDriver().findElement(By.xpath("//h1")).getText();
-        Assert.assertEquals(headerActualResult, "Manage Jenkins");
-
-        getDriver().navigate().back();
-        Assert.assertEquals(getDriver().getCurrentUrl(), expectedResultURL);
     }
 
     @Test
     public void testCreateNewNodeWithValidName() {
-        goOnManageNodesAndCloudsPage();
+        List<String> textComputerNames = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageNodesAndClouds()
+                .newNodeButtonClick()
+                .createNewNodeWithPermanentAgentOption(COMPUTER_NAME)
+                .clickSaveButton()
+                .getTextComputerNamesFromTable();
 
-        getDriver().findElement(By.xpath("//span[text()='New Node']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys(COMPUTER_NAME);
-        getDriver().findElement(By.xpath("//label[text()='Permanent Agent']")).click();
-        getDriver().findElement(By.xpath("//input[@id='ok']")).click();
-        getDriver().findElement(By.xpath("//button[@id='yui-gen7-button']")).click();
-
-        List<WebElement> listComputerNames = getComputerNames();
-        var actualName = listComputerNames.stream()
-                .filter(element -> element.getText().equals(COMPUTER_NAME))
-                .findFirst();
-
-        Assert.assertTrue(actualName.isPresent());
+        Assert.assertTrue(textComputerNames.contains(COMPUTER_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateNewNodeWithValidName")
     public void testCheckDeleteNode() {
-        goOnManageNodesAndCloudsPage();
-        List<WebElement> listComputerNames = getComputerNames();
+        ManageNodesAndCloudsPage manageNodesAndCloudsPage = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageNodesAndClouds();
 
-        for (WebElement computerName : listComputerNames) {
-            if (computerName.getText().equals(COMPUTER_NAME)) {
-                getActions().moveToElement(computerName).build().perform();
+        List<WebElement> computerNames = manageNodesAndCloudsPage.getComputerNames();
 
-                WebElement selectorButton = getWait5().until(ExpectedConditions
-                        .visibilityOfElementLocated(By.xpath("//div[@id='menuSelector']")));
-                getActions().moveToElement(selectorButton).click().build().perform();
-
-                getWait20().until(ExpectedConditions
-                        .visibilityOfElementLocated(By.xpath("//span[text()='Delete Agent']"))).click();
-                getDriver().findElement(By.xpath("//button[@id='yui-gen1-button']")).click();
+        for (WebElement name : computerNames) {
+            if (name.getText().equals(COMPUTER_NAME)) {
+                manageNodesAndCloudsPage
+                        .menuSelectorHiddenButtonClick(name)
+                        .chooseDeleteMenuAfterClickMenuSelector(name)
+                        .confirmToDeleteComputerNode();
                 break;
             }
         }
 
-        List<WebElement> listComputerNamesAfterDelete = getComputerNames();
-        Assert.assertFalse(listComputerNamesAfterDelete.contains(COMPUTER_NAME));
+        List<String> computerNamesText = manageNodesAndCloudsPage.getTextComputerNamesFromTable();
+        Assert.assertFalse(computerNamesText.contains(COMPUTER_NAME));
     }
 }

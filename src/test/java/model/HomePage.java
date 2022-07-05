@@ -6,6 +6,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,7 +55,19 @@ public class HomePage extends HeaderFooterPage {
     @FindBy(xpath = "//input[@name='q']")
     private WebElement searchForm;
 
-    public HomePage(WebDriver driver) {
+    @FindBy(xpath = "//a[@href='/toggleCollapse?paneId=buildQueue']")
+    private WebElement buildQueueToggleButton;
+
+    @FindBy(xpath = "//a[@href='/toggleCollapse?paneId=executors']")
+    private WebElement buildExecutorToggleButton;
+
+    @FindBy(xpath = "//div[@id='buildQueue']//table")
+    private List<WebElement> elementsBuildsInQueue;
+
+    @FindBy(xpath = "//div[@id='executors']//table")
+    private List<WebElement> elementsBuildExecutorStatus;
+
+   public HomePage(WebDriver driver) {
         super(driver);
     }
 
@@ -177,5 +190,33 @@ public class HomePage extends HeaderFooterPage {
         searchForm.sendKeys(text, Keys.ENTER);
 
         return new SearchPage(getDriver());
+    }
+
+    public HomePage clickBuildQueueToggleButton() {
+        buildQueueToggleButton.click();
+
+        return this;
+    }
+
+    public HomePage clickBuildExecutorToggleButton() {
+        buildExecutorToggleButton.click();
+
+        return this;
+    }
+
+    public String getTitleBuildQueueToggleButton() {
+        return buildQueueToggleButton.getAttribute("title");
+    }
+
+    public String getTitleBuildExecutorToggleButton() {
+        return buildExecutorToggleButton.getAttribute("title");
+    }
+
+    public int getSizeOfListForElementsBuildsInQueue() {
+        return elementsBuildsInQueue.size();
+    }
+
+    public int getSizeOfListForElementsBuildExecutorStatus() {
+        return elementsBuildExecutorStatus.size();
     }
 }
