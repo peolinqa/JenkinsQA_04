@@ -34,7 +34,7 @@ public class _BuildHistoryTest extends BaseTest {
     public void testBuildIsOnBuildHistoryPage() {
         boolean result = new HomePage(getDriver())
                 .clickBuildHistory()
-                .checkProjectOnBoard(PROJECT_NAME);
+                .checkProjectIsOnBoard(PROJECT_NAME);
 
         Assert.assertTrue(result);
     }
@@ -69,7 +69,7 @@ public class _BuildHistoryTest extends BaseTest {
         String changesHeader = new HomePage(getDriver())
                 .clickBuildHistory()
                 .clickBuildSpanMenu(PROJECT_NAME, buildName)
-                .clickChangesAndGoToBuildPage()
+                .clickChangesAndGoToChangesPage()
                 .getChangesPageHeader();
 
         Assert.assertEquals(changesHeader, "Changes");
@@ -81,7 +81,7 @@ public class _BuildHistoryTest extends BaseTest {
         String consoleHeader = new HomePage(getDriver())
                 .clickBuildHistory()
                 .clickBuildSpanMenu(PROJECT_NAME, buildName)
-                .clickConsoleAndGoToBuildPage()
+                .clickConsoleAndGoToConsolePage()
                 .getConsolePageHeader();
 
         Assert.assertEquals(consoleHeader, "Console Output");

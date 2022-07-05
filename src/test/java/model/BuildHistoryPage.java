@@ -35,7 +35,7 @@ public class BuildHistoryPage extends HeaderFooterPage {
         return this;
     }
 
-    public boolean checkProjectOnBoard(String projectName) {
+    public boolean checkProjectIsOnBoard(String projectName) {
         return tableOfProjects.getText().contains(projectName);
     }
 
@@ -47,15 +47,15 @@ public class BuildHistoryPage extends HeaderFooterPage {
         return this;
     }
 
-    public BuildChanges clickChangesAndGoToBuildPage() {
+    public BuildChangesPage clickChangesAndGoToChangesPage() {
         changesButton.click();
 
-        return new BuildChanges(getDriver());
+        return new BuildChangesPage(getDriver());
     }
 
-    public BuildConsole clickConsoleAndGoToBuildPage() {
+    public BuildConsolePage clickConsoleAndGoToConsolePage() {
         consoleButton.click();
 
-        return new BuildConsole(getDriver());
+        return new BuildConsolePage(getDriver());
     }
 }

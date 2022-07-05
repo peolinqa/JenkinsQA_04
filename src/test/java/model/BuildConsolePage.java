@@ -4,16 +4,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class BuildChanges extends BasePage{
+public class BuildConsolePage extends BasePage{
 
     @FindBy(css = "span.jenkins-icon-adjacent")
-    private WebElement changesHeader;
+    private WebElement consoleHeader;
 
-    public BuildChanges(WebDriver driver) {
+    public BuildConsolePage(WebDriver driver) {
         super(driver);
     }
 
-    public String getChangesPageHeader() {
-        return changesHeader.getText();
+    public String getConsolePageHeader() {
+        return consoleHeader.getText();
     }
 }
