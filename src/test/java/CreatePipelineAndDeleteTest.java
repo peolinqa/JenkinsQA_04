@@ -123,6 +123,7 @@ public class CreatePipelineAndDeleteTest extends BaseTest {
         checkProjectAfterDelete(namePipeline);
     }
 
+    @Ignore
     @Test
     public void testTC_021_004DeletePipelineFromDashboard() {
 
