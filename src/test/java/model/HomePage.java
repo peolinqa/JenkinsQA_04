@@ -10,7 +10,6 @@ import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
-import runner.ProjectUtils;
 
 public class HomePage extends HeaderFooterPage {
 

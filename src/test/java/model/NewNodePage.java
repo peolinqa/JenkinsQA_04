@@ -7,13 +7,13 @@ import org.openqa.selenium.support.FindBy;
 public class NewNodePage extends BasePage{
 
     @FindBy(xpath = "//input[@id='name']")
-    WebElement nodeNameField;
+    private WebElement nodeNameField;
 
     @FindBy(xpath = "//label[text()='Permanent Agent']")
-    WebElement permanentAgentRadioButton;
+   private WebElement permanentAgentRadioButton;
 
     @FindBy(xpath = "//input[@id='ok']")
-    WebElement createButton;
+    private WebElement createButton;
 
     public NewNodePage(WebDriver driver) {
         super(driver);

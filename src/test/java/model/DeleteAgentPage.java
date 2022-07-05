@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public class DeleteAgentPage extends BasePage {
 
     @FindBy(xpath = "//button[@id='yui-gen1-button']")
-    WebElement yesButton;
+    private WebElement yesButton;
 
     public DeleteAgentPage(WebDriver driver) {
         super(driver);

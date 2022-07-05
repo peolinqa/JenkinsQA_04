@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 public class NewNodeConfigPage extends BasePage {
 
     @FindBy(xpath = "//button[@id='yui-gen7-button']")
-    WebElement saveButton;
+    private WebElement saveButton;
 
     public NewNodeConfigPage(WebDriver driver) {
         super(driver);

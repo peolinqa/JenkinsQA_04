@@ -11,10 +11,6 @@ import java.util.List;
 
 public class ManageNodesAndCloudsPage extends BasePage {
 
-    public List<WebElement> getComputerNames() {
-        return computerNames;
-    }
-
     @FindBy(xpath = "//table[@id='computers']//td[2]")
     private List<WebElement> computerNames;
 
@@ -29,6 +25,10 @@ public class ManageNodesAndCloudsPage extends BasePage {
 
     public ManageNodesAndCloudsPage(WebDriver driver) {
         super(driver);
+    }
+
+    public List<WebElement> getComputerNames() {
+        return computerNames;
     }
 
     public NewNodePage newNodeButtonClick() {
