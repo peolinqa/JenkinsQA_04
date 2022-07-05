@@ -1,37 +1,42 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
+
+import static runner.ProjectUtils.ProjectType.Freestyle;
 
 public class _BuildHistoryTest extends BaseTest {
 
     private static final String PROJECT_NAME = "BuildHistoryPageProject";
 
-    private static final By HEADER_TEXT_XPATH = By.xpath("//span[@class='jenkins-icon-adjacent']");
-
     private String buildName;
 
-    private void createNewProjectAndBuild() {
+    @Test
+    public void testBuildIsOnProjectPage() {
 
-        if (getDriver().findElements(By.partialLinkText(PROJECT_NAME)).size() == 0) {
-            ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Freestyle, PROJECT_NAME);
-            ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        }
+        WebElement build = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectType(Freestyle)
+                .setProjectName(PROJECT_NAME)
+                .createAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickBuildButton()
+                .getBuild();
 
-        getDriver().findElement(By.linkText(PROJECT_NAME)).click();
+        buildName = build.getText().substring("#".length());
 
-        if (getDriver().findElement(By.id("no-builds")).isDisplayed()) {
-            ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
-        }
+        Assert.assertTrue(build.isDisplayed());
+    }
 
-        WebElement build = getWait20().until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//tr[@class='build-row single-line overflow-checked']/td/div/a"))
-        );
+    @Test(dependsOnMethods = "testBuildIsOnProjectPage")
+    public void testBuildIsOnBuildHistoryPage() {
+        boolean result = new HomePage(getDriver())
+                .clickBuildHistory()
+                .checkProjectOnBoard(PROJECT_NAME);
 
-        buildName = build.getText().substring(1);
+        Assert.assertTrue(result);
     }
 
     public void createAndBuildFreestyleProject() {
@@ -58,35 +63,28 @@ public class _BuildHistoryTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test(dependsOnMethods = "testBuildIsOnBuildHistoryPage")
     public void testBuildHistoryChanges() {
-        createNewProjectAndBuild();
 
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.Dashboard.Main.BuildHistory.click(getDriver());
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/%s/']", PROJECT_NAME, buildName))).click();
-        ProjectUtils.Dashboard.Build.Changes.click(getDriver());
+        String changesHeader = new HomePage(getDriver())
+                .clickBuildHistory()
+                .clickBuildSpanMenu(PROJECT_NAME, buildName)
+                .clickChangesAndGoToBuildPage()
+                .getChangesPageHeader();
 
-        String actualChangesURL = getDriver().getCurrentUrl().substring(22);
-        String actualChangesHeader = getDriver().findElement(HEADER_TEXT_XPATH).getText();
-
-        Assert.assertEquals(actualChangesURL, String.format("job/%s/%s/changes", PROJECT_NAME, buildName));
-        Assert.assertEquals(actualChangesHeader, "Changes");
+        Assert.assertEquals(changesHeader, "Changes");
     }
 
-    @Test (dependsOnMethods = {"testBuildHistoryChanges"})
+    @Test (dependsOnMethods = "testBuildHistoryChanges")
     public void testBuildHistoryConsole() {
 
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.Dashboard.Main.BuildHistory.click(getDriver());
-        getDriver().findElement(By.xpath(String.format("//a[@href='/job/%s/%s/']", PROJECT_NAME, buildName))).click();
-        ProjectUtils.Dashboard.Build.ConsoleOutput.click(getDriver());
+        String consoleHeader = new HomePage(getDriver())
+                .clickBuildHistory()
+                .clickBuildSpanMenu(PROJECT_NAME, buildName)
+                .clickConsoleAndGoToBuildPage()
+                .getConsolePageHeader();
 
-        String actualConsoleURL = getDriver().getCurrentUrl().substring(22);
-        String actualConsoleHeader = getDriver().findElement(HEADER_TEXT_XPATH).getText();
-
-        Assert.assertEquals(actualConsoleURL, String.format("job/%s/%s/console", PROJECT_NAME, buildName));
-        Assert.assertEquals(actualConsoleHeader, "Console Output");
+        Assert.assertEquals(consoleHeader, "Console Output");
     }
 
     @Test
@@ -131,5 +129,4 @@ public class _BuildHistoryTest extends BaseTest {
 
         Assert.assertTrue(buildName.contains("New build 123"));
     }
-
 }
