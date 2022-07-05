@@ -34,9 +34,6 @@ public class HomePage extends HeaderFooterPage {
     @FindBy(linkText = "Build History")
     private WebElement buildHistory;
 
-    @FindBy(xpath = "//a[text()='folder1']")
-    private WebElement folderFolder1OnDashboard;
-
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
     private List<WebElement> listBuildButtons;
 

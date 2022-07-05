@@ -126,6 +126,11 @@ public class NewItemPage extends HeaderFooterPage {
         return errorInvalidName;
     }
 
+    public boolean isDisplayedNameError() {
+
+        return errorInvalidName.isDisplayed();
+    }
+
     public List<WebElement> getProjectTypeLabels() {
         return projectTypeLabels;
     }

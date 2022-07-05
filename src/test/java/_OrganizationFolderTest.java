@@ -91,16 +91,18 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "renameOrganizationFolderTest")
     public void createOrganizationFolderSameItemNameTest() {
-        WebElement nameError = new HomePage(getDriver())
+        boolean isDisplayedNameError = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME2)
                 .setProjectType(ProjectUtils.ProjectType.OrganizationFolder)
-                .getNameError();
+                .isDisplayedNameError();
 
-        Assert.assertTrue(nameError.isDisplayed());
-        Assert.assertEquals(new NewItemPage(getDriver()).getNameErrorText(),
+        NewItemPage newItemPage = new NewItemPage(getDriver());
+
+        Assert.assertTrue(isDisplayedNameError);
+        Assert.assertEquals(newItemPage.getNameErrorText(),
                 "» A job already exists with the name ‘" + VALID_FOLDER_NAME2 + "’");
-        Assert.assertEquals(new NewItemPage(getDriver()).getNameErrorScc("color").toString(),
+        Assert.assertEquals(newItemPage.getNameErrorScc("color").toString(),
                 "rgba(255, 0, 0, 1)");
     }
 
