@@ -41,8 +41,8 @@ public class BuildHistoryPage extends HeaderFooterPage {
 
     public BuildHistoryPage clickBuildSpanMenu(String projectName, String buildName) {
         getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a[@href='/job/" + projectName + "/" + buildName + "/']/button"))
-        ).click().perform();
+                By.xpath("//a[@href='/job/" + projectName + "/" + buildName + "/']"))).perform();
+        getDriver().findElement(By.id("menuSelector")).click();
 
         return this;
     }
