@@ -19,6 +19,9 @@ public class ProjectPage extends BasePage {
     @FindBy(linkText = "Dashboard")
     private WebElement dashboardButton;
 
+    @FindBy(linkText = "Build Now")
+    private WebElement buildButton;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -39,5 +42,15 @@ public class ProjectPage extends BasePage {
     public void assertProjectStatus(String value) {
         Assert.assertTrue(getWait20().until(ExpectedConditions.attributeToBe(
                 By.cssSelector(".tobsTable-body .job"), "class", value)));
+    }
+
+    public ProjectPage clickBuildButton() {
+        buildButton.click();
+
+        return this;
+    }
+
+    public WebElement getBuild() {
+        return getWait20().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".display-name")));
     }
 }

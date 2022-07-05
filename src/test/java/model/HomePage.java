@@ -183,6 +183,12 @@ public class HomePage extends HeaderFooterPage {
         return new BuildHistoryPage(getDriver());
     }
 
+    public BuildHistoryPage clickBuildHistory() {
+        buildHistory.click();
+
+        return new BuildHistoryPage(getDriver());
+    }
+
     public SearchPage searchText(String text) {
         searchForm.sendKeys(text, Keys.ENTER);
 
