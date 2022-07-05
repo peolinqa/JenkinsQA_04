@@ -18,6 +18,9 @@ public class ManageJenkinsPage extends HeaderFooterPage {
     @FindBy(xpath = "//dt[text()='Load Statistics']")
     private WebElement loadStatistics;
 
+    @FindBy(xpath = "//div[@class='jenkins-section__item']/a[@href='cli']/dl/dt")
+    private WebElement jenkinsCLI;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -45,4 +48,11 @@ public class ManageJenkinsPage extends HeaderFooterPage {
 
         return new ManageNodesAndCloudsPage(getDriver());
     }
+
+    public JenkinsCLIPage clickJenkinsCLI() {
+        jenkinsCLI.click();
+
+        return new JenkinsCLIPage(getDriver());
+    }
+
 }
