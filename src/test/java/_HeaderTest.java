@@ -1,4 +1,4 @@
-import model.HomePage;
+import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -42,11 +42,65 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testIsHeaderDisplayedOnTopOnMainPage() {
-        HomePage isHeaderDisplayed = new HomePage(getDriver());
+        HomePage newHomePage = new HomePage(getDriver());
 
-        Assert.assertTrue(isHeaderDisplayed.getPageHeader().isDisplayed());
-        Assert.assertEquals(isHeaderDisplayed.getPageHeaderLocation(), "(0, 0)");
-        }
+        Assert.assertTrue(newHomePage.getPageHeader().isDisplayed());
+        Assert.assertEquals(newHomePage.getPageHeaderLocation(), "(0, 0)");
+    }
+
+    @Test
+    public void testIsHeaderDisplayedOnTopOnNewItemPage() {
+        NewItemPage newItemPage = new HomePage(getDriver())
+                .clickNewItem();
+
+        Assert.assertTrue(newItemPage.getPageHeader().isDisplayed());
+        Assert.assertEquals(newItemPage.getPageHeaderLocation(), "(0, 0)");
+    }
+
+    @Test
+    public void testIsHeaderDisplayedOnTopOnPeoplePage() {
+        PeoplePage newPeoplePage = new HomePage(getDriver())
+                .clickPeople();
+
+        Assert.assertTrue(newPeoplePage.getPageHeader().isDisplayed());
+        Assert.assertEquals(newPeoplePage.getPageHeaderLocation(), "(0, 0)");
+    }
+
+    @Test
+    public void testIsHeaderDisplayedOnTopOnBuildHistoryPage() {
+        BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
+                .clickAndGoToBuildHistoryPage();
+
+        Assert.assertTrue(newBuildHistoryPage.getPageHeader().isDisplayed());
+        Assert.assertEquals(newBuildHistoryPage.getPageHeaderLocation(), "(0, 0)");
+    }
+
+    @Test
+    public void testIsHeaderDisplayedOnTopOnManageJenkinsPage() {
+        ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
+                .clickManageJenkins();
+
+        Assert.assertTrue(newManageJenkinsPage.getPageHeader().isDisplayed());
+        Assert.assertEquals(newManageJenkinsPage.getPageHeaderLocation(), "(0, 0)");
+    }
+
+    @Test
+    public void testIsHeaderDisplayedOnTopOnMyViewPage() {
+        MyViewPage newMyViewPage = new HomePage(getDriver())
+                .clickMyView();
+
+        Assert.assertTrue(newMyViewPage.getPageHeader().isDisplayed());
+        Assert.assertEquals(newMyViewPage.getPageHeaderLocation(), "(0, 0)");
+    }
+
+    @Test
+    public void testIsHeaderDisplayedOnTopOnNewViewsPage() {
+        NewViewPage newNewViewPage = new HomePage(getDriver())
+                .clickNewView();
+
+        Assert.assertTrue(newNewViewPage.getPageHeader().isDisplayed());
+        Assert.assertEquals(newNewViewPage.getPageHeaderLocation(), "(0, 0)");
+    }
 
     @Test
     public void testVerifyImageOrderOnAllPages() {

@@ -8,7 +8,7 @@ import org.testng.Assert;
 import runner.ProjectUtils;
 import java.util.List;
 
-public class NewItemPage extends BasePage {
+public class NewItemPage extends HeaderFooterPage {
 
     @FindBy(id = "name")
     private WebElement nameText;

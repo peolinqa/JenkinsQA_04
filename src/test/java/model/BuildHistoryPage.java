@@ -7,7 +7,7 @@ import org.testng.Assert;
 
 import java.util.List;
 
-public class BuildHistoryPage extends BasePage {
+public class BuildHistoryPage extends HeaderFooterPage {
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);

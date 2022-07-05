@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class NewViewPage extends BasePage {
+public class NewViewPage extends HeaderFooterPage {
 
     @FindBy(id = "name")
     private WebElement nameText;

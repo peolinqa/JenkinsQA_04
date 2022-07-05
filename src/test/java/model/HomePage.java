@@ -7,13 +7,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import runner.ProjectUtils;
 
-public class HomePage extends BasePage {
+public class HomePage extends HeaderFooterPage {
 
     private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
@@ -26,11 +24,14 @@ public class HomePage extends BasePage {
     @FindBy(linkText = "Manage Jenkins")
     private WebElement manageJenkins;
 
-    @FindBy(id = "jenkins-head-icon")
-    private WebElement headerIcon;
+    @FindBy(linkText = "New View")
+    private WebElement newView;
 
-    @FindBy(id = "header")
-    private WebElement pageHeader;
+    @FindBy(linkText = "My Views")
+    private WebElement myViews;
+
+    @FindBy(linkText = "Build History")
+    private WebElement buildHistory;
 
     @FindBy(xpath = "//a[text()='folder1']")
     private WebElement folderFolder1OnDashboard;
@@ -40,9 +41,6 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//td/a[contains(@href, 'job/')]")
     private List<WebElement> listJobNameButtons;
-
-    @FindBy(linkText = "New View")
-    private WebElement newView;
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='children']")
     private WebElement triangleOnBreadcrumbs;
@@ -55,12 +53,6 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//input[@name='q']")
     private WebElement searchForm;
-
-    @FindBy(linkText = "My Views")
-    private WebElement myViews;
-
-    @FindBy(linkText = "Build History")
-    private WebElement buildHistory;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -82,30 +74,6 @@ public class HomePage extends BasePage {
         manageJenkins.click();
 
         return new ManageJenkinsPage(getDriver());
-    }
-
-    public String getLogoIconTagName() {
-        return headerIcon.getTagName();
-    }
-
-    public String getLogoIconAttribute(String attribute) {
-        return headerIcon.getAttribute(attribute);
-    }
-
-    public WebElement getHeaderIcon() {
-        return headerIcon;
-    }
-
-    public String getPageHeaderLocation() {
-        return pageHeader.getLocation().toString();
-    }
-
-    public WebElement getPageHeader() {
-        return pageHeader;
-    }
-
-    public String getPageHeaderCssValue(String value) {
-        return pageHeader.getCssValue(value);
     }
 
     public OrganizationFolderProjectPage clickOrganizationFolderName(String name) {

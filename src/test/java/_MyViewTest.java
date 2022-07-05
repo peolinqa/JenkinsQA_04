@@ -1,6 +1,7 @@
 import model.HomePage;
 import model.MyViewPage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -73,6 +74,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertTrue(myViewPage.getNamesOfViewsOnTabBar().contains(viewName4));
     }
 
+   @Ignore
     @Test(dependsOnMethods = "testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs")
     public void testCreateNewViewWithAnExistingName() {
         String errorText = new HomePage(getDriver())

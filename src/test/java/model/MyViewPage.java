@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewPage extends BasePage {
+public class MyViewPage extends HeaderFooterPage {
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='item']")
     private List<WebElement> viewNamesOnBreadcrumbs;

@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class PeoplePage extends BasePage {
+public class PeoplePage extends HeaderFooterPage {
 
     @FindBy(xpath = "//ol/li[1]")
     private WebElement iconSizeSButton;
