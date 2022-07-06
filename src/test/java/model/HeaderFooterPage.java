@@ -13,6 +13,9 @@ public class HeaderFooterPage extends BasePage {
     @FindBy(id = "header")
     private WebElement pageHeader;
 
+    @FindBy(xpath = "//a[@href='api/']")
+    private WebElement apiFooter;
+
     public HeaderFooterPage(WebDriver driver) {
         super(driver);
     }
@@ -37,4 +40,8 @@ public class HeaderFooterPage extends BasePage {
         return pageHeader.getCssValue(value);
     }
 
+    public ApiPage goToAPIPage(){
+        apiFooter.click();
+        return new ApiPage(getDriver());
+    }
 }

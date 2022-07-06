@@ -21,20 +21,21 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Сache maven
-        uses: actions/cache@v2
+      - name: Cache maven
+        uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven-
+          key: ${{ runner.os }}-maven-${{ hashFiles('./pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
       - name: Get list of changed files
         run: echo "LIST_OF_CHANGED_FILES=$(git diff --name-only origin/$GITHUB_HEAD_REF $(git merge-base origin/$GITHUB_HEAD_REF origin/main) | tr '\n' ';')" >> $GITHUB_ENV
 
       - name: Prepare Jenkins data
         run: |
-          cat /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_data/jenkins_backup0* > /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar
-          md5sum /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup.tar
+          cat ${{ github.workspace }}/jenkins_data/jenkins_backup0* > ${{ github.workspace }}/jenkins_backup.tar
+          md5sum ${{ github.workspace }}/jenkins_backup.tar
 
       - name: Extract Jenkins data and set permission
         run: |
@@ -45,7 +46,7 @@ jobs:
         run: echo ${{ secrets.DOCKER_PAS }} | docker login --username ${{ secrets.DOCKER_USER }} --password-stdin
 
       - name: Docker start
-        run: docker run --rm --detach -p 8080:8080 -p 50000:50000 -v /home/runner/work/JenkinsQA_04/JenkinsQA_04/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.332.3-lts-jdk11
+        run: docker run --rm --detach -p 8080:8080 -p 50000:50000 -v ${{ github.workspace }}/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.332.3-lts-jdk11
 
       - name: Wait for the Jenkins
         run: ./.github/wait-for-jenkins.sh

@@ -1,3 +1,4 @@
+import model.HeaderFooterPage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -6,9 +7,11 @@ import runner.BaseTest;
 public class _FooterTest extends BaseTest {
 
     @Test
-    public void testFooterCheckLinksRestApi() {
-        getDriver().findElement(By.xpath("//a[@href='api/']")).click();
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(), "REST API");
+    public void testFooterCheckLinksRestApi(){
+       String  footerCheckLinksRestApi = new HeaderFooterPage(getDriver())
+               .goToAPIPage()
+               .getFooterApiText();
+       Assert.assertEquals(footerCheckLinksRestApi,"REST API");
     }
 
     @Test
