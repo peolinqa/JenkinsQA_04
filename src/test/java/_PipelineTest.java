@@ -38,12 +38,14 @@ public class _PipelineTest extends BaseTest {
     private JavascriptExecutor javascriptExecutor;
     private SoftAssert asserts;
 
+
     @BeforeMethod
     public void setUp() {
         javascriptExecutor = (JavascriptExecutor) getDriver();
         asserts = new SoftAssert();
         getActions();
     }
+
 
     private String pipelineName() {
         return TestUtils.getRandomStr(7);
@@ -75,6 +77,7 @@ public class _PipelineTest extends BaseTest {
     }
 
     private void checkProjectAfterDelete(String projectName) {
+
         List<WebElement> actual = getDriver().findElements(H1);
         if (actual.size() == 0) {
             for (WebElement webElement : getActualDashboardProject()) {

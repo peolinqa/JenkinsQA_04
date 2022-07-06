@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 public class ProjectPage extends BasePage {
+
+    private static final By DISPLAY_NAME = By.cssSelector(".display-name");
 
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
@@ -50,7 +53,13 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
-    public WebElement getBuild() {
-        return getWait20().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".display-name")));
+    public String getBuildNumber() {
+        WebElement displayName = getWait20().until(ExpectedConditions.presenceOfElementLocated(DISPLAY_NAME));
+
+        return displayName.getText().substring("#".length());
+    }
+
+    public boolean buildNumberIsDisplayed() {
+        return getWait20().until(ExpectedConditions.presenceOfElementLocated(DISPLAY_NAME)).isDisplayed();
     }
 }

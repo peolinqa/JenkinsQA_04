@@ -17,6 +17,7 @@ public class BuildHistoryPage extends HeaderFooterPage {
     @FindBy(xpath = "//td/a[contains(@href, 'job/')][1]")
     private List<WebElement> listBuildHistory;
 
+
     @FindBy(xpath = "//table[@id='projectStatus']/tbody")
     private WebElement tableOfProjects;
 
@@ -27,6 +28,7 @@ public class BuildHistoryPage extends HeaderFooterPage {
     private WebElement consoleButton;
 
     public BuildHistoryPage collectListBuildHistoryAndAssert(List<String> namesBuilds) {
+
 
         for (int i = 0; i < namesBuilds.size(); i++) {
 

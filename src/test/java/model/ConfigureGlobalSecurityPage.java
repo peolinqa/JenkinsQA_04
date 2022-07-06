@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +18,7 @@ public class ConfigureGlobalSecurityPage extends BasePage {
 
     @FindBy(className = "jenkins-section__header")
     private List<WebElement> securityChapters;
+
     public ConfigureGlobalSecurityPage(WebDriver driver) {
         super(driver);
     }
@@ -30,6 +32,7 @@ public class ConfigureGlobalSecurityPage extends BasePage {
         js.executeScript("arguments[0].scrollIntoView();", helpButton);
 
         getActions().pause(500).moveToElement(helpButton).perform();
+
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText();
     }
 

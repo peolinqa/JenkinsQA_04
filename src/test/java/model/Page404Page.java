@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 

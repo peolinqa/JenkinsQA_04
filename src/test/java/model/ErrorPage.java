@@ -1,11 +1,12 @@
 package model;
 
+import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
-public class ErrorPage extends BasePage{
+public class ErrorPage extends BasePage {
 
     public ErrorPage(WebDriver driver) {
         super(driver);
@@ -16,6 +17,7 @@ public class ErrorPage extends BasePage{
 
     @FindBy(xpath = "//div[@id='main-panel']/p")
     private WebElement errorMessage;
+
 
     public void checkHeaderWithErrorAndAssert(String textError) {
         Assert.assertEquals(headerWithError.getText(),textError);

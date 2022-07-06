@@ -1,10 +1,11 @@
 package model;
 
+import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestylePage extends BasePage{
+public class FreestylePage extends BasePage {
 
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;

@@ -58,6 +58,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
         Assert.assertTrue(textComputerNames.contains(COMPUTER_NAME));
     }
 
+
     @Test(dependsOnMethods = "testCreateNewNodeWithValidName")
     public void testCheckDeleteNode() {
         ManageNodesAndCloudsPage manageNodesAndCloudsPage = new HomePage(getDriver())

@@ -1,10 +1,11 @@
 package model;
 
+import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class JenkinsCLIPage extends BasePage{
+public class JenkinsCLIPage extends BasePage {
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr[1]/td/a")
     private WebElement addJobToViewCommand;

@@ -1,3 +1,4 @@
+import model.ErrorPage;
 import model.HomePage;
 import model.ItemConfigPage;
 import model.NewItemPage;
@@ -117,14 +118,15 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testEnterSeveralSpaces() {
-        String NoNameSpecified = new HomePage(getDriver())
+        ErrorPage errorPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("     ")
                 .setProjectType(Freestyle)
-                .createAndGoToErrorPage()
-                .getErrorMessage();
+                .createAndGoToConfig()
+                .getErrorPageIfPresent();
 
-        Assert.assertEquals(NoNameSpecified, "No name is specified");
+        Assert.assertNotNull(errorPage);
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
 }

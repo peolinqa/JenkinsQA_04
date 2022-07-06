@@ -1,19 +1,14 @@
 package model;
 
+import model.base.BaseBuildPage;
+import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class BuildConsolePage extends BasePage{
-
-    @FindBy(css = "span.jenkins-icon-adjacent")
-    private WebElement consoleHeader;
+public class BuildConsolePage extends BaseBuildPage {
 
     public BuildConsolePage(WebDriver driver) {
         super(driver);
-    }
-
-    public String getConsolePageHeader() {
-        return consoleHeader.getText();
     }
 }

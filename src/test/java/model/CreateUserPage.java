@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -57,6 +58,7 @@ public class CreateUserPage extends BasePage {
 
         return this;
     }
+
 
     public void clickCreateUserButton() {
         createUserButton.click();

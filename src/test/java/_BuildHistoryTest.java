@@ -1,6 +1,6 @@
 import model.HomePage;
+import model.ProjectPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -11,23 +11,22 @@ public class _BuildHistoryTest extends BaseTest {
 
     private static final String PROJECT_NAME = "BuildHistoryPageProject";
 
-    private String buildName;
+    private String buildNumber;
 
     @Test
     public void testBuildIsOnProjectPage() {
 
-        WebElement build = new HomePage(getDriver())
+        ProjectPage projectPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectType(Freestyle)
                 .setProjectName(PROJECT_NAME)
                 .createAndGoToConfig()
                 .saveConfigAndGoToProject()
-                .clickBuildButton()
-                .getBuild();
+                .clickBuildButton();
 
-        buildName = build.getText().substring("#".length());
+        buildNumber = projectPage.getBuildNumber();
 
-        Assert.assertTrue(build.isDisplayed());
+        Assert.assertTrue(projectPage.buildNumberIsDisplayed());
     }
 
     @Test(dependsOnMethods = "testBuildIsOnProjectPage")
@@ -68,9 +67,9 @@ public class _BuildHistoryTest extends BaseTest {
 
         String changesHeader = new HomePage(getDriver())
                 .clickBuildHistory()
-                .clickBuildSpanMenu(PROJECT_NAME, buildName)
+                .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
                 .clickChangesAndGoToChangesPage()
-                .getChangesPageHeader();
+                .getPageHeader();
 
         Assert.assertEquals(changesHeader, "Changes");
     }
@@ -80,9 +79,9 @@ public class _BuildHistoryTest extends BaseTest {
 
         String consoleHeader = new HomePage(getDriver())
                 .clickBuildHistory()
-                .clickBuildSpanMenu(PROJECT_NAME, buildName)
+                .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
                 .clickConsoleAndGoToConsolePage()
-                .getConsolePageHeader();
+                .getPageHeader();
 
         Assert.assertEquals(consoleHeader, "Console Output");
     }

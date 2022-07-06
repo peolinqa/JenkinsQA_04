@@ -56,13 +56,10 @@ public class _ManageUsersTest extends BaseTest {
     @Test(dependsOnMethods = "testUserCanCreateNewUser")
     public void testEditUserFullName() {
 
-        new HomePage(getDriver())
+        String userName = new HomePage(getDriver())
                 .clickManageJenkins()
-                .clickManageUsers();
-        getDriver().findElement(By.xpath("//a[@href='user/".concat(USER_NAME_FIRST.toLowerCase()).concat("/configure']")))
-                .click();
-
-        String userName = new UserConfigurePage(getDriver())
+                .clickManageUsers()
+                .clickUserConfigure(USER_NAME_FIRST)
                 .clearFullName()
                 .setFullName(NEW_USER_FULL_NAME)
                 .clickSaveButton()
