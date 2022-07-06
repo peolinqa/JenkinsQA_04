@@ -1,8 +1,7 @@
-import org.openqa.selenium.By;
+import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 
 public class _JenkinsCLITest extends BaseTest {
 
@@ -68,46 +67,50 @@ public class _JenkinsCLITest extends BaseTest {
             "Outputs the current version.", "Wait for a node to become offline.",
             "Wait for a node to become online.", "Reports your credential and permissions." };
 
-    private void goToCliPage() {
-        getDriver().findElement(By.xpath("//div[@id='tasks']/div[4]/span/a/span[@class='task-link-text']")).click();
-        getDriver().findElement(By.xpath("//div[@class='jenkins-section__item']/a[@href='cli']/dl/dt")).click();
-    }
+    @Test
+    public void checkCommandNameTest() {
+        String addJobToViewName = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .getAddJobToViewName();
 
-    private int countCommands() {
-        return getDriver().findElements(By.xpath("//table[@class='jenkins-table sortable']/tbody/tr")).size();
-    }
+        String buildName = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .getBuildName();
 
-    private String commandSetElement(int i) {
-        return "//table[@class='jenkins-table sortable']/tbody/tr" + "[" + i + "]/";
+        String cancelQuiteDownName = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .getCancelQuiteDownName();
+
+        Assert.assertEquals(addJobToViewName, EXPECTEDCOMMANDNAMES[0]);
+        Assert.assertEquals(buildName, EXPECTEDCOMMANDNAMES[1]);
+        Assert.assertEquals(cancelQuiteDownName, EXPECTEDCOMMANDNAMES[2]);
+
+
     }
 
     @Test
-    public void checkCommandNamesTest() {
-        goToCliPage();
+    public void checkCommandDescriptionTest() {
+        String addJobToViewDescription = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .getAddJobToViewDescription();
 
-        for (int i = 1; i <= countCommands(); i++) {
-            Assert.assertEquals(getDriver().findElement(By.xpath(commandSetElement(i) + "td/a")).getText(), EXPECTEDCOMMANDNAMES[i - 1]);
-        }
-    }
+        String buildDescription = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .getBuildDescription();
 
-    @Test
-    public void checkCommandDescriptionsTest() {
-        goToCliPage();
+        String cancelQuiteDownDescription = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .getCancelQuiteDownDescription();
 
-        for (int i = 1; i <= countCommands(); i++) {
-            Assert.assertEquals(getDriver().findElement(By.xpath(commandSetElement(i) + "td[2]")).getText(), EXPECTEDCOMMANDDESCRIPTIONS[i - 1]);
-        }
-    }
-
-    @Test
-    public void checkCommandLinkTest() {
-        goToCliPage();
-
-        for (int i = 1; i <= countCommands(); i++) {
-            getDriver().findElement(By.xpath(commandSetElement(i) + "td/a")).click();
-            Assert.assertTrue(getDriver().findElement(By.id("example")).getText().contains("-webSocket " + EXPECTEDCOMMANDNAMES[i - 1]));
-            getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[3]/a")).click();
-        }
+        Assert.assertEquals(addJobToViewDescription, EXPECTEDCOMMANDDESCRIPTIONS[0]);
+        Assert.assertEquals(buildDescription, EXPECTEDCOMMANDDESCRIPTIONS[1]);
+        Assert.assertEquals(cancelQuiteDownDescription, EXPECTEDCOMMANDDESCRIPTIONS[2]);
     }
 
 }
