@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 
 public class ProjectPage extends BasePage {
 
@@ -42,9 +41,9 @@ public class ProjectPage extends BasePage {
         return new HomePage(getDriver());
     }
 
-    public void assertProjectStatus(String value) {
-        Assert.assertTrue(getWait20().until(ExpectedConditions.attributeToBe(
-                By.cssSelector(".tobsTable-body .job"), "class", value)));
+    public boolean isProjectStatus(String value) {
+        return getWait20().until(ExpectedConditions.attributeToBe(
+                By.cssSelector(".tobsTable-body .job"), "class", value));
     }
 
     public ProjectPage clickBuildButton() {

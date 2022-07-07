@@ -442,20 +442,20 @@ public class _PipelineTest extends BaseTest {
     @DataProvider(name = "errorMessageData")
     public Object[][] errorData() {
         return new Object[][]{
-                {"!", "» ‘!’"}, {"@", "» ‘@’"}, {"#", "» ‘#’"}, {"$", "» ‘$’"},
-                {"%", "» ‘%’"}, {"^", "» ‘^’"}, {"&", "» ‘&’"}, {"*", "» ‘*’"},
-                {":", "» ‘:’"}, {";", "» ‘;’"}, {"<", "» ‘<’"}, {">", "» ‘>’"},
-                {"?", "» ‘?’"}, {"/", "» ‘/’"}, {"\\\\", "» ‘\\’"}
+                {"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"},
+                {":"}, {";"}, {"<"}, {">"}, {"?"}, {"/"}, {"\\"}
         };
     }
 
     @Test(dataProvider = "errorMessageData")
-    public void testInvalidName(String name, String expectedMessage) {
+    public void testInvalidName(String name) {
 
-        new HomePage(getDriver())
+        final String errorText = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .checkErrorMessage(expectedMessage + " is an unsafe character");
+                .getErrorMessage();
+
+        Assert.assertEquals(errorText, String.format("» ‘%s’ is an unsafe character", name));
     }
 
     @Ignore
@@ -766,7 +766,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckPositiveBuildIcon() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final boolean isStatus = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -777,7 +777,9 @@ public class _PipelineTest extends BaseTest {
                 .buildSelectPipeline(name, false)
                 .clickRefreshPage()
                 .clickProjectName(name)
-                .assertProjectStatus("job SUCCESS");
+                .isProjectStatus("job SUCCESS");
+
+        Assert.assertTrue(isStatus);
     }
 
     @Test

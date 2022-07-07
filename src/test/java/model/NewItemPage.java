@@ -153,6 +153,10 @@ public class NewItemPage extends HeaderFooterPage {
         return this;
     }
 
+    public String getErrorMessage() {
+        return errorInvalidName.getText();
+    }
+
     public NewItemPage checkPresenceErrorMessageAndAssert(String name) {
         Assert.assertEquals(errorInvalidName.getText(),"» A job already exists with the name ‘" + name + "’");
 
