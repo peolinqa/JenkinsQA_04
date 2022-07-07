@@ -1,7 +1,4 @@
-import model.FolderConfigPage;
-import model.HomePage;
-import model.NewItemPage;
-import model.RenameFolderPage;
+import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -86,7 +83,7 @@ public class _FolderTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(NAME_FOLDER)
                 .setProjectType(Folder)
-                .createAndGoToFolderConfig()
+                .createAndGoToFolderConfigPage()
                 .waitLoadingFolderConfigurePage()
                 .getGeneralTabName();
 
@@ -232,13 +229,14 @@ public class _FolderTest extends BaseTest {
     @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive"})
     public void testRenameFolderWithSpaceAsAName() {
 
-        String actualResult = new HomePage(getDriver())
+        ErrorPage errorPage = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
                 .clickRenameFolder()
-                .renameAndGoToErrorPage(" ")
-                .getErrorMessage();
+                .renameFolder("   ")
+                .getErrorPageIfPresent();
 
-        Assert.assertEquals(actualResult, "No name is specified");
+        Assert.assertNotNull(errorPage);
+        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
     @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive", "testRenameFolderWithSpaceAsAName"})
@@ -253,26 +251,28 @@ public class _FolderTest extends BaseTest {
         for (int i = 0; i < unsafeCharacters.length(); i++) {
             String newFolderName = unsafeCharacters.substring(i, (i + 1));
             if (newFolderName.equals("&")) {
-                String actualResult = folderForRenameTest
-                        .renameAndGoToErrorPage(newFolderName)
-                        .getErrorMessage();
-                Assert.assertEquals(actualResult, "‘&amp;’ is an unsafe character");
+                ErrorPage errorPage = folderForRenameTest
+                        .renameFolder(newFolderName)
+                        .getErrorPageIfPresent();
+                Assert.assertNotNull(errorPage);
+                Assert.assertEquals(errorPage.getErrorMessage(), "‘&amp;’ is an unsafe character");
                 getDriver().navigate().back();
                 continue;
             }
             if (newFolderName.equals(".")) {
-                String actualResult = folderForRenameTest
-                        .renameAndGoToErrorPage(newFolderName)
-                        .getErrorMessage();
-                Assert.assertEquals(actualResult, "“.” is not an allowed name");
+                ErrorPage errorPage = folderForRenameTest
+                        .renameFolder(newFolderName)
+                        .getErrorPageIfPresent();
+                Assert.assertNotNull(errorPage);
+                Assert.assertEquals(errorPage.getErrorMessage(), "“.” is not an allowed name");
                 getDriver().navigate().back();
                 continue;
             }
-            String actualResult = folderForRenameTest
-                    .renameAndGoToErrorPage(newFolderName)
-                    .getErrorMessage();
-            String expectedResult = "‘" + newFolderName + WARNING_TEXT_UNSAFE;
-            Assert.assertEquals(actualResult, expectedResult);
+            ErrorPage errorPage = folderForRenameTest
+                    .renameFolder(newFolderName)
+                    .getErrorPageIfPresent();
+            Assert.assertNotNull(errorPage);
+            Assert.assertEquals(errorPage.getErrorMessage(), "‘" + newFolderName + WARNING_TEXT_UNSAFE);
             getDriver().navigate().back();
         }
     }

@@ -96,12 +96,6 @@ public class NewItemPage extends HeaderFooterPage {
         return new OrganizationFolderConfigPage(getDriver());
     }
 
-    public FolderConfigPage createAndGoToFolderConfig() {
-        okButton.click();
-
-        return new FolderConfigPage(getDriver());
-    }
-
     public FreestyleConfigPage clickOkGoToConfig() {
         okButton.click();
 
