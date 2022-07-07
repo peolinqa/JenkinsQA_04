@@ -86,7 +86,6 @@ public class _ManagePluginsTest extends BaseTest {
 
     @Test
     public void testFilterInUpdatesTab(){
-
         WebDriver driver = getDriver();
         ProjectUtils.Dashboard.Main.ManageJenkins.click(driver);
         ProjectUtils.ManageJenkins.ManagePlugins.click(driver);

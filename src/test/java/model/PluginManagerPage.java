@@ -33,7 +33,6 @@ public class PluginManagerPage extends BasePage {
     public void searchFieldInput(String s){
         searchField.clear();
         searchField.sendKeys(s);
-
     }
 
     public static boolean checkWordsInLine(String needle, String str){
