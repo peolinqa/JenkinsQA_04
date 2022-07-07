@@ -19,7 +19,7 @@ public class _ManagePluginsTest extends BaseTest {
     private int getListSize() {
         return getDriver().findElements(By.xpath("//table[@id='plugins']//tbody//tr")).size();
     }
-    private static final String[] SEARCH_LIST = {"Pipeline API", "GitHub"};
+    private static final String[] SEARCH_LIST = {"GitHub"};
 
     @Test
     public void testManagePluginsCheckNameAndArrowUp() {
