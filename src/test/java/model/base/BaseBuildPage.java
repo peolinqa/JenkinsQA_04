@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public abstract class BaseBuildPage extends BasePage {
+public abstract class BaseBuildPage extends BaseHeaderFooterPage {
 
     @FindBy(css = "span.jenkins-icon-adjacent")
     private WebElement header;

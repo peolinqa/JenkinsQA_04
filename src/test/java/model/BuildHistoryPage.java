@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseBuildPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +9,7 @@ import org.testng.Assert;
 
 import java.util.List;
 
-public class BuildHistoryPage extends HeaderFooterPage {
+public class BuildHistoryPage extends BaseBuildPage {
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);

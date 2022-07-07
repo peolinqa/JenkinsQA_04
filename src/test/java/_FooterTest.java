@@ -1,4 +1,4 @@
-import model.HeaderFooterPage;
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -8,8 +8,8 @@ public class _FooterTest extends BaseTest {
 
     @Test
     public void testFooterCheckLinksRestApi(){
-       String  footerCheckLinksRestApi = new HeaderFooterPage(getDriver())
-               .goToAPIPage()
+       String  footerCheckLinksRestApi = new HomePage(getDriver())
+               .goToApiPage()
                .getFooterApiText();
        Assert.assertEquals(footerCheckLinksRestApi,"REST API");
     }

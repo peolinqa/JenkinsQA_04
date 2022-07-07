@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +9,7 @@ import org.testng.Assert;
 import runner.ProjectUtils;
 import java.util.List;
 
-public class NewItemPage extends HeaderFooterPage {
+public class NewItemPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "name")
     private WebElement nameText;

@@ -1,10 +1,11 @@
 package model;
 
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ManageJenkinsPage extends HeaderFooterPage {
+public class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//dt[text()='Configure Global Security']")
     private WebElement configureGlobalSecurity;

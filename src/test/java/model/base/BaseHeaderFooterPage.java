@@ -1,11 +1,11 @@
-package model;
+package model.base;
 
-import model.base.BasePage;
+import model.ApiPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class HeaderFooterPage extends BasePage {
+public abstract class BaseHeaderFooterPage extends BasePage {
 
     @FindBy(id = "jenkins-head-icon")
     private WebElement headerIcon;
@@ -16,7 +16,7 @@ public class HeaderFooterPage extends BasePage {
     @FindBy(xpath = "//a[@href='api/']")
     private WebElement apiFooter;
 
-    public HeaderFooterPage(WebDriver driver) {
+    public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
     }
 
@@ -32,7 +32,7 @@ public class HeaderFooterPage extends BasePage {
         return pageHeader.getLocation().toString();
     }
 
-    public WebElement getPageHeader() {
+    public WebElement getTopPageHeader() {
         return pageHeader;
     }
 
@@ -40,8 +40,9 @@ public class HeaderFooterPage extends BasePage {
         return pageHeader.getCssValue(value);
     }
 
-    public ApiPage goToAPIPage(){
-        apiFooter.click();
-        return new ApiPage(getDriver());
+    public ApiPage goToApiPage() {
+       apiFooter.click();
+
+       return new ApiPage(getDriver());
     }
 }

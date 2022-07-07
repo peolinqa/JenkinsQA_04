@@ -44,7 +44,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnMainPage() {
         HomePage newHomePage = new HomePage(getDriver());
 
-        Assert.assertTrue(newHomePage.getPageHeader().isDisplayed());
+        Assert.assertTrue(newHomePage.getTopPageHeader().isDisplayed());
         Assert.assertEquals(newHomePage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -53,7 +53,7 @@ public class _HeaderTest extends BaseTest {
         NewItemPage newItemPage = new HomePage(getDriver())
                 .clickNewItem();
 
-        Assert.assertTrue(newItemPage.getPageHeader().isDisplayed());
+        Assert.assertTrue(newItemPage.getTopPageHeader().isDisplayed());
         Assert.assertEquals(newItemPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -62,7 +62,7 @@ public class _HeaderTest extends BaseTest {
         PeoplePage newPeoplePage = new HomePage(getDriver())
                 .clickPeople();
 
-        Assert.assertTrue(newPeoplePage.getPageHeader().isDisplayed());
+        Assert.assertTrue(newPeoplePage.getTopPageHeader().isDisplayed());
         Assert.assertEquals(newPeoplePage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -71,7 +71,7 @@ public class _HeaderTest extends BaseTest {
         BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
                 .clickAndGoToBuildHistoryPage();
 
-        Assert.assertTrue(newBuildHistoryPage.getPageHeader().isDisplayed());
+        Assert.assertTrue(newBuildHistoryPage.getTopPageHeader().isDisplayed());
         Assert.assertEquals(newBuildHistoryPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -80,7 +80,7 @@ public class _HeaderTest extends BaseTest {
         ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
                 .clickManageJenkins();
 
-        Assert.assertTrue(newManageJenkinsPage.getPageHeader().isDisplayed());
+        Assert.assertTrue(newManageJenkinsPage.getTopPageHeader().isDisplayed());
         Assert.assertEquals(newManageJenkinsPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -89,7 +89,7 @@ public class _HeaderTest extends BaseTest {
         MyViewPage newMyViewPage = new HomePage(getDriver())
                 .clickMyView();
 
-        Assert.assertTrue(newMyViewPage.getPageHeader().isDisplayed());
+        Assert.assertTrue(newMyViewPage.getTopPageHeader().isDisplayed());
         Assert.assertEquals(newMyViewPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -98,7 +98,7 @@ public class _HeaderTest extends BaseTest {
         NewViewPage newNewViewPage = new HomePage(getDriver())
                 .clickNewView();
 
-        Assert.assertTrue(newNewViewPage.getPageHeader().isDisplayed());
+        Assert.assertTrue(newNewViewPage.getTopPageHeader().isDisplayed());
         Assert.assertEquals(newNewViewPage.getPageHeaderLocation(), "(0, 0)");
     }
 

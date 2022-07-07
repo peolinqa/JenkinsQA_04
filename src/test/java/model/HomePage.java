@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,7 +12,7 @@ import runner.TestUtils;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends HeaderFooterPage {
+public class HomePage extends BaseHeaderFooterPage {
 
     private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
