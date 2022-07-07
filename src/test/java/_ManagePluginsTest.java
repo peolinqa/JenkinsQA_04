@@ -1,4 +1,6 @@
+import model.PluginManagerPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -17,6 +19,7 @@ public class _ManagePluginsTest extends BaseTest {
     private int getListSize() {
         return getDriver().findElements(By.xpath("//table[@id='plugins']//tbody//tr")).size();
     }
+    private static final String[] SEARCH_LIST = {"Pipeline API", "GitHub"};
 
     @Test
     public void testManagePluginsCheckNameAndArrowUp() {
@@ -78,6 +81,26 @@ public class _ManagePluginsTest extends BaseTest {
         asserts.assertNotEquals(getListSize(), 0);
         getDriver().findElement(By.xpath("//div[@class='tab']//a[contains(text(),'Advanced')]")).click();
         asserts.assertNotEquals(getDriver().findElement(By.className("jenkins-section__title")).getSize(),0);
+        asserts.assertAll();
+    }
+
+    @Test
+    public void testFilterInUpdatesTab(){
+
+        WebDriver driver = getDriver();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(driver);
+        ProjectUtils.ManageJenkins.ManagePlugins.click(driver);
+        PluginManagerPage PluginManager = new PluginManagerPage(driver);
+        WebElement searchField = PluginManager.getSearchField();
+        SoftAssert asserts = new SoftAssert();
+        for (String s: SEARCH_LIST) {
+            PluginManager.searchFieldInput(s);
+            List<WebElement> filtredPluginsList = PluginManager.getaList();
+            asserts.assertTrue(filtredPluginsList.size() > 0, "empty filter result, search string:"+s);
+            for (int i = 0; i < filtredPluginsList.size(); i++) {
+                asserts.assertTrue(PluginManagerPage.checkWordsInLine(s, filtredPluginsList.get(i).getText()), "Expected but not found " + s);
+            }
+        }
         asserts.assertAll();
     }
 
