@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 import runner.TestUtils;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,10 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//div[@id='executors']//table")
     private List<WebElement> elementsBuildExecutorStatus;
 
-   public HomePage(WebDriver driver) {
+    @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
+    private List<WebElement> listAllActualProjectNameHomePage;
+
+    public HomePage(WebDriver driver) {
         super(driver);
     }
 
@@ -96,6 +100,10 @@ public class HomePage extends BaseHeaderFooterPage {
 
         return textFolderNames;
     }
+    public List<String> getActualDashboardProject() {
+
+        return listAllActualProjectNameHomePage.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
 
     public FolderPage clickFolderName(String name) {
         ProjectUtils.openProject(getDriver(), name);
@@ -119,8 +127,8 @@ public class HomePage extends BaseHeaderFooterPage {
         for (WebElement el : listBuildButtons) {
             if (el.getText().contains(pipelineName) && isDoubleClick) {
                 getActions().moveToElement(el)
-                .doubleClick()
-                .perform();
+                        .doubleClick()
+                        .perform();
             } else if (el.getText().contains(pipelineName) && !isDoubleClick) {
                 el.click();
             }
@@ -153,7 +161,7 @@ public class HomePage extends BaseHeaderFooterPage {
     }
 
     public MyViewPage clickNameOfViewOnTabBar(String name) {
-       getDriver().findElement(By.xpath("//div/a[contains(text(), '" + name + "')]")).click();
+        getDriver().findElement(By.xpath("//div/a[contains(text(), '" + name + "')]")).click();
 
         return new MyViewPage(getDriver());
     }
@@ -176,7 +184,7 @@ public class HomePage extends BaseHeaderFooterPage {
         return new MyViewPage(getDriver());
     }
 
-    public BuildHistoryPage clickAndGoToBuildHistoryPage () {
+    public BuildHistoryPage clickAndGoToBuildHistoryPage() {
         js.executeScript("arguments[0].scrollIntoView();", newItem);
         buildHistory.click();
 

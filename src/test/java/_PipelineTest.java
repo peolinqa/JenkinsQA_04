@@ -72,6 +72,7 @@ public class _PipelineTest extends BaseTest {
         return getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(locator))));
     }
 
+    @Deprecated
     private List<WebElement> getActualDashboardProject() {
         return getDriver().findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
     }
@@ -321,20 +322,16 @@ public class _PipelineTest extends BaseTest {
     public void testCreatePipelineAndCheckOnDashboard() {
         final String name = pipelineName();
 
-        createPipeline(name, Boolean.TRUE);
-        ProjectUtils.clickSaveButton(getDriver());
+        final List<String> actualDashboardProject = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .saveConfigAndGoToProject()
+                .clickDashboardButton()
+                .getActualDashboardProject();
 
-        Assert.assertTrue(getDriver().findElement(H1)
-                .getText().contains(name));
-
-        homePageClick();
-
-        for (WebElement webElement : getActualDashboardProject()) {
-            if (webElement.getText().contains(name)) {
-                Assert.assertTrue(true);
-                break;
-            }
-        }
+        Assert.assertTrue(actualDashboardProject.contains(name));
     }
 
     @Test
