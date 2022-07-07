@@ -38,4 +38,10 @@ public class ManageUsersPage extends BasePage {
 
         return new ManageUsersPage(getDriver());
     }
+
+    public UserDeletePage clickUserDelete(String userName) {
+        getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", userName))).click();
+
+        return new UserDeletePage(getDriver());
+    }
 }

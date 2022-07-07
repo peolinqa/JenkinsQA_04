@@ -59,7 +59,6 @@ public class CreateUserPage extends BasePage {
         return this;
     }
 
-
     public ManageUsersPage clickCreateUserButton() {
         createUserButton.click();
 

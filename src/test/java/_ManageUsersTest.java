@@ -72,16 +72,20 @@ public class _ManageUsersTest extends BaseTest {
     @Test(dependsOnMethods = "testEditUserFullName")
     public void testUserCanDeleteUser() {
 
+        Set<String> usersListBefore = new TreeSet<>();
+        Set<String> usersListAfter = new TreeSet<>();
+
         new HomePage(getDriver())
                 .clickManageJenkins()
-                .clickManageUsers();
-        getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", USER_NAME_FIRST))).click();
-        getDriver().findElement(BUTTON_SUBMIT_TYPE).click();
+                .clickManageUsers()
+                .fillUsersList(usersListBefore)
+                .clickUserDelete(USER_NAME_FIRST)
+                .clickYesButton()
+                .fillUsersList(usersListAfter);
 
-        for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
+        usersListBefore.remove(USER_NAME_FIRST.concat("\n").concat(NEW_USER_FULL_NAME));
 
-            Assert.assertFalse(user.getText().contains(USER_NAME_FIRST));
-        }
+        Assert.assertEquals(usersListAfter, usersListBefore);
     }
 
     @Test(dependsOnMethods = "testUserCanCreateNewUser")
