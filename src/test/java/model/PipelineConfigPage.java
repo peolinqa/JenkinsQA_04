@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PipelineConfigPage extends BasePage {
@@ -91,46 +92,55 @@ public class PipelineConfigPage extends BasePage {
 
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
+
         return this;
     }
 
     public ProjectPage saveConfigAndGoToProject() {
         saveButton.click();
+
         return new ProjectPage(getDriver());
     }
 
     public HomePage clickDashboardButton() {
         dashboardButton.click();
+
         return new HomePage(getDriver());
     }
 
     public PipelineConfigPage jsDropDownMenuPipelineTab() {
         js.executeScript("arguments[0].scrollIntoView();", dropDownMenuPipelineTab);
+
         return this;
     }
 
     public PipelineConfigPage jsCheckboxProjectParameterized() {
         js.executeScript("arguments[0].scrollIntoView();", checkboxProjectParameterized);
+
         return this;
     }
 
     public PipelineConfigPage jsCheckboxDoNotAllowConcurrentBuilds() {
         js.executeScript("arguments[0].scrollIntoView();", checkboxDoNotAllowConcurrentBuilds);
+
         return this;
     }
 
-    public void collectAndAssertDropDownMenu(int number) {
-        Assert.assertEquals(dropDownMenuInTabPipeline.size(), number);
+    public int collectDropDownMenu() {
+
+        return dropDownMenuInTabPipeline.size();
     }
 
     public PipelineConfigPage scrollAndClickAdvancedButton() {
         js.executeScript("arguments[0].scrollIntoView();", advancedButton);
         advancedButton.click();
+
         return this;
     }
 
     public PipelineConfigPage clickHelpForFeatureDisplayName() {
         displayNameInTabAdvancedProjectOptions.click();
+
         return this;
     }
 
@@ -140,26 +150,31 @@ public class PipelineConfigPage extends BasePage {
                 el.click();
             }
         }
+
         return new PipelineConfigPage(getDriver());
     }
 
     public PipelineConfigPage collectPipelineScriptDropDownMenu() {
         new Select(definitionDropDownMenuPipelineScript).selectByIndex(1);
+
         return this;
     }
 
     public PipelineConfigPage collectPipelineScriptScmDropDownMenu() {
         new Select(definitionDropDownMenuPipelineScriptScm).selectByIndex(1);
+
         return this;
     }
 
     public PipelineConfigPage clickCredentialsAddButton() {
         getWait5().until(ExpectedConditions.elementToBeClickable(credentialsAddButton)).click();
+
         return this;
     }
 
     public PipelineConfigPage clickJenkinsProviderButton() {
         getWait5().until(ExpectedConditions.elementToBeClickable(jenkinsProviderButton)).click();
+
         return this;
     }
 
@@ -187,27 +202,31 @@ public class PipelineConfigPage extends BasePage {
 
     public PipelinePluginPage transitionToCorrectPage() {
         getDriver().navigate().to(urlAttribute.getAttribute("href"));
-        return new PipelinePluginPage(getDriver());
 
+        return new PipelinePluginPage(getDriver());
     }
 
     public PipelineConfigPage clickCheckboxProjectParameterized() {
         checkboxProjectParameterized.click();
+
         return this;
     }
 
     public PipelineConfigPage clickAddParameterOfBuildButton() {
         parameterAddProject.click();
+
         return this;
     }
 
     public PipelineConfigPage clickBooleanParameterButton() {
         booleanParameterButton.click();
+
         return this;
     }
 
     public PipelineConfigPage clickChoiceParameterButton() {
         choiceParameterButton.click();
+
         return this;
     }
 
@@ -217,16 +236,19 @@ public class PipelineConfigPage extends BasePage {
                 .moveToElement(menuBooleanParameter)
                 .release(menuBooleanParameter)
                 .perform();
+
         return this;
     }
 
-    public PipelineConfigPage checkLocationProjectParameterizedAndAssert(List<String> nameParameterized) {
+    public List<String> collectLocationProjectParameterized() {
+        List<String> actualLocationProjectParameterized = new ArrayList<>();
 
-        for (int i = 0; i < parametersLocation.size(); i++) {
-
-            Assert.assertEquals(parametersLocation.get(i).getText(), nameParameterized.get(i));
+        for (WebElement element : parametersLocation) {
+            actualLocationProjectParameterized.add(element.getText());
         }
-        return this;
+        saveConfigAndGoToProject();
+
+        return actualLocationProjectParameterized;
     }
 
     public PipelineConfigPage clickDropDownMenuPipelineTab() {
@@ -236,6 +258,7 @@ public class PipelineConfigPage extends BasePage {
                .sendKeys(Keys.ARROW_DOWN)
                .click()
                .perform();
+
         return this;
     }
 }

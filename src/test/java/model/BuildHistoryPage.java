@@ -5,9 +5,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BuildHistoryPage extends BaseBuildPage {
 
@@ -28,14 +28,9 @@ public class BuildHistoryPage extends BaseBuildPage {
     @FindBy(linkText = "Console Output")
     private WebElement consoleButton;
 
-    public BuildHistoryPage collectListBuildHistoryAndAssert(List<String> namesBuilds) {
+    public List<String> collectListBuildHistory() {
 
-
-        for (int i = 0; i < namesBuilds.size(); i++) {
-
-            Assert.assertEquals(listBuildHistory.get(i).getText(), namesBuilds.get(i));
-        }
-        return this;
+        return listBuildHistory.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public boolean checkProjectIsOnBoard(String projectName) {

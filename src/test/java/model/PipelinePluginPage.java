@@ -4,7 +4,6 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 public class PipelinePluginPage extends BasePage {
 
@@ -15,10 +14,10 @@ public class PipelinePluginPage extends BasePage {
     @FindBy(xpath = "//h1")
     private WebElement titleRedirectedPage;
 
-    public void checkRedirectionPageAndAssert(String getText) {
+    public String checkRedirectionPage() {
         String pageTitle = titleRedirectedPage.getText();
         getDriver().navigate().back();
 
-        Assert.assertEquals(pageTitle, getText);
+        return pageTitle;
     }
 }

@@ -27,7 +27,6 @@ public class _PipelineTest extends BaseTest {
     private static final By DELETE_BUTTON = By.cssSelector("[title='Delete View']");
     private static final By RENAME_BUTTON = By.xpath("//button[text()='Rename']");
     private static final By H1 = By.xpath("//h1");
-    private static final By PIPELINE_ITEM_CONFIGURATION = By.cssSelector(".config-section-activators .config_pipeline");
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
     private static final By WARNING_MESSAGE = By.className("error");
 
@@ -205,7 +204,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckValidationItemName() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+         final String displayDuplicatedJobName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -214,29 +213,51 @@ public class _PipelineTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
-                .checkPresenceErrorMessageAndAssert(name)
+                .getNameErrorText();
+
+        Assert.assertEquals(displayDuplicatedJobName,"» A job already exists with the name ‘" + name + "’");
+    }
+
+    @Test
+    public void testCheckTransitionToPageWithError() {
+        final String name = pipelineName();
+
+       final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .clickDashboardButton()
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
                 .createAndGoToErrorPage()
-                .checkHeaderWithErrorAndAssert("Error");
+                .isDisplayedErrorHeader();
+
+        Assert.assertTrue(isErrorHeaderDisplayed);
     }
 
     @Test
     public void testCheckDropDownMenuPipeline() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final int checkDisplayedDropDownList = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
                 .createAndGoToPipelineConfigure()
                 .jsDropDownMenuPipelineTab()
-                .collectAndAssertDropDownMenu(4);
+                .clickDropDownMenuPipelineTab()
+                .collectDropDownMenu();
+
+        Assert.assertEquals(checkDisplayedDropDownList, 4);
     }
 
     @Test
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final String checkTransitionPluginPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -244,7 +265,10 @@ public class _PipelineTest extends BaseTest {
                 .scrollAndClickAdvancedButton()
                 .clickHelpForFeatureDisplayName()
                 .transitionToCorrectPage()
-                .checkRedirectionPageAndAssert("Pipeline: Job");
+                .checkRedirectionPage();
+
+        Assert.assertEquals(checkTransitionPluginPage, "Pipeline: Job");
+
     }
 
     @Test
@@ -631,7 +655,7 @@ public class _PipelineTest extends BaseTest {
     public void testDragAndDropProjectParameters() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final List<String> locationProjectParameterized = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -644,8 +668,9 @@ public class _PipelineTest extends BaseTest {
                 .clickChoiceParameterButton()
                 .jsCheckboxDoNotAllowConcurrentBuilds()
                 .menuChoiceParameterDragAndDrop()
-                .checkLocationProjectParameterizedAndAssert(Arrays.asList("Choice Parameter", "Boolean Parameter"))
-                .saveConfigAndGoToProject();
+                .collectLocationProjectParameterized();
+
+        Assert.assertEquals(locationProjectParameterized, List.of("Choice Parameter", "Boolean Parameter"));
     }
 
     @Test
@@ -783,7 +808,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckScheduledBuildInBuildHistory() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        List<String> checkBuildHistoryByName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -794,6 +819,8 @@ public class _PipelineTest extends BaseTest {
                 .clickDashboardButton()
                 .buildSelectPipeline(name, true)
                 .clickAndGoToBuildHistoryPage()
-                .collectListBuildHistoryAndAssert(Arrays.asList(name, name));
+                .collectListBuildHistory();
+
+        Assert.assertTrue(checkBuildHistoryByName.containsAll(List.of(name, name)));
     }
 }

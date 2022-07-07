@@ -175,6 +175,7 @@ public class NewItemPage extends BaseHeaderFooterPage {
 
         return new NewItemPage(getDriver());
     }
+
     public NewItemPage clearNameText(){
         nameText.clear();
 
@@ -195,5 +196,4 @@ public class NewItemPage extends BaseHeaderFooterPage {
 
         return this;
     }
-
 }
