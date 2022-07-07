@@ -221,4 +221,10 @@ public class HomePage extends HeaderFooterPage {
     public int getSizeOfListForElementsBuildExecutorStatus() {
         return elementsBuildExecutorStatus.size();
     }
+
+    public MultiConfigurationProjectPage clickMultiConfigurationProjectName(String name) {
+        ProjectUtils.openProject(getDriver(), name);
+
+        return new MultiConfigurationProjectPage(getDriver());
+    }
 }

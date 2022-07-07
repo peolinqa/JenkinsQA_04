@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.MultiConfigurationProjectConsolePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -25,6 +26,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigFolder() {
+
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(NAME)
@@ -38,17 +40,19 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigFolder")
     public void testBuildNow() {
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.openProject(getDriver(), NAME);
-        ProjectUtils.Dashboard.Project.BuildNow.click(getDriver());
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("build-status-link"))).click();
 
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//span/span/*[name()='svg' and (contains(@tooltip, 'Success'))]")).isDisplayed());
+        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+        MultiConfigurationProjectConsolePage consolePage = new HomePage(getDriver())
+                .clickMultiConfigurationProjectName(NAME)
+                .clickBuildNow()
+                .clickTooltipStatus();
+
+        Assert.assertTrue(consolePage.tooltipStatusSuccessIsDisplayed());
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigFolder")
     public void testCheckSubMenuConfigureAfterCreatingProject() {
+
         final String DiscardOldBuildsText = "This determines when, if ever, build records for this project should be discarded. " +
                 "Build records include the console output, archived artifacts, and any other metadata related " +
                 "to a particular build.\n" +
@@ -230,6 +234,5 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         }
         Assert.assertFalse(isPresent);
     }
-
 }
 
