@@ -60,9 +60,10 @@ public class CreateUserPage extends BasePage {
     }
 
 
-    public void clickCreateUserButton() {
+    public ManageUsersPage clickCreateUserButton() {
         createUserButton.click();
 
+        return new ManageUsersPage(getDriver());
     }
 
     public CreateUserPage clearUserName() {

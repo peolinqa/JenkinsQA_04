@@ -1,6 +1,5 @@
 import model.CreateUserPage;
 import model.HomePage;
-import model.UserConfigurePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -34,23 +33,25 @@ public class _ManageUsersTest extends BaseTest {
     @Test
     public void testUserCanCreateNewUser() {
 
+        Set<String> usersListBefore = new TreeSet<>();
+        Set<String> usersListAfter = new TreeSet<>();
+
         new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
+                .fillUsersList(usersListBefore)
                 .clickCreateUser()
                 .setUserName(USER_NAME_FIRST)
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
-                .clickCreateUserButton();
+                .clickCreateUserButton()
+                .fillUsersList(usersListAfter);
 
-        for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
-            if (user.getText().contains(USER_NAME_FIRST) && user.getText().contains(FULL_NAME)) {
+        usersListBefore.add(USER_NAME_FIRST.concat("\n").concat(FULL_NAME));
 
-                Assert.assertTrue(user.isDisplayed());
-            }
-        }
+        Assert.assertEquals(usersListAfter, usersListBefore);
     }
 
     @Test(dependsOnMethods = "testUserCanCreateNewUser")
