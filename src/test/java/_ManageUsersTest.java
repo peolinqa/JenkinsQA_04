@@ -5,7 +5,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.TestUtils;
 
@@ -91,7 +90,7 @@ public class _ManageUsersTest extends BaseTest {
     }
 
     @Test(dataProvider = "special_characters")
-    public void testUsernameFieldDoesNotAcceptSpecialCharacters(String specialCharacters) {
+    public void testUsernameFieldDoesNotAcceptSpecialCharacters(String specialCharacter) {
 
         final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
 
@@ -99,7 +98,7 @@ public class _ManageUsersTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUserName(USER_NAME_FIRST.concat(specialCharacters))
+                .setUserName(USER_NAME_FIRST.concat(specialCharacter))
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
@@ -110,12 +109,19 @@ public class _ManageUsersTest extends BaseTest {
         Assert.assertEquals(errorMessage, expectedResult);
     }
 
-    @Test
-    public void testErrorMessagesHaveValidCssValues() {
+    @DataProvider(name = "css_values")
+    public Object[][] cssValuesMethod() {
+        return new Object[][]{
+                {"color", "rgba(204, 0, 0, 1)"}, {"font-weight", "700"}, {"padding-left", "20px"},
+                {"min-height", "16px"}, {"line-height", "16px"}, {"background-position", "0% 0%"},
+                {"background-repeat", "no-repeat"}, {"background-size", "16px 16px"}
+        };
+    }
 
-        SoftAssert asserts = new SoftAssert();
+    @Test(dataProvider = "css_values")
+    public void testErrorMessagesHaveValidCssValues(String cssProperty, String expectedResult) {
 
-        new HomePage(getDriver())
+        String cssValue = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
@@ -124,34 +130,10 @@ public class _ManageUsersTest extends BaseTest {
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
-                .clickCreateUserButton1();
+                .clickCreateUserButton1()
+                .getCssValue(cssProperty);
 
-        List<String> cssValues = new ArrayList<>(Arrays.asList(
-                "color", "font-weight", "padding-left", "min-height", "line-height",
-                "background-image",
-                "background-position", "background-repeat", "background-size"));
-
-        List<String> expectedResults = new ArrayList<>(Arrays.asList(
-                "rgba(204, 0, 0, 1)", "700", "20px", "16px", "16px",
-                "error.svg",
-                "0% 0%", "no-repeat", "16px 16px"));
-
-        for (WebElement errorMessageElement : TestUtils.getList(getDriver(), ERROR_MESSAGES)) {
-            int index = 0;
-
-            for (String expectedResult : expectedResults) {
-                String actualResult = errorMessageElement.getCssValue(cssValues.get(index));
-                if (actualResult.contains("url")) {
-
-                    asserts.assertTrue(actualResult.contains(expectedResults.get(index)));
-                } else {
-
-                    asserts.assertEquals(actualResult, expectedResult);
-                }
-                index++;
-            }
-        }
-        asserts.assertAll();
+        Assert.assertEquals(cssValue, expectedResult);
     }
 
     @Test

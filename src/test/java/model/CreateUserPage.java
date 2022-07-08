@@ -108,4 +108,9 @@ public class CreateUserPage extends BasePage {
 
         return errorMessage.getText();
     }
+
+    public String getCssValue(String cssProperty) {
+
+        return errorMessage.getCssValue(cssProperty);
+    }
 }
