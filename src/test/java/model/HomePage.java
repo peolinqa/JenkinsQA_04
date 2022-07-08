@@ -9,7 +9,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 import runner.TestUtils;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,10 +64,13 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//div[@id='executors']//table")
     private List<WebElement> elementsBuildExecutorStatus;
 
+    @FindBy(id = "systemmessage")
+    private WebElement systemMessage;
+
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
     private List<WebElement> listAllActualProjectNameHomePage;
 
-    public HomePage(WebDriver driver) {
+   public HomePage(WebDriver driver) {
         super(driver);
     }
 
@@ -100,6 +102,7 @@ public class HomePage extends BaseHeaderFooterPage {
 
         return textFolderNames;
     }
+
     public List<String> getActualDashboardProject() {
 
         return listAllActualProjectNameHomePage.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -235,5 +238,10 @@ public class HomePage extends BaseHeaderFooterPage {
         ProjectUtils.openProject(getDriver(), name);
 
         return new MultiConfigurationProjectPage(getDriver());
+    }
+
+    public String getSystemMessageText() {
+
+       return systemMessage.getText();
     }
 }

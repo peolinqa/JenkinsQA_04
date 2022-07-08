@@ -36,12 +36,4 @@ public class RenameFolderPage extends FolderPage {
 
         return new ErrorPage(getDriver());
     }
-
-    public ErrorPage getErrorPageIfPresent() {
-        if (errorText.size() > 0) {
-            return new ErrorPage(getDriver());
-        }
-
-        return null;
-    }
 }

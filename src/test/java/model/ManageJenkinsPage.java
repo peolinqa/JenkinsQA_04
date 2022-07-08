@@ -1,9 +1,11 @@
 package model;
 
 import model.base.BaseHeaderFooterPage;
+import model.base.ConfigureSystemPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import runner.ProjectUtils;
 
 public class ManageJenkinsPage extends BaseHeaderFooterPage {
 
@@ -56,4 +58,9 @@ public class ManageJenkinsPage extends BaseHeaderFooterPage {
         return new JenkinsCLIPage(getDriver());
     }
 
+    public ConfigureSystemPage clickConfigureSystem() {
+        ProjectUtils.ManageJenkins.ConfigureSystem.click(getDriver());
+
+        return new ConfigureSystemPage(getDriver());
+    }
 }
