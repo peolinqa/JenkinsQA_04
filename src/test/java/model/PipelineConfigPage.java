@@ -90,6 +90,15 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(xpath = "//div[@class='dd-handle']/b")
     private List<WebElement> parametersLocation;
 
+    @FindBy(id = "cb2")
+    private WebElement checkboxDiscardOldBuilds;
+
+    @FindBy(xpath = "//input[@name='_.numToKeepStr']")
+    private WebElement maxNumberOldItemsToKeep;
+
+    @FindBy(xpath = "//input[@name='_.daysToKeepStr']")
+    private WebElement daysToKeepOldItems;
+
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
 
@@ -261,4 +270,20 @@ public class PipelineConfigPage extends BasePage {
 
         return this;
     }
+
+    public PipelineConfigPage clickCheckboxDiscardOldBuilds() {
+        checkboxDiscardOldBuilds.click();
+        return this;
+    }
+
+    public PipelineConfigPage fillDiscardOldItems(String itemQuantity, String daysNumbers) {
+        maxNumberOldItemsToKeep.clear();
+        daysToKeepOldItems.clear();
+        maxNumberOldItemsToKeep.sendKeys(itemQuantity);
+        daysToKeepOldItems.sendKeys(daysNumbers);
+
+        return this;
+    }
+
+
 }

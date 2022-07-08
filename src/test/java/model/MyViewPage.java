@@ -1,6 +1,7 @@
 package model;
 
 import model.base.BaseHeaderFooterPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -48,6 +49,9 @@ public class MyViewPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='children']")
     private WebElement triangleOnBreadcrumbs;
+
+    @FindBy(xpath = "//div[@id='menuSelector']")
+    private WebElement menuSelector;
 
     public MyViewPage(WebDriver driver) {
         super(driver);
@@ -140,5 +144,19 @@ public class MyViewPage extends BaseHeaderFooterPage {
         buttonHidePreview.click();
 
         return this;
+    }
+
+    public MyViewPage moveToElement(String elementName) {
+        getActions().moveToElement(getDriver().findElement(By.xpath(String.format("//a[.='%s']", elementName))))
+                .perform();
+
+        return this;
+    }
+
+    public PipelineConfigPage selectOptionInMenuSelector(String option) {
+        menuSelector.click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }

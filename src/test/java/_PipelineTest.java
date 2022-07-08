@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.ProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -17,6 +18,8 @@ import runner.TestUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static runner.ProjectUtils.ProjectType.Pipeline;
 
@@ -33,6 +36,8 @@ public class _PipelineTest extends BaseTest {
     private static final String JENKINS_HEADER = "Welcome to Jenkins!";
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
     private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
+
+    private final String namePipeline = pipelineName();
 
     private JavascriptExecutor javascriptExecutor;
     private SoftAssert asserts;
@@ -822,5 +827,45 @@ public class _PipelineTest extends BaseTest {
                 .collectListBuildHistory();
 
         Assert.assertTrue(checkBuildHistoryByName.containsAll(List.of(name, name)));
+    }
+
+    @Test
+    public void testPipelineCheckDiscardOld30builds() throws InterruptedException {
+        ProjectPage projectPage = new ProjectPage(getDriver());
+        List<Integer> expectedBuildNumbers = IntStream.range(2, 32).map(i -> 32 - i + 2 - 1).boxed().collect(Collectors.toList());
+
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(namePipeline)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .clickCheckboxDiscardOldBuilds()
+                .saveConfigAndGoToProject()
+                .clickMultipleTimesBuildButton(31)
+                .waitForBuildNumber(31)
+                .refreshPage();
+
+        Assert.assertEquals(projectPage.getBuildsRowList().size(), 30);
+        Assert.assertEquals(projectPage.getNumbersBuildsList(), expectedBuildNumbers);
+    }
+
+    @Test(dependsOnMethods = "testPipelineCheckDiscardOld30builds")
+    public void testPipelineCheckDiscardOld3builds() {
+        ProjectPage projectPage = new ProjectPage(getDriver());
+        Integer[] expectedBuildNumbers = {32, 31, 30};
+
+        projectPage
+                .clickDashboardButton()
+                .clickMyView()
+                .moveToElement(namePipeline)
+                .selectOptionInMenuSelector("Configure")
+                .fillDiscardOldItems("3","1")
+                .saveConfigAndGoToProject()
+                .clickBuildButton()
+                .waitForBuildNumber(32)
+                .refreshPage();
+
+        Assert.assertEquals(projectPage.getBuildsRowList().size(), 3);
+        Assert.assertEquals(projectPage.getNumbersBuildsList(), Arrays.asList(expectedBuildNumbers));
     }
 }
