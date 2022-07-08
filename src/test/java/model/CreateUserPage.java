@@ -25,6 +25,9 @@ public class CreateUserPage extends BasePage {
     @FindBy(id = "yui-gen1-button")
     private WebElement createUserButton;
 
+    @FindBy(className = "error")
+    private WebElement errorMessage;
+
     public CreateUserPage(WebDriver driver) {
         super(driver);
     }
@@ -65,6 +68,12 @@ public class CreateUserPage extends BasePage {
         return new ManageUsersPage(getDriver());
     }
 
+    public CreateUserPage clickCreateUserButton1() {
+        createUserButton.click();
+
+        return new CreateUserPage(getDriver());
+    }
+
     public CreateUserPage clearUserName() {
         userNameField.clear();
 
@@ -93,5 +102,10 @@ public class CreateUserPage extends BasePage {
         emailAddressField.clear();
 
         return this;
+    }
+
+    public String getErrorMessage() {
+
+        return errorMessage.getText();
     }
 }

@@ -1,9 +1,9 @@
-import model.CreateUserPage;
 import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -19,16 +19,10 @@ public class _ManageUsersTest extends BaseTest {
     private static final String FULL_NAME = "Viktor P";
     private static final String NEW_USER_FULL_NAME = "Michael";
     private static final String EMAIL = "testemail.@gmail.com";
-    private static final String USER_NAME_XPATH = "username"; //+
 
     private static final By BUTTON_SUBMIT_TYPE = By.id("yui-gen1-button");
     private static final By ERROR_MESSAGES = By.className("error");
-    private static final By ALL_USERS = By.xpath("//table[@id='people']/tbody/tr");
     private static final By FULL_NAME_XPATH = By.name("fullname");
-
-    private boolean displayedWebElement(String webElement) {
-        return getDriver().getPageSource().contains(webElement);
-    }
 
     @Test
     public void testUserCanCreateNewUser() {
@@ -88,75 +82,35 @@ public class _ManageUsersTest extends BaseTest {
         Assert.assertEquals(usersListAfter, usersListBefore);
     }
 
-    @Test(dependsOnMethods = "testUserCanCreateNewUser")
-    public void testUsernameFieldDoesNotAcceptSpecialCharacters() {
+    @DataProvider(name = "special_characters")
+    public Object[][] specialCharactersMethod() {
+        return new Object[][]{
+                {"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"("}, {")"}, {"+"}, {";"}, {":"}, {"?"}, {"="},
+                {"~"}, {"`"}, {"["}, {"{"}, {"]"}, {"}"}, {"|"}, {"/"}, {"'"}, {","}, {"."}, {"*"}, {"\""}, {"\\"}, {" "}
+        };
+    }
 
-        SoftAssert asserts = new SoftAssert();
+    @Test(dataProvider = "special_characters")
+    public void testUsernameFieldDoesNotAcceptSpecialCharacters(String specialCharacters) {
 
         final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
 
-        new HomePage(getDriver())
+        String errorMessage = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUserName("")
+                .setUserName(USER_NAME_FIRST.concat(specialCharacters))
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
-                .setEmailAddress(EMAIL);
+                .setEmailAddress(EMAIL)
+                .clickCreateUserButton1()
+                .getErrorMessage();
 
-        List<String> specialCharacters = new ArrayList<>(Arrays.asList(
-                "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", ";", ":", "?", "=",
-                "~", "`", "[", "{", "]", "}", "|", "/", "'", ",", ".", "*", "\"", "\\", " "));
-
-        for (String specialCharacter : specialCharacters) {
-            List<String> namesWithSpecialCharacter = new ArrayList<>(Arrays.asList(
-                    specialCharacter + USER_NAME_FIRST, USER_NAME_FIRST + specialCharacter,
-                    "vik".concat(specialCharacter).concat("torp")));
-
-            for (String nameWithSpecialCharacter : namesWithSpecialCharacter) {
-                if (!displayedWebElement(USER_NAME_XPATH)) {
-                    getDriver().navigate().back();
-                    getDriver().navigate().refresh();
-                    new CreateUserPage(getDriver())
-                            .clearUserName()
-                            .clearPassword()
-                            .clearConfirmPassword()
-                            .clearFullName()
-                            .clearEmailAddress()
-                            .setUserName("")
-                            .setPassword(PASSWORD)
-                            .setConfirmPassword(PASSWORD)
-                            .setFullName(FULL_NAME)
-                            .setEmailAddress(EMAIL);
-                }
-
-                new CreateUserPage(getDriver())
-                        .clearUserName()
-                        .setUserName(nameWithSpecialCharacter)
-                        .clickCreateUserButton();
-
-                if (displayedWebElement(USER_NAME_XPATH)) {
-                    for (WebElement errorMessage : TestUtils.getList(getDriver(), ERROR_MESSAGES)) {
-
-                        asserts.assertEquals(errorMessage.getText(), expectedResult);
-                    }
-                } else {
-                    for (WebElement user : TestUtils.getList(getDriver(), ALL_USERS)) {
-                        if (user.getText().contains(nameWithSpecialCharacter)) {
-
-                            asserts.assertEquals(nameWithSpecialCharacter, expectedResult);
-
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        asserts.assertAll();
+        Assert.assertEquals(errorMessage, expectedResult);
     }
 
-    @Test(dependsOnMethods = "testUsernameFieldDoesNotAcceptSpecialCharacters")
+    @Test
     public void testErrorMessagesHaveValidCssValues() {
 
         SoftAssert asserts = new SoftAssert();
@@ -165,12 +119,12 @@ public class _ManageUsersTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUserName(USER_NAME_FIRST)
+                .setUserName(USER_NAME_FIRST.concat("*"))
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
-                .clickCreateUserButton();
+                .clickCreateUserButton1();
 
         List<String> cssValues = new ArrayList<>(Arrays.asList(
                 "color", "font-weight", "padding-left", "min-height", "line-height",
