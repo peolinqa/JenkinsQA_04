@@ -99,6 +99,12 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(xpath = "//input[@name='_.daysToKeepStr']")
     private WebElement daysToKeepOldItems;
 
+    @FindBy(xpath = "//div[contains(@hashelp, 'true')]//label")
+    private List<WebElement> listOfCheckBoxWithHelps;
+
+    @FindBy(xpath = "//div[contains(@hashelp, 'true')]//a")
+    private List<WebElement> checkBoxHelpsText;
+
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
 
@@ -261,12 +267,12 @@ public class PipelineConfigPage extends BasePage {
     }
 
     public PipelineConfigPage clickDropDownMenuPipelineTab() {
-       getActions()
-               .moveToElement(dropDownMenuPipelineTab)
-               .click()
-               .sendKeys(Keys.ARROW_DOWN)
-               .click()
-               .perform();
+        getActions()
+                .moveToElement(dropDownMenuPipelineTab)
+                .click()
+                .sendKeys(Keys.ARROW_DOWN)
+                .click()
+                .perform();
 
         return this;
     }
@@ -285,5 +291,18 @@ public class PipelineConfigPage extends BasePage {
         return this;
     }
 
+    public boolean checkHelpTooltipsTextCheckBoxHelpText() {
 
+        if (listOfCheckBoxWithHelps == null || checkBoxHelpsText == null) {
+            return false;
+        }
+        boolean result = false;
+        for (int i = 0; i < listOfCheckBoxWithHelps.size(); i++) {
+
+            result = (checkBoxHelpsText.get(i).getAttribute("title")
+                            .replace("Help for feature: ", "").equals(
+                    listOfCheckBoxWithHelps.get(i).getText()));
+        }
+        return result;
+    }
 }

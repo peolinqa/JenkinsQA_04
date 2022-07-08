@@ -209,7 +209,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckValidationItemName() {
         final String name = pipelineName();
 
-         final String displayDuplicatedJobName = new HomePage(getDriver())
+        final String displayDuplicatedJobName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -220,14 +220,14 @@ public class _PipelineTest extends BaseTest {
                 .setProjectType(Pipeline)
                 .getNameErrorText();
 
-        Assert.assertEquals(displayDuplicatedJobName,"» A job already exists with the name ‘" + name + "’");
+        Assert.assertEquals(displayDuplicatedJobName, "» A job already exists with the name ‘" + name + "’");
     }
 
     @Test
     public void testCheckTransitionToPageWithError() {
         final String name = pipelineName();
 
-       final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
+        final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -365,20 +365,16 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testHelpTooltipsText() {
+        final String name = pipelineName();
 
-        createPipeline(pipelineName(), Boolean.TRUE);
+        boolean check = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .checkHelpTooltipsTextCheckBoxHelpText();
 
-        List<WebElement> listOfCheckBoxWithHelps = getDriver()
-                .findElements(By.xpath("//div[contains(@hashelp, 'true')]//label"));
-
-        List<WebElement> checkBoxHelpsText = getDriver()
-                .findElements(By.xpath("//div[contains(@hashelp, 'true')]//a"));
-
-        for (int i = 0; i < listOfCheckBoxWithHelps.size(); i++) {
-            Assert.assertEquals(checkBoxHelpsText.get(i).getAttribute("title")
-                            .replace("Help for feature: ", ""),
-                    listOfCheckBoxWithHelps.get(i).getText());
-        }
+        Assert.assertTrue(check);
     }
 
     @Test
@@ -859,7 +855,7 @@ public class _PipelineTest extends BaseTest {
                 .clickMyView()
                 .moveToElement(namePipeline)
                 .selectOptionInMenuSelector("Configure")
-                .fillDiscardOldItems("3","1")
+                .fillDiscardOldItems("3", "1")
                 .saveConfigAndGoToProject()
                 .clickBuildButton()
                 .waitForBuildNumber(32)
