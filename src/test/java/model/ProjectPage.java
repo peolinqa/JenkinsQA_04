@@ -32,6 +32,18 @@ public class ProjectPage extends BasePage {
     @FindBy(className = "build-row-cell")
     private List<WebElement> buildsRowList;
 
+    @FindBy(id = "description-link")
+    private WebElement addDescription;
+
+    @FindBy(xpath = "//textarea[@name='description']")
+    private WebElement addTextDescription;
+
+    @FindBy(id = "yui-gen2-button")
+    private WebElement saveDescriptionButton;
+
+    @FindBy(xpath = "//div[@id='description']/div[1]")
+    private WebElement descriptionValue;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -58,6 +70,32 @@ public class ProjectPage extends BasePage {
         buildButton.click();
 
         return this;
+    }
+
+    public ProjectPage clickAddDescription() {
+        addDescription.click();
+
+        return this;
+    }
+
+    public ProjectPage addTextDescriptionAndSave(String textDescription) {
+        addTextDescription.sendKeys(textDescription);
+        saveDescriptionButton.click();
+
+        return this;
+    }
+
+    public ProjectPage clearUserDescription() {
+        addDescription.click();
+        addTextDescription.clear();
+        saveDescriptionButton.click();
+
+        return this;
+    }
+
+    public String checkDescriptionValue() {
+
+        return descriptionValue.getText();
     }
 
     public String getBuildNumber() {

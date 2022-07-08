@@ -37,6 +37,7 @@ public class _PipelineTest extends BaseTest {
     private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
     private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
 
+    private static final String NEW_USER_DESCRIPTION = TestUtils.getRandomStr();
     private final String namePipeline = pipelineName();
 
     private JavascriptExecutor javascriptExecutor;
@@ -367,7 +368,7 @@ public class _PipelineTest extends BaseTest {
     public void testHelpTooltipsText() {
         final String name = pipelineName();
 
-        boolean check = new HomePage(getDriver())
+        final boolean check = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -863,5 +864,23 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(projectPage.getBuildsRowList().size(), 3);
         Assert.assertEquals(projectPage.getNumbersBuildsList(), Arrays.asList(expectedBuildNumbers));
+    }
+
+    @Test
+    public void testDeletePipelineDescription() {
+        final String name = pipelineName();
+
+        final String check = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .saveConfigAndGoToProject()
+                .clickAddDescription()
+                .addTextDescriptionAndSave(NEW_USER_DESCRIPTION)
+                .clearUserDescription()
+                .checkDescriptionValue();
+
+        Assert.assertEquals(check, "");
     }
 }
