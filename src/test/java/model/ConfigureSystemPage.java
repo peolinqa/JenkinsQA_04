@@ -1,7 +1,5 @@
-package model.base;
+package model;
 
-import model.HomePage;
-import model.ManageJenkinsPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

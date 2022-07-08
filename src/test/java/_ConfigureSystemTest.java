@@ -1,5 +1,5 @@
 import model.HomePage;
-import model.base.ConfigureSystemPage;
+import model.ConfigureSystemPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
