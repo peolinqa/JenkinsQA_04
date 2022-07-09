@@ -1,3 +1,7 @@
+import model.CreatedDomainPage;
+import model.HomePage;
+import model.ManageCredentialsPage;
+import model.NewDomainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -56,7 +60,7 @@ public class _ManageCredentialsTest extends BaseTest {
     }
 
     @Test
-    public void testManageCredentialsCheсkMenu() {
+    public void testManageCredentialsChekMenu() {
 
         final String NEW_USERNAME = TestUtils.getRandomStr(8);
         final String NEW_PASSWORD = TestUtils.getRandomStr(9);
@@ -82,7 +86,7 @@ public class _ManageCredentialsTest extends BaseTest {
     @Test
     public void testIconSizeChangePositive() {
 
-        final String[] expectedResult = new String[] {"icon-credentials-system-store icon-sm",
+        final String[] expectedResult = new String[]{"icon-credentials-system-store icon-sm",
                 "icon-credentials-system-store icon-md", "icon-credentials-system-store icon-lg"};
         String[] actualResult = new String[3];
 
@@ -104,11 +108,11 @@ public class _ManageCredentialsTest extends BaseTest {
 
         final String grey = "rgba(248, 248, 248, 1)";
         final String transparent = "rgba(0, 0, 0, 0)";
-        final String[] buttonSPressed = new String[] {grey, transparent, transparent};
-        final String[] buttonMPressed = new String[] {transparent, grey, transparent};
-        final String[] buttonLPressed = new String[] {transparent, transparent, grey};
-        final boolean[] expectedResult = new boolean[] {true, true, true};
-        final boolean[] actualResult = new boolean[] {false, false, false};
+        final String[] buttonSPressed = new String[]{grey, transparent, transparent};
+        final String[] buttonMPressed = new String[]{transparent, grey, transparent};
+        final String[] buttonLPressed = new String[]{transparent, transparent, grey};
+        final boolean[] expectedResult = new boolean[]{true, true, true};
+        final boolean[] actualResult = new boolean[]{false, false, false};
 
         ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
         ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
@@ -137,19 +141,18 @@ public class _ManageCredentialsTest extends BaseTest {
 
     @Test
     public void testCheckDropDownMenuAddDomain() {
-        final String expectedResult
-                = "/credentials/store/system/newDomain";
 
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
+       String domainName = TestUtils.getRandomStr(8);
 
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a[@href='/credentials/store/system']"))).perform();
+        String addDomain = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageCredentials()
+                .clickCredentialsStoreSystem()
+                .clickMenuSelector()
+                .clickAddDomain()
+                .createNewDomain(domainName)
+                .getDomainHeader();
 
-        getDriver().findElement(By.id("menuSelector")).click();
-        getDriver().findElement(
-                By.xpath("//span[contains(text(), 'Add domain')]")).click();
-
-        Assert.assertTrue(getDriver().getCurrentUrl().contains(expectedResult));
+        Assert.assertEquals(addDomain, domainName);
     }
 }
