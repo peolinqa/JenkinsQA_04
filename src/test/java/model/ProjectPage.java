@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,9 @@ public class ProjectPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement descriptionValue;
+
+    @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
+    private WebElement deletePipelineButton;
 
     public ProjectPage(WebDriver driver) {
         super(driver);
@@ -93,9 +95,17 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
-    public String checkDescriptionValue() {
+    public boolean checkDescriptionValue() {
 
-        return descriptionValue.getText();
+        return descriptionValue.getText().isEmpty();
+    }
+
+    public ProjectPage clickDeletePipelineButton() {
+
+        deletePipelineButton.click();
+        getDriver().switchTo().alert().accept();
+
+        return this;
     }
 
     public String getBuildNumber() {

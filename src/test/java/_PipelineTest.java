@@ -82,6 +82,7 @@ public class _PipelineTest extends BaseTest {
         return getDriver().findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
     }
 
+    @Deprecated
     private void checkProjectAfterDelete(String projectName) {
 
         List<WebElement> actual = getDriver().findElements(H1);
@@ -391,14 +392,17 @@ public class _PipelineTest extends BaseTest {
     public void testDeletePipelineFromSideMenu() {
         final String name = pipelineName();
 
-        createPipeline(name, Boolean.TRUE);
-        ProjectUtils.clickSaveButton(getDriver());
+        final boolean check = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(Pipeline)
+                .createAndGoToPipelineConfigure()
+                .saveConfigAndGoToProject()
+                .clickDeletePipelineButton()
+                .clickDashboardButton()
+                .checkProjectAfterDelete(name);
 
-        getDriver().findElement(
-                By.xpath("//a[@class='task-link  confirmation-link']")).click();
-        getDriver().switchTo().alert().accept();
-
-        checkProjectAfterDelete(name);
+        Assert.assertTrue(check);
     }
 
     @Test
@@ -870,7 +874,7 @@ public class _PipelineTest extends BaseTest {
     public void testDeletePipelineDescription() {
         final String name = pipelineName();
 
-        final String check = new HomePage(getDriver())
+        final boolean check = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectType(Pipeline)
@@ -881,6 +885,6 @@ public class _PipelineTest extends BaseTest {
                 .clearUserDescription()
                 .checkDescriptionValue();
 
-        Assert.assertEquals(check, "");
+        Assert.assertTrue(check);
     }
 }

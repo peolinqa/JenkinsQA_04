@@ -16,6 +16,10 @@ public class HomePage extends BaseHeaderFooterPage {
 
     private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
+    private static final String JENKINS_HEADER = "Welcome to Jenkins!";
+
+    private static final By H1 = By.xpath("//h1");
+
     @FindBy(linkText = "New Item")
     private WebElement newItem;
 
@@ -70,7 +74,7 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
     private List<WebElement> listAllActualProjectNameHomePage;
 
-   public HomePage(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         super(driver);
     }
 
@@ -106,6 +110,28 @@ public class HomePage extends BaseHeaderFooterPage {
     public List<String> getActualDashboardProject() {
 
         return listAllActualProjectNameHomePage.stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public boolean checkProjectAfterDelete(String projectName) {
+
+        boolean result = false;
+
+        List<WebElement> actual = getDriver().findElements(H1);
+
+        if (actual.size() == 0) {
+            for (String webElement : getActualDashboardProject()) {
+                if (webElement.contains(projectName)) {
+                    result = false;
+                    break;
+                } else {
+                    result = true;
+                }
+            }
+        } else {
+            result = getDriver().findElement(H1).getText().equals(JENKINS_HEADER);
+
+        }
+        return result;
     }
 
     public FolderPage clickFolderName(String name) {
@@ -242,6 +268,6 @@ public class HomePage extends BaseHeaderFooterPage {
 
     public String getSystemMessageText() {
 
-       return systemMessage.getText();
+        return systemMessage.getText();
     }
 }
