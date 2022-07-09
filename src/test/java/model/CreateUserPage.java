@@ -5,6 +5,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.Set;
+
 public class CreateUserPage extends BasePage {
 
     @FindBy(id = "username")
@@ -27,6 +30,9 @@ public class CreateUserPage extends BasePage {
 
     @FindBy(className = "error")
     private WebElement errorMessage;
+
+    @FindBy(className = "error")
+    private List<WebElement> errorMessagesList;
 
     public CreateUserPage(WebDriver driver) {
         super(driver);
@@ -62,16 +68,10 @@ public class CreateUserPage extends BasePage {
         return this;
     }
 
-    public ManageUsersPage clickCreateUserButton() {
+    public <T> T clickCreateUserButton(T page) {
         createUserButton.click();
 
-        return new ManageUsersPage(getDriver());
-    }
-
-    public CreateUserPage clickCreateUserButton1() {
-        createUserButton.click();
-
-        return new CreateUserPage(getDriver());
+        return page;
     }
 
     public CreateUserPage clearUserName() {
@@ -107,6 +107,12 @@ public class CreateUserPage extends BasePage {
     public String getErrorMessage() {
 
         return errorMessage.getText();
+    }
+
+    public CreateUserPage getErrorMessagesList(Set<String> errorMessagesTextList) {
+        errorMessagesList.stream().map(WebElement::getText).forEach(errorMessagesTextList::add);
+
+        return new CreateUserPage(getDriver());
     }
 
     public String getCssValue(String cssProperty) {

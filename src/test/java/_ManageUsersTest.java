@@ -1,4 +1,6 @@
+import model.CreateUserPage;
 import model.HomePage;
+import model.ManageUsersPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -19,7 +21,6 @@ public class _ManageUsersTest extends BaseTest {
     private static final String NEW_USER_FULL_NAME = "Michael";
     private static final String EMAIL = "testemail.@gmail.com";
 
-    private static final By BUTTON_SUBMIT_TYPE = By.id("yui-gen1-button");
     private static final By ERROR_MESSAGES = By.className("error");
     private static final By FULL_NAME_XPATH = By.name("fullname");
 
@@ -39,7 +40,7 @@ public class _ManageUsersTest extends BaseTest {
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
-                .clickCreateUserButton()
+                .clickCreateUserButton(new ManageUsersPage(getDriver()))
                 .fillUsersList(usersListAfter);
 
         usersListBefore.add(USER_NAME_FIRST.concat("\n").concat(FULL_NAME));
@@ -103,7 +104,7 @@ public class _ManageUsersTest extends BaseTest {
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
-                .clickCreateUserButton1()
+                .clickCreateUserButton(new CreateUserPage(getDriver()))
                 .getErrorMessage();
 
         Assert.assertEquals(errorMessage, expectedResult);
@@ -130,7 +131,7 @@ public class _ManageUsersTest extends BaseTest {
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
-                .clickCreateUserButton1()
+                .clickCreateUserButton(new CreateUserPage(getDriver()))
                 .getCssValue(cssProperty);
 
         Assert.assertEquals(cssValue, expectedResult);
@@ -138,7 +139,9 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testCreateUserEmptyFields() {
-        final List<String> expectedErrorsText = List.of("Password is required",
+
+        Set<String> actualErrorsText = new TreeSet<>();
+        final Set<String> expectedErrorsText = Set.of("Password is required",
                 "\"\" is prohibited as a full name for security reasons.",
                 "Invalid e-mail address",
                 "\"\" is prohibited as a username for security reasons.");
@@ -146,17 +149,10 @@ public class _ManageUsersTest extends BaseTest {
         new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
-                .clickCreateUser();
+                .clickCreateUser()
+                .clickCreateUserButton(new CreateUserPage(getDriver()))
+                .getErrorMessagesList(actualErrorsText);
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(BUTTON_SUBMIT_TYPE)).click();
-
-        List<WebElement> actualErrors = TestUtils.getList(getDriver(), ERROR_MESSAGES);
-        List<String> actualErrorsText = new ArrayList<>();
-        for (WebElement error : actualErrors) {
-            actualErrorsText.add(error.getText());
-        }
-
-        Assert.assertEquals(actualErrorsText.size(), 4);
         Assert.assertEquals(actualErrorsText, expectedErrorsText);
     }
 
@@ -171,7 +167,7 @@ public class _ManageUsersTest extends BaseTest {
                 .setConfirmPassword("")
                 .setFullName("")
                 .setEmailAddress("")
-                .clickCreateUserButton();
+                .clickCreateUserButton(new CreateUserPage(getDriver()));
 
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(FULL_NAME_XPATH));
 
