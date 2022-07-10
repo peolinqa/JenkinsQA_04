@@ -1,28 +1,20 @@
 import model.CreateUserPage;
 import model.HomePage;
 import model.ManageUsersPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.TestUtils;
 
 import java.util.*;
 
 public class _ManageUsersTest extends BaseTest {
 
-    private static final String USER_NAME_FIRST = "viktorp";
-    private static final String USER_NAME_SECOND = "Balthazarrr";
+    private static final String USER_NAME = "viktorp";
     private static final String PASSWORD = "123456ABC";
     private static final String FULL_NAME = "Viktor P";
     private static final String NEW_USER_FULL_NAME = "Michael";
     private static final String EMAIL = "testemail.@gmail.com";
-
-    private static final By ERROR_MESSAGES = By.className("error");
-    private static final By FULL_NAME_XPATH = By.name("fullname");
 
     @Test
     public void testUserCanCreateNewUser() {
@@ -35,7 +27,7 @@ public class _ManageUsersTest extends BaseTest {
                 .clickManageUsers()
                 .fillUsersList(usersListBefore)
                 .clickCreateUser()
-                .setUserName(USER_NAME_FIRST)
+                .setUserName(USER_NAME)
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
@@ -43,7 +35,7 @@ public class _ManageUsersTest extends BaseTest {
                 .clickCreateUserButton(new ManageUsersPage(getDriver()))
                 .fillUsersList(usersListAfter);
 
-        usersListBefore.add(USER_NAME_FIRST.concat("\n").concat(FULL_NAME));
+        usersListBefore.add(USER_NAME.concat("\n").concat(FULL_NAME));
 
         Assert.assertEquals(usersListAfter, usersListBefore);
     }
@@ -54,7 +46,7 @@ public class _ManageUsersTest extends BaseTest {
         String userName = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
-                .clickUserConfigure(USER_NAME_FIRST)
+                .clickUserConfigure(USER_NAME)
                 .clearFullName()
                 .setFullName(NEW_USER_FULL_NAME)
                 .clickSaveButton()
@@ -73,11 +65,11 @@ public class _ManageUsersTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .fillUsersList(usersListBefore)
-                .clickUserDelete(USER_NAME_FIRST)
+                .clickUserDelete(USER_NAME)
                 .clickYesButton()
                 .fillUsersList(usersListAfter);
 
-        usersListBefore.remove(USER_NAME_FIRST.concat("\n").concat(NEW_USER_FULL_NAME));
+        usersListBefore.remove(USER_NAME.concat("\n").concat(NEW_USER_FULL_NAME));
 
         Assert.assertEquals(usersListAfter, usersListBefore);
     }
@@ -99,7 +91,7 @@ public class _ManageUsersTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUserName(USER_NAME_FIRST.concat(specialCharacter))
+                .setUserName(USER_NAME.concat(specialCharacter))
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
@@ -126,7 +118,7 @@ public class _ManageUsersTest extends BaseTest {
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUserName(USER_NAME_FIRST.concat("*"))
+                .setUserName(USER_NAME.concat("*"))
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
                 .setFullName(FULL_NAME)
@@ -158,30 +150,32 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testCheckValueInUsernameEqualValueFromFullName() {
+        String fullName = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageUsers()
+                .clickCreateUser()
+                .setUserName(USER_NAME)
+                .clickCreateUserButton(new CreateUserPage(getDriver()))
+                .getAttributeFullName();
+
+        Assert.assertEquals(fullName, USER_NAME);
+
+    }
+
+    @Test
+    public void testCheckErrorMessagesIfFillOutOnlyUserNameField() {
+
+        Set<String> actualErrorsText = new TreeSet<>();
+        final Set<String> expectedErrorsText = Set.of("Password is required", "Invalid e-mail address");
+
         new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
-                .setUserName(USER_NAME_SECOND)
-                .setPassword("")
-                .setConfirmPassword("")
-                .setFullName("")
-                .setEmailAddress("")
-                .clickCreateUserButton(new CreateUserPage(getDriver()));
+                .setUserName(USER_NAME)
+                .clickCreateUserButton(new CreateUserPage(getDriver()))
+                .getErrorMessagesList(actualErrorsText);
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(FULL_NAME_XPATH));
-
-        String actualResultFullName = getDriver().findElement(FULL_NAME_XPATH).getAttribute("value");
-        Assert.assertEquals(actualResultFullName, USER_NAME_SECOND);
-
-        final List<String> expectedErrorsText = List.of("Password is required", "Invalid e-mail address");
-        List<WebElement> actualErrors = TestUtils.getList(getDriver(), ERROR_MESSAGES);
-        List<String> actualErrorsText = new ArrayList<>();
-        for (WebElement error : actualErrors) {
-            actualErrorsText.add(error.getText());
-        }
-
-        Assert.assertEquals(actualErrorsText.size(), 2);
         Assert.assertEquals(actualErrorsText, expectedErrorsText);
     }
 }

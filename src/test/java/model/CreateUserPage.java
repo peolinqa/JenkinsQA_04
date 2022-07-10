@@ -119,4 +119,9 @@ public class CreateUserPage extends BasePage {
 
         return errorMessage.getCssValue(cssProperty);
     }
+
+    public String getAttributeFullName() {
+
+        return fullNameField.getAttribute("value");
+    }
 }
