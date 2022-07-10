@@ -131,22 +131,23 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertFalse(isBuildNowDisplayed);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCheckSubMenuConfigureAfterCreatingProject")
     public void testAddDescription() {
-        ProjectUtils.createProject(getDriver(), MultiConfigurationProject, PROJECT_NAME);
-        ProjectUtils.openProject(getDriver(), PROJECT_NAME);
 
-        getDriver().findElement(By.id("description-link")).click();
-        getDriver().findElement(By.xpath("//div/textarea[@name='description']")).sendKeys("test");
-        getDriver().findElement(By.id("yui-gen2-button")).click();
+        String description = new HomePage(getDriver())
+                .clickMultiConfigurationProjectName(NAME)
+                .clickAddDescription()
+                .setDescription("test")
+                .saveConfigAndGoToMultiConfigurationProject()
+                .getDescription();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='description']/div[1]")).getText(), "test");
+        Assert.assertEquals(description, "test");
     }
 
     @Test(dependsOnMethods = {"testAddDescription"})
     public void testRenameMCProject() {
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.openProject(getDriver(), PROJECT_NAME);
+        ProjectUtils.openProject(getDriver(), NAME);
         ProjectUtils.Dashboard.Project.Rename.click(getDriver());
 
         TestUtils.clearAndSend(getDriver(), By.xpath("//input[@checkdependson='newName']"),
@@ -196,6 +197,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
         for (String unsafeChar : invalidName) {
             TestUtils.clearAndSend(getDriver(), By.name("newName"), unsafeChar);
+            getWait5();
             clickRenameButton();
             String expectedResult = "‘" + unsafeChar + "’ is an unsafe character";
             if ("&" == unsafeChar) {
