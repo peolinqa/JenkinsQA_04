@@ -37,10 +37,10 @@ public class FolderPage extends BasePage {
         return folderDescription.getText();
     }
 
-    public RenameFolderPage clickRenameFolder() {
+    public RenamePage clickRenameFolder() {
         renameFolder.click();
 
-        return new RenameFolderPage(getDriver());
+        return new RenamePage(getDriver());
     }
 
     public FolderPage clickDeleteFolder() {

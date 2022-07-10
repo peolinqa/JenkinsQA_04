@@ -82,7 +82,8 @@ public class _OrganizationFolderTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME1)
                 .renameOrganizationFolder()
-                .setNewProjectNameAndGoToProject(VALID_FOLDER_NAME2)
+                .setNewProjectName(VALID_FOLDER_NAME2)
+                .clickRenameAndGoToOrganizationFolder()
                 .getProjectName();
 
         Assert.assertEquals(projectName, VALID_FOLDER_NAME2);

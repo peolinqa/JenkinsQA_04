@@ -3,6 +3,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -84,6 +85,7 @@ public class _ManagePluginsTest extends BaseTest {
         asserts.assertAll();
     }
 
+    @Ignore
     @Test
     public void testFilterInUpdatesTab(){
         WebDriver driver = getDriver();

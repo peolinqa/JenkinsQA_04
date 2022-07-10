@@ -25,10 +25,10 @@ public class OrganizationFolderProjectPage extends BasePage {
         return projectName.getText().trim();
     }
 
-    public RenameOrganizationFolderPage renameOrganizationFolder() {
+    public RenamePage renameOrganizationFolder() {
         renameButton.click();
 
-        return new RenameOrganizationFolderPage(getDriver());
+        return new RenamePage(getDriver());
     }
 
     public DeleteOrganizationFolderPage deleteOrganizationFolder() {

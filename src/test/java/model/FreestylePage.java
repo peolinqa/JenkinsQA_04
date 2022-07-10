@@ -31,6 +31,9 @@ public class FreestylePage extends BasePage {
     @FindBy(id = "enable-project")
     private WebElement text;
 
+    @FindBy(linkText = "Rename")
+    private WebElement renameButton;
+
     public FreestylePage(WebDriver driver) {
         super(driver);
     }
@@ -67,6 +70,12 @@ public class FreestylePage extends BasePage {
         descriptionTextarea.sendKeys(text);
 
         return this;
+    }
+
+    public RenamePage clickAdnGoToRenamePage() {
+        renameButton.click();
+
+        return new RenamePage(getDriver());
     }
 
     public String getDescriptionName() {

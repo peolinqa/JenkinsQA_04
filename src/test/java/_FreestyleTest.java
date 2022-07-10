@@ -22,13 +22,6 @@ public class _FreestyleTest extends BaseTest {
     private static final String EDITED_RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
     private static final String DESCRIPTION_TEXT = "This is a description for a Freestyle project";
 
-    private void renameFreestyleProject(String currentName, String newName) {
-        ProjectUtils.openProject(getDriver(), currentName);
-        getDriver().findElement(By.linkText("Rename")).click();
-        TestUtils.clearAndSend(getDriver(), By.name("newName"), newName);
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-    }
-
     private void deleteProject(String name) {
         getDriver().findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
         ProjectUtils.Dashboard.Project.DeleteProject.click(getDriver());
@@ -37,6 +30,7 @@ public class _FreestyleTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
+
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
@@ -117,16 +111,35 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testHelpButtonPopupBuildPeriodically")
     public void testRenameFreestyleProject() {
-        renameFreestyleProject(RANDOM_NAME, EDITED_RANDOM_NAME);
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + EDITED_RANDOM_NAME);
+
+        String projectName = new HomePage(getDriver())
+                .clickFreestyleName(RANDOM_NAME)
+                .clickAdnGoToRenamePage()
+                .setNewProjectName(EDITED_RANDOM_NAME)
+                .clickRenameAndGoToFreestyle()
+                .getProjectName();
+
+        Assert.assertEquals(projectName, EDITED_RANDOM_NAME);
     }
 
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testNewFreestyleWithSpecialCharacters() {
-        ProjectUtils.openProject(getDriver(), EDITED_RANDOM_NAME);
-        renameFreestyleProject(EDITED_RANDOM_NAME, NAME_WITH_SPECIAL_CHARACTERS);
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Project " + NAME_WITH_SPECIAL_CHARACTERS);
+        String projectName = new HomePage(getDriver())
+                .clickFreestyleName(EDITED_RANDOM_NAME)
+                .clickAdnGoToRenamePage()
+                .setNewProjectName(NAME_WITH_SPECIAL_CHARACTERS)
+                .clickRenameAndGoToFreestyle()
+                .getProjectName();
+
+        Assert.assertEquals(projectName, NAME_WITH_SPECIAL_CHARACTERS);
+    }
+
+    private void renameFreestyleProject(String currentName, String newName) {
+        ProjectUtils.openProject(getDriver(), currentName);
+        getDriver().findElement(By.linkText("Rename")).click();
+        TestUtils.clearAndSend(getDriver(), By.name("newName"), newName);
+        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
     }
 
     @Test(dependsOnMethods = "testNewFreestyleWithSpecialCharacters")

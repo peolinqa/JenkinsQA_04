@@ -220,7 +220,8 @@ public class _FolderTest extends BaseTest {
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(RANDOM_FOLDER_NAME1)
                 .clickRenameFolder()
-                .renameFolder(FOLDER_NAME_FOR_RENAME1)
+                .setNewProjectName(FOLDER_NAME_FOR_RENAME1)
+                .clickRenameAndGoToFolder()
                 .getFolderName();
 
         Assert.assertEquals(actualResult, FOLDER_NAME_FOR_RENAME1);
@@ -232,7 +233,8 @@ public class _FolderTest extends BaseTest {
         ErrorPage errorPage = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
                 .clickRenameFolder()
-                .renameFolder("   ")
+                .setNewProjectName("   ")
+                .clickRenameAndGoToFolder()
                 .getErrorPageIfPresent();
 
         Assert.assertNotNull(errorPage);
@@ -244,7 +246,7 @@ public class _FolderTest extends BaseTest {
 
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
 
-        RenameFolderPage folderForRenameTest = new HomePage(getDriver())
+        RenamePage folderForRenameTest = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
                 .clickRenameFolder();
 
@@ -252,7 +254,8 @@ public class _FolderTest extends BaseTest {
             String newFolderName = unsafeCharacters.substring(i, (i + 1));
             if (newFolderName.equals("&")) {
                 ErrorPage errorPage = folderForRenameTest
-                        .renameFolder(newFolderName)
+                        .setNewProjectName(newFolderName)
+                        .clickRenameAndGoToFolder()
                         .getErrorPageIfPresent();
                 Assert.assertNotNull(errorPage);
                 Assert.assertEquals(errorPage.getErrorMessage(), "‘&amp;’ is an unsafe character");
@@ -261,7 +264,8 @@ public class _FolderTest extends BaseTest {
             }
             if (newFolderName.equals(".")) {
                 ErrorPage errorPage = folderForRenameTest
-                        .renameFolder(newFolderName)
+                        .setNewProjectName(newFolderName)
+                        .clickRenameAndGoToFolder()
                         .getErrorPageIfPresent();
                 Assert.assertNotNull(errorPage);
                 Assert.assertEquals(errorPage.getErrorMessage(), "“.” is not an allowed name");
@@ -269,7 +273,8 @@ public class _FolderTest extends BaseTest {
                 continue;
             }
             ErrorPage errorPage = folderForRenameTest
-                    .renameFolder(newFolderName)
+                    .setNewProjectName(newFolderName)
+                    .clickRenameAndGoToFolder()
                     .getErrorPageIfPresent();
             Assert.assertNotNull(errorPage);
             Assert.assertEquals(errorPage.getErrorMessage(), "‘" + newFolderName + WARNING_TEXT_UNSAFE);
