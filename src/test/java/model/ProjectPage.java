@@ -46,6 +46,12 @@ public class ProjectPage extends BasePage {
     @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
     private WebElement deletePipelineButton;
 
+    @FindBy(className = "icon-folder-disabled")
+    private WebElement iconFolderDisabled;
+
+    @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
+    private WebElement messageDisabled;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -157,5 +163,13 @@ public class ProjectPage extends BasePage {
         }
 
         return buildNumberList;
+    }
+
+    public WebElement getIconFolderDisabled() {
+        return iconFolderDisabled;
+    }
+
+    public WebElement getMessageDisabled() {
+        return messageDisabled;
     }
 }

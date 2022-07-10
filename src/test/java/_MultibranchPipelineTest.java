@@ -1,11 +1,17 @@
-import org.openqa.selenium.*;
+import model.HomePage;
+import model.ProjectPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.util.UUID;
+
+import static runner.ProjectUtils.ProjectType.MultiBranchPipeline;
 
 public class _MultibranchPipelineTest extends BaseTest {
 
@@ -13,6 +19,8 @@ public class _MultibranchPipelineTest extends BaseTest {
     private static final String ITEM_LOCATOR = String.format("//tr[@id='job_%s']//a[@href='job/%s/']", PROJECT_NAME, PROJECT_NAME);
     private static final String URL_GITHUB = "https://github.com/GitForProjects/javaJenkins";
     private static final String PIPELINE_NAME = "MultiPipeline";
+
+    private String multiBranchPipelineName;
 
     private WebElement findElementXpath(String xPath) {
         return getDriver().findElement(By.xpath(xPath));
@@ -164,5 +172,27 @@ public class _MultibranchPipelineTest extends BaseTest {
 
             projectNameField.clear();
         }
+    }
+
+    @Test
+    public void testMultibranchDisable() {
+        final String name = TestUtils.getRandomStr(7);
+
+        ProjectPage projectPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectType(MultiBranchPipeline)
+                .clickOkGoMultibranchPipelineConfig()
+                .clickCheckboxDisable()
+                .saveConfigAndGoToProject();
+
+        Assert.assertTrue(projectPage.getIconFolderDisabled().isDisplayed());
+        Assert.assertEquals(projectPage.getMessageDisabled().getText(),
+                "This Multibranch Pipeline is currently disabled \nEnable");
+
+        HomePage homePage = projectPage.clickDashboardButton();
+
+        Assert.assertEquals(homePage.getProjectIconByName(name).getAttribute("class"),
+                        "icon-folder-disabled icon-lg");
     }
 }

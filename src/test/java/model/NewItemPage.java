@@ -196,4 +196,10 @@ public class NewItemPage extends BaseHeaderFooterPage {
 
         return this;
     }
+
+    public MultibranchPipelineConfigPage clickOkGoMultibranchPipelineConfig() {
+        okButton.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
+    }
 }

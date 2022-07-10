@@ -40,8 +40,11 @@ public final class ProjectUtils {
         driver.findElement(By.id("ok-button")).click();
     }
 
-    public static void createProject(WebDriver driver, ProjectType itemType) {
-        createProject(driver, itemType, TestUtils.getRandomStr());
+    public static String createProject(WebDriver driver, ProjectType itemType) {
+        String name = TestUtils.getRandomStr();
+        createProject(driver, itemType, name);
+
+        return name;
     }
 
     public static void createProject(WebDriver driver, ProjectType itemType, String name) {

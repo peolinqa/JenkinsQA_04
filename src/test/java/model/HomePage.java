@@ -74,6 +74,9 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
     private List<WebElement> listAllActualProjectNameHomePage;
 
+    private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
+    private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
+
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -269,5 +272,13 @@ public class HomePage extends BaseHeaderFooterPage {
     public String getSystemMessageText() {
 
         return systemMessage.getText();
+    }
+
+    public WebElement getProjectLinkByName(String name) {
+       return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
+    }
+
+    public WebElement getProjectIconByName(String name) {
+        return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH));
     }
 }
