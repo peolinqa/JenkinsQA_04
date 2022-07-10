@@ -20,7 +20,7 @@ public class _BuildHistoryTest extends BaseTest {
                 .clickNewItem()
                 .setProjectType(Freestyle)
                 .setProjectName(PROJECT_NAME)
-                .createAndGoToConfig()
+                .clickOkGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickBuildButton();
 

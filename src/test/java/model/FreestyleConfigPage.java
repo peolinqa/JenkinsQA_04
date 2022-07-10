@@ -15,6 +15,12 @@ public class FreestyleConfigPage extends BasePage {
     @FindBy(name = "description")
     private WebElement descriptionTextarea;
 
+    @FindBy(name = "githubProject")
+    private WebElement githubProjectCheckbox;
+
+    @FindBy(name = "_.projectUrlStr")
+    private WebElement githubUrl;
+
     public FreestyleConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -25,6 +31,12 @@ public class FreestyleConfigPage extends BasePage {
         return new FreestylePage(getDriver());
     }
 
+    public ProjectPage saveConfigAndGoToProject() {
+        saveButton.click();
+
+        return new ProjectPage(getDriver());
+    }
+
     public FreestyleConfigPage setDescription(String text) {
         descriptionTextarea.sendKeys(text);
 
@@ -32,8 +44,23 @@ public class FreestyleConfigPage extends BasePage {
     }
 
     public String getDescription() {
+        return descriptionTextarea.getText();
+    }
 
-        return  descriptionTextarea.getText();
+    public FreestyleConfigPage clickGithubProjectCheckbox() {
+        githubProjectCheckbox.click();
+
+        return this;
+    }
+
+    public FreestyleConfigPage setGithubUrl(String text) {
+        githubUrl.sendKeys(text);
+
+        return this;
+    }
+
+    public String getGithubUrl() {
+        return githubUrl.getAttribute("value");
     }
 
     public String getHelpNamesGeneral() {

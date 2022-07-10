@@ -60,12 +60,6 @@ public class NewItemPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public ItemConfigPage createAndGoToConfig() {
-        okButton.click();
-
-        return new ItemConfigPage(getDriver());
-    }
-
     public HomePage createAndGoHome() {
         okButton.click();
         headerIcon.click();

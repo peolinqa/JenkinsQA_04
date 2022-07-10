@@ -1,7 +1,4 @@
-import model.ErrorPage;
-import model.HomePage;
-import model.ItemConfigPage;
-import model.NewItemPage;
+import model.*;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -28,11 +25,11 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCopyDataFromExistingItemPositive() {
-        ItemConfigPage copyDataFromExistingItemToNew = new HomePage(getDriver())
+        FreestyleConfigPage copyDataFromExistingItemToNew = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("NJ")
                 .setProjectType(Freestyle)
-                .createAndGoToConfig()
+                .clickOkGoToConfig()
                 .setDescription(DESCRIPTION_INPUT)
                 .clickGithubProjectCheckbox()
                 .setGithubUrl(URL_INPUT)
@@ -42,7 +39,7 @@ public class _NewItemTest extends BaseTest {
                 .setProjectName("NJ2")
                 .setProjectType(Freestyle)
                 .setCopyFromName("NJ")
-                .createAndGoToConfig();
+                .clickOkGoToConfig();
 
         Assert.assertEquals(copyDataFromExistingItemToNew.getDescription(), DESCRIPTION_INPUT);
         Assert.assertEquals(copyDataFromExistingItemToNew.getGithubUrl(), URL_INPUT);
@@ -122,7 +119,7 @@ public class _NewItemTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName("     ")
                 .setProjectType(Freestyle)
-                .createAndGoToConfig()
+                .clickOkGoToConfig()
                 .getErrorPageIfPresent();
 
         Assert.assertNotNull(errorPage);

@@ -31,7 +31,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 .clickNewItem()
                 .setProjectName(NAME)
                 .setProjectType(MultiConfigurationProject)
-                .createAndGoToConfig()
+                .clickOkGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
 
@@ -108,8 +108,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         getActions().moveToElement(getDriver().findElement(By.xpath("//span[@name='Apply']"))).click().build().perform();
 
         WebElement applyMessage = getDriver().findElement(By.xpath("//div[@id='notification-bar']/span"));
-
-//        asserts.assertEquals(applyMessage.getText(), "Saved");
 
         getWait20().until(ExpectedConditions.invisibilityOfElementLocated(By.id("notification-bar")));
         asserts.assertAll();
