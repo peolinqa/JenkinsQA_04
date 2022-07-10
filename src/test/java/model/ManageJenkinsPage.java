@@ -23,6 +23,9 @@ public class ManageJenkinsPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//div[@class='jenkins-section__item']/a[@href='cli']/dl/dt")
     private WebElement jenkinsCLI;
 
+    @FindBy(xpath = "//dt[text()='About Jenkins']")
+    private WebElement aboutJenkins;
+
     @FindBy(xpath = "//dt[text()='Manage Credentials']")
     private WebElement manageCredentials;
 
@@ -66,9 +69,16 @@ public class ManageJenkinsPage extends BaseHeaderFooterPage {
         return new ConfigureSystemPage(getDriver());
     }
 
+    public AboutJenkinsPage clickAboutJenkins(){
+        aboutJenkins.click();
+
+        return new AboutJenkinsPage(getDriver());
+    }
+
     public ManageCredentialsPage clickManageCredentials(){
         ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
 
         return new ManageCredentialsPage(getDriver());
     }
+
 }

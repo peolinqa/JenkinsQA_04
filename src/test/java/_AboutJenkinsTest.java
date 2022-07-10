@@ -1,42 +1,51 @@
+import model.HomePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
+import runner.TestUtils;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class _AboutJenkinsTest extends BaseTest {
-    private void enterAboutJenkins() {
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.AboutJenkins.click(getDriver());
-    }
+    @Test
+    public void testAmountLinksMavenizedDependenciesPOM() {
+        int amountLinksInMavenizedDependencies = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickAboutJenkins()
+                .countLinksInTab("Mavenized dependencies");
 
-    private int amountLinks(String text) {
-        enterAboutJenkins();
-
-        List<WebElement> columnName = getDriver().findElements(
-                By.xpath(String.format("//h2[text()='%s']//parent::div//tbody/tr", text)));
-
-        return columnName.size();
+        Assert.assertEquals(amountLinksInMavenizedDependencies, 107);
     }
 
     @Test
-    public void testAmountLinksMavenizedDependencies() {
-        Assert.assertEquals(amountLinks("Mavenized dependencies"), 107);
+    public void testAmountLinksStaticResourcesPOM() {
+        int amountLinksInStaticResources = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickAboutJenkins()
+                .countLinksInTab("Static resources");
+
+        Assert.assertEquals(amountLinksInStaticResources, 4);
     }
 
     @Test
-    public void testAmountLinksStaticResources() {
-        Assert.assertEquals(amountLinks("Static resources"), 4);
+    public void testLinkAntLRParserGeneratorPOM() {
+        new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickAboutJenkins()
+                .clickLinkAntLRParserGenerator();
+
+        Set<String> actualTitles = TestUtils.getOpenTabTitles(getDriver());
+
+        Assert.assertTrue(actualTitles.contains("ANTLR"));
     }
 
     @Test
     public void testLinkAntLRParserGenerator() {
-        enterAboutJenkins();
+        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
+        ProjectUtils.ManageJenkins.AboutJenkins.click(getDriver());
 
         final Set<String> expectedSet = Set.of(getDriver().getTitle(), "ANTLR");
 
@@ -49,5 +58,6 @@ public class _AboutJenkinsTest extends BaseTest {
 
         Assert.assertEquals(actualSet, expectedSet);
     }
+
 
 }

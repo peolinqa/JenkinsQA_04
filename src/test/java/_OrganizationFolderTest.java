@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.ProjectUtils;
@@ -64,6 +65,7 @@ public class _OrganizationFolderTest extends BaseTest {
         }
     }
 
+    @Ignore
     @Test
     public void createOrganizationFolderTest () {
         String projectName = new HomePage(getDriver())
@@ -77,6 +79,7 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(projectName, VALID_FOLDER_NAME1);
     }
 
+    @Ignore
     @Test (dependsOnMethods = "createOrganizationFolderTest")
     public void renameOrganizationFolderTest() {
         String projectName = new HomePage(getDriver())
@@ -89,6 +92,7 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(projectName, VALID_FOLDER_NAME2);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "renameOrganizationFolderTest")
     public void createOrganizationFolderSameItemNameTest() {
         boolean isDisplayedNameError = new HomePage(getDriver())
@@ -106,7 +110,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 "rgba(255, 0, 0, 1)");
     }
 
-
+    @Ignore
     @Test(dependsOnMethods = {"createOrganizationFolderTest", "renameOrganizationFolderTest"})
     public void deleteOrganizationFolderTest() {
         List <String> textFolderNames = new HomePage(getDriver())

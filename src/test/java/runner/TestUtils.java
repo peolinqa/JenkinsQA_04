@@ -6,7 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TestUtils {
@@ -41,5 +43,14 @@ public class TestUtils {
     public static List<String> getTextFromList(WebDriver driver, By locator) {
         driver.findElements(locator);
         return driver.findElements(locator).stream().map(WebElement::getText).collect(Collectors.toList());
+    }
+
+    public static Set<String> getOpenTabTitles(WebDriver driver){
+        Set<String> actualSet = new HashSet<>();
+        for (String handle : driver.getWindowHandles()) {
+            actualSet.add(driver.switchTo().window(handle).getTitle());
+        }
+
+        return actualSet;
     }
 }
