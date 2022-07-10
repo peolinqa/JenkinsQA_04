@@ -37,9 +37,9 @@ public class JenkinsCLIPage extends BasePage {
         return addJobToViewCommandDescription.getText();
     }
 
-    public JenkinsCLIPage clickAddJobToViewElement (){
+    public JenkinsCLIExamplesPage clickAddJobToViewElement (){
         addJobToViewCommand.click();
-        return this;
+        return new JenkinsCLIExamplesPage(getDriver());
     }
 
     public String getBuildName(){
@@ -50,9 +50,9 @@ public class JenkinsCLIPage extends BasePage {
         return buildCommandDescription.getText();
     }
 
-    public JenkinsCLIPage clickBuildElement (){
+    public JenkinsCLIExamplesPage clickBuildElement (){
         buildCommand.click();
-        return this;
+        return new JenkinsCLIExamplesPage(getDriver());
     }
 
     public String getCancelQuiteDownName(){
@@ -63,9 +63,9 @@ public class JenkinsCLIPage extends BasePage {
         return cancelQuietDownCommandDescription.getText();
     }
 
-    public JenkinsCLIPage clickCancelQuietDownElement (){
+    public JenkinsCLIExamplesPage clickCancelQuietDownElement (){
         cancelQuietDownCommand.click();
-        return this;
+        return new JenkinsCLIExamplesPage(getDriver());
     }
 
 }

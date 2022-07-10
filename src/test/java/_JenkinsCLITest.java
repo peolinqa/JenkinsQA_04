@@ -87,8 +87,6 @@ public class _JenkinsCLITest extends BaseTest {
         Assert.assertEquals(addJobToViewName, EXPECTEDCOMMANDNAMES[0]);
         Assert.assertEquals(buildName, EXPECTEDCOMMANDNAMES[1]);
         Assert.assertEquals(cancelQuiteDownName, EXPECTEDCOMMANDNAMES[2]);
-
-
     }
 
     @Test
@@ -111,6 +109,31 @@ public class _JenkinsCLITest extends BaseTest {
         Assert.assertEquals(addJobToViewDescription, EXPECTEDCOMMANDDESCRIPTIONS[0]);
         Assert.assertEquals(buildDescription, EXPECTEDCOMMANDDESCRIPTIONS[1]);
         Assert.assertEquals(cancelQuiteDownDescription, EXPECTEDCOMMANDDESCRIPTIONS[2]);
+    }
+
+    @Test
+    public void checkCommandExample(){
+        boolean addJobToViewExample = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .clickAddJobToViewElement()
+                .getCommandExample(EXPECTEDCOMMANDNAMES[0]);
+
+        boolean buildNameExample = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .clickBuildElement()
+                .getCommandExample(EXPECTEDCOMMANDNAMES[1]);
+
+        boolean cancelQuiteDownExample = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .clickCancelQuietDownElement()
+                .getCommandExample(EXPECTEDCOMMANDNAMES[2]);
+
+        Assert.assertTrue(addJobToViewExample);
+        Assert.assertTrue(buildNameExample);
+        Assert.assertTrue(cancelQuiteDownExample);
     }
 
 }
