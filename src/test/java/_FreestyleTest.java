@@ -34,8 +34,8 @@ public class _FreestyleTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
-                .setProjectType(Freestyle)
-                .clickOkGoToConfig()
+                .setProjectTypeFreestyle()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToFreestyleProject()
                 .getProjectName();
 

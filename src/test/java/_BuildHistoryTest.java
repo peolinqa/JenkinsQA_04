@@ -5,7 +5,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-import static runner.ProjectUtils.ProjectType.Freestyle;
 
 public class _BuildHistoryTest extends BaseTest {
 
@@ -18,9 +17,9 @@ public class _BuildHistoryTest extends BaseTest {
 
         ProjectPage projectPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectType(Freestyle)
+                .setProjectTypeFreestyle()
                 .setProjectName(PROJECT_NAME)
-                .clickOkGoToConfig()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickBuildButton();
 

@@ -23,6 +23,7 @@ import java.util.stream.IntStream;
 
 import static runner.ProjectUtils.ProjectType.Pipeline;
 
+
 public class _PipelineTest extends BaseTest {
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");
@@ -214,12 +215,12 @@ public class _PipelineTest extends BaseTest {
         final String displayDuplicatedJobName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
+                .setProjectTypePipeline()
                 .getNameErrorText();
 
         Assert.assertEquals(displayDuplicatedJobName, "» A job already exists with the name ‘" + name + "’");
@@ -232,12 +233,12 @@ public class _PipelineTest extends BaseTest {
         final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
+                .setProjectTypePipeline()
                 .createAndGoToErrorPage()
                 .isDisplayedErrorHeader();
 
@@ -251,8 +252,8 @@ public class _PipelineTest extends BaseTest {
         final int checkDisplayedDropDownList = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .jsDropDownMenuPipelineTab()
                 .clickDropDownMenuPipelineTab()
                 .collectDropDownMenu();
@@ -267,8 +268,8 @@ public class _PipelineTest extends BaseTest {
         final String checkTransitionPluginPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .scrollAndClickAdvancedButton()
                 .clickHelpForFeatureDisplayName()
                 .transitionToCorrectPage()
@@ -285,8 +286,8 @@ public class _PipelineTest extends BaseTest {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .collectPipelineScriptDropDownMenu()
                 .collectPipelineScriptScmDropDownMenu()
@@ -302,8 +303,8 @@ public class _PipelineTest extends BaseTest {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .getHrefAndGoToPipelineSyntaxPage()
                 .assertPipelineSyntaxHrefAtt("pipeline-syntax");
@@ -316,8 +317,8 @@ public class _PipelineTest extends BaseTest {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .assertUseGroovySandBoxCheckboxAtt();
     }
 
@@ -328,8 +329,8 @@ public class _PipelineTest extends BaseTest {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .assertPipelineConfigUrlContainsPipelineName(name);
     }
 
@@ -340,8 +341,8 @@ public class _PipelineTest extends BaseTest {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .navigateToPreviousCreatedPipeline(name)
                 .deletePipelineProject()
@@ -356,8 +357,8 @@ public class _PipelineTest extends BaseTest {
         final List<String> actualDashboardProject = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
                 .getActualDashboardProject();
@@ -372,8 +373,8 @@ public class _PipelineTest extends BaseTest {
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .checkHelpTooltipsTextCheckBoxHelpText();
 
         Assert.assertTrue(check);
@@ -395,8 +396,8 @@ public class _PipelineTest extends BaseTest {
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickDeletePipelineButton()
                 .clickDashboardButton()
@@ -664,8 +665,8 @@ public class _PipelineTest extends BaseTest {
         final List<String> locationProjectParameterized = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .clickCheckboxProjectParameterized()
                 .clickAddParameterOfBuildButton()
                 .clickBooleanParameterButton()
@@ -797,8 +798,8 @@ public class _PipelineTest extends BaseTest {
         final boolean isStatus = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .selectScriptByValue("hello")
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
@@ -817,8 +818,8 @@ public class _PipelineTest extends BaseTest {
         List<String> checkBuildHistoryByName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .jsDropDownMenuPipelineTab()
                 .clickDropDownMenuPipelineTab()
                 .saveConfigAndGoToProject()
@@ -838,8 +839,8 @@ public class _PipelineTest extends BaseTest {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(namePipeline)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .clickCheckboxDiscardOldBuilds()
                 .saveConfigAndGoToProject()
                 .clickMultipleTimesBuildButton(31)
@@ -877,8 +878,8 @@ public class _PipelineTest extends BaseTest {
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(Pipeline)
-                .createAndGoToPipelineConfigure()
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickAddDescription()
                 .addTextDescriptionAndSave(NEW_USER_DESCRIPTION)

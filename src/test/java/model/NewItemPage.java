@@ -6,10 +6,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import runner.ProjectUtils;
+
 import java.util.List;
 
-public class NewItemPage extends BaseHeaderFooterPage {
+public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
     @FindBy(id = "name")
     private WebElement nameText;
@@ -44,66 +44,99 @@ public class NewItemPage extends BaseHeaderFooterPage {
     @FindBy(id = "jenkins-head-icon")
     private WebElement headerIcon;
 
+    @FindBy(className = "hudson_model_FreeStyleProject")
+    private WebElement freestyleItem;
+    @FindBy(className = "org_jenkinsci_plugins_workflow_job_WorkflowJob")
+    private WebElement pipelineItem;
+    @FindBy(className = "hudson_matrix_MatrixProject")
+    private WebElement multiConfigurationItem;
+    @FindBy(className = "com_cloudbees_hudson_plugins_folder_Folder")
+    private WebElement folderItem;
+    @FindBy(className = "org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")
+    private WebElement multiBranchPipelineItem;
+    @FindBy(className = "jenkins_branch_OrganizationFolder")
+    private WebElement organizationFolderItem;
+
+    private final ConfigPage configPage;
+
     public NewItemPage(WebDriver driver) {
-        super(driver);
+        this(driver, null);
     }
 
-    public NewItemPage setProjectName(String text) {
+    private NewItemPage(WebDriver driver, ConfigPage configPage) {
+        super(driver);
+        this.configPage = configPage;
+    }
+
+    public NewItemPage<ConfigPage> setProjectName(String text) {
         nameText.sendKeys(text);
 
         return this;
     }
 
-    public NewItemPage setProjectType(ProjectUtils.ProjectType projectType) {
-        projectType.click(getDriver());
+    public NewItemPage<FreestyleConfigPage> setProjectTypeFreestyle() {
+        freestyleItem.click();
 
-        return this;
+        return new NewItemPage<>(getDriver(), new FreestyleConfigPage(getDriver()));
     }
 
-    public HomePage createAndGoHome() {
+    public NewItemPage<PipelineConfigPage> setProjectTypePipeline() {
+        pipelineItem.click();
+
+        return new NewItemPage<>(getDriver(), new PipelineConfigPage(getDriver()));
+    }
+
+    public NewItemPage<FreestyleConfigPage> setProjectTypeMultiConfiguratio() {
+        multiConfigurationItem.click();
+
+        return new NewItemPage<>(getDriver(), new FreestyleConfigPage(getDriver()));
+    }
+
+    public NewItemPage<FolderConfigPage> setProjectTypeFolder() {
+        folderItem.click();
+
+        return new NewItemPage<>(getDriver(), new FolderConfigPage(getDriver()));
+    }
+
+    public NewItemPage<MultibranchPipelineConfigPage> setProjectTypeMultiBranchPipeline() {
+        multiBranchPipelineItem.click();
+
+        return new NewItemPage<>(getDriver(), new MultibranchPipelineConfigPage(getDriver()));
+    }
+
+    public NewItemPage<OrganizationFolderConfigPage> setProjectTypeOrganizationFolder() {
+        organizationFolderItem.click();
+
+        return new NewItemPage<>(getDriver(), new OrganizationFolderConfigPage(getDriver()));
+    }
+
+    public ConfigPage clickOkAndGoToConfig() {
+        if (configPage == null) {
+            throw new RuntimeException("Select project type");
+        }
+
         okButton.click();
-        headerIcon.click();
 
-        return new HomePage(getDriver());
+        return configPage;
     }
 
-    public NewItemPage setCopyFromName(String name) {
+    public NewItemPage<ConfigPage> setCopyFromName(String name) {
         copyFromInputName.sendKeys(name);
 
         return this;
     }
 
-    public PipelineConfigPage createAndGoToPipelineConfigure() {
-        okButton.click();
-
-        return new PipelineConfigPage(getDriver());
-    }
-
-    public NewItemPage clickCreateButton() {
+    public NewItemPage<ConfigPage> clickCreateButton() {
         getActions().moveToElement(okButton).click().perform();
 
         return this;
     }
 
-    public OrganizationFolderConfigPage createAndGoToOrganizationFolderConfigure() {
-        okButton.click();
-
-        return new OrganizationFolderConfigPage(getDriver());
-    }
-
-    public FreestyleConfigPage clickOkGoToConfig() {
-        okButton.click();
-
-        return new FreestyleConfigPage(getDriver());
-    }
-
     public String getNameErrorText() {
-
         return errorInvalidName.getText();
     }
 
     public String getNameErrorScc(String sccValue) {
-
         return errorInvalidName.getCssValue(sccValue);
     }
 
@@ -116,7 +149,6 @@ public class NewItemPage extends BaseHeaderFooterPage {
     }
 
     public boolean isDisplayedNameError() {
-
         return errorInvalidName.isDisplayed();
     }
 
@@ -136,13 +168,7 @@ public class NewItemPage extends BaseHeaderFooterPage {
         return breadCrumbs.get(index).getText();
     }
 
-    public FolderConfigPage createAndGoToFolderConfigPage() {
-        okButton.click();
-
-        return new FolderConfigPage(getDriver());
-    }
-
-    public NewItemPage checkErrorMessage(String extectedMessage) {
+    public NewItemPage<ConfigPage> checkErrorMessage(String extectedMessage) {
         Assert.assertEquals(errorInvalidName.getText(), extectedMessage);
 
         return this;
@@ -152,7 +178,7 @@ public class NewItemPage extends BaseHeaderFooterPage {
         return errorInvalidName.getText();
     }
 
-    public NewItemPage checkPresenceErrorMessageAndAssert(String name) {
+    public NewItemPage<ConfigPage> checkPresenceErrorMessageAndAssert(String name) {
         Assert.assertEquals(errorInvalidName.getText(),"» A job already exists with the name ‘" + name + "’");
 
         return this;
@@ -164,19 +190,19 @@ public class NewItemPage extends BaseHeaderFooterPage {
         return new ErrorPage(getDriver());
     }
 
-    public NewItemPage clickToMoveMousePointer() {
+    public NewItemPage<ConfigPage> clickToMoveMousePointer() {
         h3Header.click();
 
-        return new NewItemPage(getDriver());
+        return this;
     }
 
-    public NewItemPage clearNameText(){
+    public NewItemPage<ConfigPage> clearNameText() {
         nameText.clear();
 
         return this;
     }
 
-    public NewItemPage waitWarningMessage(char invalidSymbol, String text){
+    public NewItemPage<ConfigPage> waitWarningMessage(char invalidSymbol, String text){
         getWait5().until(ExpectedConditions.textToBePresentInElement(
                 getNameError(),
                 "» ‘" + invalidSymbol + text));
@@ -184,16 +210,10 @@ public class NewItemPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public NewItemPage waitDotWarningMessage(){
+    public NewItemPage<ConfigPage> waitDotWarningMessage(){
         getWait5().until(ExpectedConditions.textToBePresentInElement(
                 getNameError(), "» “.” is not an allowed name"));
 
         return this;
-    }
-
-    public MultibranchPipelineConfigPage clickOkGoMultibranchPipelineConfig() {
-        okButton.click();
-
-        return new MultibranchPipelineConfigPage(getDriver());
     }
 }

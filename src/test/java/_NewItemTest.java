@@ -3,7 +3,6 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import static runner.ProjectUtils.ProjectType.Freestyle;
 
 public class _NewItemTest extends BaseTest {
 
@@ -15,7 +14,7 @@ public class _NewItemTest extends BaseTest {
         String ErrorNoSuchJob = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("NJ3")
-                .setProjectType(Freestyle)
+                .setProjectTypeFreestyle()
                 .setCopyFromName("NJ4")
                 .createAndGoToErrorPage()
                 .getErrorHeader();
@@ -28,8 +27,8 @@ public class _NewItemTest extends BaseTest {
         FreestyleConfigPage copyDataFromExistingItemToNew = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("NJ")
-                .setProjectType(Freestyle)
-                .clickOkGoToConfig()
+                .setProjectTypeFreestyle()
+                .clickOkAndGoToConfig()
                 .setDescription(DESCRIPTION_INPUT)
                 .clickGithubProjectCheckbox()
                 .setGithubUrl(URL_INPUT)
@@ -37,9 +36,9 @@ public class _NewItemTest extends BaseTest {
                 .clickDashboardButton()
                 .clickNewItem()
                 .setProjectName("NJ2")
-                .setProjectType(Freestyle)
+                .setProjectTypeFreestyle()
                 .setCopyFromName("NJ")
-                .clickOkGoToConfig();
+                .clickOkAndGoToConfig();
 
         Assert.assertEquals(copyDataFromExistingItemToNew.getDescription(), DESCRIPTION_INPUT);
         Assert.assertEquals(copyDataFromExistingItemToNew.getGithubUrl(), URL_INPUT);
@@ -47,7 +46,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckItemLabelStyle() {
-        NewItemPage itemLabelStyle = new HomePage(getDriver()).clickNewItem();
+        NewItemPage<Object> itemLabelStyle = new HomePage(getDriver()).clickNewItem();
 
         for (WebElement value : itemLabelStyle.getProjectTypeLabels()) {
             Assert.assertEquals(value.getCssValue("font-weight"), "700");
@@ -58,7 +57,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckDescriptionStyle() {
-        NewItemPage descriptionStyle = new HomePage(getDriver()).clickNewItem();
+        NewItemPage<Object> descriptionStyle = new HomePage(getDriver()).clickNewItem();
 
         for (WebElement value : descriptionStyle.getDescriptionStyle()) {
             Assert.assertEquals(value.getCssValue("font-weight"), "400");
@@ -69,7 +68,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckIconAvailabilityAndDisplaying() {
-        NewItemPage iconAvailability = new HomePage(getDriver()).clickNewItem();
+        NewItemPage<Object> iconAvailability = new HomePage(getDriver()).clickNewItem();
 
         for (WebElement icon : iconAvailability.getProjectTypeImage()) {
             Assert.assertTrue(icon.isDisplayed());
@@ -88,7 +87,7 @@ public class _NewItemTest extends BaseTest {
                 "Organization Folder",
                 };
 
-        NewItemPage itemLabelText = new HomePage(getDriver()).clickNewItem();
+        NewItemPage<Object> itemLabelText = new HomePage(getDriver()).clickNewItem();
 
         for(int i = 0; i < expectedItemLabelText.length; i++){
             Assert.assertEquals(itemLabelText.getProjectTypeLabels().get(i).getText(), expectedItemLabelText[i]);
@@ -107,7 +106,7 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckBreadcrumbs() {
-        NewItemPage checkBreadcrumbs = new HomePage(getDriver()).clickNewItem();
+        NewItemPage<Object> checkBreadcrumbs = new HomePage(getDriver()).clickNewItem();
 
         Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(0), "Dashboard");
         Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(2), "All");
@@ -118,8 +117,8 @@ public class _NewItemTest extends BaseTest {
         ErrorPage errorPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("     ")
-                .setProjectType(Freestyle)
-                .clickOkGoToConfig()
+                .setProjectTypeFreestyle()
+                .clickOkAndGoToConfig()
                 .getErrorPageIfPresent();
 
         Assert.assertNotNull(errorPage);

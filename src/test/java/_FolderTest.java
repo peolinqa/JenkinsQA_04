@@ -68,8 +68,8 @@ public class _FolderTest extends BaseTest {
         String folderName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME1)
-                .setProjectType(Folder)
-                .createAndGoToFolderConfigPage()
+                .setProjectTypeFolder()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToFolderPage()
                 .getFolderName();
 
@@ -82,8 +82,8 @@ public class _FolderTest extends BaseTest {
         String actual = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(NAME_FOLDER)
-                .setProjectType(Folder)
-                .createAndGoToFolderConfigPage()
+                .setProjectTypeFolder()
+                .clickOkAndGoToConfig()
                 .waitLoadingFolderConfigurePage()
                 .getGeneralTabName();
 
@@ -147,8 +147,8 @@ public class _FolderTest extends BaseTest {
         new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(folderName)
-                .setProjectType(Folder)
-                .createAndGoToFolderConfigPage()
+                .setProjectTypeFolder()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToFolderPage()
                 .clickDeleteFolder()
                 .clickYesButton();
@@ -290,8 +290,8 @@ public class _FolderTest extends BaseTest {
         FolderConfigPage setFolderDescriptionOnFolderPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME2)
-                .setProjectType(Folder)
-                .createAndGoToFolderConfigPage()
+                .setProjectTypeFolder()
+                .clickOkAndGoToConfig()
                 .setFolderDescription(folderDescription);
 
         String folderDescriptionInPreviewOnFolderConfigPage = setFolderDescriptionOnFolderPage

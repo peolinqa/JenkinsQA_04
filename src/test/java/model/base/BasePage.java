@@ -1,6 +1,7 @@
 package model.base;
 
 import model.ErrorPage;
+import model.HomePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,8 +19,10 @@ public abstract class BasePage extends BaseModel {
         super(driver);
     }
 
-    public void goHome() {
+    public HomePage goHome() {
         ProjectUtils.get(getDriver());
+
+        return new HomePage(getDriver());
     }
 
     public ErrorPage getErrorPageIfPresent() {

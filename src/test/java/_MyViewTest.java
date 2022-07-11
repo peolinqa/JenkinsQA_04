@@ -7,8 +7,6 @@ import runner.TestUtils;
 
 import java.util.List;
 
-import static runner.ProjectUtils.ProjectType.Freestyle;
-
 
 public class _MyViewTest extends BaseTest {
     private static final String VIEW_NAME = TestUtils.getRandomStr();
@@ -22,8 +20,9 @@ public class _MyViewTest extends BaseTest {
         MyViewPage myViewPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
-                .setProjectType(Freestyle)
-                .createAndGoHome()
+                .setProjectTypeFreestyle()
+                .clickOkAndGoToConfig()
+                .goHome()
                 .clickNewView()
                 .setViewName(VIEW_NAME_1)
                 .selectListViewType()

@@ -11,7 +11,6 @@ import runner.TestUtils;
 
 import java.util.UUID;
 
-import static runner.ProjectUtils.ProjectType.MultiBranchPipeline;
 
 public class _MultibranchPipelineTest extends BaseTest {
 
@@ -181,8 +180,8 @@ public class _MultibranchPipelineTest extends BaseTest {
         ProjectPage projectPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
-                .setProjectType(MultiBranchPipeline)
-                .clickOkGoMultibranchPipelineConfig()
+                .setProjectTypeMultiBranchPipeline()
+                .clickOkAndGoToConfig()
                 .clickCheckboxDisable()
                 .saveConfigAndGoToProject();
 

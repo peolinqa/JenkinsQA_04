@@ -81,10 +81,10 @@ public class HomePage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public NewItemPage clickNewItem() {
+    public NewItemPage<Object> clickNewItem() {
         newItem.click();
 
-        return new NewItemPage(getDriver());
+        return new NewItemPage<>(getDriver());
     }
 
     public PeoplePage clickPeople() {

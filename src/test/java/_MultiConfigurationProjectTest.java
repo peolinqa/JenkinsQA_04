@@ -30,8 +30,8 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(NAME)
-                .setProjectType(MultiConfigurationProject)
-                .clickOkGoToConfig()
+                .setProjectTypeMultiConfiguratio()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
 

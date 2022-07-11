@@ -71,8 +71,8 @@ public class _OrganizationFolderTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME1)
-                .setProjectType(ProjectUtils.ProjectType.OrganizationFolder)
-                .createAndGoToOrganizationFolderConfigure()
+                .setProjectTypeOrganizationFolder()
+                .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
 
@@ -98,7 +98,7 @@ public class _OrganizationFolderTest extends BaseTest {
         boolean isDisplayedNameError = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME2)
-                .setProjectType(ProjectUtils.ProjectType.OrganizationFolder)
+                .setProjectTypeOrganizationFolder()
                 .isDisplayedNameError();
 
         NewItemPage newItemPage = new NewItemPage(getDriver());
