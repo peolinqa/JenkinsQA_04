@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.PipelineConfigPage;
 import model.ProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -283,7 +284,7 @@ public class _PipelineTest extends BaseTest {
     public void testJenkinsCredentialsProviderWindow() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final String titleOfJenkinsCredentialsProviderWindow = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
@@ -293,52 +294,62 @@ public class _PipelineTest extends BaseTest {
                 .collectPipelineScriptScmDropDownMenu()
                 .clickCredentialsAddButton()
                 .clickJenkinsProviderButton()
-                .assertTitleOfJenkinsCredentialsProviderWindow("Jenkins Credentials Provider: Jenkins");
+                .openJenkinsCredentialsProviderWindow();
+
+        Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow, "Jenkins Credentials Provider: Jenkins");
+
+        new PipelineConfigPage(getDriver()).closeJenkinsCredentialsProviderWindowAfterAssert();
     }
 
     @Test
     public void testPipelineSyntaxPageOpening() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final String hrefAttOfPipelineSyntaxLink = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .getHrefAndGoToPipelineSyntaxPage()
-                .assertPipelineSyntaxHrefAtt("pipeline-syntax");
+                .getPipelineSyntaxHrefAtt();
+
+        Assert.assertTrue(hrefAttOfPipelineSyntaxLink.contains("pipeline-syntax"));
     }
 
     @Test
     public void testPipelineGroovyPageOpening() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final String useGroovySandBoxCheckboxAtt = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
-                .assertUseGroovySandBoxCheckboxAtt();
+                .getUseGroovySandBoxCheckboxAtt();
+
+        Assert.assertEquals(useGroovySandBoxCheckboxAtt, "true");
     }
 
     @Test
     public void testTitleConfigPageContainsProjectTitle() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final String titleConfigPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
-                .assertPipelineConfigUrlContainsPipelineName(name);
+                .getTitleConfigPage();
+
+        Assert.assertTrue(titleConfigPage.contains(name));
     }
 
     @Test
     public void test404PageAfterDeletedPipeline() {
         final String name = pipelineName();
 
-        new HomePage(getDriver())
+        final String titleOfPage404 = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
@@ -347,7 +358,9 @@ public class _PipelineTest extends BaseTest {
                 .navigateToPreviousCreatedPipeline(name)
                 .deletePipelineProject()
                 .switchToPage404()
-                .assertTitleOfPage404();
+                .getTitleOfPage404();
+
+        Assert.assertEquals(titleOfPage404, "Error 404 Not Found");
     }
 
     @Test

@@ -5,7 +5,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,19 +199,17 @@ public class PipelineConfigPage extends BasePage {
         return new PipelineSyntaxPage(getDriver());
     }
 
-    public void assertTitleOfJenkinsCredentialsProviderWindow(String text) {
-        Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow.getText(), text);
+    public String openJenkinsCredentialsProviderWindow() {
+      return titleOfJenkinsCredentialsProviderWindow.getText();
+    }
+
+    public void closeJenkinsCredentialsProviderWindowAfterAssert() {
         getDriver().navigate().back();
         getDriver().switchTo().alert().accept();
     }
 
-    public void assertUseGroovySandBoxCheckboxAtt() {
-        String useGroovySandboxCheckboxAtt = useGroovySandboxCheckbox.getAttribute("checked");
-        Assert.assertEquals(useGroovySandboxCheckboxAtt, "true");
-    }
-
-    public void assertPipelineConfigUrlContainsPipelineName(String text) {
-        Assert.assertTrue(getDriver().getTitle().contains(text));
+    public String getUseGroovySandBoxCheckboxAtt() {
+       return useGroovySandboxCheckbox.getAttribute("checked");
     }
 
     public PipelinePluginPage transitionToCorrectPage() {
@@ -304,5 +301,9 @@ public class PipelineConfigPage extends BasePage {
                     listOfCheckBoxWithHelps.get(i).getText()));
         }
         return result;
+    }
+
+    public String getTitleConfigPage() {
+      return getDriver().getTitle();
     }
 }

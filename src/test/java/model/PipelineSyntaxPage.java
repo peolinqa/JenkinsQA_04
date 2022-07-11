@@ -4,7 +4,6 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 
 import java.util.List;
 
@@ -17,8 +16,7 @@ public class PipelineSyntaxPage extends BasePage {
     @FindBy(xpath = "//li[@class='item']/a")
     private List<WebElement> breadcrumbsPipelineSyntaxPage;
 
-    public void assertPipelineSyntaxHrefAtt(String text) {
-        String hrefBreadcrumbsPipelineSyntaxPageAtt = breadcrumbsPipelineSyntaxPage.get(2).getAttribute("href");
-        Assert.assertTrue(hrefBreadcrumbsPipelineSyntaxPageAtt.contains(text));
+    public String getPipelineSyntaxHrefAtt() {
+        return breadcrumbsPipelineSyntaxPage.get(2).getAttribute("href");
     }
 }
