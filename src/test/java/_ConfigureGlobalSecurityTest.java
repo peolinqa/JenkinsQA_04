@@ -48,4 +48,14 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
         Assert.assertEquals(tooltipHelpButtonSSHServer, "Help for feature: SSHD Port");
     }
 
+    @Test
+    public void testAmountTooltip() {
+        int actualAmountTooltip = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickConfigureGlobalSecurity()
+                .countHelpIcons();
+
+        Assert.assertEquals(actualAmountTooltip, 17);
+    }
+
 }
