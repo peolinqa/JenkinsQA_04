@@ -2,6 +2,7 @@ package model;
 
 import model.base.BasePage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -46,16 +47,33 @@ public class ConfigureGlobalSecurityPage extends BasePage {
         return actualChapters;
     }
 
-    public int countHelpIcons() {
-        int actualAmountTooltip = 0;
+    private List<WebElement> getDisplayedHelpIconsList() {
+        List<WebElement> helpIconList = new ArrayList<>();
 
         for (WebElement list : locatorHelp) {
             TestUtils.scrollToElement(getDriver(), list);
             if (list.isDisplayed()) {
-                ++actualAmountTooltip;
+                helpIconList.add(list);
             }
         }
+        return helpIconList;
+    }
 
-        return actualAmountTooltip;
+    public int countHelpIcons() {
+        return getDisplayedHelpIconsList().size();
+    }
+
+    public List<String> getTooltipTextList() {
+
+        List<WebElement> helpIconsList = getDisplayedHelpIconsList();
+        List<String> tooltipText = new ArrayList<>();
+
+        for (int i = 0; i < getDisplayedHelpIconsList().size(); i++) {
+
+                getActions().pause(500).moveToElement(helpIconsList.get(i)).build().perform();
+                tooltipText.add(getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText());
+
+        }
+        return tooltipText;
     }
 }

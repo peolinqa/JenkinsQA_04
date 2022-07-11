@@ -49,6 +49,16 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     }
 
     @Test
+    public void testCheckTooltipText() {
+        List<String> tooltipTextList = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickConfigureGlobalSecurity()
+                .getTooltipTextList();
+
+        Assert.assertTrue(tooltipTextList.contains("Help"));
+    }
+
+    @Test
     public void testAmountTooltip() {
         int actualAmountTooltip = new HomePage(getDriver())
                 .clickManageJenkins()
