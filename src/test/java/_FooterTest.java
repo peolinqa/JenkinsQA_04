@@ -1,5 +1,4 @@
 import model.HomePage;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -16,8 +15,8 @@ public class _FooterTest extends BaseTest {
 
     @Test
     public void testFooterCheckLinksJenkinsVersion() {
-
-        Assert.assertTrue(getDriver().findElement(By.xpath("//a[@rel='noopener noreferrer']")).isDisplayed());
-
+        String title = new HomePage(getDriver())
+                .getJenkinsIOPageTitle();
+        Assert.assertEquals(title, "Jenkins");
     }
 }

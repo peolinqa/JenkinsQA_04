@@ -7,8 +7,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 import runner.ProjectUtils;
 import runner.TestUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -73,6 +76,9 @@ public class HomePage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
     private List<WebElement> listAllActualProjectNameHomePage;
+
+    @FindBy (xpath = "//a[@rel='noopener noreferrer']")
+    private WebElement linkToJenkinsIO;
 
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
@@ -280,5 +286,15 @@ public class HomePage extends BaseHeaderFooterPage {
 
     public WebElement getProjectIconByName(String name) {
         return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH));
+    }
+
+    public String getJenkinsIOPageTitle(){
+        String oldTab = getDriver().getWindowHandle();
+        linkToJenkinsIO.click();
+        ArrayList<String> newTab = new ArrayList<>(getDriver().getWindowHandles());
+        newTab.remove(oldTab);
+        String title = getDriver().switchTo().window(newTab.get(0)).getTitle();
+
+        return title;
     }
 }
