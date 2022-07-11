@@ -16,25 +16,34 @@ public class ManageCredentialsPage extends BasePage {
     @FindBy(xpath = "//span[contains(text(), 'Add domain')]")
     private WebElement addDomain;
 
+    @FindBy(xpath = "//a[@href='/credentials/store/system/domain/_/']")
+    WebElement global;
+
     public ManageCredentialsPage(WebDriver driver) {
         super(driver);
     }
 
-    public ManageCredentialsPage clickCredentialsStoreSystem(){
+    public ManageCredentialsPage clickCredentialsStoreSystemMenu() {
         getActions().moveToElement(credentialsStoreSystem).perform();
 
-       return new ManageCredentialsPage(getDriver());
+        return new ManageCredentialsPage(getDriver());
     }
 
-    public ManageCredentialsPage clickMenuSelector(){
+    public ManageCredentialsPage clickMenuSelector() {
         menuSelector.click();
 
         return new ManageCredentialsPage(getDriver());
     }
 
-    public NewDomainPage clickAddDomain(){
+    public NewDomainPage clickAddDomain() {
         addDomain.click();
 
         return new NewDomainPage(getDriver());
+    }
+
+    public GlobalCredentialsPage clickGlobalCredentials() {
+        global.click();
+
+        return new GlobalCredentialsPage(getDriver());
     }
 }

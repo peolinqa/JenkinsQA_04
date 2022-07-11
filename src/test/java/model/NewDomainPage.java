@@ -4,7 +4,6 @@ import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import runner.TestUtils;
 
 public class NewDomainPage extends BaseHeaderFooterPage {
 
@@ -18,7 +17,7 @@ public class NewDomainPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public CreatedDomainPage createNewDomain(String name){
+    public CreatedDomainPage createNewDomain(String name) {
         domainName.sendKeys(name);
         okButton.click();
 

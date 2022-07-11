@@ -1,9 +1,7 @@
-import model.CreatedDomainPage;
+
 import model.HomePage;
-import model.ManageCredentialsPage;
-import model.NewDomainPage;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -62,25 +60,18 @@ public class _ManageCredentialsTest extends BaseTest {
     @Test
     public void testManageCredentialsChekMenu() {
 
-        final String NEW_USERNAME = TestUtils.getRandomStr(8);
-        final String NEW_PASSWORD = TestUtils.getRandomStr(9);
+        final String newUsername = TestUtils.getRandomStr(8);
+        final String newPassword = TestUtils.getRandomStr(9);
 
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a[@class='model-link inside inverse']"))).perform();
+        String createCredentials = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageCredentials()
+                .clickGlobalCredentials()
+                .clickAddCredentials()
+                .createUserCredentials(newUsername, newPassword)
+                .getTableText();
 
-        getDriver().findElement(By.id("menuSelector")).click();
-        getDriver().findElement(By.id("yui-gen4")).click();
-        getDriver().findElement(By.xpath("//a[@title='User']")).click();
-        getDriver().findElement(By.xpath("//table/tbody/tr[2]/td[2]/a")).click();
-        getDriver().findElement(By.xpath("//div[2]/span/a/span[2]")).click();
-        getDriver().findElement(By.xpath("//input[@name='_.username']"))
-                .sendKeys(NEW_USERNAME);
-        getDriver().findElement(By.xpath("//input[@name='_.password']"))
-                .sendKeys(NEW_PASSWORD);
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-        WebElement newUser = getDriver().findElement(By.xpath("//div[@id='main-panel']/table"));
-
-        Assert.assertTrue(newUser.getText().contains(NEW_USERNAME));
+        Assert.assertTrue(createCredentials.contains(newUsername));
     }
 
     @Test
@@ -142,12 +133,12 @@ public class _ManageCredentialsTest extends BaseTest {
     @Test
     public void testCheckDropDownMenuAddDomain() {
 
-       String domainName = TestUtils.getRandomStr(8);
+        String domainName = TestUtils.getRandomStr(8);
 
         String addDomain = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageCredentials()
-                .clickCredentialsStoreSystem()
+                .clickCredentialsStoreSystemMenu()
                 .clickMenuSelector()
                 .clickAddDomain()
                 .createNewDomain(domainName)
