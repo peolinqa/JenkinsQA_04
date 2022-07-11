@@ -1,14 +1,14 @@
 package runner;
 
-import com.google.common.io.Files;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import ru.yandex.qatools.ashot.AShot;
+import ru.yandex.qatools.ashot.Screenshot;
+import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
+import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,12 +30,12 @@ public final class BaseUtils {
         if (properties == null) {
             properties = new Properties();
             if (isServerRun()) {
-                 properties.setProperty(PROP_CHROME_OPTIONS, System.getenv(ENV_CHROME_OPTIONS));
+                properties.setProperty(PROP_CHROME_OPTIONS, System.getenv(ENV_CHROME_OPTIONS));
 
-                 for (String option : System.getenv(ENV_APP_OPTIONS).split(";")) {
-                     String[] optionArr = option.split("=");
-                     properties.setProperty(PREFIX_PROP + optionArr[0], optionArr[1]);
-                 }
+                for (String option : System.getenv(ENV_APP_OPTIONS).split(";")) {
+                    String[] optionArr = option.split("=");
+                    properties.setProperty(PREFIX_PROP + optionArr[0], optionArr[1]);
+                }
             } else {
                 try {
                     InputStream inputStream = BaseUtils.class.getClassLoader().getResourceAsStream("local.properties");
@@ -45,13 +45,15 @@ public final class BaseUtils {
                         System.exit(1);
                     }
                     properties.load(inputStream);
-                } catch (IOException ignore) {}
+                } catch (IOException ignore) {
+                }
             }
         }
     }
 
 
     private static final ChromeOptions chromeOptions;
+
     static {
         initProperties();
 
@@ -77,16 +79,25 @@ public final class BaseUtils {
     static WebDriver createDriver() {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
         return driver;
     }
 
     static void captureScreenFile(WebDriver driver, String methodName, String className) {
-        TakesScreenshot ts = (TakesScreenshot) driver;
-        File file = ts.getScreenshotAs(OutputType.FILE);
-         try {
-             FileUtils.copyFile(file, new File(String.format("ScreenshotsFailure/%s-%s.png", className, methodName)));
-        } catch(Exception e) {
+
+        WebElement element = driver.findElement(By.id("breadcrumbBar"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].style.display='none'", element);
+        List<WebElement> elements = driver.findElements(By.className("bottom-sticker-inner"));
+        for (WebElement el : elements) {
+            ((JavascriptExecutor) driver).executeScript("arguments[0].style.position='absolute'", el);
+        }
+        Screenshot ts = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(100)).takeScreenshot(driver);
+        try {
+            File folder = new File("ScreenshotsFailure/");
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
+            ImageIO.write(ts.getImage(), "PNG", new File(String.format("ScreenshotsFailure/%s-%s.png", className, methodName)));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
