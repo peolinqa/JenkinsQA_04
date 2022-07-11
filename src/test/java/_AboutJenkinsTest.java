@@ -31,6 +31,17 @@ public class _AboutJenkinsTest extends BaseTest {
     }
 
     @Test
+    public void testAmountLinksLicenseAndDependencyInformationForPluginsPOM() {
+        int amountLinksInStaticResources = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickAboutJenkins()
+                .clickLicenseAndDependencyInformationForPlugins()
+                .countLinksInTab("License and dependency information for plugins");
+
+        Assert.assertEquals(amountLinksInStaticResources, 85);
+    }
+
+    @Test
     public void testLinkAntLRParserGeneratorPOM() {
         new HomePage(getDriver())
                 .clickManageJenkins()

@@ -13,6 +13,9 @@ public class AboutJenkinsPage extends BasePage {
     @FindBy(xpath = "//a[text()='AntLR Parser Generator']")
     private WebElement antlr;
 
+    @FindBy(linkText = "License and dependency information for plugins")
+    private WebElement license;
+
     public AboutJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -26,6 +29,12 @@ public class AboutJenkinsPage extends BasePage {
 
     public AboutJenkinsPage clickLinkAntLRParserGenerator(){
         antlr.click();
+
+        return this;
+    }
+
+    public AboutJenkinsPage clickLicenseAndDependencyInformationForPlugins(){
+        license.click();
 
         return this;
     }
