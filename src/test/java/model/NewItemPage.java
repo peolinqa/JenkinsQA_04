@@ -178,12 +178,6 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
         return errorInvalidName.getText();
     }
 
-    public NewItemPage<ConfigPage> checkPresenceErrorMessageAndAssert(String name) {
-        Assert.assertEquals(errorInvalidName.getText(),"» A job already exists with the name ‘" + name + "’");
-
-        return this;
-    }
-
     public ErrorPage createAndGoToErrorPage() {
         okButton.click();
 

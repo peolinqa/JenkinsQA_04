@@ -277,7 +277,6 @@ public class _PipelineTest extends BaseTest {
                 .checkRedirectionPage();
 
         Assert.assertEquals(checkTransitionPluginPage, "Pipeline: Job");
-
     }
 
     @Test
@@ -901,5 +900,25 @@ public class _PipelineTest extends BaseTest {
                 .checkDescriptionValue();
 
         Assert.assertTrue(check);
+    }
+
+    @Test
+    public void testCheckSequenceInParameters() {
+        final String name = pipelineName();
+
+        final List<String> CurrentLocationItemsInDropDownMenu = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickCheckboxProjectParameterized()
+                .clickAddParameterOfBuildButton()
+                .clickChoiceParameterButton()
+                .enteringParametersIntoProject()
+                .saveConfigAndGoToProject()
+                .clickBuildWithParameters()
+                .collectDropDownMenu();
+
+        Assert.assertEquals(CurrentLocationItemsInDropDownMenu, List.of("This Is The Default Value", "2", "3"));
     }
 }

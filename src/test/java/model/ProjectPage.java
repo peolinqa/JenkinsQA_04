@@ -52,6 +52,9 @@ public class ProjectPage extends BasePage {
     @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
     private WebElement messageDisabled;
 
+    @FindBy(linkText = "Build with Parameters")
+    private WebElement buildWithParameters;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -171,5 +174,11 @@ public class ProjectPage extends BasePage {
 
     public WebElement getMessageDisabled() {
         return messageDisabled;
+    }
+
+    public BuildWithParametersPage clickBuildWithParameters() {
+        buildWithParameters.click();
+
+        return new BuildWithParametersPage(getDriver());
     }
 }

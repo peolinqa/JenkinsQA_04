@@ -104,6 +104,15 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(xpath = "//div[contains(@hashelp, 'true')]//a")
     private List<WebElement> checkBoxHelpsText;
 
+    @FindBy(name = "parameter.name")
+    private WebElement parameterName;
+
+    @FindBy(name = "parameter.choices")
+    private WebElement parameterChoices;
+
+    @FindBy(name = "parameter.description")
+    private WebElement parameterDescription;
+
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
 
@@ -305,5 +314,23 @@ public class PipelineConfigPage extends BasePage {
 
     public String getTitleConfigPage() {
       return getDriver().getTitle();
+    }
+
+    public PipelineConfigPage enteringParametersIntoProject() {
+        getActions()
+                .moveToElement(parameterName)
+                .click()
+                .sendKeys("Checking Name Display")
+                .moveToElement(parameterChoices)
+                .click()
+                .sendKeys("This Is The Default Value" + Keys.ENTER)
+                .sendKeys("2" + Keys.ENTER)
+                .sendKeys("3" + Keys.ENTER)
+                .moveToElement(parameterDescription)
+                .click()
+                .sendKeys("Checking Description Display")
+                .perform();
+
+        return this;
     }
 }
