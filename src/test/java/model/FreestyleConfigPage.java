@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class FreestyleConfigPage extends BasePage {
 
+    private static final By APPLY_ALERT = By.id("notification-bar");
+
     @FindBy(xpath = "//button[@type='submit' and contains(text(), 'Save')]")
     private WebElement saveButton;
 
@@ -20,6 +22,9 @@ public class FreestyleConfigPage extends BasePage {
 
     @FindBy(name = "_.projectUrlStr")
     private WebElement githubUrl;
+
+    @FindBy(xpath = "//button[contains(text(),'Apply')]")
+    private WebElement applyButton;
 
     public FreestyleConfigPage(WebDriver driver) {
         super(driver);
@@ -80,5 +85,11 @@ public class FreestyleConfigPage extends BasePage {
         getActions().moveToElement(getDriver().findElement(By.cssSelector(".tab.config-section-activator.config_build_triggers"))).pause(500).build().perform();
 
         return this;
+    }
+
+    public boolean clickApplyAndGetAlert() {
+        applyButton.click();
+
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(APPLY_ALERT)).isDisplayed();
     }
 }
