@@ -44,6 +44,9 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
     @FindBy(id = "jenkins-head-icon")
     private WebElement headerIcon;
 
+    @FindBy(className = "input-help")
+    private WebElement helpInputText;
+
     @FindBy(className = "hudson_model_FreeStyleProject")
     private WebElement freestyleItem;
     @FindBy(className = "org_jenkinsci_plugins_workflow_job_WorkflowJob")
@@ -210,4 +213,10 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
         return this;
     }
+
+    public String getHelpInputText() {
+
+        return helpInputText.getText();
+    }
+
 }

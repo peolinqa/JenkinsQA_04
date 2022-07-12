@@ -82,7 +82,10 @@ public class HomePage extends BaseHeaderFooterPage {
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
     private final static String PROJECT_LINK_ID_XPATH = "//tr[@id='job_%s']";
 
-    public HomePage(WebDriver driver) {
+    @FindBy(xpath = "//table[@id='projectstatus']//tbody//td[3]")
+    private List<WebElement> itemsNames;
+
+   public HomePage(WebDriver driver) {
         super(driver);
     }
 
@@ -270,6 +273,20 @@ public class HomePage extends BaseHeaderFooterPage {
 
     public int getSizeOfListForElementsBuildExecutorStatus() {
         return elementsBuildExecutorStatus.size();
+    }
+
+    public boolean isItemPresent(String name) {
+
+      boolean isPresent = false;
+
+      List<WebElement> projectsOnDashboard = itemsNames;
+      for (WebElement jobs : projectsOnDashboard) {
+        if (jobs.getText().contains(name)) {
+          isPresent = true;
+        }
+      }
+
+      return isPresent;
     }
 
     public MultiConfigurationProjectPage clickMultiConfigurationProjectName(String name) {

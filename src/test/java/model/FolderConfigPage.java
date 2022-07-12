@@ -1,6 +1,7 @@
 package model;
 
 import model.base.BasePage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -63,5 +64,19 @@ public class FolderConfigPage extends BasePage {
     public String getGeneralTabName(){
 
         return generalTabBar.getText();
+    }
+
+    public FolderConfigPage openFolderMenuSelector(String folderName){
+        getActions().moveToElement(getDriver().findElement((
+                By.xpath("//a[@href='/job/" + folderName + "/']")))).build().perform();
+        getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
+
+        return this;
+    }
+
+    public FolderPage clickDeleteOnMenuSelector(){
+        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
+
+        return new FolderPage(getDriver());
     }
 }
