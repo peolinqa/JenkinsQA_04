@@ -7,10 +7,10 @@ public class _FooterTest extends BaseTest {
 
     @Test
     public void testFooterCheckLinksRestApi(){
-       String  footerCheckLinksRestApi = new HomePage(getDriver())
+       String mainTitleCheckRestApi = new HomePage(getDriver())
                .goToApiPage()
-               .getFooterApiText();
-       Assert.assertEquals(footerCheckLinksRestApi,"REST API");
+               .getMainTitleFromApiPage();
+       Assert.assertEquals(mainTitleCheckRestApi,"REST API");
     }
 
     @Test
