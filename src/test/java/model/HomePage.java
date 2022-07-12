@@ -82,6 +82,7 @@ public class HomePage extends BaseHeaderFooterPage {
 
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
+    private final static String PROJECT_LINK_ID_XPATH = "//tr[@id='job_%s']";
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -286,6 +287,11 @@ public class HomePage extends BaseHeaderFooterPage {
 
     public WebElement getProjectIconByName(String name) {
         return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH));
+    }
+
+    public int getSizeOfProjectLinkByName(String name) {
+
+        return getDriver().findElements(By.xpath(String.format(PROJECT_LINK_ID_XPATH, name))).size();
     }
 
     public String getJenkinsIOPageTitle(){

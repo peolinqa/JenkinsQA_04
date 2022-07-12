@@ -61,20 +61,17 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewJob() {
-        WebElement newItemButton = waitPresenceOfElement(getWait5(), By.xpath("//span[@class='task-link-text' and contains (text(), 'New Item')]"));
-        newItemButton.click();
 
-        findElementId("name").sendKeys(PROJECT_NAME);
-        findElementXpath("//span[@class='label' and contains(text(), 'Multibranch Pipeline')]").click();
-        findElementId("ok-button").click();
+        int numberOfNamesFound = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(PROJECT_NAME)
+                .setProjectTypeMultiBranchPipeline()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .goHome()
+                .getSizeOfProjectLinkByName(PROJECT_NAME);
 
-        clickSaveButton();
-
-        goToDashboard();
-        String itemListLocator = String.format("//tr[@id='job_%s']", PROJECT_NAME);
-        int itemList = getDriver().findElements(By.xpath(itemListLocator)).size();
-
-        Assert.assertEquals(itemList, 1);
+        Assert.assertEquals(numberOfNamesFound, 1);
     }
 
     @Test (dependsOnMethods = "testCreateNewJob")
