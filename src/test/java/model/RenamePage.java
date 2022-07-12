@@ -10,7 +10,7 @@ import java.util.List;
 public class RenamePage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//input[@name='newName']")
-    private WebElement renameFolderInput;
+    private WebElement renameInput;
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement renameButton;
@@ -28,17 +28,9 @@ public class RenamePage extends BaseHeaderFooterPage {
         return new FolderPage(getDriver());
     }
 
-    public ErrorPage renameAndGoToErrorPage(String text) {
-        renameFolderInput.clear();
-        renameFolderInput.sendKeys(text);
-        renameButton.click();
-
-        return new ErrorPage(getDriver());
-    }
-
     public RenamePage setNewProjectName(String name) {
-        renameFolderInput.clear();
-        renameFolderInput.sendKeys(name);
+        renameInput.clear();
+        renameInput.sendKeys(name);
 
         return this;
     }

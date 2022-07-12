@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -38,6 +39,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName, NAME);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigFolder")
     public void testBuildNow() {
 
