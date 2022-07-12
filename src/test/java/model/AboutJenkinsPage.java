@@ -16,6 +16,9 @@ public class AboutJenkinsPage extends BasePage {
     @FindBy(linkText = "License and dependency information for plugins")
     private WebElement license;
 
+    @FindBy(linkText = "Static resources")
+    private WebElement staticResources;
+
     public AboutJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -27,14 +30,20 @@ public class AboutJenkinsPage extends BasePage {
         return columnName.size();
     }
 
-    public AboutJenkinsPage clickLinkAntLRParserGenerator(){
+    public AboutJenkinsPage clickLinkAntLRParserGenerator() {
         antlr.click();
 
         return this;
     }
 
-    public AboutJenkinsPage clickLicenseAndDependencyInformationForPlugins(){
+    public AboutJenkinsPage clickLicenseAndDependencyInformationForPlugins() {
         license.click();
+
+        return this;
+    }
+
+    public AboutJenkinsPage clickStaticResources() {
+        staticResources.click();
 
         return this;
     }

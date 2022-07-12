@@ -25,6 +25,7 @@ public class _AboutJenkinsTest extends BaseTest {
         int amountLinksInStaticResources = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickAboutJenkins()
+                .clickStaticResources()
                 .countLinksInTab("Static resources");
 
         Assert.assertEquals(amountLinksInStaticResources, 4);
@@ -48,27 +49,7 @@ public class _AboutJenkinsTest extends BaseTest {
                 .clickAboutJenkins()
                 .clickLinkAntLRParserGenerator();
 
-        Set<String> actualTitles = TestUtils.getOpenTabTitles(getDriver());
-
-        Assert.assertTrue(actualTitles.contains("ANTLR"));
+        Assert.assertTrue(TestUtils.getOpenTabTitles(getDriver()).contains("ANTLR"));
     }
-
-    @Test
-    public void testLinkAntLRParserGenerator() {
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.AboutJenkins.click(getDriver());
-
-        final Set<String> expectedSet = Set.of(getDriver().getTitle(), "ANTLR");
-
-        getDriver().findElement(By.xpath("//a[text()='AntLR Parser Generator']")).click();
-
-        Set<String> actualSet = new HashSet<>();
-        for (String handle : getDriver().getWindowHandles()) {
-            actualSet.add(getDriver().switchTo().window(handle).getTitle());
-        }
-
-        Assert.assertEquals(actualSet, expectedSet);
-    }
-
 
 }
