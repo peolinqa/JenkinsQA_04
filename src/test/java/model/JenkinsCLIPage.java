@@ -5,67 +5,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+
 public class JenkinsCLIPage extends BasePage {
 
-    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr[1]/td/a")
-    private WebElement addJobToViewCommand;
+    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//a")
+    private List<WebElement> commandName;
 
-    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr[1]/td[2]")
-    private WebElement addJobToViewCommandDescription;
+    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//td[2]")
+    private List<WebElement> commandDescription;
 
-    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr[2]/td/a")
-    private WebElement buildCommand;
-
-    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr[2]/td[2]")
-    private WebElement buildCommandDescription;
-
-    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr[3]/td/a")
-    private WebElement cancelQuietDownCommand;
-
-    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr[3]/td[2]")
-    private WebElement cancelQuietDownCommandDescription;
+    @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr")
+    private static List<WebElement> availableCommands;
 
     public JenkinsCLIPage(WebDriver driver) {
         super(driver);
     }
 
-    public String getAddJobToViewName(){
-        return addJobToViewCommand.getText();
+    public String getCommandName(int i) {
+        return commandName.get(i).getText();
     }
 
-    public String getAddJobToViewDescription(){
-        return addJobToViewCommandDescription.getText();
+    public String getCommandDescription(int i) {
+        return commandDescription.get(i).getText();
     }
 
-    public JenkinsCLIExamplesPage clickAddJobToViewElement (){
-        addJobToViewCommand.click();
+    public JenkinsCLIExamplesPage clickCommandElement(int i) {
+        commandName.get(i).click();
         return new JenkinsCLIExamplesPage(getDriver());
     }
-
-    public String getBuildName(){
-        return buildCommand.getText();
-    }
-
-    public String getBuildDescription(){
-        return buildCommandDescription.getText();
-    }
-
-    public JenkinsCLIExamplesPage clickBuildElement (){
-        buildCommand.click();
-        return new JenkinsCLIExamplesPage(getDriver());
-    }
-
-    public String getCancelQuiteDownName(){
-        return cancelQuietDownCommand.getText();
-    }
-
-    public String getCancelQuiteDownDescription(){
-        return cancelQuietDownCommandDescription.getText();
-    }
-
-    public JenkinsCLIExamplesPage clickCancelQuietDownElement (){
-        cancelQuietDownCommand.click();
-        return new JenkinsCLIExamplesPage(getDriver());
-    }
-
 }

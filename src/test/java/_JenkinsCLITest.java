@@ -5,7 +5,7 @@ import runner.BaseTest;
 
 public class _JenkinsCLITest extends BaseTest {
 
-    private static final String[] EXPECTEDCOMMANDNAMES = {"add-job-to-view", "build", "cancel-quiet-down", "clear-queue",
+    private static final String[] COMMANDNAMES = {"add-job-to-view", "build", "cancel-quiet-down", "clear-queue",
             "connect-node", "console", "copy-job", "create-credentials-by-xml",
             "create-credentials-domain-by-xml", "create-job", "create-node",
             "create-view", "declarative-linter", "delete-builds",
@@ -21,7 +21,7 @@ public class _JenkinsCLITest extends BaseTest {
             "update-credentials-by-xml", "update-credentials-domain-by-xml", "update-job", "update-node", "update-view",
             "version", "wait-node-offline", "wait-node-online", "who-am-i" };
 
-    private static final String[] EXPECTEDCOMMANDDESCRIPTIONS = {"Adds jobs to view.",
+    private static final String[] COMMANDDESCRIPTIONS = {"Adds jobs to view.",
             "Builds a job, and optionally waits until its completion.",
             "Cancel the effect of the \"quiet-down\" command.",
             "Clears the build queue.", "Reconnect to a node(s)", "Retrieves console output of a build.",
@@ -69,71 +69,38 @@ public class _JenkinsCLITest extends BaseTest {
 
     @Test
     public void checkCommandNameTest() {
-        String addJobToViewName = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .getAddJobToViewName();
+        for (int i = 0; i < 69; i++) {
+            String commandName = new HomePage(getDriver())
+                    .clickManageJenkins()
+                    .clickJenkinsCLI()
+                    .getCommandName(i);
 
-        String buildName = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .getBuildName();
-
-        String cancelQuiteDownName = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .getCancelQuiteDownName();
-
-        Assert.assertEquals(addJobToViewName, EXPECTEDCOMMANDNAMES[0]);
-        Assert.assertEquals(buildName, EXPECTEDCOMMANDNAMES[1]);
-        Assert.assertEquals(cancelQuiteDownName, EXPECTEDCOMMANDNAMES[2]);
+            Assert.assertEquals(commandName, COMMANDNAMES[i]);
+        }
     }
 
     @Test
     public void checkCommandDescriptionTest() {
-        String addJobToViewDescription = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .getAddJobToViewDescription();
+        for (int i = 0; i < 69; i++) {
+            String commandDescription = new HomePage(getDriver())
+                    .clickManageJenkins()
+                    .clickJenkinsCLI()
+                    .getCommandDescription(i);
 
-        String buildDescription = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .getBuildDescription();
-
-        String cancelQuiteDownDescription = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .getCancelQuiteDownDescription();
-
-        Assert.assertEquals(addJobToViewDescription, EXPECTEDCOMMANDDESCRIPTIONS[0]);
-        Assert.assertEquals(buildDescription, EXPECTEDCOMMANDDESCRIPTIONS[1]);
-        Assert.assertEquals(cancelQuiteDownDescription, EXPECTEDCOMMANDDESCRIPTIONS[2]);
+            Assert.assertEquals(commandDescription, COMMANDDESCRIPTIONS[i]);
+        }
     }
 
     @Test
-    public void checkCommandExample(){
-        boolean addJobToViewExample = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .clickAddJobToViewElement()
-                .getCommandExample(EXPECTEDCOMMANDNAMES[0]);
+    public void checkCommandExample() {
+        for (int i = 0; i < 69; i++) {
+            boolean isAddJobToViewExample = new HomePage(getDriver())
+                    .clickManageJenkins()
+                    .clickJenkinsCLI()
+                    .clickCommandElement(i)
+                    .getCommandExample(COMMANDNAMES[i]);
 
-        boolean buildNameExample = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .clickBuildElement()
-                .getCommandExample(EXPECTEDCOMMANDNAMES[1]);
-
-        boolean cancelQuiteDownExample = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickJenkinsCLI()
-                .clickCancelQuietDownElement()
-                .getCommandExample(EXPECTEDCOMMANDNAMES[2]);
-
-        Assert.assertTrue(addJobToViewExample);
-        Assert.assertTrue(buildNameExample);
-        Assert.assertTrue(cancelQuiteDownExample);
+            Assert.assertTrue(isAddJobToViewExample);
+        }
     }
-
 }
