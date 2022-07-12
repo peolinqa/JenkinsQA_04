@@ -34,4 +34,8 @@ public class JenkinsCLIPage extends BasePage {
         commandName.get(i).click();
         return new JenkinsCLIExamplesPage(getDriver());
     }
+
+    public int getNumberOfCommands(){
+        return availableCommands.size();
+    }
 }

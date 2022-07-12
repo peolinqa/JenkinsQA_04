@@ -67,9 +67,17 @@ public class _JenkinsCLITest extends BaseTest {
             "Outputs the current version.", "Wait for a node to become offline.",
             "Wait for a node to become online.", "Reports your credential and permissions." };
 
+    private int getNumberOfCommands() {
+        int number = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .getNumberOfCommands();
+        return number;
+    }
+
     @Test
     public void checkCommandNameTest() {
-        for (int i = 0; i < 69; i++) {
+        for (int i = 0; i < getNumberOfCommands(); i++) {
             String commandName = new HomePage(getDriver())
                     .clickManageJenkins()
                     .clickJenkinsCLI()
@@ -81,7 +89,7 @@ public class _JenkinsCLITest extends BaseTest {
 
     @Test
     public void checkCommandDescriptionTest() {
-        for (int i = 0; i < 69; i++) {
+        for (int i = 0; i < getNumberOfCommands(); i++) {
             String commandDescription = new HomePage(getDriver())
                     .clickManageJenkins()
                     .clickJenkinsCLI()
@@ -93,7 +101,7 @@ public class _JenkinsCLITest extends BaseTest {
 
     @Test
     public void checkCommandExample() {
-        for (int i = 0; i < 69; i++) {
+        for (int i = 0; i < getNumberOfCommands(); i++) {
             boolean isAddJobToViewExample = new HomePage(getDriver())
                     .clickManageJenkins()
                     .clickJenkinsCLI()
