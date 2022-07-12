@@ -464,6 +464,7 @@ public class _PipelineTest extends BaseTest {
         ProjectUtils.clickSaveButton(getDriver());
     }
 
+    @Ignore
     @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
 
