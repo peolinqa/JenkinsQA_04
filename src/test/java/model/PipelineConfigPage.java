@@ -113,6 +113,12 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(name = "parameter.description")
     private WebElement parameterDescription;
 
+    @FindBy(css = "#yui-gen5-button")
+    private WebElement applyButton;
+
+    @FindBy(css = "#notification-bar")
+    private WebElement notification;
+
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
 
@@ -123,6 +129,16 @@ public class PipelineConfigPage extends BasePage {
         saveButton.click();
 
         return new ProjectPage(getDriver());
+    }
+
+    public PipelineConfigPage applyButtonClick() {
+        applyButton.click();
+
+        return this;
+    }
+
+    public String notification() {
+        return getWait5().until(ExpectedConditions.visibilityOf(notification)).getText();
     }
 
     public HomePage clickDashboardButton() {
@@ -209,7 +225,7 @@ public class PipelineConfigPage extends BasePage {
     }
 
     public String openJenkinsCredentialsProviderWindow() {
-      return titleOfJenkinsCredentialsProviderWindow.getText();
+        return titleOfJenkinsCredentialsProviderWindow.getText();
     }
 
     public void closeJenkinsCredentialsProviderWindowAfterAssert() {
@@ -218,7 +234,7 @@ public class PipelineConfigPage extends BasePage {
     }
 
     public String getUseGroovySandBoxCheckboxAtt() {
-       return useGroovySandboxCheckbox.getAttribute("checked");
+        return useGroovySandboxCheckbox.getAttribute("checked");
     }
 
     public PipelinePluginPage transitionToCorrectPage() {
@@ -306,14 +322,14 @@ public class PipelineConfigPage extends BasePage {
         for (int i = 0; i < listOfCheckBoxWithHelps.size(); i++) {
 
             result = (checkBoxHelpsText.get(i).getAttribute("title")
-                            .replace("Help for feature: ", "").equals(
-                    listOfCheckBoxWithHelps.get(i).getText()));
+                    .replace("Help for feature: ", "").equals(
+                            listOfCheckBoxWithHelps.get(i).getText()));
         }
         return result;
     }
 
     public String getTitleConfigPage() {
-      return getDriver().getTitle();
+        return getDriver().getTitle();
     }
 
     public PipelineConfigPage enteringParametersIntoProject() {

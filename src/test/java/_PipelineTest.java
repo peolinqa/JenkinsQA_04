@@ -75,10 +75,6 @@ public class _PipelineTest extends BaseTest {
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
     }
 
-    private WebElement $(String locator) {
-        return getWait5().until(ExpectedConditions.visibilityOf(getDriver().findElement(By.cssSelector(locator))));
-    }
-
     @Deprecated
     private List<WebElement> getActualDashboardProject() {
         return getDriver().findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
@@ -394,11 +390,17 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testApplyButtonNotificationAlert() {
+        final String name = pipelineName();
 
-        createPipeline(pipelineName(), Boolean.TRUE);
-        getDriver().findElement(By.cssSelector("#yui-gen5-button")).click();
+        String notificationSave = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .applyButtonClick()
+                .notification();
 
-        Assert.assertEquals($("#notification-bar").getText(), "Saved");
+        Assert.assertEquals(notificationSave, "Saved");
     }
 
     @Test

@@ -7,7 +7,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
@@ -19,9 +18,8 @@ public class HomePage extends BaseHeaderFooterPage {
 
     private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
-    private static final String JENKINS_HEADER = "Welcome to Jenkins!";
-
-    private static final By H1 = By.xpath("//h1");
+    @FindBy(tagName = "h1")
+    private List<WebElement> h1;
 
     @FindBy(linkText = "New Item")
     private WebElement newItem;
@@ -126,7 +124,7 @@ public class HomePage extends BaseHeaderFooterPage {
 
         boolean result = false;
 
-        List<WebElement> actual = getDriver().findElements(H1);
+        List<WebElement> actual = h1;
 
         if (actual.size() == 0) {
             for (String webElement : getActualDashboardProject()) {
@@ -138,8 +136,12 @@ public class HomePage extends BaseHeaderFooterPage {
                 }
             }
         } else {
-            result = getDriver().findElement(H1).getText().equals(JENKINS_HEADER);
-
+            for (WebElement element : h1) {
+                if (element.getText().contains("Welcome to Jenkins!")) {
+                    result = true;
+                    break;
+                }
+            }
         }
         return result;
     }
