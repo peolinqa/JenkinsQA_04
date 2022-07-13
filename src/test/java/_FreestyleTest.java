@@ -42,7 +42,7 @@ public class _FreestyleTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testConfigureSaveButton() {
+    public void testSaveButtonAfterProjectCreated() {
 
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
@@ -53,8 +53,8 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(projectName, RANDOM_NAME);
     }
 
-    @Test(dependsOnMethods = "testConfigureSaveButton")
-    public void testConfigureApplyButton() {
+    @Test(dependsOnMethods = "testSaveButtonAfterProjectCreated")
+    public void testApplyButtonAfterProjectCreated() {
 
         boolean alertIsDisplayed = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
@@ -64,7 +64,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertTrue(alertIsDisplayed);
     }
 
-    @Test(dependsOnMethods = "testConfigureApplyButton")
+    @Test(dependsOnMethods = "testApplyButtonAfterProjectCreated")
     public void testAddDescription() {
 
         String description = new HomePage(getDriver())
