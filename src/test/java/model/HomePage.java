@@ -75,8 +75,11 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
     private List<WebElement> listAllActualProjectNameHomePage;
 
-    @FindBy (xpath = "//a[@rel='noopener noreferrer']")
+    @FindBy(xpath = "//a[@rel='noopener noreferrer']")
     private WebElement linkToJenkinsIO;
+
+    @FindBy(id = "menuSelector")
+    private WebElement projectMenuSelector;
 
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
@@ -301,7 +304,7 @@ public class HomePage extends BaseHeaderFooterPage {
     }
 
     public WebElement getProjectLinkByName(String name) {
-       return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
+        return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
     }
 
     public WebElement getProjectIconByName(String name) {
@@ -313,7 +316,7 @@ public class HomePage extends BaseHeaderFooterPage {
         return getDriver().findElements(By.xpath(String.format(PROJECT_LINK_ID_XPATH, name))).size();
     }
 
-    public String getJenkinsIOPageTitle(){
+    public String getJenkinsIOPageTitle() {
         String oldTab = getDriver().getWindowHandle();
         linkToJenkinsIO.click();
         ArrayList<String> newTab = new ArrayList<>(getDriver().getWindowHandles());
@@ -321,5 +324,23 @@ public class HomePage extends BaseHeaderFooterPage {
         String title = getDriver().switchTo().window(newTab.get(0)).getTitle();
 
         return title;
+    }
+
+    public HomePage projectMenuSelector(String name) {
+        for (WebElement s : listAllActualProjectNameHomePage){
+           if(s.getText().contains(name)){
+               getActions().moveToElement(s).build().perform();
+           }
+        }
+        projectMenuSelector.click();
+
+        return this;
+    }
+
+    public HomePage clickDeleteProjectMenuSelector() {
+        ProjectUtils.Dashboard.Pipeline.DeletePipeline.click(getDriver());
+        getDriver().switchTo().alert().accept();
+
+        return this;
     }
 }

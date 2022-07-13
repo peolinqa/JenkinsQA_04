@@ -75,28 +75,6 @@ public class _PipelineTest extends BaseTest {
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
     }
 
-    @Deprecated
-    private List<WebElement> getActualDashboardProject() {
-        return getDriver().findElements(By.xpath("//a[@class='jenkins-table__link model-link inside']"));
-    }
-
-    @Deprecated
-    private void checkProjectAfterDelete(String projectName) {
-
-        List<WebElement> actual = getDriver().findElements(H1);
-        if (actual.size() == 0) {
-            for (WebElement webElement : getActualDashboardProject()) {
-                if (webElement.getText().contains(projectName)) {
-                    Assert.fail();
-                    break;
-                } else {
-                    Assert.assertTrue(true);
-                }
-            }
-        } else {
-            Assert.assertEquals(getDriver().findElement(H1).getText(), JENKINS_HEADER);
-        }
-    }
 
     private void cleanAllPipelines() {
         homePageClick();
@@ -392,7 +370,7 @@ public class _PipelineTest extends BaseTest {
     public void testApplyButtonNotificationAlert() {
         final String name = pipelineName();
 
-        String notificationSave = new HomePage(getDriver())
+        final String notificationSave = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
@@ -424,18 +402,18 @@ public class _PipelineTest extends BaseTest {
     public void testDeletePipelineFromDashboard() {
         final String name = pipelineName();
 
-        createPipeline(name, Boolean.TRUE);
-        ProjectUtils.clickSaveButton(getDriver());
-        homePageClick();
+        final boolean check = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickDashboardButton()
+                .projectMenuSelector(name)
+                .clickDeleteProjectMenuSelector()
+                .checkProjectAfterDelete(name);
 
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath(String.format("//a[text()='%s']", name)))).build().perform();
-        getDriver().findElement(By.id("menuSelector")).click();
-
-        ProjectUtils.Dashboard.Pipeline.DeletePipeline.click(getDriver());
-        getDriver().switchTo().alert().accept();
-
-        checkProjectAfterDelete(name);
+        Assert.assertTrue(check);
     }
 
     @Ignore
