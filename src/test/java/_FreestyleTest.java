@@ -2,7 +2,6 @@ import model.FreestyleConfigPage;
 import model.FreestylePage;
 import model.HomePage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -43,6 +42,29 @@ public class _FreestyleTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
+    public void testSaveButtonAfterProjectCreated() {
+
+        String projectName = new HomePage(getDriver())
+                .clickFreestyleName(RANDOM_NAME)
+                .clickFreestyleConfigure()
+                .saveConfigAndGoToFreestyleProject()
+                .getProjectName();
+
+        Assert.assertEquals(projectName, RANDOM_NAME);
+    }
+
+    @Test(dependsOnMethods = "testSaveButtonAfterProjectCreated")
+    public void testApplyButtonAfterProjectCreated() {
+
+        boolean alertIsDisplayed = new HomePage(getDriver())
+                .clickFreestyleName(RANDOM_NAME)
+                .clickFreestyleConfigure()
+                .clickApplyAndGetAlert();
+
+        Assert.assertTrue(alertIsDisplayed);
+    }
+
+    @Test(dependsOnMethods = "testApplyButtonAfterProjectCreated")
     public void testAddDescription() {
 
         String description = new HomePage(getDriver())
@@ -186,34 +208,5 @@ public class _FreestyleTest extends BaseTest {
         differences.removeAll(jobsNames2);
 
         Assert.assertTrue(differences.contains(NAME_WITH_SPECIAL_CHARACTERS));
-    }
-
-    @Test
-    public void testConfigureSaveButton() {
-
-        String expectedLink = "/job/" + RANDOM_NAME + "/";
-
-        ProjectUtils.createProject(getDriver(), Freestyle, RANDOM_NAME);
-        ProjectUtils.clickSaveButton(getDriver());
-
-        Assert.assertTrue(getDriver().getCurrentUrl().contains(expectedLink));
-    }
-
-    @Test (dependsOnMethods = "testConfigureSaveButton")
-    public void testConfigureApplyButton() {
-
-        String expectedAlertMessage = "Saved";
-
-        ProjectUtils.openProject(getDriver(), RANDOM_NAME);
-        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
-
-        getDriver().findElement(By.xpath("//button[contains(text(),'Apply')]")).click();
-        String alertMessage = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                By.cssSelector("div[id='notification-bar'][class='notif-alert-success notif-alert-show']")
-        )).getText();
-
-        deleteProject(RANDOM_NAME);
-
-        Assert.assertEquals(alertMessage, expectedAlertMessage);
     }
 }
