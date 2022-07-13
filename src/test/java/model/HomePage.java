@@ -81,6 +81,9 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy(id = "menuSelector")
     private WebElement projectMenuSelector;
 
+    @FindBy (xpath = "//a[@href='/legend']")
+    private WebElement linkIconLegend;
+
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
     private final static String PROJECT_LINK_ID_XPATH = "//tr[@id='job_%s']";
@@ -304,7 +307,7 @@ public class HomePage extends BaseHeaderFooterPage {
     }
 
     public WebElement getProjectLinkByName(String name) {
-        return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
+       return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
     }
 
     public WebElement getProjectIconByName(String name) {
@@ -316,7 +319,7 @@ public class HomePage extends BaseHeaderFooterPage {
         return getDriver().findElements(By.xpath(String.format(PROJECT_LINK_ID_XPATH, name))).size();
     }
 
-    public String getJenkinsIOPageTitle() {
+    public String getJenkinsIOPageTitle(){
         String oldTab = getDriver().getWindowHandle();
         linkToJenkinsIO.click();
         ArrayList<String> newTab = new ArrayList<>(getDriver().getWindowHandles());
@@ -324,6 +327,20 @@ public class HomePage extends BaseHeaderFooterPage {
         String title = getDriver().switchTo().window(newTab.get(0)).getTitle();
 
         return title;
+    }
+
+    public boolean isVisibleIconLegend(){
+        return linkIconLegend.isDisplayed();
+    }
+
+    public boolean isEnabledIconLegend(){
+        return linkIconLegend.isEnabled();
+    }
+
+    public LegendPage clickLinkIconLegend(){
+        linkIconLegend.click();
+
+        return new LegendPage(getDriver());
     }
 
     public HomePage projectMenuSelector(String name) {

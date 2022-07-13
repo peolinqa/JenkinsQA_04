@@ -1,11 +1,11 @@
+import model.HomePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
+import runner.TestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +14,8 @@ public class _DashboardTest extends BaseTest {
 
     private static final By XPATH_DISAPPEARING_BUTTON = By.xpath("//div[@id='menuSelector']");
     private static final String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
-    private static final String TEST_FOLDER_NAME = "First Job";
-    private static final List<String> ICONS_DESCRIPTIONS = List.of(
+
+    private static final List<String> EXPECTED_ICONS_DESCRIPTIONS = List.of(
             "The project has never been built.", "The first build is in progress.",
             "The project is disabled.", "The project is disabled, but a build is in progress.",
             "The last build was aborted.", "The last build was aborted. A new build is in progress.",
@@ -56,27 +56,25 @@ public class _DashboardTest extends BaseTest {
                 .collect(Collectors.toList());
         Assert.assertEquals(actualItems, EXPECTED_ITEMS);
     }
-    @Ignore
+
     @Test
-    public void testCheckLinkIconLegend() {
-        ProjectUtils.deleteJobsWithPrefix(getDriver(), TEST_FOLDER_NAME);
-        ProjectUtils.createProject(getDriver(), ProjectUtils.ProjectType.Folder,TEST_FOLDER_NAME );
+    public void testCheckVisibleAndEnabledLinkIconLegend() {
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr(10))
+                .setProjectTypeFolder()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToFolderPage()
+                .goHome();
 
-        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-        boolean iconLegendVisible = getDriver().findElement(By.xpath("//a[@href='/legend']")).isDisplayed();
+        Assert.assertTrue(homePage.isVisibleIconLegend());
+        Assert.assertTrue(homePage.isEnabledIconLegend());
+    }
 
-        getDriver().findElement(By.xpath("//a[@href='/legend']")).click();
-        List<String> iconsTableDescriptions = getDriver().findElements(By.xpath("//table[@id='legend-table']//tbody/tr/td"))
-                .stream()
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
+    @Test(dependsOnMethods = "testCheckVisibleAndEnabledLinkIconLegend")
+    public void checkIconDescription() {
+        List<String> actualIconsDescriptions = new HomePage(getDriver()).clickLinkIconLegend().getTextIconsDescriptions();
 
-        getDriver().findElement(By.xpath(DASHBOARD_XPATH)).click();
-        getDriver().findElement(By.xpath("//span[text()='Build History']")).click();
-        boolean iconLegendVisiblePageBuildHistory = getDriver().findElement(By.xpath("//a[@href='/legend']")).isDisplayed();
-
-        Assert.assertTrue(iconLegendVisible);
-        Assert.assertEquals(iconsTableDescriptions, ICONS_DESCRIPTIONS);
-        Assert.assertTrue(iconLegendVisiblePageBuildHistory);
+        Assert.assertEquals(actualIconsDescriptions, EXPECTED_ICONS_DESCRIPTIONS);
     }
 }
