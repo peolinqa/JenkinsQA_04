@@ -46,4 +46,10 @@ public class RenamePage extends BaseHeaderFooterPage {
 
         return new OrganizationFolderProjectPage(getDriver());
     }
+
+    public MultiConfigurationProjectPage clickRenameAndGoToMultiConfigurationProject() {
+        renameButton.click();
+
+        return new MultiConfigurationProjectPage(getDriver());
+    }
 }

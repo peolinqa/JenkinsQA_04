@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.ProjectUtils;
+
+import java.util.List;
 
 public class MultiConfigurationProjectPage extends BaseBuildPage {
 
@@ -26,6 +29,9 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
+
+    @FindBy(css = "h1.page-headline")
+    private WebElement projectName;
 
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
@@ -70,4 +76,35 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
 
         return textDescription.getText();
     }
+
+    public MultiConfigurationProjectPage clickDisableProjectButton() {
+        ProjectUtils.clickDisableProject(getDriver());
+
+        return this;
+    }
+
+    public boolean isDisplayedBuildNowButton() {
+        boolean isBuildNowDisplayed = false;
+
+        List<WebElement> jobMenu = getDriver().findElements(By.xpath("//div[@id='tasks']//span[2]"));
+        for (WebElement menu : jobMenu) {
+            if (menu.getText().contains("Build Now")) {
+                isBuildNowDisplayed = true;
+            }
+        }
+
+        return isBuildNowDisplayed;
+    }
+
+    public RenamePage clickAdnGoToRenamePage() {
+        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
+
+        return new RenamePage(getDriver());
+    }
+
+    public String getProjectName() {
+        return projectName.getText().substring("Project ".length());
+    }
+
+
 }

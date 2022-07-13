@@ -1,5 +1,6 @@
 import model.HomePage;
 import model.MultiConfigurationProjectConsolePage;
+import model.RenamePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -11,6 +12,7 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.List;
 
 import static runner.ProjectUtils.ProjectType.MultiConfigurationProject;
@@ -21,6 +23,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     private static final String PROJECT_NAME = "Mcproject";
     private static final String NAME_FOLDER = "DisabledFolder";
     private static final String NAME_TO_DELETE = "TestToDelete";
+
     private void clickRenameButton() {
         getDriver().findElement(By.id("yui-gen1-button")).click();
     }
@@ -39,7 +42,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName, NAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCreateMultiConfigFolder")
     public void testBuildNow() {
 
@@ -52,7 +54,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(consolePage.tooltipStatusSuccessIsDisplayed());
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigFolder")
+    @Test(dependsOnMethods = "testAddDescription")
     public void testCheckSubMenuConfigureAfterCreatingProject() {
 
         final String DiscardOldBuildsText = "This determines when, if ever, build records for this project should be discarded. " +
@@ -115,49 +117,42 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         asserts.assertAll();
     }
 
-    @Test
+    @Test(dependsOnMethods = "testBuildNow")
     public void testBuildNowInDisabledProject() {
-        boolean isBuildNowDisplayed = false;
 
-        ProjectUtils.createProject(getDriver(), MultiConfigurationProject, NAME_FOLDER);
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.openProject(getDriver(), NAME_FOLDER);
-        ProjectUtils.clickDisableProject(getDriver());
+        boolean BuildNowInDisabledProject = new HomePage(getDriver())
+                .clickMultiConfigurationProjectName(NAME)
+                .clickDisableProjectButton()
+                .isDisplayedBuildNowButton();
 
-        List<WebElement> jobMenu = getDriver().findElements(By.xpath("//div[@id='tasks']//span[2]"));
-        for (WebElement menu : jobMenu) {
-            if (menu.getText().contains("Build Now")) {
-                isBuildNowDisplayed = true;
-            }
-        }
-        Assert.assertFalse(isBuildNowDisplayed);
+        Assert.assertFalse(BuildNowInDisabledProject);
     }
 
-    @Test(dependsOnMethods = "testCheckSubMenuConfigureAfterCreatingProject")
+    @Test(dependsOnMethods = "testBuildNowInDisabledProject")
     public void testAddDescription() {
 
         String description = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(NAME)
                 .clickAddDescription()
-                .setDescription("test")
+                .setDescription("description")
                 .saveConfigAndGoToMultiConfigurationProject()
                 .getDescription();
 
-        Assert.assertEquals(description, "test");
+        Assert.assertEquals(description, "description");
     }
 
-    @Test(dependsOnMethods = {"testAddDescription"})
-    public void testRenameMCProject() {
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.openProject(getDriver(), NAME);
-        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
+    @Test(dependsOnMethods = {"testCheckSubMenuConfigureAfterCreatingProject"})
+    public void testRenameMultiConfigurationProject() {
 
-        TestUtils.clearAndSend(getDriver(), By.xpath("//input[@checkdependson='newName']"),
-                "McprojectRename");
-        clickRenameButton();
+        String newProjectName = new HomePage(getDriver())
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                "Project McprojectRename");
+                .clickMultiConfigurationProjectName(NAME)
+                .clickAdnGoToRenamePage()
+                .setNewProjectName("McprojectRename")
+                .clickRenameAndGoToMultiConfigurationProject()
+                .getProjectName();
+
+        Assert.assertEquals(newProjectName, "McprojectRename");
     }
 
     @Test
@@ -199,7 +194,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
         for (String unsafeChar : invalidName) {
             TestUtils.clearAndSend(getDriver(), By.name("newName"), unsafeChar);
-            getWait5();
             clickRenameButton();
             String expectedResult = "‘" + unsafeChar + "’ is an unsafe character";
             if ("&" == unsafeChar) {
