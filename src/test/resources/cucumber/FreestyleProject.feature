@@ -15,7 +15,7 @@ Feature: Freestyle project
     And Save config and go to Freestyle project
     Then Project description is "test description"
 
-  Scenario Outline: Add new record
+  Scenario Outline: Add new project
     When Go to NewItem
     And Type project name "<project_name>"
     And Choose project type as "<project_type>"
