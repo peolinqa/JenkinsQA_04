@@ -9,8 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class FreestyleConfigPage extends BasePage {
 
-    private static final By APPLY_ALERT = By.id("notification-bar");
-
     @FindBy(xpath = "//button[@type='submit' and contains(text(), 'Save')]")
     private WebElement saveButton;
 
@@ -90,6 +88,6 @@ public class FreestyleConfigPage extends BasePage {
     public boolean clickApplyAndGetAlert() {
         applyButton.click();
 
-        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(APPLY_ALERT)).isDisplayed();
+        return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("notification-bar"))).isDisplayed();
     }
 }
