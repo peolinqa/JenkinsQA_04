@@ -301,6 +301,12 @@ public class HomePage extends BaseHeaderFooterPage {
         return new MultiConfigurationProjectPage(getDriver());
     }
 
+    public MultibranchPipelinePage clickMultibranchPipelineName(String name) {
+        ProjectUtils.openProject(getDriver(), name);
+
+        return new MultibranchPipelinePage(getDriver());
+    }
+
     public String getSystemMessageText() {
 
         return systemMessage.getText();
