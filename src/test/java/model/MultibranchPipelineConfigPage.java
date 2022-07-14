@@ -37,10 +37,10 @@ public class MultibranchPipelineConfigPage extends BasePage {
         return this;
     }
 
-    public ProjectPage saveConfigAndGoToProject() {
+    public MultibranchPipelinePage saveConfigAndGoToMultibranchPipelineProject() {
         saveButton.click();
 
-        return new ProjectPage(getDriver());
+        return new MultibranchPipelinePage(getDriver());
     }
 
     public MultibranchPipelinePage saveConfigAndGoToMultibranchPipelinePage() {

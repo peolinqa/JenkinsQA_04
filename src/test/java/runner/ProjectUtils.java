@@ -40,13 +40,6 @@ public final class ProjectUtils {
         driver.findElement(By.id("ok-button")).click();
     }
 
-    public static String createProject(WebDriver driver, ProjectType itemType) {
-        String name = TestUtils.getRandomStr();
-        createProject(driver, itemType, name);
-
-        return name;
-    }
-
     public static void createProject(WebDriver driver, ProjectType itemType, String name) {
         Dashboard.Main.NewItem.click(driver);
         driver.findElement(By.id("name")).sendKeys(name);

@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.MultibranchPipelinePage;
 import model.MultibranchPipelineConfigPage;
 import model.ProjectPage;
 import org.openqa.selenium.By;
@@ -14,6 +15,12 @@ public class _MultibranchPipelineTest extends BaseTest {
     private static final String PROJECT_NAME = TestUtils.getRandomStr(7);
     private static final String URL_GITHUB = "https://github.com/GitForProjects/javaJenkins";
     private static final String PIPELINE_NAME = "MultiPipeline";
+
+    private final String NAME = multiPipelineName();
+
+    private String multiPipelineName() {
+        return TestUtils.getRandomStr(7);
+    }
 
     @Test
     public void testCreateNewJob() {
@@ -125,23 +132,39 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testMultibranchDisable() {
-        final String name = TestUtils.getRandomStr(7);
-
-        ProjectPage projectPage = new HomePage(getDriver())
+        MultibranchPipelinePage multibranchPipelinePage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(NAME)
                 .setProjectTypeMultiBranchPipeline()
                 .clickOkAndGoToConfig()
                 .clickCheckboxDisable()
-                .saveConfigAndGoToProject();
+                .saveConfigAndGoToMultibranchPipelineProject();
 
-        Assert.assertTrue(projectPage.getIconFolderDisabled().isDisplayed());
-        Assert.assertEquals(projectPage.getMessageDisabled().getText(),
+        Assert.assertTrue(multibranchPipelinePage.getIconFolderDisabled().isDisplayed());
+        Assert.assertEquals(multibranchPipelinePage.getMessageDisabled().getText(),
                 "This Multibranch Pipeline is currently disabled \nEnable");
 
-        HomePage homePage = projectPage.clickDashboardButton();
+        HomePage homePage = new MultibranchPipelinePage(getDriver()).clickDashboardButton();
 
-        Assert.assertEquals(homePage.getProjectIconByName(name).getAttribute("class"),
+        Assert.assertEquals(homePage.getProjectIconByName(NAME).getAttribute("class"),
                         "icon-folder-disabled icon-lg");
+    }
+
+    @Test(dependsOnMethods = "testMultibranchDisable")
+    public void testMultibranchEnable() {
+        MultibranchPipelinePage multibranchPipelinePage = new ProjectPage(getDriver())
+                .clickDashboardButton()
+                .clickMyView()
+                .moveToElement(NAME)
+                .selectOptionInMenuSelector1("Configure")
+                .clickCheckboxDisable()
+                .saveConfigAndGoToMultibranchPipelineProject();
+
+        Assert.assertTrue(multibranchPipelinePage.getIconFolderEnabled().isDisplayed());
+
+        HomePage homePage = multibranchPipelinePage.clickDashboardButton();
+
+        Assert.assertEquals(homePage.getProjectIconByName(NAME).getAttribute("class"),
+                "icon-pipeline-multibranch-project icon-lg");
     }
 }

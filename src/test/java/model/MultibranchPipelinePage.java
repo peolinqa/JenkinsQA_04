@@ -20,6 +20,18 @@ public class MultibranchPipelinePage extends BasePage {
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
 
+    @FindBy(className = "icon-folder-disabled")
+    private WebElement iconFolderDisabled;
+
+    @FindBy(xpath = "//h1//img[@class='icon-pipeline-multibranch-project icon-xlg']")
+    private WebElement iconFolderEnabled;
+
+    @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
+    private WebElement messageDisabled;
+
+    @FindBy(linkText = "Dashboard")
+    private WebElement dashboardButton;
+
     public MultibranchPipelinePage(WebDriver driver) {
         super(driver);
     }
@@ -51,6 +63,23 @@ public class MultibranchPipelinePage extends BasePage {
     public HomePage clickYesButton() {
         yesButton.click();
 
+        return new HomePage(getDriver());
+    }
+
+    public WebElement getIconFolderDisabled() {
+        return iconFolderDisabled;
+    }
+
+    public WebElement getIconFolderEnabled() {
+        return iconFolderEnabled;
+    }
+
+    public WebElement getMessageDisabled() {
+        return messageDisabled;
+    }
+
+    public HomePage clickDashboardButton() {
+        dashboardButton.click();
         return new HomePage(getDriver());
     }
 }

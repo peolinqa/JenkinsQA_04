@@ -159,4 +159,11 @@ public class MyViewPage extends BaseHeaderFooterPage {
 
         return new PipelineConfigPage(getDriver());
     }
+
+    public MultibranchPipelineConfigPage selectOptionInMenuSelector1(String option) {
+        menuSelector.click();
+        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
+    }
 }
