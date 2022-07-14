@@ -52,4 +52,17 @@ public class RenamePage extends BaseHeaderFooterPage {
 
         return new MultiConfigurationProjectPage(getDriver());
     }
+
+    public ErrorPage setInvalidNameAndGoToErrorPage() {
+        renameButton.click();
+
+        return new ErrorPage(getDriver());
+    }
+
+    public ErrorPage setEmptyNameAndGoToErrorPage() {
+        renameInput.clear();
+        renameButton.click();
+
+        return new ErrorPage(getDriver());
+    }
 }
