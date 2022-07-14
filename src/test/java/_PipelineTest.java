@@ -28,8 +28,6 @@ import static runner.ProjectUtils.ProjectType.Pipeline;
 public class _PipelineTest extends BaseTest {
     private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
     private static final By APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");
-    private static final By ADD_COLUMN_BUTTON = By.xpath("//button[contains(text(), 'Add column')]");
-    private static final By DELETE_BUTTON = By.cssSelector("[title='Delete View']");
     private static final By RENAME_BUTTON = By.xpath("//button[text()='Rename']");
     private static final By H1 = By.xpath("//h1");
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
@@ -109,15 +107,6 @@ public class _PipelineTest extends BaseTest {
         getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
     }
 
-    private List<String> getTextFromListWebElements(List<WebElement> listWebElements) {
-        List<String> existingColumnsNames = new ArrayList<>();
-        for (WebElement existingLisWebElements : listWebElements) {
-            existingColumnsNames.add(existingLisWebElements.getText());
-        }
-
-        return existingColumnsNames;
-    }
-
     private void click(By button) {
         getDriver().findElement(button).click();
     }
@@ -140,7 +129,11 @@ public class _PipelineTest extends BaseTest {
     }
 
     private List<String> getTextFromAttributeAndConvertIt
-            (String attributeName, List<WebElement> listWebElements, String convertFrom, String convertTo) {
+            (final String attributeName,
+             List<WebElement> listWebElements,
+             final String convertFrom,
+             final String convertTo) {
+
         List<String> listString = new ArrayList<>();
         for (WebElement existingListWebElements : listWebElements) {
             listString.add(existingListWebElements.getAttribute(attributeName).replace(convertFrom, convertTo));
@@ -544,56 +537,41 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testAddAllColumnsFromDashboardInOwnWatchlist() {
-        final String name = pipelineName();
+        final String projectName = "AchJobName";
+        final String viewName = "AchViewName";
 
-        createPipeline(name, Boolean.TRUE);
-        click(SUBMIT_BUTTON, By.id("jenkins-name-icon"));
+        cleanAllPipelines();
+        int countColumns = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(projectName)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .clickNewView()
+                .setViewName(viewName)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .scrollAndClickJob()
+                .addAllUniqueColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getCountOfColumns();
 
-        createNewView();
-        getWait20().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//input[@name = '%s']", name)))).click();
-        scrollPageDown();
-        List<String> existingColumnsNames = getTextFromListWebElements(getDriver().findElements(
-                By.xpath("//div[@descriptorid]//b")));
-        scrollPageDown();
-        click(ADD_COLUMN_BUTTON);
-        List<String> columnsCanAddNames = getTextFromListWebElements(getDriver().findElements(
-                By.cssSelector("#yui-gen4  li a")));
-        columnsCanAddNames.removeAll(existingColumnsNames);
-
-        for (String columnsCanAddName : columnsCanAddNames) {
-            getDriver().findElement(
-                    By.xpath("//a[contains(text(), '" + columnsCanAddName + "')]")).click();
-            scrollPageDown();
-            click(ADD_COLUMN_BUTTON);
-        }
-
-        click(APPLY_BUTTON, SUBMIT_BUTTON);
-
-        List<WebElement> countColumns = getDriver().findElements(By.xpath("//thead/tr/th/a"));
-        Assert.assertEquals(countColumns.size(), 11);
+        Assert.assertEquals(countColumns, 11);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
     public void testRemoveAllColumnsFromDashboardInOwnWatchlist() {
 
-        getDriver().findElement(By.xpath("//a[contains(text(),'PipelineAC')]")).click();
-        getDriver().findElement(By.linkText("Edit View")).click();
-        scrollPageDown();
+       final boolean isTableEmpty = new HomePage(getDriver())
+                .clickMyViewNameButton()
+                .clickEditView()
+                .scrollPageDown()
+                .removeAllColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .isMyViewTableEmpty();
 
-        List<WebElement> countDeleteButtons = getDriver().findElements(DELETE_BUTTON);
-        for (int i = 0; i < countDeleteButtons.size(); i++) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(
-                    getDriver().findElement(
-                            By.xpath(String.format("//button[@id = 'yui-gen%s-button']", (i + 6)))))).click();
-        }
-
-        click(APPLY_BUTTON, SUBMIT_BUTTON);
-
-        Assert.assertTrue(getDriver().findElement(
-                By.xpath("//table[@id = 'projectstatus']//td")).getText().isEmpty());
-
-        click(DELETE_BUTTON, SUBMIT_BUTTON);
+        Assert.assertTrue(isTableEmpty);
     }
 
     @Test
@@ -624,8 +602,11 @@ public class _PipelineTest extends BaseTest {
 
         createFewPipelines(countCreatedNewPipelines, Boolean.TRUE);
 
-        List<String> listExistingJobsOnDashboard = getTextFromAttributeAndConvertIt("id", getDriver().findElements(
-                By.xpath("//table[@id = 'projectstatus']/tbody/tr")), "job_", "");
+        List<String> listExistingJobsOnDashboard = getTextFromAttributeAndConvertIt(
+                "id",
+                getDriver().findElements(By.xpath("//table[@id = 'projectstatus']/tbody/tr")),
+                "job_",
+                "");
 
         createNewView();
 
@@ -635,8 +616,10 @@ public class _PipelineTest extends BaseTest {
         scrollPageDown();
         click(APPLY_BUTTON, SUBMIT_BUTTON);
 
-        List<String> listExistingJobsOnMyWathlist = getTextFromAttributeAndConvertIt("id", getDriver().findElements(
-                By.xpath("//table[@id = 'projectstatus']/tbody/tr")), "job_", "");
+        List<String> listExistingJobsOnMyWathlist = getTextFromAttributeAndConvertIt("id",
+                getDriver().findElements(By.xpath("//table[@id = 'projectstatus']/tbody/tr")),
+                "job_",
+                "");
 
         for (String s : listExistingJobsOnMyWathlist) {
             Assert.assertTrue(listExistingJobsOnDashboard.contains(s));

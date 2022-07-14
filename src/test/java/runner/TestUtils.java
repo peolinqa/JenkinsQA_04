@@ -7,10 +7,12 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class TestUtils {
 
@@ -60,5 +62,14 @@ public class TestUtils {
         js.executeScript("arguments[0].scrollIntoView();", element);
 
         return js;
+    }
+
+    public static List<String> getTextFromListWebElements(List<WebElement> listWebElements) {
+        List<String> listStr = new ArrayList<>();
+        for (WebElement list : listWebElements) {
+            listStr.add(list.getText());
+        }
+
+        return listStr;
     }
 }

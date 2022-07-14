@@ -53,6 +53,12 @@ public class MyViewPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//div[@id='menuSelector']")
     private WebElement menuSelector;
 
+    @FindBy(xpath = "//thead/tr/th/a")
+    private List<WebElement> columnsInMyView;
+
+    @FindBy(xpath = "//table[@id = 'projectstatus']//td")
+    private WebElement myViewTable;
+
     public MyViewPage(WebDriver driver) {
         super(driver);
     }
@@ -158,6 +164,16 @@ public class MyViewPage extends BaseHeaderFooterPage {
         getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
 
         return new PipelineConfigPage(getDriver());
+    }
+
+    public int getCountOfColumns() {
+
+        return columnsInMyView.size();
+    }
+
+    public boolean isMyViewTableEmpty() {
+
+        return myViewTable.getText().isEmpty();
     }
 
     public MultibranchPipelineConfigPage selectOptionInMenuSelector1(String option) {

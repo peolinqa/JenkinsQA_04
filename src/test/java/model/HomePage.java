@@ -84,6 +84,9 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy (xpath = "//a[@href='/legend']")
     private WebElement linkIconLegend;
 
+    @FindBy(xpath = "//a[contains(text(), 'AchViewName')]")
+    private WebElement myViewName;
+
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
     private final static String PROJECT_LINK_ID_XPATH = "//tr[@id='job_%s']";
@@ -365,5 +368,11 @@ public class HomePage extends BaseHeaderFooterPage {
         getDriver().switchTo().alert().accept();
 
         return this;
+    }
+
+    public MyViewPage clickMyViewNameButton(){
+        myViewName.click();
+
+        return new MyViewPage(getDriver());
     }
 }
