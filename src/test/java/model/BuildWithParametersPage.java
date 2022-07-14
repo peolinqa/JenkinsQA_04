@@ -17,6 +17,9 @@ public class BuildWithParametersPage extends BaseBuildPage {
     @FindBy(xpath = "//select[@name='value']//option")
     private List<WebElement> dropDownMenuList;
 
+    @FindBy(id = "yui-gen1-button")
+    private WebElement buildButton;
+
     public List<String> collectDropDownMenu() {
         List<String> actualCollectDropDownMenu = new ArrayList<>();
 
@@ -25,5 +28,11 @@ public class BuildWithParametersPage extends BaseBuildPage {
         }
 
         return actualCollectDropDownMenu;
+    }
+
+    public  ProjectPage clickBuildButton() {
+        buildButton.click();
+
+        return new ProjectPage(getDriver());
     }
 }

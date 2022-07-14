@@ -35,10 +35,6 @@ public class _PipelineTest extends BaseTest {
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
     private static final By WARNING_MESSAGE = By.className("error");
 
-    private static final String JENKINS_HEADER = "Welcome to Jenkins!";
-    private static final String DESCRIPTION_OF_PARAMETER = "//div[contains(text(),'Description of parameter')]";
-    private static final String CHOICE_PARAMETER_NAME = "//div[contains(text(),'Name of the Choice Parameter')]";
-
     private static final String NEW_USER_DESCRIPTION = TestUtils.getRandomStr();
     private final String namePipeline = pipelineName();
 
@@ -89,10 +85,6 @@ public class _PipelineTest extends BaseTest {
                 .build()
                 .perform();
         homePageClick();
-    }
-
-    private void clickAddParameterOrBuildButton() {
-        getDriver().findElement(By.id("yui-gen1-button")).click();
     }
 
     private void createNewPipeline(String pipelineName) {
@@ -457,7 +449,7 @@ public class _PipelineTest extends BaseTest {
 
         String actualResult = getDriver().findElement(H1).getText();
 
-        Assert.assertEquals(actualResult, JENKINS_HEADER);
+        Assert.assertEquals(actualResult, "Welcome to Jenkins!");
     }
 
     @DataProvider(name = "errorMessageData")
@@ -479,76 +471,29 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorText, String.format("» ‘%s’ is an unsafe character", name));
     }
 
-    @Ignore
     @Test
     public void testBuildPipelineWithParameters() {
+        final String name = pipelineName();
 
-        ProjectUtils.createProject(getDriver(), Pipeline, "First Pipeline Project");
+        List<String> checkNameAndDescriptionParametersBuild = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickCheckboxProjectParameterized()
+                .clickAddParameterOfBuildButton()
+                .clickChoiceParameterButton()
+                .enteringParametersIntoProject()
+                .saveConfigAndGoToProject()
+                .clickBuildWithParameters()
+                .clickBuildButton()
+                .refreshPage()
+                .clickBuildHealthButton()
+                .clickParametersButton()
+                .collectChoiceAndDescriptionParameterName();
 
-        getDriver().findElement(By
-                .xpath("//label[contains(text(),'This project is parameterized')]")).click();
-        clickAddParameterOrBuildButton();
-        getDriver().findElement(By.xpath("//li[@id='yui-gen9']/a")).click();
-        getDriver().findElement(By.name("parameter.name"))
-                .sendKeys("Name of the Choice Parameter");
-        getDriver().findElement(By.name("parameter.choices"))
-                .sendKeys("First Choice" + '\n' + "Second Choice" + '\n' + "Third Choice");
-        getDriver().findElement(By.name("parameter.description"))
-                .sendKeys("Description of parameter");
-        ProjectUtils.clickSaveButton(getDriver());
-        getDriver().findElement(By.xpath("//span[contains(text(),'Build with Parameters')]")).click();
-
-        asserts.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1"))
-                .getText(), "Pipeline First Pipeline Project");
-
-        asserts.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p"))
-                .getText(), "This build requires parameters:");
-
-        asserts.assertEquals(getDriver().findElement(By.xpath(CHOICE_PARAMETER_NAME))
-                .getText(), "Name of the Choice Parameter");
-
-        List<WebElement> option = getDriver().findElements(By.xpath("//select/option"));
-        List<String> actualRes = new ArrayList<>();
-
-        for (WebElement dropDown : option) {
-            actualRes.add(dropDown.getText());
-        }
-
-        List<String> expectedRes = new ArrayList<>();
-        expectedRes.add("First Choice");
-        expectedRes.add("Second Choice");
-        expectedRes.add("Third Choice");
-
-        asserts.assertEquals(actualRes, expectedRes);
-
-        asserts.assertEquals(getDriver().findElement(By.xpath(DESCRIPTION_OF_PARAMETER))
-                .getText(), "Description of parameter");
-
-        clickAddParameterOrBuildButton();
-
-        if ("expand".equals((getDriver().findElement(By.cssSelector(".collapse"))
-                .getAttribute("title")))) {
-            getDriver().findElement(By
-                    .xpath("//div[@id='buildHistory']/div[1]/div/a")).click();
-        }
-
-        WebElement buildOne = getWait20()
-                .until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//a[text()='#1']//ancestor::tr")));
-        buildOne.click();
-
-        getDriver().findElement(By.xpath("//span[contains(text(),'Parameters')]")).click();
-
-        asserts.assertEquals(getDriver().findElement(By.xpath(CHOICE_PARAMETER_NAME))
-                .getText(), "Name of the Choice Parameter");
-
-        asserts.assertEquals(getDriver().findElement(By
-                .xpath("//input[@value='First Choice']")).getAttribute("value"), "First Choice");
-
-        asserts.assertEquals(getDriver().findElement(By
-                        .xpath(DESCRIPTION_OF_PARAMETER))
-                .getText(), "Description of parameter");
-        asserts.assertAll();
+        Assert.assertEquals(checkNameAndDescriptionParametersBuild, List.of("Checking Name Display\n"
+                + "Checking Description Display"));
     }
 
     @Test
