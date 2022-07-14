@@ -488,7 +488,7 @@ public class _PipelineTest extends BaseTest {
                 .clickBuildWithParameters()
                 .clickBuildButton()
                 .refreshPage()
-                .clickBuildHealthButton()
+                .clickLastBuildButton()
                 .clickParametersButton()
                 .collectChoiceAndDescriptionParameterName();
 

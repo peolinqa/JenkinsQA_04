@@ -58,8 +58,8 @@ public class ProjectPage extends BasePage {
     @FindBy(linkText = "Parameters")
     private WebElement parameters;
 
-    @FindBy(xpath = "//a[contains(@class,'build-health-link jenkins-table__button')]")
-    private WebElement buildHealthButton;
+    @FindBy(xpath = "//a[@href ='lastBuild/']")
+    private WebElement lastBuildButton;
 
     public ProjectPage(WebDriver driver) {
         super(driver);
@@ -188,8 +188,8 @@ public class ProjectPage extends BasePage {
         return new BuildWithParametersPage(getDriver());
     }
 
-    public ProjectPage clickBuildHealthButton() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(buildHealthButton)).click();
+    public ProjectPage clickLastBuildButton() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(lastBuildButton)).click();
 
         return this;
     }
