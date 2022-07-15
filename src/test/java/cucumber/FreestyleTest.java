@@ -22,6 +22,9 @@ public class FreestyleTest {
 
     private FreestylePage freestylePage;
 
+
+    private FolderPage folderPage;
+
     @When("Go to NewItem")
     public void goToNewItem() {
         newItemPage = new HomePage(CucumberDriver.getDriver()).clickNewItem();
@@ -52,6 +55,11 @@ public class FreestyleTest {
     @And("Choose project type as Freestyle")
     public void setProjectTypeAsFreestyle() {
         newItemPage = newItemPage.setProjectTypeFreestyle();
+    }
+
+    @And("Choose project type as Folder")
+    public void setProjectTypeAsFolder() {
+        newItemPage = newItemPage.setProjectTypeFolder();
     }
 
     @And("Click Ok and go to config")
@@ -87,9 +95,19 @@ public class FreestyleTest {
         freestylePage = freestyleConfigPage.saveConfigAndGoToFreestyleProject();
     }
 
+    @And("Save config and go to Folder project")
+    public void saveConfigAndGoToFolderProject() {
+        folderPage = folderConfigPage.saveConfigAndGoToFolderPage();
+    }
+
     @Then("Freestyle project name is {string}")
     public void assertFreestyleProjectName(String projectName) {
         Assert.assertEquals(freestylePage.getProjectName(), projectName);
+    }
+
+    @Then("Folder project name is {string}")
+    public void assertFolderProjectName(String projectName) {
+        Assert.assertEquals(folderPage.getFolderName(), projectName);
     }
 
     @When("Click Freestyle project {string}")
