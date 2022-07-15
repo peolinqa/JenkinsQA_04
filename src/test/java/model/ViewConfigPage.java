@@ -6,7 +6,6 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
 import java.util.List;
@@ -39,6 +38,12 @@ public class ViewConfigPage extends BasePage {
 
     @FindBy(css = "#yui-gen4  li a")
     private List<WebElement> listColumnsWhichCanAdd;
+
+    @FindBy(xpath = "//button[@title = 'Delete']")
+    private List<WebElement> listDeleteButtons;
+
+    @FindBy(xpath = "//div[@class= 'listview-jobs']/span[1]/input")
+    private WebElement firstJobInJobsList;
 
     public ViewConfigPage(WebDriver driver) {
         super(driver);
@@ -84,8 +89,7 @@ public class ViewConfigPage extends BasePage {
     }
 
     public ViewConfigPage scrollAndClickJob() {
-        getActions().moveToElement(getDriver().findElement(
-                    By.xpath("//input[@name= 'AchJobName']")))
+        getActions().moveToElement(firstJobInJobsList)
                 .click()
                 .perform();
 
@@ -111,12 +115,15 @@ public class ViewConfigPage extends BasePage {
         return this;
     }
 
-    public ViewConfigPage removeAllColumns() {
-        List<String> existingColumnsNames = TestUtils.getTextFromListWebElements(listExistingColumns);
-        for (int i = 0; i < existingColumnsNames.size(); i++) {
-            getWait5().until(ExpectedConditions.elementToBeClickable(
-                    getDriver().findElement(
-                            By.xpath(String.format("//button[@id = 'yui-gen%s-button']", (i + 6)))))).click();
+    public ViewConfigPage removeColumns() {
+        int countColumnsCanDelete = listDeleteButtons.size();
+        for (int i = 0; i < countColumnsCanDelete; i++) {
+            getDriver().findElement(By.xpath(String.format("//button[@id = 'yui-gen%s-button']", (i + 6)))).click();
+            try {
+                Thread.sleep(400);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         return this;

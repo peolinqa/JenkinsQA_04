@@ -537,13 +537,12 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testAddAllColumnsFromDashboardInOwnWatchlist() {
-        final String projectName = "AchJobName";
+        final String name = pipelineName();
         final String viewName = "AchViewName";
 
-        cleanAllPipelines();
-        int countColumns = new HomePage(getDriver())
+        final int countColumns = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(projectName)
+                .setProjectName(name)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
@@ -559,19 +558,18 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(countColumns, 11);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
-    public void testRemoveAllColumnsFromDashboardInOwnWatchlist() {
+    public void testRemoveColumnsFromDashboardInOwnWatchlist() {
 
-       final boolean isTableEmpty = new HomePage(getDriver())
+        final int countColumnsAfterDelete = new HomePage(getDriver())
                 .clickMyViewNameButton()
                 .clickEditView()
                 .scrollPageDown()
-                .removeAllColumns()
+                .removeColumns()
                 .clickApplyAndOkAndGoToMyViewPage()
-                .isMyViewTableEmpty();
+                .getCountOfColumns();
 
-        Assert.assertTrue(isTableEmpty);
+        Assert.assertEquals(countColumnsAfterDelete, 1);
     }
 
     @Test

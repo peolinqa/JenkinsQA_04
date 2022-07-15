@@ -56,9 +56,6 @@ public class MyViewPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//thead/tr/th/a")
     private List<WebElement> columnsInMyView;
 
-    @FindBy(xpath = "//table[@id = 'projectstatus']//td")
-    private WebElement myViewTable;
-
     public MyViewPage(WebDriver driver) {
         super(driver);
     }
@@ -169,11 +166,6 @@ public class MyViewPage extends BaseHeaderFooterPage {
     public int getCountOfColumns() {
 
         return columnsInMyView.size();
-    }
-
-    public boolean isMyViewTableEmpty() {
-
-        return myViewTable.getText().isEmpty();
     }
 
     public MultibranchPipelineConfigPage selectOptionInMenuSelector1(String option) {
