@@ -94,6 +94,9 @@ public class HomePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//table[@id='projectstatus']//tbody//td[3]")
     private List<WebElement> itemsNames;
 
+    @FindBy(id = "search-box")
+    private WebElement searchBox;
+
    public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -378,5 +381,11 @@ public class HomePage extends BaseHeaderFooterPage {
         myViewName.click();
 
         return new MyViewPage(getDriver());
+    }
+
+    public SearchPage sendTextSearchPanel(String text){
+       searchBox.clear();
+       searchBox.sendKeys(text + Keys.ENTER);
+       return new SearchPage(getDriver());
     }
 }

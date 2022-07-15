@@ -185,11 +185,12 @@ public class _HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testCheckSearchPanel() {
-        TestUtils.clearAndSend(getDriver(), By.id("search-box"), "TryToFindSomething" + Keys.ENTER);
+    public void testCheckSearchPanel(){
+        String actualResult = new HomePage(getDriver())
+                .sendTextSearchPanel("TryToFindSomething")
+                .getSearchMainPanelText();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText(),
-                "Search for 'TryToFindSomething'");
+        Assert.assertEquals(actualResult, "Search for 'TryToFindSomething'");
     }
 
     @Test

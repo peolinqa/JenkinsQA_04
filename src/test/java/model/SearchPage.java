@@ -13,8 +13,15 @@ public class SearchPage extends HomePage {
     @FindBy(className = "error")
     private WebElement searchMessage;
 
+    @FindBy(xpath = "//div[@id='main-panel']/h1")
+    private WebElement searchMainPanel;
+
     public String getSearchMessageText() {
 
         return searchMessage.getText();
+    }
+
+    public String getSearchMainPanelText(){
+        return searchMainPanel.getText();
     }
 }
