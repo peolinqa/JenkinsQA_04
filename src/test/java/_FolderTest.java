@@ -1,21 +1,13 @@
 import model.*;
-import model.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.TestUtils;
-import java.util.List;
-
-import static runner.ProjectUtils.ProjectType.Folder;
 
 public class _FolderTest extends BaseTest {
 
-    private static final String NAME_FOLDER = "Configure";
+    private static final String NAME_FOLDER = TestUtils.getRandomStr();
     private static final String RANDOM_FOLDER_NAME1 = TestUtils.getRandomStr();
     private static final String FOLDER_NAME_FOR_RENAME1 = TestUtils.getRandomStr();
     private static final String RANDOM_FOLDER_NAME2 = TestUtils.getRandomStr();
@@ -43,25 +35,16 @@ public class _FolderTest extends BaseTest {
     }
 
     @Test
-    public void testConfigurePage() {
+    public void testFolderIsCreatedWithoutSave() {
 
-        String actual = new HomePage(getDriver())
+        Boolean folderIsPresent = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(NAME_FOLDER)
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
-                .waitLoadingFolderConfigurePage()
-                .getGeneralTabName();
+                .goHome().checkProjectNameNotPresent(NAME_FOLDER);
 
-        Assert.assertEquals(actual, "General");
-    }
-
-    @Test(dependsOnMethods = "testConfigurePage")
-    public void testCreateFolderPositive() {
-
-        HomePage homePage = new HomePage(getDriver());
-
-        Assert.assertTrue(homePage.isItemPresent(NAME_FOLDER));
+        Assert.assertFalse(folderIsPresent);
     }
 
     @Test
