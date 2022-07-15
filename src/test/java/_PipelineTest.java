@@ -3,7 +3,6 @@ import model.PipelineConfigPage;
 import model.ProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -401,31 +400,20 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(check);
     }
 
-    @Ignore
+
     @Test
-    public void testCreatePipeline() {
+    public void testCreatePipelineWithNegativeValueQuietPeriod() {
 
-        createPipeline(pipelineName(), Boolean.TRUE);
+        String checkForValueErrorMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(pipelineName())
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .jsCheckboxProjectParameterized()
+                .enteringDataIntoLineQuietPeriod()
+                .verificationPeriodErrorMessage();
 
-        getActions().moveToElement(getDriver().findElement(
-                        By.xpath("//input[@name='hasCustomQuietPeriod']")))
-                .click()
-                .moveToElement(getDriver().findElement(By.name("quiet_period")))
-                .click()
-                .sendKeys(Keys.BACK_SPACE)
-                .sendKeys("-1")
-                .sendKeys(Keys.TAB)
-                .build()
-                .perform();
-
-        String actualResult =
-                getDriver().findElement(By.xpath("//input[@name='quiet_period']/.." +
-                                "/following-sibling::div[contains(@class, 'validation-error-area')]/div/div[@class='error']"))
-                        .getText();
-
-        Assert.assertEquals(actualResult, "This value should be larger than 0");
-
-        ProjectUtils.clickSaveButton(getDriver());
+        Assert.assertEquals(checkForValueErrorMessage, "This value should be larger than 0");
     }
 
     @Ignore

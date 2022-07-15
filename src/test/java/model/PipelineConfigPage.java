@@ -119,6 +119,16 @@ public class PipelineConfigPage extends BasePage {
     @FindBy(css = "#notification-bar")
     private WebElement notification;
 
+    @FindBy(xpath = "//input[@name='hasCustomQuietPeriod']")
+    private WebElement checkBoxQuietPeriod;
+
+    @FindBy(name = "quiet_period")
+    private WebElement lineQuietPeriod;
+
+    @FindBy(xpath = "//input[@name='quiet_period']/../following-sibling::div[contains(@class, 'validation-error-area')]" +
+            "/div/div[@class='error']")
+    private WebElement periodErrorMessage;
+
     public PipelineConfigPage selectScriptByValue(String name) {
         new Select(script).selectByValue(name);
 
@@ -348,5 +358,27 @@ public class PipelineConfigPage extends BasePage {
                 .perform();
 
         return this;
+    }
+
+    public PipelineConfigPage enteringDataIntoLineQuietPeriod() {
+        getActions()
+                .moveToElement(checkBoxQuietPeriod)
+                .click()
+                .moveToElement(lineQuietPeriod)
+                .click()
+                .sendKeys(Keys.BACK_SPACE)
+                .sendKeys("-1")
+                .sendKeys(Keys.TAB)
+                .perform();
+
+        return this;
+    }
+
+    public String verificationPeriodErrorMessage() {
+        String errorMessageText = periodErrorMessage.getText();
+
+        saveConfigAndGoToProject();
+
+        return errorMessageText;
     }
 }
