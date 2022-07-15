@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseDashboardPage;
 import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends BaseHeaderFooterPage {
+public class HomePage extends BaseDashboardPage {
 
     private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 

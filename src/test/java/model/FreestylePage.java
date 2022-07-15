@@ -1,11 +1,12 @@
 package model;
 
+import model.base.BaseDashboardPage;
 import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestylePage extends BasePage {
+public class FreestylePage extends BaseDashboardPage {
 
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
@@ -21,9 +22,6 @@ public class FreestylePage extends BasePage {
 
     @FindBy(name = "description")
     private WebElement descriptionTextarea;
-
-    @FindBy(linkText = "Dashboard")
-    private WebElement dashboardButton;
 
     @FindBy(xpath = "//div//button[@type='submit']")
     private WebElement multiButton;

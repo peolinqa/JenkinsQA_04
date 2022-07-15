@@ -15,9 +15,6 @@ public class ConfigureSystemPage extends ManageJenkinsPage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement saveButton;
 
-    @FindBy(linkText = "Dashboard")
-    private WebElement dashboardLink;
-
     @FindBy(xpath = "//textarea[@name='system_message']")
     private WebElement systemMessageTextArea;
 
@@ -37,12 +34,6 @@ public class ConfigureSystemPage extends ManageJenkinsPage {
         saveButton.click();
 
         return this;
-    }
-
-    public HomePage clickGoToDashboard() {
-        dashboardLink.click();
-
-        return new HomePage(getDriver());
     }
 
     public ConfigureSystemPage clickPreviewSystemMessage() {

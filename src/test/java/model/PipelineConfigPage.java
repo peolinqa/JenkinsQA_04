@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseDashboardPage;
 import model.base.BasePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineConfigPage extends BasePage {
+public class PipelineConfigPage extends BaseDashboardPage {
 
     private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
@@ -22,9 +23,6 @@ public class PipelineConfigPage extends BasePage {
 
     @FindBy(css = "[type='submit']")
     private WebElement saveButton;
-
-    @FindBy(linkText = "Dashboard")
-    private WebElement dashboardButton;
 
     @FindBy(css = ".samples")
     private WebElement dropDownMenuPipelineTab;
@@ -149,12 +147,6 @@ public class PipelineConfigPage extends BasePage {
 
     public String notification() {
         return getWait5().until(ExpectedConditions.visibilityOf(notification)).getText();
-    }
-
-    public HomePage clickDashboardButton() {
-        dashboardButton.click();
-
-        return new HomePage(getDriver());
     }
 
     public PipelineConfigPage jsDropDownMenuPipelineTab() {

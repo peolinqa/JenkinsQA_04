@@ -21,7 +21,7 @@ public class _ConfigureSystemTest extends BaseTest {
 
         String actualResult = new ConfigureSystemPage(getDriver())
                 .clickSaveButton()
-                .clickGoToDashboard()
+                .clickDashboardButton()
                 .getSystemMessageText();
 
         Assert.assertEquals(previewActualResult, RANDOM_SYSTEM_MESSAGE);

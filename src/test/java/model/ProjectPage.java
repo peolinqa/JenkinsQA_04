@@ -1,5 +1,6 @@
 package model;
 
+import model.base.BaseDashboardPage;
 import model.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectPage extends BasePage {
+public class ProjectPage extends BaseDashboardPage {
 
     private static final By DISPLAY_NAME = By.cssSelector(".display-name");
 
@@ -18,9 +19,6 @@ public class ProjectPage extends BasePage {
 
     @FindBy(css = "h1")
     private WebElement folderName;
-
-    @FindBy(linkText = "Dashboard")
-    private WebElement dashboardButton;
 
     @FindBy(linkText = "Build Now")
     private WebElement buildButton;
@@ -71,11 +69,6 @@ public class ProjectPage extends BasePage {
 
     public String getFolderName() {
         return folderName.getText();
-    }
-
-    public HomePage clickDashboardButton() {
-        dashboardButton.click();
-        return new HomePage(getDriver());
     }
 
     public boolean isProjectStatus(String value) {
