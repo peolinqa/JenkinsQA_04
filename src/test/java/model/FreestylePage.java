@@ -34,6 +34,9 @@ public class FreestylePage extends BasePage {
     @FindBy(linkText = "Rename")
     private WebElement renameButton;
 
+    @FindBy(xpath = "//span[text()='Delete Project']")
+    private WebElement deleteProjectButton;
+
     public FreestylePage(WebDriver driver) {
         super(driver);
     }
@@ -76,6 +79,12 @@ public class FreestylePage extends BasePage {
         renameButton.click();
 
         return new RenamePage(getDriver());
+    }
+
+    public HomePage clickDeleteProject() {
+        deleteProjectButton.click();
+        getDriver().switchTo().alert().accept();
+        return new HomePage(getDriver());
     }
 
     public String getDescriptionName() {

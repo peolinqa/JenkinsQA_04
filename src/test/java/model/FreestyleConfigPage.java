@@ -24,6 +24,9 @@ public class FreestyleConfigPage extends BasePage {
     @FindBy(xpath = "//button[contains(text(),'Apply')]")
     private WebElement applyButton;
 
+    @FindBy(xpath = "//div[@class = 'tab config-section-activator config_build_triggers']")
+    private WebElement buildTriggers;
+
     public FreestyleConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -74,14 +77,13 @@ public class FreestyleConfigPage extends BasePage {
     }
 
     public String getHelpNamesBuildTriggers() {
-        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@tooltip='Help for feature: Build periodically']"))).pause(500).build().perform();
-
+        getActions().moveToElement(getDriver().findElement(By.xpath("//label[text()='Build periodically']/../a"))).pause(500).build().perform();
+        getActions().moveToElement(getDriver().findElement(By.xpath("//a[@tooltip='Help for feature: Build periodically']"))).build().perform();
         return getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id = 'tt']"))).getText();
     }
 
     public FreestyleConfigPage clickBuildTriggers() {
-        getActions().moveToElement(getDriver().findElement(By.cssSelector(".tab.config-section-activator.config_build_triggers"))).pause(500).build().perform();
-
+        buildTriggers.click();
         return this;
     }
 

@@ -1,31 +1,18 @@
 import model.FreestyleConfigPage;
 import model.FreestylePage;
 import model.HomePage;
-import org.openqa.selenium.By;
+import model.RenamePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.TestUtils;
-import java.util.ArrayList;
-import java.util.List;
-
-import static runner.ProjectUtils.ProjectType.Freestyle;
 
 public class _FreestyleTest extends BaseTest {
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
     private static final String EDITED_RANDOM_NAME = "New " + RANDOM_NAME;
     private static final String NAME_WITH_SPECIAL_CHARACTERS = "-()+-_~-1";
-    private static final String INVALID_DATA = "!@#$;%^&?*[]/:.";
-    private static final String RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
     private static final String EDITED_RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
     private static final String DESCRIPTION_TEXT = "This is a description for a Freestyle project";
-
-    private void deleteProject(String name) {
-        getDriver().findElement(By.xpath(String.format("//a[text()='%s']", name))).click();
-        ProjectUtils.Dashboard.Project.DeleteProject.click(getDriver());
-        getDriver().switchTo().alert().accept();
-    }
 
     @Test
     public void testCreateFreestyleProject() {
@@ -131,7 +118,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(freestyleConfigPage.getHelpNamesBuildTriggers(), "Help for feature: Build periodically");
     }
 
-    @Test(dependsOnMethods = "testHelpButtonPopupBuildPeriodically")
+    @Test(dependsOnMethods = {"testHelpButtonPopupBuildPeriodically", "testRenameWithInvalidData"})
     public void testRenameFreestyleProject() {
 
         String projectName = new HomePage(getDriver())
@@ -157,56 +144,37 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(projectName, NAME_WITH_SPECIAL_CHARACTERS);
     }
 
-    private void renameFreestyleProject(String currentName, String newName) {
-        ProjectUtils.openProject(getDriver(), currentName);
-        getDriver().findElement(By.linkText("Rename")).click();
-        TestUtils.clearAndSend(getDriver(), By.name("newName"), newName);
-        getDriver().findElement(By.xpath("//button[@type='submit']")).click();
-    }
-
-    @Test(dependsOnMethods = "testNewFreestyleWithSpecialCharacters")
+    @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testRenameWithInvalidData() {
-        for (int i = 0; i < INVALID_DATA.length(); i++) {
-            String newProjectName = INVALID_DATA.substring(i, (i + 1));
-            renameFreestyleProject(NAME_WITH_SPECIAL_CHARACTERS, newProjectName);
-            String alertMessage = getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText();
-
-            Assert.assertEquals(getDriver().findElement(By.xpath("//h1")).getText(), "Error");
-            Assert.assertTrue(alertMessage.contains("is an unsafe character")
-                    || alertMessage.contains("is not an allowed name"));
-            getDriver().navigate().back();
-        }
-    }
-
-    @Test
-    public void testCannotCreateProjectNameWithInvalidCharacter() {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
 
         String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":", "."};
-        boolean resultButtonOkDisabled = true;
 
-        for (String character : characterName) {
-            TestUtils.clearAndSend(getDriver(), By.id("name"), character);
-            Freestyle.click(getDriver());
-            if (!getDriver().findElement(By.xpath("//button[@class]")).getAttribute("class").equals("disabled")) {
-                resultButtonOkDisabled = false;
-            }
-            getDriver().navigate().refresh();
+        RenamePage page = new HomePage(getDriver())
+                .clickFreestyleName(RANDOM_NAME)
+                .clickAdnGoToRenamePage();
 
-            Assert.assertTrue(resultButtonOkDisabled);
+        for (String str : characterName) {
+            String alertMessage = page
+                    .setNewProjectName(str)
+                    .clickRenameAndGoToErrorPage()
+                    .getErrorMessage();
+
+            Assert.assertTrue(alertMessage.contains("is an unsafe character")
+                    || alertMessage.contains("is not an allowed name"));
+            page.clickBack();
         }
     }
 
-    @Test (dependsOnMethods = "testRenameWithInvalidData")
+    @Test(dependsOnMethods = {"testCreateFreestyleProject", "testRenameWithInvalidData",
+            "testSaveButtonAfterProjectCreated", "testNewFreestyleWithSpecialCharacters"})
     public void testDeleteFreestyleProject() {
-        var driver = getDriver();
-        List<String> jobsNames = TestUtils.getTextFromList(driver, By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
-        deleteProject(NAME_WITH_SPECIAL_CHARACTERS);
-        List<String> jobsNames2 = TestUtils.getTextFromList(driver, By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
 
-        List<String> differences = new ArrayList<>(jobsNames);
-        differences.removeAll(jobsNames2);
+        Boolean projectNotPresent = new HomePage(getDriver())
+                .clickFreestyleName(NAME_WITH_SPECIAL_CHARACTERS)
+                .clickDeleteProject()
+                .checkProjectNameNotPresent(NAME_WITH_SPECIAL_CHARACTERS);
 
-        Assert.assertTrue(differences.contains(NAME_WITH_SPECIAL_CHARACTERS));
+        Assert.assertTrue(projectNotPresent);
     }
+
 }

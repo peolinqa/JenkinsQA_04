@@ -28,6 +28,11 @@ public class RenamePage extends BaseHeaderFooterPage {
         return new FolderPage(getDriver());
     }
 
+    public ErrorPage clickRenameAndGoToErrorPage() {
+        renameButton.click();
+        return new ErrorPage(getDriver());
+    }
+
     public RenamePage setNewProjectName(String name) {
         renameInput.clear();
         renameInput.sendKeys(name);
@@ -45,6 +50,12 @@ public class RenamePage extends BaseHeaderFooterPage {
         renameButton.click();
 
         return new OrganizationFolderProjectPage(getDriver());
+    }
+
+    public RenamePage clickBack() {
+        getDriver().navigate().back();
+
+        return new RenamePage(getDriver());
     }
 
     public MultiConfigurationProjectPage clickRenameAndGoToMultiConfigurationProject() {

@@ -7,9 +7,9 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
 import runner.TestUtils;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -156,6 +156,10 @@ public class HomePage extends BaseHeaderFooterPage {
             }
         }
         return result;
+    }
+
+    public Boolean checkProjectNameNotPresent(String projectName) {
+        return !getActualDashboardProject().contains(projectName);
     }
 
     public FolderPage clickFolderName(String name) {
@@ -312,7 +316,7 @@ public class HomePage extends BaseHeaderFooterPage {
 
     public String getSystemMessageText() {
 
-        return systemMessage.getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(systemMessage)).getText();
     }
 
     public WebElement getProjectLinkByName(String name) {

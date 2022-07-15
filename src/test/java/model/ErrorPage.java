@@ -18,12 +18,10 @@ public class ErrorPage extends BasePage {
     private WebElement errorMessage;
 
     public String getErrorHeader() {
-
         return headerWithError.getText();
     }
 
     public String getErrorMessage() {
-
         return errorMessage.getText();
     }
 
