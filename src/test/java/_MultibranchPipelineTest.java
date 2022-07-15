@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
+import java.util.Random;
+
 public class _MultibranchPipelineTest extends BaseTest {
 
     private static final String PROJECT_NAME = TestUtils.getRandomStr(7);
@@ -106,28 +108,22 @@ public class _MultibranchPipelineTest extends BaseTest {
     @Test
     public void testCreateMultibranchWithInvalidData() {
 
-        char[] unsafeCharacters = {'!', '@', '#', '$', '%', '^', '&', '*', '[', ']', ';', ':'};
+        final String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":"};
 
-        getDriver().findElement(By.linkText("New Item")).click();
+        Random random = new Random();
+        int low = 0;
+        int high = characterName.length + 1;
+        int result = random.nextInt(high - low) + low;
 
-        WebElement projectNameField = getDriver().findElement(By.name("name"));
+        String alertMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectTypeMultiBranchPipeline()
+                .setProjectName(characterName[result])
+                .getNameErrorText();
 
-        getDriver().findElement(
-                By.xpath("//div[@id='j-add-item-type-nested-projects']//li[2]")
-        ).click();
+        String expectedResult = String.format("» ‘%s’ is an unsafe character", characterName[result]);
 
-        for (char unsafeChar : unsafeCharacters) {
-            String expectedError = String.format("» ‘%s’ is an unsafe character", unsafeChar);
-
-            projectNameField.sendKeys(String.format("%s%s", unsafeChar, PROJECT_NAME));
-            String actualError = getWait5().until(ExpectedConditions.visibilityOfElementLocated(
-                    By.xpath("//div[@id='itemname-invalid'][@class='input-validation-message']"))
-            ).getText();
-
-            Assert.assertEquals(actualError, expectedError);
-
-            projectNameField.clear();
-        }
+        Assert.assertEquals(alertMessage, expectedResult);
     }
 
     @Test
