@@ -13,7 +13,6 @@ import java.util.List;
 
 public class _HeaderTest extends BaseTest {
 
-    private static final By HEADER_ICON = By.id("jenkins-head-icon");
     private static final By MENU_SELECTOR_XPATH = By.cssSelector(".login");
 
     private static List<WebElement> getMenuItems(WebDriver driver){
@@ -44,7 +43,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnMainPage() {
         HomePage newHomePage = new HomePage(getDriver());
 
-        Assert.assertTrue(newHomePage.getTopPageHeader().isDisplayed());
+        Assert.assertTrue(newHomePage.topPageHeaderIsVisible());
         Assert.assertEquals(newHomePage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -53,7 +52,7 @@ public class _HeaderTest extends BaseTest {
         NewItemPage newItemPage = new HomePage(getDriver())
                 .clickNewItem();
 
-        Assert.assertTrue(newItemPage.getTopPageHeader().isDisplayed());
+        Assert.assertTrue(newItemPage.topPageHeaderIsVisible());
         Assert.assertEquals(newItemPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -62,7 +61,7 @@ public class _HeaderTest extends BaseTest {
         PeoplePage newPeoplePage = new HomePage(getDriver())
                 .clickPeople();
 
-        Assert.assertTrue(newPeoplePage.getTopPageHeader().isDisplayed());
+        Assert.assertTrue(newPeoplePage.topPageHeaderIsVisible());
         Assert.assertEquals(newPeoplePage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -71,7 +70,7 @@ public class _HeaderTest extends BaseTest {
         BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
                 .clickAndGoToBuildHistoryPage();
 
-        Assert.assertTrue(newBuildHistoryPage.getTopPageHeader().isDisplayed());
+        Assert.assertTrue(newBuildHistoryPage.topPageHeaderIsVisible());
         Assert.assertEquals(newBuildHistoryPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -80,7 +79,7 @@ public class _HeaderTest extends BaseTest {
         ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
                 .clickManageJenkins();
 
-        Assert.assertTrue(newManageJenkinsPage.getTopPageHeader().isDisplayed());
+        Assert.assertTrue(newManageJenkinsPage.topPageHeaderIsVisible());
         Assert.assertEquals(newManageJenkinsPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -89,7 +88,7 @@ public class _HeaderTest extends BaseTest {
         MyViewPage newMyViewPage = new HomePage(getDriver())
                 .clickMyView();
 
-        Assert.assertTrue(newMyViewPage.getTopPageHeader().isDisplayed());
+        Assert.assertTrue(newMyViewPage.topPageHeaderIsVisible());
         Assert.assertEquals(newMyViewPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -98,7 +97,7 @@ public class _HeaderTest extends BaseTest {
         NewViewPage newNewViewPage = new HomePage(getDriver())
                 .clickNewView();
 
-        Assert.assertTrue(newNewViewPage.getTopPageHeader().isDisplayed());
+        Assert.assertTrue(newNewViewPage.topPageHeaderIsVisible());
         Assert.assertEquals(newNewViewPage.getPageHeaderLocation(), "(0, 0)");
     }
 
@@ -126,19 +125,71 @@ public class _HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testLogoIsViewedOnAllPages() {
-        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
-            getDriver().findElement(
-                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
-            WebElement logo = getDriver().findElement(HEADER_ICON);
-            Assert.assertTrue(logo.getAttribute("src").contains("/images/svgs/logo.svg"));
-            getDriver().navigate().back();
-        }
+    public void testLogoIconIsViewedOnMainPage() {
+        HomePage newHomePage = new HomePage(getDriver());
+
+        Assert.assertTrue(newHomePage.headerIconIsVisible());
+        Assert.assertTrue(newHomePage.getLogoIconAttribute("src").contains("/images/svgs/logo.svg"));
+    }
+
+    @Test
+    public void testLogoIconIsViewedOnNewItemPage() {
+        NewItemPage newItemPage = new HomePage(getDriver())
+                .clickNewItem();
+
+        Assert.assertTrue(newItemPage.headerIconIsVisible());
+        Assert.assertTrue(newItemPage.getLogoIconAttribute("src").contains("/images/svgs/logo.svg"));
+    }
+
+    @Test
+    public void testLogoIconIsViewedOnPeoplePage() {
+        PeoplePage newPeoplePage = new HomePage(getDriver())
+                .clickPeople();
+
+        Assert.assertTrue(newPeoplePage.headerIconIsVisible());
+        Assert.assertTrue(newPeoplePage.getLogoIconAttribute("src").contains("/images/svgs/logo.svg"));
+    }
+
+    @Test
+    public void testLogoIconIsViewedOnBuildHistoryPage() {
+        BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
+                .clickAndGoToBuildHistoryPage();
+
+        Assert.assertTrue(newBuildHistoryPage.headerIconIsVisible());
+        Assert.assertTrue(newBuildHistoryPage.getLogoIconAttribute("src").contains("/images/svgs/logo.svg"));
+    }
+
+    @Test
+    public void testLogoIconIsViewedOnManageJenkinsPage() {
+        ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
+                .clickManageJenkins();
+
+        Assert.assertTrue(newManageJenkinsPage.headerIconIsVisible());
+        Assert.assertTrue(newManageJenkinsPage.getLogoIconAttribute("src").contains("/images/svgs/logo.svg"));
+    }
+
+    @Test
+    public void testLogoIconIsViewedOnMyViewPage() {
+        MyViewPage newMyViewPage = new HomePage(getDriver())
+                .clickMyView();
+
+        Assert.assertTrue(newMyViewPage.headerIconIsVisible());
+        Assert.assertTrue(newMyViewPage.getLogoIconAttribute("src").contains("/images/svgs/logo.svg"));
+    }
+
+    @Test
+    public void testLogoIconIsViewedOnNewViewPage() {
+        NewViewPage newNewViewPage = new HomePage(getDriver())
+                .clickNewView();
+
+        Assert.assertTrue(newNewViewPage.headerIconIsVisible());
+        Assert.assertTrue(newNewViewPage.getLogoIconAttribute("src").contains("/images/svgs/logo.svg"));
     }
 
     @Test
     public void testHeaderLogoIsImage() {
         HomePage headerLogoIsImage = new HomePage(getDriver());
+
         Assert.assertEquals(headerLogoIsImage.getLogoIconTagName(), "img");
     }
 

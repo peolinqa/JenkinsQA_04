@@ -35,10 +35,6 @@ public abstract class BaseHeaderFooterPage extends BasePage {
         return pageHeader.getLocation().toString();
     }
 
-    public WebElement getTopPageHeader() {
-        return pageHeader;
-    }
-
     public String getPageHeaderCssValue(String value) {
         return pageHeader.getCssValue(value);
     }
@@ -47,5 +43,13 @@ public abstract class BaseHeaderFooterPage extends BasePage {
        apiFooter.click();
 
        return new ApiPage(getDriver());
+    }
+
+    public boolean headerIconIsVisible() {
+        return headerIcon.isDisplayed();
+    }
+
+    public boolean topPageHeaderIsVisible() {
+        return pageHeader.isDisplayed();
     }
 }
