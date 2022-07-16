@@ -19,6 +19,7 @@ public class BaseModel {
         if (wait == null) {
             wait = new WebDriverWait(driver, 5);
         }
+
         return wait;
     }
 
@@ -26,6 +27,7 @@ public class BaseModel {
         if (wait == null) {
             wait = new WebDriverWait(getDriver(), 20);
         }
+
         return wait;
     }
 
@@ -33,6 +35,7 @@ public class BaseModel {
         if(actions == null) {
             actions = new Actions(driver);
         }
+
         return actions;
     }
 

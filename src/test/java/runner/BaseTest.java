@@ -100,6 +100,7 @@ public abstract class BaseTest {
         if(actions == null) {
             actions = new Actions(getDriver());
         }
+
         return actions;
     }
 
