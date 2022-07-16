@@ -8,7 +8,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -31,10 +30,7 @@ public class _PipelineTest extends BaseTest {
     private static final By H1 = By.xpath("//h1");
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
     private static final By WARNING_MESSAGE = By.className("error");
-
-    private static final String NEW_USER_DESCRIPTION = TestUtils.getRandomStr();
     private final String namePipeline = pipelineName();
-
     private JavascriptExecutor javascriptExecutor;
     private SoftAssert asserts;
 
@@ -66,22 +62,6 @@ public class _PipelineTest extends BaseTest {
 
     private void homePageClick() {
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-    }
-
-
-    private void cleanAllPipelines() {
-        homePageClick();
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        getDriver().findElement(By.xpath("//a[@href='script']")).click();
-        getActions().moveToElement(getDriver().findElement(
-                        By.xpath("//div[@class='CodeMirror-scroll cm-s-default']")))
-                .click()
-                .sendKeys("for(j in jenkins.model.Jenkins.theInstance.getAllItems()) {j.delete()}")
-                .moveToElement(getDriver().findElement(SUBMIT_BUTTON))
-                .click()
-                .build()
-                .perform();
-        homePageClick();
     }
 
     private void createNewPipeline(String pipelineName) {
@@ -400,7 +380,6 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(check);
     }
 
-
     @Test
     public void testCreatePipelineWithNegativeValueQuietPeriod() {
 
@@ -416,21 +395,26 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(checkForValueErrorMessage, "This value should be larger than 0");
     }
 
-    @Ignore
     @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
 
-        createPipeline(pipelineName(), Boolean.TRUE);
+        final String name = pipelineName();
 
-        homePageClick();
-        getDriver().findElement(By.xpath("//span[text()='Manage Jenkins']")).click();
-        getDriver().findElement(By.xpath("//a[@href='script']")).click();
+        final boolean check = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectTypePipeline()
+                .setProjectName(name)
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickDashboardButton()
+                .clickManageJenkins()
+                .clickScriptConsole()
+                .useDeleteAllProjectScript()
+                .clickRunButton()
+                .goHome()
+                .checkProjectAfterDelete(name);
 
-        cleanAllPipelines();
-
-        String actualResult = getDriver().findElement(H1).getText();
-
-        Assert.assertEquals(actualResult, "Welcome to Jenkins!");
+        Assert.assertTrue(check);
     }
 
     @DataProvider(name = "errorMessageData")
@@ -789,7 +773,7 @@ public class _PipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickAddDescription()
-                .addTextDescriptionAndSave(NEW_USER_DESCRIPTION)
+                .addTextDescriptionAndSave(name)
                 .clearUserDescription()
                 .checkDescriptionValue();
 
