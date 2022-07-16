@@ -1,6 +1,5 @@
 import model.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -246,10 +245,11 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testCheckAdminPage() {
+        String userIDLine = new HomePage(getDriver())
+                .clickUserAndGoToUserPage()
+                .getJenkinsUserIDLine();
 
-        getDriver().findElement(MENU_SELECTOR_XPATH).click();
-
-        Assert.assertTrue(getDriver().findElement(By.cssSelector("#main-panel > div:nth-child(4)")).getText().contains("Jenkins User ID:"));
+        Assert.assertTrue(userIDLine.contains("Jenkins User ID:"));
     }
 
     @Test

@@ -1,9 +1,7 @@
 package model.base;
 
 import model.ApiPage;
-import model.RenamePage;
-import model.UserConfigurePage;
-import org.openqa.selenium.By;
+import model.UserStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,6 +16,9 @@ public abstract class BaseHeaderFooterPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='api/']")
     private WebElement apiFooter;
+
+    @FindBy(css = ".login")
+    private WebElement userPage;
 
     public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
@@ -51,5 +52,11 @@ public abstract class BaseHeaderFooterPage extends BasePage {
 
     public boolean topPageHeaderIsVisible() {
         return pageHeader.isDisplayed();
+    }
+
+    public UserStatusPage clickUserAndGoToUserPage() {
+        userPage.click();
+
+        return new UserStatusPage(getDriver());
     }
 }
