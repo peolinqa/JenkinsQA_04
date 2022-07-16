@@ -24,22 +24,34 @@ public class ManagePluginsPage extends BasePage {
         for (WebElement alltd : allPluginNamesInTabUpdates) {
             tdList.add(alltd.getAttribute("data").toLowerCase());
         }
+
         return tdList;
     }
 
+    public String getTextButtonArrow(){
+        return arrow.getText();
+    }
+
+    public ManagePluginsPage clickButtonArrow(){
+        arrow.click();
+
+        return this;
+    }
+
     public ManagePluginsPage sortAlphabeticallyFromAtoZ(){
-        if (arrow.getText().contains("  ↑")){
-            arrow.click();
+        if (getTextButtonArrow().contains("  ↑")){
+            clickButtonArrow();
         }
 
         return this;
     }
 
     public ManagePluginsPage changeSortAlphabeticallyFromZtoA(){
-        if (arrow.getText().contains("  ↓")){
-            arrow.click();
+        if (getTextButtonArrow().contains("  ↓")){
+            clickButtonArrow();
         }
 
         return this;
     }
+
 }

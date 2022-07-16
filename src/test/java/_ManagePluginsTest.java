@@ -15,8 +15,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class _ManagePluginsTest extends BaseTest {
-    private final By NAME_FILTER = By.xpath("//thead/tr/th/a[text()='Name']");
-    private final By NAME_ARROW = By.xpath("//thead/tr/th/a[text()='Name']/span");
     private int getListSize() {
         return getDriver().findElements(By.xpath("//table[@id='plugins']//tbody//tr")).size();
     }
@@ -24,16 +22,18 @@ public class _ManagePluginsTest extends BaseTest {
 
     @Test
     public void testManagePluginsCheckNameAndArrowUp() {
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.ManagePlugins.click(getDriver());
+        String nameArrowDown = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManagePlugins()
+                .getTextButtonArrow();
+
+        String nameArrowUp = new ManagePluginsPage(getDriver())
+                .clickButtonArrow()
+                .getTextButtonArrow();
 
         SoftAssert asserts = new SoftAssert();
-        asserts.assertTrue(getDriver().findElement(NAME_FILTER).isDisplayed());
-        asserts.assertEquals(getDriver().findElement(NAME_ARROW).getText(), "  ↓");
-
-        getDriver().findElement(NAME_FILTER).click();
-        asserts.assertEquals(getDriver().findElement(NAME_ARROW).getText(),
-                "  ↑");
+        asserts.assertTrue(nameArrowDown.contains("  ↓"));
+        asserts.assertTrue(nameArrowUp.contains("  ↑"));
         asserts.assertAll();
     }
 
@@ -51,6 +51,7 @@ public class _ManagePluginsTest extends BaseTest {
 
         Collections.sort(listInAlphabeticalOrder);
         Collections.sort(listReverseAlphabeticalOrder);
+
         Assert.assertEquals(listInAlphabeticalOrder, listReverseAlphabeticalOrder);
     }
 
