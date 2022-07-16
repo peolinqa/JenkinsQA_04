@@ -44,10 +44,11 @@ public class _OrganizationFolderTest extends BaseTest {
         WebElement folder1 = getDriver().findElement(FOLDER_ON_DASHBOARD);
         getActions().moveToElement(folder1, 20, 0).pause(500).click().build().perform();
         getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li/a[@href='/job/"
-                + VALID_FOLDER_NAME2 + "/delete']/span"))
+                        + VALID_FOLDER_NAME2 + "/delete']/span"))
                 .click();
         getDriver().findElement(YES_BUTTON).click();
     }
+
     private void clickMetricsButton() {
         By metricsButtonBy = By.xpath("//button[@id='yui-gen12-button']");
         boolean success = false;
@@ -66,7 +67,7 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void createOrganizationFolderTest () {
+    public void createOrganizationFolderTest() {
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME1)
@@ -79,7 +80,7 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Ignore
-    @Test (dependsOnMethods = "createOrganizationFolderTest")
+    @Test(dependsOnMethods = "createOrganizationFolderTest")
     public void renameOrganizationFolderTest() {
         String projectName = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME1)
@@ -112,11 +113,11 @@ public class _OrganizationFolderTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = {"createOrganizationFolderTest", "renameOrganizationFolderTest"})
     public void deleteOrganizationFolderTest() {
-        List <String> textFolderNames = new HomePage(getDriver())
-        .clickOrganizationFolderName(VALID_FOLDER_NAME2)
-        .deleteOrganizationFolder()
-        .deleteOrganizationFolderAndGoHomePage()
-        .getTextFolderNamesOnDashboard();
+        List<String> textFolderNames = new HomePage(getDriver())
+                .clickOrganizationFolderName(VALID_FOLDER_NAME2)
+                .deleteOrganizationFolder()
+                .deleteOrganizationFolderAndGoHomePage()
+                .getTextFolderNamesOnDashboard();
 
         Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_NAME2));
     }
@@ -164,19 +165,13 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Test
     public void createOrganizationFolderAbortCreationTest() {
-        getDriver().findElement(BUTTON_NEW_ITEM).click();
-        getDriver().findElement(INPUT_ITEM_NAME).sendKeys(VALID_FOLDER_NAME2);
-        getDriver().findElement(BUTTON_ORGANIZATION_FOLDER).click();
-        getDriver().findElement(By.linkText("Dashboard")).click();
+        List<String> textFolderNames = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(VALID_FOLDER_NAME2)
+                .setProjectTypeOrganizationFolder()
+                .goHome().getTextFolderNamesOnDashboard();
 
-        List<WebElement> foldersNames = getDriver().findElements(By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]"));
-        StringBuilder result = new StringBuilder();
-
-        for (WebElement name : foldersNames) {
-            result.append(name.getText());
-        }
-
-        Assert.assertFalse(result.toString().contains(VALID_FOLDER_NAME2));
+        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_NAME2));
     }
 
     @Test
@@ -261,6 +256,7 @@ public class _OrganizationFolderTest extends BaseTest {
         getDriver().findElement(By.xpath("//span[text()='Delete Organization Folder']")).click();
         getDriver().findElement(YES_BUTTON).click();
     }
+
     @Test
     public void testUserCanAddProperties() {
         getDriver().findElement(By.xpath("//span[text() = 'New Item']")).click();
