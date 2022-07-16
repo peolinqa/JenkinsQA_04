@@ -1,3 +1,5 @@
+import model.HomePage;
+import model.ManagePluginsPage;
 import model.PluginManagerPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -9,14 +11,12 @@ import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.ProjectUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class _ManagePluginsTest extends BaseTest {
     private final By NAME_FILTER = By.xpath("//thead/tr/th/a[text()='Name']");
     private final By NAME_ARROW = By.xpath("//thead/tr/th/a[text()='Name']/span");
-    private final By PLUGIN_NAMES = By.xpath("//tbody/tr/td[2]");
     private int getListSize() {
         return getDriver().findElements(By.xpath("//table[@id='plugins']//tbody//tr")).size();
     }
@@ -38,33 +38,20 @@ public class _ManagePluginsTest extends BaseTest {
     }
 
     @Test
-    public void testManagePluginsCheckNameFilter(){
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(getDriver());
-        ProjectUtils.ManageJenkins.ManagePlugins.click(getDriver());
+    public void testManagePluginsCheckNameFilter() {
+        List<String> listInAlphabeticalOrder = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManagePlugins()
+                .sortAlphabeticallyFromAtoZ()
+                .getAllPluginNamesInTabUpdates();
 
-        Assert.assertEquals(getDriver().findElement(NAME_ARROW).getText(), "  ↓");
+        List<String> listReverseAlphabeticalOrder = new ManagePluginsPage(getDriver())
+                .changeSortAlphabeticallyFromZtoA()
+                .getAllPluginNamesInTabUpdates();
 
-        List<WebElement> tdTable = getDriver().findElements(PLUGIN_NAMES);
-        List<String> tdList = new ArrayList<>();
-        for (WebElement alltd : tdTable) {
-            tdList.add(alltd.getAttribute("data").toLowerCase());
-        }
-
-        List noSortList = List.copyOf(tdList);
-        Collections.sort(tdList);
-        Assert.assertEquals(tdList,noSortList);
-
-        getDriver().findElement(NAME_FILTER).click();
-        Assert.assertEquals(getDriver().findElement(NAME_ARROW).getText(), "  ↑");
-
-        List<WebElement> tdTable2 = getDriver().findElements(PLUGIN_NAMES);
-        List<String> tdList2 = new ArrayList<>();
-        for (WebElement alltd2 : tdTable2) {
-            tdList2.add(alltd2.getAttribute("data").toLowerCase());
-        }
-
-        Collections.sort(tdList, Collections.reverseOrder());
-        Assert.assertEquals(tdList, tdList2);
+        Collections.sort(listInAlphabeticalOrder);
+        Collections.sort(listReverseAlphabeticalOrder);
+        Assert.assertEquals(listInAlphabeticalOrder, listReverseAlphabeticalOrder);
     }
 
     @Test

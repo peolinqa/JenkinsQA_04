@@ -1,7 +1,6 @@
 package model;
 
 import model.base.BaseDashboardPage;
-import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -29,6 +28,9 @@ public class ManageJenkinsPage extends BaseDashboardPage {
 
     @FindBy(xpath = "//dt[text()='Manage Credentials']")
     private WebElement manageCredentials;
+
+    @FindBy(xpath = "//dt[text()='Manage Plugins']")
+    private WebElement managePlugins;
 
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
@@ -80,6 +82,12 @@ public class ManageJenkinsPage extends BaseDashboardPage {
         ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
 
         return new ManageCredentialsPage(getDriver());
+    }
+
+    public ManagePluginsPage clickManagePlugins() {
+        managePlugins.click();
+
+        return new ManagePluginsPage(getDriver());
     }
 
 }
