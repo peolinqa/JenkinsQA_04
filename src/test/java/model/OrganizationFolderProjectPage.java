@@ -4,6 +4,8 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OrganizationFolderProjectPage extends BasePage {
 
@@ -15,6 +17,9 @@ public class OrganizationFolderProjectPage extends BasePage {
 
     @FindBy(xpath = "//span[contains(text(),'Delete Organization Folder')]")
     private WebElement deleteButton;
+
+    @FindBy(className = "warning")
+    private WebElement warningMessage;
 
     public OrganizationFolderProjectPage(WebDriver driver) {
         super(driver);
@@ -35,5 +40,13 @@ public class OrganizationFolderProjectPage extends BasePage {
         deleteButton.click();
 
         return new DeleteOrganizationFolderPage(getDriver());
+    }
+
+    public HashMap<String, String> getDisabledProjectWarningMessage() {
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("Warning Message", warningMessage.getText().substring(0, warningMessage.getText().indexOf(" \n")));
+        hashMap.put("Message Color", warningMessage.getCssValue("color"));
+
+        return hashMap;
     }
 }

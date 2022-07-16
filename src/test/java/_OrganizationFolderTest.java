@@ -9,13 +9,14 @@ import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-
+import java.util.HashMap;
 import java.util.List;
 
 public class _OrganizationFolderTest extends BaseTest {
 
     private final String VALID_FOLDER_NAME1 = "Organization Test";
     private final String VALID_FOLDER_NAME2 = "folder1";
+    private static final String DISABLED_FOLDER_NAME = "DisabledFolderName";
     private final By BUTTON_NEW_ITEM = By.linkText("New Item");
     private final By INPUT_ITEM_NAME = By.id("name");
     private final By BUTTON_ORGANIZATION_FOLDER = By.xpath(
@@ -124,24 +125,18 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Test
     public void createDisableOrganizationFolderTest() {
-        fillNameAndClickOrganizationFolder();
-        getDriver().findElement(OK_BUTTON).click();
-        WebElement prompt1 = getDriver().findElement(By.xpath(
-                "//div[@class='jenkins-form-label help-sibling']/a[@tooltip='Help for feature: Display Name']"));
-        WebElement prompt2 = getDriver().findElement(By.xpath(
-                "//div[@class='jenkins-form-label help-sibling']/a[@tooltip='Help for feature: Script Path']"));
 
-        Assert.assertEquals(prompt1.getAttribute("title"), "Help for feature: Display Name");
-        Assert.assertEquals(prompt2.getAttribute("title"), "Help for feature: Script Path");
+        HashMap<String, String> warningMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(DISABLED_FOLDER_NAME)
+                .setProjectTypeOrganizationFolder()
+                .clickOkAndGoToConfig()
+                .clickDisableCheckBox()
+                .saveConfigAndGoToProject()
+                .getDisabledProjectWarningMessage();
 
-        getDriver().findElement(By.xpath("//input[@name='_.disabled']")).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        WebElement warning = getDriver().findElement(By.id("enable-project"));
-
-        Assert.assertTrue(warning.isDisplayed());
-        Assert.assertEquals(warning.getCssValue("color").toString(), "rgba(196, 160, 0, 1)");
-
-        deleteFolder();
+        Assert.assertEquals(warningMessage.get("Warning Message"), "This Organization Folder is currently disabled");
+        Assert.assertEquals(warningMessage.get("Message Color"), "rgba(196, 160, 0, 1)");
     }
 
     @Test
