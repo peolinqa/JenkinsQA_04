@@ -22,12 +22,14 @@ public class UserStatusPage extends BasePage {
     @FindBy(xpath="//div[@id='description']/div")
     private WebElement userDescription;
 
+    @FindBy(xpath = "//div[@id='main-panel']/div[2]")
+    private WebElement jenkinsUserID;
+
     public UserStatusPage(WebDriver driver) {
         super(driver);
     }
 
     public String getUserName() {
-
         return userName.getText();
     }
 
@@ -49,5 +51,9 @@ public class UserStatusPage extends BasePage {
 
     public String getUserDescriptionText() {
         return userDescription.getText();
+    }
+
+    public String getJenkinsUserIDLine() {
+        return jenkinsUserID.getText();
     }
 }
