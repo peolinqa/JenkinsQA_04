@@ -5,7 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +28,6 @@ public class BuildHistoryPage extends BaseBuildPage {
     private WebElement consoleButton;
 
     public List<String> collectListBuildHistory() {
-
         return listBuildHistory.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
@@ -39,7 +37,7 @@ public class BuildHistoryPage extends BaseBuildPage {
 
     public BuildHistoryPage clickBuildSpanMenu(String projectName, String buildName) {
         getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a[@href='/job/" + projectName + "/" + buildName + "/']"))).perform();
+                By.xpath(String.format("//a[@href='/job/%s/%s/']", projectName, buildName)))).perform();
         getDriver().findElement(By.id("menuSelector")).click();
 
         return this;

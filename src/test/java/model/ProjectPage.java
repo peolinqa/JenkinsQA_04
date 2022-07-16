@@ -1,7 +1,6 @@
 package model;
 
 import model.base.BaseDashboardPage;
-import model.base.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -67,10 +66,6 @@ public class ProjectPage extends BaseDashboardPage {
         return projectName.getText().substring("Project ".length());
     }
 
-    public String getFolderName() {
-        return folderName.getText();
-    }
-
     public boolean isProjectStatus(String value) {
         return getWait20().until(ExpectedConditions.attributeToBe(
                 By.cssSelector(".tobsTable-body .job"), "class", value));
@@ -104,12 +99,10 @@ public class ProjectPage extends BaseDashboardPage {
     }
 
     public boolean checkDescriptionValue() {
-
         return descriptionValue.getText().isEmpty();
     }
 
     public ProjectPage clickDeletePipelineButton() {
-
         deletePipelineButton.click();
         getDriver().switchTo().alert().accept();
 
@@ -128,7 +121,7 @@ public class ProjectPage extends BaseDashboardPage {
 
     public ProjectPage waitForBuildNumber(int number) {
         getWait20().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath("//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name' and .='#" + number + "']")));
+                By.xpath(String.format("//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name' and .='#%s']", number))));
 
         return this;
     }
@@ -165,14 +158,6 @@ public class ProjectPage extends BaseDashboardPage {
         }
 
         return buildNumberList;
-    }
-
-    public WebElement getIconFolderDisabled() {
-        return iconFolderDisabled;
-    }
-
-    public WebElement getMessageDisabled() {
-        return messageDisabled;
     }
 
     public BuildWithParametersPage clickBuildWithParameters() {

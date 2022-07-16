@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-
 import java.util.List;
 
 public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
@@ -49,14 +48,19 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
     @FindBy(className = "hudson_model_FreeStyleProject")
     private WebElement freestyleItem;
+
     @FindBy(className = "org_jenkinsci_plugins_workflow_job_WorkflowJob")
     private WebElement pipelineItem;
+
     @FindBy(className = "hudson_matrix_MatrixProject")
     private WebElement multiConfigurationItem;
+
     @FindBy(className = "com_cloudbees_hudson_plugins_folder_Folder")
     private WebElement folderItem;
+
     @FindBy(className = "org_jenkinsci_plugins_workflow_multibranch_WorkflowMultiBranchProject")
     private WebElement multiBranchPipelineItem;
+
     @FindBy(className = "jenkins_branch_OrganizationFolder")
     private WebElement organizationFolderItem;
 
@@ -215,8 +219,6 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
     }
 
     public String getHelpInputText() {
-
         return helpInputText.getText();
     }
-
 }

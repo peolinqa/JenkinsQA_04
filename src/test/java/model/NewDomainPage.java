@@ -23,5 +23,4 @@ public class NewDomainPage extends BaseHeaderFooterPage {
 
         return new CreatedDomainPage(getDriver());
     }
-
 }

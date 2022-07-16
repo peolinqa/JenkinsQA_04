@@ -4,11 +4,11 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class ManagePluginsPage extends BasePage {
+
     @FindBy(xpath = "//tbody/tr/td[2]")
     private List<WebElement> allPluginNamesInTabUpdates;
 
@@ -53,5 +53,4 @@ public class ManagePluginsPage extends BasePage {
 
         return this;
     }
-
 }

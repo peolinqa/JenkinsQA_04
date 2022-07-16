@@ -74,12 +74,10 @@ public class MultibranchPipelineConfigPage extends BasePage {
     }
 
     public String getValidateText() {
-
         return getWait20().until(ExpectedConditions.presenceOfElementLocated(By.className("ok"))).getText();
     }
 
     public String getTextRepositoryUrl() {
-
         return repositoryUrl.getAttribute("value");
     }
 }

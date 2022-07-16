@@ -1,12 +1,10 @@
 package model;
 
 import model.base.BaseDashboardPage;
-import model.base.BasePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,7 +166,6 @@ public class PipelineConfigPage extends BaseDashboardPage {
     }
 
     public int collectDropDownMenu() {
-
         return dropDownMenuInTabPipeline.size();
     }
 
@@ -303,6 +300,7 @@ public class PipelineConfigPage extends BaseDashboardPage {
 
     public PipelineConfigPage clickCheckboxDiscardOldBuilds() {
         checkboxDiscardOldBuilds.click();
+
         return this;
     }
 
@@ -327,6 +325,7 @@ public class PipelineConfigPage extends BaseDashboardPage {
                     .replace("Help for feature: ", "").equals(
                             listOfCheckBoxWithHelps.get(i).getText()));
         }
+
         return result;
     }
 
@@ -368,7 +367,6 @@ public class PipelineConfigPage extends BaseDashboardPage {
 
     public String verificationPeriodErrorMessage() {
         String errorMessageText = periodErrorMessage.getText();
-
         saveConfigAndGoToProject();
 
         return errorMessageText;

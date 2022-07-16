@@ -16,6 +16,7 @@ public class DeleteAgentPage extends BasePage {
 
     public ManageNodesAndCloudsPage confirmToDeleteComputerNode() {
         yesButton.click();
+
         return new ManageNodesAndCloudsPage(getDriver());
     }
 }

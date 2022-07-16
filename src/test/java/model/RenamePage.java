@@ -4,7 +4,6 @@ import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import java.util.List;
 
 public class RenamePage extends BaseHeaderFooterPage {
@@ -30,6 +29,7 @@ public class RenamePage extends BaseHeaderFooterPage {
 
     public ErrorPage clickRenameAndGoToErrorPage() {
         renameButton.click();
+
         return new ErrorPage(getDriver());
     }
 

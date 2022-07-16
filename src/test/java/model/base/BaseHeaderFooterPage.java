@@ -41,9 +41,9 @@ public abstract class BaseHeaderFooterPage extends BasePage {
     }
 
     public ApiPage goToApiPage() {
-       apiFooter.click();
+        apiFooter.click();
 
-       return new ApiPage(getDriver());
+        return new ApiPage(getDriver());
     }
 
     public boolean headerIconIsVisible() {

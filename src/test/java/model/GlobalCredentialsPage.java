@@ -24,7 +24,6 @@ public class GlobalCredentialsPage extends BaseHeaderFooterPage {
     }
 
     public String getTableText(){
-
         return sortablePaneBigtable.getText();
     }
 }

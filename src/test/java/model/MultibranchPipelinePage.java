@@ -1,7 +1,6 @@
 package model;
 
 import model.base.BaseDashboardPage;
-import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -75,5 +74,4 @@ public class MultibranchPipelinePage extends BaseDashboardPage {
     public WebElement getMessageDisabled() {
         return messageDisabled;
     }
-
-    }
+}

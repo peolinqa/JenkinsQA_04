@@ -28,16 +28,19 @@ public class PeoplePage extends BaseHeaderFooterPage {
 
     public PeoplePage setSizeS() {
         iconSizeSButton.click();
+
         return this;
     }
 
     public PeoplePage setSizeM() {
         iconSizeMButton.click();
+
         return this;
     }
 
     public PeoplePage setSizeL() {
         iconSizeLButton.click();
+
         return this;
     }
 

@@ -56,7 +56,6 @@ public class NewViewPage extends BaseHeaderFooterPage {
     }
 
     public String getErrorText() {
-
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.className("error"))).getText();
     }
 }

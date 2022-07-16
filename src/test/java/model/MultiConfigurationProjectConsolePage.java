@@ -15,7 +15,6 @@ public class MultiConfigurationProjectConsolePage extends BaseBuildPage {
     }
 
     public boolean tooltipStatusSuccessIsDisplayed() {
-
         return tooltipStatusSuccess.isDisplayed();
     }
 }

@@ -4,7 +4,6 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-
 import java.util.List;
 import java.util.Set;
 
@@ -74,36 +73,6 @@ public class CreateUserPage extends BasePage {
         return page;
     }
 
-    public CreateUserPage clearUserName() {
-        userNameField.clear();
-
-        return this;
-    }
-
-    public CreateUserPage clearPassword() {
-        passwordField.clear();
-
-        return this;
-    }
-
-    public CreateUserPage clearConfirmPassword() {
-        confirmPasswordField.clear();
-
-        return this;
-    }
-
-    public CreateUserPage clearFullName() {
-        fullNameField.clear();
-
-        return this;
-    }
-
-    public CreateUserPage clearEmailAddress() {
-        emailAddressField.clear();
-
-        return this;
-    }
-
     public String getErrorMessage() {
 
         return errorMessage.getText();
@@ -116,12 +85,10 @@ public class CreateUserPage extends BasePage {
     }
 
     public String getCssValue(String cssProperty) {
-
         return errorMessage.getCssValue(cssProperty);
     }
 
     public String getAttributeFullName() {
-
         return fullNameField.getAttribute("value");
     }
 }

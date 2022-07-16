@@ -17,6 +17,7 @@ public class BuildDeletePage extends BaseBuildPage {
     @Override
     public String getPageHeader() {
         String text = header.getText();
+
         return text.substring(0, text.indexOf('?') + 1);
     }
 }

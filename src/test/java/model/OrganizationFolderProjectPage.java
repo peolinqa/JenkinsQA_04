@@ -21,7 +21,6 @@ public class OrganizationFolderProjectPage extends BasePage {
     }
 
     public String getProjectName() {
-
         return projectName.getText().trim();
     }
 
