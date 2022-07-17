@@ -4,16 +4,28 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ManagePluginsPage extends BasePage {
-
     @FindBy(xpath = "//tbody/tr/td[2]")
     private List<WebElement> allPluginNamesInTabUpdates;
 
     @FindBy(xpath = "//thead/tr/th/a[text()='Name']/span")
     private WebElement arrow;
+
+    @FindBy(xpath = "//a[contains(text(),'Updates')]")
+    private WebElement buttonUpdates;
+
+    @FindBy(xpath = "//a[contains(text(),'Available')]")
+    private WebElement buttonAvailable;
+
+    @FindBy(xpath = "//a[contains(text(),'Installed')]")
+    private WebElement buttonInstalled;
+
+    @FindBy(xpath = "//table[@id='plugins']//tbody//tr")
+    private List<WebElement> listPlugins;
 
     public ManagePluginsPage(WebDriver driver) {
         super(driver);
@@ -53,4 +65,27 @@ public class ManagePluginsPage extends BasePage {
 
         return this;
     }
+
+    public ManagePluginsPage clickButtonUpdates(){
+        buttonUpdates.click();
+
+        return this;
+    }
+
+    public ManagePluginsPage clickButtonAvailable(){
+        buttonAvailable.click();
+
+        return this;
+    }
+
+    public ManagePluginsPage clickButtonInstalled(){
+        buttonInstalled.click();
+
+        return this;
+    }
+
+    public int countPlugins(){
+        return listPlugins.size();
+    }
+
 }
