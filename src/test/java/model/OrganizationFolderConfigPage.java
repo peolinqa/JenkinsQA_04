@@ -10,6 +10,9 @@ public class OrganizationFolderConfigPage extends BasePage {
     @FindBy(css = "#yui-gen17")
     private WebElement saveButton;
 
+    @FindBy(name = "_.disabled")
+    private WebElement disableCheckBox;
+
     public OrganizationFolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -18,5 +21,11 @@ public class OrganizationFolderConfigPage extends BasePage {
         saveButton.click();
 
         return new OrganizationFolderProjectPage(getDriver());
+    }
+
+    public OrganizationFolderConfigPage clickDisableCheckBox() {
+        disableCheckBox.click();
+
+        return this;
     }
 }
