@@ -65,23 +65,14 @@ public class _PipelineTest extends BaseTest {
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
     }
 
+    @Deprecated
     private void createNewPipeline(String pipelineName) {
         createPipeline(pipelineName, Boolean.TRUE);
         getDriver().findElement(By.name("description")).sendKeys("Test pipeline");
         getDriver().findElement(By.id("yui-gen6-button")).click();
     }
 
-    private void deleteCreatedPipeline(String pipelineName) {
-        getDriver().findElement(By.xpath("//a[normalize-space(text())='Dashboard']")).click();
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a[@href='job/" + pipelineName + "/']"))).build().perform();
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//div[@id='menuSelector']"))).click().build().perform();
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a/span[contains(text(),'Delete Pipeline')]"))).click().build().perform();
-        getDriver().switchTo().alert().accept();
-    }
-
+    @Deprecated
     private void goToPipelinePage(String pipelineName) {
         getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[@href='/']")).click();
         getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
@@ -464,49 +455,21 @@ public class _PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testPipelineBuildNow() {
-        String[] buildSuccessfulPermalinks = new String[]{"Last build", "Last stable build", "Last successful build",
-                "Last completed build"};
-        String[] expectedBuildNumbers = new String[]{"#3", "#2", "#1"};
+    public void testPermalinksTextAfterPipelineBuildNow() {
+        final String name = pipelineName();
 
-        String pipelineName = pipelineName();
-        createNewPipeline(pipelineName);
-        goToPipelinePage(pipelineName);
+        String[] permalinksText = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickBuildButtonWait()
+                .refreshPage()
+                .permalinksText();
 
-        for (int i = 0; i < 3; i++) {
-            getDriver().findElement(By.xpath("//a[@href='/job/" + pipelineName + "/build?delay=0sec']"))
-                    .click();
-            getWait20().until(ExpectedConditions.elementToBeClickable(
-                    By.xpath("//td[@class='build-row-cell']//a[contains(text(),'#" + (i + 1) + "')]")));
-        }
-
-        getDriver().navigate().refresh();
-
-        List<WebElement> permalinks = getDriver().findElements(
-                By.xpath("//ul[@class='permalinks-list']/li"));
-        ArrayList<String> permalinksTexts = new ArrayList<>();
-        for (int i = 0; i < permalinks.size(); i++) {
-            permalinksTexts.add(permalinks.get(i).getText());
-            Assert.assertTrue((permalinksTexts.get(i)).contains(buildSuccessfulPermalinks[i]));
-        }
-
-        List<WebElement> buildTableLinks = getDriver().findElements(
-                By.xpath("//a[contains(@class,'display-name')]"));
-
-        String[] buildNumbers = new String[3];
-        for (int j = 0; j < buildTableLinks.size(); j++) {
-            buildNumbers[j] = buildTableLinks.get(j).getText();
-        }
-
-        asserts.assertTrue(getDriver().findElement(
-                By.xpath("//h2[normalize-space(.)='Permalinks']")).isDisplayed());
-        asserts.assertTrue(getDriver().findElement(
-                By.xpath("//div[contains(@class,'build-history')]")).isDisplayed());
-        asserts.assertEquals(3, buildTableLinks.size());
-        asserts.assertEquals(buildNumbers, expectedBuildNumbers);
-        asserts.assertAll();
-
-        deleteCreatedPipeline(pipelineName);
+        Assert.assertEquals(permalinksText, new String[]{"Last build", "Last stable build",
+                "Last successful build", "Last completed build"});
     }
 
     @Test

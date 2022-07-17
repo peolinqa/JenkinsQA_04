@@ -58,6 +58,12 @@ public class ProjectPage extends BaseDashboardPage {
     @FindBy(xpath = "//a[@href ='lastBuild/']")
     private WebElement lastBuildButton;
 
+    @FindBy(xpath = "//ul[@class='permalinks-list']/li")
+    private List<WebElement> permalinks;
+
+    @FindBy(xpath = "//td[@class='build-row-cell']//a[contains(text(),'#')]")
+    private WebElement buildIcon;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -73,6 +79,13 @@ public class ProjectPage extends BaseDashboardPage {
 
     public ProjectPage clickBuildButton() {
         buildButton.click();
+
+        return this;
+    }
+
+    public ProjectPage clickBuildButtonWait() {
+        buildButton.click();
+        getWait20().until(ExpectedConditions.elementToBeClickable(buildIcon));
 
         return this;
     }
@@ -176,5 +189,17 @@ public class ProjectPage extends BaseDashboardPage {
         parameters.click();
 
         return new BuildParametersPage(getDriver());
+    }
+
+    public String[] permalinksText() {
+        final int substringLength = "build".length();
+        String[] permalinksText = new String[permalinks.size()];
+
+        for (int i = 0; i < permalinksText.length; i++) {
+            permalinksText[i] = permalinks.get(i).getText().substring(0,
+                    permalinks.get(i).getText().indexOf("build") + substringLength);
+        }
+
+        return permalinksText;
     }
 }
