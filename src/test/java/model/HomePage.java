@@ -1,7 +1,6 @@
 package model;
 
 import model.base.BaseDashboardPage;
-import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.JavascriptExecutor;
@@ -122,22 +121,22 @@ public class HomePage extends BaseDashboardPage {
 
     public OrganizationFolderProjectPage clickOrganizationFolderName(String name) {
         ProjectUtils.openProject(getDriver(), name);
+
         return new OrganizationFolderProjectPage(getDriver());
     }
 
     public List<String> getTextFolderNamesOnDashboard() {
-        List<String> textFolderNames = TestUtils.getTextFromList(getDriver(), By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]"));
+        List<String> textFolderNames = TestUtils.getTextFromList(getDriver(),
+                By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]"));
 
         return textFolderNames;
     }
 
     public List<String> getActualDashboardProject() {
-
         return listAllActualProjectNameHomePage.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public boolean checkProjectAfterDelete(String projectName) {
-
         boolean result = false;
 
         List<WebElement> actual = h1;
@@ -159,6 +158,7 @@ public class HomePage extends BaseDashboardPage {
                 }
             }
         }
+
         return result;
     }
 
@@ -194,11 +194,13 @@ public class HomePage extends BaseDashboardPage {
                 el.click();
             }
         }
+
         return this;
     }
 
     public HomePage clickRefreshPage() {
         getDriver().navigate().refresh();
+
         return this;
     }
 
@@ -210,7 +212,7 @@ public class HomePage extends BaseDashboardPage {
 
     public MyViewPage clickNameOfViewOnBreadcrumbs(String name) {
         triangleOnBreadcrumbs.click();
-        getDriver().findElement(By.xpath("//li/a[contains(@href, '" + name + "')]")).click();
+        getDriver().findElement(By.xpath(String.format("//li/a[contains(@href, '%s')]", name ))).click();
 
         return new MyViewPage(getDriver());
     }
@@ -222,13 +224,12 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public MyViewPage clickNameOfViewOnTabBar(String name) {
-        getDriver().findElement(By.xpath("//div/a[contains(text(), '" + name + "')]")).click();
+        getDriver().findElement(By.xpath(String.format("//div/a[contains(text(), '%s')]", name))).click();
 
         return new MyViewPage(getDriver());
     }
 
     public List<String> getNamesOfViewsOnBreadcrumbs() {
-
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
@@ -293,7 +294,6 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public boolean isItemPresent(String name) {
-
       boolean isPresent = false;
 
       List<WebElement> projectsOnDashboard = itemsNames;
@@ -319,7 +319,6 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public String getSystemMessageText() {
-
         return getWait5().until(ExpectedConditions.visibilityOf(systemMessage)).getText();
     }
 
@@ -332,7 +331,6 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public int getSizeOfProjectLinkByName(String name) {
-
         return getDriver().findElements(By.xpath(String.format(PROJECT_LINK_ID_XPATH, name))).size();
     }
 
@@ -387,6 +385,7 @@ public class HomePage extends BaseDashboardPage {
     public SearchPage sendTextSearchPanel(String text){
        searchBox.clear();
        searchBox.sendKeys(text + Keys.ENTER);
+
        return new SearchPage(getDriver());
     }
 }

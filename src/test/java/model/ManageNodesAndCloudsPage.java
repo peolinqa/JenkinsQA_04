@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
-
 import java.util.List;
 
 public class ManageNodesAndCloudsPage extends BasePage {

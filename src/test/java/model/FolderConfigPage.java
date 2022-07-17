@@ -21,7 +21,6 @@ public class FolderConfigPage extends BasePage {
     private WebElement folderDescriptionPreviewText;
 
     public FolderConfigPage(WebDriver driver) {
-
         super(driver);
     }
 
@@ -38,7 +37,6 @@ public class FolderConfigPage extends BasePage {
     }
 
     public String getFolderDescriptionPreviewText() {
-
         return folderDescriptionPreviewText.getText();
     }
 
@@ -50,7 +48,7 @@ public class FolderConfigPage extends BasePage {
 
     public FolderConfigPage openFolderMenuSelector(String folderName){
         getActions().moveToElement(getDriver().findElement((
-                By.xpath("//a[@href='/job/" + folderName + "/']")))).build().perform();
+                By.xpath(String.format("//a[@href='/job/%s/']", folderName))))).build().perform();
         getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
 
         return this;

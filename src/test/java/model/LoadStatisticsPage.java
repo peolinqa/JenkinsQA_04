@@ -39,32 +39,26 @@ public class LoadStatisticsPage extends BasePage {
     }
 
     public String getShortTooltip() {
-
         return shortButton.getAttribute("tooltip");
     }
 
     public String getMediumTooltip() {
-
         return mediumButton.getAttribute("tooltip");
     }
 
     public String getLongTooltip() {
-
         return longButton.getAttribute("tooltip");
     }
 
     public String getShortTagName() {
-
         return shortButton.getTagName();
     }
 
     public String getMediumTagName() {
-
         return mediumButton.getTagName();
     }
 
     public String getLongTagName() {
-
         return longButton.getTagName();
     }
 }

@@ -51,7 +51,6 @@ public class FreestylePage extends BaseDashboardPage {
 
     public String _disableButton() {
         return multiButton.getText();
-
     }
 
     public FreestylePage clickMultiButton() {
@@ -82,6 +81,7 @@ public class FreestylePage extends BaseDashboardPage {
     public HomePage clickDeleteProject() {
         deleteProjectButton.click();
         getDriver().switchTo().alert().accept();
+
         return new HomePage(getDriver());
     }
 

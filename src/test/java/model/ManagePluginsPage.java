@@ -15,6 +15,18 @@ public class ManagePluginsPage extends BasePage {
     @FindBy(xpath = "//thead/tr/th/a[text()='Name']/span")
     private WebElement arrow;
 
+    @FindBy(xpath = "//a[contains(text(),'Updates')]")
+    private WebElement buttonUpdates;
+
+    @FindBy(xpath = "//a[contains(text(),'Available')]")
+    private WebElement buttonAvailable;
+
+    @FindBy(xpath = "//a[contains(text(),'Installed')]")
+    private WebElement buttonInstalled;
+
+    @FindBy(xpath = "//table[@id='plugins']//tbody//tr")
+    private List<WebElement> listPlugins;
+
     public ManagePluginsPage(WebDriver driver) {
         super(driver);
     }
@@ -24,22 +36,56 @@ public class ManagePluginsPage extends BasePage {
         for (WebElement alltd : allPluginNamesInTabUpdates) {
             tdList.add(alltd.getAttribute("data").toLowerCase());
         }
+
         return tdList;
     }
 
+    public String getTextButtonArrow(){
+        return arrow.getText();
+    }
+
+    public ManagePluginsPage clickButtonArrow(){
+        arrow.click();
+
+        return this;
+    }
+
     public ManagePluginsPage sortAlphabeticallyFromAtoZ(){
-        if (arrow.getText().contains("  ↑")){
-            arrow.click();
+        if (getTextButtonArrow().contains("  ↑")){
+            clickButtonArrow();
         }
 
         return this;
     }
 
     public ManagePluginsPage changeSortAlphabeticallyFromZtoA(){
-        if (arrow.getText().contains("  ↓")){
-            arrow.click();
+        if (getTextButtonArrow().contains("  ↓")){
+            clickButtonArrow();
         }
 
         return this;
     }
+
+    public ManagePluginsPage clickButtonUpdates(){
+        buttonUpdates.click();
+
+        return this;
+    }
+
+    public ManagePluginsPage clickButtonAvailable(){
+        buttonAvailable.click();
+
+        return this;
+    }
+
+    public ManagePluginsPage clickButtonInstalled(){
+        buttonInstalled.click();
+
+        return this;
+    }
+
+    public int countPlugins(){
+        return listPlugins.size();
+    }
+
 }

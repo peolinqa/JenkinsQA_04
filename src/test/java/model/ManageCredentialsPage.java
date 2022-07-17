@@ -87,12 +87,10 @@ public class ManageCredentialsPage extends BasePage {
     }
 
     public String getAttributeClass() {
-
         return attributeClass.getAttribute("class");
     }
 
     public String[] getChangeIconButtonsBGColors() {
-
         return new String[] {
                 smallChangeIconButtonBGColor.getCssValue("background-color"),
                 mediumChangeIconButtonBGColor.getCssValue("background-color"),

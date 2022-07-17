@@ -5,9 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-
 public class DeletePipelineProjectPage extends BasePage {
-
 
     public DeletePipelineProjectPage(WebDriver driver) {
         super(driver);

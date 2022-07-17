@@ -17,7 +17,6 @@ public class SearchPage extends HomePage {
     private WebElement searchMainPanel;
 
     public String getSearchMessageText() {
-
         return searchMessage.getText();
     }
 

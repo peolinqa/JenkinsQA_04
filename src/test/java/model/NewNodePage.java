@@ -11,7 +11,7 @@ public class NewNodePage extends BasePage {
     private WebElement nodeNameField;
 
     @FindBy(xpath = "//label[text()='Permanent Agent']")
-   private WebElement permanentAgentRadioButton;
+    private WebElement permanentAgentRadioButton;
 
     @FindBy(xpath = "//input[@id='ok']")
     private WebElement createButton;

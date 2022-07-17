@@ -43,7 +43,6 @@ public class ConfigureSystemPage extends ManageJenkinsPage {
     }
 
     public String getPreviewSystemMessageText() {
-
         return textareaPreview.getText();
     }
 }

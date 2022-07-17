@@ -15,7 +15,6 @@ public class CreatedDomainPage extends BaseHeaderFooterPage {
     }
 
     public String getDomainHeader(){
-
         return headerDomain.getText();
     }
 }

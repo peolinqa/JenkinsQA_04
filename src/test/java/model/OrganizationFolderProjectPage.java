@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.HashMap;
-import java.util.Map;
 
 public class OrganizationFolderProjectPage extends BasePage {
 
@@ -26,7 +25,6 @@ public class OrganizationFolderProjectPage extends BasePage {
     }
 
     public String getProjectName() {
-
         return projectName.getText().trim();
     }
 

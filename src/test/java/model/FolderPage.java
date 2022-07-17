@@ -23,17 +23,14 @@ public class FolderPage extends BasePage {
     private WebElement yesButton;
 
     public FolderPage(WebDriver driver) {
-
         super(driver);
     }
 
     public String getFolderName() {
-
         return folderName.getText();
     }
 
     public String getFolderDescription() {
-
         return folderDescription.getText();
     }
 

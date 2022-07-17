@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.ProjectUtils;
-
 import java.util.List;
 
 public class MultiConfigurationProjectPage extends BaseBuildPage {
@@ -44,7 +43,6 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
     }
 
     public WebElement getTooltipStatus() {
-
         return getWait5().until(ExpectedConditions.visibilityOf(tooltipStatus));
     }
 
@@ -73,7 +71,6 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
     }
 
     public String getDescription() {
-
         return textDescription.getText();
     }
 
@@ -105,6 +102,4 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
     }
-
-
 }

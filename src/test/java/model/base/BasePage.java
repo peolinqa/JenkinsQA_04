@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 import runner.ProjectUtils;
-
 import java.util.List;
 
 public abstract class BasePage extends BaseModel {

@@ -15,8 +15,8 @@ public class JenkinsCLIExamplesPage extends BasePage {
     }
 
     public boolean getCommandExample(String commandName) {
-
         String text = commandExample.getText();
+
         return text.contains("-webSocket " + commandName);
     }
 }

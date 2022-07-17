@@ -15,7 +15,6 @@ public class MultibranchPipelineConsolePage extends BasePage {
     }
 
     public String getConsoleText() {
-
         return consoleText.getText();
     }
 }

@@ -32,6 +32,7 @@ public class JenkinsCLIPage extends BasePage {
 
     public JenkinsCLIExamplesPage clickCommandElement(int i) {
         commandName.get(i).click();
+
         return new JenkinsCLIExamplesPage(getDriver());
     }
 

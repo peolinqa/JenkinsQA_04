@@ -32,6 +32,9 @@ public class ManageJenkinsPage extends BaseDashboardPage {
     @FindBy(xpath = "//dt[text()='Manage Plugins']")
     private WebElement managePlugins;
 
+    @FindBy(xpath = "//a[@href='script']")
+    private WebElement scriptConsole;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -88,6 +91,12 @@ public class ManageJenkinsPage extends BaseDashboardPage {
         managePlugins.click();
 
         return new ManagePluginsPage(getDriver());
+    }
+
+    public ManageScriptConsolePage clickScriptConsole() {
+        scriptConsole.click();
+
+        return new ManageScriptConsolePage(getDriver());
     }
 
 }
