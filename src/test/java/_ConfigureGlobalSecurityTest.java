@@ -3,10 +3,10 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
 import java.util.List;
 
 public class _ConfigureGlobalSecurityTest extends BaseTest {
+
     @Test
     public void test9ChaptersDisplayedOnGlobalSecurityPage() {
         List<WebElement> chapters = new HomePage(getDriver())
@@ -67,5 +67,4 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
 
         Assert.assertEquals(actualAmountTooltip, 17);
     }
-
 }

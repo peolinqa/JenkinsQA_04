@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,6 +28,7 @@ public class _DashboardTest extends BaseTest {
             "Project health is over 40% and up to 60%. You can hover the mouse over the project’s icon for a more detailed explanation.",
             "Project health is over 20% and up to 40%. You can hover the mouse over the project’s icon for a more detailed explanation.",
             "Project health is 20% or less. You can hover the mouse over the project’s icon for a more detailed explanation.");
+
     private static final List<String> EXPECTED_ITEMS = List.of(
             "New Item",
             "People",
@@ -54,6 +54,7 @@ public class _DashboardTest extends BaseTest {
                 .filter(s -> !s.getText().isEmpty())
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+
         Assert.assertEquals(actualItems, EXPECTED_ITEMS);
     }
 

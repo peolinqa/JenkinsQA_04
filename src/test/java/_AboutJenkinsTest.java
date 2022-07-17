@@ -1,13 +1,8 @@
 import model.HomePage;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.TestUtils;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class _AboutJenkinsTest extends BaseTest {
     @Test
@@ -51,5 +46,4 @@ public class _AboutJenkinsTest extends BaseTest {
 
         Assert.assertTrue(TestUtils.getOpenTabTitles(getDriver()).contains("ANTLR"));
     }
-
 }

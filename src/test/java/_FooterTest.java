@@ -10,6 +10,7 @@ public class _FooterTest extends BaseTest {
        String mainTitleCheckRestApi = new HomePage(getDriver())
                .goToApiPage()
                .getMainTitleFromApiPage();
+
        Assert.assertEquals(mainTitleCheckRestApi,"REST API");
     }
 
@@ -17,6 +18,7 @@ public class _FooterTest extends BaseTest {
     public void testFooterCheckLinksJenkinsVersion() {
         String title = new HomePage(getDriver())
                 .getJenkinsIOPageTitle();
+
         Assert.assertEquals(title, "Jenkins");
     }
 }
