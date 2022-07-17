@@ -31,10 +31,10 @@ public class _PipelineTest extends BaseTest {
     private static final By H1 = By.xpath("//h1");
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
     private static final By WARNING_MESSAGE = By.className("error");
+    private static final String PIPELINE_NAME = TestUtils.getRandomStr(7);
     private final String namePipeline = pipelineName();
     private JavascriptExecutor javascriptExecutor;
     private SoftAssert asserts;
-
 
     @BeforeMethod
     public void setUp() {
@@ -42,7 +42,6 @@ public class _PipelineTest extends BaseTest {
         asserts = new SoftAssert();
         getActions();
     }
-
 
     private String pipelineName() {
         return TestUtils.getRandomStr(7);
@@ -294,18 +293,17 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineAndCheckOnDashboard() {
-        final String name = pipelineName();
 
         final List<String> actualDashboardProject = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
                 .getActualDashboardProject();
 
-        Assert.assertTrue(actualDashboardProject.contains(name));
+        Assert.assertTrue(actualDashboardProject.contains(PIPELINE_NAME));
     }
 
     @Test
@@ -598,27 +596,16 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(getPipelineOnTheDashboard(newPipelineName).isDisplayed());
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testRenamePipelineWithTheSameName() {
-        final String pipelineName = pipelineName();
 
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        createPipeline(pipelineName, Boolean.TRUE);
-        ProjectUtils.clickSaveButton(getDriver());
-        goToPipelinePage(pipelineName);
-        ProjectUtils.Dashboard.Pipeline.Rename.click(getDriver());
+        final String errorText = new HomePage(getDriver())
+                .clickProjectName(PIPELINE_NAME)
+                .clickRenameButton()
+                .clickRenameAndGoToErrorPage()
+                .getErrorMessage();
 
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//div[@class='warning']")).getText(),
-                "The new name is the same as the current name.");
-
-        click(RENAME_BUTTON);
-
-        Assert.assertEquals(getDriver().findElement(
-                By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
-        Assert.assertEquals(getDriver().findElement(
-                        By.xpath("//div[@id='main-panel']/p")).getText(),
-                "The new name is the same as the current name.");
+        Assert.assertEquals(errorText, "The new name is the same as the current name.");
     }
 
 
