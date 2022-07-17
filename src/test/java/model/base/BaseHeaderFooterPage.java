@@ -85,4 +85,10 @@ public abstract class BaseHeaderFooterPage extends BasePage {
 
         return new UserBuildPage(getDriver());
     }
+    
+    public HomePage clickJenkinsIconAndGoToHomePage() {
+        headerIcon.click();
+
+        return new HomePage(getDriver());
+    }
 }

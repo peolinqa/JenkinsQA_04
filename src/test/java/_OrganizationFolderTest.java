@@ -142,18 +142,19 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Test
     public void createOrganizationFolderWithMetadataFolderIconTest() {
-        fillNameAndClickOrganizationFolder();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.xpath(
-                "//select[@class='setting-input dropdownList']/option[text()='Default Icon']/ancestor::select")).click();
-        getDriver().findElement(By.xpath(
-                "//select[@class='setting-input dropdownList']/option[text()='Metadata Folder Icon']")).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(JENKINS).click();
-        WebElement icon = getDriver().findElement(By.xpath(
-                "//tr[@id='job_folder1']/td/div[@class='jenkins-table__cell__button-wrapper']/img"));
+        String projectIcon = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(VALID_FOLDER_NAME2)
+                .setProjectTypeOrganizationFolder()
+                .clickOkAndGoToConfig()
+                .clickAppearanceDropDownList()
+                .selectOptionMetadataFolderIcon()
+                .saveConfigAndGoToProject()
+                .clickJenkinsIconAndGoToHomePage()
+                .getProjectIconByName(VALID_FOLDER_NAME2)
+                .getAttribute("class");
 
-        Assert.assertEquals(icon.getAttribute("class").toString(),
+        Assert.assertEquals(projectIcon,
                 "icon-branch-api-organization-folder icon-lg");
 
         deleteFolder();

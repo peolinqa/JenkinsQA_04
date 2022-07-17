@@ -13,6 +13,12 @@ public class OrganizationFolderConfigPage extends BasePage {
     @FindBy(name = "_.disabled")
     private WebElement disableCheckBox;
 
+    @FindBy(xpath = "//select[@class='setting-input dropdownList']/option[text()='Default Icon']/ancestor::select")
+    private  WebElement appearanceDropDownList;
+
+    @FindBy(xpath = "//select[@class='setting-input dropdownList']/option[text()='Metadata Folder Icon']")
+    private  WebElement metadataFolderIcon;
+
     public OrganizationFolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -27,5 +33,17 @@ public class OrganizationFolderConfigPage extends BasePage {
         disableCheckBox.click();
 
         return this;
+    }
+
+    public OrganizationFolderConfigPage clickAppearanceDropDownList() {
+        appearanceDropDownList.click();
+
+        return new OrganizationFolderConfigPage(getDriver());
+    }
+
+    public OrganizationFolderConfigPage selectOptionMetadataFolderIcon() {
+        metadataFolderIcon.click();
+
+        return new OrganizationFolderConfigPage(getDriver());
     }
 }

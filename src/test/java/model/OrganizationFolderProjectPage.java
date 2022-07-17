@@ -1,12 +1,12 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseDashboardPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.HashMap;
 
-public class OrganizationFolderProjectPage extends BasePage {
+public class OrganizationFolderProjectPage extends BaseDashboardPage {
 
     @FindBy(xpath = "//h1")
     private WebElement projectName;
