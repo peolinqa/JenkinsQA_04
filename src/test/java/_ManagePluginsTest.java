@@ -1,20 +1,13 @@
 import model.HomePage;
 import model.ManagePluginsPage;
-import model.PluginManagerPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
-import runner.ProjectUtils;
-
 import java.util.Collections;
 import java.util.List;
 
 public class _ManagePluginsTest extends BaseTest {
-    private static final String[] SEARCH_LIST = {"GitHub"};
 
     @Test
     public void testManagePluginsCheckNameAndArrowUp() {
@@ -74,24 +67,17 @@ public class _ManagePluginsTest extends BaseTest {
         asserts.assertAll();
     }
 
-    @Ignore
     @Test
-    public void testFilterInUpdatesTab(){
-        WebDriver driver = getDriver();
-        ProjectUtils.Dashboard.Main.ManageJenkins.click(driver);
-        ProjectUtils.ManageJenkins.ManagePlugins.click(driver);
-        PluginManagerPage PluginManager = new PluginManagerPage(driver);
-        WebElement searchField = PluginManager.getSearchField();
-        SoftAssert asserts = new SoftAssert();
-        for (String s: SEARCH_LIST) {
-            PluginManager.searchFieldInput(s);
-            List<WebElement> filtredPluginsList = PluginManager.getaList();
-            asserts.assertTrue(filtredPluginsList.size() > 0, "empty filter result, search string:"+s);
-            for (int i = 0; i < filtredPluginsList.size(); i++) {
-                asserts.assertTrue(PluginManagerPage.checkWordsInLine(s, filtredPluginsList.get(i).getText()), "Expected but not found " + s);
-            }
-        }
-        asserts.assertAll();
-    }
+    public void testFilterInUpdatesTab() {
+        final String textForFilter = "github";
 
+        List<String> textNamesOfCheckboxes = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManagePlugins()
+                .searchFieldInput(textForFilter).getTextNamesOfCheckboxes();
+
+        Assert.assertTrue(textNamesOfCheckboxes.stream()
+                .map(String::toLowerCase)
+                .allMatch(s -> s.contains(textForFilter)));
+    }
 }

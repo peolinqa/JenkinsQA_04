@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
@@ -395,6 +396,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(checkForValueErrorMessage, "This value should be larger than 0");
     }
 
+    @Ignore
     @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
 

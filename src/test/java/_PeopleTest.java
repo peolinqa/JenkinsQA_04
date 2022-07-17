@@ -1,5 +1,6 @@
 import model.HomePage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -31,6 +32,7 @@ public class _PeopleTest extends BaseTest {
         Assert.assertEquals(sizeS, 34);
     }
 
+    @Ignore
     @Test
     public void addDescriptionForUserTest() {
 
