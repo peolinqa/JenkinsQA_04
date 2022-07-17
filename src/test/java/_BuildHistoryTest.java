@@ -1,7 +1,7 @@
 import model.HomePage;
+import model.LastBuildPage;
 import model.ProjectPage;
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -10,6 +10,7 @@ import runner.BaseTest;
 public class _BuildHistoryTest extends BaseTest {
 
     private static final String PROJECT_NAME = "BuildHistoryPageProject";
+    private static final String BUILD_PROJECT_NAME = "NewFreestyleProject";
 
     private String buildNumber;
 
@@ -65,28 +66,29 @@ public class _BuildHistoryTest extends BaseTest {
     @Test
     public void testVerifyChangeOnBuildStatusPage() {
 
-        new HomePage(getDriver())
+        String buildName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName("NewFreestyleProject")
+                .setProjectName(BUILD_PROJECT_NAME)
                 .setProjectTypeFreestyle()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickBuildButton()
                 .waitForBuildToComplete()
-                .clickDashboardButton();
+                .clickDashboardButton()
+                .clickProjectName(BUILD_PROJECT_NAME)
+                .selectLastBuild()
+                .clickEditBuildInfoButton()
+                .enterBuildName("New build 123")
+                .enterBuildDescription("Build 123 description test")
+                .clickSaveButton()
+                .getBuildName();
 
-        getDriver().findElement(By.xpath("//a[@href='job/NewFreestyleProject/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
-        getDriver().findElement(By.xpath("//a[@title='Edit Build Information']")).click();
-        getDriver().findElement(By.xpath("//input[@name='displayName']")).sendKeys("New build 123");
-        getDriver().findElement(By.xpath("//textarea[@name='description']")).sendKeys("Build 123 description test");
-        getDriver().findElement(By.xpath("//button[@type='submit']")).submit();
 
-        String buildName = getDriver().findElement(By.xpath("//span[@class='jenkins-icon-adjacent']")).getText();
-        String buildDescription = getDriver().findElement(By.id("description")).getText();
+        String buildDescription = new LastBuildPage(getDriver())
+                .getBuildDescription();
 
-        Assert.assertTrue(buildName.contains("Build New build 123"));
-        Assert.assertTrue(buildDescription.contains("Build 123 description test"));
+        Assert.assertEquals(buildName, "New build 123");
+        Assert.assertEquals(buildDescription, "Build 123 description test");
     }
 
     @Test(dependsOnMethods = {"testVerifyChangeOnBuildStatusPage"})

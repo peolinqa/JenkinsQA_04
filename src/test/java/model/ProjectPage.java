@@ -200,6 +200,12 @@ public class ProjectPage extends BaseDashboardPage {
         return this;
     }
 
+    public LastBuildPage selectLastBuild() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(lastBuildButton)).click();
+
+        return new LastBuildPage(getDriver());
+    }
+
     public BuildParametersPage clickParametersButton() {
         parameters.click();
 
