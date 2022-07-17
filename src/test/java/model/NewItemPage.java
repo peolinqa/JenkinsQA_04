@@ -143,8 +143,8 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
         return errorInvalidName.getText();
     }
 
-    public String getNameErrorScc(String sccValue) {
-        return errorInvalidName.getCssValue(sccValue);
+    public String getNameErrorCss(String cssValue) {
+        return errorInvalidName.getCssValue(cssValue);
     }
 
     public String getErrorNameRequiredText() {
@@ -220,5 +220,9 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
     public String getHelpInputText() {
         return helpInputText.getText();
+    }
+
+    public String getAttributeOkButton(String attribute) {
+        return okButton.getAttribute(attribute);
     }
 }

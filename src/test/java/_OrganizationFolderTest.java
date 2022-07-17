@@ -1,5 +1,6 @@
 import model.HomePage;
 import model.NewItemPage;
+import model.OrganizationFolderConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -107,7 +108,7 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(isDisplayedNameError);
         Assert.assertEquals(newItemPage.getNameErrorText(),
                 "» A job already exists with the name ‘" + VALID_FOLDER_NAME2 + "’");
-        Assert.assertEquals(newItemPage.getNameErrorScc("color").toString(),
+        Assert.assertEquals(newItemPage.getNameErrorCss("color").toString(),
                 "rgba(255, 0, 0, 1)");
     }
 
@@ -196,13 +197,13 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Test
     public void createOrganizationFolderEmptyNameTest() {
-        getDriver().findElement(BUTTON_NEW_ITEM).click();
-        getDriver().findElement(BUTTON_ORGANIZATION_FOLDER).click();
-        WebElement error = getDriver().findElement(By.id("itemname-required"));
+        NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectTypeOrganizationFolder();
 
-        Assert.assertEquals(error.getText(), "» This field cannot be empty, please enter a valid name");
-        Assert.assertEquals(error.getCssValue("color").toString(), "rgba(255, 0, 0, 1)");
-        Assert.assertEquals(getDriver().findElement(OK_BUTTON).getAttribute("class").toString(), "disabled");
+        Assert.assertEquals(newItemPage.getErrorNameRequiredText(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(newItemPage.getNameErrorCss("color"), "rgba(255, 0, 0, 1)");
+        Assert.assertEquals(newItemPage.getAttributeOkButton("class"), "disabled");
     }
 
     @Test
