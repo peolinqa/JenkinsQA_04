@@ -131,6 +131,12 @@ public class ProjectPage extends BaseDashboardPage {
         return this;
     }
 
+    public ProjectPage waitForBuildToComplete() {
+            getWait20().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".display-name")));
+
+        return this;
+    }
+
     public String getBuildNumber() {
         WebElement displayName = getWait20().until(ExpectedConditions.presenceOfElementLocated(DISPLAY_NAME));
 

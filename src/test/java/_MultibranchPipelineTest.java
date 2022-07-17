@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -105,6 +106,7 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertFalse(homePage.isItemPresent(PIPELINE_NAME));
     }
 
+    @Ignore
     @Test
     public void testCreateMultibranchWithInvalidData() {
 

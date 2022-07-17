@@ -352,6 +352,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(check);
     }
 
+    @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
         final String name = pipelineName();
@@ -691,6 +692,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(projectPage.getNumbersBuildsList(), expectedBuildNumbers);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testPipelineCheckDiscardOld30builds")
     public void testPipelineCheckDiscardOld3builds() {
         ProjectPage projectPage = new ProjectPage(getDriver());

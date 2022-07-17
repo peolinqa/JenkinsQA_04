@@ -1,6 +1,7 @@
 import model.HomePage;
 import model.ProjectPage;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -37,30 +38,6 @@ public class _BuildHistoryTest extends BaseTest {
         Assert.assertTrue(result);
     }
 
-    public void createAndBuildFreestyleProject() {
-        getDriver().findElement(By.xpath("//a[@title='New Item']")).click();
-        getDriver().findElement(By.xpath("//input[@id='name']")).sendKeys("NewFreestyleProject");
-        getDriver().findElement(By.xpath("//li[contains(@class,'hudson_model_FreeStyleProject')]")).click();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).submit();
-        getDriver().findElement(By.xpath("//button[@type='submit']")).submit();
-        getDriver().findElement(By.xpath("//a[@title='Build Now']")).click();
-        getDriver().findElement(By.xpath("//a[@title='Back to Dashboard']")).click();
-        boolean success = false;
-        int maxTries = 0;
-        while (!success) {
-            try {
-
-                getDriver().navigate().refresh();
-                getDriver().findElement(By.xpath("//*[local-name() = 'svg' and @tooltip='Success']"));
-                success = true;
-            } catch (Exception e) {
-                if (++maxTries > 3) {
-                    throw e;
-                }
-            }
-        }
-    }
-
     @Test(dependsOnMethods = "testBuildIsOnBuildHistoryPage")
     public void testBuildHistoryChanges() {
 
@@ -87,7 +64,17 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test
     public void testVerifyChangeOnBuildStatusPage() {
-        createAndBuildFreestyleProject();
+
+        new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName("NewFreestyleProject")
+                .setProjectTypeFreestyle()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickBuildButton()
+                .waitForBuildToComplete()
+                .clickDashboardButton();
+
         getDriver().findElement(By.xpath("//a[@href='job/NewFreestyleProject/']")).click();
         getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
         getDriver().findElement(By.xpath("//a[@title='Edit Build Information']")).click();
