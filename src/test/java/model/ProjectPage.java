@@ -22,6 +22,9 @@ public class ProjectPage extends BaseDashboardPage {
     @FindBy(linkText = "Build Now")
     private WebElement buildButton;
 
+    @FindBy(linkText = "Rename")
+    private WebElement renameButton;
+
     @FindBy(xpath = "//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name']")
     private List<WebElement> buildList;
 
@@ -81,6 +84,12 @@ public class ProjectPage extends BaseDashboardPage {
         buildButton.click();
 
         return this;
+    }
+
+    public RenamePage clickRenameButton() {
+        renameButton.click();
+
+        return new RenamePage(getDriver());
     }
 
     public ProjectPage clickBuildButtonWait() {

@@ -1,10 +1,15 @@
 package model;
 
 import model.base.BaseHeaderFooterPage;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RenamePage extends BaseHeaderFooterPage {
 
@@ -14,8 +19,11 @@ public class RenamePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement renameButton;
 
-    @FindBy(xpath = "//h1[text() = 'Error']")
-    private List<WebElement> errorText;
+    @FindBy(xpath = "//div[contains(@class, 'validation-error-area')]//div[@class='error']")
+    private WebElement errorText;
+
+    @FindBy(tagName = "h1")
+    private WebElement pageHeader;
 
     public RenamePage(WebDriver driver) {
         super(driver);
@@ -75,5 +83,24 @@ public class RenamePage extends BaseHeaderFooterPage {
         renameButton.click();
 
         return new ErrorPage(getDriver());
+    }
+
+    public List<String> getListErrorMessages(final List<String> names) {
+        String baseName = "";
+        final Pattern pattern = Pattern.compile("Rename Pipeline (\\w+)");
+        final Matcher matcher = pattern.matcher(pageHeader.getText());
+        if (matcher.find()) {
+            baseName = matcher.group(1);
+        }
+
+        List<String> errorMessages = new ArrayList<>();
+        for (String name : names) {
+            renameInput.sendKeys(name + Keys.TAB);
+            errorMessages.add(errorText.getText());
+            renameInput.clear();
+        }
+        renameInput.sendKeys(baseName + Keys.ENTER);
+
+        return errorMessages;
     }
 }

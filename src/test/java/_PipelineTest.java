@@ -621,30 +621,27 @@ public class _PipelineTest extends BaseTest {
                 "The new name is the same as the current name.");
     }
 
+
     @Test
     public void testRenamePipelineWithInvalidName() {
-        final String pipelineName = pipelineName();
-        final String[] invalidCharacters = {"!", "@", "#", "$", "%", "^", "*", ":", ";", "\\", "|", "?"};
+        final String name = pipelineName();
+        final List<String> invalidCharacters = Arrays.asList("!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", ">", "<", "|", "?");
 
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        createPipeline(pipelineName, Boolean.TRUE);
-        ProjectUtils.clickSaveButton(getDriver());
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        clickMenuSelectorLink(pipelineName, "Rename");
+        final List<String> listErrorMessages = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickRenameButton()
+                .getListErrorMessages(invalidCharacters);
 
-        for (String str : invalidCharacters) {
-            getDriver().findElement(NEW_NAME).sendKeys(str);
-            click(RENAME_BUTTON);
+        List<String> listExpectedResult = invalidCharacters
+                .stream()
+                .map(el -> String.format("‘%s’ is an unsafe character", el))
+                .collect(Collectors.toList());
 
-            Assert.assertEquals(getDriver().findElement(
-                    By.xpath("//div[@id='main-panel']/h1")).getText(), "Error");
-            Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='main-panel']/p")).getText(),
-                    String.format("‘%s’ is an unsafe character", str));
-
-            getDriver().navigate().back();
-        }
-
-        Assert.assertTrue(getDriver().findElement(H1).getText().contains(pipelineName));
+        Assert.assertEquals(listErrorMessages, listExpectedResult);
     }
 
     @Test
