@@ -1,6 +1,8 @@
 package model.base;
 
 import model.ApiPage;
+import model.HomePage;
+import model.UserBuildPage;
 import model.UserStatusPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -19,6 +21,12 @@ public abstract class BaseHeaderFooterPage extends BasePage {
 
     @FindBy(css = ".login")
     private WebElement userPage;
+
+    @FindBy(css = "div[id='menuSelector']")
+    private WebElement menuSelector;
+
+    @FindBy(linkText = "Builds")
+    private WebElement builds;
 
     public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
@@ -58,5 +66,23 @@ public abstract class BaseHeaderFooterPage extends BasePage {
         userPage.click();
 
         return new UserStatusPage(getDriver());
+    }
+
+    public HomePage navigateToUserMenu() {
+        getActions().moveToElement(userPage).pause(200).perform();
+
+        return new HomePage(getDriver());
+    }
+
+    public HomePage navigateToUserMenuAndClick() {
+        menuSelector.click();
+
+        return new HomePage(getDriver());
+    }
+
+    public UserBuildPage clickBuildsAndGoToBuildsPage() {
+        builds.click();
+
+        return new UserBuildPage(getDriver());
     }
 }

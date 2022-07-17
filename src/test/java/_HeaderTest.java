@@ -255,10 +255,13 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuBuilds() {
 
-        menuSelector(getDriver());
-        ProjectUtils.Dashboard.Header.Builds.click(getDriver());
+        String userBuilds = new UserBuildPage(getDriver())
+                .navigateToUserMenu()
+                .navigateToUserMenuAndClick()
+                .clickBuildsAndGoToBuildsPage()
+                .getTextName();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText().contains("Builds for"));
+        Assert.assertEquals(userBuilds, "Builds for admin");
     }
 
     @Test
