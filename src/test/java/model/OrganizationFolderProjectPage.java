@@ -20,6 +20,9 @@ public class OrganizationFolderProjectPage extends BaseDashboardPage {
     @FindBy(className = "warning")
     private WebElement warningMessage;
 
+    @FindBy(xpath = "//span[text()='Configure the project']")
+    private WebElement configureProjectButton;
+
     public OrganizationFolderProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -46,5 +49,11 @@ public class OrganizationFolderProjectPage extends BaseDashboardPage {
         hashMap.put("Message Color", warningMessage.getCssValue("color"));
 
         return hashMap;
+    }
+
+    public OrganizationFolderConfigPage clickConfigureProjectButton() {
+        configureProjectButton.click();
+
+        return new OrganizationFolderConfigPage(getDriver());
     }
 }
