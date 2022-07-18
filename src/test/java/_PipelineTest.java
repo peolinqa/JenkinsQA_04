@@ -232,7 +232,6 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineAndCheckOnDashboard() {
-
         final List<String> actualDashboardProject = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
@@ -312,7 +311,6 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithNegativeValueQuietPeriod() {
-
         final String checkForValueErrorMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(pipelineName())
@@ -328,7 +326,6 @@ public class _PipelineTest extends BaseTest {
     @Ignore
     @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
-
         final String name = pipelineName();
 
         final boolean check = new HomePage(getDriver())
@@ -358,7 +355,6 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dataProvider = "errorMessageData")
     public void testInvalidName(String name) {
-
         final String errorText = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
@@ -435,7 +431,6 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
     public void testRemoveColumnsFromDashboardInOwnWatchlist() {
-
         final int countColumnsAfterDelete = new HomePage(getDriver())
                 .clickMyViewNameButton()
                 .clickEditView()
@@ -503,7 +498,6 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
-
         final String errorText = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
                 .clickRenameButton()
@@ -536,7 +530,6 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenamePipelineTheSameNameWithAllCapitalLetters")
     public void testRenamePipelineWithTheSameName() {
-
         final String errorText = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
                 .clickRenameButton()
@@ -611,7 +604,6 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineCheckDiscardOld30builds() {
-
         final List<Integer> checkingDisplayLast30Builds =  new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(namePipeline)
@@ -633,7 +625,6 @@ public class _PipelineTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = "testPipelineCheckDiscardOld30builds")
     public void testPipelineCheckDiscardOld3builds() {
-
        final List<Integer> checkingDisplayLast3Builds = new HomePage(getDriver())
                 .clickDashboardButton()
                 .clickMyView()

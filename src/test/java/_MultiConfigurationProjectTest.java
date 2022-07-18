@@ -25,7 +25,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testCreateMultiConfigFolder() {
-
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
@@ -39,7 +38,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigFolder")
     public void testBuildNow() {
-
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         MultiConfigurationProjectConsolePage consolePage = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
@@ -51,7 +49,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testAddDescription")
     public void testCheckSubMenuConfigureAfterCreatingProject() {
-
         final String DiscardOldBuildsText = "This determines when, if ever, build records for this project should be discarded. " +
                 "Build records include the console output, archived artifacts, and any other metadata related " +
                 "to a particular build.\n" +
@@ -114,7 +111,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testBuildNow")
     public void testBuildNowInDisabledProject() {
-
         boolean BuildNowInDisabledProject = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .clickDisableProjectButton()
@@ -125,7 +121,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testBuildNowInDisabledProject")
     public void testAddDescription() {
-
         String description = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .clickAddDescription()
@@ -138,7 +133,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testCheckSubMenuConfigureAfterCreatingProject"})
     public void testRenameMultiConfigurationProject() {
-
         String newProjectName = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .clickAdnGoToRenamePage()
@@ -151,7 +145,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testRenameMultiConfigurationProjectErrorSameName() {
-
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .clickAdnGoToRenamePage()
@@ -163,7 +156,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorSameName")
     public void testRenameMultiConfigurationProjectErrorEmptyName() {
-
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .clickAdnGoToRenamePage()

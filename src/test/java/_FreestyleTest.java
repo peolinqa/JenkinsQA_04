@@ -16,7 +16,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test
     public void testCreateFreestyleProject() {
-
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
@@ -30,7 +29,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testSaveButtonAfterProjectCreated() {
-
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickFreestyleConfigure()
@@ -42,7 +40,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testSaveButtonAfterProjectCreated")
     public void testApplyButtonAfterProjectCreated() {
-
         boolean alertIsDisplayed = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickFreestyleConfigure()
@@ -53,7 +50,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testApplyButtonAfterProjectCreated")
     public void testAddDescription() {
-
         String description = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickFreestyleConfigure()
@@ -66,7 +62,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testAddDescription")
     public void testEditDescription() {
-
         String editDescription = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickEditDescription()
@@ -79,7 +74,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEditDescription")
     public void testDisableProject() {
-
         FreestylePage freestylePage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickMultiButton();
@@ -89,7 +83,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
-
         FreestylePage freestylePage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickMultiButton();
@@ -99,7 +92,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEnableProject")
     public void testHelpButtonPopupGeneral() {
-
         FreestyleConfigPage freestyleConfigPage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickFreestyleConfigure();
@@ -109,7 +101,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testHelpButtonPopupGeneral")
     public void testHelpButtonPopupBuildPeriodically() {
-
         FreestyleConfigPage freestyleConfigPage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickFreestyleConfigure()
@@ -120,7 +111,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testHelpButtonPopupBuildPeriodically", "testRenameWithInvalidData"})
     public void testRenameFreestyleProject() {
-
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickAdnGoToRenamePage()
@@ -133,7 +123,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameFreestyleProject")
     public void testNewFreestyleWithSpecialCharacters() {
-
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(EDITED_RANDOM_NAME)
                 .clickAdnGoToRenamePage()
@@ -146,7 +135,6 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFreestyleProject")
     public void testRenameWithInvalidData() {
-
         String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":", "."};
 
         RenamePage page = new HomePage(getDriver())
@@ -168,7 +156,6 @@ public class _FreestyleTest extends BaseTest {
     @Test(dependsOnMethods = {"testCreateFreestyleProject", "testRenameWithInvalidData",
             "testSaveButtonAfterProjectCreated", "testNewFreestyleWithSpecialCharacters"})
     public void testDeleteFreestyleProject() {
-
         Boolean projectNotPresent = new HomePage(getDriver())
                 .clickFreestyleName(NAME_WITH_SPECIAL_CHARACTERS)
                 .clickDeleteProject()

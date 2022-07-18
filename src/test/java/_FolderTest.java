@@ -22,7 +22,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCreateFolder() {
-
         String folderName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME1)
@@ -36,7 +35,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testFolderIsCreatedWithoutSave() {
-
         Boolean folderIsPresent = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME)
@@ -49,7 +47,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCycleCreateFolderWithInvalidData() {
-
         final char[] invalidSymbols = {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
 
         int result = new Random().nextInt(invalidSymbols.length);
@@ -67,7 +64,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCreateFolderWithDot() {
-
         String warningText = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(".")
@@ -79,7 +75,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCycleTypeAnItemNameWithValidSpecialCharacters() {
-
         NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem();
 
         for (char x : CHARS){
@@ -95,7 +90,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testDeleteFolder() {
-
         final String folderName = TestUtils.getRandomStr();
 
         String searchResult = new HomePage(getDriver())
@@ -114,7 +108,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCreateFolderWithUnsafeCharacter() {
-
         ErrorPage errorPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName("TestFolder@Jenkins")
@@ -128,7 +121,6 @@ public class _FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCheckDescriptionInPreviewAndOnTheFolderPage")
     public void testCreateFolderWithTheSameName() {
-
         String expectedResult = "» A job already exists with the name ‘" + RANDOM_FOLDER_NAME2 + "’";
 
         String actualResult = new HomePage(getDriver())
@@ -142,7 +134,6 @@ public class _FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateFolder")
     public void testRenameFolderPositive() {
-
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(RANDOM_FOLDER_NAME1)
                 .clickRenameFolder()
@@ -155,7 +146,6 @@ public class _FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive"})
     public void testRenameFolderWithSpaceAsAName() {
-
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
                 .clickRenameFolder()
@@ -169,7 +159,6 @@ public class _FolderTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive", "testRenameFolderWithSpaceAsAName"})
     public void testRenameFolderWithUnsafeCharacters() {
-
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
 
         RenamePage folderForRenameTest = new HomePage(getDriver())
@@ -213,7 +202,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCheckDescriptionInPreviewAndOnTheFolderPage() {
-
         final String folderDescription = TestUtils.getRandomStr();
 
         FolderConfigPage setFolderDescriptionOnFolderPage = new HomePage(getDriver())
@@ -239,7 +227,6 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testDeleteFolderFromTheTopMenu() {
-
         final String folderName = TestUtils.getRandomStr();
 
         String searchResult = new HomePage(getDriver())

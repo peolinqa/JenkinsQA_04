@@ -24,7 +24,6 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateNewJob() {
-
         int numberOfNamesFound = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(PROJECT_NAME)
@@ -39,7 +38,6 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test (dependsOnMethods = "testCreateNewJob")
     public void testValidGitHubLink() {
-
         String validationResult = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
                 .clickConfigureProject()
@@ -56,7 +54,6 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test (dependsOnMethods = "testValidGitHubLink")
     public void testAddGitHubLink() {
-
         String actualUrl = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
                 .clickConfigureProject()
@@ -67,7 +64,6 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test (dependsOnMethods = "testAddGitHubLink")
     public void testScanResult() {
-
         String scanLog = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
                 .clickScanRepositoryLog()
@@ -79,7 +75,6 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateMultibranchPipelineWithValidData() {
-
         WebElement newName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
@@ -94,7 +89,6 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithValidData")
     public void testDeleteMultibranchPipelineProject() {
-
         HomePage homePage = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PIPELINE_NAME)
                 .clickDeleteMultibranchPipeline()
@@ -105,7 +99,6 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateMultibranchWithInvalidData() {
-
         final String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":"};
 
         int result = new Random().nextInt(characterName.length);
