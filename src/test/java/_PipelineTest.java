@@ -3,7 +3,6 @@ import model.PipelineConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -28,7 +27,6 @@ public class _PipelineTest extends BaseTest {
     private static final By RENAME_BUTTON = By.xpath("//button[text()='Rename']");
     private static final By H1 = By.xpath("//h1");
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
-    private static final By WARNING_MESSAGE = By.className("error");
     private static final String PIPELINE_NAME = TestUtils.getRandomStr(7);
     private final String namePipeline = pipelineName();
     private JavascriptExecutor javascriptExecutor;
@@ -58,19 +56,6 @@ public class _PipelineTest extends BaseTest {
 
     private void homePageClick() {
         ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-    }
-
-    @Deprecated
-    private void createNewPipeline(String pipelineName) {
-        createPipeline(pipelineName, Boolean.TRUE);
-        getDriver().findElement(By.name("description")).sendKeys("Test pipeline");
-        getDriver().findElement(By.id("yui-gen6-button")).click();
-    }
-
-    @Deprecated
-    private void goToPipelinePage(String pipelineName) {
-        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[@href='/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
     }
 
     private void click(By button) {
@@ -556,21 +541,17 @@ public class _PipelineTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
-        createNewPipeline("General");
-        ProjectUtils.Dashboard.Pipeline.Rename.click(getDriver());
-        TestUtils.clearAndSend(getDriver(), By.xpath("//input[@checkdependson='newName']"), "GENERAL");
-        getDriver().findElement(By.id("main-panel")).click();
 
-        getWait5().until(ExpectedConditions.visibilityOfElementLocated(WARNING_MESSAGE));
+        final String errorText = new HomePage(getDriver())
+                .clickProjectName(PIPELINE_NAME)
+                .clickRenameButton()
+                .setNewProjectName(PIPELINE_NAME.toUpperCase())
+                .clickRenameAndGoToErrorPage()
+                .getErrorMessage();
 
-        String actualWarning = getDriver().findElement(WARNING_MESSAGE).getText();
-        getDriver().findElement(By.id("yui-gen1-button")).click();
-        String actualError = getDriver().findElement(By.xpath("//div[@id='main-panel']/h1")).getText();
-
-        Assert.assertEquals(actualWarning, "The name “GENERAL” is already in use.");
-        Assert.assertEquals(actualError, "Error");
+        Assert.assertEquals(errorText, String.format("The name “%s” is already in use.", PIPELINE_NAME.toUpperCase()));
     }
 
     @Test
@@ -593,7 +574,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(getPipelineOnTheDashboard(newPipelineName).isDisplayed());
     }
 
-    @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
+    @Test(dependsOnMethods = "testRenamePipelineTheSameNameWithAllCapitalLetters")
     public void testRenamePipelineWithTheSameName() {
 
         final String errorText = new HomePage(getDriver())
