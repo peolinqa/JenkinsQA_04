@@ -22,6 +22,9 @@ public class FolderPage extends BasePage {
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
 
+    @FindBy(xpath = "//span[text()='Configure']")
+    private WebElement clickConfigure;
+
     public FolderPage(WebDriver driver) {
         super(driver);
     }
@@ -50,5 +53,10 @@ public class FolderPage extends BasePage {
         yesButton.click();
 
         return new HomePage(getDriver());
+    }
+
+    public FolderConfigPage clickConfigure(){
+        clickConfigure.click();
+        return new FolderConfigPage(getDriver());
     }
 }
