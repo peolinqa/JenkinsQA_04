@@ -4,6 +4,7 @@ import model.ApiPage;
 import model.HomePage;
 import model.UserBuildPage;
 import model.UserStatusPage;
+import model.UserConfigurePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,6 +28,9 @@ public abstract class BaseHeaderFooterPage extends BasePage {
 
     @FindBy(linkText = "Builds")
     private WebElement builds;
+
+    @FindBy(linkText = "Configure")
+    private WebElement configure;
 
     public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
@@ -85,7 +89,13 @@ public abstract class BaseHeaderFooterPage extends BasePage {
 
         return new UserBuildPage(getDriver());
     }
-    
+
+    public UserConfigurePage clickConfigureAndGoToConfigurePage() {
+        configure.click();
+
+        return new UserConfigurePage(getDriver());
+    }
+
     public HomePage clickJenkinsIconAndGoToHomePage() {
         headerIcon.click();
 

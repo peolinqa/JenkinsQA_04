@@ -254,7 +254,6 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testCheckExpandMenuBuilds() {
-
         String userBuilds = new UserBuildPage(getDriver())
                 .navigateToUserMenu()
                 .navigateToUserMenuAndClick()
@@ -266,11 +265,13 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testCheckExpandMenuConfigure() {
+        String buttonText = new UserBuildPage(getDriver())
+                .navigateToUserMenu()
+                .navigateToUserMenuAndClick()
+                .clickConfigureAndGoToConfigurePage()
+                .getGen2ButtonText();
 
-        menuSelector(getDriver());
-        ProjectUtils.Dashboard.Header.Configure.click(getDriver());
-
-        Assert.assertTrue(getDriver().findElement(By.id("yui-gen2-button")).getText().contains("Add new Token"));
+        Assert.assertTrue(buttonText.contains("Add new Token"));
     }
 
     @Test
