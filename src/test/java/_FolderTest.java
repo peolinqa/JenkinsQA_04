@@ -17,7 +17,6 @@ public class _FolderTest extends BaseTest {
     protected static final char[] CHARS =
             {',', 39, '`', '~', '-', ' ', '(', ')', '{', '}', '+', '=', '_', '"'};
 
-    private static final String WARNING_TEXT_WITH_DOT = "» “.” is not an allowed name";
     private static final String WARNING_TEXT_UNSAFE = "’ is an unsafe character";
 
     @Test
@@ -68,14 +67,13 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCreateFolderWithDot() {
 
-        new HomePage(getDriver()).clickNewItem();
-
-        String warningText = new NewItemPage(getDriver())
+        String warningText = new HomePage(getDriver())
+                .clickNewItem()
                 .setProjectName(".")
-                .waitDotWarningMessage()
+                .setProjectTypeFolder()
                 .getNameErrorText();
 
-        Assert.assertEquals(warningText, WARNING_TEXT_WITH_DOT);
+        Assert.assertEquals(warningText, "» “.” is not an allowed name");
     }
 
     @Test

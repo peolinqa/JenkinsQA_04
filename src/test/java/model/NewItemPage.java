@@ -151,10 +151,6 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
         return errorNameRequired.getText();
     }
 
-    public WebElement getNameError() {
-        return errorInvalidName;
-    }
-
     public boolean isDisplayedNameError() {
         return errorInvalidName.isDisplayed();
     }
@@ -199,13 +195,6 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
     public NewItemPage<ConfigPage> clearNameText() {
         nameText.clear();
-
-        return this;
-    }
-
-    public NewItemPage<ConfigPage> waitDotWarningMessage(){
-        getWait5().until(ExpectedConditions.textToBePresentInElement(
-                getNameError(), "» “.” is not an allowed name"));
 
         return this;
     }
