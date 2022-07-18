@@ -2,11 +2,8 @@ import model.HomePage;
 import model.MultibranchPipelinePage;
 import model.MultibranchPipelineConfigPage;
 import model.ProjectPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -106,21 +103,17 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertFalse(homePage.isItemPresent(PIPELINE_NAME));
     }
 
-    @Ignore
     @Test
     public void testCreateMultibranchWithInvalidData() {
 
         final String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":"};
 
-        Random random = new Random();
-        int low = 0;
-        int high = characterName.length + 1;
-        int result = random.nextInt(high - low) + low;
+        int result = new Random().nextInt(characterName.length);
 
         String alertMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectTypeMultiBranchPipeline()
                 .setProjectName(characterName[result])
+                .setProjectTypeMultiBranchPipeline()
                 .getNameErrorText();
 
         String expectedResult = String.format("» ‘%s’ is an unsafe character", characterName[result]);
