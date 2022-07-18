@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseDashboardPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FolderPage extends BasePage {
+public class FolderPage extends BaseDashboardPage {
 
     @FindBy(linkText = "Rename")
     private WebElement renameFolder;
@@ -24,6 +24,12 @@ public class FolderPage extends BasePage {
 
     @FindBy(xpath = "//span[text()='Configure']")
     private WebElement clickConfigure;
+
+    @FindBy(xpath = "//span[normalize-space(.)='Create a job']")
+    private WebElement createJob;
+
+    @FindBy(xpath = "//a[contains(@class,'jenkins-table__link model-link')]")
+    private WebElement jobName;
 
     public FolderPage(WebDriver driver) {
         super(driver);
@@ -53,6 +59,16 @@ public class FolderPage extends BasePage {
         yesButton.click();
 
         return new HomePage(getDriver());
+    }
+
+    public NewItemPage<Object> createJobInsideFolder() {
+        createJob.click();
+
+        return new NewItemPage<>(getDriver());
+    }
+
+    public String getJobName() {
+        return jobName.getText();
     }
 
     public FolderConfigPage clickConfigure(){

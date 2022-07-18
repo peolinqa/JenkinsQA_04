@@ -16,7 +16,6 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test
     public void testBuildIsOnProjectPage() {
-
         ProjectPage projectPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectTypeFreestyle()
@@ -41,7 +40,6 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test(dependsOnMethods = "testBuildIsOnBuildHistoryPage")
     public void testBuildHistoryChanges() {
-
         String changesHeader = new HomePage(getDriver())
                 .clickBuildHistory()
                 .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
@@ -53,7 +51,6 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test (dependsOnMethods = "testBuildHistoryChanges")
     public void testBuildHistoryConsole() {
-
         String consoleHeader = new HomePage(getDriver())
                 .clickBuildHistory()
                 .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
@@ -65,7 +62,6 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test
     public void testVerifyChangeOnBuildStatusPage() {
-
         String buildName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(BUILD_PROJECT_NAME)

@@ -11,7 +11,6 @@ public class _PeopleTest extends BaseTest {
 
     @Test
     public void checkFunctionalityIconsSMLTest() {
-
         int sizeM = new HomePage(getDriver())
                 .clickPeople()
                 .setSizeM()
@@ -35,7 +34,6 @@ public class _PeopleTest extends BaseTest {
     @Ignore
     @Test
     public void addDescriptionForUserTest() {
-
         String newDescription = new HomePage(getDriver())
                 .clickPeople()
                 .goToUserStatusPage()

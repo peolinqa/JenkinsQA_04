@@ -79,13 +79,16 @@ public class HomePage extends BaseDashboardPage {
     private WebElement linkToJenkinsIO;
 
     @FindBy(id = "menuSelector")
-    private WebElement projectMenuSelector;
+    private WebElement projectDropDownMenuSelector;
 
     @FindBy (xpath = "//a[@href='/legend']")
     private WebElement linkIconLegend;
 
     @FindBy(xpath = "//a[contains(text(), 'AchViewName')]")
     private WebElement myViewName;
+
+    @FindBy(xpath = "//a[@class='yuimenuitemlabel']//span[text()='Configure']")
+    private WebElement configureFromDropdownMenu;
 
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
@@ -364,7 +367,7 @@ public class HomePage extends BaseDashboardPage {
                getActions().moveToElement(s).build().perform();
            }
         }
-        projectMenuSelector.click();
+        projectDropDownMenuSelector.click();
 
         return this;
     }
@@ -387,5 +390,11 @@ public class HomePage extends BaseDashboardPage {
        searchBox.sendKeys(text + Keys.ENTER);
 
        return new SearchPage(getDriver());
+    }
+
+    public MultiConfigurationConfigPage clickConfigureFromDropdownMenuAndGoToMultiConfigurationConfig() {
+       configureFromDropdownMenu.click();
+
+       return new MultiConfigurationConfigPage(getDriver());
     }
 }

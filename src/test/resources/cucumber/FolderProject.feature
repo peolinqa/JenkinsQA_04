@@ -1,4 +1,4 @@
-Feature: Folder project
+ Feature: Folder project
 
   Scenario: Create folder
     When Go to NewItem

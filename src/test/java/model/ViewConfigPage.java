@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
+
 import java.util.List;
 
 public class ViewConfigPage extends BasePage {
@@ -43,6 +44,9 @@ public class ViewConfigPage extends BasePage {
 
     @FindBy(xpath = "//div[@class= 'listview-jobs']/span[1]/input")
     private WebElement firstJobInJobsList;
+
+    @FindBy(xpath = "//div[@class = 'listview-jobs']/span")
+    private List<WebElement> listExistingJobs;
 
     public ViewConfigPage(WebDriver driver) {
         super(driver);
@@ -87,14 +91,6 @@ public class ViewConfigPage extends BasePage {
         return new ViewConfigPage(getDriver());
     }
 
-    public ViewConfigPage scrollAndClickJob() {
-        getActions().moveToElement(firstJobInJobsList)
-                .click()
-                .perform();
-
-        return new ViewConfigPage(getDriver());
-    }
-
     public ViewConfigPage addAllUniqueColumns() {
         scrollPageToAddColumnButton();
         List<String> existingColumnsNames = TestUtils.getTextFromListWebElements(listExistingColumns);
@@ -133,5 +129,15 @@ public class ViewConfigPage extends BasePage {
         okButton.click();
 
         return new MyViewPage(getDriver());
+    }
+
+    public ViewConfigPage chooseJobs(int jobNumbers) {
+        if (jobNumbers <= listExistingJobs.size()) {
+            for (int i = 0; i < jobNumbers; i++) {
+                listExistingJobs.get(i).click();
+            }
+        }
+
+        return this;
     }
 }

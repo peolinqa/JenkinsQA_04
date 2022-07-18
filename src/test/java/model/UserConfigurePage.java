@@ -1,11 +1,12 @@
 package model;
 
+import model.base.BaseHeaderFooterPage;
 import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class UserConfigurePage extends BasePage {
+public class UserConfigurePage extends BaseHeaderFooterPage {
 
     @FindBy(name = "_.fullName")
     private WebElement fullNameField;
@@ -33,5 +34,9 @@ public class UserConfigurePage extends BasePage {
         saveButton.click();
 
         return new UserStatusPage(getDriver());
+    }
+
+    public String getGen2ButtonText() {
+        return saveButton.getText();
     }
 }

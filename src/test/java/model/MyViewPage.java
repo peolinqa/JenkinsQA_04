@@ -55,6 +55,12 @@ public class MyViewPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//thead/tr/th/a")
     private List<WebElement> columnsInMyView;
 
+    @FindBy(xpath = "//span[text()='Configure']")
+    private WebElement buttonConfigureInMenuSelector;
+
+    @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
+    private List<WebElement> listJobsNameMyViewPage;
+
     public MyViewPage(WebDriver driver) {
         super(driver);
     }
@@ -148,15 +154,21 @@ public class MyViewPage extends BaseHeaderFooterPage {
     }
 
     public MyViewPage moveToElement(String elementName) {
-        getActions().moveToElement(getDriver().findElement(By.xpath(String.format("//a[.='%s']", elementName))))
+        getActions()
+                .moveToElement(getDriver().findElement(By.xpath(String.format("//a[.='%s']", elementName))))
                 .perform();
 
         return this;
     }
 
-    public PipelineConfigPage selectOptionInMenuSelector(String option) {
+    public MyViewPage clickMenuSelector() {
         menuSelector.click();
-        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
+
+        return this;
+    }
+
+    public PipelineConfigPage clickInMenuSelectorConfigure() {
+        buttonConfigureInMenuSelector.click();
 
         return new PipelineConfigPage(getDriver());
     }
@@ -170,5 +182,10 @@ public class MyViewPage extends BaseHeaderFooterPage {
         getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
 
         return new MultibranchPipelineConfigPage(getDriver());
+    }
+
+    public List<String> getListJobsName() {
+
+        return listJobsNameMyViewPage.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }

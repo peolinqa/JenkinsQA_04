@@ -18,7 +18,6 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testUserCanCreateNewUser() {
-
         Set<String> usersListBefore = new TreeSet<>();
         Set<String> usersListAfter = new TreeSet<>();
 
@@ -42,7 +41,6 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test(dependsOnMethods = "testUserCanCreateNewUser")
     public void testEditUserFullName() {
-
         String userName = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
@@ -57,7 +55,6 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEditUserFullName")
     public void testUserCanDeleteUser() {
-
         Set<String> usersListBefore = new TreeSet<>();
         Set<String> usersListAfter = new TreeSet<>();
 
@@ -84,7 +81,6 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test(dataProvider = "special_characters")
     public void testUsernameFieldDoesNotAcceptSpecialCharacters(String specialCharacter) {
-
         final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
 
         String errorMessage = new HomePage(getDriver())
@@ -113,7 +109,6 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test(dataProvider = "css_values")
     public void testErrorMessagesHaveValidCssValues(String cssProperty, String expectedResult) {
-
         String cssValue = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
@@ -131,7 +126,6 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testCreateUserEmptyFields() {
-
         Set<String> actualErrorsText = new TreeSet<>();
         final Set<String> expectedErrorsText = Set.of("Password is required",
                 "\"\" is prohibited as a full name for security reasons.",
@@ -164,7 +158,6 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testCheckErrorMessagesIfFillOutOnlyUserNameField() {
-
         Set<String> actualErrorsText = new TreeSet<>();
         final Set<String> expectedErrorsText = Set.of("Password is required", "Invalid e-mail address");
 

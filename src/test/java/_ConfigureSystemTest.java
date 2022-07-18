@@ -8,7 +8,6 @@ import runner.TestUtils;
 public class _ConfigureSystemTest extends BaseTest {
 
     private static final String RANDOM_SYSTEM_MESSAGE = TestUtils.getRandomStr();
-
     @Test
     public void testConfigureSystemMessagePositive() {
         String previewActualResult = new HomePage(getDriver())
