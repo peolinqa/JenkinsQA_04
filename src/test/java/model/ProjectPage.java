@@ -206,4 +206,8 @@ public class ProjectPage extends BaseDashboardPage {
 
         return permalinksText;
     }
+
+    public String getPipelineProjectName() {
+        return projectName.getText().substring("Pipeline ".length());
+    }
 }

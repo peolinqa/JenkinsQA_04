@@ -35,14 +35,15 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testFolderIsCreatedWithoutSave() {
-        Boolean folderIsPresent = new HomePage(getDriver())
+        boolean folderIsPresent = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME)
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
-                .goHome().checkProjectNameNotPresent(RANDOM_FOLDER_NAME);
+                .goHome()
+                .checkProjectNameIsPresent(RANDOM_FOLDER_NAME);
 
-        Assert.assertFalse(folderIsPresent);
+        Assert.assertTrue(folderIsPresent);
     }
 
     @Test

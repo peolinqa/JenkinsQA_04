@@ -25,6 +25,7 @@ public class _PipelineTest extends BaseTest {
     private static final By H1 = By.xpath("//h1");
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
     private static final String PIPELINE_NAME = TestUtils.getRandomStr(7);
+    private static final String NEW_PIPELINE_NAME = String.format("New %s", PIPELINE_NAME);
     private final String namePipeline = pipelineName();
     private JavascriptExecutor javascriptExecutor;
 
@@ -508,24 +509,24 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorText, String.format("The name “%s” is already in use.", PIPELINE_NAME.toUpperCase()));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testRenamePipelineWithTheSameName")
     public void testRenamePipelineWithValidName() {
-        final String pipelineName = pipelineName();
-        final String newPipelineName = "NEW" + pipelineName;
+        String newProjectName = new HomePage(getDriver())
+                .clickProjectName(PIPELINE_NAME)
+                .clickRenameButton()
+                .setNewProjectName(NEW_PIPELINE_NAME)
+                .clickRenameAndGoToProjectPage()
+                .getPipelineProjectName();
 
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        createPipeline(pipelineName, Boolean.TRUE);
-        ProjectUtils.clickSaveButton(getDriver());
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        clickMenuSelectorLink(pipelineName, "Rename");
-        TestUtils.clearAndSend(getDriver(), NEW_NAME, newPipelineName);
-        click(RENAME_BUTTON);
+        Assert.assertEquals(newProjectName, NEW_PIPELINE_NAME);
+    }
 
-        Assert.assertTrue(getDriver().findElement(H1).getText().contains(newPipelineName));
+    @Test(dependsOnMethods = "testRenamePipelineWithValidName")
+    public void testRenamedProjectIsOnDashboard() {
+        boolean projectIsDisplayed = new HomePage(getDriver())
+                .checkProjectNameIsPresent(NEW_PIPELINE_NAME);
 
-        ProjectUtils.Dashboard.Pipeline.BackToDashboard.click(getDriver());
-
-        Assert.assertTrue(getPipelineOnTheDashboard(newPipelineName).isDisplayed());
+        Assert.assertTrue(projectIsDisplayed);
     }
 
     @Test(dependsOnMethods = "testRenamePipelineTheSameNameWithAllCapitalLetters")

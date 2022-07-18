@@ -85,6 +85,12 @@ public class RenamePage extends BaseHeaderFooterPage {
         return new ErrorPage(getDriver());
     }
 
+    public ProjectPage clickRenameAndGoToProjectPage() {
+        renameButton.click();
+
+        return new ProjectPage(getDriver());
+    }
+
     public List<String> getListErrorMessages(final List<String> names) {
         String baseName = "";
         final Pattern pattern = Pattern.compile("Rename Pipeline (\\w+)");

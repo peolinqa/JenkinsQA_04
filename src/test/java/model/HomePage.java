@@ -165,8 +165,8 @@ public class HomePage extends BaseDashboardPage {
         return result;
     }
 
-    public Boolean checkProjectNameNotPresent(String projectName) {
-        return !getActualDashboardProject().contains(projectName);
+    public boolean checkProjectNameIsPresent(String projectName) {
+        return getActualDashboardProject().contains(projectName);
     }
 
     public FolderPage clickFolderName(String name) {
