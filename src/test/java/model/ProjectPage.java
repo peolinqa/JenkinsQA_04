@@ -16,9 +16,6 @@ public class ProjectPage extends BaseDashboardPage {
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
 
-    @FindBy(css = "h1")
-    private WebElement folderName;
-
     @FindBy(linkText = "Build Now")
     private WebElement buildButton;
 
@@ -27,9 +24,6 @@ public class ProjectPage extends BaseDashboardPage {
 
     @FindBy(xpath = "//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name']")
     private List<WebElement> buildList;
-
-    @FindBy(className = "build-row-cell")
-    private List<WebElement> buildsRowList;
 
     @FindBy(id = "description-link")
     private WebElement addDescription;
@@ -45,12 +39,6 @@ public class ProjectPage extends BaseDashboardPage {
 
     @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
     private WebElement deletePipelineButton;
-
-    @FindBy(className = "icon-folder-disabled")
-    private WebElement iconFolderDisabled;
-
-    @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
-    private WebElement messageDisabled;
 
     @FindBy(linkText = "Build with Parameters")
     private WebElement buildWithParameters;
@@ -148,24 +136,20 @@ public class ProjectPage extends BaseDashboardPage {
     }
 
     public ProjectPage waitForBuildNumber(int number) {
-        getWait20().until(ExpectedConditions.visibilityOfElementLocated(
-                By.xpath(String.format("//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name' and .='#%s']", number))));
+        getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format(
+                "//a[@class='tip model-link inside build-link display-name' and .='#%s']", number))));
 
         return this;
     }
 
-    public List<WebElement> getVisibleBuildList() {
-        return buildList;
-    }
-
-    public List<WebElement> getBuildsRowList() {
-        return buildsRowList;
-    }
-
-    public ProjectPage clickMultipleTimesBuildButton(int number) throws InterruptedException {
+    public ProjectPage clickMultipleTimesBuildButton(int number) {
         for (int i = 0; i < number; ++i) {
-            clickBuildButton();
-            Thread.sleep(200);
+            buildButton.click();
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return this;
@@ -178,7 +162,6 @@ public class ProjectPage extends BaseDashboardPage {
     }
 
     public List<Integer> getNumbersBuildsList() {
-        List<WebElement> buildList = getVisibleBuildList();
         List<Integer> buildNumberList = new ArrayList<>();
 
         for (WebElement element : buildList) {

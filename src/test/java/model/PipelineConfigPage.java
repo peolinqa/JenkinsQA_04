@@ -86,7 +86,7 @@ public class PipelineConfigPage extends BaseDashboardPage {
     private List<WebElement> parametersLocation;
 
     @FindBy(id = "cb2")
-    private WebElement checkboxDiscardOldBuilds;
+    private WebElement checkBoxDiscardOldBuilds;
 
     @FindBy(xpath = "//input[@name='_.numToKeepStr']")
     private WebElement maxNumberOldItemsToKeep;
@@ -298,17 +298,15 @@ public class PipelineConfigPage extends BaseDashboardPage {
         return this;
     }
 
-    public PipelineConfigPage clickCheckboxDiscardOldBuilds() {
-        checkboxDiscardOldBuilds.click();
+    public PipelineConfigPage clickCheckBoxDiscardOldBuilds() {
+        checkBoxDiscardOldBuilds.click();
 
         return this;
     }
 
-    public PipelineConfigPage fillDiscardOldItems(String itemQuantity, String daysNumbers) {
-        maxNumberOldItemsToKeep.clear();
-        daysToKeepOldItems.clear();
-        maxNumberOldItemsToKeep.sendKeys(itemQuantity);
-        daysToKeepOldItems.sendKeys(daysNumbers);
+    public PipelineConfigPage enteringParametersToDisplayLatestBuilds(String displayedQuantity, String storageDays) {
+        maxNumberOldItemsToKeep.sendKeys(displayedQuantity);
+        daysToKeepOldItems.sendKeys(storageDays);
 
         return this;
     }
