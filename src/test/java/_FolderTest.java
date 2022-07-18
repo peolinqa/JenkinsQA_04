@@ -1,10 +1,12 @@
 import model.*;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.TestUtils;
 
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class _FolderTest extends BaseTest {
@@ -242,6 +244,59 @@ public class _FolderTest extends BaseTest {
                 .getSearchMessageText();
 
         Assert.assertEquals(searchResult, "Nothing seems to match.");
+    }
+
+    @Test
+    public void testAddHealthMetrics() {
+        final String folderName = TestUtils.getRandomStr();
+
+        String actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(folderName)
+                .setProjectTypeFolder()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToFolderPage()
+                .clickConfigure()
+                .clickMetricsButton()
+                .clickAddMetricButton()
+                .clickMetricsItem()
+                .saveConfigAndGoToFolderPage()
+                .clickConfigure()
+                .clickMetricsButton()
+                .getMetricElement()
+                .getText();
+
+        Assert.assertEquals(actualResult, "Child item with worst health");
+    }
+
+    @Test
+    public void testRemoveHealthMetrics() {
+        String folderName = TestUtils.getRandomStr();
+        try {
+            WebElement metric = new HomePage(getDriver())
+                    .clickNewItem()
+                    .setProjectName(folderName)
+                    .setProjectTypeFolder()
+                    .clickOkAndGoToConfig()
+                    .saveConfigAndGoToFolderPage()
+                    .clickConfigure()
+                    .clickMetricsButton()
+                    .clickAddMetricButton()
+                    .clickMetricsItem()
+                    .saveConfigAndGoToFolderPage()
+                    .clickConfigure()
+                    .clickMetricsButton()
+                    .deleteHealthMetric()
+                    .saveConfigAndGoToFolderPage()
+                    .clickConfigure()
+                    .clickMetricsButton()
+                    .getMetricElement();
+
+            Assert.assertThrows(() -> metric.isDisplayed());
+        } finally {
+            new FolderConfigPage(getDriver())
+                    .saveConfigAndGoToFolderPage();
+        }
     }
 
     @Test(dependsOnMethods = "testFolderIsCreatedWithoutSave")

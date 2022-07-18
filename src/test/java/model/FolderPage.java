@@ -22,6 +22,9 @@ public class FolderPage extends BaseDashboardPage {
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
 
+    @FindBy(xpath = "//span[text()='Configure']")
+    private WebElement clickConfigure;
+
     @FindBy(xpath = "//span[normalize-space(.)='Create a job']")
     private WebElement createJob;
 
@@ -66,5 +69,10 @@ public class FolderPage extends BaseDashboardPage {
 
     public String getJobName() {
         return jobName.getText();
+    }
+
+    public FolderConfigPage clickConfigure(){
+        clickConfigure.click();
+        return new FolderConfigPage(getDriver());
     }
 }
