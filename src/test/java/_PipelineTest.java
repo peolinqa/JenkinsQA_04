@@ -12,7 +12,6 @@ import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,8 +21,6 @@ import static runner.ProjectUtils.ProjectType.Pipeline;
 
 
 public class _PipelineTest extends BaseTest {
-    private static final By SUBMIT_BUTTON = By.cssSelector("[type='submit']");
-    private static final By APPLY_BUTTON = By.xpath("//button[contains(text(), 'Apply')]");
     private static final By RENAME_BUTTON = By.xpath("//button[text()='Rename']");
     private static final By H1 = By.xpath("//h1");
     private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
@@ -50,60 +47,21 @@ public class _PipelineTest extends BaseTest {
         }
     }
 
-    private void scrollPageDown() {
-        javascriptExecutor.executeScript("window.scrollBy(0, 500)");
+    @Deprecated
+    private void createNewPipeline(String pipelineName) {
+        createPipeline(pipelineName, Boolean.TRUE);
+        getDriver().findElement(By.name("description")).sendKeys("Test pipeline");
+        getDriver().findElement(By.id("yui-gen6-button")).click();
     }
 
-    private void homePageClick() {
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
+    @Deprecated
+    private void goToPipelinePage(String pipelineName) {
+        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[@href='/']")).click();
+        getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
     }
 
     private void click(By button) {
         getDriver().findElement(button).click();
-    }
-
-    private void click(By clickFirst, By clickSecond) {
-        getDriver().findElement(clickFirst).click();
-        getDriver().findElement(clickSecond).click();
-    }
-
-    private void createFewPipelines(int countPipelines, boolean buttonOk) {
-        for (int i = 0; i < countPipelines; i++) {
-            getDriver().findElement(By.cssSelector("[title='New Item']")).click();
-            getDriver().findElement(By.id("name")).sendKeys(pipelineName());
-            getDriver().findElement(By.xpath("//span[text()='Pipeline']")).click();
-            if (buttonOk) {
-                ProjectUtils.clickOKButton(getDriver());
-            }
-            homePageClick();
-        }
-    }
-
-    private List<String> getTextFromAttributeAndConvertIt
-            (final String attributeName,
-             List<WebElement> listWebElements,
-             final String convertFrom,
-             final String convertTo) {
-
-        List<String> listString = new ArrayList<>();
-        for (WebElement existingListWebElements : listWebElements) {
-            listString.add(existingListWebElements.getAttribute(attributeName).replace(convertFrom, convertTo));
-        }
-
-        return listString;
-    }
-
-    private void chooseJobsOnCreateViewPage(List<String> jobsNames, int indexRequiredJobs) {
-        getDriver().findElement(By.xpath(String.format("//input[@name = '%s']", jobsNames.get(indexRequiredJobs)))).click();
-    }
-
-    private void createNewView() {
-        String myViewName = "PipelineAC";
-
-        ProjectUtils.Dashboard.Main.NewView.click(getDriver());
-        getDriver().findElement(By.xpath("//input[@id = 'name']")).sendKeys(myViewName);
-        getDriver().findElement(By.xpath("//label[@for = 'hudson.model.ListView']")).click();
-        click(SUBMIT_BUTTON);
     }
 
     private void clickMenuSelectorLink(String pipelineName, String linkName) {
@@ -467,7 +425,7 @@ public class _PipelineTest extends BaseTest {
                 .setViewName(viewName)
                 .selectListViewType()
                 .createViewAndGoConfig()
-                .scrollAndClickJob()
+                .chooseJobs(1)
                 .addAllUniqueColumns()
                 .clickApplyAndOkAndGoToMyViewPage()
                 .getCountOfColumns();
@@ -513,32 +471,34 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCreateAndCheckNewMyView() {
-        final int countCreatedNewPipelines = 3;
+        final String name = pipelineName();
+        final int countJobs = 2;
 
-        createFewPipelines(countCreatedNewPipelines, Boolean.TRUE);
+        List<String> listJobsInMyViewName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name.concat("1"))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .clickNewItem()
+                .setProjectName(name.concat("2"))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .clickNewItem()
+                .setProjectName(name.concat("3"))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .clickNewView()
+                .setViewName(name)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .chooseJobs(countJobs)
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getListJobsName();
 
-        List<String> listExistingJobsOnDashboard = getTextFromAttributeAndConvertIt(
-                "id",
-                getDriver().findElements(By.xpath("//table[@id = 'projectstatus']/tbody/tr")),
-                "job_",
-                "");
-
-        createNewView();
-
-        chooseJobsOnCreateViewPage(listExistingJobsOnDashboard, 0);
-        chooseJobsOnCreateViewPage(listExistingJobsOnDashboard, 2);
-
-        scrollPageDown();
-        click(APPLY_BUTTON, SUBMIT_BUTTON);
-
-        List<String> listExistingJobsOnMyWathlist = getTextFromAttributeAndConvertIt("id",
-                getDriver().findElements(By.xpath("//table[@id = 'projectstatus']/tbody/tr")),
-                "job_",
-                "");
-
-        for (String s : listExistingJobsOnMyWathlist) {
-            Assert.assertTrue(listExistingJobsOnDashboard.contains(s));
-        }
+        Assert.assertEquals(listJobsInMyViewName.size(), countJobs);
     }
 
     @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
