@@ -1,7 +1,4 @@
-import model.ErrorPage;
-import model.HomePage;
-import model.MultiConfigurationProjectConsolePage;
-import model.RenamePage;
+import model.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -47,7 +44,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(consolePage.tooltipStatusSuccessIsDisplayed());
     }
 
-    @Test(dependsOnMethods = "testAddDescription")
+    @Test(dependsOnMethods = {"testCreateMultiConfigFolder", "testBuildNow", "testBuildNowInDisabledProject", "testAddDescription"})
     public void testCheckSubMenuConfigureAfterCreatingProject() {
         final String DiscardOldBuildsText = "This determines when, if ever, build records for this project should be discarded. " +
                 "Build records include the console output, archived artifacts, and any other metadata related " +
@@ -77,36 +74,15 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 "or as soon as any of the configured values are exceeded; these rules are evaluated " +
                 "each time a build of this project completes.";
 
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        getActions().moveToElement(getDriver().findElement(By.xpath
-                ("//table[@id='projectstatus']//a[normalize-space(.)='" + RANDOM_NAME + "']"))).perform();
-        getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().perform();
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//a[@class='yuimenuitemlabel']//span[text()='Configure']"))).click().perform();
+        MultiConfigurationConfigPage newMultiConfigurationConfigPage = new HomePage(getDriver())
+                .projectMenuSelector(RANDOM_NAME)
+                .clickConfigureFromDropdownMenuAndGoToMultiConfigurationConfig();
 
-        WebElement helpTitle = getDriver().findElement(By.xpath("//a[contains(@tooltip, 'Discard old builds')]"));
-
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(helpTitle.getAttribute("title"), "Help for feature: Discard old builds");
-
-        helpTitle.click();
-
-        asserts.assertEquals(getDriver().findElement(By.xpath("//div[@class='help']/div")).getText(),
+        Assert.assertTrue(newMultiConfigurationConfigPage.helpButtonDiscardOldBuildsIsVisible());
+        Assert.assertEquals(newMultiConfigurationConfigPage.getAttributeHelpButtonDiscardOldBuilds("title"),
+                "Help for feature: Discard old builds");
+        Assert.assertEquals(newMultiConfigurationConfigPage.clickHelpButtonDiscardOldBuilds().getTextDiscardOldBuildsHiddenTextArea(),
                 DiscardOldBuildsText);
-
-        WebElement checkBoxDiscardOldBuilds = getDriver().findElement(
-                By.xpath("//label[text()='Discard old builds']/preceding-sibling::input"));
-        if (!checkBoxDiscardOldBuilds.isSelected()) {
-            checkBoxDiscardOldBuilds.click();
-        }
-        asserts.assertTrue(checkBoxDiscardOldBuilds.isSelected());
-
-        getActions().moveToElement(getDriver().findElement(By.xpath("//span[@name='Apply']"))).click().build().perform();
-
-        WebElement applyMessage = getDriver().findElement(By.xpath("//div[@id='notification-bar']/span"));
-
-        getWait20().until(ExpectedConditions.invisibilityOfElementLocated(By.id("notification-bar")));
-        asserts.assertAll();
     }
 
     @Test(dependsOnMethods = "testBuildNow")
