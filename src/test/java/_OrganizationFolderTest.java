@@ -9,7 +9,6 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.TestUtils;
 import java.util.HashMap;
 import java.util.List;
 
@@ -152,7 +151,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .setProjectTypeOrganizationFolder()
                 .goHome().getTextFolderNamesOnDashboard();
 
-        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_NAME2));
+        Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME2));
     }
 
     @Test
@@ -215,27 +214,26 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderWithDisplayNameTest() {
-        fillNameAndClickOrganizationFolder();
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(By.name("_.displayNameOrNull")).sendKeys(VALID_FOLDER_NAME1);
-        getDriver().findElement(By.id("yui-gen13-button")).click();
+    public void checkNotificationAfterClickApply() {
+        OrganizationFolderConfigPage organizationFolderConfigPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectTypeOrganizationFolder()
+                .setProjectName(VALID_FOLDER_NAME1)
+                .clickOkAndGoToConfig()
+                .inputDisplayNameField(VALID_FOLDER_NAME2)
+                .clickApply();
 
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='notification-bar']/span")).getText(),
-                "Saved");
-        Assert.assertEquals(getDriver().findElement(By.xpath("//div[@id='notification-bar']/span")).getCssValue("color"),
-                "rgba(19, 131, 71, 1)");
+        Assert.assertEquals(organizationFolderConfigPage.getTextFromNotification(), "Saved");
+        Assert.assertEquals(organizationFolderConfigPage.getClassAttributeFromNotification(), "notif-alert-success notif-alert-show");
+        Assert.assertEquals(organizationFolderConfigPage.getColorValueAttributeFromNotification(), "rgba(19, 131, 71, 1)");
+    }
 
-        getDriver().findElement(SAVE_BUTTON).click();
-        getDriver().findElement(JENKINS).click();
+    @Test(dependsOnMethods = "checkNotificationAfterClickApply")
+    public void checkNewDisplayNameOnDashboard() {
+        List<String> result = new HomePage(getDriver()).getTextFolderNamesOnDashboard();
 
-        List<String> result = TestUtils.getTextFromList(getDriver(), By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]/a"));
-        Assert.assertTrue(result.contains(VALID_FOLDER_NAME1));
-        Assert.assertFalse(result.contains(VALID_FOLDER_NAME2));
-
-        getDriver().findElement(FOLDER_ON_DASHBOARD).click();
-        getDriver().findElement(By.xpath("//span[text()='Delete Organization Folder']")).click();
-        getDriver().findElement(YES_BUTTON).click();
+        Assert.assertFalse(result.contains(VALID_FOLDER_NAME1));
+        Assert.assertTrue(result.contains(VALID_FOLDER_NAME2));
     }
 
     @Test

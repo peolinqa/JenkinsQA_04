@@ -1,11 +1,10 @@
 package model;
 
 import model.base.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
 
 public class OrganizationFolderConfigPage extends BasePage {
 
@@ -38,6 +37,12 @@ public class OrganizationFolderConfigPage extends BasePage {
 
     @FindBy(id = "yui-gen12-button")
     private WebElement metricsButton;
+
+    @FindBy(xpath = "//div[@id='notification-bar']")
+    private WebElement notificationIsSaved;
+
+    @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
+    private WebElement displayNameField;
 
     public OrganizationFolderConfigPage(WebDriver driver) {
         super(driver);
@@ -100,5 +105,30 @@ public class OrganizationFolderConfigPage extends BasePage {
     public boolean checkChildMetricsIsDisplayed() {
 
         return childHealthMetric.isDisplayed();
+    }
+
+    public String getTextFromNotification(){
+        return notificationIsSaved.getText();
+    }
+
+    public String getClassAttributeFromNotification(){
+        return notificationIsSaved.getAttribute("class");
+    }
+
+    public String getColorValueAttributeFromNotification(){
+        return notificationIsSaved.getCssValue("color");
+    }
+
+    public OrganizationFolderConfigPage inputDisplayNameField(String newName){
+        displayNameField.sendKeys(newName);
+
+        return this;
+    }
+
+    public OrganizationFolderConfigPage clickApply() {
+        TestUtils.scrollToElement(getDriver(), applyButton);
+        applyButton.click();
+
+        return this;
     }
 }
