@@ -11,9 +11,6 @@ import java.util.stream.Collectors;
 
 public class _DashboardTest extends BaseTest {
 
-    private static final By XPATH_DISAPPEARING_BUTTON = By.xpath("//div[@id='menuSelector']");
-    private static final String DASHBOARD_XPATH = "//a[contains(text(),'Dashboard')]";
-
     private static final List<String> EXPECTED_ICONS_DESCRIPTIONS = List.of(
             "The project has never been built.", "The first build is in progress.",
             "The project is disabled.", "The project is disabled, but a build is in progress.",
@@ -29,33 +26,25 @@ public class _DashboardTest extends BaseTest {
             "Project health is over 20% and up to 40%. You can hover the mouse over the project’s icon for a more detailed explanation.",
             "Project health is 20% or less. You can hover the mouse over the project’s icon for a more detailed explanation.");
 
-    private static final List<String> EXPECTED_ITEMS = List.of(
-            "New Item",
-            "People",
-            "Build History",
-            "Manage Jenkins",
-            "My Views",
-            "Lockable Resources",
-            "New View");
-
     @Test
     /*
      * To pass this test you should have "Lockable Resources" plugin installed on local machine
      * */
     public void testCommonCheckDropDownMenu() {
-        WebElement dashboard = getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.xpath(DASHBOARD_XPATH)));
-        getActions().moveToElement(dashboard).build().perform();
+        List<String> expectedListOfDashboardDropdownMenuElements = List.of(
+                "New Item",
+                "People",
+                "Build History",
+                "Manage Jenkins",
+                "My Views",
+                "Lockable Resources",
+                "New View");
 
-        WebElement button = getWait5().until(ExpectedConditions.visibilityOfElementLocated(XPATH_DISAPPEARING_BUTTON));
-        getActions().moveToElement(button).click().build().perform();
+        List<String> listOfDashboardDropdownMenuElements = new HomePage(getDriver())
+                .clickDashboardDropdownMenu()
+                .getListOfDashboardDropdownMenuElements();
 
-        List<String> actualItems = getDriver().findElements(By.xpath("//ul[@class='first-of-type']/li"))
-                .stream()
-                .filter(s -> !s.getText().isEmpty())
-                .map(WebElement::getText)
-                .collect(Collectors.toList());
-
-        Assert.assertEquals(actualItems, EXPECTED_ITEMS);
+        Assert.assertEquals(listOfDashboardDropdownMenuElements, expectedListOfDashboardDropdownMenuElements);
     }
 
     @Test
