@@ -203,14 +203,6 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
         return this;
     }
 
-    public NewItemPage<ConfigPage> waitWarningMessage(char invalidSymbol, String text){
-        getWait5().until(ExpectedConditions.textToBePresentInElement(
-                getNameError(),
-                "» ‘" + invalidSymbol + text));
-
-        return this;
-    }
-
     public NewItemPage<ConfigPage> waitDotWarningMessage(){
         getWait5().until(ExpectedConditions.textToBePresentInElement(
                 getNameError(), "» “.” is not an allowed name"));

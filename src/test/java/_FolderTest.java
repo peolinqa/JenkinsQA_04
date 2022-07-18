@@ -5,6 +5,8 @@ import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.TestUtils;
 
+import java.util.Random;
+
 public class _FolderTest extends BaseTest {
 
     private static final String NAME_FOLDER = TestUtils.getRandomStr();
@@ -12,8 +14,6 @@ public class _FolderTest extends BaseTest {
     private static final String FOLDER_NAME_FOR_RENAME1 = TestUtils.getRandomStr();
     private static final String RANDOM_FOLDER_NAME2 = TestUtils.getRandomStr();
 
-    private static final char[] INVALID_SYMBOLS =
-            {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
     protected static final char[] CHARS =
             {',', 39, '`', '~', '-', ' ', '(', ')', '{', '}', '+', '=', '_', '"'};
 
@@ -50,20 +50,19 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCycleCreateFolderWithInvalidData() {
 
-        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem();
+        final char[] invalidSymbols = {92, ':', ';', '/', '!', '@', '#', '$', '%', '^', '[', ']', '&', '*', '<', '>', '?', '|'};
 
-        for (int i = 0; i < INVALID_SYMBOLS.length; i++) {
-            String expectedResult = "» ‘" + INVALID_SYMBOLS[i] + WARNING_TEXT_UNSAFE;
+        int result = new Random().nextInt(invalidSymbols.length);
 
-            String actualResult = newItemPage
-                    .setProjectName(Character.toString(INVALID_SYMBOLS[i]))
-                    .waitWarningMessage(INVALID_SYMBOLS[i],WARNING_TEXT_UNSAFE)
-                    .getNameErrorText();
+        String actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(Character.toString(invalidSymbols[result]))
+                .setProjectTypeFolder()
+                .getNameErrorText();
+
+            String expectedResult = String.format("» ‘%s%s", invalidSymbols[result], WARNING_TEXT_UNSAFE);
 
             Assert.assertEquals(actualResult, expectedResult);
-
-            newItemPage.clearNameText();
-        }
     }
 
     @Test
