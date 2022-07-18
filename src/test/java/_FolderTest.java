@@ -302,6 +302,7 @@ public class _FolderTest extends BaseTest {
                     .clickConfigure()
                     .clickMetricsButton()
                     .getMetricElement();
+
             Assert.assertThrows(() -> metric.isDisplayed());
         } finally {
             new FolderConfigPage(getDriver())

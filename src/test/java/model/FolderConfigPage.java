@@ -83,6 +83,7 @@ public class FolderConfigPage extends BasePage {
 
     public FolderConfigPage clickAddMetricButton() {
         clickAddMetricButton.click();
+
         return this;
     }
 
@@ -104,6 +105,7 @@ public class FolderConfigPage extends BasePage {
             } while (deleteHealthMetric.isDisplayed());
         } catch (Exception ex) {
         }
+
         return this;
     }
 }
