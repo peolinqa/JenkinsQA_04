@@ -55,6 +55,12 @@ public class ProjectPage extends BaseDashboardPage {
     @FindBy(xpath = "//td[@class='build-row-cell']//a[contains(text(),'#')]")
     private WebElement buildIcon;
 
+    @FindBy(xpath = "//a[@class='tip model-link inside build-link display-name']")
+    private WebElement buildName;
+
+    @FindBy(xpath = "//div[@class='pane desc indent-multiline']")
+    private WebElement buildDescription;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -209,5 +215,13 @@ public class ProjectPage extends BaseDashboardPage {
 
     public String getPipelineProjectName() {
         return projectName.getText().substring("Pipeline ".length());
+    }
+
+    public String getBuildName() {
+        return buildName.getText();
+    }
+
+    public String getBuildDescription() {
+        return  buildDescription.getText();
     }
 }

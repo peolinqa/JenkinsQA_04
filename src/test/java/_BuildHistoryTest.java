@@ -89,15 +89,17 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test(dependsOnMethods = {"testVerifyChangeOnBuildStatusPage"})
     public void testVerifyChangeOnProjectStatusPage() {
-        getDriver().findElement(By.xpath("//a[@href='job/NewFreestyleProject/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Back to Project']")).click();
+        String buildName = new HomePage(getDriver())
+                .clickProjectName(BUILD_PROJECT_NAME)
+                .selectLastBuild()
+                .clickBackToProjectButton()
+                .getBuildName();
 
-        String buildName = getDriver().findElement(By.xpath("//a[text()='New build 123']")).getText();
-        String buildDescription = getDriver().findElement(By.xpath("//div[@class='pane desc indent-multiline']")).getText();
+        String descriptionName = new ProjectPage(getDriver())
+                .getBuildDescription();
 
-        Assert.assertTrue(buildName.contains("New build 123"));
-        Assert.assertTrue(buildDescription.contains("Build 123 description test"));
+        Assert.assertEquals(buildName,"New build 123");
+        Assert.assertEquals(descriptionName,"Build 123 description test");
     }
 
     @Test(dependsOnMethods = {"testVerifyChangeOnProjectStatusPage"})

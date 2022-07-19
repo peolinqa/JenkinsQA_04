@@ -25,6 +25,9 @@ public class LastBuildPage extends BasePage {
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement buildDescription;
 
+    @FindBy(xpath = "//span[text()='Back to Project']")
+    private WebElement backToProjectButton;
+
     private String testBuildName;
 
     public LastBuildPage(WebDriver driver) {
@@ -54,6 +57,12 @@ public class LastBuildPage extends BasePage {
         saveButton.click();
 
         return this;
+    }
+
+    public ProjectPage clickBackToProjectButton(){
+        backToProjectButton.click();
+
+        return new ProjectPage(getDriver());
     }
 
     public String getBuildName(){
