@@ -16,10 +16,12 @@ import java.util.List;
 
 public class _OrganizationFolderTest extends BaseTest {
 
-    private final String VALID_FOLDER_NAME0 = TestUtils.getRandomStr(5);
-    private final String VALID_FOLDER_NAME1 = "Organization Test";
-    private final String VALID_FOLDER_NAME2 = "folder1";
-    private static final String DISABLED_FOLDER_NAME = "DisabledFolderName";
+    private static final String VALID_FOLDER_NAME = TestUtils.getRandomStr(5);
+    private static final String VALID_FOLDER_RENAME = TestUtils.getRandomStr(5);
+    private static final String VALID_FOLDER_NAME1 = TestUtils.getRandomStr();
+    private static final String VALID_FOLDER_NAME2 = TestUtils.getRandomStr();
+    private static final String DISABLED_FOLDER_NAME = TestUtils.getRandomStr();
+
     private final By BUTTON_NEW_ITEM = By.linkText("New Item");
     private final By INPUT_ITEM_NAME = By.id("name");
     private final By BUTTON_ORGANIZATION_FOLDER = By.xpath(
@@ -38,11 +40,6 @@ public class _OrganizationFolderTest extends BaseTest {
         getDriver().findElement(BUTTON_ORGANIZATION_FOLDER).click();
     }
 
-    private void clickOkAndSaveButtons() {
-        getDriver().findElement(OK_BUTTON).click();
-        getDriver().findElement(SAVE_BUTTON).click();
-    }
-
     private void deleteFolder() {
         getDriver().findElement(JENKINS).click();
         WebElement folder1 = getDriver().findElement(FOLDER_ON_DASHBOARD);
@@ -54,37 +51,36 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderTest() {
+    public void testCreateOrganizationFolder() {
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(VALID_FOLDER_NAME0)
+                .setProjectName(VALID_FOLDER_NAME)
                 .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
 
-        Assert.assertEquals(projectName, VALID_FOLDER_NAME0);
+        Assert.assertEquals(projectName, VALID_FOLDER_NAME);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "createOrganizationFolderTest")
-    public void renameOrganizationFolderTest() {
+    @Test(dependsOnMethods = "testCreateOrganizationFolder")
+    public void testRenameOrganizationFolder() {
         String projectName = new HomePage(getDriver())
-                .clickOrganizationFolderName(VALID_FOLDER_NAME1)
+                .clickOrganizationFolderName(VALID_FOLDER_NAME)
                 .renameOrganizationFolder()
-                .setNewProjectName(VALID_FOLDER_NAME2)
+                .setNewProjectName(VALID_FOLDER_RENAME)
                 .clickRenameAndGoToOrganizationFolder()
                 .getProjectName();
 
-        Assert.assertEquals(projectName, VALID_FOLDER_NAME2);
+        Assert.assertEquals(projectName, VALID_FOLDER_RENAME);
     }
 
     @Ignore
-    @Test(dependsOnMethods = "renameOrganizationFolderTest")
-    public void createOrganizationFolderSameItemNameTest() {
+    @Test(dependsOnMethods = "testRenameOrganizationFolder")
+    public void testCreateOrganizationFolderSameItemName() {
         boolean isDisplayedNameError = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(VALID_FOLDER_NAME2)
+                .setProjectName(VALID_FOLDER_RENAME)
                 .setProjectTypeOrganizationFolder()
                 .isDisplayedNameError();
 
@@ -92,21 +88,20 @@ public class _OrganizationFolderTest extends BaseTest {
 
         Assert.assertTrue(isDisplayedNameError);
         Assert.assertEquals(newItemPage.getNameErrorText(),
-                "» A job already exists with the name ‘" + VALID_FOLDER_NAME2 + "’");
+                "» A job already exists with the name ‘" + VALID_FOLDER_RENAME + "’");
         Assert.assertEquals(newItemPage.getNameErrorCss("color").toString(),
                 "rgba(255, 0, 0, 1)");
     }
 
-    @Ignore
-    @Test(dependsOnMethods = {"createOrganizationFolderTest", "renameOrganizationFolderTest"})
-    public void deleteOrganizationFolderTest() {
+    @Test(dependsOnMethods = {"testRenameOrganizationFolder"})
+    public void testDeleteOrganizationFolder() {
         List<String> textFolderNames = new HomePage(getDriver())
-                .clickOrganizationFolderName(VALID_FOLDER_NAME2)
+                .clickOrganizationFolderName(VALID_FOLDER_RENAME)
                 .deleteOrganizationFolder()
                 .deleteOrganizationFolderAndGoHomePage()
                 .getTextFolderNamesOnDashboard();
 
-        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_NAME2));
+        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_RENAME));
     }
 
     @Test
@@ -125,32 +120,31 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(warningMessage.get("Message Color"), "rgba(196, 160, 0, 1)");
     }
 
-    @Test
-    public void createOrganizationFolderWithMetadataFolderIconTest() {
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder", "testDeleteOrganizationFolder"})
+    public void testCreateOrganizationFolderWithMetadataFolderIcon() {
         String projectIcon = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(VALID_FOLDER_NAME2)
+                .setProjectName(VALID_FOLDER_NAME)
                 .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
                 .clickAppearanceDropDownList()
                 .selectOptionMetadataFolderIcon()
                 .saveConfigAndGoToProject()
                 .clickJenkinsIconAndGoToHomePage()
-                .getProjectIconByName(VALID_FOLDER_NAME2)
+                .getProjectIconByName(VALID_FOLDER_NAME)
                 .getAttribute("class");
 
         Assert.assertEquals(projectIcon,
                 "icon-branch-api-organization-folder icon-lg");
-
-        deleteFolder();
     }
 
-    @Test
-    public void createOrganizationFolderAbortCreationTest() {
+    @Test(dependsOnMethods = "testDeleteOrganizationFolder")
+    public void testCreateOrganizationFolderAbortCreation() {
         List<String> textFolderNames = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME2)
                 .setProjectTypeOrganizationFolder()
+                .clickOkAndGoToConfig()
                 .goHome().getTextFolderNamesOnDashboard();
 
         Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME2));
@@ -158,7 +152,7 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void createOrganizationFolderIncorrectNameTest() {
+    public void testCreateOrganizationFolderIncorrectName() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 15);
 
         getDriver().findElement(BUTTON_NEW_ITEM).click();
@@ -183,7 +177,7 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderEmptyNameTest() {
+    public void createOrganizationFolderEmptyName() {
         NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectTypeOrganizationFolder();
@@ -195,7 +189,7 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Ignore
     @Test
-    public void createOrganizationFolderNavigationTest() {
+    public void testCreateOrganizationFolderNavigation() {
         fillNameAndClickOrganizationFolder();
         getDriver().findElement(OK_BUTTON).click();
 
@@ -218,11 +212,11 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void checkNotificationAfterClickApply() {
+    public void testCheckNotificationAfterClickApply() {
         OrganizationFolderConfigPage organizationFolderConfigPage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectTypeOrganizationFolder()
                 .setProjectName(VALID_FOLDER_NAME1)
+                .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
                 .inputDisplayNameField(VALID_FOLDER_NAME2)
                 .clickApply();
@@ -232,8 +226,8 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(organizationFolderConfigPage.getColorValueAttributeFromNotification(), "rgba(19, 131, 71, 1)");
     }
 
-    @Test(dependsOnMethods = "checkNotificationAfterClickApply")
-    public void checkNewDisplayNameOnDashboard() {
+    @Test(dependsOnMethods = "testCheckNotificationAfterClickApply")
+    public void testCheckNewDisplayNameOnDashboard() {
         List<String> result = new HomePage(getDriver()).getTextFolderNamesOnDashboard();
 
         Assert.assertFalse(result.contains(VALID_FOLDER_NAME1));
@@ -244,7 +238,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testUserCanAddProperties() {
         boolean actualResult = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName("Folder")
+                .setProjectName(TestUtils.getRandomStr())
                 .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
                 .enterDescription("New project")
