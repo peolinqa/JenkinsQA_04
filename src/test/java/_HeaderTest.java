@@ -255,8 +255,7 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuBuilds() {
         String userBuilds = new UserBuildPage(getDriver())
-                .navigateToUserMenu()
-                .navigateToUserMenuAndClick()
+                .navigateAndClickDropDownUserMenu()
                 .clickBuildsAndGoToBuildsPage()
                 .getTextName();
 
@@ -266,8 +265,7 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuConfigure() {
         String buttonText = new UserBuildPage(getDriver())
-                .navigateToUserMenu()
-                .navigateToUserMenuAndClick()
+                .navigateAndClickDropDownUserMenu()
                 .clickConfigureAndGoToConfigurePage()
                 .getGen2ButtonText();
 

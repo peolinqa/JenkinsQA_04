@@ -23,8 +23,8 @@ public abstract class BaseHeaderFooterPage extends BasePage {
     @FindBy(css = ".login")
     private WebElement userPage;
 
-    @FindBy(css = "div[id='menuSelector']")
-    private WebElement menuSelector;
+    @FindBy(id = "menuSelector")
+    protected WebElement menuSelector;
 
     @FindBy(linkText = "Builds")
     private WebElement builds;
@@ -72,16 +72,11 @@ public abstract class BaseHeaderFooterPage extends BasePage {
         return new UserStatusPage(getDriver());
     }
 
-    public HomePage navigateToUserMenu() {
+    public BaseHeaderFooterPage navigateAndClickDropDownUserMenu() {
         getActions().moveToElement(userPage).pause(200).perform();
-
-        return new HomePage(getDriver());
-    }
-
-    public HomePage navigateToUserMenuAndClick() {
         menuSelector.click();
 
-        return new HomePage(getDriver());
+        return this;
     }
 
     public UserBuildPage clickBuildsAndGoToBuildsPage() {

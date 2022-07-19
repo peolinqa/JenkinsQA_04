@@ -78,9 +78,6 @@ public class HomePage extends BaseDashboardPage {
     @FindBy(xpath = "//a[@rel='noopener noreferrer']")
     private WebElement linkToJenkinsIO;
 
-    @FindBy(id = "menuSelector")
-    private WebElement projectDropDownMenuSelector;
-
     @FindBy (xpath = "//a[@href='/legend']")
     private WebElement linkIconLegend;
 
@@ -367,7 +364,7 @@ public class HomePage extends BaseDashboardPage {
                getActions().moveToElement(s).build().perform();
            }
         }
-        projectDropDownMenuSelector.click();
+        menuSelector.click();
 
         return this;
     }
