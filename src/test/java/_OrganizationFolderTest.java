@@ -3,8 +3,6 @@ import model.NewItemPage;
 import model.OrganizationFolderConfigPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -148,32 +146,6 @@ public class _OrganizationFolderTest extends BaseTest {
                 .goHome().getTextFolderNamesOnDashboard();
 
         Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME2));
-    }
-
-    @Ignore
-    @Test
-    public void testCreateOrganizationFolderIncorrectName() {
-        WebDriverWait wait = new WebDriverWait(getDriver(), 15);
-
-        getDriver().findElement(BUTTON_NEW_ITEM).click();
-        getDriver().findElement(INPUT_ITEM_NAME).sendKeys("@");
-
-        WebElement error = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("itemname-invalid")));
-        Assert.assertEquals(error.getText(), "» ‘@’ is an unsafe character");
-        Assert.assertEquals(error.getCssValue("color").toString(), "rgba(255, 0, 0, 1)");
-        Assert.assertEquals(getDriver().findElement(OK_BUTTON).getAttribute("class").toString(), "disabled");
-
-        getDriver().findElement(INPUT_ITEM_NAME).clear();
-        getDriver().findElement(INPUT_ITEM_NAME).sendKeys("%");
-        Assert.assertEquals(error.getText(), "» ‘%’ is an unsafe character");
-        Assert.assertEquals(error.getCssValue("color").toString(), "rgba(255, 0, 0, 1)");
-        Assert.assertEquals(getDriver().findElement(OK_BUTTON).getAttribute("class").toString(), "disabled");
-
-        getDriver().findElement(INPUT_ITEM_NAME).clear();
-        getDriver().findElement(INPUT_ITEM_NAME).sendKeys("&");
-        Assert.assertEquals(error.getText(), "» ‘&’ is an unsafe character");
-        Assert.assertEquals(error.getCssValue("color").toString(), "rgba(255, 0, 0, 1)");
-        Assert.assertEquals(getDriver().findElement(OK_BUTTON).getAttribute("class").toString(), "disabled");
     }
 
     @Test
