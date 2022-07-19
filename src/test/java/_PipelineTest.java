@@ -1,15 +1,12 @@
 import model.HomePage;
 import model.PipelineConfigPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.TestUtils;
 
 import java.util.Arrays;
@@ -17,13 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static runner.ProjectUtils.ProjectType.Pipeline;
-
-
 public class _PipelineTest extends BaseTest {
-    private static final By RENAME_BUTTON = By.xpath("//button[text()='Rename']");
-    private static final By H1 = By.xpath("//h1");
-    private static final By NEW_NAME = By.xpath("//div[@class='setting-main']/input[@name='newName']");
+
     private static final String PIPELINE_NAME = TestUtils.getRandomStr(7);
     private static final String NEW_PIPELINE_NAME = String.format("New %s", PIPELINE_NAME);
     private final String namePipeline = pipelineName();
@@ -37,45 +29,6 @@ public class _PipelineTest extends BaseTest {
 
     private String pipelineName() {
         return TestUtils.getRandomStr(7);
-    }
-
-    private void createPipeline(String name, boolean buttonOk) {
-        ProjectUtils.Dashboard.Main.NewItem.click(getDriver());
-        getDriver().findElement(By.id("name")).sendKeys(name);
-        Pipeline.click(getDriver());
-        if (buttonOk) {
-            ProjectUtils.clickOKButton(getDriver());
-        }
-    }
-
-    @Deprecated
-    private void createNewPipeline(String pipelineName) {
-        createPipeline(pipelineName, Boolean.TRUE);
-        getDriver().findElement(By.name("description")).sendKeys("Test pipeline");
-        getDriver().findElement(By.id("yui-gen6-button")).click();
-    }
-
-    @Deprecated
-    private void goToPipelinePage(String pipelineName) {
-        getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']//a[@href='/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='job/" + pipelineName + "/']")).click();
-    }
-
-    private void click(By button) {
-        getDriver().findElement(button).click();
-    }
-
-    private void clickMenuSelectorLink(String pipelineName, String linkName) {
-        getActions().moveToElement(getPipelineOnTheDashboard(pipelineName)).build().perform();
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//div[@id='menuSelector']"))).click().build().perform();
-        getActions().moveToElement(getDriver().findElement(
-                By.xpath("//span[text()='" + linkName + "']/../../a"))).click().build().perform();
-    }
-
-    private WebElement getPipelineOnTheDashboard(String pipelineName) {
-        return getDriver().findElement(
-                By.xpath("//tr[@id='job_" + pipelineName + "']//a[contains(@class,'jenkins-table__link')]"));
     }
 
     @Test
@@ -93,7 +46,7 @@ public class _PipelineTest extends BaseTest {
                 .setProjectTypePipeline()
                 .getNameErrorText();
 
-        Assert.assertEquals(displayDuplicatedJobName, "» A job already exists with the name ‘" + name + "’");
+        Assert.assertEquals(displayDuplicatedJobName, String.format("» A job already exists with the name ‘%s’", name));
     }
 
     @Test
@@ -385,15 +338,15 @@ public class _PipelineTest extends BaseTest {
                 .clickParametersButton()
                 .collectChoiceAndDescriptionParameterName();
 
-        Assert.assertEquals(checkNameAndDescriptionParametersBuild, List.of("Checking Name Display\n"
-                + "Checking Description Display"));
+        Assert.assertEquals(checkNameAndDescriptionParametersBuild,
+                List.of("Checking Name Display\nChecking Description Display"));
     }
 
     @Test
     public void testPermalinksTextAfterPipelineBuildNow() {
         final String name = pipelineName();
 
-        String[] permalinksText = new HomePage(getDriver())
+        final String[] permalinksText = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
@@ -470,7 +423,7 @@ public class _PipelineTest extends BaseTest {
         final String name = pipelineName();
         final int countJobs = 2;
 
-        List<String> listJobsInMyViewName = new HomePage(getDriver())
+        final List<String> listJobsInMyViewName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name.concat("1"))
                 .setProjectTypePipeline()
@@ -511,7 +464,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenamePipelineWithTheSameName")
     public void testRenamePipelineWithValidName() {
-        String newProjectName = new HomePage(getDriver())
+        final String newProjectName = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
                 .clickRenameButton()
                 .setNewProjectName(NEW_PIPELINE_NAME)
@@ -523,7 +476,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenamePipelineWithValidName")
     public void testRenamedProjectIsOnDashboard() {
-        boolean projectIsDisplayed = new HomePage(getDriver())
+        final boolean projectIsDisplayed = new HomePage(getDriver())
                 .checkProjectNameIsPresent(NEW_PIPELINE_NAME);
 
         Assert.assertTrue(projectIsDisplayed);
@@ -539,7 +492,6 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(errorText, "The new name is the same as the current name.");
     }
-
 
     @Test
     public void testRenamePipelineWithInvalidName() {
@@ -617,7 +569,10 @@ public class _PipelineTest extends BaseTest {
                 .refreshPage()
                 .getNumbersBuildsList();
 
-        List<Integer> expectedLast30BuildsNumbers = IntStream.range(2, 32).map(i -> 32 - i + 2 - 1).boxed()
+        List<Integer> expectedLast30BuildsNumbers = IntStream
+                .range(2, 32)
+                .map(i -> 32 - i + 2 - 1)
+                .boxed()
                 .collect(Collectors.toList());
 
         Assert.assertEquals(checkingDisplayLast30Builds, expectedLast30BuildsNumbers);
