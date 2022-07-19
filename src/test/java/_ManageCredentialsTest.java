@@ -31,8 +31,8 @@ public class _ManageCredentialsTest extends BaseTest {
                 "icon-credentials-system-store icon-md", "icon-credentials-system-store icon-lg"};
 
         ManageCredentialsPage iconSizeChange = new HomePage(getDriver())
-                                                    .clickManageJenkins()
-                                                    .clickManageCredentials();
+                .clickManageJenkins()
+                .clickManageCredentials();
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertEquals(iconSizeChange.clickSmallSizeIcon().getAttributeClass(), icon_style[0]);
@@ -78,5 +78,16 @@ public class _ManageCredentialsTest extends BaseTest {
                 .getDomainHeader();
 
         Assert.assertEquals(addDomain, domainName);
+    }
+
+    @Test
+    public void testValidateIconSize() {
+
+        boolean expected = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickManageCredentials()
+                .clickIconButtonAndGetSize();
+
+         Assert.assertFalse(expected);
     }
 }

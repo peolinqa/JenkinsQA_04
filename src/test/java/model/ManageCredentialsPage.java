@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseDashboardPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ManageCredentialsPage extends BasePage {
+public class ManageCredentialsPage extends BaseDashboardPage {
 
     @FindBy(xpath = "//a[@href='/credentials/store/system']")
     private WebElement credentialsStoreSystem;
@@ -39,6 +39,9 @@ public class ManageCredentialsPage extends BasePage {
 
     @FindBy(xpath = "//span[text()='arge']/..")
     WebElement largeChangeIconButtonBGColor;
+
+    @FindBy(xpath = "//li[@class='jenkins-icon-size__items-item']")
+    WebElement iconButtonName;
 
     public ManageCredentialsPage(WebDriver driver) {
         super(driver);
@@ -91,10 +94,22 @@ public class ManageCredentialsPage extends BasePage {
     }
 
     public String[] getChangeIconButtonsBGColors() {
-        return new String[] {
+        return new String[]{
                 smallChangeIconButtonBGColor.getCssValue("background-color"),
                 mediumChangeIconButtonBGColor.getCssValue("background-color"),
                 largeChangeIconButtonBGColor.getCssValue("background-color")
         };
+    }
+
+    public String getIconSize() {
+        return (attributeClass.getCssValue("height"));
+    }
+
+    public boolean clickIconButtonAndGetSize() {
+        String str = getIconSize();
+        clickSmallSizeIcon();
+        String str1 = getIconSize();
+
+        return str == str1;
     }
 }
