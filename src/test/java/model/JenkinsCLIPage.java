@@ -18,6 +18,15 @@ public class JenkinsCLIPage extends BasePage {
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr")
     private static List<WebElement> availableCommands;
 
+    @FindBy(xpath = "//th[1]/a")
+    WebElement nameCaption;
+
+    @FindBy(xpath = "//th[2]/a")
+    WebElement descriptionCaption;
+
+    @FindBy(xpath = "//th[1]/a/span")
+    WebElement descriptionCaptionStatus;
+
     public JenkinsCLIPage(WebDriver driver) {
         super(driver);
     }
@@ -38,5 +47,17 @@ public class JenkinsCLIPage extends BasePage {
 
     public int getNumberOfCommands(){
         return availableCommands.size();
+    }
+
+    public JenkinsCLIPage clickNameCaption(){
+        nameCaption.click();
+
+        return this;
+    }
+
+    public JenkinsCLIPage clickDescriptionCaption(){
+        descriptionCaption.click();
+
+        return this;
     }
 }

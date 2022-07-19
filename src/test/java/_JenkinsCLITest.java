@@ -19,7 +19,7 @@ public class _JenkinsCLITest extends BaseTest {
             "replay-pipeline", "restart", "restart-from-stage", "safe-restart", "safe-shutdown",
             "session-id", "set-build-description", "set-build-display-name", "shutdown", "stop-builds",
             "update-credentials-by-xml", "update-credentials-domain-by-xml", "update-job", "update-node", "update-view",
-            "version", "wait-node-offline", "wait-node-online", "who-am-i" };
+            "version", "wait-node-offline", "wait-node-online", "who-am-i"};
 
     private static final String[] COMMANDDESCRIPTIONS = {"Adds jobs to view.",
             "Builds a job, and optionally waits until its completion.",
@@ -65,7 +65,7 @@ public class _JenkinsCLITest extends BaseTest {
             "Updates the node definition XML from stdin. The opposite of the get-node command.",
             "Updates the view definition XML from stdin. The opposite of the get-view command.",
             "Outputs the current version.", "Wait for a node to become offline.",
-            "Wait for a node to become online.", "Reports your credential and permissions." };
+            "Wait for a node to become online.", "Reports your credential and permissions."};
 
     private int getNumberOfCommands() {
         int number = new HomePage(getDriver())
@@ -110,5 +110,27 @@ public class _JenkinsCLITest extends BaseTest {
 
             Assert.assertTrue(isAddJobToViewExample);
         }
+    }
+
+    @Test(dependsOnMethods = {"checkCommandNameTest", "checkCommandDescriptionTest", "checkCommandExample"})
+    public void checkSortByName() {
+        String firstCommandName = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .clickNameCaption()
+                .getCommandName(0);
+
+        Assert.assertEquals(firstCommandName, COMMANDNAMES[COMMANDNAMES.length - 1]);
+    }
+
+    @Test(dependsOnMethods = {"checkCommandNameTest", "checkCommandDescriptionTest", "checkCommandExample"})
+    public void checkSortByDescription() {
+        String firstDescription = new HomePage(getDriver())
+                .clickManageJenkins()
+                .clickJenkinsCLI()
+                .clickDescriptionCaption()
+                .getCommandDescription(0);
+
+        Assert.assertEquals(firstDescription, COMMANDDESCRIPTIONS[COMMANDDESCRIPTIONS.length - 2]);
     }
 }
