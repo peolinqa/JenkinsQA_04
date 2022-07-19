@@ -1,14 +1,10 @@
 package runner;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import ru.yandex.qatools.ashot.AShot;
-import ru.yandex.qatools.ashot.Screenshot;
-import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
-
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -83,21 +79,11 @@ public final class BaseUtils {
     }
 
     static void captureScreenFile(WebDriver driver, String methodName, String className) {
-
-        WebElement element = driver.findElement(By.id("breadcrumbBar"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].style.display='none'", element);
-        List<WebElement> elements = driver.findElements(By.className("bottom-sticker-inner"));
-        for (WebElement el : elements) {
-            ((JavascriptExecutor) driver).executeScript("arguments[0].style.position='absolute'", el);
-        }
-        Screenshot ts = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(100)).takeScreenshot(driver);
-        try {
-            File folder = new File("ScreenshotsFailure/");
-            if (!folder.exists()) {
-                folder.mkdir();
-            }
-            ImageIO.write(ts.getImage(), "PNG", new File(String.format("ScreenshotsFailure/%s-%s.png", className, methodName)));
-        } catch (Exception e) {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File file = ts.getScreenshotAs(OutputType.FILE);
+         try {
+             FileUtils.copyFile(file, new File(String.format("ScreenshotsFailure/%s-%s.png", className, methodName)));
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }

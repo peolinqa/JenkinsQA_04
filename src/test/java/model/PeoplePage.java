@@ -19,7 +19,7 @@ public class PeoplePage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//table[@id='people']/tbody/tr[1]/td[4]")
     private WebElement lastCommitActivityFirstCell;
 
-    @FindBy(xpath = "//table[@id='people']/tbody/tr[1]/td[2]/a")
+    @FindBy(xpath = "//tr[not(@id='person-SYSTEM')]//td/a[contains(@href,'user')]")
     private WebElement userIDFirstCell;
 
     public PeoplePage(WebDriver driver) {
