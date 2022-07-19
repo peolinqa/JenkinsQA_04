@@ -9,11 +9,14 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
+
 import java.util.HashMap;
 import java.util.List;
 
 public class _OrganizationFolderTest extends BaseTest {
 
+    private final String VALID_FOLDER_NAME0 = TestUtils.getRandomStr(5);
     private final String VALID_FOLDER_NAME1 = "Organization Test";
     private final String VALID_FOLDER_NAME2 = "folder1";
     private static final String DISABLED_FOLDER_NAME = "DisabledFolderName";
@@ -50,18 +53,17 @@ public class _OrganizationFolderTest extends BaseTest {
         getDriver().findElement(YES_BUTTON).click();
     }
 
-    @Ignore
     @Test
     public void createOrganizationFolderTest() {
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(VALID_FOLDER_NAME1)
+                .setProjectName(VALID_FOLDER_NAME0)
                 .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
 
-        Assert.assertEquals(projectName, VALID_FOLDER_NAME1);
+        Assert.assertEquals(projectName, VALID_FOLDER_NAME0);
     }
 
     @Ignore
@@ -154,6 +156,7 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME2));
     }
 
+    @Ignore
     @Test
     public void createOrganizationFolderIncorrectNameTest() {
         WebDriverWait wait = new WebDriverWait(getDriver(), 15);
@@ -190,6 +193,7 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(newItemPage.getAttributeOkButton("class"), "disabled");
     }
 
+    @Ignore
     @Test
     public void createOrganizationFolderNavigationTest() {
         fillNameAndClickOrganizationFolder();
