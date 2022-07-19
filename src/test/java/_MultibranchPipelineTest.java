@@ -8,8 +8,6 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-import java.util.Random;
-
 public class _MultibranchPipelineTest extends BaseTest {
 
     private static final String PROJECT_NAME = TestUtils.getRandomStr(7);
@@ -95,23 +93,6 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .clickYesButton();
 
         Assert.assertFalse(homePage.isItemPresent(PIPELINE_NAME));
-    }
-
-    @Test
-    public void testCreateMultibranchWithInvalidData() {
-        final String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":"};
-
-        int result = new Random().nextInt(characterName.length);
-
-        String alertMessage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(characterName[result])
-                .setProjectTypeMultiBranchPipeline()
-                .getNameErrorText();
-
-        String expectedResult = String.format("» ‘%s’ is an unsafe character", characterName[result]);
-
-        Assert.assertEquals(alertMessage, expectedResult);
     }
 
     @Test

@@ -140,7 +140,7 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
     }
 
     public String getNameErrorText() {
-        return errorInvalidName.getText();
+        return getWait5().until(ExpectedConditions.visibilityOf(errorInvalidName)).getText();
     }
 
     public String getNameErrorCss(String cssValue) {
