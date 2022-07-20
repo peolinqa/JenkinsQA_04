@@ -32,6 +32,9 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
 
+    @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
+    private WebElement deleteButton;
+
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -101,5 +104,12 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
 
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
+    }
+
+    public HomePage clickDeleteButton() {
+        deleteButton.click();
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
     }
 }

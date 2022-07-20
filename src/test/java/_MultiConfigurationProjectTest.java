@@ -1,17 +1,9 @@
 import model.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.ProjectUtils;
 import runner.TestUtils;
-
-import java.util.List;
-
-import static runner.ProjectUtils.ProjectType.MultiConfigurationProject;
 
 public class _MultiConfigurationProjectTest extends BaseTest {
 
@@ -175,21 +167,15 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test
     public void testDeleteMultiConfigFolder() {
-        ProjectUtils.createProject(getDriver(), MultiConfigurationProject, NAME_TO_DELETE);
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
-        ProjectUtils.openProject(getDriver(), NAME_TO_DELETE);
-        ProjectUtils.Dashboard.Project.DeleteMultiConfigurationProject.click(getDriver());
-        getDriver().switchTo().alert().accept();
+        HomePage homePage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(RANDOM_NAME)
+                .setProjectTypeMultiConfiguratio()
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickDeleteButton();
 
-        boolean isPresent = false;
-        List<WebElement> projectsOnDashboard = TestUtils.getList(getDriver(),
-                By.xpath("//table[@id='projectstatus']//tbody//td[3]"));
-        for (WebElement jobs : projectsOnDashboard) {
-            if (jobs.getText().contains(NAME_TO_DELETE)) {
-                isPresent = true;
-            }
-        }
-        Assert.assertFalse(isPresent);
+        Assert.assertFalse(homePage.isItemPresent(NAME_TO_DELETE));
     }
 }
 

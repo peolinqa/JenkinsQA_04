@@ -6,12 +6,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import runner.TestUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectPage extends BaseDashboardPage {
 
     private static final By DISPLAY_NAME = By.cssSelector(".display-name");
+    private static final String NAME_TO_DELETE = "TestToDelete";
 
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
@@ -38,7 +41,7 @@ public class ProjectPage extends BaseDashboardPage {
     private WebElement descriptionValue;
 
     @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
-    private WebElement deletePipelineButton;
+    private WebElement deleteButton;
 
     @FindBy(linkText = "Build with Parameters")
     private WebElement buildWithParameters;
@@ -118,11 +121,11 @@ public class ProjectPage extends BaseDashboardPage {
         return descriptionValue.getText().isEmpty();
     }
 
-    public ProjectPage clickDeletePipelineButton() {
-        deletePipelineButton.click();
+    public HomePage clickDeleteButton() {
+        deleteButton.click();
         getDriver().switchTo().alert().accept();
 
-        return this;
+        return new HomePage(getDriver());
     }
 
     public ProjectPage waitForBuildToComplete() {
