@@ -11,15 +11,15 @@ public class UserStatusPage extends BasePage {
     private WebElement userName;
 
     @FindBy(id = "description-link")
-    private WebElement changeDescriptionButton;
+    private WebElement editDescriptionButton;
 
-    @FindBy(xpath = "//div[@id='description']//textarea")
-    private WebElement descriptionTextarea;
+    @FindBy(name = "description")
+    private WebElement descriptionTextArea;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement descriptionSaveButton;
 
-    @FindBy(xpath="//div[@id='description']/div")
+    @FindBy(xpath = "//div[@id='description']/div")
     private WebElement userDescription;
 
     @FindBy(xpath = "//div[@id='main-panel']/div[2]")
@@ -33,18 +33,26 @@ public class UserStatusPage extends BasePage {
         return userName.getText();
     }
 
-    public UserStatusPage clearUserDescription(){
-        changeDescriptionButton.click();
-        descriptionTextarea.clear();
+    public UserStatusPage clickEditDescriptionButton(){
+        editDescriptionButton.click();
+
+        return this;
+    }
+
+    public UserStatusPage clearDescriptionTextArea() {
+        descriptionTextArea.clear();
+
+        return this;
+    }
+
+    public UserStatusPage clickDescriptionSaveButton() {
         descriptionSaveButton.click();
 
         return this;
     }
 
     public UserStatusPage addUserDescription(String newUserDescription){
-        changeDescriptionButton.click();
-        descriptionTextarea.sendKeys(newUserDescription);
-        descriptionSaveButton.click();
+        descriptionTextArea.sendKeys(newUserDescription);
 
         return this;
     }

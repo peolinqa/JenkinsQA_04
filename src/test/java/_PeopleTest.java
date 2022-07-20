@@ -1,4 +1,5 @@
 import model.HomePage;
+import model.PeoplePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -9,34 +10,24 @@ public class _PeopleTest extends BaseTest {
     private static final String NEW_USER_DESCRIPTION = TestUtils.getRandomStr();
 
     @Test
-    public void checkFunctionalityIconsSMLTest() {
-        int sizeM = new HomePage(getDriver())
-                .clickPeople()
-                .setSizeM()
-                .heightLastCommitActivityFirstCell();
+    public void testCheckFunctionalityIconsSML() {
+        PeoplePage newPeoplePage = new HomePage(getDriver())
+                .clickPeople();
 
-        int sizeL = new HomePage(getDriver())
-                .clickPeople()
-                .setSizeL()
-                .heightLastCommitActivityFirstCell();
-
-        int sizeS = new HomePage(getDriver())
-                .clickPeople()
-                .setSizeS()
-                .heightLastCommitActivityFirstCell();
-
-        Assert.assertEquals(sizeM, 40);
-        Assert.assertEquals(sizeL, 50);
-        Assert.assertEquals(sizeS, 34);
+        Assert.assertEquals(newPeoplePage.setSizeM().getHeightLastCommitActivityFirstCell(), 40);
+        Assert.assertEquals(newPeoplePage.setSizeL().getHeightLastCommitActivityFirstCell(), 50);
+        Assert.assertEquals(newPeoplePage.setSizeS().getHeightLastCommitActivityFirstCell(), 34);
     }
 
     @Test
-    public void addDescriptionForUserTest() {
+    public void testAddDescriptionForUser() {
         String newDescription = new HomePage(getDriver())
                 .clickPeople()
                 .goToUserStatusPage()
-                .clearUserDescription()
+                .clickEditDescriptionButton()
+                .clearDescriptionTextArea()
                 .addUserDescription(NEW_USER_DESCRIPTION)
+                .clickDescriptionSaveButton()
                 .getUserDescriptionText();
 
         Assert.assertEquals(newDescription, NEW_USER_DESCRIPTION);
