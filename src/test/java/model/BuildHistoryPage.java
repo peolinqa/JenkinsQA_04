@@ -54,4 +54,10 @@ public class BuildHistoryPage extends BaseBuildPage {
 
         return new BuildConsolePage(getDriver());
     }
+
+    public BuildHistoryPage clickRefreshPage() {
+        getDriver().navigate().refresh();
+
+        return this;
+    }
 }

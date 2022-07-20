@@ -535,7 +535,6 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(isStatus);
     }
 
-    @Ignore
     @Test
     public void testCheckScheduledBuildInBuildHistory() {
         final String name = pipelineName();
@@ -551,6 +550,7 @@ public class _PipelineTest extends BaseTest {
                 .clickDashboardButton()
                 .buildSelectPipeline(name, true)
                 .clickAndGoToBuildHistoryPage()
+                .clickRefreshPage()
                 .collectListBuildHistory();
 
         Assert.assertTrue(checkBuildHistoryByName.containsAll(List.of(name, name)));
@@ -579,7 +579,6 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(checkingDisplayLast30Builds, expectedLast30BuildsNumbers);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testPipelineCheckDiscardOld30builds")
     public void testPipelineCheckDiscardOld3builds() {
        final List<Integer> checkingDisplayLast3Builds = new HomePage(getDriver())
