@@ -93,10 +93,10 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
         return new NewItemPage<>(getDriver(), new PipelineConfigPage(getDriver()));
     }
 
-    public NewItemPage<FreestyleConfigPage> setProjectTypeMultiConfiguratio() {
+    public NewItemPage<MultiConfigurationConfigPage> setProjectTypeMultiConfiguration() {
         multiConfigurationItem.click();
 
-        return new NewItemPage<>(getDriver(), new FreestyleConfigPage(getDriver()));
+        return new NewItemPage<>(getDriver(), new MultiConfigurationConfigPage(getDriver()));
     }
 
     public NewItemPage<FolderConfigPage> setProjectTypeFolder() {

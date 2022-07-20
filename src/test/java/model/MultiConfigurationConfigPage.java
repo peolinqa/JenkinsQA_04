@@ -13,6 +13,9 @@ public class MultiConfigurationConfigPage extends BaseDashboardPage {
     @FindBy(xpath = "//div[@class='help']/div")
     private WebElement discardOldBuildsHiddenTextArea;
 
+    @FindBy (xpath = "//button[@type='submit']")
+    private  WebElement saveButton;
+
     public MultiConfigurationConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -33,5 +36,11 @@ public class MultiConfigurationConfigPage extends BaseDashboardPage {
 
     public String getTextDiscardOldBuildsHiddenTextArea() {
         return discardOldBuildsHiddenTextArea.getText();
+    }
+
+    public MultiConfigurationProjectPage saveConfigAndGoToProject() {
+        saveButton.click();
+
+        return new MultiConfigurationProjectPage(getDriver());
     }
 }

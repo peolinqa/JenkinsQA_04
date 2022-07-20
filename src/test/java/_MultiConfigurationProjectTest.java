@@ -17,7 +17,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
-                .setProjectTypeMultiConfiguratio()
+                .setProjectTypeMultiConfiguration()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
@@ -170,7 +170,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
-                .setProjectTypeMultiConfiguratio()
+                .setProjectTypeMultiConfiguration()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickDeleteButton();
