@@ -25,6 +25,9 @@ public class MyViewPage extends BaseHeaderFooterPage {
     @FindBy(id = "yui-gen1-button")
     private WebElement submitDeleteViewButton;
 
+    @FindBy(xpath = "//ul[@id='breadcrumbs']/li[5]")
+    private WebElement textareaMyView;
+
     @FindBy(xpath = "//a[contains(@href, 'editDescription')]")
     private WebElement addOrEditDescriptionButton;
 
@@ -146,6 +149,7 @@ public class MyViewPage extends BaseHeaderFooterPage {
     public WebElement getButtonHidePreview() {
         return buttonHidePreview;
     }
+    public String getTextMyView() { return textareaMyView.getText(); }
 
     public MyViewPage clickButtonHidePreview() {
         buttonHidePreview.click();

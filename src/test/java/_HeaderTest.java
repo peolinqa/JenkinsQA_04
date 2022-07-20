@@ -6,7 +6,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.List;
 
@@ -275,9 +274,10 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuMyViews() {
 
-        menuSelector(getDriver());
-        ProjectUtils.Dashboard.Header.MyViews.click(getDriver());
+        String myViewsText = new HomePage(getDriver())
+                .clickMyView()
+                .getTextMyView();
 
-        Assert.assertTrue(getDriver().findElement(By.xpath("//ul[@id='breadcrumbs']/li[5]")).getText().contains("My Views"));
+        Assert.assertTrue(myViewsText.contains("My Views"));
     }
 }
