@@ -1,8 +1,6 @@
 import model.HomePage;
 import model.NewItemPage;
 import model.OrganizationFolderConfigPage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -19,34 +17,6 @@ public class _OrganizationFolderTest extends BaseTest {
     private static final String VALID_FOLDER_NAME1 = TestUtils.getRandomStr();
     private static final String VALID_FOLDER_NAME2 = TestUtils.getRandomStr();
     private static final String DISABLED_FOLDER_NAME = TestUtils.getRandomStr();
-
-    private final By BUTTON_NEW_ITEM = By.linkText("New Item");
-    private final By INPUT_ITEM_NAME = By.id("name");
-    private final By BUTTON_ORGANIZATION_FOLDER = By.xpath(
-            "//ul[@class='j-item-options']/li[@class='jenkins_branch_OrganizationFolder']");
-    private final By OK_BUTTON = By.id("ok-button");
-    private final By SAVE_BUTTON = By.id("yui-gen17-button");
-    private final By YES_BUTTON = By.id("yui-gen1-button");
-    private final By FOLDER_ON_DASHBOARD = By.xpath(
-            "//table[@id='projectstatus']/tbody/tr[@id='job_" + VALID_FOLDER_NAME2
-                    + "']/td/a[@href='job/" + VALID_FOLDER_NAME2 + "/']");
-    private final By JENKINS = By.id("jenkins-home-link");
-
-    private void fillNameAndClickOrganizationFolder() {
-        getDriver().findElement(BUTTON_NEW_ITEM).click();
-        getDriver().findElement(INPUT_ITEM_NAME).sendKeys(VALID_FOLDER_NAME2);
-        getDriver().findElement(BUTTON_ORGANIZATION_FOLDER).click();
-    }
-
-    private void deleteFolder() {
-        getDriver().findElement(JENKINS).click();
-        WebElement folder1 = getDriver().findElement(FOLDER_ON_DASHBOARD);
-        getActions().moveToElement(folder1, 20, 0).pause(500).click().build().perform();
-        getDriver().findElement(By.xpath("//ul[@class='first-of-type']/li/a[@href='/job/"
-                        + VALID_FOLDER_NAME2 + "/delete']/span"))
-                .click();
-        getDriver().findElement(YES_BUTTON).click();
-    }
 
     @Test
     public void testCreateOrganizationFolder() {
@@ -159,28 +129,43 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(newItemPage.getAttributeOkButton("class"), "disabled");
     }
 
-    @Ignore
     @Test
-    public void testCreateOrganizationFolderNavigation() {
-        fillNameAndClickOrganizationFolder();
-        getDriver().findElement(OK_BUTTON).click();
+    public void testProjectsTab() {
+        boolean actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .setProjectTypeOrganizationFolder()
+                .clickOkAndGoToConfig()
+                .clickProjectTab()
+                .ckeckChildProjectIsDisplayed();
 
-        getDriver().findElement(By.xpath("//div[@class='tabBar config-section-activators']/div[text()='Projects']")).click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@colspan='4']/div[text()='Projects']")).isDisplayed());
+        Assert.assertTrue(actualResult,"Project Tab not found");
+    }
 
-        getDriver().findElement(By.xpath(
-                "//div[@class='tabBar config-section-activators']/div[text()='Health metrics']")).click();
-        Assert.assertTrue(getDriver().findElement(By.xpath("//div[@colspan='4']/div[text()='Health metrics']"))
-                .isDisplayed());
+    @Test
+    public void testHealthMetricsTab() {
+        boolean actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .setProjectTypeOrganizationFolder()
+                .clickOkAndGoToConfig()
+                .clickHealthMetricsTab()
+                .ckeckhealthMetricsIsDisplayed();
 
-        getDriver().findElement(By.xpath(
-                        "//div[@class='tabBar config-section-activators']/div[text()='Automatic branch project triggering']"))
-                .click();
-        Assert.assertTrue(getDriver().findElement(By.xpath(
-                "//div[@colspan='4']/div[text()='Automatic branch project triggering']")).isDisplayed());
+        Assert.assertTrue(actualResult,"Health Metrics Tab not found");
+    }
 
-        getDriver().findElement(SAVE_BUTTON).click();
-        deleteFolder();
+    @Test
+    public void testAutomaticBranchProjectTriggeringTab() {
+        boolean actualResult = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(TestUtils.getRandomStr())
+                .setProjectTypeOrganizationFolder()
+                .clickOkAndGoToConfig()
+                .clickAutomaticBranchProjectTriggeringTab()
+                .ckeckAutomaticBranchProjectTriggeringIsDisplayed();
+
+        Assert.assertTrue(actualResult,"Automatic Branch Project Triggering Tab not found");
     }
 
     @Test

@@ -44,6 +44,24 @@ public class OrganizationFolderConfigPage extends BaseDashboardPage {
     @FindBy(xpath = "//input[@name='_.displayNameOrNull']")
     private WebElement displayNameField;
 
+    @FindBy(xpath = "//div[text()='Projects']")
+    private WebElement projectTab;
+
+    @FindBy(xpath = "//div[@colspan='4']/div[text()='Projects']")
+    private WebElement childProject;
+
+    @FindBy(xpath = "//div[text()='Health metrics']")
+    private WebElement healthMetricsTab;
+
+     @FindBy(xpath = "//div[@colspan='4']/div[text()='Health metrics']")
+    private WebElement healthMetrics;
+
+    @FindBy(xpath = "//div[@class='tabBar config-section-activators']/div[text()='Automatic branch project triggering']")
+    private WebElement automaticBranchProjectTriggeringTab;
+
+     @FindBy(xpath = "//div[@colspan='4']/div[text()='Automatic branch project triggering']")
+    private WebElement automaticBranchProjectTriggering;
+
     public OrganizationFolderConfigPage(WebDriver driver) {
         super(driver);
     }
@@ -130,5 +148,35 @@ public class OrganizationFolderConfigPage extends BaseDashboardPage {
         applyButton.click();
 
         return this;
+    }
+
+    public OrganizationFolderConfigPage clickProjectTab(){
+        projectTab.click();
+
+        return this;
+    }
+
+    public boolean ckeckChildProjectIsDisplayed(){
+        return childProject.isDisplayed();
+    }
+
+    public OrganizationFolderConfigPage clickHealthMetricsTab(){
+        healthMetricsTab.click();
+
+        return this;
+    }
+
+    public boolean ckeckhealthMetricsIsDisplayed(){
+        return healthMetrics.isDisplayed();
+    }
+
+    public OrganizationFolderConfigPage clickAutomaticBranchProjectTriggeringTab(){
+        automaticBranchProjectTriggeringTab.click();
+
+        return this;
+    }
+
+    public boolean ckeckAutomaticBranchProjectTriggeringIsDisplayed(){
+        return automaticBranchProjectTriggering.isDisplayed();
     }
 }
