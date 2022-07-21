@@ -1,10 +1,6 @@
 package model.base;
 
-import model.ApiPage;
-import model.HomePage;
-import model.UserBuildPage;
-import model.UserStatusPage;
-import model.UserConfigurePage;
+import model.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -75,23 +71,11 @@ public abstract class BaseHeaderFooterPage extends BasePage {
         return new UserStatusPage(getDriver());
     }
 
-    public BaseHeaderFooterPage navigateAndClickDropDownUserMenu() {
+    public SelectorMenuFrame navigateAndClickDropDownUserMenu() {
         getActions().moveToElement(userPage).pause(200).perform();
         menuSelector.click();
 
-        return this;
-    }
-
-    public UserBuildPage clickBuildsAndGoToBuildsPage() {
-        builds.click();
-
-        return new UserBuildPage(getDriver());
-    }
-
-    public UserConfigurePage clickConfigureAndGoToConfigurePage() {
-        configure.click();
-
-        return new UserConfigurePage(getDriver());
+        return new SelectorMenuFrame(getDriver());
     }
 
     public HomePage clickJenkinsIconAndGoToHomePage() {
