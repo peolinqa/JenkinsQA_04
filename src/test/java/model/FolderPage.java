@@ -31,6 +31,9 @@ public class FolderPage extends BaseDashboardPage {
     @FindBy(xpath = "//a[contains(@class,'jenkins-table__link model-link')]")
     private WebElement jobName;
 
+    @FindBy(id = "systemmessage")
+    private WebElement systemMessage;
+
     public FolderPage(WebDriver driver) {
         super(driver);
     }
@@ -40,6 +43,10 @@ public class FolderPage extends BaseDashboardPage {
     }
 
     public String getFolderDescription() {
+        if (folderDescription.getText().contains("\n")) {
+            return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
+        }
+
         return folderDescription.getText();
     }
 
