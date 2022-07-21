@@ -6,6 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.ProjectUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ManageJenkinsPage extends BaseDashboardPage {
 
     @FindBy(xpath = "//dt[text()='Configure Global Security']")
@@ -34,6 +37,9 @@ public class ManageJenkinsPage extends BaseDashboardPage {
 
     @FindBy(xpath = "//a[@href='script']")
     private WebElement scriptConsole;
+
+    @FindBy(xpath = "//section/h2")
+    private List<WebElement> manageJenkinsSection;
 
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
@@ -97,6 +103,15 @@ public class ManageJenkinsPage extends BaseDashboardPage {
         scriptConsole.click();
 
         return new ManageScriptConsolePage(getDriver());
+    }
+
+    public List<String> getActualManageJenkinsSectionNames(){
+        List<String> textSection = new ArrayList<>();
+        for (WebElement list : manageJenkinsSection) {
+            textSection.add(list.getText());
+        }
+
+        return textSection;
     }
 
 }
