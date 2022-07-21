@@ -5,8 +5,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 public class BuildHistoryPage extends BaseBuildPage {
 
@@ -16,7 +18,6 @@ public class BuildHistoryPage extends BaseBuildPage {
 
     @FindBy(xpath = "//td/a[contains(@href, 'job/')][1]")
     private List<WebElement> listBuildHistory;
-
 
     @FindBy(xpath = "//table[@id='projectStatus']/tbody")
     private WebElement tableOfProjects;
@@ -28,7 +29,14 @@ public class BuildHistoryPage extends BaseBuildPage {
     private WebElement consoleButton;
 
     public List<String> collectListBuildHistory() {
-        return listBuildHistory.stream().map(WebElement::getText).collect(Collectors.toList());
+        List<String> collectList = new ArrayList<>();
+
+        for (WebElement el : listBuildHistory) {
+            collectList.add(el.getText());
+        }
+        getDriver().navigate().refresh();
+
+        return collectList;
     }
 
     public boolean checkProjectIsOnBoard(String projectName) {
@@ -53,11 +61,5 @@ public class BuildHistoryPage extends BaseBuildPage {
         consoleButton.click();
 
         return new BuildConsolePage(getDriver());
-    }
-
-    public BuildHistoryPage clickRefreshPage() {
-        getDriver().navigate().refresh();
-
-        return this;
     }
 }

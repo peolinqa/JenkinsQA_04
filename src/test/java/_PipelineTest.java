@@ -1,8 +1,5 @@
 import model.HomePage;
-import model.PipelineConfigPage;
-import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
@@ -18,22 +15,10 @@ public class _PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = TestUtils.getRandomStr(7);
     private static final String NEW_PIPELINE_NAME = String.format("New %s", PIPELINE_NAME);
-    private final String namePipeline = pipelineName();
-    private JavascriptExecutor javascriptExecutor;
-
-    @BeforeMethod
-    public void setUp() {
-        javascriptExecutor = (JavascriptExecutor) getDriver();
-        getActions();
-    }
-
-    private String pipelineName() {
-        return TestUtils.getRandomStr(7);
-    }
 
     @Test
     public void testCheckValidationItemName() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String displayDuplicatedJobName = new HomePage(getDriver())
                 .clickNewItem()
@@ -51,7 +36,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckTransitionToPageWithError() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
                 .clickNewItem()
@@ -70,7 +55,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckDropDownMenuPipeline() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final int checkDisplayedDropDownList = new HomePage(getDriver())
                 .clickNewItem()
@@ -86,7 +71,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String checkTransitionPluginPage = new HomePage(getDriver())
                 .clickNewItem()
@@ -103,7 +88,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testJenkinsCredentialsProviderWindow() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String titleOfJenkinsCredentialsProviderWindow = new HomePage(getDriver())
                 .clickNewItem()
@@ -118,13 +103,11 @@ public class _PipelineTest extends BaseTest {
                 .openJenkinsCredentialsProviderWindow();
 
         Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow, "Jenkins Credentials Provider: Jenkins");
-
-        new PipelineConfigPage(getDriver()).closeJenkinsCredentialsProviderWindowAfterAssert();
     }
 
     @Test
     public void testPipelineSyntaxPageOpening() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String hrefAttOfPipelineSyntaxLink = new HomePage(getDriver())
                 .clickNewItem()
@@ -140,7 +123,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineGroovyPageOpening() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String useGroovySandBoxCheckboxAtt = new HomePage(getDriver())
                 .clickNewItem()
@@ -154,7 +137,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testTitleConfigPageContainsProjectTitle() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String titleConfigPage = new HomePage(getDriver())
                 .clickNewItem()
@@ -168,15 +151,13 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void test404PageAfterDeletedPipeline() {
-        final String name = pipelineName();
-
         final String titleOfPage404 = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
-                .navigateToPreviousCreatedPipeline(name)
+                .navigateToPreviousCreatedPipeline(PIPELINE_NAME)
                 .deletePipelineProject()
                 .switchToPage404()
                 .getTitleOfPage404();
@@ -200,7 +181,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testHelpTooltipsText() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
@@ -214,7 +195,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testApplyButtonNotificationAlert() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String notificationSave = new HomePage(getDriver())
                 .clickNewItem()
@@ -229,7 +210,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testDeletePipelineFromSideMenu() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
@@ -247,7 +228,7 @@ public class _PipelineTest extends BaseTest {
     @Ignore
     @Test
     public void testDeletePipelineFromDashboard() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
@@ -265,9 +246,11 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCreatePipelineWithNegativeValueQuietPeriod() {
+        final String name = TestUtils.getRandomStr(7);
+
         final String checkForValueErrorMessage = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(pipelineName())
+                .setProjectName(name)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .jsCheckboxProjectParameterized()
@@ -280,7 +263,7 @@ public class _PipelineTest extends BaseTest {
     @Ignore
     @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
@@ -319,7 +302,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testBuildPipelineWithParameters() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final List<String> checkNameAndDescriptionParametersBuild = new HomePage(getDriver())
                 .clickNewItem()
@@ -344,7 +327,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testPermalinksTextAfterPipelineBuildNow() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final String[] permalinksText = new HomePage(getDriver())
                 .clickNewItem()
@@ -362,7 +345,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testAddAllColumnsFromDashboardInOwnWatchlist() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
         final String viewName = "AchViewName";
 
         final int countColumns = new HomePage(getDriver())
@@ -398,7 +381,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testDragAndDropProjectParameters() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final List<String> locationProjectParameterized = new HomePage(getDriver())
                 .clickNewItem()
@@ -420,7 +403,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCreateAndCheckNewMyView() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
         final int countJobs = 2;
 
         final List<String> listJobsInMyViewName = new HomePage(getDriver())
@@ -495,8 +478,9 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testRenamePipelineWithInvalidName() {
-        final String name = pipelineName();
-        final List<String> invalidCharacters = Arrays.asList("!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", ">", "<", "|", "?");
+        final String name = TestUtils.getRandomStr(7);
+        final List<String> invalidCharacters = Arrays.asList("!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\",
+                "/", ">", "<", "|", "?");
 
         final List<String> listErrorMessages = new HomePage(getDriver())
                 .clickNewItem()
@@ -517,7 +501,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckPositiveBuildIcon() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final boolean isStatus = new HomePage(getDriver())
                 .clickNewItem()
@@ -537,7 +521,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckScheduledBuildInBuildHistory() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final List<String> checkBuildHistoryByName = new HomePage(getDriver())
                 .clickNewItem()
@@ -550,7 +534,6 @@ public class _PipelineTest extends BaseTest {
                 .clickDashboardButton()
                 .buildSelectPipeline(name, true)
                 .clickAndGoToBuildHistoryPage()
-                .clickRefreshPage()
                 .collectListBuildHistory();
 
         Assert.assertTrue(checkBuildHistoryByName.containsAll(List.of(name, name)));
@@ -558,9 +541,9 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testPipelineCheckDiscardOld30builds() {
-        final List<Integer> checkingDisplayLast30Builds =  new HomePage(getDriver())
+        final List<Integer> checkingDisplayLast30Builds = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(namePipeline)
+                .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickCheckBoxDiscardOldBuilds()
@@ -581,10 +564,10 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testPipelineCheckDiscardOld30builds")
     public void testPipelineCheckDiscardOld3builds() {
-       final List<Integer> checkingDisplayLast3Builds = new HomePage(getDriver())
+        final List<Integer> checkingDisplayLast3Builds = new HomePage(getDriver())
                 .clickDashboardButton()
                 .clickMyView()
-                .moveToElement(namePipeline)
+                .moveToElement(PIPELINE_NAME)
                 .clickMenuSelector()
                 .clickInMenuSelectorConfigure()
                 .enteringParametersToDisplayLatestBuilds("3", "1")
@@ -599,7 +582,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testDeletePipelineDescription() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final boolean check = new HomePage(getDriver())
                 .clickNewItem()
@@ -617,7 +600,7 @@ public class _PipelineTest extends BaseTest {
 
     @Test
     public void testCheckSequenceInParameters() {
-        final String name = pipelineName();
+        final String name = TestUtils.getRandomStr(7);
 
         final List<String> CurrentLocationItemsInDropDownMenu = new HomePage(getDriver())
                 .clickNewItem()

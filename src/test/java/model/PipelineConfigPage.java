@@ -224,12 +224,12 @@ public class PipelineConfigPage extends BaseDashboardPage {
     }
 
     public String openJenkinsCredentialsProviderWindow() {
-        return titleOfJenkinsCredentialsProviderWindow.getText();
-    }
+        String windowTitleText = titleOfJenkinsCredentialsProviderWindow.getText();
 
-    public void closeJenkinsCredentialsProviderWindowAfterAssert() {
         getDriver().navigate().back();
         getDriver().switchTo().alert().accept();
+
+        return windowTitleText;
     }
 
     public String getUseGroovySandBoxCheckboxAtt() {
