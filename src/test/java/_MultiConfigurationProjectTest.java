@@ -147,14 +147,20 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                     .setInvalidNameAndGoToErrorPage();
 
             String expectedResult = "‘" + unsafeChar + "’ is an unsafe character";
-            if ("&" == unsafeChar) {
-                expectedResult = "‘&amp;’ is an unsafe character";
-            } else if (unsafeChar == "<") {
-                expectedResult = "‘&lt;’ is an unsafe character";
-            } else if (unsafeChar == ">") {
-                expectedResult = "‘&gt;’ is an unsafe character";
-            } else if (unsafeChar == "" || unsafeChar == " ") {
-                expectedResult = "No name is specified";
+            switch (unsafeChar) {
+                case "&":
+                    expectedResult = "‘&amp;’ is an unsafe character";
+                    break;
+                case "<":
+                    expectedResult = "‘&lt;’ is an unsafe character";
+                    break;
+                case ">":
+                    expectedResult = "‘&gt;’ is an unsafe character";
+                    break;
+                case "":
+                case " ":
+                    expectedResult = "No name is specified";
+                    break;
             }
 
             ErrorPage errorPage = new ErrorPage(getDriver());
