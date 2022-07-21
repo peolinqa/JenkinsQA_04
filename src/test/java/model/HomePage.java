@@ -400,4 +400,8 @@ public class HomePage extends BaseDashboardPage {
 
        return new MultiConfigurationConfigPage(getDriver());
     }
+
+   public boolean isTitleDashboardJenkins(){
+       return getDriver().getTitle().contains("Dashboard [Jenkins]");
+   }
 }

@@ -32,6 +32,9 @@ public abstract class BaseHeaderFooterPage extends BasePage {
     @FindBy(linkText = "Configure")
     private WebElement configure;
 
+    @FindBy(xpath = "//a[@id='jenkins-home-link']/img[2]")
+    private WebElement headerJenkinsLink;
+
     public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
     }
@@ -94,6 +97,11 @@ public abstract class BaseHeaderFooterPage extends BasePage {
     public HomePage clickJenkinsIconAndGoToHomePage() {
         headerIcon.click();
 
+        return new HomePage(getDriver());
+    }
+
+    public HomePage clickJenkins(){
+        headerJenkinsLink.click();
         return new HomePage(getDriver());
     }
 }

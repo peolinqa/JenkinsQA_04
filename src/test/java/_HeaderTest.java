@@ -1,4 +1,5 @@
 import model.*;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,6 +9,7 @@ import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.TestUtils;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class _HeaderTest extends BaseTest {
 
@@ -103,13 +105,21 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderLogoIsClickableOnAllPagesToHomepage(){
-        String currentUrl = getDriver().getCurrentUrl();
-        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
-            getDriver().findElement(
-                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
+        HomePage homePage = new HomePage(getDriver());
 
-            Assert.assertEquals(getDriver().findElement(By.id("jenkins-home-link")).getAttribute("href"), currentUrl);
-            getDriver().navigate().back();
+        List <Supplier<? extends BaseHeaderFooterPage>> menuCallList = List.of(
+                homePage::clickNewItem,
+                homePage::clickPeople,
+                homePage::clickBuildHistory,
+                homePage::clickManageJenkins,
+                homePage::clickMyView,
+                homePage::clickNewView);
+
+        for (Supplier<? extends BaseHeaderFooterPage> method : menuCallList) {
+            HomePage newHomePage = method.get()
+                    .clickJenkins();
+
+            Assert.assertTrue(newHomePage.isTitleDashboardJenkins());
         }
     }
 
