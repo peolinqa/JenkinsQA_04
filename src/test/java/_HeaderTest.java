@@ -11,8 +11,6 @@ import java.util.List;
 
 public class _HeaderTest extends BaseTest {
 
-    private static final By MENU_SELECTOR_XPATH = By.cssSelector(".login");
-
     private static List<WebElement> getMenuItems(WebDriver driver){
        return TestUtils.getList(driver,By.xpath("//div[@class='task ']//a"));
     }
@@ -28,13 +26,6 @@ public class _HeaderTest extends BaseTest {
             asserts.assertEquals(elementList.get(i).getAttribute(attribute), expectedResult[i]);
         }
         asserts.assertAll();
-    }
-
-    private void menuSelector(WebDriver driver) {
-
-        getActions().moveToElement(getDriver().findElement(MENU_SELECTOR_XPATH)).perform();
-
-        driver.findElement(By.cssSelector("div[id='menuSelector']")).click();
     }
 
     @Test

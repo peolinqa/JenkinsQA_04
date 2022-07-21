@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.ProjectUtils;
 import java.util.List;
 
 public class MultiConfigurationProjectPage extends BaseBuildPage {
@@ -34,6 +33,12 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
 
     @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
     private WebElement deleteButton;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement disableProjectButton;
+
+    @FindBy(linkText = "Rename")
+    private WebElement rename;
 
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
@@ -78,7 +83,7 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
     }
 
     public MultiConfigurationProjectPage clickDisableProjectButton() {
-        ProjectUtils.clickDisableProject(getDriver());
+        disableProjectButton.click();
 
         return this;
     }
@@ -97,7 +102,7 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
     }
 
     public RenamePage clickAdnGoToRenamePage() {
-        ProjectUtils.Dashboard.Project.Rename.click(getDriver());
+        rename.click();
 
         return new RenamePage(getDriver());
     }

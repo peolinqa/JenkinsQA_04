@@ -2,12 +2,10 @@ import model.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-import runner.ProjectUtils;
 import runner.TestUtils;
 
 public class _MultiConfigurationProjectTest extends BaseTest {
 
-    private static final String NAME_TO_DELETE = "TestToDelete";
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
     private static final String EDITED_RANDOM_NAME = "New " + RANDOM_NAME;
     private static final String DESCRIPTION_TEXT = "This is a description for a Multi-ConfigurationProject";
@@ -27,7 +25,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateMultiConfigFolder")
     public void testBuildNow() {
-        ProjectUtils.Dashboard.Header.Dashboard.click(getDriver());
         MultiConfigurationProjectConsolePage consolePage = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .clickBuildNow()
@@ -171,17 +168,13 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         }
     }
 
-    @Test
+    @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorInvalidName")
     public void testDeleteMultiConfigFolder() {
         HomePage homePage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(RANDOM_NAME)
-                .setProjectTypeMultiConfiguration()
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
+                .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .clickDeleteButton();
 
-        Assert.assertFalse(homePage.isItemPresent(NAME_TO_DELETE));
+        Assert.assertFalse(homePage.isItemPresent(EDITED_RANDOM_NAME));
     }
 }
 

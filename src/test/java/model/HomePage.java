@@ -8,7 +8,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.ProjectUtils;
 import runner.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,15 +86,18 @@ public class HomePage extends BaseDashboardPage {
     @FindBy(xpath = "//a[@class='yuimenuitemlabel']//span[text()='Configure']")
     private WebElement configureFromDropdownMenu;
 
-    private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
-    private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
-    private final static String PROJECT_LINK_ID_XPATH = "//tr[@id='job_%s']";
+    @FindBy(xpath = "//a[@class='yuimenuitemlabel']//span[text()='Delete Pipeline']")
+    private WebElement deletePipelineFromDropdownMenu;
 
     @FindBy(xpath = "//table[@id='projectstatus']//tbody//td[3]")
     private List<WebElement> itemsNames;
 
     @FindBy(id = "search-box")
     private WebElement searchBox;
+
+    private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
+    private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
+    private final static String PROJECT_LINK_ID_XPATH = "//tr[@id='job_%s']";
 
    public HomePage(WebDriver driver) {
         super(driver);
@@ -119,8 +121,24 @@ public class HomePage extends BaseDashboardPage {
         return new ManageJenkinsPage(getDriver());
     }
 
+    public WebElement getProjectLinkByName(String name) {
+        return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
+    }
+
+    public WebElement getProjectIconByName(String name) {
+        return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH));
+    }
+
+    public int getSizeOfProjectLinkByName(String name) {
+        return getDriver().findElements(By.xpath(String.format(PROJECT_LINK_ID_XPATH, name))).size();
+    }
+
+    public List<WebElement> getListProjectLinkByName(String name) {
+        return getDriver().findElements(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
+    }
+
     public OrganizationFolderProjectPage clickOrganizationFolderName(String name) {
-        ProjectUtils.openProject(getDriver(), name);
+        getProjectLinkByName(name).click();
 
         return new OrganizationFolderProjectPage(getDriver());
     }
@@ -167,19 +185,19 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public FolderPage clickFolderName(String name) {
-        ProjectUtils.openProject(getDriver(), name);
+        getProjectLinkByName(name).click();
 
         return new FolderPage(getDriver());
     }
 
     public ProjectPage clickProjectName(String name) {
-        ProjectUtils.openProject(getDriver(), name);
+        getProjectLinkByName(name).click();
 
         return new ProjectPage(getDriver());
     }
 
     public FreestylePage clickFreestyleName(String name) {
-        ProjectUtils.openProject(getDriver(), name);
+        getProjectLinkByName(name).click();
 
         return new FreestylePage(getDriver());
     }
@@ -234,7 +252,7 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public DeletePipelineProjectPage navigateToPreviousCreatedPipeline(String projectName) {
-        List<WebElement> createdJobFromListJobs = ProjectUtils.selectSpecificJobFromListOfJobs(getDriver(), projectName);
+        List<WebElement> createdJobFromListJobs = getListProjectLinkByName(projectName);
         getDriver().navigate().to(createdJobFromListJobs.get(0).getAttribute("href"));
 
         return new DeletePipelineProjectPage(getDriver());
@@ -307,31 +325,19 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public MultiConfigurationProjectPage clickMultiConfigurationProjectName(String name) {
-        ProjectUtils.openProject(getDriver(), name);
+        getProjectLinkByName(name).click();
 
         return new MultiConfigurationProjectPage(getDriver());
     }
 
     public MultibranchPipelinePage clickMultibranchPipelineName(String name) {
-        ProjectUtils.openProject(getDriver(), name);
+        getProjectLinkByName(name).click();
 
         return new MultibranchPipelinePage(getDriver());
     }
 
     public String getSystemMessageText() {
         return getWait5().until(ExpectedConditions.visibilityOf(systemMessage)).getText();
-    }
-
-    public WebElement getProjectLinkByName(String name) {
-       return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
-    }
-
-    public WebElement getProjectIconByName(String name) {
-        return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH));
-    }
-
-    public int getSizeOfProjectLinkByName(String name) {
-        return getDriver().findElements(By.xpath(String.format(PROJECT_LINK_ID_XPATH, name))).size();
     }
 
     public String getJenkinsIOPageTitle(){
@@ -370,7 +376,7 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public HomePage clickDeleteProjectMenuSelector() {
-        ProjectUtils.Dashboard.Pipeline.DeletePipeline.click(getDriver());
+        deletePipelineFromDropdownMenu.click();
         getDriver().switchTo().alert().accept();
 
         return this;

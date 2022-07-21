@@ -4,7 +4,6 @@ import model.base.BaseDashboardPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import runner.ProjectUtils;
 
 public class MultibranchPipelinePage extends BaseDashboardPage {
 
@@ -29,12 +28,15 @@ public class MultibranchPipelinePage extends BaseDashboardPage {
     @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
     private WebElement messageDisabled;
 
+    @FindBy(linkText = "Configure")
+    private WebElement configure;
+
     public MultibranchPipelinePage(WebDriver driver) {
         super(driver);
     }
 
     public MultibranchPipelineConfigPage clickConfigureProject() {
-        ProjectUtils.Dashboard.Project.Configure.click(getDriver());
+        configure.click();
 
         return new MultibranchPipelineConfigPage(getDriver());
     }

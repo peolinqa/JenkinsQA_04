@@ -4,12 +4,14 @@ import model.base.BaseDashboardPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import runner.ProjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ManageJenkinsPage extends BaseDashboardPage {
+
+    @FindBy(xpath = "//dt[text()='Configure System']")
+    private WebElement configureSystem;
 
     @FindBy(xpath = "//dt[text()='Configure Global Security']")
     private WebElement configureGlobalSecurity;
@@ -76,7 +78,7 @@ public class ManageJenkinsPage extends BaseDashboardPage {
     }
 
     public ConfigureSystemPage clickConfigureSystem() {
-        ProjectUtils.ManageJenkins.ConfigureSystem.click(getDriver());
+        configureSystem.click();
 
         return new ConfigureSystemPage(getDriver());
     }
@@ -88,7 +90,7 @@ public class ManageJenkinsPage extends BaseDashboardPage {
     }
 
     public ManageCredentialsPage clickManageCredentials(){
-        ProjectUtils.ManageJenkins.ManageCredentials.click(getDriver());
+        manageCredentials.click();
 
         return new ManageCredentialsPage(getDriver());
     }
@@ -104,7 +106,7 @@ public class ManageJenkinsPage extends BaseDashboardPage {
 
         return new ManageScriptConsolePage(getDriver());
     }
-
+    
     public List<String> getActualManageJenkinsSectionNames(){
         List<String> textSection = new ArrayList<>();
         for (WebElement list : manageJenkinsSection) {
@@ -113,5 +115,4 @@ public class ManageJenkinsPage extends BaseDashboardPage {
 
         return textSection;
     }
-
 }
