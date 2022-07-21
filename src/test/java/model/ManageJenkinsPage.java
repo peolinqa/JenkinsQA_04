@@ -43,6 +43,9 @@ public class ManageJenkinsPage extends BaseDashboardPage {
     @FindBy(xpath = "//section/h2")
     private List<WebElement> manageJenkinsSection;
 
+    @FindBy(xpath = "//h2[text()='Tools and Actions']/ancestor::section//dt")
+    private List<WebElement> manageJenkinsContentToolsAndActions;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -106,7 +109,7 @@ public class ManageJenkinsPage extends BaseDashboardPage {
 
         return new ManageScriptConsolePage(getDriver());
     }
-    
+
     public List<String> getActualManageJenkinsSectionNames(){
         List<String> textSection = new ArrayList<>();
         for (WebElement list : manageJenkinsSection) {
@@ -114,5 +117,14 @@ public class ManageJenkinsPage extends BaseDashboardPage {
         }
 
         return textSection;
+    }
+
+    public List<String> getActualManageJenkinsSectionContentToolsAndActions(){
+        List<String> textButton = new ArrayList<>();
+        for (WebElement list : manageJenkinsContentToolsAndActions) {
+            textButton.add(list.getText());
+        }
+
+        return textButton;
     }
 }

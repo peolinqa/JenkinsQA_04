@@ -9,7 +9,7 @@ public class _ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testCheckSectionNames() {
-        List<String> expectedSectionNames = List.of(
+        final List<String> expectedSectionNames = List.of(
                 "System Configuration",
                 "Security",
                 "Status Information",
@@ -21,6 +21,21 @@ public class _ManageJenkinsTest extends BaseTest {
                 .getActualManageJenkinsSectionNames();
 
         Assert.assertEquals(actualManageJenkinsSectionNames, expectedSectionNames);
+    }
+
+    @Test
+    public void testCheckSectionContentToolsAndActions() {
+        final List<String> expectedContentSectionToolsAndActions = List.of(
+                "Reload Configuration from Disk",
+                "Jenkins CLI",
+                "Script Console",
+                "Prepare for Shutdown");
+
+        List<String> actualContentSectionToolsAndActions = new HomePage(getDriver())
+                .clickManageJenkins()
+                .getActualManageJenkinsSectionContentToolsAndActions();
+
+        Assert.assertEquals(actualContentSectionToolsAndActions, expectedContentSectionToolsAndActions);
     }
 
 }
