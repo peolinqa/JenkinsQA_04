@@ -43,7 +43,11 @@ public class FolderPage extends BaseDashboardPage {
     }
 
     public String getFolderDescription() {
-        return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
+        if (folderDescription.getText().contains("\n")) {
+            return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
+        }
+
+        return folderDescription.getText();
     }
 
     public RenamePage clickRenameFolder() {
