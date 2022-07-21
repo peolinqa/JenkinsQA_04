@@ -1,13 +1,9 @@
 import model.*;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.TestUtils;
-
-import java.util.NoSuchElementException;
 import java.util.Random;
 
 public class _FolderTest extends BaseTest {
@@ -16,6 +12,7 @@ public class _FolderTest extends BaseTest {
     private static final String RANDOM_FOLDER_NAME1 = TestUtils.getRandomStr();
     private static final String RANDOM_FOLDER_NAME2 = TestUtils.getRandomStr();
     private static final String FOLDER_NAME_FOR_RENAME1 = TestUtils.getRandomStr();
+    private static final String FOLDER_DESCRIPTION = "Folder Description";
 
 
     protected static final char[] CHARS =
@@ -123,7 +120,6 @@ public class _FolderTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), "‘@’ is an unsafe character");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testCheckDescriptionInPreviewAndOnTheFolderPage")
     public void testCreateFolderWithTheSameName() {
         String expectedResult = "» A job already exists with the name ‘" + RANDOM_FOLDER_NAME2 + "’";
@@ -205,30 +201,23 @@ public class _FolderTest extends BaseTest {
         }
     }
 
-    @Ignore
     @Test
     public void testCheckDescriptionInPreviewAndOnTheFolderPage() {
-        final String folderDescription = TestUtils.getRandomStr();
-
-        FolderConfigPage setFolderDescriptionOnFolderPage = new HomePage(getDriver())
+        String folderDescriptionInPreviewOnFolderConfigPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME2)
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
-                .setFolderDescription(folderDescription);
-
-        String folderDescriptionInPreviewOnFolderConfigPage = setFolderDescriptionOnFolderPage
+                .setFolderDescription(FOLDER_DESCRIPTION)
                 .clickFolderDescriptionPreview()
                 .getFolderDescriptionPreviewText();
 
-        String folderDescriptionOnFolderPage = setFolderDescriptionOnFolderPage
+        String folderDescriptionOnFolderPage = new FolderConfigPage(getDriver())
                 .saveConfigAndGoToFolderPage()
                 .getFolderDescription();
 
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(folderDescriptionInPreviewOnFolderConfigPage, folderDescription);
-        asserts.assertEquals(folderDescriptionOnFolderPage, folderDescription);
-        asserts.assertAll();
+        Assert.assertEquals(folderDescriptionInPreviewOnFolderConfigPage, FOLDER_DESCRIPTION);
+        Assert.assertEquals(folderDescriptionOnFolderPage, FOLDER_DESCRIPTION);
     }
 
     @Test
