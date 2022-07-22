@@ -8,19 +8,18 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
-import runner.TestUtils;
 
 import java.util.List;
 import java.util.function.Supplier;
 
 public class _HeaderTest extends BaseTest {
 
-    private static List<WebElement> getMenuItems(WebDriver driver){
-       return TestUtils.getList(driver,By.xpath("//div[@class='task ']//a"));
+    private static List<WebElement> getMenuItems(WebDriver driver) {
+        return driver.findElements(By.xpath("//div[@class='task ']//a"));
     }
 
     public void verifyPositionOfElements(By locator, String attribute, String... expectedResult) {
-        List<WebElement> elementList = TestUtils.getList(getDriver(), locator);
+        List<WebElement> elementList = getDriver().findElements(locator);
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertNotNull(elementList);
@@ -106,10 +105,10 @@ public class _HeaderTest extends BaseTest {
     }
 
     @Test
-    public void testHeaderLogoIsClickableOnAllPagesToHomepage(){
+    public void testHeaderLogoIsClickableOnAllPagesToHomepage() {
         HomePage homePage = new HomePage(getDriver());
 
-        List <Supplier<? extends BaseHeaderFooterPage>> menuCallList = List.of(
+        List<Supplier<? extends BaseHeaderFooterPage>> menuCallList = List.of(
                 homePage::clickNewItem,
                 homePage::clickPeople,
                 homePage::clickBuildHistory,

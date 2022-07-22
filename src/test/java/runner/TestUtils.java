@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class TestUtils {
 
@@ -28,8 +27,9 @@ public class TestUtils {
     public static String getRandomStrCyrillic() {
         String[] randomCyrillic = new String[9];
         for (int i = 0; i < randomCyrillic.length; i++) {
-            randomCyrillic[i] = String.valueOf((char)(Math.random()*32 + 1072));
+            randomCyrillic[i] = String.valueOf((char) (Math.random() * 32 + 1072));
         }
+
         return Joiner.on("").join(randomCyrillic);
     }
 
@@ -39,16 +39,13 @@ public class TestUtils {
         element.sendKeys(text);
     }
 
-    public static List<WebElement> getList(WebDriver driver, By locator) {
-        return driver.findElements(locator);
-    }
-
     public static List<String> getTextFromList(WebDriver driver, By locator) {
         driver.findElements(locator);
+
         return driver.findElements(locator).stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public static Set<String> getOpenTabTitles(WebDriver driver){
+    public static Set<String> getOpenTabTitles(WebDriver driver) {
         Set<String> actualSet = new HashSet<>();
         for (String handle : driver.getWindowHandles()) {
             actualSet.add(driver.switchTo().window(handle).getTitle());
@@ -57,7 +54,7 @@ public class TestUtils {
         return actualSet;
     }
 
-    public static JavascriptExecutor scrollToElement(WebDriver driver, WebElement element){
+    public static JavascriptExecutor scrollToElement(WebDriver driver, WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView();", element);
 
