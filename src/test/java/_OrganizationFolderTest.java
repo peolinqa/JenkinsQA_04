@@ -2,7 +2,6 @@ import model.HomePage;
 import model.NewItemPage;
 import model.OrganizationFolderConfigPage;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -43,7 +42,6 @@ public class _OrganizationFolderTest extends BaseTest {
         Assert.assertEquals(projectName, VALID_FOLDER_RENAME);
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testRenameOrganizationFolder")
     public void testCreateOrganizationFolderSameItemName() {
         boolean isDisplayedNameError = new HomePage(getDriver())
@@ -55,8 +53,7 @@ public class _OrganizationFolderTest extends BaseTest {
         NewItemPage newItemPage = new NewItemPage(getDriver());
 
         Assert.assertTrue(isDisplayedNameError);
-        Assert.assertEquals(newItemPage.getNameErrorText(),
-                "» A job already exists with the name ‘" + VALID_FOLDER_RENAME + "’");
+        Assert.assertEquals(newItemPage.getNameErrorText(), String.format("» A job already exists with the name ‘%s’", VALID_FOLDER_RENAME));
         Assert.assertEquals(newItemPage.getNameErrorCss("color").toString(),
                 "rgba(255, 0, 0, 1)");
     }
@@ -74,7 +71,6 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Test
     public void createDisableOrganizationFolderTest() {
-
         HashMap<String, String> warningMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(DISABLED_FOLDER_NAME)
@@ -139,7 +135,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .clickProjectTab()
                 .ckeckChildProjectIsDisplayed();
 
-        Assert.assertTrue(actualResult,"Project Tab not found");
+        Assert.assertTrue(actualResult, "Project Tab not found");
     }
 
     @Test
@@ -152,7 +148,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .clickHealthMetricsTab()
                 .ckeckhealthMetricsIsDisplayed();
 
-        Assert.assertTrue(actualResult,"Health Metrics Tab not found");
+        Assert.assertTrue(actualResult, "Health Metrics Tab not found");
     }
 
     @Test
@@ -165,7 +161,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .clickAutomaticBranchProjectTriggeringTab()
                 .ckeckAutomaticBranchProjectTriggeringIsDisplayed();
 
-        Assert.assertTrue(actualResult,"Automatic Branch Project Triggering Tab not found");
+        Assert.assertTrue(actualResult, "Automatic Branch Project Triggering Tab not found");
     }
 
     @Test
