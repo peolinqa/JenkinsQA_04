@@ -38,4 +38,18 @@ public class _ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualContentSectionToolsAndActions, expectedContentSectionToolsAndActions);
     }
 
+    @Test
+    public void testSectionSystemConfigurationContent() {
+        final List<String> expectedSystemConfigurationContent = List.of(
+                "Configure System",
+                "Global Tool Configuration",
+                "Manage Plugins",
+                "Manage Nodes and Clouds");
+
+        List<String> actualSystemConfigurationContent = new HomePage(getDriver())
+                .clickManageJenkins()
+                .getActualSystemConfigurationContent();
+
+        Assert.assertEquals(actualSystemConfigurationContent, expectedSystemConfigurationContent);
+    }
 }

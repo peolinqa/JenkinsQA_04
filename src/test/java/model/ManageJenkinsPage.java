@@ -46,6 +46,9 @@ public class ManageJenkinsPage extends BaseDashboardPage {
     @FindBy(xpath = "//h2[text()='Tools and Actions']/ancestor::section//dt")
     private List<WebElement> manageJenkinsContentToolsAndActions;
 
+    @FindBy(xpath = "//h2[text() = 'System Configuration']/ancestor::section//dt")
+    private List<WebElement> systemConfigurationContent;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -86,13 +89,13 @@ public class ManageJenkinsPage extends BaseDashboardPage {
         return new ConfigureSystemPage(getDriver());
     }
 
-    public AboutJenkinsPage clickAboutJenkins(){
+    public AboutJenkinsPage clickAboutJenkins() {
         aboutJenkins.click();
 
         return new AboutJenkinsPage(getDriver());
     }
 
-    public ManageCredentialsPage clickManageCredentials(){
+    public ManageCredentialsPage clickManageCredentials() {
         manageCredentials.click();
 
         return new ManageCredentialsPage(getDriver());
@@ -110,7 +113,7 @@ public class ManageJenkinsPage extends BaseDashboardPage {
         return new ManageScriptConsolePage(getDriver());
     }
 
-    public List<String> getActualManageJenkinsSectionNames(){
+    public List<String> getActualManageJenkinsSectionNames() {
         List<String> textSection = new ArrayList<>();
         for (WebElement list : manageJenkinsSection) {
             textSection.add(list.getText());
@@ -119,12 +122,21 @@ public class ManageJenkinsPage extends BaseDashboardPage {
         return textSection;
     }
 
-    public List<String> getActualManageJenkinsSectionContentToolsAndActions(){
+    public List<String> getActualManageJenkinsSectionContentToolsAndActions() {
         List<String> textButton = new ArrayList<>();
         for (WebElement list : manageJenkinsContentToolsAndActions) {
             textButton.add(list.getText());
         }
 
         return textButton;
+    }
+
+    public List<String> getActualSystemConfigurationContent() {
+        List<String> textSection = new ArrayList<>();
+        for (WebElement elem : systemConfigurationContent) {
+            textSection.add(elem.getText());
+        }
+
+        return textSection;
     }
 }
