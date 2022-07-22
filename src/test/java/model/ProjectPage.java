@@ -64,6 +64,9 @@ public class ProjectPage extends BaseDashboardPage {
     @FindBy(xpath = "//div[@class='pane desc indent-multiline']")
     private WebElement buildDescription;
 
+    @FindBy(xpath = "//span[text()='Back to Dashboard']")
+    private WebElement backToDashboard;
+
     public ProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -202,6 +205,12 @@ public class ProjectPage extends BaseDashboardPage {
         parameters.click();
 
         return new BuildParametersPage(getDriver());
+    }
+
+    public HomePage clickBackToDashboard() {
+        backToDashboard.click();
+
+        return new HomePage(getDriver());
     }
 
     public String[] permalinksText() {

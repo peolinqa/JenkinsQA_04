@@ -28,6 +28,9 @@ public class BuildHistoryPage extends BaseBuildPage {
     @FindBy(linkText = "Console Output")
     private WebElement consoleButton;
 
+    @FindBy(xpath = "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']")
+    private WebElement buildName;
+
     public List<String> collectListBuildHistory() {
         List<String> collectList = new ArrayList<>();
 
@@ -61,5 +64,9 @@ public class BuildHistoryPage extends BaseBuildPage {
         consoleButton.click();
 
         return new BuildConsolePage(getDriver());
+    }
+
+    public String getBuildName() {
+        return buildName.getText();
     }
 }

@@ -519,6 +519,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(isStatus);
     }
 
+    @Ignore
     @Test
     public void testCheckScheduledBuildInBuildHistory() {
         final String name = TestUtils.getRandomStr(7);

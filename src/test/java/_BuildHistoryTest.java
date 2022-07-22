@@ -11,6 +11,8 @@ public class _BuildHistoryTest extends BaseTest {
 
     private static final String PROJECT_NAME = "BuildHistoryPageProject";
     private static final String BUILD_PROJECT_NAME = "NewFreestyleProject";
+    private static final String BUILD_NAME = "New build 123";
+    private static final String BUILD_DESCRIPTION = "Build 123 description test";
 
     private String buildNumber;
 
@@ -74,17 +76,16 @@ public class _BuildHistoryTest extends BaseTest {
                 .clickProjectName(BUILD_PROJECT_NAME)
                 .selectLastBuild()
                 .clickEditBuildInfoButton()
-                .enterBuildName("New build 123")
-                .enterBuildDescription("Build 123 description test")
+                .enterBuildName(BUILD_NAME)
+                .enterBuildDescription(BUILD_DESCRIPTION)
                 .clickSaveButton()
                 .getBuildName();
-
 
         String buildDescription = new LastBuildPage(getDriver())
                 .getBuildDescription();
 
-        Assert.assertEquals(buildName, "New build 123");
-        Assert.assertEquals(buildDescription, "Build 123 description test");
+        Assert.assertEquals(buildName, BUILD_NAME);
+        Assert.assertEquals(buildDescription, BUILD_DESCRIPTION);
     }
 
     @Test(dependsOnMethods = {"testVerifyChangeOnBuildStatusPage"})
@@ -98,20 +99,20 @@ public class _BuildHistoryTest extends BaseTest {
         String descriptionName = new ProjectPage(getDriver())
                 .getBuildDescription();
 
-        Assert.assertEquals(buildName,"New build 123");
-        Assert.assertEquals(descriptionName,"Build 123 description test");
+        Assert.assertEquals(buildName,BUILD_NAME);
+        Assert.assertEquals(descriptionName,BUILD_DESCRIPTION);
     }
 
     @Test(dependsOnMethods = {"testVerifyChangeOnProjectStatusPage"})
     public void testVerifyChangeOnBuildHistoryPage() {
-        getDriver().findElement(By.xpath("//a[@href='job/NewFreestyleProject/']")).click();
-        getDriver().findElement(By.xpath("//a[@href='lastBuild/']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Back to Project']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Back to Dashboard']")).click();
-        getDriver().findElement(By.xpath("//span[text()='Build History']")).click();
+        String buildNameChange = new HomePage(getDriver())
+                .clickProjectName(BUILD_PROJECT_NAME)
+                .selectLastBuild()
+                .clickBackToProjectButton()
+                .clickBackToDashboard()
+                .clickBuildHistory()
+                .getBuildName();
 
-        String buildName = getDriver().findElement(By.xpath("//a[@href='/job/NewFreestyleProject/1/']")).getText();
-
-        Assert.assertTrue(buildName.contains("New build 123"));
+        Assert.assertEquals(buildNameChange,BUILD_NAME);
     }
 }
