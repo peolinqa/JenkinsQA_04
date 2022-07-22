@@ -1,18 +1,14 @@
 package model;
 
-import model.base.BaseDashboardPage;
-import model.base.BasePage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestylePage extends BaseDashboardPage {
+public class FreestylePage extends BaseProjectPage {
 
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
-
-    @FindBy(linkText = "Configure")
-    private WebElement configureButton;
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
@@ -29,9 +25,6 @@ public class FreestylePage extends BaseDashboardPage {
     @FindBy(id = "enable-project")
     private WebElement text;
 
-    @FindBy(linkText = "Rename")
-    private WebElement renameButton;
-
     @FindBy(xpath = "//span[text()='Delete Project']")
     private WebElement deleteProjectButton;
 
@@ -43,8 +36,14 @@ public class FreestylePage extends BaseDashboardPage {
         return projectName.getText().substring("Project ".length());
     }
 
+    public RenamePage<FreestylePage> clickRenameAndGoToRenamePage() {
+        clickRenameButton();
+
+        return new RenamePage<>(getDriver(), new FreestylePage(getDriver()));
+    }
+
     public FreestyleConfigPage clickFreestyleConfigure() {
-        configureButton.click();
+        clickConfigureButton();
 
         return new FreestyleConfigPage(getDriver());
     }
@@ -70,12 +69,6 @@ public class FreestylePage extends BaseDashboardPage {
         descriptionTextarea.sendKeys(text);
 
         return this;
-    }
-
-    public RenamePage clickAdnGoToRenamePage() {
-        renameButton.click();
-
-        return new RenamePage(getDriver());
     }
 
     public HomePage clickDeleteProject() {

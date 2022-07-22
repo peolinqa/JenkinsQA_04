@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BaseDashboardPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelinePage extends BaseDashboardPage {
+public class MultibranchPipelinePage extends BaseProjectPage {
 
     @FindBy(linkText = "Scan Repository Log")
     private WebElement scanRepositoryLog;
@@ -28,15 +28,18 @@ public class MultibranchPipelinePage extends BaseDashboardPage {
     @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
     private WebElement messageDisabled;
 
-    @FindBy(linkText = "Configure")
-    private WebElement configure;
-
     public MultibranchPipelinePage(WebDriver driver) {
         super(driver);
     }
 
+    public RenamePage<MultibranchPipelinePage> clickRenameAndGoToRenamePage() {
+        clickRenameButton();
+
+        return new RenamePage<>(getDriver(), new MultibranchPipelinePage(getDriver()));
+    }
+
     public MultibranchPipelineConfigPage clickConfigureProject() {
-        configure.click();
+        clickConfigureButton();
 
         return new MultibranchPipelineConfigPage(getDriver());
     }

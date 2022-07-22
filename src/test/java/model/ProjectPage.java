@@ -1,29 +1,24 @@
 package model;
 
-import model.base.BaseDashboardPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectPage extends BaseDashboardPage {
+public class ProjectPage extends BaseProjectPage {
 
     private static final By DISPLAY_NAME = By.cssSelector(".display-name");
-    private static final String NAME_TO_DELETE = "TestToDelete";
 
     @FindBy(css = "h1.page-headline")
     private WebElement projectName;
 
     @FindBy(linkText = "Build Now")
     private WebElement buildButton;
-
-    @FindBy(linkText = "Rename")
-    private WebElement renameButton;
 
     @FindBy(xpath = "//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name']")
     private List<WebElement> buildList;
@@ -71,6 +66,12 @@ public class ProjectPage extends BaseDashboardPage {
         super(driver);
     }
 
+    public RenamePage<ProjectPage> clickRenameAndGoToRenamePage() {
+        clickRenameButton();
+
+        return new RenamePage<>(getDriver(), new ProjectPage(getDriver()));
+    }
+
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
     }
@@ -84,12 +85,6 @@ public class ProjectPage extends BaseDashboardPage {
         buildButton.click();
 
         return this;
-    }
-
-    public RenamePage clickRenameButton() {
-        renameButton.click();
-
-        return new RenamePage(getDriver());
     }
 
     public ProjectPage clickBuildButtonWait() {

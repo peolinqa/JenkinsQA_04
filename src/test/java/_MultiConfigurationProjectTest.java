@@ -101,9 +101,9 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProject() {
         String newProjectName = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
-                .clickAdnGoToRenamePage()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(EDITED_RANDOM_NAME)
-                .clickRenameAndGoToMultiConfigurationProject()
+                .clickRenameAndGoToProjectPage()
                 .getProjectName();
 
         Assert.assertEquals(newProjectName, EDITED_RANDOM_NAME);
@@ -113,7 +113,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProjectErrorSameName() {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
-                .clickAdnGoToRenamePage()
+                .clickRenameAndGoToRenamePage()
                 .setInvalidNameAndGoToErrorPage();
 
         Assert.assertEquals(error.getErrorHeader(), "Error");
@@ -125,7 +125,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProjectErrorEmptyName() {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
-                .clickAdnGoToRenamePage()
+                .clickRenameAndGoToRenamePage()
                 .setEmptyNameAndGoToErrorPage();
 
         Assert.assertEquals(error.getErrorHeader(), "Error");
@@ -137,9 +137,9 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         final String[] invalidName =
                 new String[]{"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", "|", "<", ">", "?", "", " "};
 
-        RenamePage rename = new HomePage(getDriver())
+        RenamePage<MultiConfigurationProjectPage> rename = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
-                .clickAdnGoToRenamePage();
+                .clickRenameAndGoToRenamePage();
 
         for (String unsafeChar : invalidName) {
             rename.setNewProjectName(unsafeChar)

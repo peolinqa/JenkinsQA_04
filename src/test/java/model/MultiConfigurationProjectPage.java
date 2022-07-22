@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseBuildPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
-public class MultiConfigurationProjectPage extends BaseBuildPage {
+public class MultiConfigurationProjectPage extends BaseProjectPage {
 
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;
@@ -37,11 +37,14 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
     @FindBy(id = "yui-gen1-button")
     private WebElement disableProjectButton;
 
-    @FindBy(linkText = "Rename")
-    private WebElement rename;
-
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
+    }
+
+    public RenamePage<MultiConfigurationProjectPage> clickRenameAndGoToRenamePage() {
+        clickRenameButton();
+
+        return new RenamePage<>(getDriver(), new MultiConfigurationProjectPage(getDriver()));
     }
 
     public MultiConfigurationProjectPage clickBuildNow() {
@@ -99,12 +102,6 @@ public class MultiConfigurationProjectPage extends BaseBuildPage {
         }
 
         return isBuildNowDisplayed;
-    }
-
-    public RenamePage clickAdnGoToRenamePage() {
-        rename.click();
-
-        return new RenamePage(getDriver());
     }
 
     public String getProjectName() {

@@ -1,17 +1,11 @@
 package model;
 
-import model.base.BaseDashboardPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FolderPage extends BaseDashboardPage {
-
-    @FindBy(linkText = "Rename")
-    private WebElement renameFolder;
-
-    @FindBy(css = "h1")
-    private WebElement folderName;
+public class FolderPage extends BaseProjectPage {
 
     @FindBy(xpath = "//div[@id='view-message']")
     private WebElement folderDescription;
@@ -21,9 +15,6 @@ public class FolderPage extends BaseDashboardPage {
 
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
-
-    @FindBy(xpath = "//span[text()='Configure']")
-    private WebElement clickConfigure;
 
     @FindBy(xpath = "//span[normalize-space(.)='Create a job']")
     private WebElement createJob;
@@ -38,10 +29,6 @@ public class FolderPage extends BaseDashboardPage {
         super(driver);
     }
 
-    public String getFolderName() {
-        return folderName.getText();
-    }
-
     public String getFolderDescription() {
         if (folderDescription.getText().contains("\n")) {
             return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
@@ -50,10 +37,10 @@ public class FolderPage extends BaseDashboardPage {
         return folderDescription.getText();
     }
 
-    public RenamePage clickRenameFolder() {
-        renameFolder.click();
+    public RenamePage<FolderPage> clickRenameAndGoToRenamePage() {
+        clickRenameButton();
 
-        return new RenamePage(getDriver());
+        return new RenamePage<>(getDriver(), new FolderPage(getDriver()));
     }
 
     public FolderPage clickDeleteFolder() {
@@ -79,7 +66,8 @@ public class FolderPage extends BaseDashboardPage {
     }
 
     public FolderConfigPage clickConfigure(){
-        clickConfigure.click();
+        clickConfigureButton();
+
         return new FolderConfigPage(getDriver());
     }
 }
