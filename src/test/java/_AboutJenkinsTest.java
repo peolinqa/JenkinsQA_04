@@ -5,40 +5,42 @@ import runner.BaseTest;
 import runner.TestUtils;
 
 public class _AboutJenkinsTest extends BaseTest {
+    private int amountLinks;
     @Test
-    public void testAmountLinksMavenizedDependenciesPOM() {
-        int amountLinksInMavenizedDependencies = new HomePage(getDriver())
+    public void testAmountLinksTabMavenizedDependencies() {
+        amountLinks = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickAboutJenkins()
+                .clickMavenizedDependencies()
                 .countLinksInTab("Mavenized dependencies");
 
-        Assert.assertEquals(amountLinksInMavenizedDependencies, 107);
+        Assert.assertEquals(amountLinks, 107);
     }
 
-    @Test
-    public void testAmountLinksStaticResourcesPOM() {
-        int amountLinksInStaticResources = new HomePage(getDriver())
+    @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
+    public void testAmountLinksTabStaticResources() {
+        amountLinks = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickAboutJenkins()
                 .clickStaticResources()
                 .countLinksInTab("Static resources");
 
-        Assert.assertEquals(amountLinksInStaticResources, 4);
+        Assert.assertEquals(amountLinks, 4);
     }
 
-    @Test
-    public void testAmountLinksLicenseAndDependencyInformationForPluginsPOM() {
-        int amountLinksInStaticResources = new HomePage(getDriver())
+    @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
+    public void testAmountLinksTabLicenseAndDependencyInformationForPlugins() {
+        amountLinks = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickAboutJenkins()
                 .clickLicenseAndDependencyInformationForPlugins()
                 .countLinksInTab("License and dependency information for plugins");
 
-        Assert.assertEquals(amountLinksInStaticResources, 85);
+        Assert.assertEquals(amountLinks, 85);
     }
 
-    @Test
-    public void testLinkAntLRParserGeneratorPOM() {
+    @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
+    public void testLinkAntLRParserGenerator() {
         new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickAboutJenkins()

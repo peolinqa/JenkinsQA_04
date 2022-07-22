@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
 
 public class AboutJenkinsPage extends BasePage {
@@ -18,13 +19,16 @@ public class AboutJenkinsPage extends BasePage {
     @FindBy(linkText = "Static resources")
     private WebElement staticResources;
 
+    @FindBy(linkText = "Mavenized dependencies")
+    private WebElement mavenizedDependencies;
+
     public AboutJenkinsPage(WebDriver driver) {
         super(driver);
     }
 
-    public int countLinksInTab(String text) {
+    public int countLinksInTab(String tab) {
         List<WebElement> columnName = getDriver().findElements(
-                By.xpath(String.format("//h2[text()='%s']//parent::div//tbody/tr", text)));
+                By.xpath(String.format("//h2[text()='%s']//parent::div//tbody/tr", tab)));
 
         return columnName.size();
     }
@@ -46,4 +50,11 @@ public class AboutJenkinsPage extends BasePage {
 
         return this;
     }
+
+    public AboutJenkinsPage clickMavenizedDependencies() {
+        mavenizedDependencies.click();
+
+        return this;
+    }
+
 }
