@@ -58,7 +58,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 "rgba(255, 0, 0, 1)");
     }
 
-    @Test(dependsOnMethods = {"testRenameOrganizationFolder"})
+    @Test(dependsOnMethods = {"testCreateOrganizationFolderSameItemName"})
     public void testDeleteOrganizationFolder() {
         List<String> textFolderNames = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_RENAME)
