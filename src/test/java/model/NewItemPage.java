@@ -64,6 +64,24 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
     @FindBy(className = "jenkins_branch_OrganizationFolder")
     private WebElement organizationFolderItem;
 
+    @FindBy(className = "page-header__brand")
+    private WebElement pageHeaderBrand;
+
+    @FindBy(id = "search-box")
+    private WebElement searchboxHidden;
+
+    @FindBy(id = "jenkins-name-icon")
+    private WebElement nameIcon;
+
+    @FindBy(id = "visible-am-insertion")
+    private WebElement visibleAmInsertion;
+
+    @FindBy(id = "visible-sec-am-insertion")
+    private WebElement visibleSecAmInsertion;
+
+    @FindBy(xpath = "//a[@href='/logout']")
+    private WebElement logOut;
+
     private final ConfigPage configPage;
 
     public NewItemPage(WebDriver driver) {
@@ -165,6 +183,34 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
     public List<WebElement> getProjectTypeImage() {
         return projectTypeImage;
+    }
+
+    public WebElement getPageHeaderBrand() {
+        return pageHeaderBrand;
+    }
+
+    public WebElement getSearchboxHidden() {
+        return searchboxHidden;
+    }
+
+    public WebElement getHeaderIcon() {
+        return headerIcon;
+    }
+
+    public WebElement getNameIcon() {
+        return nameIcon;
+    }
+
+    public WebElement getVisibleAmInsertion() {
+        return visibleAmInsertion;
+    }
+
+    public WebElement getVisibleSecAmInsertion() {
+        return visibleSecAmInsertion;
+    }
+
+    public WebElement getLogOut() {
+        return logOut;
     }
 
     public String getBreadCrumbs(int index) {

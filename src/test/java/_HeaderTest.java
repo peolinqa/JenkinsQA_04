@@ -1,4 +1,5 @@
 import model.*;
+import model.base.BasePage;
 import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -8,6 +9,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -24,7 +26,7 @@ public class _HeaderTest extends BaseTest {
         asserts.assertNotNull(elementList);
         asserts.assertEquals(elementList.size(), expectedResult.length);
 
-        for(int i = 0; i < expectedResult.length; i++){
+        for (int i = 0; i < expectedResult.length; i++) {
             asserts.assertEquals(elementList.get(i).getAttribute(attribute), expectedResult[i]);
         }
         asserts.assertAll();
@@ -195,11 +197,12 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testHeaderLogoImageExtensionIsSvg() {
         HomePage headerLogoIsSvg = new HomePage(getDriver());
+
         Assert.assertTrue(headerLogoIsSvg.getLogoIconAttribute("src").contains(".svg"));
     }
 
     @Test
-    public void testHeaderDesignUI(){
+    public void testHeaderDesignUI() {
         HomePage pageHeader = new HomePage(getDriver());
 
         SoftAssert asserts = new SoftAssert();
@@ -213,29 +216,40 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testHeaderPositionOfElementsUI() {
-        String currentUrl = getDriver().getCurrentUrl();
-        for (int i = 1; i <= getMenuItems(getDriver()).size(); i++) {
-            getDriver().findElement(
-                    By.xpath("//div[@class='task '][" + i + "]//a")).click();
+        HomePage homePageSlidePanel = new HomePage(getDriver());
 
-            verifyPositionOfElements(By.xpath("//header/div"), "class",
-                    "page-header__brand", "searchbox hidden-xs", "login page-header__hyperlinks");
+        List<Supplier<? extends BasePage>> slidePanelMenu = List.of(homePageSlidePanel::clickNewItem,
+                homePageSlidePanel::clickPeople,
+                homePageSlidePanel::clickBuildHistory,
+                homePageSlidePanel::clickPeople,
+                homePageSlidePanel::clickMyView,
+                homePageSlidePanel::clickNewView
+        );
 
-            verifyPositionOfElements(By.xpath("//div[@class='logo']/a/img"), "id",
-                    "jenkins-head-icon", "jenkins-name-icon");
+        NewItemPage headerElement = new NewItemPage(getDriver());
 
-            verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/div"), "id",
-                    "visible-am-insertion", "visible-sec-am-insertion");
+        List<WebElement> headerElementsArray = List.of(
+                headerElement.getPageHeaderBrand(),
+                headerElement.getSearchboxHidden(),
+                headerElement.getHeaderIcon(),
+                headerElement.getNameIcon(),
+                headerElement.getVisibleAmInsertion(),
+                headerElement.getVisibleSecAmInsertion(),
+                headerElement.getLogOut());
 
-            verifyPositionOfElements(By.xpath("//header/div[@class='login page-header__hyperlinks']/a"), "href",
-                      currentUrl + "user/admin", currentUrl + "logout");
+        for (Supplier<? extends BasePage> method : slidePanelMenu) {
+            BasePage basePage = method.get();
 
-            getDriver().navigate().back();
+            for (WebElement element : headerElementsArray) {
+                Assert.assertTrue(element.isDisplayed(), String.format("There is now %s", element.getText()));
+            }
+
+            basePage.goHome();
         }
     }
 
     @Test
-    public void testCheckSearchPanel(){
+    public void testCheckSearchPanel() {
         String actualResult = new HomePage(getDriver())
                 .sendTextSearchPanel("TryToFindSomething")
                 .getSearchMainPanelText();
