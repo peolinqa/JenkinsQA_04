@@ -519,25 +519,20 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(isStatus);
     }
 
-    @Ignore
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testCheckScheduledBuildInBuildHistory() {
-        final String name = TestUtils.getRandomStr(7);
-
         final List<String> checkBuildHistoryByName = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .jsDropDownMenuPipelineTab()
                 .clickDropDownMenuPipelineTab()
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
-                .buildSelectPipeline(name, true)
+                .buildSelectPipeline(PIPELINE_NAME, true)
                 .clickAndGoToBuildHistoryPage()
-                .collectListBuildHistory();
+                .collectListBuildHistory(PIPELINE_NAME);
 
-        Assert.assertTrue(checkBuildHistoryByName.containsAll(List.of(name, name)));
+        Assert.assertTrue(checkBuildHistoryByName.containsAll(List.of(PIPELINE_NAME, PIPELINE_NAME)));
     }
 
     @Test

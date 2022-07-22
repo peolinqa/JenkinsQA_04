@@ -401,6 +401,12 @@ public class HomePage extends BaseDashboardPage {
        return new MultiConfigurationConfigPage(getDriver());
     }
 
+    public PipelineConfigPage clickConfigureFromDropdownMenuAndGoToPipelineConfigPage() {
+        configureFromDropdownMenu.click();
+
+        return new PipelineConfigPage(getDriver());
+    }
+
    public boolean isTitleDashboardJenkins(){
        return getDriver().getTitle().contains("Dashboard [Jenkins]");
    }

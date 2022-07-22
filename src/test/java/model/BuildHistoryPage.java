@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class BuildHistoryPage extends BaseBuildPage {
@@ -15,9 +15,6 @@ public class BuildHistoryPage extends BaseBuildPage {
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
     }
-
-    @FindBy(xpath = "//td/a[contains(@href, 'job/')][1]")
-    private List<WebElement> listBuildHistory;
 
     @FindBy(xpath = "//table[@id='projectStatus']/tbody")
     private WebElement tableOfProjects;
@@ -31,15 +28,12 @@ public class BuildHistoryPage extends BaseBuildPage {
     @FindBy(xpath = "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']")
     private WebElement buildName;
 
-    public List<String> collectListBuildHistory() {
-        List<String> collectList = new ArrayList<>();
-
-        for (WebElement el : listBuildHistory) {
-            collectList.add(el.getText());
-        }
-        getDriver().navigate().refresh();
-
-        return collectList;
+    public List<String> collectListBuildHistory(String name) {
+        return getDriver()
+                .findElements(By.xpath(String.format("//table[@id='projectStatus']/tbody//td[2]//a[@href='/job/%s/']", name)))
+                .stream()
+                .map(WebElement::getText)
+                .collect(Collectors.toList());
     }
 
     public boolean checkProjectIsOnBoard(String projectName) {
