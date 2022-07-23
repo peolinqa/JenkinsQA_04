@@ -158,7 +158,7 @@ public class _PipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .navigateToPreviousCreatedPipeline(PIPELINE_NAME)
-                .deletePipelineProject()
+                .clickDeleteProjectAndConfirm()
                 .switchToPage404()
                 .getTitleOfPage404();
 
