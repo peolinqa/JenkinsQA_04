@@ -99,8 +99,8 @@ public class _FolderTest extends BaseTest {
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToFolderPage()
-                .clickDeleteFolder()
-                .clickYesButton()
+                .clickDeleteProject()
+                .confirmDeleteAndGoHomePage()
                 .searchText(folderName)
                 .getSearchMessageText();
 

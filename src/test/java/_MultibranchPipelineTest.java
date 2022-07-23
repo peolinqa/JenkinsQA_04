@@ -89,8 +89,8 @@ public class _MultibranchPipelineTest extends BaseTest {
     public void testDeleteMultibranchPipelineProject() {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PIPELINE_NAME)
-                .clickDeleteMultibranchPipeline()
-                .clickYesButton();
+                .clickDeleteProject()
+                .confirmDeleteAndGoHomePage();
 
         Assert.assertFalse(homePage.isItemPresent(PIPELINE_NAME));
     }

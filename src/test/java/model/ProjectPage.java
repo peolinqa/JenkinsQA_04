@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseProjectPage;
+import model.base.BaseProjectDeleteWithoutConfirmPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,12 +10,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectPage extends BaseProjectPage {
+public class ProjectPage extends BaseProjectDeleteWithoutConfirmPage {
 
     private static final By DISPLAY_NAME = By.cssSelector(".display-name");
-
-    @FindBy(css = "h1.page-headline")
-    private WebElement projectName;
 
     @FindBy(linkText = "Build Now")
     private WebElement buildButton;
@@ -34,9 +31,6 @@ public class ProjectPage extends BaseProjectPage {
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement descriptionValue;
-
-    @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
-    private WebElement deleteButton;
 
     @FindBy(linkText = "Build with Parameters")
     private WebElement buildWithParameters;
@@ -72,6 +66,7 @@ public class ProjectPage extends BaseProjectPage {
         return new RenamePage<>(getDriver(), new ProjectPage(getDriver()));
     }
 
+    @Override
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
     }
@@ -117,13 +112,6 @@ public class ProjectPage extends BaseProjectPage {
 
     public boolean checkDescriptionValue() {
         return descriptionValue.getText().isEmpty();
-    }
-
-    public HomePage clickDeleteButton() {
-        deleteButton.click();
-        getDriver().switchTo().alert().accept();
-
-        return new HomePage(getDriver());
     }
 
     public ProjectPage waitForBuildToComplete() {

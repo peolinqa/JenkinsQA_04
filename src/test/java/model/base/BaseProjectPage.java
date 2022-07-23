@@ -14,10 +14,13 @@ public abstract class BaseProjectPage extends BaseDashboardPage{
     private WebElement renameButton;
 
     @FindBy(css = "h1")
-    private WebElement projectName;
+    protected WebElement projectName;
 
     @FindBy(linkText = "Configure")
     private WebElement configureButton;
+
+    @FindBy(css = ".icon-edit-delete")
+    protected WebElement deleteButton;
 
     public void clickRenameButton() {
         renameButton.click();

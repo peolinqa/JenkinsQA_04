@@ -1,23 +1,17 @@
 package model;
 
-import model.base.BaseProjectPage;
+import model.base.BaseProjectDeleteWithConfirmPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelinePage extends BaseProjectPage {
+public class MultibranchPipelinePage extends BaseProjectDeleteWithConfirmPage {
 
     @FindBy(linkText = "Scan Repository Log")
     private WebElement scanRepositoryLog;
 
     @FindBy(linkText = "View as plain text")
     private WebElement viewAsPlainText;
-
-    @FindBy(linkText = "Delete Multibranch Pipeline")
-    private WebElement deleteMultibranchPipeline;
-
-    @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
 
     @FindBy(className = "icon-folder-disabled")
     private WebElement iconFolderDisabled;
@@ -54,18 +48,6 @@ public class MultibranchPipelinePage extends BaseProjectPage {
         viewAsPlainText.click();
 
         return new MultibranchPipelineConsolePage(getDriver());
-    }
-
-    public MultibranchPipelinePage clickDeleteMultibranchPipeline() {
-        deleteMultibranchPipeline.click();
-
-        return this;
-    }
-
-    public HomePage clickYesButton() {
-        yesButton.click();
-
-        return new HomePage(getDriver());
     }
 
     public WebElement getIconFolderDisabled() {

@@ -1,9 +1,9 @@
 package model;
 
-import model.base.BaseProjectPage;
+import model.base.BaseProjectDeleteWithoutConfirmPage;
 import org.openqa.selenium.WebDriver;
 
-public class PipelinePage extends BaseProjectPage {
+public class PipelinePage extends BaseProjectDeleteWithoutConfirmPage {
 
     public PipelinePage(WebDriver driver) {
         super(driver);

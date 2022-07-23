@@ -1,14 +1,11 @@
 package model;
 
-import model.base.BaseProjectPage;
+import model.base.BaseProjectDeleteWithoutConfirmPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestylePage extends BaseProjectPage {
-
-    @FindBy(css = "h1.page-headline")
-    private WebElement projectName;
+public class FreestylePage extends BaseProjectDeleteWithoutConfirmPage {
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
@@ -25,13 +22,11 @@ public class FreestylePage extends BaseProjectPage {
     @FindBy(id = "enable-project")
     private WebElement text;
 
-    @FindBy(xpath = "//span[text()='Delete Project']")
-    private WebElement deleteProjectButton;
-
     public FreestylePage(WebDriver driver) {
         super(driver);
     }
 
+    @Override
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
     }
@@ -69,13 +64,6 @@ public class FreestylePage extends BaseProjectPage {
         descriptionTextarea.sendKeys(text);
 
         return this;
-    }
-
-    public HomePage clickDeleteProject() {
-        deleteProjectButton.click();
-        getDriver().switchTo().alert().accept();
-
-        return new HomePage(getDriver());
     }
 
     public String getDescriptionName() {

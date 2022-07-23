@@ -62,8 +62,8 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testDeleteOrganizationFolder() {
         List<String> textFolderNames = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_RENAME)
-                .deleteOrganizationFolder()
-                .deleteOrganizationFolderAndGoHomePage()
+                .clickDeleteProject()
+                .confirmDeleteAndGoHomePage()
                 .getTextFolderNamesOnDashboard();
 
         Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_RENAME));

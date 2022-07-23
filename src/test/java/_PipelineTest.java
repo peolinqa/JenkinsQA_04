@@ -158,7 +158,7 @@ public class _PipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .navigateToPreviousCreatedPipeline(PIPELINE_NAME)
-                .deletePipelineProject()
+                .clickDeleteProjectAndConfirm()
                 .switchToPage404()
                 .getTitleOfPage404();
 
@@ -218,7 +218,7 @@ public class _PipelineTest extends BaseTest {
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
-                .clickDeleteButton()
+                .clickDeleteProjectAndConfirm()
                 .clickDashboardButton()
                 .checkProjectAfterDelete(name);
 
@@ -519,6 +519,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(isStatus);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testCheckScheduledBuildInBuildHistory() {
         final List<String> checkBuildHistoryByName = new HomePage(getDriver())

@@ -1,18 +1,12 @@
 package model;
 
-import model.base.BaseProjectPage;
+import model.base.BaseProjectDeleteWithConfirmPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.HashMap;
 
-public class OrganizationFolderProjectPage extends BaseProjectPage {
-
-    @FindBy(xpath = "//h1")
-    private WebElement projectName;
-
-    @FindBy(xpath = "//span[contains(text(),'Delete Organization Folder')]")
-    private WebElement deleteButton;
+public class OrganizationFolderProjectPage extends BaseProjectDeleteWithConfirmPage {
 
     @FindBy(className = "warning")
     private WebElement warningMessage;
@@ -24,6 +18,7 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
         super(driver);
     }
 
+    @Override
     public String getProjectName() {
         return projectName.getText().trim();
     }
@@ -32,12 +27,6 @@ public class OrganizationFolderProjectPage extends BaseProjectPage {
         clickRenameButton();
 
         return new RenamePage<>(getDriver(), new OrganizationFolderProjectPage(getDriver()));
-    }
-
-    public DeleteOrganizationFolderPage deleteOrganizationFolder() {
-        deleteButton.click();
-
-        return new DeleteOrganizationFolderPage(getDriver());
     }
 
     public HashMap<String, String> getDisabledProjectWarningMessage() {

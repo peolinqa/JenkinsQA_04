@@ -251,11 +251,11 @@ public class HomePage extends BaseDashboardPage {
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public DeletePipelineProjectPage navigateToPreviousCreatedPipeline(String projectName) {
+    public PipelinePage navigateToPreviousCreatedPipeline(String projectName) {
         List<WebElement> createdJobFromListJobs = getListProjectLinkByName(projectName);
         getDriver().navigate().to(createdJobFromListJobs.get(0).getAttribute("href"));
 
-        return new DeletePipelineProjectPage(getDriver());
+        return new PipelinePage(getDriver());
     }
 
     public MyViewPage clickMyView() {
@@ -410,4 +410,10 @@ public class HomePage extends BaseDashboardPage {
    public boolean isTitleDashboardJenkins(){
        return getDriver().getTitle().contains("Dashboard [Jenkins]");
    }
+
+    public Page404Page switchToPage404() {
+        getDriver().navigate().back();
+
+        return new Page404Page(getDriver());
+    }
 }
