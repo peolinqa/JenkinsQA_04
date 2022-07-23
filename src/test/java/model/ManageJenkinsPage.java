@@ -49,6 +49,9 @@ public class ManageJenkinsPage extends BaseDashboardPage {
     @FindBy(xpath = "//h2[text() = 'System Configuration']/ancestor::section//dt")
     private List<WebElement> systemConfigurationContent;
 
+    @FindBy(xpath = "//h2[text() = 'Security']/ancestor::section//dt")
+    private List<WebElement> securityContent;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -134,6 +137,15 @@ public class ManageJenkinsPage extends BaseDashboardPage {
     public List<String> getActualSystemConfigurationContent() {
         List<String> textSection = new ArrayList<>();
         for (WebElement elem : systemConfigurationContent) {
+            textSection.add(elem.getText());
+        }
+
+        return textSection;
+    }
+
+    public List<String> getActualSecurityContent() {
+        List<String> textSection = new ArrayList<>();
+        for (WebElement elem : securityContent) {
             textSection.add(elem.getText());
         }
 

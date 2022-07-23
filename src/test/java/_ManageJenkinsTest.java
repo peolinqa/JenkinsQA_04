@@ -52,4 +52,19 @@ public class _ManageJenkinsTest extends BaseTest {
 
         Assert.assertEquals(actualSystemConfigurationContent, expectedSystemConfigurationContent);
     }
+
+    @Test
+    public void testSectionSecurityContent() {
+        final List<String> expectedSecurityContent = List.of(
+                "Configure Global Security",
+                "Manage Credentials",
+                "Configure Credential Providers",
+                "Manage Users");
+
+        List<String> actualSecurityContent = new HomePage(getDriver())
+                .clickManageJenkins()
+                .getActualSecurityContent();
+
+        Assert.assertEquals(actualSecurityContent, expectedSecurityContent);
+    }
 }
