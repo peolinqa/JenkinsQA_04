@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseProjectPage;
+import model.base.BaseProjectDeleteWithoutConfirmPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
-public class MultiConfigurationProjectPage extends BaseProjectPage {
+public class MultiConfigurationProjectPage extends BaseProjectDeleteWithoutConfirmPage {
 
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;
@@ -27,12 +27,6 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
-
-    @FindBy(css = "h1.page-headline")
-    private WebElement projectName;
-
-    @FindBy(xpath = "//a[@class='task-link  confirmation-link']")
-    private WebElement deleteButton;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement disableProjectButton;
@@ -104,14 +98,8 @@ public class MultiConfigurationProjectPage extends BaseProjectPage {
         return isBuildNowDisplayed;
     }
 
+    @Override
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
-    }
-
-    public HomePage clickDeleteButton() {
-        deleteButton.click();
-        getDriver().switchTo().alert().accept();
-
-        return new HomePage(getDriver());
     }
 }

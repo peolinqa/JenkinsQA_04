@@ -218,7 +218,7 @@ public class _PipelineTest extends BaseTest {
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
-                .clickDeleteButton()
+                .clickDeleteProjectAndConfirm()
                 .clickDashboardButton()
                 .checkProjectAfterDelete(name);
 

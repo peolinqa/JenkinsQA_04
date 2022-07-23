@@ -158,7 +158,7 @@ public class _FreestyleTest extends BaseTest {
     public void testDeleteFreestyleProject() {
         boolean projectIsPresent = new HomePage(getDriver())
                 .clickFreestyleName(NAME_WITH_SPECIAL_CHARACTERS)
-                .clickDeleteProject()
+                .clickDeleteProjectAndConfirm()
                 .checkProjectNameIsPresent(NAME_WITH_SPECIAL_CHARACTERS);
 
         Assert.assertFalse(projectIsPresent);

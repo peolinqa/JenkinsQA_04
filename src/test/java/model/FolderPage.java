@@ -1,17 +1,14 @@
 package model;
 
-import model.base.BaseProjectPage;
+import model.base.BaseProjectDeleteWithConfirmPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FolderPage extends BaseProjectPage {
+public class FolderPage extends BaseProjectDeleteWithConfirmPage {
 
     @FindBy(xpath = "//div[@id='view-message']")
     private WebElement folderDescription;
-
-    @FindBy(xpath = "//span[text()='Delete Folder']")
-    private WebElement deleteFolder;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
@@ -30,7 +27,7 @@ public class FolderPage extends BaseProjectPage {
     }
 
     public String getFolderDescription() {
-        if (folderDescription.getText().contains("\n")) {
+        if (folderDescription.getText().contains(systemMessage.getText())) {
             return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
         }
 
@@ -41,12 +38,6 @@ public class FolderPage extends BaseProjectPage {
         clickRenameButton();
 
         return new RenamePage<>(getDriver(), new FolderPage(getDriver()));
-    }
-
-    public FolderPage clickDeleteFolder() {
-        deleteFolder.click();
-
-        return this;
     }
 
     public HomePage clickYesButton() {
