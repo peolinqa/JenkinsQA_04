@@ -1,7 +1,6 @@
 import model.*;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -142,5 +141,15 @@ public class _NewItemTest extends BaseTest {
 
             getDriver().navigate().back();
         }
+    }
+
+    @Test
+    public void testInputDot() {
+        String alertMessage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(".")
+                .getNameErrorText();
+
+        Assert.assertEquals(alertMessage, "» “.” is not an allowed name");
     }
 }

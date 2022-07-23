@@ -11,7 +11,7 @@ public class ErrorPage extends BasePage {
         super(driver);
     }
 
-    @FindBy(xpath = "//h1")
+    @FindBy(tagName = "h1")
     private WebElement headerWithError;
 
     @FindBy(xpath = "//div[@id='main-panel']/p")
