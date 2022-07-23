@@ -267,7 +267,7 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testCheckExpandMenuBuilds() {
-        String userBuilds = new UserBuildPage(getDriver())
+        String userBuilds = new HomePage(getDriver())
                 .navigateAndClickDropDownUserMenu()
                 .clickBuildsAndGoToBuildsPage()
                 .getTextName();
@@ -277,21 +277,21 @@ public class _HeaderTest extends BaseTest {
 
     @Test
     public void testCheckExpandMenuConfigure() {
-        String buttonText = new UserBuildPage(getDriver())
+        String buttonText = new HomePage(getDriver())
                 .navigateAndClickDropDownUserMenu()
                 .clickConfigureAndGoToConfigurePage()
                 .getGen2ButtonText();
 
-        Assert.assertTrue(buttonText.contains("Add new Token"));
+        Assert.assertEquals(buttonText, "Add new Token");
     }
 
     @Test
     public void testCheckExpandMenuMyViews() {
-
         String myViewsText = new HomePage(getDriver())
-                .clickMyView()
+                .navigateAndClickDropDownUserMenu()
+                .clickMyViewAndGoToMyViewPage()
                 .getTextMyView();
 
-        Assert.assertTrue(myViewsText.contains("My Views"));
+        Assert.assertEquals(myViewsText, "My Views");
     }
 }

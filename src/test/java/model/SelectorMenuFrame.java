@@ -13,6 +13,9 @@ public class SelectorMenuFrame extends BasePage {
     @FindBy(linkText = "Configure")
     private WebElement configure;
 
+    @FindBy(linkText = "My Views")
+    private WebElement myView;
+
     public SelectorMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -27,5 +30,11 @@ public class SelectorMenuFrame extends BasePage {
         configure.click();
 
         return new UserConfigurePage(getDriver());
+    }
+
+    public MyViewPage clickMyViewAndGoToMyViewPage() {
+        myView.click();
+
+        return new MyViewPage(getDriver());
     }
 }
