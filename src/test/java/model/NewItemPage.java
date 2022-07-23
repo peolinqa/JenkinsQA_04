@@ -146,6 +146,7 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
     }
 
     public NewItemPage<ConfigPage> setCopyFromName(String name) {
+        getActions().moveToElement(copyFromInputName).perform();
         copyFromInputName.sendKeys(name);
 
         return this;

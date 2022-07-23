@@ -10,7 +10,6 @@ public class _NewItemTest extends BaseTest {
     private static final String DESCRIPTION_INPUT = "New Project created by TA";
     private static final String URL_INPUT = "https://github.com/SergeiDemyanenko/JenkinsQA_04/";
 
-    @Ignore
     @Test
     public void testCopyDataFromExistingItemNegative() {
         String ErrorNoSuchJob = new HomePage(getDriver())
