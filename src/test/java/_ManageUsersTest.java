@@ -2,7 +2,6 @@ import model.CreateUserPage;
 import model.HomePage;
 import model.ManageUsersPage;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -71,45 +70,37 @@ public class _ManageUsersTest extends BaseTest {
         Assert.assertEquals(usersListAfter, usersListBefore);
     }
 
-    @DataProvider(name = "special_characters")
-    public Object[][] specialCharactersMethod() {
-        return new Object[][]{
-                {"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"}, {"("}, {")"}, {"+"}, {";"}, {":"}, {"?"}, {"="},
-                {"~"}, {"`"}, {"["}, {"{"}, {"]"}, {"}"}, {"|"}, {"/"}, {"'"}, {","}, {"."}, {"*"}, {"\""}, {"\\"}, {" "}
-        };
-    }
-
-    @Test(dataProvider = "special_characters")
-    public void testUsernameFieldDoesNotAcceptSpecialCharacters(String specialCharacter) {
+    @Test
+    public void testUsernameFieldDoesNotAcceptSpecialCharacters() {
         final String expectedResult = "User name must only contain alphanumeric characters, underscore and dash";
+        List<String> specialCharacters = List.of(
+                "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "+", ";", ":", "?", "=",
+                "~", "`", "[", "]", "{", "}", "|", "/", "'", ",", ".", "*", "\"", "\\", " ");
 
-        String errorMessage = new HomePage(getDriver())
-                .clickManageJenkins()
-                .clickManageUsers()
-                .clickCreateUser()
-                .setUserName(USER_NAME.concat(specialCharacter))
-                .setPassword(PASSWORD)
-                .setConfirmPassword(PASSWORD)
-                .setFullName(FULL_NAME)
-                .setEmailAddress(EMAIL)
-                .clickCreateUserButton(new CreateUserPage(getDriver()))
-                .getErrorMessage();
+        for (String character : specialCharacters) {
+            String errorMessage = new HomePage(getDriver())
+                    .clickManageJenkins()
+                    .clickManageUsers()
+                    .clickCreateUser()
+                    .setUserName(USER_NAME.concat(character))
+                    .setPassword(PASSWORD)
+                    .setConfirmPassword(PASSWORD)
+                    .setFullName(FULL_NAME)
+                    .setEmailAddress(EMAIL)
+                    .clickCreateUserButton(new CreateUserPage(getDriver()))
+                    .getErrorMessage();
 
-        Assert.assertEquals(errorMessage, expectedResult);
+            Assert.assertEquals(errorMessage, expectedResult);
+        }
     }
 
-    @DataProvider(name = "css_values")
-    public Object[][] cssValuesMethod() {
-        return new Object[][]{
-                {"color", "rgba(204, 0, 0, 1)"}, {"font-weight", "700"}, {"padding-left", "20px"},
-                {"min-height", "16px"}, {"line-height", "16px"}, {"background-position", "0% 0%"},
-                {"background-repeat", "no-repeat"}, {"background-size", "16px 16px"}
-        };
-    }
+    @Test
+    public void testErrorMessagesHaveValidCssValues() {
+        final List<String> expectedResult = List.of(
+                "rgba(204, 0, 0, 1)", "700", "20px", "16px", "16px", "0% 0%",
+                "no-repeat", "16px 16px");
 
-    @Test(dataProvider = "css_values")
-    public void testErrorMessagesHaveValidCssValues(String cssProperty, String expectedResult) {
-        String cssValue = new HomePage(getDriver())
+        List<String> actualResult = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
@@ -119,25 +110,24 @@ public class _ManageUsersTest extends BaseTest {
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
-                .getCssValue(cssProperty);
+                .getCssValuesList();
 
-        Assert.assertEquals(cssValue, expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
     public void testCreateUserEmptyFields() {
-        Set<String> actualErrorsText = new TreeSet<>();
         final Set<String> expectedErrorsText = Set.of("Password is required",
                 "\"\" is prohibited as a full name for security reasons.",
                 "Invalid e-mail address",
                 "\"\" is prohibited as a username for security reasons.");
 
-        new HomePage(getDriver())
+        Set<String> actualErrorsText = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
-                .getErrorMessagesList(actualErrorsText);
+                .getErrorMessagesList();
 
         Assert.assertEquals(actualErrorsText, expectedErrorsText);
     }
@@ -153,21 +143,19 @@ public class _ManageUsersTest extends BaseTest {
                 .getAttributeFullName();
 
         Assert.assertEquals(fullName, USER_NAME);
-
     }
 
     @Test
     public void testCheckErrorMessagesIfFillOutOnlyUserNameField() {
-        Set<String> actualErrorsText = new TreeSet<>();
         final Set<String> expectedErrorsText = Set.of("Password is required", "Invalid e-mail address");
 
-        new HomePage(getDriver())
+        Set<String> actualErrorsText = new HomePage(getDriver())
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
                 .setUserName(USER_NAME)
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
-                .getErrorMessagesList(actualErrorsText);
+                .getErrorMessagesList();
 
         Assert.assertEquals(actualErrorsText, expectedErrorsText);
     }

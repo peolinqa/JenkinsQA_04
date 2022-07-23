@@ -4,8 +4,11 @@ import model.base.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class CreateUserPage extends BasePage {
 
@@ -78,14 +81,26 @@ public class CreateUserPage extends BasePage {
         return errorMessage.getText();
     }
 
-    public CreateUserPage getErrorMessagesList(Set<String> errorMessagesTextList) {
+    public Set<String> getErrorMessagesList() {
+        Set<String> errorMessagesTextList = new TreeSet<>();
         errorMessagesList.stream().map(WebElement::getText).forEach(errorMessagesTextList::add);
 
-        return new CreateUserPage(getDriver());
+        return errorMessagesTextList;
     }
 
-    public String getCssValue(String cssProperty) {
-        return errorMessage.getCssValue(cssProperty);
+    public List<String> getCssValuesList() {
+        List<String> cssProperties = List.of(
+                "color", "font-weight", "padding-left", "min-height", "line-height",
+                "background-image", "background-position", "background-repeat", "background-size");
+        List<String> cssValuesList = new ArrayList<>();
+
+        for (String cssProperty : cssProperties) {
+            if (!cssProperty.contains("image")) {
+                cssValuesList.add(errorMessage.getCssValue(cssProperty));
+            }
+        }
+
+        return cssValuesList;
     }
 
     public String getAttributeFullName() {
