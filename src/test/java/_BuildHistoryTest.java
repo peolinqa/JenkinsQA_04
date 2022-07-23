@@ -1,7 +1,6 @@
 import model.HomePage;
 import model.LastBuildPage;
 import model.ProjectPage;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

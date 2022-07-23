@@ -70,7 +70,7 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createDisableOrganizationFolderTest() {
+    public void testCreateDisableOrganizationFolder() {
         HashMap<String, String> warningMessage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(DISABLED_FOLDER_NAME)
@@ -115,7 +115,7 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderEmptyName() {
+    public void testCreateOrganizationFolderEmptyName() {
         NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectTypeOrganizationFolder();
