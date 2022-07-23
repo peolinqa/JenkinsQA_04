@@ -437,7 +437,7 @@ public class _PipelineTest extends BaseTest {
     public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
         final String errorText = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
-                .clickRenameButton()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(PIPELINE_NAME.toUpperCase())
                 .clickRenameAndGoToErrorPage()
                 .getErrorMessage();
@@ -449,7 +449,7 @@ public class _PipelineTest extends BaseTest {
     public void testRenamePipelineWithValidName() {
         final String newProjectName = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
-                .clickRenameButton()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME)
                 .clickRenameAndGoToProjectPage()
                 .getPipelineProjectName();
@@ -469,7 +469,7 @@ public class _PipelineTest extends BaseTest {
     public void testRenamePipelineWithTheSameName() {
         final String errorText = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
-                .clickRenameButton()
+                .clickRenameAndGoToRenamePage()
                 .clickRenameAndGoToErrorPage()
                 .getErrorMessage();
 
@@ -488,7 +488,7 @@ public class _PipelineTest extends BaseTest {
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
-                .clickRenameButton()
+                .clickRenameAndGoToRenamePage()
                 .getListErrorMessages(invalidCharacters);
 
         List<String> listExpectedResult = invalidCharacters

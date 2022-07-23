@@ -113,9 +113,9 @@ public class _FreestyleTest extends BaseTest {
     public void testRenameFreestyleProject() {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickAdnGoToRenamePage()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(EDITED_RANDOM_NAME)
-                .clickRenameAndGoToFreestyle()
+                .clickRenameAndGoToProjectPage()
                 .getProjectName();
 
         Assert.assertEquals(projectName, EDITED_RANDOM_NAME);
@@ -125,9 +125,9 @@ public class _FreestyleTest extends BaseTest {
     public void testNewFreestyleWithSpecialCharacters() {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(EDITED_RANDOM_NAME)
-                .clickAdnGoToRenamePage()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(NAME_WITH_SPECIAL_CHARACTERS)
-                .clickRenameAndGoToFreestyle()
+                .clickRenameAndGoToProjectPage()
                 .getProjectName();
 
         Assert.assertEquals(projectName, NAME_WITH_SPECIAL_CHARACTERS);
@@ -137,9 +137,9 @@ public class _FreestyleTest extends BaseTest {
     public void testRenameWithInvalidData() {
         String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":", "."};
 
-        RenamePage page = new HomePage(getDriver())
+        RenamePage<FreestylePage> page = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickAdnGoToRenamePage();
+                .clickRenameAndGoToRenamePage();
 
         for (String str : characterName) {
             String alertMessage = page

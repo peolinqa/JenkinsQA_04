@@ -34,9 +34,9 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
         String projectName = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME)
-                .renameOrganizationFolder()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(VALID_FOLDER_RENAME)
-                .clickRenameAndGoToOrganizationFolder()
+                .clickRenameAndGoToProjectPage()
                 .getProjectName();
 
         Assert.assertEquals(projectName, VALID_FOLDER_RENAME);

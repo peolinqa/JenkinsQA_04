@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseHeaderFooterPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RenamePage extends BaseHeaderFooterPage {
+public class RenamePage<ConfigPage> extends BaseProjectPage {
 
     @FindBy(xpath = "//input[@name='newName']")
     private WebElement renameInput;
 
     @FindBy(xpath = "//button[@type='submit']")
-    private WebElement renameButton;
+    private WebElement confirmRenameButton;
 
     @FindBy(xpath = "//div[contains(@class, 'validation-error-area')]//div[@class='error']")
     private WebElement errorText;
@@ -25,70 +25,47 @@ public class RenamePage extends BaseHeaderFooterPage {
     @FindBy(tagName = "h1")
     private WebElement pageHeader;
 
-    public RenamePage(WebDriver driver) {
+    private final ConfigPage configPage;
+
+    public RenamePage(WebDriver driver, ConfigPage configPage) {
         super(driver);
-    }
-
-    public FolderPage clickRenameAndGoToFolder() {
-        renameButton.click();
-
-        return new FolderPage(getDriver());
+        this.configPage = configPage;
     }
 
     public ErrorPage clickRenameAndGoToErrorPage() {
-        renameButton.click();
+        confirmRenameButton.click();
 
         return new ErrorPage(getDriver());
     }
 
-    public RenamePage setNewProjectName(String name) {
+    public RenamePage<ConfigPage> setNewProjectName(String name) {
         renameInput.clear();
         renameInput.sendKeys(name);
 
         return this;
     }
 
-    public FreestylePage clickRenameAndGoToFreestyle() {
-        renameButton.click();
-
-        return new FreestylePage(getDriver());
-    }
-
-    public OrganizationFolderProjectPage clickRenameAndGoToOrganizationFolder() {
-        renameButton.click();
-
-        return new OrganizationFolderProjectPage(getDriver());
-    }
-
-    public RenamePage clickBack() {
+    public void clickBack() {
         getDriver().navigate().back();
-
-        return new RenamePage(getDriver());
-    }
-
-    public MultiConfigurationProjectPage clickRenameAndGoToMultiConfigurationProject() {
-        renameButton.click();
-
-        return new MultiConfigurationProjectPage(getDriver());
     }
 
     public ErrorPage setInvalidNameAndGoToErrorPage() {
-        renameButton.click();
+        confirmRenameButton.click();
 
         return new ErrorPage(getDriver());
     }
 
     public ErrorPage setEmptyNameAndGoToErrorPage() {
         renameInput.clear();
-        renameButton.click();
+        confirmRenameButton.click();
 
         return new ErrorPage(getDriver());
     }
 
-    public ProjectPage clickRenameAndGoToProjectPage() {
-        renameButton.click();
+    public ConfigPage clickRenameAndGoToProjectPage() {
+        confirmRenameButton.click();
 
-        return new ProjectPage(getDriver());
+        return configPage;
     }
 
     public List<String> getListErrorMessages(final List<String> names) {

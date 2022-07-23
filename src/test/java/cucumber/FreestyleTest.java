@@ -107,7 +107,7 @@ public class FreestyleTest {
 
     @Then("Folder project name is {string}")
     public void assertFolderProjectName(String projectName) {
-        Assert.assertEquals(folderPage.getFolderName(), projectName);
+        Assert.assertEquals(folderPage.getProjectName(), projectName);
     }
 
     @When("Click Freestyle project {string}")

@@ -28,7 +28,7 @@ public class _FolderTest extends BaseTest {
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToFolderPage()
-                .getFolderName();
+                .getProjectName();
 
         Assert.assertEquals(folderName, RANDOM_FOLDER_NAME1);
     }
@@ -137,10 +137,10 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderPositive() {
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(RANDOM_FOLDER_NAME1)
-                .clickRenameFolder()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(FOLDER_NAME_FOR_RENAME1)
-                .clickRenameAndGoToFolder()
-                .getFolderName();
+                .clickRenameAndGoToProjectPage()
+                .getProjectName();
 
         Assert.assertEquals(actualResult, FOLDER_NAME_FOR_RENAME1);
     }
@@ -149,9 +149,9 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderWithSpaceAsAName() {
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
-                .clickRenameFolder()
+                .clickRenameAndGoToRenamePage()
                 .setNewProjectName(" ")
-                .clickRenameAndGoToFolder()
+                .clickRenameAndGoToProjectPage()
                 .getErrorPageIfPresent()
                 .getErrorMessage();
 
@@ -162,16 +162,16 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderWithUnsafeCharacters() {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
 
-        RenamePage folderForRenameTest = new HomePage(getDriver())
+        RenamePage<FolderPage> folderForRenameTest = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
-                .clickRenameFolder();
+                .clickRenameAndGoToRenamePage();
 
         for (int i = 0; i < unsafeCharacters.length(); i++) {
             String newFolderName = unsafeCharacters.substring(i, (i + 1));
             if (newFolderName.equals("&")) {
                 String actualResult = folderForRenameTest
                         .setNewProjectName(newFolderName)
-                        .clickRenameAndGoToFolder()
+                        .clickRenameAndGoToProjectPage()
                         .getErrorPageIfPresent()
                         .getErrorMessage();
 
@@ -182,7 +182,7 @@ public class _FolderTest extends BaseTest {
             if (newFolderName.equals(".")) {
                 String actualResult = folderForRenameTest
                         .setNewProjectName(newFolderName)
-                        .clickRenameAndGoToFolder()
+                        .clickRenameAndGoToProjectPage()
                         .getErrorPageIfPresent()
                         .getErrorMessage();
                 Assert.assertEquals(actualResult, "“.” is not an allowed name");
@@ -191,7 +191,7 @@ public class _FolderTest extends BaseTest {
             }
             String actualResult = folderForRenameTest
                     .setNewProjectName(newFolderName)
-                    .clickRenameAndGoToFolder()
+                    .clickRenameAndGoToProjectPage()
                     .getErrorPageIfPresent()
                     .getErrorMessage();
             String expectedResult = "‘" + newFolderName + WARNING_TEXT_UNSAFE;

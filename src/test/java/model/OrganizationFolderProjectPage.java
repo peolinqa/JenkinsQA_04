@@ -1,18 +1,15 @@
 package model;
 
-import model.base.BaseDashboardPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.HashMap;
 
-public class OrganizationFolderProjectPage extends BaseDashboardPage {
+public class OrganizationFolderProjectPage extends BaseProjectPage {
 
     @FindBy(xpath = "//h1")
     private WebElement projectName;
-
-    @FindBy(xpath = "//span[contains(text(),'Rename')]")
-    private WebElement renameButton;
 
     @FindBy(xpath = "//span[contains(text(),'Delete Organization Folder')]")
     private WebElement deleteButton;
@@ -31,10 +28,10 @@ public class OrganizationFolderProjectPage extends BaseDashboardPage {
         return projectName.getText().trim();
     }
 
-    public RenamePage renameOrganizationFolder() {
-        renameButton.click();
+    public RenamePage<OrganizationFolderProjectPage> clickRenameAndGoToRenamePage() {
+        clickRenameButton();
 
-        return new RenamePage(getDriver());
+        return new RenamePage<>(getDriver(), new OrganizationFolderProjectPage(getDriver()));
     }
 
     public DeleteOrganizationFolderPage deleteOrganizationFolder() {
