@@ -1,7 +1,7 @@
 import model.*;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -10,6 +10,7 @@ public class _NewItemTest extends BaseTest {
     private static final String DESCRIPTION_INPUT = "New Project created by TA";
     private static final String URL_INPUT = "https://github.com/SergeiDemyanenko/JenkinsQA_04/";
 
+    @Ignore
     @Test
     public void testCopyDataFromExistingItemNegative() {
         String ErrorNoSuchJob = new HomePage(getDriver())
@@ -126,20 +127,21 @@ public class _NewItemTest extends BaseTest {
         Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
     }
 
-    @DataProvider
-    public Object[][] incorrectCharacters() {
-        return new Object[][] {{"!"}, {"@"}, {"#"}, {"$"}, {";"}, {"%"}, {"^"}, {"&"}, {"?"}, {"*"}, {"["}, {"]"}, {"/"}, {":"}};
-    }
+    @Test
+    public void testCheckIncorrectCharacters() {
+        char[] characterName = {'!', '@', '#', '$', '%', '^', '&', '*', '[', ']', '\\', '|', ';', ':', '/', '?', '<', '>'};
+        for (char ch : characterName) {
 
-    @Test(dataProvider = "incorrectCharacters")
-    public void testCheckIncorrectCharacters(String incorrectCharacter) {
-        String alertMessage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(incorrectCharacter)
-                .getNameErrorText();
+            String alertMessage = new HomePage(getDriver())
+                    .clickNewItem()
+                    .setProjectName(Character.toString(ch))
+                    .getNameErrorText();
 
-        String expectedResult = String.format("» ‘%s’ is an unsafe character", incorrectCharacter);
+            String expectedResult = String.format("» ‘%s’ is an unsafe character", ch);
 
-        Assert.assertEquals(alertMessage, expectedResult);
+            Assert.assertEquals(alertMessage, expectedResult);
+
+            getDriver().navigate().back();
+        }
     }
 }
