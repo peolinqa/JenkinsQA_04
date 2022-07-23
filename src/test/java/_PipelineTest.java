@@ -519,6 +519,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(isStatus);
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testCheckScheduledBuildInBuildHistory() {
         final List<String> checkBuildHistoryByName = new HomePage(getDriver())
