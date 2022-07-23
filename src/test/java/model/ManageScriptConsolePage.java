@@ -20,6 +20,9 @@ public class ManageScriptConsolePage extends BasePage {
     @FindBy(css = "[type='submit']")
     private WebElement runButton;
 
+    @FindBy(xpath = "//a[text()='Groovy script']")
+    private WebElement groovyScript;
+
 
     public ManageScriptConsolePage clickRunButton() {
         runButton.click();
@@ -32,6 +35,16 @@ public class ManageScriptConsolePage extends BasePage {
         getActions().moveToElement(console).click().sendKeys(DELETE_SCRIPT).build().perform();
 
         return this;
+    }
+
+    public ManageScriptConsolePage clickGroovyScript() {
+        groovyScript.click();
+
+        return this;
+    }
+
+    public String getTitleGroovy() {
+        return getDriver().getTitle();
     }
 
 }
