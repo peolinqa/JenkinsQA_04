@@ -27,7 +27,7 @@ public class FolderPage extends BaseProjectDeleteWithConfirmPage {
     }
 
     public String getFolderDescription() {
-        if (folderDescription.getText().contains(systemMessage.getText())) {
+        if (systemMessage.getText().length() > 0) {
             return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
         }
 
