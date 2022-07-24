@@ -3,7 +3,6 @@ package model;
 import model.base.BaseDashboardPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -14,8 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class HomePage extends BaseDashboardPage {
-
-    private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
 
     @FindBy(tagName = "h1")
     private List<WebElement> h1;
@@ -40,9 +37,6 @@ public class HomePage extends BaseDashboardPage {
 
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
     private List<WebElement> listBuildButtons;
-
-    @FindBy(xpath = "//td/a[contains(@href, 'job/')]")
-    private List<WebElement> listJobNameButtons;
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='children']")
     private WebElement triangleOnBreadcrumbs;
@@ -265,7 +259,7 @@ public class HomePage extends BaseDashboardPage {
     }
 
     public BuildHistoryPage clickAndGoToBuildHistoryPage() {
-        js.executeScript("arguments[0].scrollIntoView();", newItem);
+        TestUtils.scrollToElement(getDriver(), newItem);
         buildHistory.click();
 
         return new BuildHistoryPage(getDriver());

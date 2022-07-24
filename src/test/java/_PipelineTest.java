@@ -14,38 +14,29 @@ import java.util.stream.IntStream;
 public class _PipelineTest extends BaseTest {
 
     private static final String PIPELINE_NAME = TestUtils.getRandomStr(7);
-    private static final String NEW_PIPELINE_NAME = String.format("New %s", PIPELINE_NAME);
+    private static final String NEW_PIPELINE_NAME = String.format("New%s", PIPELINE_NAME);
 
     @Test
     public void testCheckValidationItemName() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String displayDuplicatedJobName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .getNameErrorText();
 
-        Assert.assertEquals(displayDuplicatedJobName, String.format("» A job already exists with the name ‘%s’", name));
+        Assert.assertEquals(displayDuplicatedJobName, String.format("» A job already exists with the name ‘%s’", PIPELINE_NAME));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCheckValidationItemName")
     public void testCheckTransitionToPageWithError() {
-        final String name = TestUtils.getRandomStr(7);
-
         final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .createAndGoToErrorPage()
                 .isDisplayedErrorHeader();
@@ -53,15 +44,11 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(isErrorHeaderDisplayed);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCheckTransitionToPageWithError")
     public void testCheckDropDownMenuPipeline() {
-        final String name = TestUtils.getRandomStr(7);
-
         final int checkDisplayedDropDownList = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .jsDropDownMenuPipelineTab()
                 .clickDropDownMenuPipelineTab()
                 .collectDropDownMenu();
@@ -69,32 +56,11 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(checkDisplayedDropDownList, 4);
     }
 
-    @Test
-    public void testCheckLinkHelpMenuAdvancedProjectOptions() {
-        final String name = TestUtils.getRandomStr(7);
-
-        final String checkTransitionPluginPage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .scrollAndClickAdvancedButton()
-                .clickHelpForFeatureDisplayName()
-                .transitionToCorrectPage()
-                .checkRedirectionPage();
-
-        Assert.assertEquals(checkTransitionPluginPage, "Pipeline: Job");
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testCheckDropDownMenuPipeline")
     public void testJenkinsCredentialsProviderWindow() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String titleOfJenkinsCredentialsProviderWindow = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .collectPipelineScriptDropDownMenu()
                 .collectPipelineScriptScmDropDownMenu()
@@ -105,15 +71,11 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(titleOfJenkinsCredentialsProviderWindow, "Jenkins Credentials Provider: Jenkins");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testJenkinsCredentialsProviderWindow")
     public void testPipelineSyntaxPageOpening() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String hrefAttOfPipelineSyntaxLink = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .getHrefAndGoToPipelineSyntaxPage()
                 .getPipelineSyntaxHrefAtt();
@@ -121,138 +83,61 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(hrefAttOfPipelineSyntaxLink.contains("pipeline-syntax"));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testPipelineSyntaxPageOpening")
     public void testPipelineGroovyPageOpening() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String useGroovySandBoxCheckboxAtt = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .getUseGroovySandBoxCheckboxAtt();
 
         Assert.assertEquals(useGroovySandBoxCheckboxAtt, "true");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testPipelineGroovyPageOpening")
     public void testTitleConfigPageContainsProjectTitle() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String titleConfigPage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .getTitleConfigPage();
 
-        Assert.assertTrue(titleConfigPage.contains(name));
+        Assert.assertTrue(titleConfigPage.contains(PIPELINE_NAME));
     }
 
-    @Test
-    public void test404PageAfterDeletedPipeline() {
-        final String titleOfPage404 = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(PIPELINE_NAME)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .navigateToPreviousCreatedPipeline(PIPELINE_NAME)
-                .clickDeleteProjectAndConfirm()
-                .switchToPage404()
-                .getTitleOfPage404();
-
-        Assert.assertEquals(titleOfPage404, "Error 404 Not Found");
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testTitleConfigPageContainsProjectTitle")
     public void testCreatePipelineAndCheckOnDashboard() {
         final List<String> actualDashboardProject = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(PIPELINE_NAME)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
                 .clickDashboardButton()
                 .getActualDashboardProject();
 
         Assert.assertTrue(actualDashboardProject.contains(PIPELINE_NAME));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testHelpTooltipsText() {
-        final String name = TestUtils.getRandomStr(7);
-
         final boolean check = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .checkHelpTooltipsTextCheckBoxHelpText();
 
         Assert.assertTrue(check);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testHelpTooltipsText")
     public void testApplyButtonNotificationAlert() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String notificationSave = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .applyButtonClick()
                 .notification();
 
         Assert.assertEquals(notificationSave, "Saved");
     }
 
-    @Test
-    public void testDeletePipelineFromSideMenu() {
-        final String name = TestUtils.getRandomStr(7);
-
-        final boolean check = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
-                .clickDeleteProjectAndConfirm()
-                .clickDashboardButton()
-                .checkProjectAfterDelete(name);
-
-        Assert.assertTrue(check);
-    }
-
-    @Ignore
-    @Test
-    public void testDeletePipelineFromDashboard() {
-        final String name = TestUtils.getRandomStr(7);
-
-        final boolean check = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
-                .clickDashboardButton()
-                .projectMenuSelector(name)
-                .clickDeleteProjectMenuSelector()
-                .checkProjectAfterDelete(name);
-
-        Assert.assertTrue(check);
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testApplyButtonNotificationAlert")
     public void testCreatePipelineWithNegativeValueQuietPeriod() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String checkForValueErrorMessage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .jsCheckboxProjectParameterized()
                 .enteringDataIntoLineQuietPeriod()
                 .verificationPeriodErrorMessage();
@@ -260,81 +145,10 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(checkForValueErrorMessage, "This value should be larger than 0");
     }
 
-    @Ignore
-    @Test
-    public void testDeleteAllPipelinesFromScriptConsole() {
-        final String name = TestUtils.getRandomStr(7);
-
-        final boolean check = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectTypePipeline()
-                .setProjectName(name)
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
-                .clickDashboardButton()
-                .clickManageJenkins()
-                .clickScriptConsole()
-                .useDeleteAllProjectScript()
-                .clickRunButton()
-                .goHome()
-                .checkProjectAfterDelete(name);
-
-        Assert.assertTrue(check);
-    }
-
-    @DataProvider(name = "errorMessageData")
-    public Object[][] errorData() {
-        return new Object[][]{
-                {"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"},
-                {":"}, {";"}, {"<"}, {">"}, {"?"}, {"/"}, {"\\"}
-        };
-    }
-
-    @Test(dataProvider = "errorMessageData")
-    public void testInvalidName(String name) {
-        final String errorText = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .getErrorMessage();
-
-        Assert.assertEquals(errorText, String.format("» ‘%s’ is an unsafe character", name));
-    }
-
-    @Test
-    public void testBuildPipelineWithParameters() {
-        final String name = TestUtils.getRandomStr(7);
-
-        final List<String> checkNameAndDescriptionParametersBuild = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickCheckboxProjectParameterized()
-                .clickAddParameterOfBuildButton()
-                .clickChoiceParameterButton()
-                .enteringParametersIntoProject()
-                .saveConfigAndGoToProject()
-                .clickBuildWithParameters()
-                .clickBuildButton()
-                .refreshPage()
-                .clickLastBuildButton()
-                .clickParametersButton()
-                .collectChoiceAndDescriptionParameterName();
-
-        Assert.assertEquals(checkNameAndDescriptionParametersBuild,
-                List.of("Checking Name Display\nChecking Description Display"));
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testCreatePipelineWithNegativeValueQuietPeriod")
     public void testPermalinksTextAfterPipelineBuildNow() {
-        final String name = TestUtils.getRandomStr(7);
-
         final String[] permalinksText = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
+                .clickProjectName(PIPELINE_NAME)
                 .clickBuildButtonWait()
                 .refreshPage()
                 .permalinksText();
@@ -343,51 +157,11 @@ public class _PipelineTest extends BaseTest {
                 "Last successful build", "Last completed build"});
     }
 
-    @Test
-    public void testAddAllColumnsFromDashboardInOwnWatchlist() {
-        final String name = TestUtils.getRandomStr(7);
-        final String viewName = "AchViewName";
-
-        final int countColumns = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .clickNewView()
-                .setViewName(viewName)
-                .selectListViewType()
-                .createViewAndGoConfig()
-                .chooseJobs(1)
-                .addAllUniqueColumns()
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getCountOfColumns();
-
-        Assert.assertEquals(countColumns, 11);
-    }
-
-    @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
-    public void testRemoveColumnsFromDashboardInOwnWatchlist() {
-        final int countColumnsAfterDelete = new HomePage(getDriver())
-                .clickMyViewNameButton()
-                .clickEditView()
-                .scrollPageDown()
-                .removeColumns()
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getCountOfColumns();
-
-        Assert.assertEquals(countColumnsAfterDelete, 1);
-    }
-
-    @Test
+    @Test(dependsOnMethods = "testPermalinksTextAfterPipelineBuildNow")
     public void testDragAndDropProjectParameters() {
-        final String name = TestUtils.getRandomStr(7);
-
         final List<String> locationProjectParameterized = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
                 .clickCheckboxProjectParameterized()
                 .clickAddParameterOfBuildButton()
                 .clickBooleanParameterButton()
@@ -400,52 +174,37 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(locationProjectParameterized, List.of("Choice Parameter", "Boolean Parameter"));
     }
+    @Test(dependsOnMethods = "testDragAndDropProjectParameters")
+    public void testDeletePipelineDescription() {
+        final boolean check = new HomePage(getDriver())
+                .clickProjectName(PIPELINE_NAME)
+                .clickAddDescription()
+                .addTextDescriptionAndSave("Text Description")
+                .clearUserDescription()
+                .checkDescriptionValue();
 
-    @Test
-    public void testCreateAndCheckNewMyView() {
-        final String name = TestUtils.getRandomStr(7);
-        final int countJobs = 2;
-
-        final List<String> listJobsInMyViewName = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name.concat("1"))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .clickNewItem()
-                .setProjectName(name.concat("2"))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .clickNewItem()
-                .setProjectName(name.concat("3"))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .clickNewView()
-                .setViewName(name)
-                .selectListViewType()
-                .createViewAndGoConfig()
-                .chooseJobs(countJobs)
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getListJobsName();
-
-        Assert.assertEquals(listJobsInMyViewName.size(), countJobs);
+        Assert.assertTrue(check);
     }
 
-    @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
-    public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
-        final String errorText = new HomePage(getDriver())
+    @Test(dependsOnMethods = "testDeletePipelineDescription")
+    public void testRenamePipelineWithInvalidName() {
+        final List<String> invalidCharacters = Arrays.asList("!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\",
+                "/", ">", "<", "|", "?");
+
+        final List<String> listErrorMessages = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
                 .clickRenameAndGoToRenamePage()
-                .setNewProjectName(PIPELINE_NAME.toUpperCase())
-                .clickRenameAndGoToErrorPage()
-                .getErrorMessage();
+                .getListErrorMessages(invalidCharacters);
 
-        Assert.assertEquals(errorText, String.format("The name “%s” is already in use.", PIPELINE_NAME.toUpperCase()));
+        List<String> listExpectedResult = invalidCharacters
+                .stream()
+                .map(el -> String.format("‘%s’ is an unsafe character", el))
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(listErrorMessages, listExpectedResult);
     }
 
-    @Test(dependsOnMethods = "testRenamePipelineWithTheSameName")
+    @Test(dependsOnMethods = "testRenamePipelineWithInvalidName")
     public void testRenamePipelineWithValidName() {
         final String newProjectName = new HomePage(getDriver())
                 .clickProjectName(PIPELINE_NAME)
@@ -465,10 +224,22 @@ public class _PipelineTest extends BaseTest {
         Assert.assertTrue(projectIsDisplayed);
     }
 
+    @Test(dependsOnMethods = "testRenamedProjectIsOnDashboard")
+    public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
+        final String errorText = new HomePage(getDriver())
+                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickRenameAndGoToRenamePage()
+                .setNewProjectName(NEW_PIPELINE_NAME.toUpperCase())
+                .clickRenameAndGoToErrorPage()
+                .getErrorMessage();
+
+        Assert.assertEquals(errorText, String.format("The name “%s” is already in use.", NEW_PIPELINE_NAME.toUpperCase()));
+    }
+
     @Test(dependsOnMethods = "testRenamePipelineTheSameNameWithAllCapitalLetters")
     public void testRenamePipelineWithTheSameName() {
         final String errorText = new HomePage(getDriver())
-                .clickProjectName(PIPELINE_NAME)
+                .clickProjectName(NEW_PIPELINE_NAME)
                 .clickRenameAndGoToRenamePage()
                 .clickRenameAndGoToErrorPage()
                 .getErrorMessage();
@@ -476,67 +247,80 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorText, "The new name is the same as the current name.");
     }
 
-    @Test
-    public void testRenamePipelineWithInvalidName() {
-        final String name = TestUtils.getRandomStr(7);
-        final List<String> invalidCharacters = Arrays.asList("!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\",
-                "/", ">", "<", "|", "?");
+    @Test(dependsOnMethods = "testRenamePipelineWithTheSameName")
+    public void testDeletePipelineFromSideMenu() {
+        final boolean check = new HomePage(getDriver())
+                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickDeleteProjectAndConfirm()
+                .clickDashboardButton()
+                .checkProjectAfterDelete(NEW_PIPELINE_NAME);
 
-        final List<String> listErrorMessages = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
-                .clickRenameAndGoToRenamePage()
-                .getListErrorMessages(invalidCharacters);
-
-        List<String> listExpectedResult = invalidCharacters
-                .stream()
-                .map(el -> String.format("‘%s’ is an unsafe character", el))
-                .collect(Collectors.toList());
-
-        Assert.assertEquals(listErrorMessages, listExpectedResult);
+        Assert.assertTrue(check);
     }
 
-    @Test
-    public void testCheckPositiveBuildIcon() {
-        final String name = TestUtils.getRandomStr(7);
-
-        final boolean isStatus = new HomePage(getDriver())
+    @Test(dependsOnMethods = {"testCheckValidationItemName", "testDeletePipelineFromSideMenu"})
+    public void testCheckScheduledBuildInBuildHistory() {
+        final List<String> checkBuildHistoryByName = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(NEW_PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
-                .selectScriptByValue("hello")
+                .jsDropDownMenuPipelineTab()
+                .clickDropDownMenuPipelineTab()
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
-                .buildSelectPipeline(name, false)
+                .buildSelectPipeline(NEW_PIPELINE_NAME, true)
+                .clickAndGoToBuildHistoryPage()
+                .collectListBuildHistory(NEW_PIPELINE_NAME);
+
+        Assert.assertEquals(checkBuildHistoryByName, List.of(NEW_PIPELINE_NAME, NEW_PIPELINE_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCheckScheduledBuildInBuildHistory")
+    public void testCheckPositiveBuildIcon() {
+        final boolean isStatus = new HomePage(getDriver())
+                .clickDashboardButton()
+                .buildSelectPipeline(NEW_PIPELINE_NAME, false)
                 .clickRefreshPage()
-                .clickProjectName(name)
+                .clickProjectName(NEW_PIPELINE_NAME)
+                .refreshPage()
                 .isProjectStatus("job SUCCESS");
 
         Assert.assertTrue(isStatus);
     }
 
-    @Ignore
-    @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
-    public void testCheckScheduledBuildInBuildHistory() {
-        final List<String> checkBuildHistoryByName = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
+    @Test(dependsOnMethods = "testCheckPositiveBuildIcon")
+    public void testCheckSequenceInParameters() {
+        final List<String> CurrentLocationItemsInDropDownMenu = new HomePage(getDriver())
+                .projectMenuSelector(NEW_PIPELINE_NAME)
                 .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
-                .jsDropDownMenuPipelineTab()
-                .clickDropDownMenuPipelineTab()
+                .clickCheckboxProjectParameterized()
+                .clickAddParameterOfBuildButton()
+                .clickChoiceParameterButton()
+                .enteringParametersIntoProject()
                 .saveConfigAndGoToProject()
-                .clickDashboardButton()
-                .buildSelectPipeline(PIPELINE_NAME, true)
-                .clickAndGoToBuildHistoryPage()
-                .collectListBuildHistory(PIPELINE_NAME);
+                .clickBuildWithParameters()
+                .collectDropDownMenu();
 
-        Assert.assertTrue(checkBuildHistoryByName.containsAll(List.of(PIPELINE_NAME, PIPELINE_NAME)));
+        Assert.assertEquals(CurrentLocationItemsInDropDownMenu, List.of("This Is The Default Value", "2", "3"));
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCheckSequenceInParameters")
+    public void testBuildPipelineWithParameters() {
+        final List<String> checkNameAndDescriptionParametersBuild = new HomePage(getDriver())
+                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickBuildWithParameters()
+                .clickBuildButton()
+                .refreshPage()
+                .clickLastBuildButton()
+                .clickParametersButton()
+                .collectChoiceAndDescriptionParameterName();
+
+        Assert.assertEquals(checkNameAndDescriptionParametersBuild,
+                List.of("Checking Name Display\nChecking Description Display"));
+    }
+
+    @Test(dependsOnMethods = "testDeletePipelineFromSideMenu")
     public void testPipelineCheckDiscardOld30builds() {
         final List<Integer> checkingDisplayLast30Builds = new HomePage(getDriver())
                 .clickNewItem()
@@ -578,40 +362,151 @@ public class _PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testDeletePipelineDescription() {
+    public void testAddAllColumnsFromDashboardInOwnWatchlist() {
         final String name = TestUtils.getRandomStr(7);
+        final String viewName = "AchViewName";
 
-        final boolean check = new HomePage(getDriver())
+        final int countColumns = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
-                .clickAddDescription()
-                .addTextDescriptionAndSave(name)
-                .clearUserDescription()
-                .checkDescriptionValue();
+                .clickDashboardButton()
+                .clickNewView()
+                .setViewName(viewName)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .chooseJobs(1)
+                .addAllUniqueColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getCountOfColumns();
+
+        Assert.assertEquals(countColumns, 11);
+    }
+
+    @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
+    public void testRemoveColumnsFromDashboardInOwnWatchlist() {
+        final int countColumnsAfterDelete = new HomePage(getDriver())
+                .clickMyViewNameButton()
+                .clickEditView()
+                .scrollPageDown()
+                .removeColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getCountOfColumns();
+
+        Assert.assertEquals(countColumnsAfterDelete, 1);
+    }
+
+    @Test
+    public void testCheckLinkHelpMenuAdvancedProjectOptions() {
+        final String checkTransitionPluginPage = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(PIPELINE_NAME)
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .scrollAndClickAdvancedButton()
+                .clickHelpForFeatureDisplayName()
+                .transitionToCorrectPage()
+                .checkRedirectionPage();
+
+        Assert.assertEquals(checkTransitionPluginPage, "Pipeline: Job");
+    }
+
+    @Test(dependsOnMethods = "testCheckLinkHelpMenuAdvancedProjectOptions")
+    public void testDeletePipelineFromDashboard() {
+        final boolean check = new HomePage(getDriver())
+                .clickDashboardButton()
+                .projectMenuSelector(PIPELINE_NAME)
+                .clickDeleteProjectMenuSelector()
+                .checkProjectAfterDelete(PIPELINE_NAME);
 
         Assert.assertTrue(check);
     }
 
     @Test
-    public void testCheckSequenceInParameters() {
-        final String name = TestUtils.getRandomStr(7);
-
-        final List<String> CurrentLocationItemsInDropDownMenu = new HomePage(getDriver())
+    public void test404PageAfterDeletedPipeline() {
+        final String titleOfPage404 = new HomePage(getDriver())
                 .clickNewItem()
-                .setProjectName(name)
+                .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
-                .clickCheckboxProjectParameterized()
-                .clickAddParameterOfBuildButton()
-                .clickChoiceParameterButton()
-                .enteringParametersIntoProject()
-                .saveConfigAndGoToProject()
-                .clickBuildWithParameters()
-                .collectDropDownMenu();
+                .clickDashboardButton()
+                .navigateToPreviousCreatedPipeline(PIPELINE_NAME)
+                .clickDeleteProjectAndConfirm()
+                .switchToPage404()
+                .getTitleOfPage404();
 
-        Assert.assertEquals(CurrentLocationItemsInDropDownMenu, List.of("This Is The Default Value", "2", "3"));
+        Assert.assertEquals(titleOfPage404, "Error 404 Not Found");
+    }
+
+    @Test
+    public void testCreateAndCheckNewMyView() {
+        final int countJobs = 2;
+
+        final List<String> listJobsInMyViewName = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(PIPELINE_NAME.concat("1"))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .clickNewItem()
+                .setProjectName(PIPELINE_NAME.concat("2"))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .clickNewItem()
+                .setProjectName(PIPELINE_NAME.concat("3"))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .clickNewView()
+                .setViewName(PIPELINE_NAME)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .chooseJobs(countJobs)
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getListJobsName();
+
+        Assert.assertEquals(listJobsInMyViewName.size(), countJobs);
+    }
+
+    @DataProvider(name = "errorMessageData")
+    public Object[][] errorData() {
+        return new Object[][]{
+                {"!"}, {"@"}, {"#"}, {"$"}, {"%"}, {"^"}, {"&"}, {"*"},
+                {":"}, {";"}, {"<"}, {">"}, {"?"}, {"/"}, {"\\"}
+        };
+    }
+
+    @Test(dataProvider = "errorMessageData")
+    public void testInvalidName(String name) {
+        final String errorText = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectName(name)
+                .getErrorMessage();
+
+        Assert.assertEquals(errorText, String.format("» ‘%s’ is an unsafe character", name));
+    }
+
+    @Ignore
+    @Test
+    public void testDeleteAllPipelinesFromScriptConsole() {
+        final String name = TestUtils.getRandomStr(7);
+
+        final boolean check = new HomePage(getDriver())
+                .clickNewItem()
+                .setProjectTypePipeline()
+                .setProjectName(name)
+                .clickOkAndGoToConfig()
+                .saveConfigAndGoToProject()
+                .clickDashboardButton()
+                .clickManageJenkins()
+                .clickScriptConsole()
+                .useDeleteAllProjectScript()
+                .clickRunButton()
+                .goHome()
+                .checkProjectAfterDelete(name);
+
+        Assert.assertTrue(check);
     }
 }

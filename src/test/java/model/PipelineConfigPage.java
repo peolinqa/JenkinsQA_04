@@ -5,19 +5,16 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import runner.TestUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PipelineConfigPage extends BaseDashboardPage {
 
-    private final JavascriptExecutor js = (JavascriptExecutor) getDriver();
-
     public PipelineConfigPage(WebDriver driver) {
         super(driver);
     }
-
-    @FindBy(css = ".samples select")
-    private WebElement script;
 
     @FindBy(css = "[type='submit']")
     private WebElement saveButton;
@@ -125,12 +122,6 @@ public class PipelineConfigPage extends BaseDashboardPage {
             "/div/div[@class='error']")
     private WebElement periodErrorMessage;
 
-    public PipelineConfigPage selectScriptByValue(String name) {
-        new Select(script).selectByValue(name);
-
-        return this;
-    }
-
     public ProjectPage saveConfigAndGoToProject() {
         saveButton.click();
 
@@ -148,19 +139,19 @@ public class PipelineConfigPage extends BaseDashboardPage {
     }
 
     public PipelineConfigPage jsDropDownMenuPipelineTab() {
-        js.executeScript("arguments[0].scrollIntoView();", dropDownMenuPipelineTab);
+        TestUtils.scrollToElement(getDriver(), dropDownMenuPipelineTab);
 
         return this;
     }
 
     public PipelineConfigPage jsCheckboxProjectParameterized() {
-        js.executeScript("arguments[0].scrollIntoView();", checkboxProjectParameterized);
+        TestUtils.scrollToElement(getDriver(), checkboxProjectParameterized);
 
         return this;
     }
 
     public PipelineConfigPage jsCheckboxDoNotAllowConcurrentBuilds() {
-        js.executeScript("arguments[0].scrollIntoView();", checkboxDoNotAllowConcurrentBuilds);
+        TestUtils.scrollToElement(getDriver(), checkboxDoNotAllowConcurrentBuilds);
 
         return this;
     }
@@ -170,7 +161,7 @@ public class PipelineConfigPage extends BaseDashboardPage {
     }
 
     public PipelineConfigPage scrollAndClickAdvancedButton() {
-        js.executeScript("arguments[0].scrollIntoView();", advancedButton);
+        TestUtils.scrollToElement(getDriver(), advancedButton);
         advancedButton.click();
 
         return this;
