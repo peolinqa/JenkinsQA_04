@@ -23,7 +23,7 @@ public class _ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualManageJenkinsSectionNames, expectedSectionNames);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCheckSectionNames")
     public void testCheckSectionContentToolsAndActions() {
         final List<String> expectedContentSectionToolsAndActions = List.of(
                 "Reload Configuration from Disk",
@@ -38,7 +38,7 @@ public class _ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualContentSectionToolsAndActions, expectedContentSectionToolsAndActions);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCheckSectionNames")
     public void testSectionSystemConfigurationContent() {
         final List<String> expectedSystemConfigurationContent = List.of(
                 "Configure System",
@@ -53,7 +53,7 @@ public class _ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualSystemConfigurationContent, expectedSystemConfigurationContent);
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCheckSectionNames")
     public void testSectionSecurityContent() {
         final List<String> expectedSecurityContent = List.of(
                 "Configure Global Security",
