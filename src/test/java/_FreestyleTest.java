@@ -1,7 +1,6 @@
 import model.FreestyleConfigPage;
 import model.FreestylePage;
 import model.HomePage;
-import model.RenamePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -9,7 +8,7 @@ import runner.TestUtils;
 
 public class _FreestyleTest extends BaseTest {
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
-    private static final String EDITED_RANDOM_NAME = "New " + RANDOM_NAME;
+    private static final String EDITED_RANDOM_NAME = String.format("New %s", RANDOM_NAME);
     private static final String NAME_WITH_SPECIAL_CHARACTERS = "-()+-_~-1";
     private static final String EDITED_RANDOM_DESCRIPTION = TestUtils.getRandomStr(15);
     private static final String DESCRIPTION_TEXT = "This is a description for a Freestyle project";
@@ -109,7 +108,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(freestyleConfigPage.getHelpNamesBuildTriggers(), "Help for feature: Build periodically");
     }
 
-    @Test(dependsOnMethods = {"testHelpButtonPopupBuildPeriodically", "testRenameWithInvalidData"})
+    @Test(dependsOnMethods = "testHelpButtonPopupBuildPeriodically")
     public void testRenameFreestyleProject() {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
@@ -133,27 +132,7 @@ public class _FreestyleTest extends BaseTest {
         Assert.assertEquals(projectName, NAME_WITH_SPECIAL_CHARACTERS);
     }
 
-    @Test(dependsOnMethods = "testCreateFreestyleProject")
-    public void testRenameWithInvalidData() {
-        String[] characterName = {"!", "@", "#", "$", ";", "%", "^", "&", "?", "*", "[", "]", "/", ":", "."};
-
-        RenamePage<FreestylePage> page = new HomePage(getDriver())
-                .clickFreestyleName(RANDOM_NAME)
-                .clickRenameAndGoToRenamePage();
-
-        for (String str : characterName) {
-            String alertMessage = page
-                    .setNewProjectName(str)
-                    .clickRenameAndGoToErrorPage()
-                    .getErrorMessage();
-
-            Assert.assertTrue(alertMessage.contains("is an unsafe character")
-                    || alertMessage.contains("is not an allowed name"));
-            page.clickBack();
-        }
-    }
-
-    @Test(dependsOnMethods = {"testCreateFreestyleProject", "testRenameWithInvalidData",
+    @Test(dependsOnMethods = {"testCreateFreestyleProject",
             "testSaveButtonAfterProjectCreated", "testNewFreestyleWithSpecialCharacters"})
     public void testDeleteFreestyleProject() {
         boolean projectIsPresent = new HomePage(getDriver())
@@ -163,5 +142,4 @@ public class _FreestyleTest extends BaseTest {
 
         Assert.assertFalse(projectIsPresent);
     }
-
 }
