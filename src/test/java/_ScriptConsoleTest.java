@@ -27,6 +27,6 @@ public class _ScriptConsoleTest extends BaseTest {
                 .clickRunButton()
                 .getResult();
 
-        Assert.assertEquals(actualResult, "Result: ".concat(RANDOM));
+        Assert.assertEquals(actualResult, String.format("Result: %s",RANDOM));
     }
 }

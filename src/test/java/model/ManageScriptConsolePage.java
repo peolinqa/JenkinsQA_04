@@ -55,7 +55,7 @@ public class ManageScriptConsolePage extends BasePage {
         getActions()
                 .moveToElement(textArea)
                 .click()
-                .sendKeys("\"".concat(str).concat("\""))
+                .sendKeys(String.format("\"%s\"",str))
                 .build()
                 .perform();
 
