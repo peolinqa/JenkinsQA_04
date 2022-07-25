@@ -7,11 +7,6 @@ import org.openqa.selenium.support.FindBy;
 
 
 public class ManageScriptConsolePage extends BasePage {
-
-    public ManageScriptConsolePage(WebDriver driver) {
-        super(driver);
-    }
-
     private final String DELETE_SCRIPT = "for(j in jenkins.model.Jenkins.theInstance.getAllItems()) {j.delete()}";
 
     @FindBy(xpath = "//div[@class='CodeMirror-scroll cm-s-default']")
@@ -23,6 +18,15 @@ public class ManageScriptConsolePage extends BasePage {
     @FindBy(xpath = "//a[text()='Groovy script']")
     private WebElement groovyScript;
 
+    @FindBy(css = ".CodeMirror-scroll.cm-s-default")
+    private WebElement textArea;
+
+    @FindBy(xpath = "//h2/following-sibling::pre")
+    private WebElement result;
+
+    public ManageScriptConsolePage(WebDriver driver) {
+        super(driver);
+    }
 
     public ManageScriptConsolePage clickRunButton() {
         runButton.click();
@@ -45,6 +49,21 @@ public class ManageScriptConsolePage extends BasePage {
 
     public String getTitleGroovy() {
         return getDriver().getTitle();
+    }
+
+    public ManageScriptConsolePage setTextArea(String str) {
+        getActions()
+                .moveToElement(textArea)
+                .click()
+                .sendKeys("\"".concat(str).concat("\""))
+                .build()
+                .perform();
+
+        return this;
+    }
+
+    public String getResult() {
+        return result.getText();
     }
 
 }
