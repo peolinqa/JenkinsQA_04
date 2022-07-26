@@ -17,19 +17,22 @@ public class MultiConfigurationProjectPage extends BaseProjectDeleteWithoutConfi
     private WebElement tooltipStatus;
 
     @FindBy(id = "description-link")
-    private  WebElement addOrEditDescriptionButton;
+    private WebElement addOrEditDescriptionButton;
 
-    @FindBy (xpath = "//div/textarea[@name='description']")
+    @FindBy(xpath = "//div/textarea[@name='description']")
     private WebElement descriptionTextArea;
 
-    @FindBy (id = "yui-gen2-button")
-    private  WebElement saveButton;
+    @FindBy(id = "yui-gen2-button")
+    private WebElement saveButton;
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement disableProjectButton;
+
+    @FindBy(xpath = "//a[@href='default/']")
+    private WebElement defaultButton;
 
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
@@ -101,5 +104,11 @@ public class MultiConfigurationProjectPage extends BaseProjectDeleteWithoutConfi
     @Override
     public String getProjectName() {
         return projectName.getText().substring("Project ".length());
+    }
+
+    public MultiConfigurationProjectDefaultPage clickDefaultButton() {
+        defaultButton.click();
+
+        return new MultiConfigurationProjectDefaultPage(getDriver());
     }
 }

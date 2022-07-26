@@ -3,6 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
+import java.util.Set;
 
 public class _MultiConfigurationProjectTest extends BaseTest {
 
@@ -23,7 +24,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName, RANDOM_NAME);
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigFolder")
+    @Test(dependsOnMethods = "testWorkspaceWithoutBuildPerformed")
     public void testBuildNow() {
         MultiConfigurationProjectConsolePage consolePage = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
@@ -175,5 +176,21 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 .clickDeleteProjectAndConfirm();
 
         Assert.assertFalse(homePage.isItemPresent(EDITED_RANDOM_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateMultiConfigFolder")
+    public void testWorkspaceWithoutBuildPerformed() {
+        final String h1HeaderError = "Error: no workspace";
+        final Set<String> expectedErrorsText = Set.of(
+                "A project won't have any workspace until at least one build is performed.",
+                "Run a build to have Jenkins create a workspace.");
+
+        MultiConfigurationProjectWorkspacePage errorMessages = new HomePage(getDriver())
+                .clickMultiConfigurationProjectName(RANDOM_NAME)
+                .clickDefaultButton()
+                .clickWorkspaceButton();
+
+        Assert.assertEquals(errorMessages.getH1Header(), h1HeaderError);
+        Assert.assertEquals(errorMessages.getErrorMessages(), expectedErrorsText);
     }
 }
