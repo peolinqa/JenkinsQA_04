@@ -1,10 +1,11 @@
 package model;
 
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class SearchPage extends HomePage {
+public class SearchPage extends BaseHeaderFooterPage {
 
     public SearchPage(WebDriver driver) {
         super(driver);

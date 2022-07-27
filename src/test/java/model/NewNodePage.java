@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class NewNodePage extends BasePage {
+public class NewNodePage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//input[@id='name']")
     private WebElement nodeNameField;

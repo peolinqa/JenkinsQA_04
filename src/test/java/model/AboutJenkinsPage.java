@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class AboutJenkinsPage extends BasePage {
+public class AboutJenkinsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[text()='AntLR Parser Generator']")
     private WebElement antlr;

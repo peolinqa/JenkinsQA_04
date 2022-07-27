@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import runner.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigureGlobalSecurityPage extends BasePage {
+public class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[@title='Help for feature: SSHD Port']")
     private WebElement helpButton;

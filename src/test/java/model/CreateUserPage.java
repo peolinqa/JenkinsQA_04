@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class CreateUserPage extends BasePage {
+public class CreateUserPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "username")
     private WebElement userNameField;

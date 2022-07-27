@@ -20,10 +20,10 @@ public class SelectorMenuFrame extends BasePage {
         super(driver);
     }
 
-    public UserBuildPage clickBuildsAndGoToBuildsPage() {
+    public UserBuildsPage clickBuildsAndGoToBuildsPage() {
         builds.click();
 
-        return new UserBuildPage(getDriver());
+        return new UserBuildsPage(getDriver());
     }
 
     public UserConfigurePage clickConfigureAndGoToConfigurePage() {

@@ -3,9 +3,9 @@ package model.base;
 import model.HomePage;
 import org.openqa.selenium.WebDriver;
 
-public class BaseProjectDeleteWithoutConfirmPage extends BaseProjectPage{
+public class BaseProjectDeleteWithAlertPage extends BaseProjectPage{
 
-    public BaseProjectDeleteWithoutConfirmPage(WebDriver driver) {
+    public BaseProjectDeleteWithAlertPage(WebDriver driver) {
         super(driver);
     }
 

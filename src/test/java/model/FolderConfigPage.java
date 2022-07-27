@@ -1,13 +1,13 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FolderConfigPage extends BasePage {
+public class FolderConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(css = "[type='submit']")
     private WebElement saveButton;

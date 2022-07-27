@@ -1,13 +1,13 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class JenkinsCLIPage extends BasePage {
+public class JenkinsCLIPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//a")
     private List<WebElement> commandName;

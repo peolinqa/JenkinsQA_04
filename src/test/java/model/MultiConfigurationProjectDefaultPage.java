@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultiConfigurationProjectDefaultPage extends BasePage {
+public class MultiConfigurationProjectDefaultPage extends BaseHeaderFooterPage {
 
     @FindBy(linkText = "Workspace")
     private WebElement workspaceButton;

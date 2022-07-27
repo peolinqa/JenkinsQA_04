@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class MultiConfigurationProjectWorkspacePage extends BasePage {
+public class MultiConfigurationProjectWorkspacePage extends BaseHeaderFooterPage {
 
     @FindBy(tagName = "h1")
     private WebElement h1Header;

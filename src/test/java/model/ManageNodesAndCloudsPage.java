@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class ManageNodesAndCloudsPage extends BasePage {
+public class ManageNodesAndCloudsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//table[@id='computers']//td[2]")
     private List<WebElement> computerNames;

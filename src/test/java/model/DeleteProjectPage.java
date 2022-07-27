@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class DeleteProjectPage extends BasePage {
+public class DeleteProjectPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "yui-gen1-button")
     protected WebElement yesButton;

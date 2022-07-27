@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LastBuildPage extends BasePage {
+public class LastBuildPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[@title='Edit Build Information']")
     private WebElement editBuildInfoButton;

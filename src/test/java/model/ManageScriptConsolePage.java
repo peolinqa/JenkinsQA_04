@@ -1,12 +1,12 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 
-public class ManageScriptConsolePage extends BasePage {
+public class ManageScriptConsolePage extends BaseHeaderFooterPage {
     private final String DELETE_SCRIPT = "for(j in jenkins.model.Jenkins.theInstance.getAllItems()) {j.delete()}";
 
     @FindBy(xpath = "//div[@class='CodeMirror-scroll cm-s-default']")

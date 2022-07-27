@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Set;
 
-public class ManageUsersPage extends BasePage {
+public class ManageUsersPage extends BaseHeaderFooterPage {
 
     @FindBy(linkText = "Create User")
     private WebElement createUser;

@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class UserStatusPage extends BasePage {
+public class UserStatusPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//div[@id='main-panel']/h1")
     private WebElement userName;

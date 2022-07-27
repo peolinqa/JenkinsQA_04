@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BaseProjectDeleteWithoutConfirmPage;
+import model.base.BaseProjectDeleteWithAlertPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestylePage extends BaseProjectDeleteWithoutConfirmPage {
+public class FreestylePage extends BaseProjectDeleteWithAlertPage {
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;

@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,7 +10,7 @@ import runner.TestUtils;
 
 import java.util.List;
 
-public class ViewConfigPage extends BasePage {
+public class ViewConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(name = "name")
     private WebElement nameText;

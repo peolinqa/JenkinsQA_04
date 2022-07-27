@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseProjectDeleteWithoutConfirmPage;
+import model.base.BaseProjectDeleteWithAlertPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectPage extends BaseProjectDeleteWithoutConfirmPage {
+public class ProjectPage extends BaseProjectDeleteWithAlertPage {
 
     private static final By DISPLAY_NAME = By.cssSelector(".display-name");
 

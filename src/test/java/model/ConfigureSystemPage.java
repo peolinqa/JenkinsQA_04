@@ -1,12 +1,13 @@
 package model;
 
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
-public class ConfigureSystemPage extends ManageJenkinsPage {
+public class ConfigureSystemPage extends BaseHeaderFooterPage {
 
     public ConfigureSystemPage(WebDriver driver) {
         super(driver);

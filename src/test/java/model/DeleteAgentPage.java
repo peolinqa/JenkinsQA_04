@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BasePage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class DeleteAgentPage extends BasePage {
+public class DeleteAgentPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//button[@id='yui-gen1-button']")
     private WebElement yesButton;
