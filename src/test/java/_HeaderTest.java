@@ -5,12 +5,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class _HeaderTest extends BaseTest {
 
@@ -104,24 +108,23 @@ public class _HeaderTest extends BaseTest {
         }
     }
 
-    @Test
-    public void testHeaderLogoIsClickableOnAllPagesToHomepage() {
-        HomePage homePage = new HomePage(getDriver());
+    @DataProvider(name = "clickSideMenu")
+    public Object[][] clickSideMenu() {
+        return Stream.<Function<HomePage, BaseHeaderFooterPage<?>>>of(
+                HomePage::clickNewItem,
+                HomePage::clickPeople,
+                HomePage::clickBuildHistory,
+                HomePage::clickManageJenkins,
+                HomePage::clickMyView,
+                HomePage::clickNewView
+        ).map(item -> new Object[]{item}).toArray(Object[][]::new);
+    }
 
-        List<Supplier<? extends BaseHeaderFooterPage>> menuCallList = List.of(
-                homePage::clickNewItem,
-                homePage::clickPeople,
-                homePage::clickBuildHistory,
-                homePage::clickManageJenkins,
-                homePage::clickMyView,
-                homePage::clickNewView);
-
-        for (Supplier<? extends BaseHeaderFooterPage> method : menuCallList) {
-            HomePage newHomePage = method.get()
-                    .clickJenkins();
-
-            Assert.assertTrue(newHomePage.isTitleDashboardJenkins());
-        }
+    @Test(dataProvider = "clickSideMenu")
+    public void testHeaderLogoIsClickableOnAllPagesToHomepage(Function<HomePage, BaseHeaderFooterPage<?>> click) {
+        click.apply(new HomePage(getDriver()))
+                .clickJenkins()
+                .assertEquals(HomePage::isTitleDashboardJenkins, true);
     }
 
     @Test

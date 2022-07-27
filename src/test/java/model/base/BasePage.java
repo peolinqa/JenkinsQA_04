@@ -9,7 +9,7 @@ import runner.BaseModel;
 import runner.ProjectUtils;
 import java.util.List;
 
-public abstract class BasePage extends BaseModel {
+public abstract class BasePage<Self extends BasePage<?>> extends BaseModel<Self> {
 
     @FindBy(xpath = "//h1[text() = 'Error']")
     private List<WebElement> errorText;

@@ -4,8 +4,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
-public class BaseModel {
+import java.util.function.Function;
+import java.util.function.Supplier;
+
+public class BaseModel<Self extends BaseModel<?>> {
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -42,5 +46,11 @@ public class BaseModel {
     public BaseModel(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(getDriver(), this);
+    }
+
+    public <Value> Self assertEquals(Function<Self, Value> actual, Value expected) {
+        Assert.assertEquals(actual.apply((Self)this), expected);
+
+        return (Self)this;
     }
 }

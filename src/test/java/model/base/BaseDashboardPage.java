@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class BaseDashboardPage extends BaseHeaderFooterPage{
+public abstract class BaseDashboardPage<Self extends BaseDashboardPage<?>> extends BaseHeaderFooterPage<Self> {
 
     @FindBy(linkText = "Dashboard")
     private WebElement dashboardButton;

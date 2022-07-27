@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends BaseDashboardPage {
+public class HomePage extends BaseDashboardPage<HomePage> {
 
     @FindBy(tagName = "h1")
     private List<WebElement> h1;

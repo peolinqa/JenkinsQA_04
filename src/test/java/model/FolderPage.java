@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FolderPage extends BaseProjectDeleteWithConfirmPage {
+public final class FolderPage extends BaseProjectDeleteWithConfirmPage<FolderPage> {
 
     @FindBy(xpath = "//div[@id='view-message']")
     private WebElement folderDescription;

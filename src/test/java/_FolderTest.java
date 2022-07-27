@@ -1,4 +1,5 @@
 import model.*;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -99,6 +100,7 @@ public class _FolderTest extends BaseTest {
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToFolderPage()
+                .assertEquals(FolderPage::getProjectName, folderName)
                 .clickDeleteProject()
                 .confirmDeleteAndGoHomePage()
                 .searchText(folderName)
