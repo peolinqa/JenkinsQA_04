@@ -1,12 +1,12 @@
 package model;
 
-import model.base.BaseDashboardPage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
-public class OrganizationFolderConfigPage extends BaseDashboardPage {
+public class OrganizationFolderConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(css = "#yui-gen17")
     private WebElement saveButton;

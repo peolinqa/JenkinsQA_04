@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseDashboardPage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,7 +10,7 @@ import runner.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineConfigPage extends BaseDashboardPage {
+public class PipelineConfigPage extends BaseHeaderFooterPage {
 
     public PipelineConfigPage(WebDriver driver) {
         super(driver);

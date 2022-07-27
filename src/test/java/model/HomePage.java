@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseDashboardPage;
+import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends BaseDashboardPage<HomePage> {
+public class HomePage extends BaseHeaderFooterPage<HomePage> {
 
     @FindBy(tagName = "h1")
     private List<WebElement> h1;

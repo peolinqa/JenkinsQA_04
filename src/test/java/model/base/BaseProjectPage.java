@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseDashboardPage<Self> {
+public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseHeaderFooterPage<Self> {
 
     public BaseProjectPage(WebDriver driver) {
         super(driver);
