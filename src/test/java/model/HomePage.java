@@ -177,7 +177,7 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
     public boolean checkProjectNameIsPresent(String projectName) {
         return getActualDashboardProject().contains(projectName);
     }
-
+    //сделать дженерики, методов ниже!
     public FolderProjectPage clickFolderName(String name) {
         getProjectLinkByName(name).click();
 
@@ -188,6 +188,12 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         getProjectLinkByName(name).click();
 
         return new ProjectPage(getDriver());
+    }
+
+    public PipelineProjectPage clickPipelineName(String name) {
+        getProjectLinkByName(name).click();
+
+        return new PipelineProjectPage(getDriver());
     }
 
     public FreestyleProjectPage clickFreestyleName(String name) {

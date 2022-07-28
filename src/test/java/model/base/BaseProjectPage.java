@@ -30,7 +30,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
         configureButton.click();
     }
 
-    public String getProjectName() {
+    public String getProjectName() {//переименовать под общее название!
         return projectName.getText();
     }
 }

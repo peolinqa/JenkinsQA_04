@@ -148,7 +148,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreatePipelineWithNegativeValueQuietPeriod")
     public void testPermalinksTextAfterPipelineBuildNow() {
         final String[] permalinksText = new HomePage(getDriver())
-                .clickProjectName(PIPELINE_NAME)
+                .clickPipelineName(PIPELINE_NAME)
                 .clickBuildButtonWait()
                 .refreshPage()
                 .permalinksText();
@@ -177,7 +177,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testDragAndDropProjectParameters")
     public void testDeletePipelineDescription() {
         final boolean check = new HomePage(getDriver())
-                .clickProjectName(PIPELINE_NAME)
+                .clickPipelineName(PIPELINE_NAME)
                 .clickAddDescription()
                 .addTextDescriptionAndSave("Text Description")
                 .clearUserDescription()
@@ -192,7 +192,7 @@ public class _PipelineTest extends BaseTest {
                 "/", ">", "<", "|", "?");
 
         final List<String> listErrorMessages = new HomePage(getDriver())
-                .clickProjectName(PIPELINE_NAME)
+                .clickPipelineName(PIPELINE_NAME)
                 .clickRenameAndGoToRenamePage()
                 .getListErrorMessages(invalidCharacters);
 
@@ -207,11 +207,11 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testRenamePipelineWithInvalidName")
     public void testRenamePipelineWithValidName() {
         final String newProjectName = new HomePage(getDriver())
-                .clickProjectName(PIPELINE_NAME)
+                .clickPipelineName(PIPELINE_NAME)
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME)
                 .clickRenameAndGoToProjectPage()
-                .getPipelineProjectName();
+                .getProjectName();
 
         Assert.assertEquals(newProjectName, NEW_PIPELINE_NAME);
     }
@@ -227,7 +227,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testRenamedProjectIsOnDashboard")
     public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
         final String errorText = new HomePage(getDriver())
-                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickPipelineName(NEW_PIPELINE_NAME)
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME.toUpperCase())
                 .clickRenameAndGoToErrorPage()
@@ -239,7 +239,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testRenamePipelineTheSameNameWithAllCapitalLetters")
     public void testRenamePipelineWithTheSameName() {
         final String errorText = new HomePage(getDriver())
-                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickPipelineName(NEW_PIPELINE_NAME)
                 .clickRenameAndGoToRenamePage()
                 .clickRenameAndGoToErrorPage()
                 .getErrorMessage();
@@ -250,7 +250,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testRenamePipelineWithTheSameName")
     public void testDeletePipelineFromSideMenu() {
         final boolean check = new HomePage(getDriver())
-                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickPipelineName(NEW_PIPELINE_NAME)
                 .clickDeleteProjectAndConfirm()
                 .clickDashboardButton()
                 .checkProjectAfterDelete(NEW_PIPELINE_NAME);
@@ -282,7 +282,7 @@ public class _PipelineTest extends BaseTest {
                 .clickDashboardButton()
                 .buildSelectPipeline(NEW_PIPELINE_NAME, false)
                 .clickRefreshPage()
-                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickPipelineName(NEW_PIPELINE_NAME)
                 .refreshPage()
                 .isProjectStatus("job SUCCESS");
 
@@ -308,7 +308,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCheckSequenceInParameters")
     public void testBuildPipelineWithParameters() {
         final List<String> checkNameAndDescriptionParametersBuild = new HomePage(getDriver())
-                .clickProjectName(NEW_PIPELINE_NAME)
+                .clickPipelineName(NEW_PIPELINE_NAME)
                 .clickBuildWithParameters()
                 .clickBuildButton()
                 .refreshPage()
@@ -353,7 +353,7 @@ public class _PipelineTest extends BaseTest {
                 .clickInMenuSelectorConfigure()
                 .enteringParametersToDisplayLatestBuilds("3", "1")
                 .saveConfigAndGoToProject()
-                .clickBuildButton()
+                .clickBuildPipelineButton()
                 .waitForBuildNumber(32)
                 .refreshPage()
                 .getNumbersBuildsList();

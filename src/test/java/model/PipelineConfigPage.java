@@ -122,10 +122,10 @@ public class PipelineConfigPage extends BaseHeaderFooterPage {
             "/div/div[@class='error']")
     private WebElement periodErrorMessage;
 
-    public ProjectPage saveConfigAndGoToProject() {
+    public PipelineProjectPage saveConfigAndGoToProject() {
         saveButton.click();
 
-        return new ProjectPage(getDriver());
+        return new PipelineProjectPage(getDriver());
     }
 
     public PipelineConfigPage applyButtonClick() {

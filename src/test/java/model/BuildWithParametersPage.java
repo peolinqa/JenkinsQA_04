@@ -29,9 +29,9 @@ public class BuildWithParametersPage extends BaseBuildPage {
         return actualCollectDropDownMenu;
     }
 
-    public  ProjectPage clickBuildButton() {
+    public  PipelineProjectPage clickBuildButton() {
         buildButton.click();
 
-        return new ProjectPage(getDriver());
+        return new PipelineProjectPage(getDriver());
     }
 }
