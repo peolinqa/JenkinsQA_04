@@ -3,6 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.util.List;
 
 public class _DashboardTest extends BaseTest {
@@ -16,16 +17,22 @@ public class _DashboardTest extends BaseTest {
             "The last build was successful but unstable. A new build is in progress.",
             "The last build failed.",
             "The last build failed. A new build is in progress.",
-            "Project health is over 80%. You can hover the mouse over the project’s icon for a more detailed explanation.", "" +
-                    "Project health is over 60% and up to 80%. You can hover the mouse over the project’s icon for a more detailed explanation.",
-            "Project health is over 40% and up to 60%. You can hover the mouse over the project’s icon for a more detailed explanation.",
-            "Project health is over 20% and up to 40%. You can hover the mouse over the project’s icon for a more detailed explanation.",
-            "Project health is 20% or less. You can hover the mouse over the project’s icon for a more detailed explanation.");
+            "Project health is over 80%. " +
+                    "You can hover the mouse over the project’s icon for a more detailed explanation.", "" +
+            "Project health is over 60% and up to 80%. " +
+                    "You can hover the mouse over the project’s icon for a more detailed explanation.",
+            "Project health is over 40% and up to 60%. " +
+                    "You can hover the mouse over the project’s icon for a more detailed explanation.",
+            "Project health is over 20% and up to 40%. " +
+                    "You can hover the mouse over the project’s icon for a more detailed explanation.",
+            "Project health is 20% or less. " +
+                    "You can hover the mouse over the project’s icon for a more detailed explanation.");
 
     @Test
-    /*
-     * To pass this test you should have "Lockable Resources" plugin installed on local machine
-     * */
+    /**
+     To pass this test you should have "Lockable Resources" plugin installed on local machine
+     */
+
     public void testCommonCheckDropDownMenu() {
         List<String> expectedListOfDashboardDropdownMenuElements = List.of(
                 "New Item",
@@ -59,7 +66,9 @@ public class _DashboardTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCheckVisibleAndEnabledLinkIconLegend")
     public void checkIconDescription() {
-        List<String> actualIconsDescriptions = new HomePage(getDriver()).clickLinkIconLegend().getTextIconsDescriptions();
+        List<String> actualIconsDescriptions = new HomePage(getDriver())
+                .clickLinkIconLegend()
+                .getTextIconsDescriptions();
 
         Assert.assertEquals(actualIconsDescriptions, EXPECTED_ICONS_DESCRIPTIONS);
     }
