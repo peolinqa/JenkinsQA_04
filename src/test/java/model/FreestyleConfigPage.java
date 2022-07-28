@@ -37,12 +37,6 @@ public class FreestyleConfigPage extends BaseHeaderFooterPage {
         return new FreestyleProjectPage(getDriver());
     }
 
-    public ProjectPage saveConfigAndGoToProject() {
-        saveButton.click();
-
-        return new ProjectPage(getDriver());
-    }
-
     public FreestyleConfigPage setDescription(String text) {
         descriptionTextarea.sendKeys(text);
 

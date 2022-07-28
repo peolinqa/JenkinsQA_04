@@ -1,6 +1,6 @@
+import model.FreestyleProjectPage;
 import model.HomePage;
 import model.LastBuildPage;
-import model.ProjectPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -17,17 +17,18 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test
     public void testBuildIsOnProjectPage() {
-        ProjectPage projectPage = new HomePage(getDriver())
+        boolean buildNumberIsDisplayed = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectTypeFreestyle()
                 .setProjectName(PROJECT_NAME)
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
-                .clickBuildButton();
+                .saveConfigAndGoToFreestyleProject()
+                .clickBuildButton()
+                .buildNumberIsDisplayed();
 
-        buildNumber = projectPage.getBuildNumber();
+        buildNumber = new  FreestyleProjectPage(getDriver()).getBuildNumber();
 
-        Assert.assertTrue(projectPage.buildNumberIsDisplayed());
+        Assert.assertTrue(buildNumberIsDisplayed);
     }
 
     @Test(dependsOnMethods = "testBuildIsOnProjectPage")
@@ -68,11 +69,11 @@ public class _BuildHistoryTest extends BaseTest {
                 .setProjectName(BUILD_PROJECT_NAME)
                 .setProjectTypeFreestyle()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
+                .saveConfigAndGoToFreestyleProject()
                 .clickBuildButton()
                 .waitForBuildToComplete()
                 .clickDashboardButton()
-                .clickProjectName(BUILD_PROJECT_NAME)
+                .clickFreestyleName(BUILD_PROJECT_NAME)
                 .selectLastBuild()
                 .clickEditBuildInfoButton()
                 .enterBuildName(BUILD_NAME)
@@ -90,12 +91,12 @@ public class _BuildHistoryTest extends BaseTest {
     @Test(dependsOnMethods = {"testVerifyChangeOnBuildStatusPage"})
     public void testVerifyChangeOnProjectStatusPage() {
         String buildName = new HomePage(getDriver())
-                .clickProjectName(BUILD_PROJECT_NAME)
+                .clickFreestyleName(BUILD_PROJECT_NAME)
                 .selectLastBuild()
                 .clickBackToProjectButton()
                 .getBuildName();
 
-        String descriptionName = new ProjectPage(getDriver())
+        String descriptionName = new FreestyleProjectPage(getDriver())
                 .getBuildDescription();
 
         Assert.assertEquals(buildName,BUILD_NAME);
@@ -105,7 +106,7 @@ public class _BuildHistoryTest extends BaseTest {
     @Test(dependsOnMethods = {"testVerifyChangeOnProjectStatusPage"})
     public void testVerifyChangeOnBuildHistoryPage() {
         String buildNameChange = new HomePage(getDriver())
-                .clickProjectName(BUILD_PROJECT_NAME)
+                .clickFreestyleName(BUILD_PROJECT_NAME)
                 .selectLastBuild()
                 .clickBackToProjectButton()
                 .clickBackToDashboard()

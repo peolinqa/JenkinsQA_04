@@ -184,12 +184,6 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         return new FolderProjectPage(getDriver());
     }
 
-    public ProjectPage clickProjectName(String name) {
-        getProjectLinkByName(name).click();
-
-        return new ProjectPage(getDriver());
-    }
-
     public PipelineProjectPage clickPipelineName(String name) {
         getProjectLinkByName(name).click();
 

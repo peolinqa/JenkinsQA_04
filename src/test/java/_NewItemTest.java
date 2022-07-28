@@ -32,7 +32,7 @@ public class _NewItemTest extends BaseTest {
                 .setDescription(DESCRIPTION_INPUT)
                 .clickGithubProjectCheckbox()
                 .setGithubUrl(URL_INPUT)
-                .saveConfigAndGoToProject()
+                .saveConfigAndGoToFreestyleProject()
                 .clickDashboardButton()
                 .clickNewItem()
                 .setProjectName("NJ2")

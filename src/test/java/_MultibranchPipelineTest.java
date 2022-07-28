@@ -1,7 +1,6 @@
 import model.HomePage;
 import model.MultibranchPipelineProjectPage;
 import model.MultibranchPipelineConfigPage;
-import model.ProjectPage;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -117,7 +116,7 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testMultibranchDisable")
     public void testMultibranchEnable() {
-        MultibranchPipelineProjectPage multibranchPipelinePage = new ProjectPage(getDriver())
+        MultibranchPipelineProjectPage multibranchPipelinePage = new HomePage(getDriver())
                 .clickDashboardButton()
                 .clickMyView()
                 .moveToElement(NAME)

@@ -59,10 +59,10 @@ public class LastBuildPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public ProjectPage clickBackToProjectButton(){
+    public FreestyleProjectPage clickBackToProjectButton(){
         backToProjectButton.click();
 
-        return new ProjectPage(getDriver());
+        return new FreestyleProjectPage(getDriver());
     }
 
     public String getBuildName(){
