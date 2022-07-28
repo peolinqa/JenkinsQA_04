@@ -31,10 +31,10 @@ public class FreestyleConfigPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public FreestylePage saveConfigAndGoToFreestyleProject() {
+    public FreestyleProjectPage saveConfigAndGoToFreestyleProject() {
         saveButton.click();
 
-        return new FreestylePage(getDriver());
+        return new FreestyleProjectPage(getDriver());
     }
 
     public ProjectPage saveConfigAndGoToProject() {

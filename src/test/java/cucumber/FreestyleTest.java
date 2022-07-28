@@ -20,10 +20,10 @@ public class FreestyleTest {
     private MultibranchPipelineConfigPage multibranchPipelineConfigPage;
     private OrganizationFolderConfigPage OrganizationFolderConfigPage;
 
-    private FreestylePage freestylePage;
+    private FreestyleProjectPage freestylePage;
 
 
-    private FolderPage folderPage;
+    private FolderProjectPage folderPage;
 
     @When("Go to NewItem")
     public void goToNewItem() {

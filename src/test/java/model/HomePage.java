@@ -178,10 +178,10 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         return getActualDashboardProject().contains(projectName);
     }
 
-    public FolderPage clickFolderName(String name) {
+    public FolderProjectPage clickFolderName(String name) {
         getProjectLinkByName(name).click();
 
-        return new FolderPage(getDriver());
+        return new FolderProjectPage(getDriver());
     }
 
     public ProjectPage clickProjectName(String name) {
@@ -190,10 +190,10 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         return new ProjectPage(getDriver());
     }
 
-    public FreestylePage clickFreestyleName(String name) {
+    public FreestyleProjectPage clickFreestyleName(String name) {
         getProjectLinkByName(name).click();
 
-        return new FreestylePage(getDriver());
+        return new FreestyleProjectPage(getDriver());
     }
 
     public HomePage buildSelectPipeline(String pipelineName, boolean isDoubleClick) {
@@ -245,11 +245,11 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public PipelinePage navigateToPreviousCreatedPipeline(String projectName) {
+    public PipelineProjectPage navigateToPreviousCreatedPipeline(String projectName) {
         List<WebElement> createdJobFromListJobs = getListProjectLinkByName(projectName);
         getDriver().navigate().to(createdJobFromListJobs.get(0).getAttribute("href"));
 
-        return new PipelinePage(getDriver());
+        return new PipelineProjectPage(getDriver());
     }
 
     public MyViewPage clickMyView() {
@@ -324,10 +324,10 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         return new MultiConfigurationProjectPage(getDriver());
     }
 
-    public MultibranchPipelinePage clickMultibranchPipelineName(String name) {
+    public MultibranchPipelineProjectPage clickMultibranchPipelineName(String name) {
         getProjectLinkByName(name).click();
 
-        return new MultibranchPipelinePage(getDriver());
+        return new MultibranchPipelineProjectPage(getDriver());
     }
 
     public String getSystemMessageText() {

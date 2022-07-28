@@ -54,10 +54,10 @@ public class FolderConfigPage extends BaseHeaderFooterPage {
                 By.xpath("//div[@class='textarea-preview'][@style='']"))).getText();
     }
 
-    public FolderPage saveConfigAndGoToFolderPage() {
+    public FolderProjectPage saveConfigAndGoToFolderPage() {
         saveButton.click();
 
-        return new FolderPage(getDriver());
+        return new FolderProjectPage(getDriver());
     }
 
     public FolderConfigPage openFolderMenuSelector(String folderName){
@@ -68,10 +68,10 @@ public class FolderConfigPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public FolderPage clickDeleteOnMenuSelector(){
+    public FolderProjectPage clickDeleteOnMenuSelector(){
         getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
 
-        return new FolderPage(getDriver());
+        return new FolderProjectPage(getDriver());
     }
 
     public FolderConfigPage clickMetricsButton() {

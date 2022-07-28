@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelinePage extends BaseProjectDeleteWithConfirmPage {
+public class MultibranchPipelineProjectPage extends BaseProjectDeleteWithConfirmPage {
 
     @FindBy(linkText = "Scan Repository Log")
     private WebElement scanRepositoryLog;
@@ -22,14 +22,14 @@ public class MultibranchPipelinePage extends BaseProjectDeleteWithConfirmPage {
     @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
     private WebElement messageDisabled;
 
-    public MultibranchPipelinePage(WebDriver driver) {
+    public MultibranchPipelineProjectPage(WebDriver driver) {
         super(driver);
     }
 
-    public RenamePage<MultibranchPipelinePage> clickRenameAndGoToRenamePage() {
+    public RenamePage<MultibranchPipelineProjectPage> clickRenameAndGoToRenamePage() {
         clickRenameButton();
 
-        return new RenamePage<>(getDriver(), new MultibranchPipelinePage(getDriver()));
+        return new RenamePage<>(getDriver(), new MultibranchPipelineProjectPage(getDriver()));
     }
 
     public MultibranchPipelineConfigPage clickConfigureProject() {
@@ -38,7 +38,7 @@ public class MultibranchPipelinePage extends BaseProjectDeleteWithConfirmPage {
         return new MultibranchPipelineConfigPage(getDriver());
     }
 
-    public MultibranchPipelinePage clickScanRepositoryLog() {
+    public MultibranchPipelineProjectPage clickScanRepositoryLog() {
         scanRepositoryLog.click();
 
         return this;

@@ -1,5 +1,4 @@
 import model.*;
-import model.base.BaseProjectPage;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -100,7 +99,7 @@ public class _FolderTest extends BaseTest {
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToFolderPage()
-                .assertEquals(FolderPage::getProjectName, folderName)
+                .assertEquals(FolderProjectPage::getProjectName, folderName)
                 .clickDeleteProject()
                 .confirmDeleteAndGoHomePage()
                 .searchText(folderName)
@@ -164,7 +163,7 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderWithUnsafeCharacters() {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
 
-        RenamePage<FolderPage> folderForRenameTest = new HomePage(getDriver())
+        RenamePage<FolderProjectPage> folderForRenameTest = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
                 .clickRenameAndGoToRenamePage();
 

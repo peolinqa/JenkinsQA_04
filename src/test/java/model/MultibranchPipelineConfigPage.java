@@ -37,16 +37,16 @@ public class MultibranchPipelineConfigPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public MultibranchPipelinePage saveConfigAndGoToMultibranchPipelineProject() {
+    public MultibranchPipelineProjectPage saveConfigAndGoToMultibranchPipelineProject() {
         saveButton.click();
 
-        return new MultibranchPipelinePage(getDriver());
+        return new MultibranchPipelineProjectPage(getDriver());
     }
 
-    public MultibranchPipelinePage saveConfigAndGoToMultibranchPipelinePage() {
+    public MultibranchPipelineProjectPage saveConfigAndGoToMultibranchPipelinePage() {
         saveButton.click();
 
-        return new MultibranchPipelinePage(getDriver());
+        return new MultibranchPipelineProjectPage(getDriver());
     }
 
     public MultibranchPipelineConfigPage clickAddSourceButton() {

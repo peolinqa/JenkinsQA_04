@@ -1,5 +1,5 @@
 import model.HomePage;
-import model.MultibranchPipelinePage;
+import model.MultibranchPipelineProjectPage;
 import model.MultibranchPipelineConfigPage;
 import model.ProjectPage;
 import org.openqa.selenium.WebElement;
@@ -97,7 +97,7 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testMultibranchDisable() {
-        MultibranchPipelinePage multibranchPipelinePage = new HomePage(getDriver())
+        MultibranchPipelineProjectPage multibranchPipelinePage = new HomePage(getDriver())
                 .clickNewItem()
                 .setProjectName(NAME)
                 .setProjectTypeMultiBranchPipeline()
@@ -109,7 +109,7 @@ public class _MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(multibranchPipelinePage.getMessageDisabled().getText(),
                 "This Multibranch Pipeline is currently disabled \nEnable");
 
-        HomePage homePage = new MultibranchPipelinePage(getDriver()).clickDashboardButton();
+        HomePage homePage = new MultibranchPipelineProjectPage(getDriver()).clickDashboardButton();
 
         Assert.assertEquals(homePage.getProjectIconByName(NAME).getAttribute("class"),
                         "icon-folder-disabled icon-lg");
@@ -117,7 +117,7 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testMultibranchDisable")
     public void testMultibranchEnable() {
-        MultibranchPipelinePage multibranchPipelinePage = new ProjectPage(getDriver())
+        MultibranchPipelineProjectPage multibranchPipelinePage = new ProjectPage(getDriver())
                 .clickDashboardButton()
                 .clickMyView()
                 .moveToElement(NAME)

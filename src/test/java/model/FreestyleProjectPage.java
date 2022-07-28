@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestylePage extends BaseProjectDeleteWithAlertPage {
+public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
@@ -22,7 +22,7 @@ public class FreestylePage extends BaseProjectDeleteWithAlertPage {
     @FindBy(id = "enable-project")
     private WebElement text;
 
-    public FreestylePage(WebDriver driver) {
+    public FreestyleProjectPage(WebDriver driver) {
         super(driver);
     }
 
@@ -31,10 +31,10 @@ public class FreestylePage extends BaseProjectDeleteWithAlertPage {
         return projectName.getText().substring("Project ".length());
     }
 
-    public RenamePage<FreestylePage> clickRenameAndGoToRenamePage() {
+    public RenamePage<FreestyleProjectPage> clickRenameAndGoToRenamePage() {
         clickRenameButton();
 
-        return new RenamePage<>(getDriver(), new FreestylePage(getDriver()));
+        return new RenamePage<>(getDriver(), new FreestyleProjectPage(getDriver()));
     }
 
     public FreestyleConfigPage clickFreestyleConfigure() {
@@ -47,19 +47,19 @@ public class FreestylePage extends BaseProjectDeleteWithAlertPage {
         return multiButton.getText();
     }
 
-    public FreestylePage clickMultiButton() {
+    public FreestyleProjectPage clickMultiButton() {
         multiButton.click();
 
         return this;
     }
 
-    public FreestylePage clickEditDescription() {
+    public FreestyleProjectPage clickEditDescription() {
         editDescription.click();
 
         return this;
     }
 
-    public FreestylePage editDescription(String text) {
+    public FreestyleProjectPage editDescription(String text) {
         descriptionTextarea.clear();
         descriptionTextarea.sendKeys(text);
 

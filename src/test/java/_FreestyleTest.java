@@ -1,5 +1,5 @@
 import model.FreestyleConfigPage;
-import model.FreestylePage;
+import model.FreestyleProjectPage;
 import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -73,7 +73,7 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testEditDescription")
     public void testDisableProject() {
-        FreestylePage freestylePage = new HomePage(getDriver())
+        FreestyleProjectPage freestylePage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickMultiButton();
 
@@ -82,7 +82,7 @@ public class _FreestyleTest extends BaseTest {
 
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
-        FreestylePage freestylePage = new HomePage(getDriver())
+        FreestyleProjectPage freestylePage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickMultiButton();
 
