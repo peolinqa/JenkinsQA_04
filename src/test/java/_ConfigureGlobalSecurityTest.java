@@ -10,6 +10,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     @Test
     public void test9ChaptersDisplayedOnGlobalSecurityPage() {
         List<WebElement> chapters = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickConfigureGlobalSecurity()
                 .getSecurityChapters();
@@ -31,6 +32,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
                 "SSH Server");
 
         List<String> actualSecurityChaptersNames = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickConfigureGlobalSecurity()
                 .getActualSecurityChaptersNames();
@@ -41,6 +43,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     @Test
     public void testCheckHelpButtonSSHServerPOM() {
         String tooltipHelpButtonSSHServer = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickConfigureGlobalSecurity()
                 .getTextTooltipButtonHelpSSHServerPOM();
@@ -51,6 +54,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     @Test
     public void testCheckTooltipText() {
         List<String> tooltipTextList = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickConfigureGlobalSecurity()
                 .getTooltipTextList();
@@ -61,6 +65,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     @Test
     public void testAmountTooltip() {
         int actualAmountTooltip = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickConfigureGlobalSecurity()
                 .countHelpIcons();

@@ -12,6 +12,7 @@ public class _PeopleTest extends BaseTest {
     @Test
     public void testCheckFunctionalityIconsSML() {
         PeoplePage newPeoplePage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickPeople();
 
         Assert.assertEquals(newPeoplePage.setSizeM().getHeightLastCommitActivityFirstCell(), 40);
@@ -22,6 +23,7 @@ public class _PeopleTest extends BaseTest {
     @Test
     public void testAddDescriptionForUser() {
         String newDescription = new HomePage(getDriver())
+                .getSideMenu()
                 .clickPeople()
                 .goToUserStatusPage()
                 .clickEditDescriptionButton()

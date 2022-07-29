@@ -20,6 +20,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testCreateOrganizationFolder() {
         String projectName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME)
                 .setProjectTypeOrganizationFolder()
@@ -45,6 +46,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test(dependsOnMethods = "testRenameOrganizationFolder")
     public void testCreateOrganizationFolderSameItemName() {
         boolean isDisplayedNameError = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_RENAME)
                 .setProjectTypeOrganizationFolder()
@@ -72,6 +74,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testCreateDisableOrganizationFolder() {
         HashMap<String, String> warningMessage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(DISABLED_FOLDER_NAME)
                 .setProjectTypeOrganizationFolder()
@@ -87,6 +90,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder", "testDeleteOrganizationFolder"})
     public void testCreateOrganizationFolderWithMetadataFolderIcon() {
         String projectIcon = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME)
                 .setProjectTypeOrganizationFolder()
@@ -105,6 +109,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test(dependsOnMethods = "testDeleteOrganizationFolder")
     public void testCreateOrganizationFolderAbortCreation() {
         List<String> textFolderNames = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME2)
                 .setProjectTypeOrganizationFolder()
@@ -117,6 +122,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testCreateOrganizationFolderEmptyName() {
         NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectTypeOrganizationFolder();
 
@@ -128,6 +134,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testProjectsTab() {
         boolean actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
                 .setProjectTypeOrganizationFolder()
@@ -141,6 +148,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testHealthMetricsTab() {
         boolean actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
                 .setProjectTypeOrganizationFolder()
@@ -154,6 +162,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testAutomaticBranchProjectTriggeringTab() {
         boolean actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
                 .setProjectTypeOrganizationFolder()
@@ -167,6 +176,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testCheckNotificationAfterClickApply() {
         OrganizationFolderConfigPage organizationFolderConfigPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(VALID_FOLDER_NAME1)
                 .setProjectTypeOrganizationFolder()
@@ -190,6 +200,7 @@ public class _OrganizationFolderTest extends BaseTest {
     @Test
     public void testUserCanAddProperties() {
         boolean actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
                 .setProjectTypeOrganizationFolder()

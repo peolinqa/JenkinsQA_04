@@ -14,6 +14,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     @Test
     public void testCreateMultiConfigFolder() {
         String projectName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
                 .setProjectTypeMultiConfiguration()

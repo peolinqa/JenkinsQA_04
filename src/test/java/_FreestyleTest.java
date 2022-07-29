@@ -16,6 +16,7 @@ public class _FreestyleTest extends BaseTest {
     @Test
     public void testCreateFreestyleProject() {
         String projectName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(RANDOM_NAME)
                 .setProjectTypeFreestyle()

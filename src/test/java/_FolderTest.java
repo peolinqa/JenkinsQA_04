@@ -23,6 +23,7 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCreateFolder() {
         String folderName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME1)
                 .setProjectTypeFolder()
@@ -36,6 +37,7 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testFolderIsCreatedWithoutSave() {
         boolean folderIsPresent = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME)
                 .setProjectTypeFolder()
@@ -53,6 +55,7 @@ public class _FolderTest extends BaseTest {
         int result = new Random().nextInt(invalidSymbols.length);
 
         String actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(Character.toString(invalidSymbols[result]))
                 .setProjectTypeFolder()
@@ -66,6 +69,7 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCreateFolderWithDot() {
         String warningText = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(".")
                 .setProjectTypeFolder()
@@ -76,7 +80,9 @@ public class _FolderTest extends BaseTest {
 
     @Test
     public void testCycleTypeAnItemNameWithValidSpecialCharacters() {
-        NewItemPage newItemPage = new HomePage(getDriver()).clickNewItem();
+        NewItemPage newItemPage = new HomePage(getDriver())
+                .getSideMenu()
+                .clickNewItem();
 
         for (char x : CHARS){
             String actualResult = newItemPage
@@ -94,6 +100,7 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
 
         String searchResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(folderName)
                 .setProjectTypeFolder()
@@ -111,6 +118,7 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCreateFolderWithUnsafeCharacter() {
         ErrorPage errorPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName("TestFolder@Jenkins")
                 .setProjectTypeFolder()
@@ -126,6 +134,7 @@ public class _FolderTest extends BaseTest {
         String expectedResult = "» A job already exists with the name ‘" + RANDOM_FOLDER_NAME2 + "’";
 
         String actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME2)
                 .clickToMoveMousePointer()
@@ -205,6 +214,7 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testCheckDescriptionInPreviewAndOnTheFolderPage() {
         String folderDescriptionInPreviewOnFolderConfigPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME2)
                 .setProjectTypeFolder()
@@ -226,6 +236,7 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
 
         String searchResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(folderName)
                 .setProjectTypeFolder()
@@ -244,6 +255,7 @@ public class _FolderTest extends BaseTest {
         final String folderName = TestUtils.getRandomStr();
 
         String actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(folderName)
                 .setProjectTypeFolder()
@@ -267,6 +279,7 @@ public class _FolderTest extends BaseTest {
         String folderName = TestUtils.getRandomStr();
         try {
             WebElement metric = new HomePage(getDriver())
+                    .getSideMenu()
                     .clickNewItem()
                     .setProjectName(folderName)
                     .setProjectTypeFolder()

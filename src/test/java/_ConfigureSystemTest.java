@@ -11,6 +11,7 @@ public class _ConfigureSystemTest extends BaseTest {
     @Test
     public void testConfigureSystemMessagePositive() {
         String previewActualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickConfigureSystem()
                 .setSystemMessage(RANDOM_SYSTEM_MESSAGE)

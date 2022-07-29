@@ -19,11 +19,13 @@ public class _PipelineTest extends BaseTest {
     @Test
     public void testCheckValidationItemName() {
         final String displayDuplicatedJobName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
@@ -35,6 +37,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCheckValidationItemName")
     public void testCheckTransitionToPageWithError() {
         final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
@@ -261,6 +264,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = {"testCheckValidationItemName", "testDeletePipelineFromSideMenu"})
     public void testCheckScheduledBuildInBuildHistory() {
         final List<String> checkBuildHistoryByName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(NEW_PIPELINE_NAME)
                 .setProjectTypePipeline()
@@ -270,7 +274,8 @@ public class _PipelineTest extends BaseTest {
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
                 .buildSelectPipeline(NEW_PIPELINE_NAME, true)
-                .clickAndGoToBuildHistoryPage()
+                .getSideMenu()
+                .clickBuildHistory()
                 .collectListBuildHistory(NEW_PIPELINE_NAME);
 
         Assert.assertEquals(checkBuildHistoryByName, List.of(NEW_PIPELINE_NAME, NEW_PIPELINE_NAME));
@@ -323,6 +328,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testDeletePipelineFromSideMenu")
     public void testPipelineCheckDiscardOld30builds() {
         final List<Integer> checkingDisplayLast30Builds = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
@@ -347,6 +353,7 @@ public class _PipelineTest extends BaseTest {
     public void testPipelineCheckDiscardOld3builds() {
         final List<Integer> checkingDisplayLast3Builds = new HomePage(getDriver())
                 .clickDashboardButton()
+                .getSideMenu()
                 .clickMyView()
                 .moveToElement(PIPELINE_NAME)
                 .clickMenuSelector()
@@ -367,11 +374,13 @@ public class _PipelineTest extends BaseTest {
         final String viewName = "AchViewName";
 
         final int countColumns = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(name)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
+                .getSideMenu()
                 .clickNewView()
                 .setViewName(viewName)
                 .selectListViewType()
@@ -400,6 +409,7 @@ public class _PipelineTest extends BaseTest {
     @Test
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
         final String checkTransitionPluginPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
@@ -426,6 +436,7 @@ public class _PipelineTest extends BaseTest {
     @Test
     public void test404PageAfterDeletedPipeline() {
         final String titleOfPage404 = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
@@ -444,21 +455,25 @@ public class _PipelineTest extends BaseTest {
         final int countJobs = 2;
 
         final List<String> listJobsInMyViewName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME.concat("1"))
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME.concat("2"))
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(PIPELINE_NAME.concat("3"))
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
+                .getSideMenu()
                 .clickNewView()
                 .setViewName(PIPELINE_NAME)
                 .selectListViewType()
@@ -481,6 +496,7 @@ public class _PipelineTest extends BaseTest {
     @Test(dataProvider = "errorMessageData")
     public void testInvalidName(String name) {
         final String errorText = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(name)
                 .getErrorMessage();
@@ -494,12 +510,14 @@ public class _PipelineTest extends BaseTest {
         final String name = TestUtils.getRandomStr(7);
 
         final boolean check = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectTypePipeline()
                 .setProjectName(name)
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickScriptConsole()
                 .useDeleteAllProjectScript()

@@ -18,11 +18,13 @@ public class _MyViewTest extends BaseTest {
     @Test
     public void testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs() {
         MyViewPage myViewPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr())
                 .setProjectTypeFreestyle()
                 .clickOkAndGoToConfig()
                 .goHome()
+                .getSideMenu()
                 .clickNewView()
                 .setViewName(VIEW_NAME_1)
                 .selectListViewType()
@@ -36,6 +38,7 @@ public class _MyViewTest extends BaseTest {
     @Test
     public void testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs() {
         MyViewPage myViewPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewView()
                 .setViewName(VIEW_NAME_2)
                 .selectMyViewType()
@@ -49,6 +52,7 @@ public class _MyViewTest extends BaseTest {
         final String viewName3 = TestUtils.getRandomStr();
 
         MyViewPage myViewPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewView()
                 .setViewName(viewName3)
                 .selectListViewType()
@@ -64,6 +68,7 @@ public class _MyViewTest extends BaseTest {
         final String viewName4 = TestUtils.getRandomStr();
 
         MyViewPage myViewPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewView()
                 .setViewName(viewName4)
                 .selectMyViewType()
@@ -75,6 +80,7 @@ public class _MyViewTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs")
     public void testCreateNewViewWithAnExistingName() {
         String errorText = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewView()
                 .setViewName(VIEW_NAME_2)
                 .selectMyViewType()
@@ -97,6 +103,7 @@ public class _MyViewTest extends BaseTest {
     @Test
     public void testAddDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickMyView()
                 .clickAddOrEditDescriptionButton()
                 .sendTextareaDescription(VIEW_NAME)
@@ -108,6 +115,7 @@ public class _MyViewTest extends BaseTest {
     @Test(dependsOnMethods = "testAddDescriptionOnMyViews")
     public void testEditDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickMyView()
                 .clickAddOrEditDescriptionButton()
                 .clearTextareaDescription()
@@ -120,6 +128,7 @@ public class _MyViewTest extends BaseTest {
     @Test(dependsOnMethods = "testEditDescriptionOnMyViews")
     public void testCheckButtonPreviewDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickMyView()
                 .clickAddOrEditDescriptionButton()
                 .clickButtonPreview();
@@ -132,6 +141,7 @@ public class _MyViewTest extends BaseTest {
     @Test(dependsOnMethods = "testCheckButtonPreviewDescriptionOnMyViews")
     public void testCheckButtonHidePreviewDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickMyView()
                 .clickAddOrEditDescriptionButton()
                 .clickButtonPreview();

@@ -21,6 +21,7 @@ public class _ManageUsersTest extends BaseTest {
         Set<String> usersListAfter = new TreeSet<>();
 
         new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .fillUsersList(usersListBefore)
@@ -41,6 +42,7 @@ public class _ManageUsersTest extends BaseTest {
     @Test(dependsOnMethods = "testUserCanCreateNewUser")
     public void testEditUserFullName() {
         String userName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickUserConfigure(USER_NAME)
@@ -58,6 +60,7 @@ public class _ManageUsersTest extends BaseTest {
         Set<String> usersListAfter = new TreeSet<>();
 
         new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .fillUsersList(usersListBefore)
@@ -79,6 +82,7 @@ public class _ManageUsersTest extends BaseTest {
 
         for (String character : specialCharacters) {
             String errorMessage = new HomePage(getDriver())
+                    .getSideMenu()
                     .clickManageJenkins()
                     .clickManageUsers()
                     .clickCreateUser()
@@ -101,6 +105,7 @@ public class _ManageUsersTest extends BaseTest {
                 "no-repeat", "16px 16px");
 
         List<String> actualResult = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
@@ -123,6 +128,7 @@ public class _ManageUsersTest extends BaseTest {
                 "\"\" is prohibited as a username for security reasons.");
 
         Set<String> actualErrorsText = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
@@ -135,6 +141,7 @@ public class _ManageUsersTest extends BaseTest {
     @Test
     public void testCheckValueInUsernameEqualValueFromFullName() {
         String fullName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()
@@ -150,6 +157,7 @@ public class _ManageUsersTest extends BaseTest {
         final Set<String> expectedErrorsText = Set.of("Password is required", "Invalid e-mail address");
 
         Set<String> actualErrorsText = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageUsers()
                 .clickCreateUser()

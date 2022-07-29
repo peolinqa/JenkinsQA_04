@@ -8,7 +8,10 @@ public class _LoadStatisticsTest extends BaseTest {
 
     @Test
     public void testCheckToolTipForEachTimeSpan() {
-        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics();
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
+                .getSideMenu()
+                .clickManageJenkins()
+                .clickLoadStatistics();
 
         Assert.assertEquals(loadStatisticsPage.getShortTooltip(), "Every tick is 10 seconds");
         Assert.assertEquals(loadStatisticsPage.getMediumTooltip(), "Every tick is one minute");
@@ -17,7 +20,10 @@ public class _LoadStatisticsTest extends BaseTest {
 
     @Test
     public void checkClickShortButton() {
-        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics()
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
+                .getSideMenu()
+                .clickManageJenkins()
+                .clickLoadStatistics()
                 .clickShortButton();
 
         Assert.assertEquals(loadStatisticsPage.getShortTagName(), "span");
@@ -27,7 +33,10 @@ public class _LoadStatisticsTest extends BaseTest {
 
     @Test(dependsOnMethods = "checkClickShortButton")
     public void checkClickMediumButton() {
-        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics()
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
+                .getSideMenu()
+                .clickManageJenkins()
+                .clickLoadStatistics()
                 .clickMediumButton();
 
         Assert.assertEquals(loadStatisticsPage.getShortTagName(), "a");
@@ -37,7 +46,10 @@ public class _LoadStatisticsTest extends BaseTest {
 
     @Test(dependsOnMethods = "checkClickMediumButton")
     public void checkClickLongButton() {
-        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver()).clickManageJenkins().clickLoadStatistics()
+        LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
+                .getSideMenu()
+                .clickManageJenkins()
+                .clickLoadStatistics()
                 .clickLongButton();
 
         Assert.assertEquals(loadStatisticsPage.getShortTagName(), "a");

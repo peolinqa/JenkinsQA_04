@@ -17,23 +17,23 @@ public class _BuildHistoryTest extends BaseTest {
 
     @Test
     public void testBuildIsOnProjectPage() {
-        boolean buildNumberIsDisplayed = new HomePage(getDriver())
+        FreestyleProjectPage freestyleProjectPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectTypeFreestyle()
                 .setProjectName(PROJECT_NAME)
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToFreestyleProject()
-                .clickBuildButton()
-                .buildNumberIsDisplayed();
+                .clickBuildButton();
 
         buildNumber = new  FreestyleProjectPage(getDriver()).getBuildNumber();
-
-        Assert.assertTrue(buildNumberIsDisplayed);
+        Assert.assertTrue(freestyleProjectPage.buildNumberIsDisplayed());
     }
 
     @Test(dependsOnMethods = "testBuildIsOnProjectPage")
     public void testBuildIsOnBuildHistoryPage() {
         boolean result = new HomePage(getDriver())
+                .getSideMenu()
                 .clickBuildHistory()
                 .checkProjectIsOnBoard(PROJECT_NAME);
 
@@ -43,6 +43,7 @@ public class _BuildHistoryTest extends BaseTest {
     @Test(dependsOnMethods = "testBuildIsOnBuildHistoryPage")
     public void testBuildHistoryChanges() {
         String changesHeader = new HomePage(getDriver())
+                .getSideMenu()
                 .clickBuildHistory()
                 .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
                 .clickChangesAndGoToChangesPage()
@@ -54,6 +55,7 @@ public class _BuildHistoryTest extends BaseTest {
     @Test (dependsOnMethods = "testBuildHistoryChanges")
     public void testBuildHistoryConsole() {
         String consoleHeader = new HomePage(getDriver())
+                .getSideMenu()
                 .clickBuildHistory()
                 .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
                 .clickConsoleAndGoToConsolePage()
@@ -65,6 +67,7 @@ public class _BuildHistoryTest extends BaseTest {
     @Test
     public void testVerifyChangeOnBuildStatusPage() {
         String buildName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(BUILD_PROJECT_NAME)
                 .setProjectTypeFreestyle()
@@ -110,6 +113,7 @@ public class _BuildHistoryTest extends BaseTest {
                 .selectLastBuild()
                 .clickBackToProjectButton()
                 .clickBackToDashboard()
+                .getSideMenu()
                 .clickBuildHistory()
                 .getBuildName();
 

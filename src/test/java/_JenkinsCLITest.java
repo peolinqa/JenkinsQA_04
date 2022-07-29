@@ -69,6 +69,7 @@ public class _JenkinsCLITest extends BaseTest {
 
     private int getNumberOfCommands() {
         int number = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickJenkinsCLI()
                 .getNumberOfCommands();
@@ -79,6 +80,7 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkCommandNameTest() {
         for (int i = 0; i < getNumberOfCommands(); i++) {
             String commandName = new HomePage(getDriver())
+                    .getSideMenu()
                     .clickManageJenkins()
                     .clickJenkinsCLI()
                     .getCommandName(i);
@@ -91,6 +93,7 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkCommandDescriptionTest() {
         for (int i = 0; i < getNumberOfCommands(); i++) {
             String commandDescription = new HomePage(getDriver())
+                    .getSideMenu()
                     .clickManageJenkins()
                     .clickJenkinsCLI()
                     .getCommandDescription(i);
@@ -103,6 +106,7 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkCommandExample() {
         for (int i = 0; i < getNumberOfCommands(); i++) {
             boolean isAddJobToViewExample = new HomePage(getDriver())
+                    .getSideMenu()
                     .clickManageJenkins()
                     .clickJenkinsCLI()
                     .clickCommandElement(i)
@@ -115,6 +119,7 @@ public class _JenkinsCLITest extends BaseTest {
     @Test(dependsOnMethods = {"checkCommandNameTest", "checkCommandDescriptionTest", "checkCommandExample"})
     public void checkSortByName() {
         String firstCommandName = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickJenkinsCLI()
                 .clickNameCaption()
@@ -126,6 +131,7 @@ public class _JenkinsCLITest extends BaseTest {
     @Test(dependsOnMethods = {"checkCommandNameTest", "checkCommandDescriptionTest", "checkCommandExample"})
     public void checkSortByDescription() {
         String firstDescription = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickJenkinsCLI()
                 .clickDescriptionCaption()

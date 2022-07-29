@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseHeaderFooterPage;
+import model.base.BaseSideMenuPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -12,28 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends BaseHeaderFooterPage<HomePage> {
+public class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuFrame> {
 
     @FindBy(tagName = "h1")
     private List<WebElement> h1;
-
-    @FindBy(linkText = "New Item")
-    private WebElement newItem;
-
-    @FindBy(linkText = "People")
-    private WebElement people;
-
-    @FindBy(linkText = "Manage Jenkins")
-    private WebElement manageJenkins;
-
-    @FindBy(linkText = "New View")
-    private WebElement newView;
-
-    @FindBy(linkText = "My Views")
-    private WebElement myViews;
-
-    @FindBy(linkText = "Build History")
-    private WebElement buildHistory;
 
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
     private List<WebElement> listBuildButtons;
@@ -93,26 +75,13 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
     private final static String PROJECT_LINK_ID_XPATH = "//tr[@id='job_%s']";
 
-   public HomePage(WebDriver driver) {
+    public HomePage(WebDriver driver) {
         super(driver);
     }
 
-    public NewItemPage<Object> clickNewItem() {
-        newItem.click();
-
-        return new NewItemPage<>(getDriver());
-    }
-
-    public PeoplePage clickPeople() {
-        people.click();
-
-        return new PeoplePage(getDriver());
-    }
-
-    public ManageJenkinsPage clickManageJenkins() {
-        manageJenkins.click();
-
-        return new ManageJenkinsPage(getDriver());
+    @Override
+    public HomePageSideMenuFrame getSideMenu() {
+        return new HomePageSideMenuFrame(getDriver());
     }
 
     public WebElement getProjectLinkByName(String name) {
@@ -216,12 +185,6 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         return this;
     }
 
-    public NewViewPage clickNewView() {
-        newView.click();
-
-        return new NewViewPage(getDriver());
-    }
-
     public MyViewPage clickNameOfViewOnBreadcrumbs(String name) {
         triangleOnBreadcrumbs.click();
         getDriver().findElement(By.xpath(String.format("//li/a[contains(@href, '%s')]", name ))).click();
@@ -250,25 +213,6 @@ public class HomePage extends BaseHeaderFooterPage<HomePage> {
         getDriver().navigate().to(createdJobFromListJobs.get(0).getAttribute("href"));
 
         return new PipelineProjectPage(getDriver());
-    }
-
-    public MyViewPage clickMyView() {
-        myViews.click();
-
-        return new MyViewPage(getDriver());
-    }
-
-    public BuildHistoryPage clickAndGoToBuildHistoryPage() {
-        TestUtils.scrollToElement(getDriver(), newItem);
-        buildHistory.click();
-
-        return new BuildHistoryPage(getDriver());
-    }
-
-    public BuildHistoryPage clickBuildHistory() {
-        buildHistory.click();
-
-        return new BuildHistoryPage(getDriver());
     }
 
     public SearchPage searchText(String text) {

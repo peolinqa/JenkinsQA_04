@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>> extends BasePage<Self> {
 
+    @FindBy(xpath = "//h1[text() = 'Error']")
+    private List<WebElement> errorText;
+
     @FindBy(id = "jenkins-head-icon")
     private WebElement headerIcon;
 
@@ -34,9 +37,16 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
     @FindBy(xpath = "//ul[@class='first-of-type']/li")
     private List<WebElement> dashboardDropdownMenuElements;
 
-
     public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
+    }
+
+    public ErrorPage getErrorPageIfPresent() {
+        if (errorText.size() > 0) {
+            return new ErrorPage(getDriver());
+        }
+
+        return null;
     }
 
     public String getLogoIconTagName() {
@@ -99,11 +109,11 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         return new HomePage(getDriver());
     }
 
-    public BaseHeaderFooterPage<Self> clickDashboardDropdownMenu() {
+    public Self clickDashboardDropdownMenu() {
         getActions().moveToElement(dashboardButton).build().perform();
         getActions().moveToElement(menuSelector).click().build().perform();
 
-        return this;
+        return (Self)this;
     }
 
     public List<String> getListOfDashboardDropdownMenuElements() {

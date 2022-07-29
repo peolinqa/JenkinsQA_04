@@ -15,6 +15,7 @@ public class _ManageCredentialsTest extends BaseTest {
         final String newPassword = TestUtils.getRandomStr(9);
 
         String createCredentials = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageCredentials()
                 .clickGlobalCredentials()
@@ -31,6 +32,7 @@ public class _ManageCredentialsTest extends BaseTest {
                 "icon-credentials-system-store icon-md", "icon-credentials-system-store icon-lg"};
 
         ManageCredentialsPage iconSizeChange = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageCredentials();
 
@@ -50,6 +52,7 @@ public class _ManageCredentialsTest extends BaseTest {
         final String[] buttonLPressed = new String[]{transparent, transparent, grey};
 
         ManageCredentialsPage iconSizeChange = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageCredentials();
 
@@ -69,6 +72,7 @@ public class _ManageCredentialsTest extends BaseTest {
         String domainName = TestUtils.getRandomStr(8);
 
         String addDomain = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageCredentials()
                 .clickCredentialsStoreSystemMenu()
@@ -84,6 +88,7 @@ public class _ManageCredentialsTest extends BaseTest {
     public void testValidateIconSize() {
 
         boolean expected = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageCredentials()
                 .clickIconButtonAndGetSize();

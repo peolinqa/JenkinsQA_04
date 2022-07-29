@@ -17,6 +17,7 @@ public class _ManageJenkinsTest extends BaseTest {
                 "Tools and Actions");
 
         List<String> actualManageJenkinsSectionNames = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .getActualManageJenkinsSectionNames();
 
@@ -32,6 +33,7 @@ public class _ManageJenkinsTest extends BaseTest {
                 "Prepare for Shutdown");
 
         List<String> actualContentSectionToolsAndActions = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .getActualManageJenkinsSectionContentToolsAndActions();
 
@@ -47,6 +49,7 @@ public class _ManageJenkinsTest extends BaseTest {
                 "Manage Nodes and Clouds");
 
         List<String> actualSystemConfigurationContent = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .getActualSystemConfigurationContent();
 
@@ -62,6 +65,7 @@ public class _ManageJenkinsTest extends BaseTest {
                 "Manage Users");
 
         List<String> actualSecurityContent = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .getActualSecurityContent();
 

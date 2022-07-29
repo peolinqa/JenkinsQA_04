@@ -48,6 +48,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     @Test
     public void testCreateNewNodeWithValidName() {
         List<String> textComputerNames = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageNodesAndClouds()
                 .newNodeButtonClick()
@@ -62,6 +63,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewNodeWithValidName")
     public void testCheckDeleteNode() {
         ManageNodesAndCloudsPage manageNodesAndCloudsPage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickManageNodesAndClouds();
 

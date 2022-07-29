@@ -27,7 +27,9 @@ public class FreestyleTest {
 
     @When("Go to NewItem")
     public void goToNewItem() {
-        newItemPage = new HomePage(CucumberDriver.getDriver()).clickNewItem();
+        newItemPage = new HomePage(CucumberDriver.getDriver())
+                .getSideMenu()
+                .clickNewItem();
     }
 
     @And("Type project name {string}")

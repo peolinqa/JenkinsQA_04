@@ -53,6 +53,7 @@ public class _DashboardTest extends BaseTest {
     @Test
     public void testCheckVisibleAndEnabledLinkIconLegend() {
         HomePage homePage = new HomePage(getDriver())
+                .getSideMenu()
                 .clickNewItem()
                 .setProjectName(TestUtils.getRandomStr(10))
                 .setProjectTypeFolder()

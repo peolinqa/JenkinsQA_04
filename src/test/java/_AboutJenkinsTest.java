@@ -9,6 +9,7 @@ public class _AboutJenkinsTest extends BaseTest {
     @Test
     public void testAmountLinksTabMavenizedDependencies() {
         amountLinks = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickAboutJenkins()
                 .clickMavenizedDependencies()
@@ -20,6 +21,7 @@ public class _AboutJenkinsTest extends BaseTest {
     @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
     public void testAmountLinksTabStaticResources() {
         amountLinks = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickAboutJenkins()
                 .clickStaticResources()
@@ -31,6 +33,7 @@ public class _AboutJenkinsTest extends BaseTest {
     @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
     public void testAmountLinksTabLicenseAndDependencyInformationForPlugins() {
         amountLinks = new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickAboutJenkins()
                 .clickLicenseAndDependencyInformationForPlugins()
@@ -42,6 +45,7 @@ public class _AboutJenkinsTest extends BaseTest {
     @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
     public void testLinkAntLRParserGenerator() {
         new HomePage(getDriver())
+                .getSideMenu()
                 .clickManageJenkins()
                 .clickAboutJenkins()
                 .clickLinkAntLRParserGenerator();
