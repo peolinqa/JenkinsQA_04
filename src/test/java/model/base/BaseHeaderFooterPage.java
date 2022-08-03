@@ -1,6 +1,7 @@
 package model.base;
 
 import model.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,6 +37,9 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
 
     @FindBy(xpath = "//ul[@class='first-of-type']/li")
     private List<WebElement> dashboardDropdownMenuElements;
+
+    @FindBy(xpath = "//header[@id='header']/div")
+    private List<WebElement> headerMainElement;
 
     public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
@@ -98,7 +102,7 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         return new HomePage(getDriver());
     }
 
-    public HomePage clickJenkins(){
+    public HomePage clickJenkins() {
         headerJenkinsLink.click();
         return new HomePage(getDriver());
     }
@@ -113,7 +117,7 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         getActions().moveToElement(dashboardButton).build().perform();
         getActions().moveToElement(menuSelector).click().build().perform();
 
-        return (Self)this;
+        return (Self) this;
     }
 
     public List<String> getListOfDashboardDropdownMenuElements() {
@@ -122,5 +126,27 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
                 .map(WebElement::getText)
                 .filter(text -> !text.isEmpty())
                 .collect(Collectors.toList());
+    }
+
+    public boolean isRightPositionOfJenkinsHeadIcon() {
+        return getDriver().findElement(By.xpath(String.format("//div[@class='logo']/a/img[%s]", 1)))
+                .getAttribute("id")
+                .equals("jenkins-head-icon")
+                &&
+                getDriver().findElement(By.xpath(String.format("//div[@class='logo']/a/img[%s]", 2)))
+                        .getAttribute("id")
+                        .equals("jenkins-name-icon");
+    }
+
+    public List<WebElement> getHeaderMainElement() {
+        return headerMainElement;
+    }
+
+    public boolean isRightPositionOfHeaderElementsUI() {
+        for (int i = 0; i < getHeaderMainElement().size(); i++) {
+            return getHeaderMainElement().get(i).isDisplayed();
+        }
+
+        return false;
     }
 }

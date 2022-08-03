@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class BaseModel<Self extends BaseModel<?>> {
 
