@@ -56,9 +56,6 @@ public class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuFrame> 
     @FindBy (xpath = "//a[@href='/legend']")
     private WebElement linkIconLegend;
 
-    @FindBy(xpath = "//a[contains(text(), 'AchViewName')]")
-    private WebElement myViewName;
-
     @FindBy(xpath = "//a[@class='yuimenuitemlabel']//span[text()='Configure']")
     private WebElement configureFromDropdownMenu;
 
@@ -318,12 +315,6 @@ public class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuFrame> 
         getDriver().switchTo().alert().accept();
 
         return this;
-    }
-
-    public MyViewPage clickMyViewNameButton(){
-        myViewName.click();
-
-        return new MyViewPage(getDriver());
     }
 
     public SearchPage sendTextSearchPanel(String text){

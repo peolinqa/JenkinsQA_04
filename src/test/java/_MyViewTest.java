@@ -7,7 +7,6 @@ import runner.TestUtils;
 
 import java.util.List;
 
-
 public class _MyViewTest extends BaseTest {
     private static final String VIEW_NAME = TestUtils.getRandomStr();
     private static final String VIEW_NAME_1 = "My View";
@@ -170,7 +169,7 @@ public class _MyViewTest extends BaseTest {
         Assert.assertFalse(viewsOnBreadcrumbs.contains(EDIT_VIEW_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs")
+    @Test(dependsOnMethods = "testDeleteViewViaBreadcrumbs")
     public void testDeleteViewViaTabBarFrame() {
         List<String> viewOnTabBar = new HomePage(getDriver())
                 .clickNameOfViewOnTabBar(VIEW_NAME_1)
@@ -181,5 +180,70 @@ public class _MyViewTest extends BaseTest {
                 .getNamesOfViewsOnTabBar();
 
         Assert.assertFalse(viewOnTabBar.contains(VIEW_NAME_1));
+    }
+
+    @Test(dependsOnMethods = "testDeleteViewViaTabBarFrame")
+    public void testAddAllColumnsFromDashboardInOwnWatchlist() {
+        final int countColumns = new HomePage(getDriver())
+                .getSideMenu()
+                .clickNewView()
+                .setViewName(VIEW_NAME)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .chooseJobs(1)
+                .addAllUniqueColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getCountOfColumns();
+
+        Assert.assertEquals(countColumns, 11);
+    }
+
+    @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
+    public void testRemoveColumnsFromDashboardInOwnWatchlist() {
+        final int countColumnsAfterDelete = new HomePage(getDriver())
+                .clickNameOfViewOnBreadcrumbs(VIEW_NAME)
+                .getSideMenu()
+                .clickEditView()
+                .scrollPageDown()
+                .removeColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getCountOfColumns();
+
+        Assert.assertEquals(countColumnsAfterDelete, 1);
+    }
+
+    @Test(dependsOnMethods = "testRemoveColumnsFromDashboardInOwnWatchlist")
+    public void testCreateAndCheckNewMyView() {
+        final int countJobs = 2;
+
+        final List<String> listJobsInMyViewName = new HomePage(getDriver())
+                .getSideMenu()
+                .clickNewItem()
+                .setProjectName(String.format("‘%s1", VIEW_NAME))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .getSideMenu()
+                .clickNewItem()
+                .setProjectName(String.format("‘%s2", VIEW_NAME))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .getSideMenu()
+                .clickNewItem()
+                .setProjectName(String.format("‘%s3", VIEW_NAME))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .getSideMenu()
+                .clickNewView()
+                .setViewName(VIEW_NAME_1)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .chooseJobs(countJobs)
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getListJobsName();
+
+        Assert.assertEquals(listJobsInMyViewName.size(), countJobs);
     }
 }

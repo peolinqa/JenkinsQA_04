@@ -369,45 +369,6 @@ public class _PipelineTest extends BaseTest {
     }
 
     @Test
-    public void testAddAllColumnsFromDashboardInOwnWatchlist() {
-        final String name = TestUtils.getRandomStr(7);
-        final String viewName = "AchViewName";
-
-        final int countColumns = new HomePage(getDriver())
-                .getSideMenu()
-                .clickNewItem()
-                .setProjectName(name)
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .getSideMenu()
-                .clickNewView()
-                .setViewName(viewName)
-                .selectListViewType()
-                .createViewAndGoConfig()
-                .chooseJobs(1)
-                .addAllUniqueColumns()
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getCountOfColumns();
-
-        Assert.assertEquals(countColumns, 11);
-    }
-
-    @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
-    public void testRemoveColumnsFromDashboardInOwnWatchlist() {
-        final int countColumnsAfterDelete = new HomePage(getDriver())
-                .clickMyViewNameButton()
-                .getSideMenu()
-                .clickEditView()
-                .scrollPageDown()
-                .removeColumns()
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getCountOfColumns();
-
-        Assert.assertEquals(countColumnsAfterDelete, 1);
-    }
-
-    @Test
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
         final String checkTransitionPluginPage = new HomePage(getDriver())
                 .getSideMenu()
@@ -449,41 +410,6 @@ public class _PipelineTest extends BaseTest {
                 .getTitleOfPage404();
 
         Assert.assertEquals(titleOfPage404, "Error 404 Not Found");
-    }
-
-    @Test
-    public void testCreateAndCheckNewMyView() {
-        final int countJobs = 2;
-
-        final List<String> listJobsInMyViewName = new HomePage(getDriver())
-                .getSideMenu()
-                .clickNewItem()
-                .setProjectName(PIPELINE_NAME.concat("1"))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .getSideMenu()
-                .clickNewItem()
-                .setProjectName(PIPELINE_NAME.concat("2"))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .getSideMenu()
-                .clickNewItem()
-                .setProjectName(PIPELINE_NAME.concat("3"))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .getSideMenu()
-                .clickNewView()
-                .setViewName(PIPELINE_NAME)
-                .selectListViewType()
-                .createViewAndGoConfig()
-                .chooseJobs(countJobs)
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getListJobsName();
-
-        Assert.assertEquals(listJobsInMyViewName.size(), countJobs);
     }
 
     @DataProvider(name = "errorMessageData")
