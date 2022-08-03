@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseProjectDeleteWithConfirmPage;
+import model.base.BaseSideMenuPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,19 +8,13 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewPage extends BaseProjectDeleteWithConfirmPage {
+public class MyViewPage extends BaseSideMenuPage<MyViewPage, MyViewPageSideMenuFrame> {
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='item']")
     private List<WebElement> viewNamesOnBreadcrumbs;
 
     @FindBy(css = "div .tab a")
     private List<WebElement> viewNamesOnTabBar;
-
-    @FindBy(linkText = "Edit View")
-    private WebElement editView;
-
-    @FindBy(linkText = "Delete View")
-    private WebElement deleteView;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement submitDeleteViewButton;
@@ -68,16 +62,9 @@ public class MyViewPage extends BaseProjectDeleteWithConfirmPage {
         super(driver);
     }
 
-    public ViewConfigPage clickEditView() {
-        editView.click();
-
-        return new ViewConfigPage(getDriver());
-    }
-
-    public MyViewPage clickDeleteView() {
-        deleteView.click();
-
-        return new MyViewPage(getDriver());
+    @Override
+    public MyViewPageSideMenuFrame getSideMenu() {
+        return new MyViewPageSideMenuFrame(getDriver());
     }
 
     public HomePage clickSubmitDeleteViewAndGoHome() {

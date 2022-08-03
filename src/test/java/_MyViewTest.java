@@ -93,6 +93,7 @@ public class _MyViewTest extends BaseTest {
     public void testEditViewChangeName() {
         MyViewPage myViewPage = new HomePage(getDriver())
                 .clickNameOfViewOnBreadcrumbs(VIEW_NAME_2)
+                .getSideMenu()
                 .clickEditView()
                 .setName(EDIT_VIEW_NAME)
                 .saveConfigAndGoToView1();
@@ -161,6 +162,7 @@ public class _MyViewTest extends BaseTest {
     public void testDeleteViewViaBreadcrumbs() {
         List<String> viewsOnBreadcrumbs = new HomePage(getDriver())
                 .clickNameOfViewOnBreadcrumbs(EDIT_VIEW_NAME)
+                .getSideMenu()
                 .clickDeleteView()
                 .clickSubmitDeleteViewAndGoHome()
                 .getNamesOfViewsOnBreadcrumbs();
@@ -172,6 +174,7 @@ public class _MyViewTest extends BaseTest {
     public void testDeleteViewViaTabBarFrame() {
         List<String> viewOnTabBar = new HomePage(getDriver())
                 .clickNameOfViewOnTabBar(VIEW_NAME_1)
+                .getSideMenu()
                 .clickDeleteView()
                 .clickSubmitDeleteViewAndGoHome()
                 .clickNameOfViewOnTabBar()

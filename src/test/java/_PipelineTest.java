@@ -397,6 +397,7 @@ public class _PipelineTest extends BaseTest {
     public void testRemoveColumnsFromDashboardInOwnWatchlist() {
         final int countColumnsAfterDelete = new HomePage(getDriver())
                 .clickMyViewNameButton()
+                .getSideMenu()
                 .clickEditView()
                 .scrollPageDown()
                 .removeColumns()
