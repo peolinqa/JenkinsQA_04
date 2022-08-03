@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseHeaderFooterPage;
+import model.base.BaseSideMenuPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,10 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Set;
 
-public class ManageUsersPage extends BaseHeaderFooterPage {
-
-    @FindBy(linkText = "Create User")
-    private WebElement createUser;
+public class ManageUsersPage extends BaseSideMenuPage<ManageUsersPage, ManageUsersPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='people']/tbody/tr")
     private List<WebElement> allUsersList;
@@ -20,10 +17,9 @@ public class ManageUsersPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public CreateUserPage clickCreateUser() {
-        createUser.click();
-
-        return new CreateUserPage(getDriver());
+    @Override
+    public ManageUsersPageSideMenuFrame getSideMenu() {
+        return new ManageUsersPageSideMenuFrame(getDriver());
     }
 
     public UserConfigurePage clickUserConfigure(String userName) {
