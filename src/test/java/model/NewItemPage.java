@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
@@ -157,24 +158,95 @@ public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
         return errorInvalidName.isDisplayed();
     }
 
-    public List<WebElement> getProjectTypeLabels() {
-        return projectTypeLabels;
+    public List<String> getFontWeightForEachProjectLabel() {
+        List<String> listFontWeigh = new ArrayList<>();
+        for (WebElement value : projectTypeLabels) {
+            listFontWeigh.add(value.getCssValue("font-weight"));
+        }
+
+        return listFontWeigh;
     }
 
-    public List<WebElement> getDescriptionStyle() {
-        return description;
+    public List<String> getFontSizeForEachProjectLabel() {
+        List<String> listFontSize = new ArrayList<>();
+        for (WebElement value : projectTypeLabels) {
+            listFontSize.add(value.getCssValue("font-size"));
+        }
+
+        return listFontSize;
     }
 
-    public List<WebElement> getProjectTypeImage() {
-        return projectTypeImage;
+    public List<String> getColorForEachProjectLabel() {
+        List<String> listColor = new ArrayList<>();
+        for (WebElement value : projectTypeLabels) {
+            listColor.add(value.getCssValue("color"));
+        }
+
+        return listColor;
+    }
+
+    public List<String> getTextForEachProjectLabel() {
+        List<String> listLabelText = new ArrayList<>();
+        for (WebElement labelName : projectTypeLabels) {
+            listLabelText.add(labelName.getText());
+        }
+
+        return listLabelText;
+    }
+
+    public List<String> getFontWeightForEachDescription() {
+        List<String> listFontWeigh = new ArrayList<>();
+        for (WebElement value : description) {
+            listFontWeigh.add(value.getCssValue("font-weight"));
+        }
+
+        return listFontWeigh;
+    }
+
+    public List<String> getFontSizeForEachDescription() {
+        List<String> listFontSize = new ArrayList<>();
+        for (WebElement value : description) {
+            listFontSize.add(value.getCssValue("font-size"));
+        }
+
+        return listFontSize;
+    }
+
+    public List<String> getColorForEachDescription() {
+        List<String> listColor = new ArrayList<>();
+        for (WebElement value : description) {
+            listColor.add(value.getCssValue("color"));
+        }
+
+        return listColor;
+    }
+
+    public List<Boolean> projectTypeImageIsDisplayed() {
+        List<Boolean> listImageIsDisplayed = new ArrayList<>();
+        getWait20().until(ExpectedConditions.visibilityOfAllElements(projectTypeImage));
+        for (WebElement image : projectTypeImage) {
+            listImageIsDisplayed.add(image.isDisplayed());
+        }
+
+        return listImageIsDisplayed;
+    }
+
+    public List<Boolean> projectTypeImageIsEnabled() {
+        List<Boolean> listImageIsEnabled = new ArrayList<>();
+        getWait20().until(ExpectedConditions.visibilityOfAllElements(projectTypeImage));
+        for (WebElement image : projectTypeImage) {
+            listImageIsEnabled.add(image.isEnabled());
+        }
+
+        return listImageIsEnabled;
     }
 
     public String getBreadCrumbs(int index) {
         return breadCrumbs.get(index).getText();
     }
 
-    public NewItemPage<ConfigPage> checkErrorMessage(String extectedMessage) {
-        Assert.assertEquals(errorInvalidName.getText(), extectedMessage);
+    public NewItemPage<ConfigPage> checkErrorMessage(String expectedMessage) {
+        Assert.assertEquals(errorInvalidName.getText(), expectedMessage);
 
         return this;
     }

@@ -1,8 +1,9 @@
 import model.*;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.List;
 
 public class _NewItemTest extends BaseTest {
 
@@ -53,11 +54,14 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickNewItem();
 
-        for (WebElement value : itemLabelStyle.getProjectTypeLabels()) {
-            Assert.assertEquals(value.getCssValue("font-weight"), "700");
-            Assert.assertEquals(value.getCssValue("font-size"), "16px");
-            Assert.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
-        }
+        List<String> listFontWeigh = itemLabelStyle.getFontWeightForEachProjectLabel();
+        Assert.assertTrue(listFontWeigh.stream().allMatch(value -> value.equals("700")));
+
+        List<String> listFontSize = itemLabelStyle.getFontSizeForEachProjectLabel();
+        Assert.assertTrue(listFontSize.stream().allMatch(value -> value.equals("16px")));
+
+        List<String> listColor = itemLabelStyle.getColorForEachProjectLabel();
+        Assert.assertTrue(listColor.stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
@@ -66,11 +70,14 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickNewItem();
 
-        for (WebElement value : descriptionStyle.getDescriptionStyle()) {
-            Assert.assertEquals(value.getCssValue("font-weight"), "400");
-            Assert.assertEquals(value.getCssValue("font-size"), "14px");
-            Assert.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
-        }
+        List<String> listFontWeigh = descriptionStyle.getFontWeightForEachDescription();
+        Assert.assertTrue(listFontWeigh.stream().allMatch(value -> value.equals("400")));
+
+        List<String> listFontSize = descriptionStyle.getFontSizeForEachDescription();
+        Assert.assertTrue(listFontSize.stream().allMatch(value -> value.equals("14px")));
+
+        List<String> listColor = descriptionStyle.getColorForEachDescription();
+        Assert.assertTrue(listColor.stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
@@ -79,30 +86,23 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickNewItem();
 
-        for (WebElement icon : iconAvailability.getProjectTypeImage()) {
-            Assert.assertTrue(icon.isDisplayed());
-            Assert.assertTrue(icon.isEnabled());
-        }
+        List<Boolean> listImageIsDisplayed = iconAvailability.projectTypeImageIsDisplayed();
+        Assert.assertTrue(listImageIsDisplayed.stream().allMatch(value -> value.equals(true)));
+
+        List<Boolean> listImageIsEnabled = iconAvailability.projectTypeImageIsEnabled();
+        Assert.assertTrue(listImageIsEnabled.stream().allMatch(value -> value.equals(true)));
     }
 
     @Test
-    public void testCheckLabelDisplayingOnNewItemPage() {
-        String[] expectedItemLabelText = {
-                "Freestyle project",
-                "Pipeline",
-                "Multi-configuration project",
-                "Folder",
-                "Multibranch Pipeline",
-                "Organization Folder",
-                };
+    public void testCheckTextLabelForItem() {
+        final List<String> expectedItemLabelText = List.of("Freestyle project", "Pipeline",
+                "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
 
-        NewItemPage<Object> itemLabelText = new HomePage(getDriver())
+        List<String> actualItemLabelText = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickNewItem().getTextForEachProjectLabel();
 
-        for(int i = 0; i < expectedItemLabelText.length; i++){
-            Assert.assertEquals(itemLabelText.getProjectTypeLabels().get(i).getText(), expectedItemLabelText[i]);
-        }
+        Assert.assertEquals(actualItemLabelText, expectedItemLabelText);
     }
 
     @Test
