@@ -65,8 +65,20 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         return pageHeader.getLocation().toString();
     }
 
-    public String getPageHeaderCssValue(String value) {
-        return pageHeader.getCssValue(value);
+    public String getPageHeaderCssValueBackgroundColor() {
+        return pageHeader.getCssValue("background-color");
+    }
+
+    public String getPageHeaderCssValueDisplay() {
+        return pageHeader.getCssValue("display");
+    }
+
+    public String getPageHeaderCssValueHeight() {
+        return pageHeader.getCssValue("height");
+    }
+
+    public String getPageHeaderCssValueAlignItems() {
+        return pageHeader.getCssValue("align-items");
     }
 
     public ApiPage goToApiPage() {

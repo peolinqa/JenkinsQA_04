@@ -217,10 +217,10 @@ public class _HeaderTest extends BaseTest {
         HomePage pageHeader = new HomePage(getDriver());
 
         SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(pageHeader.getPageHeaderCssValue("background-color"), "rgba(0, 0, 0, 1)");
-        asserts.assertEquals(pageHeader.getPageHeaderCssValue("display"), "flex");
-        asserts.assertEquals(pageHeader.getPageHeaderCssValue("height"), "56px");
-        asserts.assertEquals(pageHeader.getPageHeaderCssValue("align-items"), "center");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValueBackgroundColor(), "rgba(0, 0, 0, 1)");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValueDisplay(), "flex");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValueHeight(), "56px");
+        asserts.assertEquals(pageHeader.getPageHeaderCssValueAlignItems(), "center");
 
         asserts.assertAll();
     }
