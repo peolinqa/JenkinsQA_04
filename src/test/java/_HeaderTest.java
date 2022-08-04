@@ -96,27 +96,6 @@ public class _HeaderTest extends BaseTest {
         ).map(item -> new Object[]{item}).toArray(Object[][]::new);
     }
 
-    @Test
-    public void testVerifyImageOrderOnAllPages() {
-        HomePageSideMenuFrame homePage = new HomePageSideMenuFrame(getDriver());
-
-        List<Supplier<? extends BaseHeaderFooterPage>> menuCallList = List.of(
-                homePage::clickNewItem,
-                homePage::clickPeople,
-                homePage::clickBuildHistory,
-                homePage::clickManageJenkins,
-                homePage::clickMyView,
-                homePage::clickNewView);
-
-        for (Supplier<? extends BaseHeaderFooterPage> method : menuCallList) {
-            BaseHeaderFooterPage newHomePage = method.get();
-
-            Assert.assertTrue(newHomePage.isRightPositionOfJenkinsHeadIcon());
-
-            newHomePage.goHome();
-        }
-    }
-
     @Test(dataProvider = "clickSideMenu")
     public void testHeaderLogoIsClickableOnAllPagesToHomepage(Function<HomePageSideMenuFrame, BaseHeaderFooterPage<?>> click) {
         click.apply(new HomePage(getDriver()).getSideMenu())
@@ -128,6 +107,27 @@ public class _HeaderTest extends BaseTest {
     public void testHeaderPositionOfElementsUI(Function<HomePageSideMenuFrame, BaseHeaderFooterPage<?>> click) {
         click.apply(new HomePage(getDriver()).getSideMenu())
                 .assertEquals(BaseHeaderFooterPage::isRightPositionOfHeaderElementsUI, true);
+    }
+
+    @Test
+    public void testVerifyImageOrderOnAllPages() {
+        HomePageSideMenuFrame homePageMenu = new HomePageSideMenuFrame(getDriver());
+
+        List<Supplier<? extends BaseHeaderFooterPage>> menuCallList = List.of(
+                homePageMenu::clickNewItem,
+                homePageMenu::clickPeople,
+                homePageMenu::clickBuildHistory,
+                homePageMenu::clickManageJenkins,
+                homePageMenu::clickMyView,
+                homePageMenu::clickNewView);
+
+        for (Supplier<? extends BaseHeaderFooterPage> method : menuCallList) {
+            BaseHeaderFooterPage newPage = method.get();
+
+            Assert.assertTrue(newPage.isRightPositionOfJenkinsHeadIcon());
+
+            newPage.goHome();
+        }
     }
 
     @Test
