@@ -14,6 +14,12 @@ public class OrganizationFolderProjectPage extends BaseProjectDeleteWithConfirmP
     @FindBy(xpath = "//span[text()='Configure the project']")
     private WebElement configureProjectButton;
 
+    @FindBy(css = "#yui-gen1 > span > button[type='submit']")
+    private WebElement disableButton;
+
+    @FindBy(css = "#view-message")
+    private WebElement textDescription;
+
     public OrganizationFolderProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -41,5 +47,17 @@ public class OrganizationFolderProjectPage extends BaseProjectDeleteWithConfirmP
         configureProjectButton.click();
 
         return new OrganizationFolderConfigPage(getDriver());
+    }
+
+    public OrganizationFolderProjectPage clickDisableButton() {
+        disableButton.click();
+
+        return this;
+    }
+
+    public String getDescriptionText() {
+        String[] text = textDescription.getText().split("\n");
+
+        return text[text.length - 1];
     }
 }

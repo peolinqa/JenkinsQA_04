@@ -16,7 +16,7 @@ public class RenamePage<ConfigPage> extends BaseProjectPage {
     @FindBy(xpath = "//input[@name='newName']")
     private WebElement renameInput;
 
-    @FindBy(xpath = "//button[@type='submit']")
+    @FindBy(id = "yui-gen1-button")
     private WebElement confirmRenameButton;
 
     @FindBy(xpath = "//div[contains(@class, 'validation-error-area')]//div[@class='error']")
