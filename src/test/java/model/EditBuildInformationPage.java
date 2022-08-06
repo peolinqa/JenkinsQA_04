@@ -19,8 +19,6 @@ public class EditBuildInformationPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//span[text()='Back to Project']")
     private WebElement backToProjectButton;
 
-    private String testBuildName;
-
     public EditBuildInformationPage(WebDriver driver) {
         super(driver);
     }
@@ -33,7 +31,6 @@ public class EditBuildInformationPage extends BaseHeaderFooterPage {
 
     public EditBuildInformationPage editBuildName(String name) {
         inputDisplayName.sendKeys(name);
-        testBuildName = name;
 
         return this;
     }
