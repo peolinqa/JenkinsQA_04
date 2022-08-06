@@ -1,19 +1,16 @@
-import model.FreestyleProjectPage;
-import model.HomePage;
-import model.LastBuildPage;
+import model.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
-
+import runner.TestUtils;
 
 public class _BuildHistoryTest extends BaseTest {
 
     private static final String PROJECT_NAME = "BuildHistoryPageProject";
-    private static final String BUILD_PROJECT_NAME = "NewFreestyleProject";
-    private static final String BUILD_NAME = "New build 123";
-    private static final String BUILD_DESCRIPTION = "Build 123 description test";
+    private static final String EDIT_BUILD_NAME = TestUtils.getRandomStr(5);
+    private static final String BUILD_DESCRIPTION = TestUtils.getRandomStr(5);
 
-    private String buildNumber;
+    private String buildName;
 
     @Test
     public void testBuildIsOnProjectPage() {
@@ -26,18 +23,19 @@ public class _BuildHistoryTest extends BaseTest {
                 .saveConfigAndGoToFreestyleProject()
                 .clickBuildButton();
 
-        buildNumber = new  FreestyleProjectPage(getDriver()).getBuildNumber();
+        buildName = new FreestyleProjectPage(getDriver()).getBuildName();
+
         Assert.assertTrue(freestyleProjectPage.buildNumberIsDisplayed());
     }
 
     @Test(dependsOnMethods = "testBuildIsOnProjectPage")
     public void testBuildIsOnBuildHistoryPage() {
-        boolean result = new HomePage(getDriver())
+        BuildHistoryPage buildHistoryPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickBuildHistory()
-                .checkProjectIsOnBoard(PROJECT_NAME);
+                .clickBuildHistory();
 
-        Assert.assertTrue(result);
+        Assert.assertTrue(buildHistoryPage.checkProjectIsOnBoard(PROJECT_NAME));
+        Assert.assertTrue(buildHistoryPage.checkBuildIsOnBoard(buildName));
     }
 
     @Test(dependsOnMethods = "testBuildIsOnBuildHistoryPage")
@@ -45,78 +43,46 @@ public class _BuildHistoryTest extends BaseTest {
         String changesHeader = new HomePage(getDriver())
                 .getSideMenu()
                 .clickBuildHistory()
-                .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
+                .clickBuildSpanMenu(PROJECT_NAME, buildName.substring(1))
                 .clickChangesAndGoToChangesPage()
                 .getPageHeader();
 
         Assert.assertEquals(changesHeader, "Changes");
     }
 
-    @Test (dependsOnMethods = "testBuildHistoryChanges")
+    @Test(dependsOnMethods = "testBuildHistoryChanges")
     public void testBuildHistoryConsole() {
         String consoleHeader = new HomePage(getDriver())
                 .getSideMenu()
                 .clickBuildHistory()
-                .clickBuildSpanMenu(PROJECT_NAME, buildNumber)
+                .clickBuildSpanMenu(PROJECT_NAME, buildName.substring(1))
                 .clickConsoleAndGoToConsolePage()
                 .getPageHeader();
 
         Assert.assertEquals(consoleHeader, "Console Output");
     }
 
-    @Test
-    public void testVerifyChangeOnBuildStatusPage() {
-        String buildName = new HomePage(getDriver())
-                .getSideMenu()
-                .clickNewItem()
-                .setProjectName(BUILD_PROJECT_NAME)
-                .setProjectTypeFreestyle()
-                .clickOkAndGoToConfig()
-                .saveConfigAndGoToFreestyleProject()
-                .clickBuildButton()
-                .waitForBuildToComplete()
-                .clickDashboardButton()
-                .clickFreestyleName(BUILD_PROJECT_NAME)
-                .selectLastBuild()
-                .clickEditBuildInfoButton()
-                .enterBuildName(BUILD_NAME)
-                .enterBuildDescription(BUILD_DESCRIPTION)
-                .clickSaveButton()
-                .getBuildName();
-
-        String buildDescription = new LastBuildPage(getDriver())
-                .getBuildDescription();
-
-        Assert.assertEquals(buildName, BUILD_NAME);
-        Assert.assertEquals(buildDescription, BUILD_DESCRIPTION);
-    }
-
-    @Test(dependsOnMethods = {"testVerifyChangeOnBuildStatusPage"})
-    public void testVerifyChangeOnProjectStatusPage() {
-        String buildName = new HomePage(getDriver())
-                .clickFreestyleName(BUILD_PROJECT_NAME)
-                .selectLastBuild()
-                .clickBackToProjectButton()
-                .getBuildName();
-
-        String descriptionName = new FreestyleProjectPage(getDriver())
-                .getBuildDescription();
-
-        Assert.assertEquals(buildName,BUILD_NAME);
-        Assert.assertEquals(descriptionName,BUILD_DESCRIPTION);
-    }
-
-    @Test(dependsOnMethods = {"testVerifyChangeOnProjectStatusPage"})
-    public void testVerifyChangeOnBuildHistoryPage() {
-        String buildNameChange = new HomePage(getDriver())
-                .clickFreestyleName(BUILD_PROJECT_NAME)
-                .selectLastBuild()
-                .clickBackToProjectButton()
-                .clickBackToDashboard()
+    @Test(dependsOnMethods = "testBuildHistoryConsole")
+    public void testEditBuildInformation() {
+        FreestyleBuildPage freestyleBuildPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickBuildHistory()
-                .getBuildName();
+                .clickBuildName()
+                .clickEditBuildInfoButton()
+                .editBuildName(EDIT_BUILD_NAME)
+                .editBuildDescription(BUILD_DESCRIPTION)
+                .clickSaveButton();
 
-        Assert.assertEquals(buildNameChange,BUILD_NAME);
+        Assert.assertEquals(freestyleBuildPage.getBuildHeader(), EDIT_BUILD_NAME);
+        Assert.assertEquals(freestyleBuildPage.getBuildDescription(), BUILD_DESCRIPTION);
+    }
+
+    @Test(dependsOnMethods = {"testEditBuildInformation"})
+    public void testVerifyChangesOnProjectPage() {
+        FreestyleProjectPage freestyleProjectPage = new HomePage(getDriver())
+                .clickFreestyleName(PROJECT_NAME);
+
+        Assert.assertEquals(freestyleProjectPage.getBuildName(), EDIT_BUILD_NAME);
+        Assert.assertEquals(freestyleProjectPage.getBuildDescription(), BUILD_DESCRIPTION);
     }
 }

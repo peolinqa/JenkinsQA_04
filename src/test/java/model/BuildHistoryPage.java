@@ -25,7 +25,7 @@ public class BuildHistoryPage extends BaseBuildPage {
     @FindBy(linkText = "Console Output")
     private WebElement consoleButton;
 
-    @FindBy(xpath = "//a[@class='jenkins-table__link jenkins-table__badge model-link inside']")
+    @FindBy(css = "tr:nth-child(1) td a:nth-child(2)")
     private WebElement buildName;
 
     public List<String> collectListBuildHistory(String name) {
@@ -38,6 +38,10 @@ public class BuildHistoryPage extends BaseBuildPage {
 
     public boolean checkProjectIsOnBoard(String projectName) {
         return tableOfProjects.getText().contains(projectName);
+    }
+
+    public boolean checkBuildIsOnBoard(String buildName) {
+        return tableOfProjects.getText().contains(buildName);
     }
 
     public BuildHistoryPage clickBuildSpanMenu(String projectName, String buildName) {
@@ -60,7 +64,9 @@ public class BuildHistoryPage extends BaseBuildPage {
         return new BuildConsolePage(getDriver());
     }
 
-    public String getBuildName() {
-        return buildName.getText();
+    public FreestyleBuildPage clickBuildName() {
+        buildName.click();
+
+        return new FreestyleBuildPage(getDriver());
     }
 }

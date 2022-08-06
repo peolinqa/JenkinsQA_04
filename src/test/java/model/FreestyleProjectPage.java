@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
 
-    private static final By DISPLAY_NAME = By.cssSelector(".display-name");
+    private static final By BUILD_NAME = By.cssSelector("tr:nth-child(2)  a.display-name");
 
     @FindBy(xpath = "//div[@id='description']/div")
     private WebElement textDescription;
@@ -18,7 +18,7 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
     private WebElement editDescription;
 
     @FindBy(name = "description")
-    private WebElement descriptionTextarea;
+    private WebElement descriptionField;
 
     @FindBy(xpath = "//div//button[@type='submit']")
     private WebElement multiButton;
@@ -35,7 +35,7 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
     @FindBy(xpath = "//span[text()='Back to Dashboard']")
     private WebElement backToDashboard;
 
-    @FindBy(xpath = "//a[@class='tip model-link inside build-link display-name']")
+    @FindBy(css = "tr:nth-child(2)  a.display-name")
     private WebElement buildName;
 
     @FindBy(xpath = "//div[@class='pane desc indent-multiline']")
@@ -79,8 +79,8 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
     }
 
     public FreestyleProjectPage editDescription(String text) {
-        descriptionTextarea.clear();
-        descriptionTextarea.sendKeys(text);
+        descriptionField.clear();
+        descriptionField.sendKeys(text);
 
         return this;
     }
@@ -99,32 +99,8 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
         return this;
     }
 
-    public String getBuildNumber() {
-        WebElement displayName = getWait20().until(ExpectedConditions.presenceOfElementLocated(DISPLAY_NAME));
-
-        return displayName.getText().substring("#".length());
-    }
-
     public boolean buildNumberIsDisplayed() {
-        return getWait20().until(ExpectedConditions.presenceOfElementLocated(DISPLAY_NAME)).isDisplayed();
-    }
-
-    public FreestyleProjectPage waitForBuildToComplete() {
-        getWait20().until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".display-name")));
-
-        return this;
-    }
-
-    public LastBuildPage selectLastBuild() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(lastBuildButton)).click();
-
-        return new LastBuildPage(getDriver());
-    }
-
-    public HomePage clickBackToDashboard() {
-        backToDashboard.click();
-
-        return new HomePage(getDriver());
+        return getWait20().until(ExpectedConditions.presenceOfElementLocated(BUILD_NAME)).isDisplayed();
     }
 
     public String getBuildName() {
@@ -132,6 +108,6 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
     }
 
     public String getBuildDescription() {
-        return  buildDescription.getText();
+        return buildDescription.getText();
     }
 }
