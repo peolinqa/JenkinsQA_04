@@ -31,10 +31,10 @@ public class ConfigureSystemPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public ConfigureSystemPage clickSaveButton() {
+    public HomePage clickSaveButton() {
         saveButton.click();
 
-        return this;
+        return new HomePage(getDriver());
     }
 
     public ConfigureSystemPage clickPreviewSystemMessage() {
