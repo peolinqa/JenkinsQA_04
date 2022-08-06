@@ -152,6 +152,8 @@ public class _PipelineTest extends BaseTest {
     public void testPermalinksTextAfterPipelineBuildNow() {
         final String[] permalinksText = new HomePage(getDriver())
                 .clickPipelineName(PIPELINE_NAME)
+                .getSideMenu()
+                .clickBuildPipelineButton()
                 .clickBuildButtonWait()
                 .refreshPage()
                 .permalinksText();
@@ -196,6 +198,7 @@ public class _PipelineTest extends BaseTest {
 
         final List<String> listErrorMessages = new HomePage(getDriver())
                 .clickPipelineName(PIPELINE_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .getListErrorMessages(invalidCharacters);
 
@@ -211,6 +214,7 @@ public class _PipelineTest extends BaseTest {
     public void testRenamePipelineWithValidName() {
         final String newProjectName = new HomePage(getDriver())
                 .clickPipelineName(PIPELINE_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME)
                 .clickRenameAndGoToProjectPage()
@@ -231,6 +235,7 @@ public class _PipelineTest extends BaseTest {
     public void testRenamePipelineTheSameNameWithAllCapitalLetters() {
         final String errorText = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME.toUpperCase())
                 .clickRenameAndGoToErrorPage()
@@ -243,6 +248,7 @@ public class _PipelineTest extends BaseTest {
     public void testRenamePipelineWithTheSameName() {
         final String errorText = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .clickRenameAndGoToErrorPage()
                 .getErrorMessage();
@@ -254,6 +260,7 @@ public class _PipelineTest extends BaseTest {
     public void testDeletePipelineFromSideMenu() {
         final boolean check = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
+                .getSideMenu()
                 .clickDeleteProjectAndConfirm()
                 .clickDashboardButton()
                 .checkProjectAfterDelete(NEW_PIPELINE_NAME);
@@ -304,6 +311,7 @@ public class _PipelineTest extends BaseTest {
                 .clickChoiceParameterButton()
                 .enteringParametersIntoProject()
                 .saveConfigAndGoToProject()
+                .getSideMenu()
                 .clickBuildWithParameters()
                 .collectDropDownMenu();
 
@@ -314,6 +322,7 @@ public class _PipelineTest extends BaseTest {
     public void testBuildPipelineWithParameters() {
         final List<String> checkNameAndDescriptionParametersBuild = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
+                .getSideMenu()
                 .clickBuildWithParameters()
                 .clickBuildButton()
                 .refreshPage()
@@ -335,6 +344,7 @@ public class _PipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .clickCheckBoxDiscardOldBuilds()
                 .saveConfigAndGoToProject()
+                .getSideMenu()
                 .clickMultipleTimesBuildButton(31)
                 .waitForBuildNumber(31)
                 .refreshPage()
@@ -360,6 +370,7 @@ public class _PipelineTest extends BaseTest {
                 .clickInMenuSelectorConfigure()
                 .enteringParametersToDisplayLatestBuilds("3", "1")
                 .saveConfigAndGoToProject()
+                .getSideMenu()
                 .clickBuildPipelineButton()
                 .waitForBuildNumber(32)
                 .refreshPage()
@@ -405,6 +416,7 @@ public class _PipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .navigateToPreviousCreatedPipeline(PIPELINE_NAME)
+                .getSideMenu()
                 .clickDeleteProjectAndConfirm()
                 .switchToPage404()
                 .getTitleOfPage404();

@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseProjectDeleteWithAlertPage;
+import model.base.BaseSideMenuPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
+public class PipelineProjectPage extends BaseSideMenuPage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> {
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement descriptionValue;
@@ -24,17 +24,11 @@ public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
     @FindBy(id = "yui-gen2-button")
     private WebElement saveDescriptionButton;
 
-    @FindBy(linkText = "Build Now")
-    private WebElement buildButton;
-
     @FindBy(xpath = "//td[@class='build-row-cell']//a[contains(text(),'#')]")
     private WebElement buildIcon;
 
     @FindBy(xpath = "//ul[@class='permalinks-list']/li")
     private List<WebElement> permalinks;
-
-    @FindBy(linkText = "Build with Parameters")
-    private WebElement buildWithParameters;
 
     @FindBy(xpath = "//a[@href ='lastBuild/']")
     private WebElement lastBuildButton;
@@ -45,14 +39,16 @@ public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
     @FindBy(xpath = "//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name']")
     private List<WebElement> buildList;
 
+    @FindBy(css = "h1")
+    protected WebElement projectName;
+
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
     }
 
-    public RenamePage<PipelineProjectPage> clickRenameAndGoToRenamePage() {
-        clickRenameButton();
-
-        return new RenamePage<>(getDriver(), new PipelineProjectPage(getDriver()));
+    @Override
+    public PipelineProjectPageSideMenuFrame getSideMenu() {
+        return new PipelineProjectPageSideMenuFrame(getDriver());
     }
 
     public PipelineProjectPage clearUserDescription() {
@@ -62,6 +58,7 @@ public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
 
         return this;
     }
+
     public boolean checkDescriptionValue() {
         return descriptionValue.getText().isEmpty();
     }
@@ -80,11 +77,11 @@ public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
     }
 
     public PipelineProjectPage clickBuildButtonWait() {
-        buildButton.click();
         getWait20().until(ExpectedConditions.elementToBeClickable(buildIcon));
 
         return this;
     }
+
     public PipelineProjectPage refreshPage() {
         getDriver().navigate().refresh();
 
@@ -102,7 +99,7 @@ public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
 
         return permalinksText;
     }
-    @Override
+
     public String getProjectName() {
         return projectName.getText().substring("Pipeline ".length());
     }
@@ -110,12 +107,6 @@ public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
     public boolean isProjectStatus(String value) {
         return getWait20().until(ExpectedConditions.attributeToBe(
                 By.cssSelector(".tobsTable-body .job"), "class", value));
-    }
-
-    public BuildWithParametersPage clickBuildWithParameters() {
-        buildWithParameters.click();
-
-        return new BuildWithParametersPage(getDriver());
     }
 
     public PipelineProjectPage clickLastBuildButton() {
@@ -146,24 +137,4 @@ public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage {
 
         return buildNumberList;
     }
-
-    public PipelineProjectPage clickMultipleTimesBuildButton(int number) {
-        for (int i = 0; i < number; ++i) {
-            buildButton.click();
-            try {
-                Thread.sleep(200);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return this;
-    }
-
-    public PipelineProjectPage clickBuildPipelineButton() {
-        buildButton.click();
-
-        return this;
-    }
-
 }
