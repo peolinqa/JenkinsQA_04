@@ -7,10 +7,15 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildParametersPage extends BaseBuildPage {
+public class BuildParametersPage extends BaseBuildPage<BuildParametersPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     public BuildParametersPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public BuildFreestyleMultiConfigPageSideMenuFrame getSideMenu() {
+        return new BuildFreestyleMultiConfigPageSideMenuFrame(getDriver());
     }
 
     @FindBy(xpath = "//div[contains(@class, 'jenkins-form-item tr ')]")

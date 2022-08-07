@@ -16,12 +16,13 @@ public class _BuildHistoryTest extends BaseTest {
     public void testBuildIsOnProjectPage() {
         FreestyleProjectPage freestyleProjectPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectTypeFreestyle()
                 .setProjectName(PROJECT_NAME)
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToFreestyleProject()
-                .clickBuildButton();
+                .getSideMenu()
+                .clickMenuBuildNow();
 
         buildName = new FreestyleProjectPage(getDriver()).getBuildName();
 
@@ -32,7 +33,7 @@ public class _BuildHistoryTest extends BaseTest {
     public void testBuildIsOnBuildHistoryPage() {
         BuildHistoryPage buildHistoryPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickBuildHistory();
+                .clickMenuBuildHistory();
 
         Assert.assertTrue(buildHistoryPage.checkProjectIsOnBoard(PROJECT_NAME));
         Assert.assertTrue(buildHistoryPage.checkBuildIsOnBoard(buildName));
@@ -42,8 +43,9 @@ public class _BuildHistoryTest extends BaseTest {
     public void testBuildHistoryChanges() {
         String changesHeader = new HomePage(getDriver())
                 .getSideMenu()
-                .clickBuildHistory()
-                .clickBuildSpanMenu(PROJECT_NAME, buildName.substring(1))
+                .clickMenuBuildHistory()
+                .clickBuildName()
+                .getSideMenu()
                 .clickChangesAndGoToChangesPage()
                 .getPageHeader();
 
@@ -54,9 +56,9 @@ public class _BuildHistoryTest extends BaseTest {
     public void testBuildHistoryConsole() {
         String consoleHeader = new HomePage(getDriver())
                 .getSideMenu()
-                .clickBuildHistory()
-                .clickBuildSpanMenu(PROJECT_NAME, buildName.substring(1))
-                .clickConsoleAndGoToConsolePage()
+                .clickMenuBuildHistory()
+                .clickBuildDropDownMenu(PROJECT_NAME, buildName.substring(1))
+                .clickMenuDropDownConsole()
                 .getPageHeader();
 
         Assert.assertEquals(consoleHeader, "Console Output");
@@ -66,7 +68,7 @@ public class _BuildHistoryTest extends BaseTest {
     public void testEditBuildInformation() {
         FreestyleBuildPage freestyleBuildPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickBuildHistory()
+                .clickMenuBuildHistory()
                 .clickBuildName()
                 .clickEditBuildInfoButton()
                 .editBuildName(EDIT_BUILD_NAME)

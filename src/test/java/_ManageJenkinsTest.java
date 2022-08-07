@@ -18,7 +18,7 @@ public class _ManageJenkinsTest extends BaseTest {
 
         List<String> actualManageJenkinsSectionNames = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .getActualManageJenkinsSectionNames();
 
         Assert.assertEquals(actualManageJenkinsSectionNames, expectedSectionNames);
@@ -34,7 +34,7 @@ public class _ManageJenkinsTest extends BaseTest {
 
         List<String> actualContentSectionToolsAndActions = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .getActualManageJenkinsSectionContentToolsAndActions();
 
         Assert.assertEquals(actualContentSectionToolsAndActions, expectedContentSectionToolsAndActions);
@@ -50,7 +50,7 @@ public class _ManageJenkinsTest extends BaseTest {
 
         List<String> actualSystemConfigurationContent = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .getActualSystemConfigurationContent();
 
         Assert.assertEquals(actualSystemConfigurationContent, expectedSystemConfigurationContent);
@@ -66,7 +66,7 @@ public class _ManageJenkinsTest extends BaseTest {
 
         List<String> actualSecurityContent = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .getActualSecurityContent();
 
         Assert.assertEquals(actualSecurityContent, expectedSecurityContent);

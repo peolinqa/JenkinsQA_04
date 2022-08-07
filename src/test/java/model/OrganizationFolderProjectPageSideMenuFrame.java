@@ -8,14 +8,14 @@ import runner.BaseModel;
 public class OrganizationFolderProjectPageSideMenuFrame extends BaseModel<OrganizationFolderProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Rename")
-    private WebElement renameButton;
+    private WebElement menuRename;
 
     public OrganizationFolderProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public RenamePage<OrganizationFolderProjectPage, OrganizationFolderProjectPageSideMenuFrame> clickRenameAndGoToRenamePage() {
-        renameButton.click();
+    public RenamePage<OrganizationFolderProjectPage, OrganizationFolderProjectPageSideMenuFrame> clickMenuRenameAndGoToRenamePage() {
+        menuRename.click();
 
         return new RenamePage<>(getDriver(), new OrganizationFolderProjectPage(getDriver()));
     }

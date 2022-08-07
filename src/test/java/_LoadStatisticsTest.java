@@ -10,7 +10,7 @@ public class _LoadStatisticsTest extends BaseTest {
     public void testCheckToolTipForEachTimeSpan() {
         LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickLoadStatistics();
 
         Assert.assertEquals(loadStatisticsPage.getShortTooltip(), "Every tick is 10 seconds");
@@ -22,7 +22,7 @@ public class _LoadStatisticsTest extends BaseTest {
     public void checkClickShortButton() {
         LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickLoadStatistics()
                 .clickShortButton();
 
@@ -35,7 +35,7 @@ public class _LoadStatisticsTest extends BaseTest {
     public void checkClickMediumButton() {
         LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickLoadStatistics()
                 .clickMediumButton();
 
@@ -48,7 +48,7 @@ public class _LoadStatisticsTest extends BaseTest {
     public void checkClickLongButton() {
         LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickLoadStatistics()
                 .clickLongButton();
 

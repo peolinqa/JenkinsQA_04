@@ -49,7 +49,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     public void testCreateNewNodeWithValidName() {
         List<String> textComputerNames = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageNodesAndClouds()
                 .newNodeButtonClick()
                 .createNewNodeWithPermanentAgentOption(COMPUTER_NAME)
@@ -64,7 +64,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     public void testCheckDeleteNode() {
         ManageNodesAndCloudsPage manageNodesAndCloudsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageNodesAndClouds();
 
         List<WebElement> computerNames = manageNodesAndCloudsPage.getComputerNames();

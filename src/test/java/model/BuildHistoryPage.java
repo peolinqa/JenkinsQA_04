@@ -10,23 +10,24 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class BuildHistoryPage extends BaseBuildPage {
-
-    public BuildHistoryPage(WebDriver driver) {
-        super(driver);
-    }
+public class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='projectStatus']/tbody")
     private WebElement tableOfProjects;
 
-    @FindBy(linkText = "Changes")
-    private WebElement changesButton;
-
     @FindBy(linkText = "Console Output")
-    private WebElement consoleButton;
+    private WebElement menuDropDownConsole;
 
     @FindBy(css = "tr:nth-child(1) td a:nth-child(2)")
     private WebElement buildName;
+
+    public BuildHistoryPage(WebDriver driver) {
+        super(driver);
+    }
+    @Override
+    public BuildFreestyleMultiConfigPageSideMenuFrame getSideMenu() {
+        return new BuildFreestyleMultiConfigPageSideMenuFrame(getDriver());
+    }
 
     public List<String> collectListBuildHistory(String name) {
         return getDriver()
@@ -44,22 +45,16 @@ public class BuildHistoryPage extends BaseBuildPage {
         return tableOfProjects.getText().contains(buildName);
     }
 
-    public BuildHistoryPage clickBuildSpanMenu(String projectName, String buildName) {
+    public BuildHistoryPage clickBuildDropDownMenu(String projectName, String buildName) {
         getActions().moveToElement(getDriver().findElement(
                 By.xpath(String.format("//a[@href='/job/%s/%s/']", projectName, buildName)))).perform();
-        getDriver().findElement(By.id("menuSelector")).click();
+        menuSelector.click();
 
         return this;
     }
 
-    public BuildChangesPage clickChangesAndGoToChangesPage() {
-        changesButton.click();
-
-        return new BuildChangesPage(getDriver());
-    }
-
-    public BuildConsolePage clickConsoleAndGoToConsolePage() {
-        consoleButton.click();
+    public BuildConsolePage clickMenuDropDownConsole() {
+        menuDropDownConsole.click();
 
         return new BuildConsolePage(getDriver());
     }

@@ -8,14 +8,14 @@ import runner.BaseModel;
 public class ManageUsersPageSideMenuFrame extends BaseModel<ManageUsersPageSideMenuFrame> {
 
     @FindBy(linkText = "Create User")
-    private WebElement createUser;
+    private WebElement menuCreateUser;
 
     public ManageUsersPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public CreateUserPage clickCreateUser() {
-        createUser.click();
+    public CreateUserPage clickMenuCreateUser() {
+        menuCreateUser.click();
 
         return new CreateUserPage(getDriver());
     }

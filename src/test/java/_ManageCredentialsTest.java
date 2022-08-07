@@ -16,7 +16,7 @@ public class _ManageCredentialsTest extends BaseTest {
 
         String createCredentials = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageCredentials()
                 .clickGlobalCredentials()
                 .clickAddCredentials()
@@ -33,7 +33,7 @@ public class _ManageCredentialsTest extends BaseTest {
 
         ManageCredentialsPage iconSizeChange = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageCredentials();
 
         SoftAssert asserts = new SoftAssert();
@@ -53,7 +53,7 @@ public class _ManageCredentialsTest extends BaseTest {
 
         ManageCredentialsPage iconSizeChange = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageCredentials();
 
         String[] actualResultSPressed = iconSizeChange.clickSmallSizeIcon().getChangeIconButtonsBGColors();
@@ -73,7 +73,7 @@ public class _ManageCredentialsTest extends BaseTest {
 
         String addDomain = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageCredentials()
                 .clickCredentialsStoreSystemMenu()
                 .clickMenuSelector()
@@ -89,7 +89,7 @@ public class _ManageCredentialsTest extends BaseTest {
 
         boolean expected = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageCredentials()
                 .clickIconButtonAndGetSize();
 

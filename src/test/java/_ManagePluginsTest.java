@@ -13,7 +13,7 @@ public class _ManagePluginsTest extends BaseTest {
     public void testManagePluginsCheckNameAndArrowUp() {
         String nameArrowDown = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManagePlugins()
                 .getTextButtonArrow();
 
@@ -31,7 +31,7 @@ public class _ManagePluginsTest extends BaseTest {
     public void testManagePluginsCheckNameFilter() {
         List<String> listInAlphabeticalOrder = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManagePlugins()
                 .sortAlphabeticallyFromAtoZ()
                 .getAllPluginNamesInTabUpdates();
@@ -50,7 +50,7 @@ public class _ManagePluginsTest extends BaseTest {
     public void testManageJenkinsPluginsValidateAllTabs() {
         int numberPluginsUpdates = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManagePlugins()
                 .clickButtonUpdates()
                 .countPlugins();
@@ -76,7 +76,7 @@ public class _ManagePluginsTest extends BaseTest {
 
         List<String> textNamesOfCheckboxes = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManagePlugins()
                 .searchFieldInput(textForFilter).getTextNamesOfCheckboxes();
 

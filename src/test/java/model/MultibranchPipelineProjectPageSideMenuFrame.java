@@ -8,14 +8,14 @@ import runner.BaseModel;
 public class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel<MultibranchPipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Rename")
-    private WebElement renameButton;
+    private WebElement menuRename;
 
     public MultibranchPipelineProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public RenamePage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> clickRenameAndGoToRenamePage() {
-        renameButton.click();
+    public RenamePage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> clickMenuRenameAndGoToRenamePage() {
+        menuRename.click();
 
         return new RenamePage<>(getDriver(), new MultibranchPipelineProjectPage(getDriver()));
     }

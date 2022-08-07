@@ -21,7 +21,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testCreateOrganizationFolder() {
         String projectName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME)
                 .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
@@ -36,7 +36,7 @@ public class _OrganizationFolderTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .setNewProjectName(VALID_FOLDER_RENAME)
                 .clickRenameAndGoToProjectPage()
                 .getProjectName();
@@ -48,7 +48,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testCreateOrganizationFolderSameItemName() {
         NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_RENAME)
                 .setProjectTypeOrganizationFolder();
 
@@ -98,7 +98,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testCreateOrganizationFolderAbortSaveButton() {
         List<String> textFolderNames = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME)
                 .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
@@ -145,7 +145,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testCheckNotificationAfterClickApply() {
         OrganizationFolderConfigPage organizationFolderConfigPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME1)
                 .setProjectTypeOrganizationFolder()
                 .clickOkAndGoToConfig()
@@ -197,7 +197,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testCreateOrganizationFolderEmptyName() {
         NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectTypeOrganizationFolder();
 
         Assert.assertEquals(newItemPage.getErrorNameRequiredText(), "» This field cannot be empty, please enter a valid name");

@@ -28,7 +28,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnNewItemPage() {
         NewItemPage newItemPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickMenuNewItem();
 
         Assert.assertTrue(newItemPage.topPageHeaderIsVisible());
         Assert.assertEquals(newItemPage.getPageHeaderLocation(), pageHeaderLocation);
@@ -38,7 +38,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnPeoplePage() {
         PeoplePage newPeoplePage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickPeople();
+                .clickMenuPeople();
 
         Assert.assertTrue(newPeoplePage.topPageHeaderIsVisible());
         Assert.assertEquals(newPeoplePage.getPageHeaderLocation(), pageHeaderLocation);
@@ -48,7 +48,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnBuildHistoryPage() {
         BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickBuildHistory();
+                .clickMenuBuildHistory();
 
         Assert.assertTrue(newBuildHistoryPage.topPageHeaderIsVisible());
         Assert.assertEquals(newBuildHistoryPage.getPageHeaderLocation(), pageHeaderLocation);
@@ -58,7 +58,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnManageJenkinsPage() {
         ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins();
+                .clickMenuManageJenkins();
 
         Assert.assertTrue(newManageJenkinsPage.topPageHeaderIsVisible());
         Assert.assertEquals(newManageJenkinsPage.getPageHeaderLocation(), pageHeaderLocation);
@@ -68,7 +68,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnMyViewPage() {
         MyViewPage newMyViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickMyView();
+                .clickMenuMyView();
 
         Assert.assertTrue(newMyViewPage.topPageHeaderIsVisible());
         Assert.assertEquals(newMyViewPage.getPageHeaderLocation(), pageHeaderLocation);
@@ -78,7 +78,7 @@ public class _HeaderTest extends BaseTest {
     public void testIsHeaderDisplayedOnTopOnNewViewsPage() {
         NewViewPage newNewViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewView();
+                .clickMenuNewView();
 
         Assert.assertTrue(newNewViewPage.topPageHeaderIsVisible());
         Assert.assertEquals(newNewViewPage.getPageHeaderLocation(), pageHeaderLocation);
@@ -87,12 +87,12 @@ public class _HeaderTest extends BaseTest {
     @DataProvider(name = "clickSideMenu")
     public Object[][] clickSideMenu() {
         return Stream.<Function<HomePageSideMenuFrame, BaseHeaderFooterPage<?>>>of(
-                HomePageSideMenuFrame::clickNewItem,
-                HomePageSideMenuFrame::clickPeople,
-                HomePageSideMenuFrame::clickBuildHistory,
-                HomePageSideMenuFrame::clickManageJenkins,
-                HomePageSideMenuFrame::clickMyView,
-                HomePageSideMenuFrame::clickNewView
+                HomePageSideMenuFrame::clickMenuNewItem,
+                HomePageSideMenuFrame::clickMenuPeople,
+                HomePageSideMenuFrame::clickMenuBuildHistory,
+                HomePageSideMenuFrame::clickMenuManageJenkins,
+                HomePageSideMenuFrame::clickMenuMyView,
+                HomePageSideMenuFrame::clickMenuNewView
         ).map(item -> new Object[]{item}).toArray(Object[][]::new);
     }
 
@@ -114,12 +114,12 @@ public class _HeaderTest extends BaseTest {
         HomePageSideMenuFrame homePageMenu = new HomePageSideMenuFrame(getDriver());
 
         List<Supplier<? extends BaseHeaderFooterPage>> menuCallList = List.of(
-                homePageMenu::clickNewItem,
-                homePageMenu::clickPeople,
-                homePageMenu::clickBuildHistory,
-                homePageMenu::clickManageJenkins,
-                homePageMenu::clickMyView,
-                homePageMenu::clickNewView);
+                homePageMenu::clickMenuNewItem,
+                homePageMenu::clickMenuPeople,
+                homePageMenu::clickMenuBuildHistory,
+                homePageMenu::clickMenuManageJenkins,
+                homePageMenu::clickMenuMyView,
+                homePageMenu::clickMenuNewView);
 
         for (Supplier<? extends BaseHeaderFooterPage> method : menuCallList) {
             BaseHeaderFooterPage newPage = method.get();
@@ -142,7 +142,7 @@ public class _HeaderTest extends BaseTest {
     public void testLogoIconIsViewedOnNewItemPage() {
         NewItemPage<Object> newItemPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickMenuNewItem();
 
         Assert.assertTrue(newItemPage.headerIconIsVisible());
         Assert.assertTrue(newItemPage.getLogoIconAttribute("src").contains(logoIconAttribute));
@@ -152,7 +152,7 @@ public class _HeaderTest extends BaseTest {
     public void testLogoIconIsViewedOnPeoplePage() {
         PeoplePage newPeoplePage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickPeople();
+                .clickMenuPeople();
 
         Assert.assertTrue(newPeoplePage.headerIconIsVisible());
         Assert.assertTrue(newPeoplePage.getLogoIconAttribute("src").contains(logoIconAttribute));
@@ -162,7 +162,7 @@ public class _HeaderTest extends BaseTest {
     public void testLogoIconIsViewedOnBuildHistoryPage() {
         BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickBuildHistory();
+                .clickMenuBuildHistory();
 
         Assert.assertTrue(newBuildHistoryPage.headerIconIsVisible());
         Assert.assertTrue(newBuildHistoryPage.getLogoIconAttribute("src").contains(logoIconAttribute));
@@ -172,7 +172,7 @@ public class _HeaderTest extends BaseTest {
     public void testLogoIconIsViewedOnManageJenkinsPage() {
         ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins();
+                .clickMenuManageJenkins();
 
         Assert.assertTrue(newManageJenkinsPage.headerIconIsVisible());
         Assert.assertTrue(newManageJenkinsPage.getLogoIconAttribute("src").contains(logoIconAttribute));
@@ -182,7 +182,7 @@ public class _HeaderTest extends BaseTest {
     public void testLogoIconIsViewedOnMyViewPage() {
         MyViewPage newMyViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickMyView();
+                .clickMenuMyView();
 
         Assert.assertTrue(newMyViewPage.headerIconIsVisible());
         Assert.assertTrue(newMyViewPage.getLogoIconAttribute("src").contains(logoIconAttribute));
@@ -192,7 +192,7 @@ public class _HeaderTest extends BaseTest {
     public void testLogoIconIsViewedOnNewViewPage() {
         NewViewPage newNewViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewView();
+                .clickMenuNewView();
 
         Assert.assertTrue(newNewViewPage.headerIconIsVisible());
         Assert.assertTrue(newNewViewPage.getLogoIconAttribute("src").contains(logoIconAttribute));
@@ -246,7 +246,7 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuBuilds() {
         String userBuilds = new HomePage(getDriver())
-                .navigateAndClickDropDownUserMenu()
+                .clickDropDownMenu()
                 .clickBuildsAndGoToBuildsPage()
                 .getTextName();
 
@@ -256,7 +256,7 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuConfigure() {
         String buttonText = new HomePage(getDriver())
-                .navigateAndClickDropDownUserMenu()
+                .clickDropDownMenu()
                 .clickConfigureAndGoToConfigurePage()
                 .getGen2ButtonText();
 
@@ -266,7 +266,7 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuMyViews() {
         String myViewsText = new HomePage(getDriver())
-                .navigateAndClickDropDownUserMenu()
+                .clickDropDownMenu()
                 .clickMyViewAndGoToMyViewPage()
                 .getTextMyView();
 

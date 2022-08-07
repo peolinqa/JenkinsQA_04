@@ -7,10 +7,15 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildWithParametersPage extends BaseBuildPage {
+public class BuildWithParametersPage extends BaseBuildPage<BuildWithParametersPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     public BuildWithParametersPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public BuildFreestyleMultiConfigPageSideMenuFrame getSideMenu() {
+        return new BuildFreestyleMultiConfigPageSideMenuFrame(getDriver());
     }
 
     @FindBy(xpath = "//select[@name='value']//option")

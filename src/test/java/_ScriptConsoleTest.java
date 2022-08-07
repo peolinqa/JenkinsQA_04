@@ -11,7 +11,7 @@ public class _ScriptConsoleTest extends BaseTest {
     public void testLinkGroovyScript() {
         String actualWebsite = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickScriptConsole()
                 .clickGroovyScript()
                 .getTitleGroovy();
@@ -23,7 +23,7 @@ public class _ScriptConsoleTest extends BaseTest {
     public void testScriptConsoleRun() {
         String actualResult = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickScriptConsole()
                 .setTextArea(RANDOM)
                 .clickRunButton()

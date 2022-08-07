@@ -20,13 +20,13 @@ public class _PipelineTest extends BaseTest {
     public void testCheckValidationItemName() {
         final String displayDuplicatedJobName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .getNameErrorText();
@@ -38,7 +38,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckTransitionToPageWithError() {
         final boolean isErrorHeaderDisplayed = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .createAndGoToErrorPage()
@@ -153,7 +153,7 @@ public class _PipelineTest extends BaseTest {
         final String[] permalinksText = new HomePage(getDriver())
                 .clickPipelineName(PIPELINE_NAME)
                 .getSideMenu()
-                .clickBuildPipelineButton()
+                .clickMenuBuildPipelineButton()
                 .clickBuildButtonWait()
                 .refreshPage()
                 .permalinksText();
@@ -199,7 +199,7 @@ public class _PipelineTest extends BaseTest {
         final List<String> listErrorMessages = new HomePage(getDriver())
                 .clickPipelineName(PIPELINE_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .getListErrorMessages(invalidCharacters);
 
         List<String> listExpectedResult = invalidCharacters
@@ -215,7 +215,7 @@ public class _PipelineTest extends BaseTest {
         final String newProjectName = new HomePage(getDriver())
                 .clickPipelineName(PIPELINE_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME)
                 .clickRenameAndGoToProjectPage()
                 .getProjectName();
@@ -236,7 +236,7 @@ public class _PipelineTest extends BaseTest {
         final String errorText = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME.toUpperCase())
                 .clickRenameAndGoToErrorPage()
                 .getErrorMessage();
@@ -249,7 +249,7 @@ public class _PipelineTest extends BaseTest {
         final String errorText = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .clickRenameAndGoToErrorPage()
                 .getErrorMessage();
 
@@ -271,7 +271,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckScheduledBuildInBuildHistory() {
         final List<String> checkBuildHistoryByName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(NEW_PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
@@ -281,7 +281,7 @@ public class _PipelineTest extends BaseTest {
                 .clickDashboardButton()
                 .buildSelectPipeline(NEW_PIPELINE_NAME, true)
                 .getSideMenu()
-                .clickBuildHistory()
+                .clickMenuBuildHistory()
                 .collectListBuildHistory(NEW_PIPELINE_NAME);
 
         Assert.assertEquals(checkBuildHistoryByName, List.of(NEW_PIPELINE_NAME, NEW_PIPELINE_NAME));
@@ -311,7 +311,7 @@ public class _PipelineTest extends BaseTest {
                 .enteringParametersIntoProject()
                 .saveConfigAndGoToProject()
                 .getSideMenu()
-                .clickBuildWithParameters()
+                .clickMenuBuildWithParameters()
                 .collectDropDownMenu();
 
         Assert.assertEquals(CurrentLocationItemsInDropDownMenu, List.of("This Is The Default Value", "2", "3"));
@@ -322,7 +322,7 @@ public class _PipelineTest extends BaseTest {
         final List<String> checkNameAndDescriptionParametersBuild = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
                 .getSideMenu()
-                .clickBuildWithParameters()
+                .clickMenuBuildWithParameters()
                 .clickBuildButton()
                 .refreshPage()
                 .clickLastBuildButton()
@@ -337,14 +337,14 @@ public class _PipelineTest extends BaseTest {
     public void testPipelineCheckDiscardOld30builds() {
         final List<Integer> checkingDisplayLast30Builds = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickCheckBoxDiscardOldBuilds()
                 .saveConfigAndGoToProject()
                 .getSideMenu()
-                .clickMultipleTimesBuildButton(31)
+                .clickMenuBuildMultipleTimes(31)
                 .waitForBuildNumber(31)
                 .refreshPage()
                 .getNumbersBuildsList();
@@ -363,14 +363,14 @@ public class _PipelineTest extends BaseTest {
         final List<Integer> checkingDisplayLast3Builds = new HomePage(getDriver())
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickMyView()
+                .clickMenuMyView()
                 .moveToElement(PIPELINE_NAME)
                 .clickMenuSelector()
                 .clickInMenuSelectorConfigure()
                 .enteringParametersToDisplayLatestBuilds("3", "1")
                 .saveConfigAndGoToProject()
                 .getSideMenu()
-                .clickBuildPipelineButton()
+                .clickMenuBuildPipelineButton()
                 .waitForBuildNumber(32)
                 .refreshPage()
                 .getNumbersBuildsList();
@@ -382,7 +382,7 @@ public class _PipelineTest extends BaseTest {
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
         final String checkTransitionPluginPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
@@ -409,7 +409,7 @@ public class _PipelineTest extends BaseTest {
     public void test404PageAfterDeletedPipeline() {
         final String titleOfPage404 = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
@@ -434,7 +434,7 @@ public class _PipelineTest extends BaseTest {
     public void testInvalidName(String name) {
         final String errorText = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(name)
                 .getErrorMessage();
 
@@ -448,14 +448,14 @@ public class _PipelineTest extends BaseTest {
 
         final boolean check = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectTypePipeline()
                 .setProjectName(name)
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickScriptConsole()
                 .useDeleteAllProjectScript()
                 .clickRunButton()

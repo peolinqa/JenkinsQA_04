@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class FreestyleBuildPage extends BaseBuildPage {
+public class FreestyleBuildPage extends BaseBuildPage<FreestyleBuildPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     @FindBy(className = "jenkins-icon-adjacent")
     private WebElement buildHeader;
@@ -18,6 +18,11 @@ public class FreestyleBuildPage extends BaseBuildPage {
 
     public FreestyleBuildPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public BuildFreestyleMultiConfigPageSideMenuFrame getSideMenu() {
+        return new BuildFreestyleMultiConfigPageSideMenuFrame(getDriver());
     }
 
     public String getBuildHeader() {

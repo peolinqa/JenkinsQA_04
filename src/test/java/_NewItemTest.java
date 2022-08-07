@@ -14,7 +14,7 @@ public class _NewItemTest extends BaseTest {
     public void testCopyDataFromExistingItemNegative() {
         String ErrorNoSuchJob = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName("NJ3")
                 .setProjectTypeFreestyle()
                 .setCopyFromName("NJ4")
@@ -28,7 +28,7 @@ public class _NewItemTest extends BaseTest {
     public void testCopyDataFromExistingItemPositive() {
         FreestyleConfigPage copyDataFromExistingItemToNew = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName("NJ")
                 .setProjectTypeFreestyle()
                 .clickOkAndGoToConfig()
@@ -38,7 +38,7 @@ public class _NewItemTest extends BaseTest {
                 .saveConfigAndGoToFreestyleProject()
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName("NJ2")
                 .setProjectTypeFreestyle()
                 .setCopyFromName("NJ")
@@ -52,7 +52,7 @@ public class _NewItemTest extends BaseTest {
     public void testCheckItemLabelStyle() {
         NewItemPage<Object> itemLabelStyle = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickMenuNewItem();
 
         List<String> listFontWeigh = itemLabelStyle.getFontWeightForEachProjectLabel();
         Assert.assertTrue(listFontWeigh.stream().allMatch(value -> value.equals("700")));
@@ -68,7 +68,7 @@ public class _NewItemTest extends BaseTest {
     public void testCheckDescriptionStyle() {
         NewItemPage<Object> descriptionStyle = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickMenuNewItem();
 
         List<String> listFontWeigh = descriptionStyle.getFontWeightForEachDescription();
         Assert.assertTrue(listFontWeigh.stream().allMatch(value -> value.equals("400")));
@@ -84,7 +84,7 @@ public class _NewItemTest extends BaseTest {
     public void testCheckIconAvailabilityAndDisplaying() {
         NewItemPage<Object> iconAvailability = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickMenuNewItem();
 
         List<Boolean> listImageIsDisplayed = iconAvailability.projectTypeImageIsDisplayed();
         Assert.assertTrue(listImageIsDisplayed.stream().allMatch(value -> value.equals(true)));
@@ -100,7 +100,7 @@ public class _NewItemTest extends BaseTest {
 
         List<String> actualItemLabelText = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem().getTextForEachProjectLabel();
+                .clickMenuNewItem().getTextForEachProjectLabel();
 
         Assert.assertEquals(actualItemLabelText, expectedItemLabelText);
     }
@@ -109,7 +109,7 @@ public class _NewItemTest extends BaseTest {
     public void testErrorMessageNameRequiredDisplaying() {
         String NameRequiredErrorMessage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .clickCreateButton()
                 .getErrorNameRequiredText();
 
@@ -120,7 +120,7 @@ public class _NewItemTest extends BaseTest {
     public void testCheckBreadcrumbs() {
         NewItemPage<Object> checkBreadcrumbs = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickMenuNewItem();
 
         Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(0), "Dashboard");
         Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(2), "All");
@@ -130,7 +130,7 @@ public class _NewItemTest extends BaseTest {
     public void testEnterSeveralSpaces() {
         ErrorPage errorPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName("     ")
                 .setProjectTypeFreestyle()
                 .clickOkAndGoToConfig()
@@ -147,7 +147,7 @@ public class _NewItemTest extends BaseTest {
 
             String alertMessage = new HomePage(getDriver())
                     .getSideMenu()
-                    .clickNewItem()
+                    .clickMenuNewItem()
                     .setProjectName(Character.toString(ch))
                     .getNameErrorText();
 
@@ -163,7 +163,7 @@ public class _NewItemTest extends BaseTest {
     public void testInputDot() {
         String alertMessage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(".")
                 .getNameErrorText();
 

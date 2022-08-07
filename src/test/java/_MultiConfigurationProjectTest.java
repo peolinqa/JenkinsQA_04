@@ -15,7 +15,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testCreateMultiConfigFolder() {
         String projectName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(RANDOM_NAME)
                 .setProjectTypeMultiConfiguration()
                 .clickOkAndGoToConfig()
@@ -103,7 +103,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         String newProjectName = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .setNewProjectName(EDITED_RANDOM_NAME)
                 .clickRenameAndGoToProjectPage()
                 .getProjectName();
@@ -116,7 +116,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .clickRenameAndGoToErrorPage();
 
         Assert.assertEquals(error.getErrorHeader(), "Error");
@@ -128,7 +128,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRenameAndGoToRenamePage()
                 .setEmptyNameAndGoToErrorPage();
 
         Assert.assertEquals(error.getErrorHeader(), "Error");
@@ -143,7 +143,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         RenamePage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> rename = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage();
+                .clickMenuRenameAndGoToRenamePage();
 
         for (String unsafeChar : invalidName) {
             rename.setNewProjectName(unsafeChar)

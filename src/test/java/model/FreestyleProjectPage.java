@@ -26,15 +26,6 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage<Freesty
     @FindBy(id = "enable-project")
     private WebElement text;
 
-    @FindBy(linkText = "Build Now")
-    private WebElement buildButton;
-
-    @FindBy(xpath = "//a[@href ='lastBuild/']")
-    private WebElement lastBuildButton;
-
-    @FindBy(xpath = "//span[text()='Back to Dashboard']")
-    private WebElement backToDashboard;
-
     @FindBy(css = "tr:nth-child(2)  a.display-name")
     private WebElement buildName;
 
@@ -90,12 +81,6 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage<Freesty
 
     public String[] getDisableName() {
         return text.getText().split("\n");
-    }
-
-    public FreestyleProjectPage clickBuildButton() {
-        buildButton.click();
-
-        return this;
     }
 
     public boolean buildNumberIsDisplayed() {

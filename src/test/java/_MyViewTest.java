@@ -18,13 +18,13 @@ public class _MyViewTest extends BaseTest {
     public void testCreateNewViewWithSelectLabelListViewCheckBreadcrumbs() {
         MyViewPage myViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(TestUtils.getRandomStr())
                 .setProjectTypeFreestyle()
                 .clickOkAndGoToConfig()
                 .goHome()
                 .getSideMenu()
-                .clickNewView()
+                .clickMenuNewView()
                 .setViewName(VIEW_NAME_1)
                 .selectListViewType()
                 .createViewAndGoConfig()
@@ -38,7 +38,7 @@ public class _MyViewTest extends BaseTest {
     public void testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs() {
         MyViewPage myViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewView()
+                .clickMenuNewView()
                 .setViewName(VIEW_NAME_2)
                 .selectMyViewType()
                 .createViewAndGoToView();
@@ -52,7 +52,7 @@ public class _MyViewTest extends BaseTest {
 
         MyViewPage myViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewView()
+                .clickMenuNewView()
                 .setViewName(viewName3)
                 .selectListViewType()
                 .createViewAndGoConfig()
@@ -68,7 +68,7 @@ public class _MyViewTest extends BaseTest {
 
         MyViewPage myViewPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewView()
+                .clickMenuNewView()
                 .setViewName(viewName4)
                 .selectMyViewType()
                 .createViewAndGoToView();
@@ -80,7 +80,7 @@ public class _MyViewTest extends BaseTest {
     public void testCreateNewViewWithAnExistingName() {
         String errorText = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewView()
+                .clickMenuNewView()
                 .setViewName(VIEW_NAME_2)
                 .selectMyViewType()
                 .getErrorText();
@@ -93,7 +93,7 @@ public class _MyViewTest extends BaseTest {
         MyViewPage myViewPage = new HomePage(getDriver())
                 .clickNameOfViewOnBreadcrumbs(VIEW_NAME_2)
                 .getSideMenu()
-                .clickEditView()
+                .clickMenuEditView()
                 .setName(EDIT_VIEW_NAME)
                 .saveConfigAndGoToView1();
 
@@ -104,7 +104,7 @@ public class _MyViewTest extends BaseTest {
     public void testAddDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickMyView()
+                .clickMenuMyView()
                 .clickAddOrEditDescriptionButton()
                 .sendTextareaDescription(VIEW_NAME)
                 .clickButtonSave();
@@ -116,7 +116,7 @@ public class _MyViewTest extends BaseTest {
     public void testEditDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickMyView()
+                .clickMenuMyView()
                 .clickAddOrEditDescriptionButton()
                 .clearTextareaDescription()
                 .sendTextareaDescription(VIEW_NAME)
@@ -129,7 +129,7 @@ public class _MyViewTest extends BaseTest {
     public void testCheckButtonPreviewDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickMyView()
+                .clickMenuMyView()
                 .clickAddOrEditDescriptionButton()
                 .clickButtonPreview();
 
@@ -142,7 +142,7 @@ public class _MyViewTest extends BaseTest {
     public void testCheckButtonHidePreviewDescriptionOnMyViews() {
         MyViewPage myViewsPage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickMyView()
+                .clickMenuMyView()
                 .clickAddOrEditDescriptionButton()
                 .clickButtonPreview();
 
@@ -162,7 +162,7 @@ public class _MyViewTest extends BaseTest {
         List<String> viewsOnBreadcrumbs = new HomePage(getDriver())
                 .clickNameOfViewOnBreadcrumbs(EDIT_VIEW_NAME)
                 .getSideMenu()
-                .clickDeleteView()
+                .clickMenuDeleteView()
                 .clickSubmitDeleteViewAndGoHome()
                 .getNamesOfViewsOnBreadcrumbs();
 
@@ -174,7 +174,7 @@ public class _MyViewTest extends BaseTest {
         List<String> viewOnTabBar = new HomePage(getDriver())
                 .clickNameOfViewOnTabBar(VIEW_NAME_1)
                 .getSideMenu()
-                .clickDeleteView()
+                .clickMenuDeleteView()
                 .clickSubmitDeleteViewAndGoHome()
                 .clickNameOfViewOnTabBar()
                 .getNamesOfViewsOnTabBar();
@@ -186,7 +186,7 @@ public class _MyViewTest extends BaseTest {
     public void testAddAllColumnsFromDashboardInOwnWatchlist() {
         final int countColumns = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewView()
+                .clickMenuNewView()
                 .setViewName(VIEW_NAME)
                 .selectListViewType()
                 .createViewAndGoConfig()
@@ -203,7 +203,7 @@ public class _MyViewTest extends BaseTest {
         final int countColumnsAfterDelete = new HomePage(getDriver())
                 .clickNameOfViewOnBreadcrumbs(VIEW_NAME)
                 .getSideMenu()
-                .clickEditView()
+                .clickMenuEditView()
                 .scrollPageDown()
                 .removeColumns()
                 .clickApplyAndOkAndGoToMyViewPage()
@@ -218,25 +218,25 @@ public class _MyViewTest extends BaseTest {
 
         final List<String> listJobsInMyViewName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(String.format("‘%s1", VIEW_NAME))
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(String.format("‘%s2", VIEW_NAME))
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(String.format("‘%s3", VIEW_NAME))
                 .setProjectTypePipeline()
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickNewView()
+                .clickMenuNewView()
                 .setViewName(VIEW_NAME_1)
                 .selectListViewType()
                 .createViewAndGoConfig()

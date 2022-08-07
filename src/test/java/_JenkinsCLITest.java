@@ -70,7 +70,7 @@ public class _JenkinsCLITest extends BaseTest {
     private int getNumberOfCommands() {
         int number = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickJenkinsCLI()
                 .getNumberOfCommands();
         return number;
@@ -81,7 +81,7 @@ public class _JenkinsCLITest extends BaseTest {
         for (int i = 0; i < getNumberOfCommands(); i++) {
             String commandName = new HomePage(getDriver())
                     .getSideMenu()
-                    .clickManageJenkins()
+                    .clickMenuManageJenkins()
                     .clickJenkinsCLI()
                     .getCommandName(i);
 
@@ -94,7 +94,7 @@ public class _JenkinsCLITest extends BaseTest {
         for (int i = 0; i < getNumberOfCommands(); i++) {
             String commandDescription = new HomePage(getDriver())
                     .getSideMenu()
-                    .clickManageJenkins()
+                    .clickMenuManageJenkins()
                     .clickJenkinsCLI()
                     .getCommandDescription(i);
 
@@ -107,7 +107,7 @@ public class _JenkinsCLITest extends BaseTest {
         for (int i = 0; i < getNumberOfCommands(); i++) {
             boolean isAddJobToViewExample = new HomePage(getDriver())
                     .getSideMenu()
-                    .clickManageJenkins()
+                    .clickMenuManageJenkins()
                     .clickJenkinsCLI()
                     .clickCommandElement(i)
                     .getCommandExample(COMMANDNAMES[i]);
@@ -120,7 +120,7 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkSortByName() {
         String firstCommandName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickJenkinsCLI()
                 .clickNameCaption()
                 .getCommandName(0);
@@ -132,7 +132,7 @@ public class _JenkinsCLITest extends BaseTest {
     public void checkSortByDescription() {
         String firstDescription = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickJenkinsCLI()
                 .clickDescriptionCaption()
                 .getCommandDescription(0);

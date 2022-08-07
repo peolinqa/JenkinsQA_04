@@ -23,7 +23,7 @@ public class _MultibranchPipelineTest extends BaseTest {
     public void testCreateNewJob() {
         int numberOfNamesFound = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PROJECT_NAME)
                 .setProjectTypeMultiBranchPipeline()
                 .clickOkAndGoToConfig()
@@ -75,7 +75,7 @@ public class _MultibranchPipelineTest extends BaseTest {
     public void testCreateMultibranchPipelineWithValidData() {
         WebElement newName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
                 .setProjectTypeMultiBranchPipeline()
                 .clickOkAndGoToConfig()
@@ -100,7 +100,7 @@ public class _MultibranchPipelineTest extends BaseTest {
     public void testMultibranchDisable() {
         MultibranchPipelineProjectPage multibranchPipelinePage = new HomePage(getDriver())
                 .getSideMenu()
-                .clickNewItem()
+                .clickMenuNewItem()
                 .setProjectName(NAME)
                 .setProjectTypeMultiBranchPipeline()
                 .clickOkAndGoToConfig()
@@ -122,7 +122,7 @@ public class _MultibranchPipelineTest extends BaseTest {
         MultibranchPipelineProjectPage multibranchPipelinePage = new HomePage(getDriver())
                 .clickDashboardButton()
                 .getSideMenu()
-                .clickMyView()
+                .clickMenuMyView()
                 .moveToElement(NAME)
                 .selectOptionInMenuSelector1("Configure")
                 .clickCheckboxDisable()

@@ -8,15 +8,24 @@ import runner.BaseModel;
 public class FreestyleProjectPageSideMenuFrame extends BaseModel<FreestyleProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Rename")
-    private WebElement renameButton;
+    private WebElement menuRename;
+
+    @FindBy(linkText = "Build Now")
+    private WebElement menuBuildNow;
 
     public FreestyleProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
     public RenamePage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> clickRenameAndGoToRenamePage() {
-        renameButton.click();
+        menuRename.click();
 
         return new RenamePage<>(getDriver(), new FreestyleProjectPage(getDriver()));
+    }
+
+    public FreestyleProjectPage clickMenuBuildNow() {
+        menuBuildNow.click();
+
+        return new FreestyleProjectPage(getDriver());
     }
 }

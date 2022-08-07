@@ -2,6 +2,7 @@ package model;
 
 import model.base.BaseHeaderFooterPage;
 import model.base.BaseProjectDeleteWithConfirmPage;
+import model.base.BaseSideMenuPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class ManageNodesAndCloudsPage extends BaseHeaderFooterPage {
+public class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodesAndCloudsPage, ManageNodesAndCloudsPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='computers']//td[2]")
     private List<WebElement> computerNames;
@@ -26,6 +27,11 @@ public class ManageNodesAndCloudsPage extends BaseHeaderFooterPage {
 
     public ManageNodesAndCloudsPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public ManageNodesAndCloudsPageSideMenuFrame getSideMenu() {
+        return new ManageNodesAndCloudsPageSideMenuFrame(getDriver());
     }
 
     public List<WebElement> getComputerNames() {
@@ -48,13 +54,13 @@ public class ManageNodesAndCloudsPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public BaseProjectDeleteWithConfirmPage chooseDeleteMenuAfterClickMenuSelector(WebElement computerName) {
+    public ManageNodesAndCloudsPageSideMenuFrame chooseDeleteMenuAfterClickMenuSelector(WebElement computerName) {
         menuSelectorHiddenButtonClick(computerName);
 
         getWait20().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//span[text()='Delete Agent']"))).click();
 
-        return new BaseProjectDeleteWithConfirmPage(getDriver());
+        return new ManageNodesAndCloudsPageSideMenuFrame(getDriver());
     }
 
     public List<String> getTextComputerNamesFromTable() {

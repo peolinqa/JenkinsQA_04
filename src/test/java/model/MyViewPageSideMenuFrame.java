@@ -8,22 +8,22 @@ import runner.BaseModel;
 public class MyViewPageSideMenuFrame extends BaseModel<MyViewPageSideMenuFrame> {
 
     @FindBy(linkText = "Edit View")
-    private WebElement editView;
+    private WebElement menuEditView;
 
     @FindBy(linkText = "Delete View")
-    private WebElement deleteView;
+    private WebElement menuDeleteView;
 
     public MyViewPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
-    public ViewConfigPage clickEditView() {
-        editView.click();
+    public ViewConfigPage clickMenuEditView() {
+        menuEditView.click();
 
         return new ViewConfigPage(getDriver());
     }
 
-    public MyViewPage clickDeleteView() {
-        deleteView.click();
+    public MyViewPage clickMenuDeleteView() {
+        menuDeleteView.click();
 
         return new MyViewPage(getDriver());
     }

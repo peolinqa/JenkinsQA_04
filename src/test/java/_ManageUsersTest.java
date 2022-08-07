@@ -22,11 +22,11 @@ public class _ManageUsersTest extends BaseTest {
 
         new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .fillUsersList(usersListBefore)
                 .getSideMenu()
-                .clickCreateUser()
+                .clickMenuCreateUser()
                 .setUserName(USER_NAME)
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
@@ -44,7 +44,7 @@ public class _ManageUsersTest extends BaseTest {
     public void testEditUserFullName() {
         String userName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .clickUserConfigure(USER_NAME)
                 .clearFullName()
@@ -62,7 +62,7 @@ public class _ManageUsersTest extends BaseTest {
 
         new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .fillUsersList(usersListBefore)
                 .clickUserDelete(USER_NAME)
@@ -84,10 +84,10 @@ public class _ManageUsersTest extends BaseTest {
         for (String character : specialCharacters) {
             String errorMessage = new HomePage(getDriver())
                     .getSideMenu()
-                    .clickManageJenkins()
+                    .clickMenuManageJenkins()
                     .clickManageUsers()
                     .getSideMenu()
-                    .clickCreateUser()
+                    .clickMenuCreateUser()
                     .setUserName(USER_NAME.concat(character))
                     .setPassword(PASSWORD)
                     .setConfirmPassword(PASSWORD)
@@ -108,10 +108,10 @@ public class _ManageUsersTest extends BaseTest {
 
         List<String> actualResult = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .getSideMenu()
-                .clickCreateUser()
+                .clickMenuCreateUser()
                 .setUserName(USER_NAME.concat("*"))
                 .setPassword(PASSWORD)
                 .setConfirmPassword(PASSWORD)
@@ -132,10 +132,10 @@ public class _ManageUsersTest extends BaseTest {
 
         Set<String> actualErrorsText = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .getSideMenu()
-                .clickCreateUser()
+                .clickMenuCreateUser()
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
                 .getErrorMessagesList();
 
@@ -146,10 +146,10 @@ public class _ManageUsersTest extends BaseTest {
     public void testCheckValueInUsernameEqualValueFromFullName() {
         String fullName = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .getSideMenu()
-                .clickCreateUser()
+                .clickMenuCreateUser()
                 .setUserName(USER_NAME)
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
                 .getAttributeFullName();
@@ -163,10 +163,10 @@ public class _ManageUsersTest extends BaseTest {
 
         Set<String> actualErrorsText = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickManageUsers()
                 .getSideMenu()
-                .clickCreateUser()
+                .clickMenuCreateUser()
                 .setUserName(USER_NAME)
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
                 .getErrorMessagesList();

@@ -29,7 +29,7 @@ public class FreestyleTest {
     public void goToNewItem() {
         newItemPage = new HomePage(CucumberDriver.getDriver())
                 .getSideMenu()
-                .clickNewItem();
+                .clickMenuNewItem();
     }
 
     @And("Type project name {string}")

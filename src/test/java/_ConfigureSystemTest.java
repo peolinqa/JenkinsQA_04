@@ -12,7 +12,7 @@ public class _ConfigureSystemTest extends BaseTest {
     public void testSaveSystemMessage() {
         String systemMessageText = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickConfigureSystem()
                 .setSystemMessage(RANDOM_SYSTEM_MESSAGE)
                 .clickSaveButton()
@@ -25,7 +25,7 @@ public class _ConfigureSystemTest extends BaseTest {
     public void testPreviewSystemMessage() {
         String previewActualResult = new HomePage(getDriver())
                 .getSideMenu()
-                .clickManageJenkins()
+                .clickMenuManageJenkins()
                 .clickConfigureSystem()
                 .clickPreviewSystemMessage()
                 .getPreviewSystemMessageText();

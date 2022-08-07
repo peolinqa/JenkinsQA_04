@@ -8,39 +8,39 @@ import runner.BaseModel;
 public class PipelineProjectPageSideMenuFrame extends BaseModel<PipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Rename")
-    private WebElement renameButton;
+    private WebElement menuRename;
 
     @FindBy(linkText = "Build Now")
-    private WebElement buildButton;
+    private WebElement menuBuild;
 
     @FindBy(linkText = "Build with Parameters")
-    private WebElement buildWithParameters;
+    private WebElement menuBuildWithParameters;
 
     public PipelineProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public RenamePage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> clickRenameAndGoToRenamePage() {
-        renameButton.click();
+    public RenamePage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> clickMenuRenameAndGoToRenamePage() {
+        menuRename.click();
 
         return new RenamePage<>(getDriver(), new PipelineProjectPage(getDriver()));
     }
 
-    public PipelineProjectPage clickBuildPipelineButton() {
-        buildButton.click();
+    public PipelineProjectPage clickMenuBuildPipelineButton() {
+        menuBuild.click();
 
         return new PipelineProjectPage(getDriver());
     }
 
-    public BuildWithParametersPage clickBuildWithParameters() {
-        buildWithParameters.click();
+    public BuildWithParametersPage clickMenuBuildWithParameters() {
+        menuBuildWithParameters.click();
 
         return new BuildWithParametersPage(getDriver());
     }
 
-    public PipelineProjectPage clickMultipleTimesBuildButton(int number) {
+    public PipelineProjectPage clickMenuBuildMultipleTimes(int number) {
         for (int i = 0; i < number; ++i) {
-            buildButton.click();
+            menuBuild.click();
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {

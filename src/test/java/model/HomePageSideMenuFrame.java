@@ -9,59 +9,59 @@ import runner.BaseModel;
 public class HomePageSideMenuFrame extends BaseModel<HomePageSideMenuFrame> {
 
     @FindBy(linkText = "New Item")
-    private WebElement newItem;
+    private WebElement menuNewItem;
 
     @FindBy(linkText = "People")
-    private WebElement people;
+    private WebElement menuPeople;
 
     @FindBy(linkText = "Manage Jenkins")
-    private WebElement manageJenkins;
+    private WebElement menuManageJenkins;
 
     @FindBy(linkText = "New View")
-    private WebElement newView;
+    private WebElement menuNewView;
 
     @FindBy(linkText = "My Views")
-    private WebElement myViews;
+    private WebElement menuMyViews;
 
     @FindBy(linkText = "Build History")
-    private WebElement buildHistory;
+    private WebElement menuBuildHistory;
 
     public HomePageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public NewItemPage<Object> clickNewItem() {
-        newItem.click();
+    public NewItemPage<Object> clickMenuNewItem() {
+        menuNewItem.click();
 
         return new NewItemPage<>(getDriver());
     }
 
-    public PeoplePage clickPeople() {
-        people.click();
+    public PeoplePage clickMenuPeople() {
+        menuPeople.click();
 
         return new PeoplePage(getDriver());
     }
 
-    public ManageJenkinsPage clickManageJenkins() {
-        manageJenkins.click();
+    public ManageJenkinsPage clickMenuManageJenkins() {
+        menuManageJenkins.click();
 
         return new ManageJenkinsPage(getDriver());
     }
 
-    public NewViewPage clickNewView() {
-        newView.click();
+    public NewViewPage clickMenuNewView() {
+        menuNewView.click();
 
         return new NewViewPage(getDriver());
     }
 
-    public MyViewPage clickMyView() {
-        myViews.click();
+    public MyViewPage clickMenuMyView() {
+        menuMyViews.click();
 
         return new MyViewPage(getDriver());
     }
 
-    public BuildHistoryPage clickBuildHistory() {
-        buildHistory.click();
+    public BuildHistoryPage clickMenuBuildHistory() {
+        menuBuildHistory.click();
 
         return new BuildHistoryPage(getDriver());
     }

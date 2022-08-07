@@ -24,9 +24,6 @@ public class JenkinsCLIPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//th[2]/a")
     WebElement descriptionCaption;
 
-    @FindBy(xpath = "//th[1]/a/span")
-    WebElement descriptionCaptionStatus;
-
     public JenkinsCLIPage(WebDriver driver) {
         super(driver);
     }
