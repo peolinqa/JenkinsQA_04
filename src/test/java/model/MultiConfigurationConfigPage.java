@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultiConfigurationConfigPage extends BaseHeaderFooterPage {
+public final class MultiConfigurationConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[contains(@tooltip, 'Discard old builds')]")
     private WebElement helpButtonDiscardOldBuilds;

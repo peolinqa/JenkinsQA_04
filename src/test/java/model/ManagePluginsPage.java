@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import runner.TestUtils;
 import java.util.List;
 
-public class ManagePluginsPage extends BaseHeaderFooterPage {
+public final class ManagePluginsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//tbody/tr/td[2]")
     private List<WebElement> allPluginNamesInTabUpdates;

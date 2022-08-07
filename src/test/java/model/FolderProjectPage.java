@@ -54,10 +54,4 @@ public final class FolderProjectPage extends BaseProjectPage<FolderProjectPage, 
     public String getJobName() {
         return jobName.getText();
     }
-
-    public FolderConfigPage clickConfigure(){
-        clickConfigureButton();
-
-        return new FolderConfigPage(getDriver());
-    }
 }

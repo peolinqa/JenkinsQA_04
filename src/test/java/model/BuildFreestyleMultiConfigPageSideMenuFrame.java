@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class BuildFreestyleMultiConfigPageSideMenuFrame extends BaseModel<BuildFreestyleMultiConfigPageSideMenuFrame> {
+public final class BuildFreestyleMultiConfigPageSideMenuFrame extends BaseModel<BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     @FindBy(linkText = "Back to Project")
     private WebElement menuBackToProject;

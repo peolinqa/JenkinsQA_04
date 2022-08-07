@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class PipelineProjectPageSideMenuFrame extends BaseModel<PipelineProjectPageSideMenuFrame> {
+public final class PipelineProjectPageSideMenuFrame extends BaseModel<PipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Rename")
     private WebElement menuRename;

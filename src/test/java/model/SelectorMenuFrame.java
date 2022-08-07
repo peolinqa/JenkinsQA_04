@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class SelectorMenuFrame extends BasePage {
+public final class SelectorMenuFrame extends BasePage {
 
     @FindBy(linkText = "Builds")
     private WebElement builds;

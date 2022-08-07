@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManageJenkinsPage extends BaseHeaderFooterPage {
+public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//dt[text()='Configure System']")
     private WebElement configureSystem;

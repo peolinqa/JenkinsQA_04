@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class UserPageSideMenuFrame extends BaseModel<UserPageSideMenuFrame> {
+public final class UserPageSideMenuFrame extends BaseModel<UserPageSideMenuFrame> {
 
     @FindBy(linkText = "Delete")
     private WebElement menuDelete;

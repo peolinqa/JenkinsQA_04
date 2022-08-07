@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class MyViewPageSideMenuFrame extends BaseModel<MyViewPageSideMenuFrame> {
+public final class MyViewPageSideMenuFrame extends BaseModel<MyViewPageSideMenuFrame> {
 
     @FindBy(linkText = "Edit View")
     private WebElement menuEditView;

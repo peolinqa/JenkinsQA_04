@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> {
+public final class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> {
 
     private static final By BUILD_NAME = By.cssSelector("tr:nth-child(2)  a.display-name");
 
@@ -43,13 +43,7 @@ public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage, 
 
     @Override
     public String getProjectName() {
-        return projectName.getText().substring("Project ".length());
-    }
-
-    public FreestyleConfigPage clickFreestyleConfigure() {
-        clickConfigureButton();
-
-        return new FreestyleConfigPage(getDriver());
+        return super.getProjectName().substring("Project ".length());
     }
 
     public String _disableButton() {

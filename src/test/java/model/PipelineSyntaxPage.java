@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.List;
 
-public class PipelineSyntaxPage extends BasePage {
+public final class PipelineSyntaxPage extends BasePage {
 
     public PipelineSyntaxPage(WebDriver driver) {
         super(driver);

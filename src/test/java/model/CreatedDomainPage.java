@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class CreatedDomainPage extends BaseHeaderFooterPage {
+public final class CreatedDomainPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//h1")
     private WebElement headerDomain;

@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FolderConfigPage extends BaseHeaderFooterPage {
+public final class FolderConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(css = "[type='submit']")
     private WebElement saveButton;

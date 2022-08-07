@@ -31,7 +31,7 @@ public class OrganizationFolderProjectPage extends BaseProjectPage<OrganizationF
 
     @Override
     public String getProjectName() {
-        return projectName.getText().trim();
+        return super.getProjectName().trim();
     }
 
     public HashMap<String, String> getDisabledProjectWarningMessage() {

@@ -10,7 +10,7 @@ import runner.TestUtils;
 
 import java.util.List;
 
-public class ViewConfigPage extends BaseHeaderFooterPage {
+public final class ViewConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(name = "name")
     private WebElement nameText;

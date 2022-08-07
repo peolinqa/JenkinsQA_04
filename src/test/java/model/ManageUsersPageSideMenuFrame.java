@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class ManageUsersPageSideMenuFrame extends BaseModel<ManageUsersPageSideMenuFrame> {
+public final class ManageUsersPageSideMenuFrame extends BaseModel<ManageUsersPageSideMenuFrame> {
 
     @FindBy(linkText = "Create User")
     private WebElement menuCreateUser;

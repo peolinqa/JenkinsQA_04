@@ -8,7 +8,7 @@ import runner.BaseModel;
 public class ManageNodesAndCloudsPageSideMenuFrame extends BaseModel<ManageNodesAndCloudsPageSideMenuFrame> {
 
     @FindBy(id = "yui-gen1-button")
-    protected WebElement yesButton;
+    private WebElement yesButton;
 
     public ManageNodesAndCloudsPageSideMenuFrame(WebDriver driver) {
         super(driver);

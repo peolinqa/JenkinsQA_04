@@ -119,7 +119,7 @@ public class FreestyleTest {
 
     @And("Click Freestyle configure")
     public void clickFreestyleConfigure() {
-        freestyleConfigPage = freestylePage.clickFreestyleConfigure();
+        freestyleConfigPage = freestylePage.getSideMenu().clickMenuConfigure();
     }
 
     @And("Type Freestyle project description as {string}")

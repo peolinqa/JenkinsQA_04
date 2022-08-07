@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class FreestyleProjectPageSideMenuFrame extends BaseModel<FreestyleProjectPageSideMenuFrame> {
+public final class FreestyleProjectPageSideMenuFrame extends BaseModel<FreestyleProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Rename")
     private WebElement menuRename;
@@ -15,6 +15,9 @@ public class FreestyleProjectPageSideMenuFrame extends BaseModel<FreestyleProjec
 
     @FindBy(css = ".icon-edit-delete")
     private WebElement menuDelete;
+
+    @FindBy(linkText = "Configure")
+    private WebElement menuConfigure;
 
     public FreestyleProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
@@ -37,5 +40,11 @@ public class FreestyleProjectPageSideMenuFrame extends BaseModel<FreestyleProjec
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
+    }
+
+    public FreestyleConfigPage clickMenuConfigure() {
+        menuConfigure.click();
+
+        return new FreestyleConfigPage(getDriver());
     }
 }

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class BuildPipelinePageSideMenuFrame extends BaseModel<BuildPipelinePageSideMenuFrame> {
+public final class BuildPipelinePageSideMenuFrame extends BaseModel<BuildPipelinePageSideMenuFrame> {
 
     @FindBy(linkText = "Back to Project")
     private WebElement menuBackToProject;

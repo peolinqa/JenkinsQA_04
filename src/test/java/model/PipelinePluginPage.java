@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class PipelinePluginPage extends BasePage {
+public final class PipelinePluginPage extends BasePage {
 
     public PipelinePluginPage(WebDriver driver) {
         super(driver);

@@ -38,7 +38,8 @@ public class _MultibranchPipelineTest extends BaseTest {
     public void testValidGitHubLink() {
         String validationResult = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
-                .clickConfigureProject()
+                .getSideMenu()
+                .clickMenuConfigure()
                 .clickAddSourceButton()
                 .clickGitHubField()
                 .setRepositoryUrl(URL_GITHUB)
@@ -54,7 +55,8 @@ public class _MultibranchPipelineTest extends BaseTest {
     public void testAddGitHubLink() {
         String actualUrl = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
-                .clickConfigureProject()
+                .getSideMenu()
+                .clickMenuConfigure()
                 .getTextRepositoryUrl();
 
         Assert.assertEquals(actualUrl, URL_GITHUB);

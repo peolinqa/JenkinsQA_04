@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.TestUtils;
 
-public class ConfigureSystemPage extends BaseHeaderFooterPage {
+public final class ConfigureSystemPage extends BaseHeaderFooterPage {
 
     public ConfigureSystemPage(WebDriver driver) {
         super(driver);

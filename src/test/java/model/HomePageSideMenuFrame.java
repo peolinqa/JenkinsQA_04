@@ -6,7 +6,7 @@ import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
 
-public class HomePageSideMenuFrame extends BaseModel<HomePageSideMenuFrame> {
+public final class HomePageSideMenuFrame extends BaseModel<HomePageSideMenuFrame> {
 
     @FindBy(linkText = "New Item")
     private WebElement menuNewItem;

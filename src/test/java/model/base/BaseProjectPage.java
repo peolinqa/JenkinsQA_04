@@ -11,19 +11,8 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?, SideMenu>,
     }
 
     @FindBy(css = "h1")
-    protected WebElement projectName;
+    private WebElement projectName;
 
-    @FindBy(linkText = "Configure")
-    private WebElement configureButton;
-
-    @FindBy(css = ".icon-edit-delete")
-    protected WebElement deleteButton;
-
-    public void clickConfigureButton() {
-        configureButton.click();
-    }
-
-    //todo: переименовать под общее название!
     public String getProjectName() {
         return projectName.getText();
     }

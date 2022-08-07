@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class CreateUserPage extends BaseHeaderFooterPage {
+public final class CreateUserPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "username")
     private WebElement userNameField;

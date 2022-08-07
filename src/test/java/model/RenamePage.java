@@ -22,9 +22,6 @@ public final class RenamePage<ProjectPage extends BaseProjectPage<?, SideMenu>, 
     @FindBy(xpath = "//div[contains(@class, 'validation-error-area')]//div[@class='error']")
     private WebElement errorText;
 
-    @FindBy(tagName = "h1")
-    private WebElement pageHeader;
-
     private final ProjectPage projectPage;
 
     public RenamePage(WebDriver driver, ProjectPage projectPage) {
@@ -50,10 +47,6 @@ public final class RenamePage<ProjectPage extends BaseProjectPage<?, SideMenu>, 
         return this;
     }
 
-    public void clickBack() {
-        getDriver().navigate().back();
-    }
-
     public ErrorPage setEmptyNameAndGoToErrorPage() {
         renameInput.clear();
         confirmRenameButton.click();
@@ -70,7 +63,7 @@ public final class RenamePage<ProjectPage extends BaseProjectPage<?, SideMenu>, 
     public List<String> getListErrorMessages(final List<String> names) {
         String baseName = "";
         final Pattern pattern = Pattern.compile("Rename Pipeline (\\w+)");
-        final Matcher matcher = pattern.matcher(pageHeader.getText());
+        final Matcher matcher = pattern.matcher(getProjectName());
         if (matcher.find()) {
             baseName = matcher.group(1);
         }

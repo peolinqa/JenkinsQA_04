@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class AboutJenkinsPage extends BaseHeaderFooterPage {
+public final class AboutJenkinsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[text()='AntLR Parser Generator']")
     private WebElement antlr;

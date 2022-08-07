@@ -10,7 +10,7 @@ import runner.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
+public final class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[@title='Help for feature: SSHD Port']")
     private WebElement helpButton;

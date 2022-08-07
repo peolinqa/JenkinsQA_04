@@ -31,7 +31,8 @@ public class _FreestyleTest extends BaseTest {
     public void testSaveButtonAfterProjectCreated() {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickFreestyleConfigure()
+                .getSideMenu()
+                .clickMenuConfigure()
                 .saveConfigAndGoToFreestyleProject()
                 .getProjectName();
 
@@ -42,7 +43,8 @@ public class _FreestyleTest extends BaseTest {
     public void testApplyButtonAfterProjectCreated() {
         boolean alertIsDisplayed = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickFreestyleConfigure()
+                .getSideMenu()
+                .clickMenuConfigure()
                 .clickApplyAndGetAlert();
 
         Assert.assertTrue(alertIsDisplayed);
@@ -52,7 +54,8 @@ public class _FreestyleTest extends BaseTest {
     public void testAddDescription() {
         String description = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickFreestyleConfigure()
+                .getSideMenu()
+                .clickMenuConfigure()
                 .setDescription(DESCRIPTION_TEXT)
                 .saveConfigAndGoToFreestyleProject()
                 .getDescriptionName();
@@ -94,7 +97,8 @@ public class _FreestyleTest extends BaseTest {
     public void testHelpButtonPopupGeneral() {
         FreestyleConfigPage freestyleConfigPage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickFreestyleConfigure();
+                .getSideMenu()
+                .clickMenuConfigure();
 
         Assert.assertEquals(freestyleConfigPage.getHelpNamesGeneral(), "Help for feature: Discard old builds");
     }
@@ -103,7 +107,8 @@ public class _FreestyleTest extends BaseTest {
     public void testHelpButtonPopupBuildPeriodically() {
         FreestyleConfigPage freestyleConfigPage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickFreestyleConfigure()
+                .getSideMenu()
+                .clickMenuConfigure()
                 .clickBuildTriggers();
 
         Assert.assertEquals(freestyleConfigPage.getHelpNamesBuildTriggers(), "Help for feature: Build periodically");

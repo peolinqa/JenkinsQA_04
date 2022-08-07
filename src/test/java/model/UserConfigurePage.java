@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class UserConfigurePage extends BaseHeaderFooterPage {
+public final class UserConfigurePage extends BaseHeaderFooterPage {
 
     @FindBy(name = "_.fullName")
     private WebElement fullNameField;

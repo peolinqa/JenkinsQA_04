@@ -7,7 +7,7 @@ import runner.TestUtils;
 
 import java.util.List;
 
-public class LegendPage extends BaseHeaderFooterPage {
+public final class LegendPage extends BaseHeaderFooterPage {
 
     public LegendPage(WebDriver driver) {
         super(driver);

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class GlobalCredentialsPage extends BaseHeaderFooterPage {
+public final class GlobalCredentialsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[@title='Add Credentials']")
     private WebElement addCredentials;

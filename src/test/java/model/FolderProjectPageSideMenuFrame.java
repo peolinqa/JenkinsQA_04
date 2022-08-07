@@ -14,7 +14,10 @@ public class FolderProjectPageSideMenuFrame extends BaseModel<FolderProjectPageS
     private WebElement menuDelete;
 
     @FindBy(id = "yui-gen1-button")
-    protected WebElement yesButton;
+    private WebElement yesButton;
+
+    @FindBy(linkText = "Configure")
+    private WebElement menuConfigure;
 
     public FolderProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
@@ -36,5 +39,11 @@ public class FolderProjectPageSideMenuFrame extends BaseModel<FolderProjectPageS
         yesButton.click();
 
         return new HomePage(getDriver());
+    }
+
+    public FolderConfigPage clickMenuConfigure() {
+        menuConfigure.click();
+
+        return new FolderConfigPage(getDriver());
     }
 }

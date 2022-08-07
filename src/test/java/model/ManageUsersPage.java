@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.Set;
 
-public class ManageUsersPage extends BaseSideMenuPage<ManageUsersPage, ManageUsersPageSideMenuFrame> {
+public final class ManageUsersPage extends BaseSideMenuPage<ManageUsersPage, ManageUsersPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='people']/tbody/tr")
     private List<WebElement> allUsersList;

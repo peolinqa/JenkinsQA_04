@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FreestyleConfigPage extends BaseHeaderFooterPage {
+public final class FreestyleConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//button[@type='submit' and contains(text(), 'Save')]")
     private WebElement saveButton;

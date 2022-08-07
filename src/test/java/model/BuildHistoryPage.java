@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
+public final class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='projectStatus']/tbody")
     private WebElement tableOfProjects;
@@ -20,6 +20,9 @@ public class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, BuildFrees
 
     @FindBy(css = "tr:nth-child(1) td a:nth-child(2)")
     private WebElement buildName;
+
+    @FindBy(id = "menuSelector")
+    private WebElement menuSelector;
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);

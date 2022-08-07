@@ -3,7 +3,7 @@ package model;
 import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 
-public class UserPage extends BaseProjectPage<UserPage, UserPageSideMenuFrame> {
+public final class UserPage extends BaseProjectPage<UserPage, UserPageSideMenuFrame> {
 
     public UserPage(WebDriver driver) {
         super(driver);

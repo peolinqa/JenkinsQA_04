@@ -10,7 +10,7 @@ import org.testng.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
+public final class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
     @FindBy(id = "name")
     private WebElement nameText;

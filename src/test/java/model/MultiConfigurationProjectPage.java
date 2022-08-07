@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
-public class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> {
+public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;

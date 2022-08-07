@@ -27,7 +27,7 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
     private WebElement userPage;
 
     @FindBy(id = "menuSelector")
-    protected WebElement menuSelector;
+    private WebElement menuSelector;
 
     @FindBy(xpath = "//a[@id='jenkins-home-link']/img[2]")
     private WebElement headerJenkinsLink;

@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-public class JenkinsCLIPage extends BaseHeaderFooterPage {
+public final class JenkinsCLIPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//a")
     private List<WebElement> commandName;

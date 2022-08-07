@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineConsolePage extends BasePage {
+public final class MultibranchPipelineConsolePage extends BasePage {
 
     @FindBy(xpath = "//pre")
     private WebElement consoleText;

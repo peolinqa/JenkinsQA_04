@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ManageCredentialsPage extends BaseHeaderFooterPage {
+public final class ManageCredentialsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[@href='/credentials/store/system']")
     private WebElement credentialsStoreSystem;

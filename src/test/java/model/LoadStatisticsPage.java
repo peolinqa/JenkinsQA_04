@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class LoadStatisticsPage extends BaseHeaderFooterPage {
+public final class LoadStatisticsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//div[contains(text(), 'Timespan')]/child::*[1]")
     private WebElement shortButton;

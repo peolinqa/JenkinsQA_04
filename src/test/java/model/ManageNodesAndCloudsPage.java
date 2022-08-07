@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
 
-public class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodesAndCloudsPage, ManageNodesAndCloudsPageSideMenuFrame> {
+public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodesAndCloudsPage, ManageNodesAndCloudsPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='computers']//td[2]")
     private List<WebElement> computerNames;

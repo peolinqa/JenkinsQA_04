@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class EditBuildInformationPage extends BaseHeaderFooterPage {
+public final class EditBuildInformationPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "yui-gen2-button")
     private WebElement saveButton;

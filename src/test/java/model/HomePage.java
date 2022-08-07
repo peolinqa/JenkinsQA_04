@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuFrame> {
+public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuFrame> {
 
     @FindBy(tagName = "h1")
     private List<WebElement> h1;
@@ -67,6 +67,9 @@ public class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuFrame> 
 
     @FindBy(id = "search-box")
     private WebElement searchBox;
+
+    @FindBy(id = "menuSelector")
+    private WebElement menuSelector;
 
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";

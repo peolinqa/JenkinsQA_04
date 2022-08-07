@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class NewDomainPage extends BaseHeaderFooterPage {
+public final class NewDomainPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//input[@name='_.name']")
     private WebElement domainName;

@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 
-public class OrganizationFolderConfigPage extends BaseHeaderFooterPage {
+public final class OrganizationFolderConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(css = "#yui-gen17")
     private WebElement saveButton;

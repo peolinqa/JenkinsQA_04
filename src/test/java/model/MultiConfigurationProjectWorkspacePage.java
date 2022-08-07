@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class MultiConfigurationProjectWorkspacePage extends BaseHeaderFooterPage {
+public final class MultiConfigurationProjectWorkspacePage extends BaseHeaderFooterPage {
 
     @FindBy(tagName = "h1")
     private WebElement h1Header;

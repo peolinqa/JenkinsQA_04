@@ -5,13 +5,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import runner.BaseModel;
 
-public class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel<MultibranchPipelineProjectPageSideMenuFrame> {
+public final class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel<MultibranchPipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Rename")
     private WebElement menuRename;
 
     @FindBy(css = ".icon-edit-delete")
     private WebElement menuDelete;
+
+    @FindBy(linkText = "Configure")
+    private WebElement menuConfigure;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
@@ -36,5 +39,11 @@ public class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel<Multi
         yesButton.click();
 
         return new HomePage(getDriver());
+    }
+
+    public MultibranchPipelineConfigPage clickMenuConfigure() {
+        menuConfigure.click();
+
+        return new MultibranchPipelineConfigPage(getDriver());
     }
 }

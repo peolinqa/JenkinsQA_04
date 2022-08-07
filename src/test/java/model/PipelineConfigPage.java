@@ -10,7 +10,7 @@ import runner.TestUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineConfigPage extends BaseHeaderFooterPage {
+public final class PipelineConfigPage extends BaseHeaderFooterPage {
 
     public PipelineConfigPage(WebDriver driver) {
         super(driver);

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class NewCredentialsPage extends BaseHeaderFooterPage {
+public final class NewCredentialsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//input[@name='_.username']")
     WebElement userName;

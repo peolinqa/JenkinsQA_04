@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildParametersPage extends BaseBuildPage<BuildParametersPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
+public final class BuildParametersPage extends BaseBuildPage<BuildParametersPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     public BuildParametersPage(WebDriver driver) {
         super(driver);

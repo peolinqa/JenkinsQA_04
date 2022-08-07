@@ -99,7 +99,7 @@ public class PipelineProjectPage extends BaseProjectPage<PipelineProjectPage, Pi
 
     @Override
     public String getProjectName() {
-        return projectName.getText().substring("Pipeline ".length());
+        return super.getProjectName().substring("Pipeline ".length());
     }
 
     public boolean isProjectStatus(String value) {

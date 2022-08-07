@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class JenkinsCLIExamplesPage extends BaseHeaderFooterPage {
+public final class JenkinsCLIExamplesPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "example")
     private WebElement commandExample;

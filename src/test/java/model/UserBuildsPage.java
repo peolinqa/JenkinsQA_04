@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class UserBuildsPage extends BaseHeaderFooterPage {
+public final class UserBuildsPage extends BaseHeaderFooterPage {
 
     @FindBy(tagName = "h1")
     private WebElement userName;

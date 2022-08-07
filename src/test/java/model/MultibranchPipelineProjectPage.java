@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineProjectPage extends BaseProjectPage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> {
+public final class MultibranchPipelineProjectPage extends BaseProjectPage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Scan Repository Log")
     private WebElement scanRepositoryLog;
@@ -29,12 +29,6 @@ public class MultibranchPipelineProjectPage extends BaseProjectPage<MultibranchP
     @Override
     public MultibranchPipelineProjectPageSideMenuFrame getSideMenu() {
         return new MultibranchPipelineProjectPageSideMenuFrame(getDriver());
-    }
-
-    public MultibranchPipelineConfigPage clickConfigureProject() {
-        clickConfigureButton();
-
-        return new MultibranchPipelineConfigPage(getDriver());
     }
 
     public MultibranchPipelineProjectPage clickScanRepositoryLog() {
