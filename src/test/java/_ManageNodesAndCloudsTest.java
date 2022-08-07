@@ -74,7 +74,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
                 manageNodesAndCloudsPage
                         .menuSelectorHiddenButtonClick(name)
                         .chooseDeleteMenuAfterClickMenuSelector(name)
-                        .confirmToDeleteComputerNode();
+                        .confirmDeleteAndGoHomePage();
                 break;
             }
         }

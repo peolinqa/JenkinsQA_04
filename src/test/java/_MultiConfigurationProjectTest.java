@@ -27,7 +27,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testWorkspaceWithoutBuildPerformed")
     public void testBuildNow() {
-        MultiConfigurationProjectConsolePage consolePage = new HomePage(getDriver())
+        MultiConfigurationProjectPage consolePage = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .clickBuildNow()
                 .clickTooltipStatus();

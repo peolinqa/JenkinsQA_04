@@ -34,6 +34,9 @@ public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPag
     @FindBy(xpath = "//a[@href='default/']")
     private WebElement defaultButton;
 
+    @FindBy(xpath = "//span/span/*[name()='svg' and (contains(@tooltip, 'Success'))]")
+    private WebElement tooltipStatusSuccess;
+
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -54,10 +57,10 @@ public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPag
         return getWait5().until(ExpectedConditions.visibilityOf(tooltipStatus));
     }
 
-    public MultiConfigurationProjectConsolePage clickTooltipStatus() {
+    public MultiConfigurationProjectPage clickTooltipStatus() {
         getTooltipStatus().click();
 
-        return new MultiConfigurationProjectConsolePage(getDriver());
+        return this;
     }
 
     public MultiConfigurationProjectPage clickAddDescription() {
@@ -110,5 +113,9 @@ public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPag
         defaultButton.click();
 
         return new MultiConfigurationProjectDefaultPage(getDriver());
+    }
+
+    public boolean tooltipStatusSuccessIsDisplayed() {
+        return tooltipStatusSuccess.isDisplayed();
     }
 }

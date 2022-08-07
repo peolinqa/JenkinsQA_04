@@ -1,6 +1,7 @@
 package model;
 
 import model.base.BaseHeaderFooterPage;
+import model.base.BaseProjectDeleteWithConfirmPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -47,13 +48,13 @@ public class ManageNodesAndCloudsPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public DeleteAgentPage chooseDeleteMenuAfterClickMenuSelector(WebElement computerName) {
+    public BaseProjectDeleteWithConfirmPage chooseDeleteMenuAfterClickMenuSelector(WebElement computerName) {
         menuSelectorHiddenButtonClick(computerName);
 
         getWait20().until(ExpectedConditions
                 .visibilityOfElementLocated(By.xpath("//span[text()='Delete Agent']"))).click();
 
-        return new DeleteAgentPage(getDriver());
+        return new BaseProjectDeleteWithConfirmPage(getDriver());
     }
 
     public List<String> getTextComputerNamesFromTable() {
