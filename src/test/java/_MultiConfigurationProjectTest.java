@@ -1,6 +1,5 @@
 import model.*;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -122,7 +121,6 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(error.getErrorMessage(), "The new name is the same as the current name.");
     }
 
-    @Ignore
     @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorSameName")
     public void testRenameMultiConfigurationProjectErrorEmptyName() {
         ErrorPage error = new HomePage(getDriver())
@@ -134,7 +132,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(error.getErrorMessage(), "No name is specified");
     }
 
-    @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorSameName")
+    @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorEmptyName")
     public void testRenameMultiConfigurationProjectErrorInvalidName() {
         final String[] invalidName =
                 new String[]{"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", "|", "<", ">", "?", "", " "};
