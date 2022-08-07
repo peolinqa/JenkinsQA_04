@@ -16,14 +16,11 @@ public class PipelineProjectPageSideMenuFrame extends BaseModel<PipelineProjectP
     @FindBy(linkText = "Build with Parameters")
     private WebElement buildWithParameters;
 
-    @FindBy(css = ".icon-edit-delete")
-    protected WebElement deleteButton;
-
     public PipelineProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public RenamePage<PipelineProjectPage> clickRenameAndGoToRenamePage() {
+    public RenamePage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> clickRenameAndGoToRenamePage() {
         renameButton.click();
 
         return new RenamePage<>(getDriver(), new PipelineProjectPage(getDriver()));
@@ -39,13 +36,6 @@ public class PipelineProjectPageSideMenuFrame extends BaseModel<PipelineProjectP
         buildWithParameters.click();
 
         return new BuildWithParametersPage(getDriver());
-    }
-
-    public HomePage clickDeleteProjectAndConfirm() {
-        deleteButton.click();
-        getDriver().switchTo().alert().accept();
-
-        return new HomePage(getDriver());
     }
 
     public PipelineProjectPage clickMultipleTimesBuildButton(int number) {

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineProjectPage extends BaseProjectDeleteWithConfirmPage {
+public class MultibranchPipelineProjectPage extends BaseProjectDeleteWithConfirmPage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Scan Repository Log")
     private WebElement scanRepositoryLog;
@@ -26,10 +26,9 @@ public class MultibranchPipelineProjectPage extends BaseProjectDeleteWithConfirm
         super(driver);
     }
 
-    public RenamePage<MultibranchPipelineProjectPage> clickRenameAndGoToRenamePage() {
-        clickRenameButton();
-
-        return new RenamePage<>(getDriver(), new MultibranchPipelineProjectPage(getDriver()));
+    @Override
+    public MultibranchPipelineProjectPageSideMenuFrame getSideMenu() {
+        return new MultibranchPipelineProjectPageSideMenuFrame(getDriver());
     }
 
     public MultibranchPipelineConfigPage clickConfigureProject() {

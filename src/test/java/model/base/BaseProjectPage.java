@@ -4,14 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends BaseHeaderFooterPage<Self> {
+public abstract class BaseProjectPage<Self extends BaseProjectPage<?, SideMenu>, SideMenu> extends BaseSideMenuPage<Self, SideMenu> {
 
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
-
-    @FindBy(linkText = "Rename")
-    private WebElement renameButton;
 
     @FindBy(css = "h1")
     protected WebElement projectName;
@@ -22,15 +19,12 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?>> extends B
     @FindBy(css = ".icon-edit-delete")
     protected WebElement deleteButton;
 
-    public void clickRenameButton() {
-        renameButton.click();
-    }
-
     public void clickConfigureButton() {
         configureButton.click();
     }
 
-    public String getProjectName() {//переименовать под общее название!
+    //todo: переименовать под общее название!
+    public String getProjectName() {
         return projectName.getText();
     }
 }

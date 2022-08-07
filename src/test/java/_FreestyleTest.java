@@ -113,6 +113,7 @@ public class _FreestyleTest extends BaseTest {
     public void testRenameFreestyleProject() {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(EDITED_RANDOM_NAME)
                 .clickRenameAndGoToProjectPage()
@@ -125,6 +126,7 @@ public class _FreestyleTest extends BaseTest {
     public void testNewFreestyleWithSpecialCharacters() {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(EDITED_RANDOM_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(NAME_WITH_SPECIAL_CHARACTERS)
                 .clickRenameAndGoToProjectPage()

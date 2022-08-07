@@ -147,6 +147,7 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderPositive() {
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(RANDOM_FOLDER_NAME1)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(FOLDER_NAME_FOR_RENAME1)
                 .clickRenameAndGoToProjectPage()
@@ -159,6 +160,7 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderWithSpaceAsAName() {
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(" ")
                 .clickRenameAndGoToProjectPage()
@@ -172,8 +174,9 @@ public class _FolderTest extends BaseTest {
     public void testRenameFolderWithUnsafeCharacters() {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
 
-        RenamePage<FolderProjectPage> folderForRenameTest = new HomePage(getDriver())
+        RenamePage<FolderProjectPage, FolderProjectPageSideMenuFrame> folderForRenameTest = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage();
 
         for (int i = 0; i < unsafeCharacters.length(); i++) {

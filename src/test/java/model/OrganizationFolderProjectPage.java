@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.HashMap;
 
-public class OrganizationFolderProjectPage extends BaseProjectDeleteWithConfirmPage {
+public class OrganizationFolderProjectPage extends BaseProjectDeleteWithConfirmPage<OrganizationFolderProjectPage, OrganizationFolderProjectPageSideMenuFrame> {
 
     @FindBy(className = "warning")
     private WebElement warningMessage;
@@ -25,14 +25,13 @@ public class OrganizationFolderProjectPage extends BaseProjectDeleteWithConfirmP
     }
 
     @Override
-    public String getProjectName() {
-        return projectName.getText().trim();
+    public OrganizationFolderProjectPageSideMenuFrame getSideMenu() {
+        return new OrganizationFolderProjectPageSideMenuFrame(getDriver());
     }
 
-    public RenamePage<OrganizationFolderProjectPage> clickRenameAndGoToRenamePage() {
-        clickRenameButton();
-
-        return new RenamePage<>(getDriver(), new OrganizationFolderProjectPage(getDriver()));
+    @Override
+    public String getProjectName() {
+        return projectName.getText().trim();
     }
 
     public HashMap<String, String> getDisabledProjectWarningMessage() {

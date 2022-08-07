@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
+public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> {
 
     private static final By BUILD_NAME = By.cssSelector("tr:nth-child(2)  a.display-name");
 
@@ -46,14 +46,13 @@ public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage {
     }
 
     @Override
-    public String getProjectName() {
-        return projectName.getText().substring("Project ".length());
+    public FreestyleProjectPageSideMenuFrame getSideMenu() {
+        return new FreestyleProjectPageSideMenuFrame(getDriver());
     }
 
-    public RenamePage<FreestyleProjectPage> clickRenameAndGoToRenamePage() {
-        clickRenameButton();
-
-        return new RenamePage<>(getDriver(), new FreestyleProjectPage(getDriver()));
+    @Override
+    public String getProjectName() {
+        return projectName.getText().substring("Project ".length());
     }
 
     public FreestyleConfigPage clickFreestyleConfigure() {

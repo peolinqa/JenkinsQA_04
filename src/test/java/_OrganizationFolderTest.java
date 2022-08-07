@@ -35,6 +35,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
         String projectName = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(VALID_FOLDER_RENAME)
                 .clickRenameAndGoToProjectPage()

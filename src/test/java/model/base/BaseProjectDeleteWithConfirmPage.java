@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class BaseProjectDeleteWithConfirmPage<Self extends BaseProjectDeleteWithConfirmPage<?>> extends BaseProjectPage<Self> {
+public abstract class BaseProjectDeleteWithConfirmPage<Self extends BaseProjectDeleteWithConfirmPage<?, SideMenu>, SideMenu> extends BaseProjectPage<Self, SideMenu> {
 
     @FindBy(id = "yui-gen1-button")
     protected WebElement yesButton;
@@ -17,7 +17,7 @@ public class BaseProjectDeleteWithConfirmPage<Self extends BaseProjectDeleteWith
     public BaseProjectDeleteWithConfirmPage clickDeleteProject() {
         deleteButton.click();
 
-        return new BaseProjectDeleteWithConfirmPage(getDriver());
+        return this;
     }
 
     public HomePage confirmDeleteAndGoHomePage() {

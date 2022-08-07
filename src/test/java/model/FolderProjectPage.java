@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public final class FolderProjectPage extends BaseProjectDeleteWithConfirmPage<FolderProjectPage> {
+public final class FolderProjectPage extends BaseProjectDeleteWithConfirmPage<FolderProjectPage, FolderProjectPageSideMenuFrame> {
 
     @FindBy(xpath = "//div[@id='view-message']")
     private WebElement folderDescription;
@@ -26,18 +26,17 @@ public final class FolderProjectPage extends BaseProjectDeleteWithConfirmPage<Fo
         super(driver);
     }
 
+    @Override
+    public FolderProjectPageSideMenuFrame getSideMenu() {
+        return new FolderProjectPageSideMenuFrame(getDriver());
+    }
+
     public String getFolderDescription() {
         if (systemMessage.getText().length() > 0) {
             return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
         }
 
         return folderDescription.getText();
-    }
-
-    public RenamePage<FolderProjectPage> clickRenameAndGoToRenamePage() {
-        clickRenameButton();
-
-        return new RenamePage<>(getDriver(), new FolderProjectPage(getDriver()));
     }
 
     public HomePage clickYesButton() {

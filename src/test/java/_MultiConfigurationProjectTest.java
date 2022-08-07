@@ -102,6 +102,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProject() {
         String newProjectName = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setNewProjectName(EDITED_RANDOM_NAME)
                 .clickRenameAndGoToProjectPage()
@@ -114,8 +115,9 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProjectErrorSameName() {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
-                .setInvalidNameAndGoToErrorPage();
+                .clickRenameAndGoToErrorPage();
 
         Assert.assertEquals(error.getErrorHeader(), "Error");
         Assert.assertEquals(error.getErrorMessage(), "The new name is the same as the current name.");
@@ -125,6 +127,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testRenameMultiConfigurationProjectErrorEmptyName() {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage()
                 .setEmptyNameAndGoToErrorPage();
 
@@ -137,13 +140,14 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         final String[] invalidName =
                 new String[]{"!", "@", "#", "$", "%", "^", "&", "*", ":", ";", "\\", "/", "|", "<", ">", "?", "", " "};
 
-        RenamePage<MultiConfigurationProjectPage> rename = new HomePage(getDriver())
+        RenamePage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> rename = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
+                .getSideMenu()
                 .clickRenameAndGoToRenamePage();
 
         for (String unsafeChar : invalidName) {
             rename.setNewProjectName(unsafeChar)
-                    .setInvalidNameAndGoToErrorPage();
+                    .clickRenameAndGoToErrorPage();
 
             String expectedResult = "‘" + unsafeChar + "’ is an unsafe character";
             switch (unsafeChar) {

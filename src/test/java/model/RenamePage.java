@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RenamePage<ConfigPage> extends BaseProjectPage {
+public final class RenamePage<ProjectPage extends BaseProjectPage<?, SideMenu>, SideMenu> extends BaseProjectPage<RenamePage<?, SideMenu>, SideMenu> {
 
     @FindBy(xpath = "//input[@name='newName']")
     private WebElement renameInput;
@@ -25,11 +25,16 @@ public class RenamePage<ConfigPage> extends BaseProjectPage {
     @FindBy(tagName = "h1")
     private WebElement pageHeader;
 
-    private final ConfigPage configPage;
+    private final ProjectPage projectPage;
 
-    public RenamePage(WebDriver driver, ConfigPage configPage) {
+    public RenamePage(WebDriver driver, ProjectPage projectPage) {
         super(driver);
-        this.configPage = configPage;
+        this.projectPage = projectPage;
+    }
+
+    @Override
+    public SideMenu getSideMenu() {
+        return projectPage.getSideMenu();
     }
 
     public ErrorPage clickRenameAndGoToErrorPage() {
@@ -38,7 +43,7 @@ public class RenamePage<ConfigPage> extends BaseProjectPage {
         return new ErrorPage(getDriver());
     }
 
-    public RenamePage<ConfigPage> setNewProjectName(String name) {
+    public RenamePage<ProjectPage, SideMenu> setNewProjectName(String name) {
         renameInput.clear();
         renameInput.sendKeys(name);
 
@@ -49,12 +54,6 @@ public class RenamePage<ConfigPage> extends BaseProjectPage {
         getDriver().navigate().back();
     }
 
-    public ErrorPage setInvalidNameAndGoToErrorPage() {
-        confirmRenameButton.click();
-
-        return new ErrorPage(getDriver());
-    }
-
     public ErrorPage setEmptyNameAndGoToErrorPage() {
         renameInput.clear();
         confirmRenameButton.click();
@@ -62,10 +61,10 @@ public class RenamePage<ConfigPage> extends BaseProjectPage {
         return new ErrorPage(getDriver());
     }
 
-    public ConfigPage clickRenameAndGoToProjectPage() {
+    public ProjectPage clickRenameAndGoToProjectPage() {
         confirmRenameButton.click();
 
-        return configPage;
+        return projectPage;
     }
 
     public List<String> getListErrorMessages(final List<String> names) {

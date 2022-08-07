@@ -3,7 +3,7 @@ package model.base;
 import model.HomePage;
 import org.openqa.selenium.WebDriver;
 
-public class BaseProjectDeleteWithAlertPage extends BaseProjectPage{
+public abstract class BaseProjectDeleteWithAlertPage<Self extends BaseProjectDeleteWithAlertPage<?, SideMenu>, SideMenu> extends BaseProjectPage<Self, SideMenu> {
 
     public BaseProjectDeleteWithAlertPage(WebDriver driver) {
         super(driver);

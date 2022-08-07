@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseSideMenuPage;
+import model.base.BaseProjectDeleteWithAlertPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineProjectPage extends BaseSideMenuPage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> {
+public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> {
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement descriptionValue;
@@ -38,9 +38,6 @@ public class PipelineProjectPage extends BaseSideMenuPage<PipelineProjectPage, P
 
     @FindBy(xpath = "//td[@class='build-row-cell']//a[@class='tip model-link inside build-link display-name']")
     private List<WebElement> buildList;
-
-    @FindBy(css = "h1")
-    protected WebElement projectName;
 
     public PipelineProjectPage(WebDriver driver) {
         super(driver);
@@ -100,6 +97,7 @@ public class PipelineProjectPage extends BaseSideMenuPage<PipelineProjectPage, P
         return permalinksText;
     }
 
+    @Override
     public String getProjectName() {
         return projectName.getText().substring("Pipeline ".length());
     }

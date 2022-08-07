@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
-public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPage {
+public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;
@@ -41,10 +41,9 @@ public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPag
         super(driver);
     }
 
-    public RenamePage<MultiConfigurationProjectPage> clickRenameAndGoToRenamePage() {
-        clickRenameButton();
-
-        return new RenamePage<>(getDriver(), new MultiConfigurationProjectPage(getDriver()));
+    @Override
+    public MultiConfigurationProjectPageSideMenuFrame getSideMenu() {
+        return new MultiConfigurationProjectPageSideMenuFrame(getDriver());
     }
 
     public MultiConfigurationProjectPage clickBuildNow() {
@@ -106,7 +105,7 @@ public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPag
 
     @Override
     public String getProjectName() {
-        return projectName.getText().substring("Project ".length());
+        return super.getProjectName().substring("Project ".length());
     }
 
     public MultiConfigurationProjectDefaultPage clickDefaultButton() {
