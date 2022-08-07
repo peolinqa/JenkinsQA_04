@@ -10,6 +10,12 @@ public class OrganizationFolderProjectPageSideMenuFrame extends BaseModel<Organi
     @FindBy(linkText = "Rename")
     private WebElement menuRename;
 
+    @FindBy(css = ".icon-edit-delete")
+    private WebElement menuDelete;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement yesButton;
+
     public OrganizationFolderProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -18,5 +24,17 @@ public class OrganizationFolderProjectPageSideMenuFrame extends BaseModel<Organi
         menuRename.click();
 
         return new RenamePage<>(getDriver(), new OrganizationFolderProjectPage(getDriver()));
+    }
+
+    public OrganizationFolderProjectPageSideMenuFrame clickMenuDelete() {
+        menuDelete.click();
+
+        return this;
+    }
+
+    public HomePage confirmDeleteAndGoHomePage() {
+        yesButton.click();
+
+        return new HomePage(getDriver());
     }
 }

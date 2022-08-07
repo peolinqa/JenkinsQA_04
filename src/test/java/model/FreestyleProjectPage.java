@@ -1,13 +1,13 @@
 package model;
 
-import model.base.BaseProjectDeleteWithAlertPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public class FreestyleProjectPage extends BaseProjectDeleteWithAlertPage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> {
+public class FreestyleProjectPage extends BaseProjectPage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> {
 
     private static final By BUILD_NAME = By.cssSelector("tr:nth-child(2)  a.display-name");
 

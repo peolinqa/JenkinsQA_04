@@ -16,6 +16,9 @@ public class PipelineProjectPageSideMenuFrame extends BaseModel<PipelineProjectP
     @FindBy(linkText = "Build with Parameters")
     private WebElement menuBuildWithParameters;
 
+    @FindBy(css = ".icon-edit-delete")
+    private WebElement menuDelete;
+
     public PipelineProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -49,5 +52,12 @@ public class PipelineProjectPageSideMenuFrame extends BaseModel<PipelineProjectP
         }
 
         return new PipelineProjectPage(getDriver());
+    }
+
+    public HomePage clickMenuDeleteProjectAndConfirm() {
+        menuDelete.click();
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
     }
 }

@@ -10,6 +10,12 @@ public class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel<Multi
     @FindBy(linkText = "Rename")
     private WebElement menuRename;
 
+    @FindBy(css = ".icon-edit-delete")
+    private WebElement menuDelete;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement yesButton;
+
     public MultibranchPipelineProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -18,5 +24,17 @@ public class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel<Multi
         menuRename.click();
 
         return new RenamePage<>(getDriver(), new MultibranchPipelineProjectPage(getDriver()));
+    }
+
+    public MultibranchPipelineProjectPageSideMenuFrame clickMenuDelete() {
+        menuDelete.click();
+
+        return this;
+    }
+
+    public HomePage confirmDeleteAndGoHomePage() {
+        yesButton.click();
+
+        return new HomePage(getDriver());
     }
 }

@@ -1,12 +1,12 @@
 package model;
 
-import model.base.BaseProjectDeleteWithConfirmPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import java.util.HashMap;
 
-public class OrganizationFolderProjectPage extends BaseProjectDeleteWithConfirmPage<OrganizationFolderProjectPage, OrganizationFolderProjectPageSideMenuFrame> {
+public class OrganizationFolderProjectPage extends BaseProjectPage<OrganizationFolderProjectPage, OrganizationFolderProjectPageSideMenuFrame> {
 
     @FindBy(className = "warning")
     private WebElement warningMessage;

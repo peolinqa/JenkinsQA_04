@@ -65,8 +65,9 @@ public class _ManageUsersTest extends BaseTest {
                 .clickMenuManageJenkins()
                 .clickManageUsers()
                 .fillUsersList(usersListBefore)
-                .clickUserDelete(USER_NAME)
-                .clickYesButton()
+                .clickIconDeleteUser(USER_NAME)
+                .getSideMenu()
+                .confirmDeleteAndGoManageUsersPage()
                 .fillUsersList(usersListAfter);
 
         usersListBefore.remove(USER_NAME.concat("\n").concat(NEW_USER_FULL_NAME));

@@ -1,7 +1,5 @@
 package model;
 
-import model.base.BaseHeaderFooterPage;
-import model.base.BaseProjectDeleteWithConfirmPage;
 import model.base.BaseSideMenuPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

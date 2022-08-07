@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseProjectDeleteWithAlertPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 
-public class MultiConfigurationProjectPage extends BaseProjectDeleteWithAlertPage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> {
+public class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Build Now")
     private WebElement buildNowButton;

@@ -107,7 +107,8 @@ public class _FolderTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToFolderPage()
                 .assertEquals(FolderProjectPage::getProjectName, folderName)
-                .clickDeleteProject()
+                .getSideMenu()
+                .clickMenuDelete()
                 .confirmDeleteAndGoHomePage()
                 .searchText(folderName)
                 .getSearchMessageText();

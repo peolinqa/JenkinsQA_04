@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BaseProjectDeleteWithConfirmPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class MultibranchPipelineProjectPage extends BaseProjectDeleteWithConfirmPage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> {
+public class MultibranchPipelineProjectPage extends BaseProjectPage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Scan Repository Log")
     private WebElement scanRepositoryLog;

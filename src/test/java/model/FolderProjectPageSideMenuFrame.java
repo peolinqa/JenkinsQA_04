@@ -10,6 +10,12 @@ public class FolderProjectPageSideMenuFrame extends BaseModel<FolderProjectPageS
     @FindBy(linkText = "Rename")
     private WebElement menuRename;
 
+    @FindBy(css = ".icon-edit-delete")
+    private WebElement menuDelete;
+
+    @FindBy(id = "yui-gen1-button")
+    protected WebElement yesButton;
+
     public FolderProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -18,5 +24,17 @@ public class FolderProjectPageSideMenuFrame extends BaseModel<FolderProjectPageS
         menuRename.click();
 
         return new RenamePage<>(getDriver(), new FolderProjectPage(getDriver()));
+    }
+
+    public FolderProjectPageSideMenuFrame clickMenuDelete() {
+        menuDelete.click();
+
+        return this;
+    }
+
+    public HomePage confirmDeleteAndGoHomePage() {
+        yesButton.click();
+
+        return new HomePage(getDriver());
     }
 }

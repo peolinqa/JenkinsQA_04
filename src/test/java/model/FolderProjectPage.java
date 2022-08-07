@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BaseProjectDeleteWithConfirmPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public final class FolderProjectPage extends BaseProjectDeleteWithConfirmPage<FolderProjectPage, FolderProjectPageSideMenuFrame> {
+public final class FolderProjectPage extends BaseProjectPage<FolderProjectPage, FolderProjectPageSideMenuFrame> {
 
     @FindBy(xpath = "//div[@id='view-message']")
     private WebElement folderDescription;

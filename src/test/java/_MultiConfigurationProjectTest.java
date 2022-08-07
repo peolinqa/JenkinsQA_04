@@ -178,7 +178,8 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testDeleteMultiConfigFolder() {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
-                .clickDeleteProjectAndConfirm();
+                .getSideMenu()
+                .clickMenuDeleteProjectAndConfirm();
 
         Assert.assertFalse(homePage.isItemPresent(EDITED_RANDOM_NAME));
     }

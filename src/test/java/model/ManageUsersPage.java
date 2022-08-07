@@ -34,9 +34,9 @@ public class ManageUsersPage extends BaseSideMenuPage<ManageUsersPage, ManageUse
         return new ManageUsersPage(getDriver());
     }
 
-    public UserDeletePage clickUserDelete(String userName) {
+    public UserPage clickIconDeleteUser(String userName) {
         getDriver().findElement(By.xpath(String.format("//a[contains(@href, '%s/delete')]", userName))).click();
 
-        return new UserDeletePage(getDriver());
+        return new UserPage(getDriver());
     }
 }

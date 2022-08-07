@@ -1,6 +1,6 @@
 package model;
 
-import model.base.BaseProjectDeleteWithAlertPage;
+import model.base.BaseProjectPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PipelineProjectPage extends BaseProjectDeleteWithAlertPage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> {
+public class PipelineProjectPage extends BaseProjectPage<PipelineProjectPage, PipelineProjectPageSideMenuFrame> {
 
     @FindBy(xpath = "//div[@id='description']/div[1]")
     private WebElement descriptionValue;

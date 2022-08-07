@@ -1,6 +1,7 @@
 package model;
 
-import model.base.BaseSideMenuPage;
+import model.base.BaseProjectPage;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,7 +9,7 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MyViewPage extends BaseSideMenuPage<MyViewPage, MyViewPageSideMenuFrame> {
+public class MyViewPage extends BaseProjectPage<MyViewPage, MyViewPageSideMenuFrame> {
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='item']")
     private List<WebElement> viewNamesOnBreadcrumbs;

@@ -260,7 +260,8 @@ public class _PipelineTest extends BaseTest {
     public void testDeletePipelineFromSideMenu() {
         final boolean check = new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
-                .clickDeleteProjectAndConfirm()
+                .getSideMenu()
+                .clickMenuDeleteProjectAndConfirm()
                 .clickDashboardButton()
                 .checkProjectAfterDelete(NEW_PIPELINE_NAME);
 
@@ -415,7 +416,8 @@ public class _PipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .clickDashboardButton()
                 .navigateToPreviousCreatedPipeline(PIPELINE_NAME)
-                .clickDeleteProjectAndConfirm()
+                .getSideMenu()
+                .clickMenuDeleteProjectAndConfirm()
                 .switchToPage404()
                 .getTitleOfPage404();
 

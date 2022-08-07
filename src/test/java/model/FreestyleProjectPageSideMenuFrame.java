@@ -13,6 +13,9 @@ public class FreestyleProjectPageSideMenuFrame extends BaseModel<FreestyleProjec
     @FindBy(linkText = "Build Now")
     private WebElement menuBuildNow;
 
+    @FindBy(css = ".icon-edit-delete")
+    private WebElement menuDelete;
+
     public FreestyleProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -27,5 +30,12 @@ public class FreestyleProjectPageSideMenuFrame extends BaseModel<FreestyleProjec
         menuBuildNow.click();
 
         return new FreestyleProjectPage(getDriver());
+    }
+
+    public HomePage clickMenuDeleteProjectAndConfirm() {
+        menuDelete.click();
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
     }
 }

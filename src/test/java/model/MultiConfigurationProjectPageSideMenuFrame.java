@@ -10,6 +10,9 @@ public class MultiConfigurationProjectPageSideMenuFrame extends BaseModel<MultiC
     @FindBy(linkText = "Rename")
     private WebElement menuRename;
 
+    @FindBy(css = ".icon-edit-delete")
+    private WebElement menuDelete;
+
     public MultiConfigurationProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -18,5 +21,12 @@ public class MultiConfigurationProjectPageSideMenuFrame extends BaseModel<MultiC
         menuRename.click();
 
         return new RenamePage<>(getDriver(), new MultiConfigurationProjectPage(getDriver()));
+    }
+
+    public HomePage clickMenuDeleteProjectAndConfirm() {
+        menuDelete.click();
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
     }
 }
