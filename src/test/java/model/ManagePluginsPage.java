@@ -23,9 +23,6 @@ public final class ManagePluginsPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//a[contains(text(),'Available')]")
     private WebElement buttonAvailable;
 
-    @FindBy(xpath = "//a[contains(text(),'Installed')]")
-    private WebElement buttonInstalled;
-
     @FindBy(xpath = "//table[@id='plugins']//tbody//tr")
     private List<WebElement> listPlugins;
 
@@ -93,12 +90,6 @@ public final class ManagePluginsPage extends BaseHeaderFooterPage {
 
     public ManagePluginsPage clickButtonAvailable(){
         buttonAvailable.click();
-
-        return this;
-    }
-
-    public ManagePluginsPage clickButtonInstalled(){
-        buttonInstalled.click();
 
         return this;
     }

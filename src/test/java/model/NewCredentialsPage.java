@@ -8,10 +8,10 @@ import org.openqa.selenium.support.FindBy;
 public final class NewCredentialsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//input[@name='_.username']")
-    WebElement userName;
+    private WebElement userName;
 
     @FindBy(xpath = "//input[@name='_.password']")
-    WebElement newPassword;
+    private WebElement newPassword;
 
     @FindBy(id = "yui-gen1-button")
     private WebElement okButton;

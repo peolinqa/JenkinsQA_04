@@ -17,31 +17,31 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
     private WebElement addDomain;
 
     @FindBy(xpath = "//a[@href='/credentials/store/system/domain/_/']")
-    WebElement global;
+    private WebElement global;
 
     @FindBy(xpath = "//a[@href='/iconSize?16x16']")
-    WebElement smallSizeIcon;
+    private WebElement smallSizeIcon;
 
     @FindBy(xpath = "//a[@href='/iconSize?24x24']")
-    WebElement mediumSizeIcon;
+    private WebElement mediumSizeIcon;
 
     @FindBy(xpath = "//a[@href='/iconSize?32x32']")
-    WebElement largeSizeIcon;
+    private WebElement largeSizeIcon;
 
     @FindBy(xpath = ".//td[@data='Jenkins Credentials Provider']//img")
-    WebElement attributeClass;
+    private WebElement attributeClass;
 
     @FindBy(xpath = "//span[text()='mall']/..")
-    WebElement smallChangeIconButtonBGColor;
+    private WebElement smallChangeIconButtonBGColor;
 
     @FindBy(xpath = "//span[text()='edium']/..")
-    WebElement mediumChangeIconButtonBGColor;
+    private WebElement mediumChangeIconButtonBGColor;
 
     @FindBy(xpath = "//span[text()='arge']/..")
-    WebElement largeChangeIconButtonBGColor;
+    private WebElement largeChangeIconButtonBGColor;
 
     @FindBy(xpath = "//li[@class='jenkins-icon-size__items-item']")
-    WebElement iconButtonName;
+    private WebElement iconButtonName;
 
     public ManageCredentialsPage(WebDriver driver) {
         super(driver);
@@ -110,6 +110,6 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
         clickSmallSizeIcon();
         String str1 = getIconSize();
 
-        return str == str1;
+        return str.equals(str1);
     }
 }

@@ -9,7 +9,6 @@ import org.openqa.selenium.support.FindBy;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 public final class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, BuildFreestyleMultiConfigPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='projectStatus']/tbody")
@@ -27,6 +26,7 @@ public final class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, Buil
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
     }
+
     @Override
     public BuildFreestyleMultiConfigPageSideMenuFrame getSideMenu() {
         return new BuildFreestyleMultiConfigPageSideMenuFrame(getDriver());

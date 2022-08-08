@@ -46,7 +46,7 @@ public final class FreestyleProjectPage extends BaseProjectPage<FreestyleProject
         return super.getProjectName().substring("Project ".length());
     }
 
-    public String _disableButton() {
+    public String disableButton() {
         return multiButton.getText();
     }
 

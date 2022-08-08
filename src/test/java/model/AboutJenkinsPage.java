@@ -56,5 +56,4 @@ public final class AboutJenkinsPage extends BaseHeaderFooterPage {
 
         return this;
     }
-
 }

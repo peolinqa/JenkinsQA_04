@@ -55,7 +55,7 @@ public final class ManageScriptConsolePage extends BaseHeaderFooterPage {
         getActions()
                 .moveToElement(textArea)
                 .click()
-                .sendKeys(String.format("\"%s\"",str))
+                .sendKeys(String.format("'%s'",str))
                 .build()
                 .perform();
 
@@ -65,5 +65,4 @@ public final class ManageScriptConsolePage extends BaseHeaderFooterPage {
     public String getResult() {
         return result.getText();
     }
-
 }

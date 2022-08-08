@@ -42,9 +42,6 @@ public final class ViewConfigPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//button[@title = 'Delete']")
     private List<WebElement> listDeleteButtons;
 
-    @FindBy(xpath = "//div[@class= 'listview-jobs']/span[1]/input")
-    private WebElement firstJobInJobsList;
-
     @FindBy(xpath = "//div[@class = 'listview-jobs']/span")
     private List<WebElement> listExistingJobs;
 

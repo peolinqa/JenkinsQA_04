@@ -42,9 +42,6 @@ public final class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
     @FindBy(xpath = "//label[@for='name']")
     private WebElement h3Header;
 
-    @FindBy(id = "jenkins-head-icon")
-    private WebElement headerIcon;
-
     @FindBy(className = "input-help")
     private WebElement helpInputText;
 
@@ -243,12 +240,6 @@ public final class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
 
     public String getBreadCrumbs(int index) {
         return breadCrumbs.get(index).getText();
-    }
-
-    public NewItemPage<ConfigPage> checkErrorMessage(String expectedMessage) {
-        Assert.assertEquals(errorInvalidName.getText(), expectedMessage);
-
-        return this;
     }
 
     public String getErrorMessage() {

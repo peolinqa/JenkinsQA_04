@@ -90,7 +90,7 @@ public class _FreestyleTest extends BaseTest {
                 .clickFreestyleName(RANDOM_NAME)
                 .clickMultiButton();
 
-        Assert.assertEquals(freestylePage._disableButton(), "Disable Project");
+        Assert.assertEquals(freestylePage.disableButton(), "Disable Project");
     }
 
     @Test(dependsOnMethods = "testEnableProject")

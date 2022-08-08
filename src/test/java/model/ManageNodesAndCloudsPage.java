@@ -20,9 +20,6 @@ public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodes
     @FindBy(xpath = "//div[@id='menuSelector']")
     private WebElement menuSelectorHiddenButton;
 
-    @FindBy(xpath = "//span[text()='Delete Agent']")
-    private WebElement deleteAgentMenuButton;
-
     public ManageNodesAndCloudsPage(WebDriver driver) {
         super(driver);
     }

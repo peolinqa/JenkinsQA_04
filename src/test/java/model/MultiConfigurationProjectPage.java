@@ -46,6 +46,11 @@ public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiCo
         return new MultiConfigurationProjectPageSideMenuFrame(getDriver());
     }
 
+    @Override
+    public String getProjectName() {
+        return super.getProjectName().substring("Project ".length());
+    }
+
     public MultiConfigurationProjectPage clickBuildNow() {
         buildNowButton.click();
 
@@ -101,11 +106,6 @@ public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiCo
         }
 
         return isBuildNowDisplayed;
-    }
-
-    @Override
-    public String getProjectName() {
-        return super.getProjectName().substring("Project ".length());
     }
 
     public MultiConfigurationProjectDefaultPage clickDefaultButton() {

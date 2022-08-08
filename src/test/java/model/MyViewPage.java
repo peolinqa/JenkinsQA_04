@@ -137,7 +137,10 @@ public final class MyViewPage extends BaseProjectPage<MyViewPage, MyViewPageSide
     public WebElement getButtonHidePreview() {
         return buttonHidePreview;
     }
-    public String getTextMyView() { return textareaMyView.getText(); }
+
+    public String getTextMyView() {
+        return textareaMyView.getText();
+    }
 
     public MyViewPage clickButtonHidePreview() {
         buttonHidePreview.click();

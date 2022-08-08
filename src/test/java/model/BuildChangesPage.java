@@ -13,5 +13,4 @@ public final class BuildChangesPage extends BaseBuildPage<BuildChangesPage, Buil
     public BuildFreestyleMultiConfigPageSideMenuFrame getSideMenu() {
         return new BuildFreestyleMultiConfigPageSideMenuFrame(getDriver());
     }
-
 }
