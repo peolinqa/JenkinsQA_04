@@ -14,34 +14,31 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
     private WebElement menuSelector;
 
     @FindBy(xpath = "//span[contains(text(), 'Add domain')]")
-    private WebElement addDomain;
+    private WebElement dropDownMenuAddDomainTab;
 
     @FindBy(xpath = "//a[@href='/credentials/store/system/domain/_/']")
-    private WebElement global;
+    private WebElement jenkinsGlobalDomainsCell;
 
     @FindBy(xpath = "//a[@href='/iconSize?16x16']")
-    private WebElement smallSizeIcon;
+    private WebElement iconSmallSize;
 
     @FindBy(xpath = "//a[@href='/iconSize?24x24']")
-    private WebElement mediumSizeIcon;
+    private WebElement iconMediumSize;
 
     @FindBy(xpath = "//a[@href='/iconSize?32x32']")
-    private WebElement largeSizeIcon;
+    private WebElement iconLargeSize;
 
     @FindBy(xpath = ".//td[@data='Jenkins Credentials Provider']//img")
-    private WebElement attributeClass;
+    private WebElement iconCredentialsProvider;
 
     @FindBy(xpath = "//span[text()='mall']/..")
-    private WebElement smallChangeIconButtonBGColor;
+    private WebElement iconSmallChangeButton;
 
     @FindBy(xpath = "//span[text()='edium']/..")
-    private WebElement mediumChangeIconButtonBGColor;
+    private WebElement iconMediumChangeButton;
 
     @FindBy(xpath = "//span[text()='arge']/..")
-    private WebElement largeChangeIconButtonBGColor;
-
-    @FindBy(xpath = "//li[@class='jenkins-icon-size__items-item']")
-    private WebElement iconButtonName;
+    private WebElement iconLargeChangeButton;
 
     public ManageCredentialsPage(WebDriver driver) {
         super(driver);
@@ -59,50 +56,50 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
         return new ManageCredentialsPage(getDriver());
     }
 
-    public NewDomainPage clickAddDomain() {
-        addDomain.click();
+    public NewDomainPage clickDropDownMenuAddDomain() {
+        dropDownMenuAddDomainTab.click();
 
         return new NewDomainPage(getDriver());
     }
 
     public GlobalCredentialsPage clickGlobalCredentials() {
-        global.click();
+        jenkinsGlobalDomainsCell.click();
 
         return new GlobalCredentialsPage(getDriver());
     }
 
     public ManageCredentialsPage clickSmallSizeIcon() {
-        smallSizeIcon.click();
+        iconSmallSize.click();
 
         return this;
     }
 
     public ManageCredentialsPage clickMediumSizeIcon() {
-        mediumSizeIcon.click();
+        iconMediumSize.click();
 
         return this;
     }
 
     public ManageCredentialsPage clickLargeSizeIcon() {
-        largeSizeIcon.click();
+        iconLargeSize.click();
 
         return this;
     }
 
-    public String getAttributeClass() {
-        return attributeClass.getAttribute("class");
+    public String getIconCredentialsProvider() {
+        return iconCredentialsProvider.getAttribute("class");
     }
 
     public String[] getChangeIconButtonsBGColors() {
         return new String[]{
-                smallChangeIconButtonBGColor.getCssValue("background-color"),
-                mediumChangeIconButtonBGColor.getCssValue("background-color"),
-                largeChangeIconButtonBGColor.getCssValue("background-color")
+                iconSmallChangeButton.getCssValue("background-color"),
+                iconMediumChangeButton.getCssValue("background-color"),
+                iconLargeChangeButton.getCssValue("background-color")
         };
     }
 
     public String getIconSize() {
-        return (attributeClass.getCssValue("height"));
+        return (iconCredentialsProvider.getCssValue("height"));
     }
 
     public boolean clickIconButtonAndGetSize() {

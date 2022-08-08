@@ -19,6 +19,7 @@ public class _ManageCredentialsTest extends BaseTest {
                 .clickMenuManageJenkins()
                 .clickManageCredentials()
                 .clickGlobalCredentials()
+                .getSideMenu()
                 .clickAddCredentials()
                 .createUserCredentials(newUsername, newPassword)
                 .getTableText();
@@ -37,9 +38,9 @@ public class _ManageCredentialsTest extends BaseTest {
                 .clickManageCredentials();
 
         SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(iconSizeChange.clickSmallSizeIcon().getAttributeClass(), icon_style[0]);
-        asserts.assertEquals(iconSizeChange.clickMediumSizeIcon().getAttributeClass(), icon_style[1]);
-        asserts.assertEquals(iconSizeChange.clickLargeSizeIcon().getAttributeClass(), icon_style[2]);
+        asserts.assertEquals(iconSizeChange.clickSmallSizeIcon().getIconCredentialsProvider(), icon_style[0]);
+        asserts.assertEquals(iconSizeChange.clickMediumSizeIcon().getIconCredentialsProvider(), icon_style[1]);
+        asserts.assertEquals(iconSizeChange.clickLargeSizeIcon().getIconCredentialsProvider(), icon_style[2]);
         asserts.assertAll();
     }
 
@@ -77,7 +78,7 @@ public class _ManageCredentialsTest extends BaseTest {
                 .clickManageCredentials()
                 .clickCredentialsStoreSystemMenu()
                 .clickMenuSelector()
-                .clickAddDomain()
+                .clickDropDownMenuAddDomain()
                 .createNewDomain(domainName)
                 .getDomainHeader();
 
