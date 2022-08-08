@@ -1,26 +1,26 @@
 import model.HomePage;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.List;
 
 public class _ConfigureGlobalSecurityTest extends BaseTest {
 
     @Test
     public void test9ChaptersDisplayedOnGlobalSecurityPage() {
-        List<WebElement> chapters = new HomePage(getDriver())
+        int actualSizeOfChapters = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getSecurityChapters();
+                .getSizeOfSecurityChapters();
 
-        Assert.assertEquals(chapters.size(), 9);
+        Assert.assertEquals(actualSizeOfChapters, 9);
     }
 
     @Test
     public void testCheckChaptersNames() {
-       List<String> expectedChaptersNames = List.of(
+        List<String> expectedChaptersNames = List.of(
                 "Authentication",
                 "Security Realm",
                 "Authorization",

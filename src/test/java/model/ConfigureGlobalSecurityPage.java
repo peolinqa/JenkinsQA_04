@@ -25,8 +25,8 @@ public final class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public List<WebElement> getSecurityChapters() {
-        return securityChapters;
+    public int getSizeOfSecurityChapters() {
+        return securityChapters.size();
     }
 
     public String getTextTooltipButtonHelpSSHServerPOM() {
@@ -38,7 +38,7 @@ public final class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
 
     public List<String> getActualSecurityChaptersNames() {
         List<String> actualChapters = new ArrayList<>();
-        for (WebElement e : getSecurityChapters()) {
+        for (WebElement e : securityChapters) {
             actualChapters.add(e.getText());
         }
 
@@ -71,7 +71,6 @@ public final class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
 
                 getActions().pause(500).moveToElement(helpIconsList.get(i)).build().perform();
                 tooltipText.add(getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText());
-
         }
 
         return tooltipText;
