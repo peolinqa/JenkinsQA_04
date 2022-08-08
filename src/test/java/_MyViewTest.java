@@ -9,9 +9,9 @@ import java.util.List;
 
 public class _MyViewTest extends BaseTest {
     private static final String VIEW_NAME = TestUtils.getRandomStr();
-    private static final String VIEW_NAME_1 = "My View";
-    private static final String VIEW_NAME_2 = "Fox";
-    private static final String EDIT_VIEW_NAME = "Fox1";
+    private static final String VIEW_NAME_1 = TestUtils.getRandomStr();
+    private static final String VIEW_NAME_2 = TestUtils.getRandomStr();
+    private static final String EDIT_VIEW_NAME = TestUtils.getRandomStr();
     private static final String VIEW_DESCRIPTION = TestUtils.getRandomStr();
 
     @Test
@@ -32,6 +32,41 @@ public class _MyViewTest extends BaseTest {
                 .saveConfigAndGoToView();
 
         Assert.assertTrue(myViewPage.getNamesOfViewsOnBreadcrumbs().contains(VIEW_NAME_1));
+    }
+
+    @Test (dependsOnMethods = "testRemoveColumnsFromDashboardInOwnWatchlist")
+    public void testCreateNewViewWithSelectListViewAndCheckCountJobs() {
+        final int countJobs = 2;
+
+        final List<String> listJobsInMyViewName = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
+                .setProjectName(String.format("‘%s1", VIEW_NAME))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .getSideMenu()
+                .clickMenuNewItem()
+                .setProjectName(String.format("‘%s2", VIEW_NAME))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .getSideMenu()
+                .clickMenuNewItem()
+                .setProjectName(String.format("‘%s3", VIEW_NAME))
+                .setProjectTypePipeline()
+                .clickOkAndGoToConfig()
+                .clickDashboardButton()
+                .getSideMenu()
+                .clickMenuNewView()
+                .setViewName(VIEW_NAME_1)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .chooseJobs(countJobs)
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getListJobsName();
+
+        Assert.assertEquals(listJobsInMyViewName.size(), countJobs);
     }
 
     @Test
@@ -76,6 +111,22 @@ public class _MyViewTest extends BaseTest {
         Assert.assertTrue(myViewPage.getNamesOfViewsOnTabBar().contains(viewName4));
     }
 
+    @Test(dependsOnMethods = "testDeleteViewViaTabBarFrame")
+    public void testCreateNewViewWithSelectListViewAddAllColumns() {
+        final int countColumns = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewView()
+                .setViewName(VIEW_NAME)
+                .selectListViewType()
+                .createViewAndGoConfig()
+                .chooseJobs(1)
+                .addAllUniqueColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getCountOfColumns();
+
+        Assert.assertEquals(countColumns, 11);
+    }
+
     @Test(dependsOnMethods = "testCreateNewViewWithSelectLabelMyViewCheckBreadcrumbs")
     public void testCreateNewViewWithAnExistingName() {
         String errorText = new HomePage(getDriver())
@@ -98,6 +149,20 @@ public class _MyViewTest extends BaseTest {
                 .saveConfigAndGoToView1();
 
         Assert.assertTrue(myViewPage.getNamesOfViewsOnBreadcrumbs().contains(EDIT_VIEW_NAME));
+    }
+
+    @Test(dependsOnMethods = "testCreateNewViewWithSelectListViewAddAllColumns")
+    public void testRemoveColumnsFromDashboardInOwnWatchlist() {
+        final int countColumnsAfterDelete = new HomePage(getDriver())
+                .clickNameOfViewOnBreadcrumbs(VIEW_NAME)
+                .getSideMenu()
+                .clickMenuEditView()
+                .scrollPageDown()
+                .removeColumns()
+                .clickApplyAndOkAndGoToMyViewPage()
+                .getCountOfColumns();
+
+        Assert.assertEquals(countColumnsAfterDelete, 1);
     }
 
     @Test
@@ -131,10 +196,10 @@ public class _MyViewTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuMyView()
                 .clickAddOrEditDescriptionButton()
-                .clickButtonPreview();
+                .assertEquals(MyViewPage::isButtonPreviewDisplayed, true)
+                .clickButtonPreview()
+                .assertEquals(MyViewPage:: isTextareaPreviewDisplayed, true);
 
-        Assert.assertTrue(myViewsPage.getButtonPreview().isDisplayed());
-        Assert.assertTrue(myViewsPage.getTextareaPreview().isDisplayed());
         Assert.assertEquals(myViewsPage.getTextFromTextareaPreview(), myViewsPage.getTextareaDescription());
     }
 
@@ -144,17 +209,14 @@ public class _MyViewTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuMyView()
                 .clickAddOrEditDescriptionButton()
-                .clickButtonPreview();
+                .assertEquals(MyViewPage::isButtonPreviewDisplayed, true)
+                .clickButtonPreview()
+                .assertEquals(MyViewPage:: isTextareaPreviewDisplayed, true)
+                .assertEquals(MyViewPage::isButtonHidePreviewDisplayed, true)
+                .clickButtonHidePreview()
+                .assertEquals(MyViewPage:: isTextareaPreviewDisplayed, false);
 
-        Assert.assertTrue(myViewsPage.getTextareaPreview().isDisplayed());
-        Assert.assertEquals(myViewsPage.getTextFromTextareaPreview(),
-                myViewsPage.getTextareaDescription());
-        Assert.assertTrue(myViewsPage.getButtonHidePreview().isDisplayed());
-
-        myViewsPage.clickButtonHidePreview();
-
-        Assert.assertFalse(myViewsPage.getTextareaPreview().isDisplayed());
-        Assert.assertFalse(myViewsPage.getButtonHidePreview().isDisplayed());
+        Assert.assertFalse(myViewsPage.isButtonHidePreviewDisplayed());
     }
 
     @Test(dependsOnMethods = "testEditViewChangeName")
@@ -180,70 +242,5 @@ public class _MyViewTest extends BaseTest {
                 .getNamesOfViewsOnTabBar();
 
         Assert.assertFalse(viewOnTabBar.contains(VIEW_NAME_1));
-    }
-
-    @Test(dependsOnMethods = "testDeleteViewViaTabBarFrame")
-    public void testAddAllColumnsFromDashboardInOwnWatchlist() {
-        final int countColumns = new HomePage(getDriver())
-                .getSideMenu()
-                .clickMenuNewView()
-                .setViewName(VIEW_NAME)
-                .selectListViewType()
-                .createViewAndGoConfig()
-                .chooseJobs(1)
-                .addAllUniqueColumns()
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getCountOfColumns();
-
-        Assert.assertEquals(countColumns, 11);
-    }
-
-    @Test(dependsOnMethods = "testAddAllColumnsFromDashboardInOwnWatchlist")
-    public void testRemoveColumnsFromDashboardInOwnWatchlist() {
-        final int countColumnsAfterDelete = new HomePage(getDriver())
-                .clickNameOfViewOnBreadcrumbs(VIEW_NAME)
-                .getSideMenu()
-                .clickMenuEditView()
-                .scrollPageDown()
-                .removeColumns()
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getCountOfColumns();
-
-        Assert.assertEquals(countColumnsAfterDelete, 1);
-    }
-
-    @Test(dependsOnMethods = "testRemoveColumnsFromDashboardInOwnWatchlist")
-    public void testCreateAndCheckNewMyView() {
-        final int countJobs = 2;
-
-        final List<String> listJobsInMyViewName = new HomePage(getDriver())
-                .getSideMenu()
-                .clickMenuNewItem()
-                .setProjectName(String.format("‘%s1", VIEW_NAME))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .getSideMenu()
-                .clickMenuNewItem()
-                .setProjectName(String.format("‘%s2", VIEW_NAME))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .getSideMenu()
-                .clickMenuNewItem()
-                .setProjectName(String.format("‘%s3", VIEW_NAME))
-                .setProjectTypePipeline()
-                .clickOkAndGoToConfig()
-                .clickDashboardButton()
-                .getSideMenu()
-                .clickMenuNewView()
-                .setViewName(VIEW_NAME_1)
-                .selectListViewType()
-                .createViewAndGoConfig()
-                .chooseJobs(countJobs)
-                .clickApplyAndOkAndGoToMyViewPage()
-                .getListJobsName();
-
-        Assert.assertEquals(listJobsInMyViewName.size(), countJobs);
     }
 }

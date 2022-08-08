@@ -144,13 +144,9 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
                         .equals("jenkins-name-icon");
     }
 
-    public List<WebElement> getHeaderMainElement() {
-        return headerMainElement;
-    }
-
     public boolean isRightPositionOfHeaderElementsUI() {
-        for (int i = 0; i < getHeaderMainElement().size(); i++) {
-            return getHeaderMainElement().get(i).isDisplayed();
+        for (int i = 0; i < headerMainElement.size(); i++) {
+            return headerMainElement.get(i).isDisplayed();
         }
 
         return false;

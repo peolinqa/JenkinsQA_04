@@ -116,8 +116,8 @@ public final class MyViewPage extends BaseProjectPage<MyViewPage, MyViewPageSide
         return fieldDescriptionOnThePage.getText();
     }
 
-    public WebElement getButtonPreview() {
-        return buttonPreview;
+    public boolean isButtonPreviewDisplayed() {
+        return buttonPreview.isDisplayed();
     }
 
     public MyViewPage clickButtonPreview() {
@@ -130,12 +130,12 @@ public final class MyViewPage extends BaseProjectPage<MyViewPage, MyViewPageSide
         return textareaPreview.getText();
     }
 
-    public WebElement getTextareaPreview() {
-        return textareaPreview;
+    public boolean isTextareaPreviewDisplayed() {
+        return textareaPreview.isDisplayed();
     }
 
-    public WebElement getButtonHidePreview() {
-        return buttonHidePreview;
+    public boolean isButtonHidePreviewDisplayed() {
+        return buttonHidePreview.isDisplayed();
     }
 
     public String getTextMyView() {
