@@ -52,6 +52,21 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//h2[text() = 'Security']/ancestor::section//dt")
     private List<WebElement> securityContent;
 
+    @FindBy (xpath = "//h2[text() = 'System Configuration']/ancestor::section//dd")
+    private List<WebElement> captionsSystemConfigurationSection;
+
+    @FindBy(xpath = "//h2[text() = 'Security']/ancestor::section//dd")
+    private List<WebElement> captionsSecuritySection;
+
+    @FindBy(xpath = "//h2[text() = 'Status Information']/ancestor::section//dd")
+    private List<WebElement> captionsStatusInformationSection;
+
+    @FindBy(xpath = "//h2[text() = 'Troubleshooting']/ancestor::section//dd")
+    private List<WebElement> captionsTroubleshootingSection;
+
+    @FindBy(xpath = "//h2[text() = 'Tools and Actions']/ancestor::section//dd")
+    private List<WebElement> captionsToolsAnsActionsSection;
+
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
@@ -150,5 +165,59 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
         }
 
         return textSection;
+    }
+
+    public List<String> getCaptionsSystemSysConf() {
+        List<String> captionsArray = new ArrayList<>();
+        for (WebElement el : captionsSystemConfigurationSection)
+            if (!el.getText().isEmpty()){
+                captionsArray.add(el.getText());
+            }
+
+        return captionsArray;
+    }
+
+    public List<String> getCaptionsSecurity() {
+        List<String> captionsArray = new ArrayList<>();
+        for (WebElement el : captionsSecuritySection){
+            if (!el.getText().isEmpty()){
+                captionsArray.add(el.getText());
+            }
+        }
+
+        return captionsArray;
+    }
+
+    public List<String> getCaptionsStatusInfo() {
+        List<String> captionsArray = new ArrayList<>();
+        for (WebElement el : captionsStatusInformationSection){
+            if (!el.getText().isEmpty()){
+                captionsArray.add(el.getText());
+            }
+        }
+
+        return captionsArray;
+    }
+
+    public List<String> getCaptionsTroubleshooting(){
+        List<String> captionsArray = new ArrayList<>();
+        for (WebElement el : captionsTroubleshootingSection){
+            if (!el.getText().isEmpty()){
+                captionsArray.add(el.getText());
+            }
+        }
+
+        return captionsArray;
+    }
+
+    public List<String> getCaptionsToolsAnsActions(){
+        List<String> captionsArray = new ArrayList<>();
+        for (WebElement el : captionsToolsAnsActionsSection){
+            if (!el.getText().isEmpty()){
+                captionsArray.add(el.getText());
+            }
+        }
+
+        return captionsArray;
     }
 }
