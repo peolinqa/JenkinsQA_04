@@ -10,7 +10,7 @@ import runner.TestUtils;
 public class _ManageCredentialsTest extends BaseTest {
 
     @Test
-    public void testManageCredentialsChekMenu() {
+    public void testManageCredentialsCheckMenu() {
         final String newUsername = TestUtils.getRandomStr(8);
         final String newPassword = TestUtils.getRandomStr(9);
 

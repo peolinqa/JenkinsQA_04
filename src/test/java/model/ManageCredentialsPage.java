@@ -13,9 +13,6 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
     @FindBy(id = "menuSelector")
     private WebElement menuSelector;
 
-    @FindBy(xpath = "//span[contains(text(), 'Add domain')]")
-    private WebElement dropDownMenuAddDomainTab;
-
     @FindBy(xpath = "//a[@href='/credentials/store/system/domain/_/']")
     private WebElement jenkinsGlobalDomainsCell;
 
@@ -50,16 +47,10 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
         return new ManageCredentialsPage(getDriver());
     }
 
-    public ManageCredentialsPage clickMenuSelector() {
+    public ManageCredentialsDropDownMenuFame clickMenuSelector() {
         menuSelector.click();
 
-        return new ManageCredentialsPage(getDriver());
-    }
-
-    public NewDomainPage clickDropDownMenuAddDomain() {
-        dropDownMenuAddDomainTab.click();
-
-        return new NewDomainPage(getDriver());
+        return new ManageCredentialsDropDownMenuFame(getDriver());
     }
 
     public GlobalCredentialsPage clickGlobalCredentials() {
