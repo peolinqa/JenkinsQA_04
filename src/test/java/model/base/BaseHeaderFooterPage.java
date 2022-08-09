@@ -101,11 +101,11 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         return new UserStatusPage(getDriver());
     }
 
-    public SelectorMenuFrame clickDropDownMenu() {
+    public HomePageSelectorMenuFrame clickDropDownMenu() {
         getActions().moveToElement(userPage).pause(200).perform();
         menuSelector.click();
 
-        return new SelectorMenuFrame(getDriver());
+        return new HomePageSelectorMenuFrame(getDriver());
     }
 
     public HomePage clickJenkins() {

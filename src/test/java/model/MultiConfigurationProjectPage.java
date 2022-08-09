@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
 import java.util.List;
 
 public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> {
@@ -57,12 +58,8 @@ public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiCo
         return this;
     }
 
-    public WebElement getTooltipStatus() {
-        return getWait5().until(ExpectedConditions.visibilityOf(tooltipStatus));
-    }
-
     public MultiConfigurationProjectPage clickTooltipStatus() {
-        getTooltipStatus().click();
+        getWait5().until(ExpectedConditions.visibilityOf(tooltipStatus)).click();
 
         return this;
     }

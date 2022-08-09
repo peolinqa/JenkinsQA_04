@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodesAndCloudsPage, ManageNodesAndCloudsPageSideMenuFrame> {
 
@@ -18,7 +19,10 @@ public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodes
     private WebElement newNodeButton;
 
     @FindBy(xpath = "//div[@id='menuSelector']")
-    private WebElement menuSelectorHiddenButton;
+    private WebElement menuSelector;
+
+    @FindBy(id = "yui-gen1-button")
+    private WebElement yesButton;
 
     public ManageNodesAndCloudsPage(WebDriver driver) {
         super(driver);
@@ -29,39 +33,31 @@ public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodes
         return new ManageNodesAndCloudsPageSideMenuFrame(getDriver());
     }
 
-    public List<WebElement> getComputerNames() {
-        return computerNames;
-    }
-
     public NewNodePage newNodeButtonClick() {
         newNodeButton.click();
 
         return new NewNodePage(getDriver());
     }
 
-    public ManageNodesAndCloudsPage menuSelectorHiddenButtonClick(WebElement computerName) {
-        getActions().moveToElement(computerName).build().perform();
+    public ManageNodesAndCloudsPageSelectorMenuFrame clickDropDownMenu(String computerName) {
 
-        getWait5().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//div[@id='menuSelector']")));
-        getActions().moveToElement(menuSelectorHiddenButton).click().build().perform();
+        for (WebElement s : computerNames){
+            if(s.getText().contains(computerName)){
+                getActions().moveToElement(s).build().perform();
+            }
+        }
+        menuSelector.click();
 
-        return this;
+        return new ManageNodesAndCloudsPageSelectorMenuFrame(getDriver());
     }
 
-    public ManageNodesAndCloudsPageSideMenuFrame chooseDeleteMenuAfterClickMenuSelector(WebElement computerName) {
-        menuSelectorHiddenButtonClick(computerName);
+    public ManageNodesAndCloudsPage confirmDeleteAndGoManageNodesAndCloudsPage() {
+        yesButton.click();
 
-        getWait20().until(ExpectedConditions
-                .visibilityOfElementLocated(By.xpath("//span[text()='Delete Agent']"))).click();
-
-        return new ManageNodesAndCloudsPageSideMenuFrame(getDriver());
+        return new ManageNodesAndCloudsPage(getDriver());
     }
 
-    public List<String> getTextComputerNamesFromTable() {
-        List<String> textComputerNames = TestUtils
-                .getTextFromList(getDriver(), By.xpath("//table[@id='computers']//td[2]"));
-
-        return textComputerNames;
+    public List<String> getComputerNames() {
+        return computerNames.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }

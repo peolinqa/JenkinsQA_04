@@ -47,39 +47,29 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
 
     @Test
     public void testCreateNewNodeWithValidName() {
-        List<String> textComputerNames = new HomePage(getDriver())
+        List<String> computerNames = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManageNodesAndClouds()
                 .newNodeButtonClick()
                 .createNewNodeWithPermanentAgentOption(COMPUTER_NAME)
                 .clickSaveButton()
-                .getTextComputerNamesFromTable();
+                .getComputerNames();
 
-        Assert.assertTrue(textComputerNames.contains(COMPUTER_NAME));
+        Assert.assertTrue(computerNames.contains(COMPUTER_NAME));
     }
 
-
     @Test(dependsOnMethods = "testCreateNewNodeWithValidName")
-    public void testCheckDeleteNode() {
-        ManageNodesAndCloudsPage manageNodesAndCloudsPage = new HomePage(getDriver())
+    public void testCheckDeleteNode1() {
+        List<String> computerNames = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .clickManageNodesAndClouds();
+                .clickManageNodesAndClouds()
+                .clickDropDownMenu(COMPUTER_NAME)
+                .selectMenuDeleteAgentAndGoToManageNodesAndCloudsPage()
+                .confirmDeleteAndGoManageNodesAndCloudsPage()
+                .getComputerNames();
 
-        List<WebElement> computerNames = manageNodesAndCloudsPage.getComputerNames();
-
-        for (WebElement name : computerNames) {
-            if (name.getText().equals(COMPUTER_NAME)) {
-                manageNodesAndCloudsPage
-                        .menuSelectorHiddenButtonClick(name)
-                        .chooseDeleteMenuAfterClickMenuSelector(name)
-                        .confirmDeleteAndGoHomePage();
-                break;
-            }
-        }
-
-        List<String> computerNamesText = manageNodesAndCloudsPage.getTextComputerNamesFromTable();
-        Assert.assertFalse(computerNamesText.contains(COMPUTER_NAME));
+        Assert.assertFalse(computerNames.contains(COMPUTER_NAME));
     }
 }

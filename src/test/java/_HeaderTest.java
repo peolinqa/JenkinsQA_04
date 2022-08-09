@@ -247,7 +247,7 @@ public class _HeaderTest extends BaseTest {
     public void testCheckExpandMenuBuilds() {
         String userBuilds = new HomePage(getDriver())
                 .clickDropDownMenu()
-                .clickBuildsAndGoToBuildsPage()
+                .selectMenuBuildsAndGoToBuildsPage()
                 .getTextName();
 
         Assert.assertEquals(userBuilds, "Builds for admin");
@@ -257,7 +257,7 @@ public class _HeaderTest extends BaseTest {
     public void testCheckExpandMenuConfigure() {
         String buttonText = new HomePage(getDriver())
                 .clickDropDownMenu()
-                .clickConfigureAndGoToConfigurePage()
+                .selectMenuConfigureAndGoToConfigurePage()
                 .getGen2ButtonText();
 
         Assert.assertEquals(buttonText, "Add new Token");
@@ -267,7 +267,7 @@ public class _HeaderTest extends BaseTest {
     public void testCheckExpandMenuMyViews() {
         String myViewsText = new HomePage(getDriver())
                 .clickDropDownMenu()
-                .clickMyViewAndGoToMyViewPage()
+                .selectMenuMyViewAndGoToMyViewPage()
                 .getTextMyView();
 
         Assert.assertEquals(myViewsText, "My Views");
