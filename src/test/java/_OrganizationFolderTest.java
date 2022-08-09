@@ -59,17 +59,16 @@ public class _OrganizationFolderTest extends BaseTest {
 
     @Test(dependsOnMethods = "testCreateOrganizationFolderSameItemName")
     public void testCreateOrganizationFolderWithMetadataFolderIcon() {
-        String projectIcon = new HomePage(getDriver())
+        String attributeClassIkonProject = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_RENAME)
                 .clickConfigureProjectButton()
                 .clickAppearanceDropDownList()
                 .selectOptionMetadataFolderIcon()
                 .saveConfigAndGoToProject()
                 .goHome()
-                .getProjectIconByName(VALID_FOLDER_RENAME)
-                .getAttribute("class");
+                .getAttributeClassProjectIcon(VALID_FOLDER_RENAME);
 
-        Assert.assertEquals(projectIcon, "icon-branch-api-organization-folder icon-lg");
+        Assert.assertEquals(attributeClassIkonProject, "icon-branch-api-organization-folder icon-lg");
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolderWithMetadataFolderIcon")

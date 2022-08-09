@@ -43,15 +43,15 @@ public final class MultibranchPipelineProjectPage extends BaseProjectPage<Multib
         return new MultibranchPipelineConsolePage(getDriver());
     }
 
-    public WebElement getIconFolderDisabled() {
-        return iconFolderDisabled;
+    public boolean isIconFolderDisabledDisplayed() {
+        return iconFolderDisabled.isDisplayed();
     }
 
-    public WebElement getIconFolderEnabled() {
-        return iconFolderEnabled;
+    public boolean istIconFolderEnabled() {
+        return iconFolderEnabled.isDisplayed();
     }
 
-    public WebElement getMessageDisabled() {
-        return messageDisabled;
+    public String textMessageDisabled() {
+        return messageDisabled.getText();
     }
 }

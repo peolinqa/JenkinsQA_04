@@ -88,8 +88,8 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
     }
 
-    public WebElement getProjectIconByName(String name) {
-        return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH));
+    public String getAttributeClassProjectIcon(String name) {
+        return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH)).getAttribute("class");
     }
 
     public int getSizeOfProjectLinkByName(String name) {
