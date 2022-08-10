@@ -267,15 +267,14 @@ public class _FolderTest extends BaseTest {
                 .saveConfigAndGoToFolderPage()
                 .getSideMenu()
                 .clickMenuConfigure()
-                .clickMetricsButton()
+                .clickHealthMetricsButton()
                 .clickAddMetricButton()
-                .clickMetricsItem()
+                .clickChildItem()
                 .saveConfigAndGoToFolderPage()
                 .getSideMenu()
                 .clickMenuConfigure()
-                .clickMetricsButton()
-                .getMetricElement()
-                .getText();
+                .clickHealthMetricsButton()
+                .getTextChildItem();
 
         Assert.assertEquals(actualResult, "Child item with worst health");
     }
@@ -283,36 +282,28 @@ public class _FolderTest extends BaseTest {
     @Test
     public void testRemoveHealthMetrics() {
         String folderName = TestUtils.getRandomStr();
-        try {
-            WebElement metric = new HomePage(getDriver())
-                    .getSideMenu()
-                    .clickMenuNewItem()
-                    .setProjectName(folderName)
-                    .setProjectTypeFolder()
-                    .clickOkAndGoToConfig()
-                    .saveConfigAndGoToFolderPage()
-                    .getSideMenu()
-                    .clickMenuConfigure()
-                    .clickMetricsButton()
-                    .clickAddMetricButton()
-                    .clickMetricsItem()
-                    .saveConfigAndGoToFolderPage()
-                    .getSideMenu()
-                    .clickMenuConfigure()
-                    .clickMetricsButton()
-                    .deleteHealthMetric()
-                    .saveConfigAndGoToFolderPage()
-                    .getSideMenu()
-                    .clickMenuConfigure()
-                    .clickMetricsButton()
-                    .getMetricElement();
+        boolean isAddMetricDisplayed = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
+                .setProjectName(folderName)
+                .setProjectTypeFolder()
+                .clickOkAndGoToConfig()
+                .clickHealthMetricsButton()
+                .clickAddMetricButton()
+                .clickChildItem()
+                .saveConfigAndGoToFolderPage()
+                .getSideMenu()
+                .clickMenuConfigure()
+                .clickHealthMetricsButton()
+                .clickDeleteChildItem()
+                .saveConfigAndGoToFolderPage()
+                .getSideMenu()
+                .clickMenuConfigure()
+                .clickHealthMetricsButton()
+                .isAddMetricDisplayed();
 
-            Assert.assertThrows(() -> metric.isDisplayed());
-        } finally {
-            new FolderConfigPage(getDriver())
-                    .saveConfigAndGoToFolderPage();
-        }
-    }
+        Assert.assertTrue(isAddMetricDisplayed);
+   }
 
     @Test(dependsOnMethods = "testFolderIsCreatedWithoutSave")
     public void testCreateJobInsideFolder() {

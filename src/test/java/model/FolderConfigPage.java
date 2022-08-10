@@ -8,7 +8,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public final class FolderConfigPage extends BaseHeaderFooterPage {
-
     @FindBy(css = "[type='submit']")
     private WebElement saveButton;
 
@@ -19,25 +18,25 @@ public final class FolderConfigPage extends BaseHeaderFooterPage {
     private WebElement folderDescriptionPreview;
 
     @FindBy(id = "yui-gen3-button")
-    private WebElement clickMetricsButton;
+    private WebElement healthMetricsButton;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement clickAddMetricButton;
+    private WebElement addMetricButton;
 
     @FindBy(xpath = "//a[text()='Child item with worst health']")
-    private WebElement clickMetricsItem;
+    private WebElement childItem;
 
     @FindBy(xpath = "//b[text()='Child item with worst health']")
-    private WebElement getMetricElement;
+    private WebElement textChildItem;
 
     @FindBy(xpath = "//button[@title ='Remove']")
-    private WebElement deleteHealthMetric;
+    private WebElement deleteChildItemButton;
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
     }
 
-    public FolderConfigPage setFolderDescription (String text) {
+    public FolderConfigPage setFolderDescription(String text) {
         folderDescription.sendKeys(text);
 
         return this;
@@ -60,7 +59,7 @@ public final class FolderConfigPage extends BaseHeaderFooterPage {
         return new FolderProjectPage(getDriver());
     }
 
-    public FolderConfigPage openFolderMenuSelector(String folderName){
+    public FolderConfigPage openFolderMenuSelector(String folderName) {
         getActions().moveToElement(getDriver().findElement((
                 By.xpath(String.format("//a[@href='/job/%s/']", folderName))))).build().perform();
         getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
@@ -68,42 +67,42 @@ public final class FolderConfigPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public FolderProjectPage clickDeleteOnMenuSelector(){
+    public FolderProjectPage clickDeleteOnMenuSelector() {
         getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
 
         return new FolderProjectPage(getDriver());
     }
 
-    public FolderConfigPage clickMetricsButton() {
-        clickMetricsButton.click();
+    public FolderConfigPage clickHealthMetricsButton() {
+        healthMetricsButton.click();
 
         return this;
     }
 
     public FolderConfigPage clickAddMetricButton() {
-        clickAddMetricButton.click();
+        addMetricButton.click();
 
         return this;
     }
 
-    public FolderConfigPage clickMetricsItem() {
-        clickMetricsItem.click();
+    public FolderConfigPage clickChildItem() {
+        childItem.click();
 
         return this;
     }
 
-    public WebElement getMetricElement() {
+    public boolean isAddMetricDisplayed() {
 
-        return getMetricElement;
+        return addMetricButton.isDisplayed();
     }
 
-    public FolderConfigPage deleteHealthMetric() {
-        try {
-            do {
-                deleteHealthMetric.click();
-            } while (deleteHealthMetric.isDisplayed());
-        } catch (Exception ex) {
-        }
+    public String getTextChildItem() {
+
+        return textChildItem.getText();
+    }
+
+    public FolderConfigPage clickDeleteChildItem() {
+        getWait5().until(ExpectedConditions.elementToBeClickable(deleteChildItemButton)).click();
 
         return this;
     }
