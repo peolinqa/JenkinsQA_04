@@ -15,9 +15,6 @@ public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodes
     @FindBy(xpath = "//table[@id='computers']//td[2]")
     private List<WebElement> computerNames;
 
-    @FindBy(xpath = "//span[text()='New Node']")
-    private WebElement newNodeButton;
-
     @FindBy(xpath = "//div[@id='menuSelector']")
     private WebElement menuSelector;
 
@@ -31,12 +28,6 @@ public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodes
     @Override
     public ManageNodesAndCloudsPageSideMenuFrame getSideMenu() {
         return new ManageNodesAndCloudsPageSideMenuFrame(getDriver());
-    }
-
-    public NewNodePage newNodeButtonClick() {
-        newNodeButton.click();
-
-        return new NewNodePage(getDriver());
     }
 
     public ManageNodesAndCloudsPageSelectorMenuFrame clickDropDownMenu(String computerName) {

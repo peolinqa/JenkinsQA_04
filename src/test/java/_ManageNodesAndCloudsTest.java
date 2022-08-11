@@ -51,7 +51,8 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManageNodesAndClouds()
-                .newNodeButtonClick()
+                .getSideMenu()
+                .clickMenuNewNode()
                 .createNewNodeWithPermanentAgentOption(COMPUTER_NAME)
                 .clickSaveButton()
                 .getComputerNames();

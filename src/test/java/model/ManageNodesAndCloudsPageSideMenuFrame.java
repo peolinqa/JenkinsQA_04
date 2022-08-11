@@ -10,6 +10,9 @@ public class ManageNodesAndCloudsPageSideMenuFrame extends BaseModel<ManageNodes
     @FindBy(id = "yui-gen1-button")
     private WebElement yesButton;
 
+    @FindBy (xpath = "//span[text()='New Node']")
+    private WebElement NewNode;
+
     public ManageNodesAndCloudsPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -18,5 +21,11 @@ public class ManageNodesAndCloudsPageSideMenuFrame extends BaseModel<ManageNodes
         yesButton.click();
 
         return new HomePage(getDriver());
+    }
+
+    public NewNodePage clickMenuNewNode(){
+        NewNode.click();
+
+        return new NewNodePage(getDriver());
     }
 }
