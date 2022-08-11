@@ -14,9 +14,6 @@ public final class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, Buil
     @FindBy(xpath = "//table[@id='projectStatus']/tbody")
     private WebElement tableOfProjects;
 
-    @FindBy(linkText = "Console Output")
-    private WebElement menuDropDownConsole;
-
     @FindBy(css = "tr:nth-child(1) td a:nth-child(2)")
     private WebElement buildName;
 
@@ -48,18 +45,12 @@ public final class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, Buil
         return tableOfProjects.getText().contains(buildName);
     }
 
-    public BuildHistoryPage clickBuildDropDownMenu(String projectName, String buildName) {
+    public BuildHistoryPageSelectorMenuFrame clickBuildDropDownMenu(String projectName, String buildName) {
         getActions().moveToElement(getDriver().findElement(
                 By.xpath(String.format("//a[@href='/job/%s/%s/']", projectName, buildName)))).perform();
         menuSelector.click();
 
-        return this;
-    }
-
-    public BuildConsolePage clickMenuDropDownConsole() {
-        menuDropDownConsole.click();
-
-        return new BuildConsolePage(getDriver());
+        return new BuildHistoryPageSelectorMenuFrame(getDriver());
     }
 
     public FreestyleBuildPage clickBuildName() {
