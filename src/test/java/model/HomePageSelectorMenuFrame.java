@@ -16,6 +16,9 @@ public final class HomePageSelectorMenuFrame extends BasePage {
     @FindBy(linkText = "My Views")
     private WebElement menuMyView;
 
+    @FindBy(xpath = "//a/span[text()='Delete Pipeline']")
+    private WebElement menuDelete;
+
     public HomePageSelectorMenuFrame(WebDriver driver) {
         super(driver);
     }
@@ -36,5 +39,24 @@ public final class HomePageSelectorMenuFrame extends BasePage {
         menuMyView.click();
 
         return new MyViewPage(getDriver());
+    }
+
+    public HomePage selectMenuDeleteAndGoToHomePage() {
+        menuDelete.click();
+        getDriver().switchTo().alert().accept();
+
+        return new HomePage(getDriver());
+    }
+
+    public MultiConfigurationConfigPage selectMenuConfigAndGoToMultiConfigurationConfigPage() {
+        menuConfigure.click();
+
+        return new MultiConfigurationConfigPage(getDriver());
+    }
+
+    public PipelineConfigPage selectMenuConfigureAndGoToPipelineConfigPage() {
+        menuConfigure.click();
+
+        return new PipelineConfigPage(getDriver());
     }
 }

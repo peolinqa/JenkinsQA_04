@@ -246,7 +246,8 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuBuilds() {
         String userBuilds = new HomePage(getDriver())
-                .clickDropDownMenu()
+                .moveToUser()
+                .clickUserDropDownMenu()
                 .selectMenuBuildsAndGoToBuildsPage()
                 .getTextName();
 
@@ -256,7 +257,8 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuConfigure() {
         String buttonText = new HomePage(getDriver())
-                .clickDropDownMenu()
+                .moveToUser()
+                .clickUserDropDownMenu()
                 .selectMenuConfigureAndGoToConfigurePage()
                 .getGen2ButtonText();
 
@@ -266,7 +268,8 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuMyViews() {
         String myViewsText = new HomePage(getDriver())
-                .clickDropDownMenu()
+                .moveToUser()
+                .clickUserDropDownMenu()
                 .selectMenuMyViewAndGoToMyViewPage()
                 .getTextMyView();
 

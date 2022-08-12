@@ -50,8 +50,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCheckTransitionToPageWithError")
     public void testCheckDropDownMenuPipeline() {
         final int checkDisplayedDropDownList = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .jsDropDownMenuPipelineTab()
                 .clickDropDownMenuPipelineTab()
                 .collectDropDownMenu();
@@ -62,8 +63,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCheckDropDownMenuPipeline")
     public void testJenkinsCredentialsProviderWindow() {
         final String titleOfJenkinsCredentialsProviderWindow = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .collectPipelineScriptDropDownMenu()
                 .collectPipelineScriptScmDropDownMenu()
@@ -77,8 +79,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testJenkinsCredentialsProviderWindow")
     public void testPipelineSyntaxPageOpening() {
         final String hrefAttOfPipelineSyntaxLink = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickUserDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .getHrefAndGoToPipelineSyntaxPage()
                 .getPipelineSyntaxHrefAtt();
@@ -89,8 +92,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testPipelineSyntaxPageOpening")
     public void testPipelineGroovyPageOpening() {
         final String useGroovySandBoxCheckboxAtt = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .getUseGroovySandBoxCheckboxAtt();
 
         Assert.assertEquals(useGroovySandBoxCheckboxAtt, "true");
@@ -99,8 +103,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testPipelineGroovyPageOpening")
     public void testTitleConfigPageContainsProjectTitle() {
         final String titleConfigPage = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .getTitleConfigPage();
 
         Assert.assertTrue(titleConfigPage.contains(PIPELINE_NAME));
@@ -118,8 +123,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCreatePipelineAndCheckOnDashboard")
     public void testHelpTooltipsText() {
         final boolean check = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .checkHelpTooltipsTextCheckBoxHelpText();
 
         Assert.assertTrue(check);
@@ -128,8 +134,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testHelpTooltipsText")
     public void testApplyButtonNotificationAlert() {
         final String notificationSave = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .applyButtonClick()
                 .notification();
 
@@ -139,8 +146,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testApplyButtonNotificationAlert")
     public void testCreatePipelineWithNegativeValueQuietPeriod() {
         final String checkForValueErrorMessage = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .jsCheckboxProjectParameterized()
                 .enteringDataIntoLineQuietPeriod()
                 .verificationPeriodErrorMessage();
@@ -165,8 +173,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testPermalinksTextAfterPipelineBuildNow")
     public void testDragAndDropProjectParameters() {
         final List<String> locationProjectParameterized = new HomePage(getDriver())
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .clickCheckboxProjectParameterized()
                 .clickAddParameterOfBuildButton()
                 .clickBooleanParameterButton()
@@ -304,8 +313,9 @@ public class _PipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testCheckPositiveBuildIcon")
     public void testCheckSequenceInParameters() {
         final List<String> CurrentLocationItemsInDropDownMenu = new HomePage(getDriver())
-                .projectMenuSelector(NEW_PIPELINE_NAME)
-                .clickConfigureFromDropdownMenuAndGoToPipelineConfigPage()
+                .moveToProjectName(NEW_PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigureAndGoToPipelineConfigPage()
                 .clickCheckboxProjectParameterized()
                 .clickAddParameterOfBuildButton()
                 .clickChoiceParameterButton()
@@ -399,8 +409,9 @@ public class _PipelineTest extends BaseTest {
     public void testDeletePipelineFromDashboard() {
         final boolean check = new HomePage(getDriver())
                 .clickDashboardButton()
-                .projectMenuSelector(PIPELINE_NAME)
-                .clickDeleteProjectMenuSelector()
+                .moveToProjectName(PIPELINE_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuDeleteAndGoToHomePage()
                 .checkProjectAfterDelete(PIPELINE_NAME);
 
         Assert.assertTrue(check);

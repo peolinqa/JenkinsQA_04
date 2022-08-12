@@ -77,8 +77,8 @@ public class _ManageCredentialsTest extends BaseTest {
                 .clickMenuManageJenkins()
                 .clickManageCredentials()
                 .clickCredentialsStoreSystemMenu()
-                .clickMenuSelector()
-                .clickDropDownMenuAddDomain()
+                .clickCredentialDropDownMenu()
+                .selectMenuAddDomainAndGoToNewDomainPage()
                 .createNewDomain(domainName)
                 .getDomainHeader();
 

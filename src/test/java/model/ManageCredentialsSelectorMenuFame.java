@@ -5,17 +5,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ManageCredentialsDropDownMenuFame extends BasePage {
+public class ManageCredentialsSelectorMenuFame extends BasePage {
 
     @FindBy(xpath = "//span[contains(text(), 'Add domain')]")
-    private WebElement dropDownMenuAddDomainTab;
+    private WebElement menuAddDomain;
 
-    public ManageCredentialsDropDownMenuFame(WebDriver driver) {
+    public ManageCredentialsSelectorMenuFame(WebDriver driver) {
         super(driver);
     }
 
-    public NewDomainPage clickDropDownMenuAddDomain() {
-        dropDownMenuAddDomainTab.click();
+    public NewDomainPage selectMenuAddDomainAndGoToNewDomainPage() {
+        menuAddDomain.click();
 
         return new NewDomainPage(getDriver());
     }

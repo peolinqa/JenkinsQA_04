@@ -24,7 +24,7 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
     private WebElement apiFooter;
 
     @FindBy(css = ".login")
-    private WebElement userPage;
+    private WebElement user;
 
     @FindBy(id = "menuSelector")
     private WebElement menuSelector;
@@ -96,13 +96,18 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
     }
 
     public UserStatusPage clickUserAndGoToUserPage() {
-        userPage.click();
+        user.click();
 
         return new UserStatusPage(getDriver());
     }
 
-    public HomePageSelectorMenuFrame clickDropDownMenu() {
-        getActions().moveToElement(userPage).pause(200).perform();
+    public HomePage moveToUser() {
+        getActions().moveToElement(user).perform();
+
+        return new HomePage(getDriver());
+    }
+
+    public HomePageSelectorMenuFrame clickUserDropDownMenu() {
         menuSelector.click();
 
         return new HomePageSelectorMenuFrame(getDriver());
@@ -119,8 +124,13 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         return new HomePage(getDriver());
     }
 
-    public Self clickDashboardDropdownMenu() {
+    public Self moveToDashboard() {
         getActions().moveToElement(dashboardButton).build().perform();
+
+        return (Self) this;
+    }
+
+    public Self clickDashboardDropdownMenu() {
         getActions().moveToElement(menuSelector).click().build().perform();
 
         return (Self) this;

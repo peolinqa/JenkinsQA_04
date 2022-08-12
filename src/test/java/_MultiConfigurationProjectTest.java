@@ -66,8 +66,9 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 "each time a build of this project completes.";
 
         MultiConfigurationConfigPage newMultiConfigurationConfigPage = new HomePage(getDriver())
-                .projectMenuSelector(RANDOM_NAME)
-                .clickConfigureFromDropdownMenuAndGoToMultiConfigurationConfig();
+                .moveToProjectName(RANDOM_NAME)
+                .clickProjectDropDownMenu()
+                .selectMenuConfigAndGoToMultiConfigurationConfigPage();
 
         Assert.assertTrue(newMultiConfigurationConfigPage.helpButtonDiscardOldBuildsIsVisible());
         Assert.assertEquals(newMultiConfigurationConfigPage.getAttributeHelpButtonDiscardOldBuilds("title"),

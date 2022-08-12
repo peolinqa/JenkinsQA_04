@@ -44,6 +44,7 @@ public class _DashboardTest extends BaseTest {
                 "New View");
 
         List<String> listOfDashboardDropdownMenuElements = new HomePage(getDriver())
+                .moveToDashboard()
                 .clickDashboardDropdownMenu()
                 .getListOfDashboardDropdownMenuElements();
 

@@ -47,10 +47,10 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
         return new ManageCredentialsPage(getDriver());
     }
 
-    public ManageCredentialsDropDownMenuFame clickMenuSelector() {
+    public ManageCredentialsSelectorMenuFame clickCredentialDropDownMenu() {
         menuSelector.click();
 
-        return new ManageCredentialsDropDownMenuFame(getDriver());
+        return new ManageCredentialsSelectorMenuFame(getDriver());
     }
 
     public GlobalCredentialsPage clickGlobalCredentials() {

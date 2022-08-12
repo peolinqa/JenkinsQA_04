@@ -56,11 +56,6 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
     @FindBy (xpath = "//a[@href='/legend']")
     private WebElement linkIconLegend;
 
-    @FindBy(xpath = "//a[@class='yuimenuitemlabel']//span[text()='Configure']")
-    private WebElement configureFromDropdownMenu;
-
-    @FindBy(xpath = "//a[@class='yuimenuitemlabel']//span[text()='Delete Pipeline']")
-    private WebElement deletePipelineFromDropdownMenu;
 
     @FindBy(xpath = "//table[@id='projectstatus']//tbody//td[3]")
     private List<WebElement> itemsNames;
@@ -302,22 +297,19 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return new LegendPage(getDriver());
     }
 
-    public HomePage projectMenuSelector(String name) {
+    public HomePage moveToProjectName(String name) {
         for (WebElement s : listAllActualProjectNameHomePage){
-           if(s.getText().contains(name)){
-               getActions().moveToElement(s).build().perform();
-           }
+            if(s.getText().contains(name)){
+                getActions().moveToElement(s).build().perform();
+            }
         }
-        menuSelector.click();
 
-        return this;
+        return new HomePage(getDriver());
     }
 
-    public HomePage clickDeleteProjectMenuSelector() {
-        deletePipelineFromDropdownMenu.click();
-        getDriver().switchTo().alert().accept();
-
-        return this;
+    public HomePageSelectorMenuFrame clickProjectDropDownMenu() {
+        menuSelector.click();
+        return new HomePageSelectorMenuFrame(getDriver());
     }
 
     public SearchPage sendTextSearchPanel(String text){
@@ -325,18 +317,6 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
        searchBox.sendKeys(text + Keys.ENTER);
 
        return new SearchPage(getDriver());
-    }
-
-    public MultiConfigurationConfigPage clickConfigureFromDropdownMenuAndGoToMultiConfigurationConfig() {
-       configureFromDropdownMenu.click();
-
-       return new MultiConfigurationConfigPage(getDriver());
-    }
-
-    public PipelineConfigPage clickConfigureFromDropdownMenuAndGoToPipelineConfigPage() {
-        configureFromDropdownMenu.click();
-
-        return new PipelineConfigPage(getDriver());
     }
 
    public boolean isTitleDashboardJenkins(){
