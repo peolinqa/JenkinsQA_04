@@ -47,14 +47,11 @@ public final class MyViewPage extends BaseProjectPage<MyViewPage, MyViewPageSide
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='children']")
     private WebElement triangleOnBreadcrumbs;
 
-    @FindBy(xpath = "//div[@id='menuSelector']")
+    @FindBy(id = "menuSelector")
     private WebElement menuSelector;
 
     @FindBy(xpath = "//thead/tr/th/a")
     private List<WebElement> columnsInMyView;
-
-    @FindBy(xpath = "//span[text()='Configure']")
-    private WebElement buttonConfigureInMenuSelector;
 
     @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
     private List<WebElement> listJobsNameMyViewPage;
@@ -148,7 +145,7 @@ public final class MyViewPage extends BaseProjectPage<MyViewPage, MyViewPageSide
         return this;
     }
 
-    public MyViewPage moveToElement(String elementName) {
+    public MyViewPage moveToProjectName(String elementName) {
         getActions()
                 .moveToElement(getDriver().findElement(By.xpath(String.format("//a[.='%s']", elementName))))
                 .perform();
@@ -156,27 +153,14 @@ public final class MyViewPage extends BaseProjectPage<MyViewPage, MyViewPageSide
         return this;
     }
 
-    public MyViewPage clickMenuSelector() {
+    public MyViewPageSelectorMenuFrame clickProjectDropDownMenu() {
         menuSelector.click();
 
-        return this;
-    }
-
-    public PipelineConfigPage clickInMenuSelectorConfigure() {
-        buttonConfigureInMenuSelector.click();
-
-        return new PipelineConfigPage(getDriver());
+        return new MyViewPageSelectorMenuFrame(getDriver());
     }
 
     public int getCountOfColumns() {
         return columnsInMyView.size();
-    }
-
-    public MultibranchPipelineConfigPage selectOptionInMenuSelector1(String option) {
-        menuSelector.click();
-        getDriver().findElement(By.xpath(String.format("//span[text()='%s']", option))).click();
-
-        return new MultibranchPipelineConfigPage(getDriver());
     }
 
     public List<String> getListJobsName() {
