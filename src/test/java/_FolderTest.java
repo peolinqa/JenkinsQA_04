@@ -1,9 +1,9 @@
 import model.*;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.util.Random;
 
 public class _FolderTest extends BaseTest {
@@ -61,9 +61,9 @@ public class _FolderTest extends BaseTest {
                 .setProjectTypeFolder()
                 .getNameErrorText();
 
-            String expectedResult = String.format("» ‘%s%s", invalidSymbols[result], WARNING_TEXT_UNSAFE);
+        String expectedResult = String.format("» ‘%s%s", invalidSymbols[result], WARNING_TEXT_UNSAFE);
 
-            Assert.assertEquals(actualResult, expectedResult);
+        Assert.assertEquals(actualResult, expectedResult);
     }
 
     @Test
@@ -84,7 +84,7 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem();
 
-        for (char x : CHARS){
+        for (char x : CHARS) {
             String actualResult = newItemPage
                     .setProjectName(Character.toString(x))
                     .getHelpInputText();
@@ -246,8 +246,8 @@ public class _FolderTest extends BaseTest {
                 .setProjectTypeFolder()
                 .clickOkAndGoToConfig()
                 .openFolderMenuSelector(folderName)
-                .clickDeleteOnMenuSelector()
-                .clickYesButton()
+                .selectMenuDeleteFolderAndGoToHomePage()
+                .confirmDeleteAndGoHomePage()
                 .searchText(folderName)
                 .getSearchMessageText();
 
@@ -303,7 +303,7 @@ public class _FolderTest extends BaseTest {
                 .isAddMetricDisplayed();
 
         Assert.assertTrue(isAddMetricDisplayed);
-   }
+    }
 
     @Test(dependsOnMethods = "testFolderIsCreatedWithoutSave")
     public void testCreateJobInsideFolder() {

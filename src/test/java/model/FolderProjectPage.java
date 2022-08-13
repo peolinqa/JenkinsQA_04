@@ -39,12 +39,6 @@ public final class FolderProjectPage extends BaseProjectPage<FolderProjectPage, 
         return folderDescription.getText();
     }
 
-    public HomePage clickYesButton() {
-        yesButton.click();
-
-        return new HomePage(getDriver());
-    }
-
     public NewItemPage<Object> createJobInsideFolder() {
         createJob.click();
 

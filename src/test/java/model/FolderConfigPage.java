@@ -59,18 +59,12 @@ public final class FolderConfigPage extends BaseHeaderFooterPage {
         return new FolderProjectPage(getDriver());
     }
 
-    public FolderConfigPage openFolderMenuSelector(String folderName) {
+    public FolderConfigPageSelectorMenuFrame openFolderMenuSelector(String folderName) {
         getActions().moveToElement(getDriver().findElement((
                 By.xpath(String.format("//a[@href='/job/%s/']", folderName))))).build().perform();
         getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
 
-        return this;
-    }
-
-    public FolderProjectPage clickDeleteOnMenuSelector() {
-        getDriver().findElement(By.xpath("//span[contains(text(),'Delete Folder')]")).click();
-
-        return new FolderProjectPage(getDriver());
+        return new FolderConfigPageSelectorMenuFrame(getDriver());
     }
 
     public FolderConfigPage clickHealthMetricsButton() {
