@@ -1,9 +1,11 @@
 package model;
 
 import model.base.BaseHeaderFooterPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 
 public final class ManageScriptConsolePage extends BaseHeaderFooterPage {
@@ -30,6 +32,7 @@ public final class ManageScriptConsolePage extends BaseHeaderFooterPage {
 
     public ManageScriptConsolePage clickRunButton() {
         runButton.click();
+        getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > h2")));
 
         return this;
     }
