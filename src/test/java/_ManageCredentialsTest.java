@@ -3,7 +3,6 @@ import model.HomePage;
 import model.ManageCredentialsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
 import runner.TestUtils;
 
@@ -32,40 +31,33 @@ public class _ManageCredentialsTest extends BaseTest {
         final String[] icon_style = new String[]{"icon-credentials-system-store icon-sm",
                 "icon-credentials-system-store icon-md", "icon-credentials-system-store icon-lg"};
 
-        ManageCredentialsPage iconSizeChange = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .clickManageCredentials();
-
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(iconSizeChange.clickSmallSizeIcon().getIconCredentialsProvider(), icon_style[0]);
-        asserts.assertEquals(iconSizeChange.clickMediumSizeIcon().getIconCredentialsProvider(), icon_style[1]);
-        asserts.assertEquals(iconSizeChange.clickLargeSizeIcon().getIconCredentialsProvider(), icon_style[2]);
-        asserts.assertAll();
+                .clickManageCredentials()
+                .clickSmallSizeIcon()
+                .assertEquals(ManageCredentialsPage::getIconCredentialsProvider, icon_style[0])
+                .clickMediumSizeIcon()
+                .assertEquals(ManageCredentialsPage::getIconCredentialsProvider, icon_style[1])
+                .clickLargeSizeIcon()
+                .assertEquals(ManageCredentialsPage::getIconCredentialsProvider, icon_style[2]);
     }
 
     @Test
     public void testIconSizeCSSChangePositive() {
         final String grey = "rgba(248, 248, 248, 1)";
         final String transparent = "rgba(0, 0, 0, 0)";
-        final String[] buttonSPressed = new String[]{grey, transparent, transparent};
-        final String[] buttonMPressed = new String[]{transparent, grey, transparent};
-        final String[] buttonLPressed = new String[]{transparent, transparent, grey};
 
-        ManageCredentialsPage iconSizeChange = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .clickManageCredentials();
-
-        String[] actualResultSPressed = iconSizeChange.clickSmallSizeIcon().getChangeIconButtonsBGColors();
-        String[] actualResultMPressed = iconSizeChange.clickMediumSizeIcon().getChangeIconButtonsBGColors();
-        String[] actualResultLPressed = iconSizeChange.clickLargeSizeIcon().getChangeIconButtonsBGColors();
-
-        SoftAssert asserts = new SoftAssert();
-        asserts.assertEquals(actualResultSPressed, buttonSPressed);
-        asserts.assertEquals(actualResultMPressed, buttonMPressed);
-        asserts.assertEquals(actualResultLPressed, buttonLPressed);
-        asserts.assertAll();
+                .clickManageCredentials()
+                .clickSmallSizeIcon()
+                .assertEquals(ManageCredentialsPage::getChangeIconButtonsBGColors, new String[]{grey, transparent, transparent})
+                .clickMediumSizeIcon()
+                .assertEquals(ManageCredentialsPage::getChangeIconButtonsBGColors, new String[]{transparent, grey, transparent})
+                .clickLargeSizeIcon()
+                .assertEquals(ManageCredentialsPage::getChangeIconButtonsBGColors, new String[]{transparent, transparent, grey});
     }
 
     @Test
