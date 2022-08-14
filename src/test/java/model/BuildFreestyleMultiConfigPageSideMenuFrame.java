@@ -34,4 +34,10 @@ public final class BuildFreestyleMultiConfigPageSideMenuFrame extends BaseModel<
 
         return new BuildChangesPage(getDriver());
     }
+
+    public EditBuildInformationPage clickEditBuildInfoButton() {
+        menuEditBuildInformation.click();
+
+        return new EditBuildInformationPage(getDriver());
+    }
 }

@@ -70,13 +70,14 @@ public class BuildHistoryTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuBuildHistory()
                 .clickLinkBuildLastCreated()
+                .getSideMenu()
                 .clickEditBuildInfoButton()
                 .editBuildName(EDIT_BUILD_NAME)
                 .editBuildDescription(BUILD_DESCRIPTION)
                 .clickSaveButton();
 
-        Assert.assertEquals(freestyleBuildPage.getBuildHeader(), EDIT_BUILD_NAME);
-        Assert.assertEquals(freestyleBuildPage.getBuildDescription(), BUILD_DESCRIPTION);
+        Assert.assertEquals(freestyleBuildPage.getBuildHeaderName(), EDIT_BUILD_NAME);
+        Assert.assertEquals(freestyleBuildPage.getBuildDescriptionText(), BUILD_DESCRIPTION);
     }
 
     @Test(dependsOnMethods = {"testEditBuildInformation"})
