@@ -1,11 +1,11 @@
 package model;
 
-import model.base.BaseHeaderFooterPage;
+import model.base.BaseSideMenuPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public final class ManageCredentialsPage extends BaseHeaderFooterPage {
+public final class ManageCredentialsPage extends BaseSideMenuPage<ManageCredentialsPage, HomePageSideMenuFrame> {
 
     @FindBy(xpath = "//a[@href='/credentials/store/system']")
     private WebElement credentialsStoreSystem;
@@ -39,6 +39,11 @@ public final class ManageCredentialsPage extends BaseHeaderFooterPage {
 
     public ManageCredentialsPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Override
+    public HomePageSideMenuFrame getSideMenu() {
+        return new HomePageSideMenuFrame(getDriver());
     }
 
     public ManageCredentialsPage clickCredentialsStoreSystemMenu() {
