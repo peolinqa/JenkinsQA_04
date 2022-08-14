@@ -53,9 +53,9 @@ public class _NewItemTest extends BaseTest {
         new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
-                .assertTrue((object) -> object.getFontWeightForEachProjectLabel().stream().allMatch(value -> value.equals("700")))
-                .assertTrue((object) -> object.getFontSizeForEachProjectLabel().stream().allMatch(value -> value.equals("16px")))
-                .assertTrue((object) -> object.getColorForEachProjectLabel().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
+                .assertTrue(page -> page.getFontWeightForEachProjectLabel().stream().allMatch(value -> value.equals("700")))
+                .assertTrue(page -> page.getFontSizeForEachProjectLabel().stream().allMatch(value -> value.equals("16px")))
+                .assertTrue(page -> page.getColorForEachProjectLabel().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
@@ -63,9 +63,9 @@ public class _NewItemTest extends BaseTest {
         new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
-                .assertTrue((object) -> object.getFontWeightForEachDescription().stream().allMatch(value -> value.equals("400")))
-                .assertTrue((object) -> object.getFontSizeForEachDescription().stream().allMatch(value -> value.equals("14px")))
-                .assertTrue((object) -> object.getColorForEachDescription().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
+                .assertTrue(page -> page.getFontWeightForEachDescription().stream().allMatch(value -> value.equals("400")))
+                .assertTrue(page -> page.getFontSizeForEachDescription().stream().allMatch(value -> value.equals("14px")))
+                .assertTrue(page -> page.getColorForEachDescription().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
@@ -73,8 +73,8 @@ public class _NewItemTest extends BaseTest {
         new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
-                .assertTrue((object) -> object.isTypeProjectImageDisplayed().stream().allMatch(value -> value.equals(true)))
-                .assertTrue((object) -> object.isTypeProjectImageEnabled().stream().allMatch(value -> value.equals(true)));
+                .assertTrue(page -> page.isTypeProjectImageDisplayed().stream().allMatch(value -> value.equals(true)))
+                .assertTrue(page -> page.isTypeProjectImageEnabled().stream().allMatch(value -> value.equals(true)));
     }
 
     @Test
