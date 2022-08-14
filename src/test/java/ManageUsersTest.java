@@ -7,7 +7,7 @@ import runner.BaseTest;
 
 import java.util.*;
 
-public class _ManageUsersTest extends BaseTest {
+public class ManageUsersTest extends BaseTest {
 
     private static final String USER_NAME = "viktorp";
     private static final String PASSWORD = "123456ABC";
@@ -16,7 +16,7 @@ public class _ManageUsersTest extends BaseTest {
     private static final String EMAIL = "testemail.@gmail.com";
 
     @Test
-    public void testUserCanCreateNewUser() {
+    public void testCreateNewUser() {
         Set<String> usersListBefore = new TreeSet<>();
         Set<String> usersListAfter = new TreeSet<>();
 
@@ -40,7 +40,7 @@ public class _ManageUsersTest extends BaseTest {
         Assert.assertEquals(usersListAfter, usersListBefore);
     }
 
-    @Test(dependsOnMethods = "testUserCanCreateNewUser")
+    @Test(dependsOnMethods = "testCreateNewUser")
     public void testEditUserFullName() {
         String userName = new HomePage(getDriver())
                 .getSideMenu()
@@ -56,7 +56,7 @@ public class _ManageUsersTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testEditUserFullName")
-    public void testUserCanDeleteUser() {
+    public void testDeleteUser() {
         Set<String> usersListBefore = new TreeSet<>();
         Set<String> usersListAfter = new TreeSet<>();
 
@@ -95,7 +95,7 @@ public class _ManageUsersTest extends BaseTest {
                     .setFullName(FULL_NAME)
                     .setEmailAddress(EMAIL)
                     .clickCreateUserButton(new CreateUserPage(getDriver()))
-                    .getErrorMessage();
+                    .getErrorMessageText();
 
             Assert.assertEquals(errorMessage, expectedResult);
         }
@@ -126,12 +126,12 @@ public class _ManageUsersTest extends BaseTest {
 
     @Test
     public void testCreateUserEmptyFields() {
-        final Set<String> expectedErrorsText = Set.of("Password is required",
+        final Set<String> expectedErrorMessagesText = Set.of("Password is required",
                 "\"\" is prohibited as a full name for security reasons.",
                 "Invalid e-mail address",
                 "\"\" is prohibited as a username for security reasons.");
 
-        Set<String> actualErrorsText = new HomePage(getDriver())
+        Set<String> actualErrorMessagesText = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManageUsers()
@@ -140,11 +140,11 @@ public class _ManageUsersTest extends BaseTest {
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
                 .getErrorMessagesList();
 
-        Assert.assertEquals(actualErrorsText, expectedErrorsText);
+        Assert.assertEquals(actualErrorMessagesText, expectedErrorMessagesText);
     }
 
     @Test
-    public void testCheckValueInUsernameEqualValueFromFullName() {
+    public void testCheckUsernameEqualFullName() {
         String fullName = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
@@ -153,13 +153,13 @@ public class _ManageUsersTest extends BaseTest {
                 .clickMenuCreateUser()
                 .setUserName(USER_NAME)
                 .clickCreateUserButton(new CreateUserPage(getDriver()))
-                .getAttributeFullName();
+                .getFullNameAttributeValue();
 
         Assert.assertEquals(fullName, USER_NAME);
     }
 
     @Test
-    public void testCheckErrorMessagesIfFillOutOnlyUserNameField() {
+    public void testFillOutOnlyUserNameField() {
         final Set<String> expectedErrorsText = Set.of("Password is required", "Invalid e-mail address");
 
         Set<String> actualErrorsText = new HomePage(getDriver())

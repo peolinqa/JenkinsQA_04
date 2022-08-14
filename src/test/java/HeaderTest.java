@@ -11,76 +11,76 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-public class _HeaderTest extends BaseTest {
+public class HeaderTest extends BaseTest {
 
     private final String logoIconAttribute = "/images/svgs/logo.svg";
     private final String pageHeaderLocation = "(0, 0)";
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnMainPage() {
+    public void testIsHeaderDisplayedOnHomePage() {
         HomePage newHomePage = new HomePage(getDriver());
 
-        Assert.assertTrue(newHomePage.topPageHeaderIsVisible());
+        Assert.assertTrue(newHomePage.isTopPageHeaderVisible());
         Assert.assertEquals(newHomePage.getPageHeaderLocation(), pageHeaderLocation);
     }
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnNewItemPage() {
+    public void testIsHeaderDisplayedOnNewItemPage() {
         NewItemPage newItemPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem();
 
-        Assert.assertTrue(newItemPage.topPageHeaderIsVisible());
+        Assert.assertTrue(newItemPage.isTopPageHeaderVisible());
         Assert.assertEquals(newItemPage.getPageHeaderLocation(), pageHeaderLocation);
     }
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnPeoplePage() {
+    public void testIsHeaderDisplayedOnPeoplePage() {
         PeoplePage newPeoplePage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuPeople();
 
-        Assert.assertTrue(newPeoplePage.topPageHeaderIsVisible());
+        Assert.assertTrue(newPeoplePage.isTopPageHeaderVisible());
         Assert.assertEquals(newPeoplePage.getPageHeaderLocation(), pageHeaderLocation);
     }
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnBuildHistoryPage() {
+    public void testIsHeaderDisplayedOnBuildHistoryPage() {
         BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuBuildHistory();
 
-        Assert.assertTrue(newBuildHistoryPage.topPageHeaderIsVisible());
+        Assert.assertTrue(newBuildHistoryPage.isTopPageHeaderVisible());
         Assert.assertEquals(newBuildHistoryPage.getPageHeaderLocation(), pageHeaderLocation);
     }
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnManageJenkinsPage() {
+    public void testIsHeaderDisplayedOnManageJenkinsPage() {
         ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins();
 
-        Assert.assertTrue(newManageJenkinsPage.topPageHeaderIsVisible());
+        Assert.assertTrue(newManageJenkinsPage.isTopPageHeaderVisible());
         Assert.assertEquals(newManageJenkinsPage.getPageHeaderLocation(), pageHeaderLocation);
     }
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnMyViewPage() {
+    public void testIsHeaderDisplayedOnMyViewPage() {
         MyViewPage newMyViewPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuMyView();
 
-        Assert.assertTrue(newMyViewPage.topPageHeaderIsVisible());
+        Assert.assertTrue(newMyViewPage.isTopPageHeaderVisible());
         Assert.assertEquals(newMyViewPage.getPageHeaderLocation(), pageHeaderLocation);
     }
 
     @Test
-    public void testIsHeaderDisplayedOnTopOnNewViewsPage() {
+    public void testIsHeaderDisplayedOnNewViewsPage() {
         NewViewPage newNewViewPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewView();
 
-        Assert.assertTrue(newNewViewPage.topPageHeaderIsVisible());
+        Assert.assertTrue(newNewViewPage.isTopPageHeaderVisible());
         Assert.assertEquals(newNewViewPage.getPageHeaderLocation(), pageHeaderLocation);
     }
 
@@ -97,9 +97,9 @@ public class _HeaderTest extends BaseTest {
     }
 
     @Test(dataProvider = "clickSideMenu")
-    public void testHeaderLogoIsClickableOnAllPagesToHomepage(Function<HomePageSideMenuFrame, BaseHeaderFooterPage<?>> click) {
+    public void testIsHeaderLogoClickableOnAllPages(Function<HomePageSideMenuFrame, BaseHeaderFooterPage<?>> click) {
         click.apply(new HomePage(getDriver()).getSideMenu())
-                .clickJenkins()
+                .clickJenkinsName()
                 .assertEquals(HomePage::isTitleDashboardJenkins, true);
     }
 
@@ -125,88 +125,87 @@ public class _HeaderTest extends BaseTest {
             BaseHeaderFooterPage newPage = method.get();
 
             Assert.assertTrue(newPage.isRightPositionOfJenkinsHeadIcon());
-
             newPage.goHome();
         }
     }
 
     @Test
-    public void testLogoIconIsViewedOnMainPage() {
+    public void testIsLogoIconPresentOnHomePage() {
         HomePage newHomePage = new HomePage(getDriver());
 
-        Assert.assertTrue(newHomePage.headerIconIsVisible());
+        Assert.assertTrue(newHomePage.isHeaderIconVisible());
         Assert.assertTrue(newHomePage.getLogoIconAttribute("src").contains(logoIconAttribute));
     }
 
     @Test
-    public void testLogoIconIsViewedOnNewItemPage() {
+    public void testIsLogoIconPresentOnNewItemPage() {
         NewItemPage<Object> newItemPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem();
 
-        Assert.assertTrue(newItemPage.headerIconIsVisible());
+        Assert.assertTrue(newItemPage.isHeaderIconVisible());
         Assert.assertTrue(newItemPage.getLogoIconAttribute("src").contains(logoIconAttribute));
     }
 
     @Test
-    public void testLogoIconIsViewedOnPeoplePage() {
+    public void testIsLogoIconPresentOnPeoplePage() {
         PeoplePage newPeoplePage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuPeople();
 
-        Assert.assertTrue(newPeoplePage.headerIconIsVisible());
+        Assert.assertTrue(newPeoplePage.isHeaderIconVisible());
         Assert.assertTrue(newPeoplePage.getLogoIconAttribute("src").contains(logoIconAttribute));
     }
 
     @Test
-    public void testLogoIconIsViewedOnBuildHistoryPage() {
+    public void testIsLogoIconPresentOnBuildHistoryPage() {
         BuildHistoryPage newBuildHistoryPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuBuildHistory();
 
-        Assert.assertTrue(newBuildHistoryPage.headerIconIsVisible());
+        Assert.assertTrue(newBuildHistoryPage.isHeaderIconVisible());
         Assert.assertTrue(newBuildHistoryPage.getLogoIconAttribute("src").contains(logoIconAttribute));
     }
 
     @Test
-    public void testLogoIconIsViewedOnManageJenkinsPage() {
+    public void testIsLogoIconPresentOnManageJenkinsPage() {
         ManageJenkinsPage newManageJenkinsPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins();
 
-        Assert.assertTrue(newManageJenkinsPage.headerIconIsVisible());
+        Assert.assertTrue(newManageJenkinsPage.isHeaderIconVisible());
         Assert.assertTrue(newManageJenkinsPage.getLogoIconAttribute("src").contains(logoIconAttribute));
     }
 
     @Test
-    public void testLogoIconIsViewedOnMyViewPage() {
+    public void testIsLogoIconPresentOnMyViewPage() {
         MyViewPage newMyViewPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuMyView();
 
-        Assert.assertTrue(newMyViewPage.headerIconIsVisible());
+        Assert.assertTrue(newMyViewPage.isHeaderIconVisible());
         Assert.assertTrue(newMyViewPage.getLogoIconAttribute("src").contains(logoIconAttribute));
     }
 
     @Test
-    public void testLogoIconIsViewedOnNewViewPage() {
+    public void testIsLogoIconPresentOnNewViewPage() {
         NewViewPage newNewViewPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewView();
 
-        Assert.assertTrue(newNewViewPage.headerIconIsVisible());
+        Assert.assertTrue(newNewViewPage.isHeaderIconVisible());
         Assert.assertTrue(newNewViewPage.getLogoIconAttribute("src").contains(logoIconAttribute));
     }
 
     @Test
-    public void testHeaderLogoIsImage() {
+    public void testIsHeaderLogoImage() {
         HomePage headerLogoIsImage = new HomePage(getDriver());
 
         Assert.assertEquals(headerLogoIsImage.getLogoIconTagName(), "img");
     }
 
     @Test
-    public void testHeaderLogoImageExtensionIsSvg() {
+    public void testIsHeaderLogoImageExtensionSvg() {
         HomePage headerLogoIsSvg = new HomePage(getDriver());
 
         Assert.assertTrue(headerLogoIsSvg.getLogoIconAttribute("src").contains(".svg"));
@@ -228,7 +227,7 @@ public class _HeaderTest extends BaseTest {
     @Test
     public void testCheckSearchPanel() {
         String actualResult = new HomePage(getDriver())
-                .sendTextSearchPanel("TryToFindSomething")
+                .cleanAndSearchText("TryToFindSomething")
                 .getSearchMainPanelText();
 
         Assert.assertEquals(actualResult, "Search for 'TryToFindSomething'");
@@ -248,8 +247,8 @@ public class _HeaderTest extends BaseTest {
         String userBuilds = new HomePage(getDriver())
                 .moveToUser()
                 .clickUserDropDownMenu()
-                .selectMenuBuildsAndGoToBuildsPage()
-                .getTextName();
+                .clickMenuSelectorBuilds()
+                .getUserNameText();
 
         Assert.assertEquals(userBuilds, "Builds for admin");
     }
@@ -259,7 +258,7 @@ public class _HeaderTest extends BaseTest {
         String buttonText = new HomePage(getDriver())
                 .moveToUser()
                 .clickUserDropDownMenu()
-                .selectMenuConfigureAndGoToConfigurePage()
+                .clickMenuSelectorUserConfigure()
                 .getGen2ButtonText();
 
         Assert.assertEquals(buttonText, "Add new Token");
@@ -270,7 +269,7 @@ public class _HeaderTest extends BaseTest {
         String myViewsText = new HomePage(getDriver())
                 .moveToUser()
                 .clickUserDropDownMenu()
-                .selectMenuMyViewAndGoToMyViewPage()
+                .clickMenuSelectorMyView()
                 .getTextMyView();
 
         Assert.assertEquals(myViewsText, "My Views");

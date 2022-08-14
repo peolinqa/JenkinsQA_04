@@ -8,23 +8,23 @@ import org.openqa.selenium.support.FindBy;
 public class FolderConfigPageSelectorMenuFrame extends BasePage {
 
     @FindBy(xpath = "//span[text()='Delete Folder']")
-    private WebElement deleteFolder;
+    private WebElement menuSelectorDeleteFolder;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
+    private WebElement btnYes;
 
     public FolderConfigPageSelectorMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public FolderConfigPageSelectorMenuFrame selectMenuDeleteFolderAndGoToHomePage() {
-        deleteFolder.click();
+    public FolderConfigPageSelectorMenuFrame clickMenuSelectorDeleteFolder() {
+        menuSelectorDeleteFolder.click();
 
         return this;
     }
 
     public HomePage confirmDeleteAndGoHomePage() {
-        yesButton.click();
+        btnYes.click();
 
         return new HomePage(getDriver());
     }

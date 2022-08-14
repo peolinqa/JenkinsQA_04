@@ -13,77 +13,76 @@ import java.util.TreeSet;
 public final class CreateUserPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "username")
-    private WebElement userNameField;
+    private WebElement fieldUserName;
 
     @FindBy(name = "password1")
-    private WebElement passwordField;
+    private WebElement fieldPassword;
 
     @FindBy(name = "password2")
-    private WebElement confirmPasswordField;
+    private WebElement fieldConfirmPassword;
 
     @FindBy(name = "fullname")
-    private WebElement fullNameField;
+    private WebElement fieldFullName;
 
     @FindBy(name = "email")
-    private WebElement emailAddressField;
+    private WebElement fieldEmailAddress;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement createUserButton;
+    private WebElement btnCreateUser;
 
     @FindBy(className = "error")
     private WebElement errorMessage;
 
     @FindBy(className = "error")
-    private List<WebElement> errorMessagesList;
+    private List<WebElement> listErrorMessages;
 
     public CreateUserPage(WebDriver driver) {
         super(driver);
     }
 
     public CreateUserPage setUserName(String userName) {
-        userNameField.sendKeys(userName);
+        fieldUserName.sendKeys(userName);
 
         return this;
     }
 
     public CreateUserPage setPassword(String password) {
-        passwordField.sendKeys(password);
+        fieldPassword.sendKeys(password);
 
         return this;
     }
 
     public CreateUserPage setConfirmPassword(String confirmPassword) {
-        confirmPasswordField.sendKeys(confirmPassword);
+        fieldConfirmPassword.sendKeys(confirmPassword);
 
         return this;
     }
 
     public CreateUserPage setFullName(String fullName) {
-        fullNameField.sendKeys(fullName);
+        fieldFullName.sendKeys(fullName);
 
         return this;
     }
 
     public CreateUserPage setEmailAddress(String emailAddress) {
-        emailAddressField.sendKeys(emailAddress);
+        fieldEmailAddress.sendKeys(emailAddress);
 
         return this;
     }
 
     public <T> T clickCreateUserButton(T page) {
-        createUserButton.click();
+        btnCreateUser.click();
 
         return page;
     }
 
-    public String getErrorMessage() {
-
+    public String getErrorMessageText() {
         return errorMessage.getText();
     }
 
     public Set<String> getErrorMessagesList() {
         Set<String> errorMessagesTextList = new TreeSet<>();
-        errorMessagesList.stream().map(WebElement::getText).forEach(errorMessagesTextList::add);
+        listErrorMessages.stream().map(WebElement::getText).forEach(errorMessagesTextList::add);
 
         return errorMessagesTextList;
     }
@@ -103,7 +102,7 @@ public final class CreateUserPage extends BaseHeaderFooterPage {
         return cssValuesList;
     }
 
-    public String getAttributeFullName() {
-        return fullNameField.getAttribute("value");
+    public String getFullNameAttributeValue() {
+        return fieldFullName.getAttribute("value");
     }
 }

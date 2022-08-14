@@ -81,11 +81,11 @@ public final class FreestyleProjectPage extends BaseProjectPage<FreestyleProject
         return getWait20().until(ExpectedConditions.presenceOfElementLocated(BUILD_NAME)).isDisplayed();
     }
 
-    public String getBuildName() {
+    public String getTextBuildName() {
         return buildName.getText();
     }
 
-    public String getBuildDescription() {
+    public String getTextBuildDescription() {
         return buildDescription.getText();
     }
 }

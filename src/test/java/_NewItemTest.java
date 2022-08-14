@@ -16,10 +16,10 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName("NJ3")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .setCopyFromName("NJ4")
-                .createAndGoToErrorPage()
-                .getErrorHeader();
+                .clickBtnOkAndGoToErrorPage()
+                .getErrorHeaderText();
 
         Assert.assertEquals(ErrorNoSuchJob, "Error");
     }
@@ -30,17 +30,17 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName("NJ")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
                 .setDescription(DESCRIPTION_INPUT)
                 .clickGithubProjectCheckbox()
                 .setGithubUrl(URL_INPUT)
-                .saveConfigAndGoToFreestyleProject()
-                .clickDashboardButton()
+                .saveProjectConfiguration()
+                .clickLinkDashboard()
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName("NJ2")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .setCopyFromName("NJ")
                 .clickOkAndGoToConfig();
 
@@ -86,10 +86,10 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem();
 
-        List<Boolean> listImageIsDisplayed = iconAvailability.projectTypeImageIsDisplayed();
+        List<Boolean> listImageIsDisplayed = iconAvailability.isTypeProjectImageDisplayed();
         Assert.assertTrue(listImageIsDisplayed.stream().allMatch(value -> value.equals(true)));
 
-        List<Boolean> listImageIsEnabled = iconAvailability.projectTypeImageIsEnabled();
+        List<Boolean> listImageIsEnabled = iconAvailability.isTypeProjectImageEnabled();
         Assert.assertTrue(listImageIsEnabled.stream().allMatch(value -> value.equals(true)));
     }
 
@@ -110,8 +110,8 @@ public class _NewItemTest extends BaseTest {
         String NameRequiredErrorMessage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
-                .clickCreateButton()
-                .getErrorNameRequiredText();
+                .clickOkButton()
+                .getErrorMsgNameRequiredText();
 
         Assert.assertEquals(NameRequiredErrorMessage, "» This field cannot be empty, please enter a valid name");
     }
@@ -122,8 +122,8 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem();
 
-        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(0), "Dashboard");
-        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(2), "All");
+        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbsItemText(0), "Dashboard");
+        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbsItemText(2), "All");
     }
 
     @Test
@@ -132,12 +132,12 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName("     ")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
                 .getErrorPageIfPresent();
 
         Assert.assertNotNull(errorPage);
-        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
+        Assert.assertEquals(errorPage.getErrorMessageText(), "No name is specified");
     }
 
     @Test
@@ -149,7 +149,7 @@ public class _NewItemTest extends BaseTest {
                     .getSideMenu()
                     .clickMenuNewItem()
                     .setProjectName(Character.toString(ch))
-                    .getNameErrorText();
+                    .getErrorMsgNameInvalidText();
 
             String expectedResult = String.format("» ‘%s’ is an unsafe character", ch);
 
@@ -165,7 +165,7 @@ public class _NewItemTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(".")
-                .getNameErrorText();
+                .getErrorMsgNameInvalidText();
 
         Assert.assertEquals(alertMessage, "» “.” is not an allowed name");
     }

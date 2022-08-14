@@ -14,7 +14,7 @@ public class FolderProjectPageSideMenuFrame extends BaseModel<FolderProjectPageS
     private WebElement menuDelete;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
+    private WebElement btnSave;
 
     @FindBy(linkText = "Configure")
     private WebElement menuConfigure;
@@ -23,7 +23,7 @@ public class FolderProjectPageSideMenuFrame extends BaseModel<FolderProjectPageS
         super(driver);
     }
 
-    public RenamePage<FolderProjectPage, FolderProjectPageSideMenuFrame> clickMenuRenameAndGoToRenamePage() {
+    public RenamePage<FolderProjectPage, FolderProjectPageSideMenuFrame> clickMenuRename() {
         menuRename.click();
 
         return new RenamePage<>(getDriver(), new FolderProjectPage(getDriver()));
@@ -36,7 +36,7 @@ public class FolderProjectPageSideMenuFrame extends BaseModel<FolderProjectPageS
     }
 
     public HomePage confirmDeleteAndGoHomePage() {
-        yesButton.click();
+        btnSave.click();
 
         return new HomePage(getDriver());
     }

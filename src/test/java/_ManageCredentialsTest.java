@@ -70,9 +70,9 @@ public class _ManageCredentialsTest extends BaseTest {
                 .clickManageCredentials()
                 .clickCredentialsStoreSystemMenu()
                 .clickCredentialDropDownMenu()
-                .selectMenuAddDomainAndGoToNewDomainPage()
+                .clickMenuSelectorAddDomain()
                 .createNewDomain(domainName)
-                .getDomainHeader();
+                .getDomainHeaderText();
 
         Assert.assertEquals(addDomain, domainName);
     }

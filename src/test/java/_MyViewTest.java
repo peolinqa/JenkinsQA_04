@@ -20,7 +20,7 @@ public class _MyViewTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(TestUtils.getRandomStr())
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
                 .goHome()
                 .getSideMenu()
@@ -42,21 +42,21 @@ public class _MyViewTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(String.format("‘%s1", VIEW_NAME))
-                .setProjectTypePipeline()
+                .setPipelineProjectType()
                 .clickOkAndGoToConfig()
-                .clickDashboardButton()
+                .clickLinkDashboard()
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(String.format("‘%s2", VIEW_NAME))
-                .setProjectTypePipeline()
+                .setPipelineProjectType()
                 .clickOkAndGoToConfig()
-                .clickDashboardButton()
+                .clickLinkDashboard()
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(String.format("‘%s3", VIEW_NAME))
-                .setProjectTypePipeline()
+                .setPipelineProjectType()
                 .clickOkAndGoToConfig()
-                .clickDashboardButton()
+                .clickLinkDashboard()
                 .getSideMenu()
                 .clickMenuNewView()
                 .setViewName(VIEW_NAME_1)
@@ -142,7 +142,7 @@ public class _MyViewTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewViewWithAnExistingName")
     public void testEditViewChangeName() {
         MyViewPage myViewPage = new HomePage(getDriver())
-                .clickNameOfViewOnBreadcrumbs(VIEW_NAME_2)
+                .selectNameOfViewOnBreadcrumbs(VIEW_NAME_2)
                 .getSideMenu()
                 .clickMenuEditView()
                 .setName(EDIT_VIEW_NAME)
@@ -154,7 +154,7 @@ public class _MyViewTest extends BaseTest {
     @Test(dependsOnMethods = "testCreateNewViewWithSelectListViewAddAllColumns")
     public void testRemoveColumnsFromDashboardInOwnWatchlist() {
         final int countColumnsAfterDelete = new HomePage(getDriver())
-                .clickNameOfViewOnBreadcrumbs(VIEW_NAME)
+                .selectNameOfViewOnBreadcrumbs(VIEW_NAME)
                 .getSideMenu()
                 .clickMenuEditView()
                 .scrollPageDown()
@@ -222,11 +222,11 @@ public class _MyViewTest extends BaseTest {
     @Test(dependsOnMethods = "testEditViewChangeName")
     public void testDeleteViewViaBreadcrumbs() {
         List<String> viewsOnBreadcrumbs = new HomePage(getDriver())
-                .clickNameOfViewOnBreadcrumbs(EDIT_VIEW_NAME)
+                .selectNameOfViewOnBreadcrumbs(EDIT_VIEW_NAME)
                 .getSideMenu()
                 .clickMenuDeleteView()
                 .clickSubmitDeleteViewAndGoHome()
-                .getNamesOfViewsOnBreadcrumbs();
+                .getListItemNamesOnBreadcrumbs();
 
         Assert.assertFalse(viewsOnBreadcrumbs.contains(EDIT_VIEW_NAME));
     }
@@ -238,7 +238,7 @@ public class _MyViewTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuDeleteView()
                 .clickSubmitDeleteViewAndGoHome()
-                .clickNameOfViewOnTabBar()
+                .clickNameOfFirstViewOnTabBar()
                 .getNamesOfViewsOnTabBar();
 
         Assert.assertFalse(viewOnTabBar.contains(VIEW_NAME_1));

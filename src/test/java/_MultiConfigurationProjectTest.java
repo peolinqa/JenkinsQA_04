@@ -17,7 +17,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(RANDOM_NAME)
-                .setProjectTypeMultiConfiguration()
+                .setMultiConfigurationProjectType()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
@@ -68,7 +68,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         MultiConfigurationConfigPage newMultiConfigurationConfigPage = new HomePage(getDriver())
                 .moveToProjectName(RANDOM_NAME)
                 .clickProjectDropDownMenu()
-                .selectMenuConfigAndGoToMultiConfigurationConfigPage();
+                .clickMenuSelectorMultiConfProjectConfigure();
 
         Assert.assertTrue(newMultiConfigurationConfigPage.helpButtonDiscardOldBuildsIsVisible());
         Assert.assertEquals(newMultiConfigurationConfigPage.getAttributeHelpButtonDiscardOldBuilds("title"),
@@ -120,8 +120,8 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 .clickMenuRenameAndGoToRenamePage()
                 .clickRenameAndGoToErrorPage();
 
-        Assert.assertEquals(error.getErrorHeader(), "Error");
-        Assert.assertEquals(error.getErrorMessage(), "The new name is the same as the current name.");
+        Assert.assertEquals(error.getErrorHeaderText(), "Error");
+        Assert.assertEquals(error.getErrorMessageText(), "The new name is the same as the current name.");
     }
 
     @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorSameName")
@@ -132,8 +132,8 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 .clickMenuRenameAndGoToRenamePage()
                 .setEmptyNameAndGoToErrorPage();
 
-        Assert.assertEquals(error.getErrorHeader(), "Error");
-        Assert.assertEquals(error.getErrorMessage(), "No name is specified");
+        Assert.assertEquals(error.getErrorHeaderText(), "Error");
+        Assert.assertEquals(error.getErrorMessageText(), "No name is specified");
     }
 
     @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorEmptyName")
@@ -169,7 +169,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
             ErrorPage errorPage = new ErrorPage(getDriver());
 
-            Assert.assertEquals(errorPage.getErrorMessage(), expectedResult);
+            Assert.assertEquals(errorPage.getErrorMessageText(), expectedResult);
 
             getDriver().navigate().back();
         }

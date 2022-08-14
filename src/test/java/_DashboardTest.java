@@ -57,9 +57,9 @@ public class _DashboardTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(TestUtils.getRandomStr(10))
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToFolderPage()
+                .saveProjectConfiguration()
                 .goHome();
 
         Assert.assertTrue(homePage.isVisibleIconLegend());

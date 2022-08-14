@@ -17,11 +17,11 @@ public final class ErrorPage extends BaseHeaderFooterPage {
     @FindBy(xpath = "//div[@id='main-panel']/p")
     private WebElement errorMessage;
 
-    public String getErrorHeader() {
+    public String getErrorHeaderText() {
         return headerWithError.getText();
     }
 
-    public String getErrorMessage() {
+    public String getErrorMessageText() {
         return errorMessage.getText();
     }
 

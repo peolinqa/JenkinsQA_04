@@ -14,13 +14,13 @@ public final class ConfigureSystemPage extends BaseHeaderFooterPage {
     }
 
     @FindBy(xpath = "//button[@type='submit']")
-    private WebElement saveButton;
+    private WebElement btnSave;
 
     @FindBy(xpath = "//textarea[@name='system_message']")
-    private WebElement systemMessageTextArea;
+    private WebElement textareaSystemMessage;
 
     @FindBy(xpath = "//a[normalize-space(.)='Preview']")
-    private WebElement preview;
+    private WebElement linkPreview;
 
     @FindBy(className = "textarea-preview")
     private WebElement textareaPreview;
@@ -32,13 +32,13 @@ public final class ConfigureSystemPage extends BaseHeaderFooterPage {
     }
 
     public HomePage clickSaveButton() {
-        saveButton.click();
+        btnSave.click();
 
         return new HomePage(getDriver());
     }
 
     public ConfigureSystemPage clickPreviewSystemMessage() {
-        preview.click();
+        linkPreview.click();
 
         return this;
     }

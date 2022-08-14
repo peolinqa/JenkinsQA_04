@@ -23,7 +23,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME)
-                .setProjectTypeOrganizationFolder()
+                .setOrganizationFolderProjectType()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
                 .getProjectName();
@@ -50,11 +50,11 @@ public class _OrganizationFolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_RENAME)
-                .setProjectTypeOrganizationFolder();
+                .setOrganizationFolderProjectType();
 
-        Assert.assertTrue(newItemPage.isDisplayedNameError());
-        Assert.assertEquals(newItemPage.getNameErrorText(), String.format("» A job already exists with the name ‘%s’", VALID_FOLDER_RENAME));
-        Assert.assertEquals(newItemPage.getNameErrorCss("color"), "rgba(255, 0, 0, 1)");
+        Assert.assertTrue(newItemPage.isErrorMsgNameInvalidDisplayed());
+        Assert.assertEquals(newItemPage.getErrorMsgNameInvalidText(), String.format("» A job already exists with the name ‘%s’", VALID_FOLDER_RENAME));
+        Assert.assertEquals(newItemPage.getErrorMsgNameInvalidCss("color"), "rgba(255, 0, 0, 1)");
     }
 
     @Test(dependsOnMethods = "testCreateOrganizationFolderSameItemName")
@@ -66,7 +66,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .selectOptionMetadataFolderIcon()
                 .saveConfigAndGoToProject()
                 .goHome()
-                .getAttributeClassProjectIcon(VALID_FOLDER_RENAME);
+                .getProjectIconAttributeClass(VALID_FOLDER_RENAME);
 
         Assert.assertEquals(attributeClassIkonProject, "icon-branch-api-organization-folder icon-lg");
     }
@@ -89,7 +89,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuDelete()
                 .confirmDeleteAndGoHomePage()
-                .getTextFolderNamesOnDashboard();
+                .getProjectsOnDashboardList();
 
         Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_RENAME));
     }
@@ -100,10 +100,10 @@ public class _OrganizationFolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME)
-                .setProjectTypeOrganizationFolder()
+                .setOrganizationFolderProjectType()
                 .clickOkAndGoToConfig()
                 .goHome()
-                .getTextFolderNamesOnDashboard();
+                .getProjectsOnDashboardList();
 
         Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME));
     }
@@ -147,7 +147,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME1)
-                .setProjectTypeOrganizationFolder()
+                .setOrganizationFolderProjectType()
                 .clickOkAndGoToConfig()
                 .clickApply();
 
@@ -164,7 +164,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .inputDisplayNameField(VALID_FOLDER_NAME2)
                 .saveConfigAndGoToProject()
                 .goHome()
-                .getTextFolderNamesOnDashboard();
+                .getProjectsOnDashboardList();
 
         Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_NAME1));
         Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME2));
@@ -198,10 +198,10 @@ public class _OrganizationFolderTest extends BaseTest {
         NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
-                .setProjectTypeOrganizationFolder();
+                .setOrganizationFolderProjectType();
 
-        Assert.assertEquals(newItemPage.getErrorNameRequiredText(), "» This field cannot be empty, please enter a valid name");
-        Assert.assertEquals(newItemPage.getNameErrorCss("color"), "rgba(255, 0, 0, 1)");
-        Assert.assertEquals(newItemPage.getAttributeOkButton("class"), "disabled");
+        Assert.assertEquals(newItemPage.getErrorMsgNameRequiredText(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(newItemPage.getErrorMsgNameInvalidCss("color"), "rgba(255, 0, 0, 1)");
+        Assert.assertEquals(newItemPage.getOkButtonAttribute("class"), "disabled");
     }
 }

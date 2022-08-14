@@ -8,14 +8,14 @@ import org.openqa.selenium.support.FindBy;
 public class ManageCredentialsSelectorMenuFame extends BasePage {
 
     @FindBy(xpath = "//span[contains(text(), 'Add domain')]")
-    private WebElement menuAddDomain;
+    private WebElement menuSelectorAddDomain;
 
     public ManageCredentialsSelectorMenuFame(WebDriver driver) {
         super(driver);
     }
 
-    public NewDomainPage selectMenuAddDomainAndGoToNewDomainPage() {
-        menuAddDomain.click();
+    public NewDomainPage clickMenuSelectorAddDomain() {
+        menuSelectorAddDomain.click();
 
         return new NewDomainPage(getDriver());
     }

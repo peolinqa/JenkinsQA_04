@@ -15,10 +15,10 @@ public final class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, Buil
     private WebElement tableOfProjects;
 
     @FindBy(css = "tr:nth-child(1) td a:nth-child(2)")
-    private WebElement buildName;
+    private WebElement linkBuildLastCreated;
 
     @FindBy(id = "menuSelector")
-    private WebElement menuSelector;
+    private WebElement dropDownMenuSelector;
 
     public BuildHistoryPage(WebDriver driver) {
         super(driver);
@@ -37,24 +37,24 @@ public final class BuildHistoryPage extends BaseBuildPage<BuildHistoryPage, Buil
                 .collect(Collectors.toList());
     }
 
-    public boolean checkProjectIsOnBoard(String projectName) {
+    public boolean isProjectOnBoardBuildHistory(String projectName) {
         return tableOfProjects.getText().contains(projectName);
     }
 
-    public boolean checkBuildIsOnBoard(String buildName) {
+    public boolean isBuildOnBoardBuildHistory(String buildName) {
         return tableOfProjects.getText().contains(buildName);
     }
 
     public BuildHistoryPageSelectorMenuFrame clickBuildDropDownMenu(String projectName, String buildName) {
         getActions().moveToElement(getDriver().findElement(
                 By.xpath(String.format("//a[@href='/job/%s/%s/']", projectName, buildName)))).perform();
-        menuSelector.click();
+        dropDownMenuSelector.click();
 
         return new BuildHistoryPageSelectorMenuFrame(getDriver());
     }
 
-    public FreestyleBuildPage clickBuildName() {
-        buildName.click();
+    public FreestyleBuildPage clickLinkBuildLastCreated() {
+        linkBuildLastCreated.click();
 
         return new FreestyleBuildPage(getDriver());
     }

@@ -13,7 +13,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getSizeOfSecurityChapters();
+                .getSizeOfHeadersList();
 
         Assert.assertEquals(actualSizeOfChapters, 9);
     }
@@ -35,7 +35,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getActualSecurityChaptersNames();
+                .getActualHeaderNamesList();
 
         Assert.assertEquals(actualSecurityChaptersNames, expectedChaptersNames);
     }
@@ -46,7 +46,7 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getTextTooltipButtonHelpSSHServerPOM();
+                .getTooltipButtonHelpSSHServerText();
 
         Assert.assertEquals(tooltipHelpButtonSSHServer, "Help for feature: SSHD Port");
     }

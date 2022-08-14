@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,56 +15,49 @@ import java.util.stream.Collectors;
 public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuFrame> {
 
     @FindBy(tagName = "h1")
-    private List<WebElement> h1;
+    private List<WebElement> mainHeaderH1;
 
     @FindBy(xpath = "//td[@class='jenkins-table__cell--tight']")
     private List<WebElement> listBuildButtons;
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='children']")
-    private WebElement triangleOnBreadcrumbs;
+    private WebElement dropDownMenuViewsOnBreadcrumbs;
 
     @FindBy(xpath = "//ul[@id='breadcrumbs']/li[@class='item']")
-    private List<WebElement> viewNamesOnBreadcrumbs;
+    private List<WebElement> listItemNamesOnBreadcrumbs;
 
     @FindBy(css = "div .tab a")
-    private List<WebElement> viewNamesOnTabBar;
+    private List<WebElement> listViewNamesOnTabBar;
 
-    @FindBy(xpath = "//input[@name='q']")
-    private WebElement searchForm;
+    @FindBy(id = "search-box")
+    private WebElement inputSearchBox;
 
     @FindBy(xpath = "//a[@href='/toggleCollapse?paneId=buildQueue']")
-    private WebElement buildQueueToggleButton;
+    private WebElement btnBuildQueueToggle;
 
     @FindBy(xpath = "//a[@href='/toggleCollapse?paneId=executors']")
-    private WebElement buildExecutorToggleButton;
+    private WebElement btnBuildExecutorToggle;
 
     @FindBy(xpath = "//div[@id='buildQueue']//table")
-    private List<WebElement> elementsBuildsInQueue;
+    private List<WebElement> listElementsBuildsInQueue;
 
     @FindBy(xpath = "//div[@id='executors']//table")
-    private List<WebElement> elementsBuildExecutorStatus;
+    private List<WebElement> listElementsBuildExecutorStatus;
 
     @FindBy(id = "systemmessage")
     private WebElement systemMessage;
 
-    @FindBy(xpath = "//a[@class='jenkins-table__link model-link inside']")
-    private List<WebElement> listAllActualProjectNameHomePage;
+    @FindBy(css = "tr td a.model-link")
+    private List<WebElement> listAllProjectNames;
 
     @FindBy(xpath = "//a[@rel='noopener noreferrer']")
     private WebElement linkToJenkinsIO;
 
-    @FindBy (xpath = "//a[@href='/legend']")
+    @FindBy(xpath = "//a[@href='/legend']")
     private WebElement linkIconLegend;
 
-
-    @FindBy(xpath = "//table[@id='projectstatus']//tbody//td[3]")
-    private List<WebElement> itemsNames;
-
-    @FindBy(id = "search-box")
-    private WebElement searchBox;
-
     @FindBy(id = "menuSelector")
-    private WebElement menuSelector;
+    private WebElement menuSelectorProject;
 
     private final static String PROJECT_LINK_XPATH = "//a[text()='%s']";
     private final static String PROJECT_ICON_XPATH = "parent::td/parent::tr//img";
@@ -79,11 +72,12 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return new HomePageSideMenuFrame(getDriver());
     }
 
+    //to do: fix
     public WebElement getProjectLinkByName(String name) {
         return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
     }
 
-    public String getAttributeClassProjectIcon(String name) {
+    public String getProjectIconAttributeClass(String name) {
         return getProjectLinkByName(name).findElement(By.xpath(PROJECT_ICON_XPATH)).getAttribute("class");
     }
 
@@ -101,24 +95,17 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return new OrganizationFolderProjectPage(getDriver());
     }
 
-    public List<String> getTextFolderNamesOnDashboard() {
-        List<String> textFolderNames = TestUtils.getTextFromList(getDriver(),
-                By.xpath("//table[@id='projectstatus']/tbody/tr/td[3]"));
-
-        return textFolderNames;
+    public List<String> getProjectsOnDashboardList() {
+        return listAllProjectNames.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public List<String> getActualDashboardProject() {
-        return listAllActualProjectNameHomePage.stream().map(WebElement::getText).collect(Collectors.toList());
-    }
-
-    public boolean checkProjectAfterDelete(String projectName) {
+    public boolean isProjectPresentAfterDelete(String projectName) {
         boolean result = false;
 
-        List<WebElement> actual = h1;
+        List<WebElement> actual = mainHeaderH1;
 
         if (actual.size() == 0) {
-            for (String webElement : getActualDashboardProject()) {
+            for (String webElement : getProjectsOnDashboardList()) {
                 if (webElement.contains(projectName)) {
                     result = false;
                     break;
@@ -127,7 +114,7 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
                 }
             }
         } else {
-            for (WebElement element : h1) {
+            for (WebElement element : mainHeaderH1) {
                 if (element.getText().contains("Welcome to Jenkins!")) {
                     result = true;
                     break;
@@ -138,9 +125,10 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return result;
     }
 
-    public boolean checkProjectNameIsPresent(String projectName) {
-        return getActualDashboardProject().contains(projectName);
+    public boolean isProjectNamePresent(String projectName) {
+        return getProjectsOnDashboardList().contains(projectName);
     }
+
     //сделать дженерики, методов ниже!
     public FolderProjectPage clickFolderName(String name) {
         getProjectLinkByName(name).click();
@@ -180,15 +168,15 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return this;
     }
 
-    public MyViewPage clickNameOfViewOnBreadcrumbs(String name) {
-        triangleOnBreadcrumbs.click();
-        getDriver().findElement(By.xpath(String.format("//li/a[contains(@href, '%s')]", name ))).click();
+    public MyViewPage selectNameOfViewOnBreadcrumbs(String name) {
+        dropDownMenuViewsOnBreadcrumbs.click();
+        getDriver().findElement(By.xpath(String.format("//li/a[contains(@href, '%s')]", name))).click();
 
         return new MyViewPage(getDriver());
     }
 
-    public MyViewPage clickNameOfViewOnTabBar() {
-        viewNamesOnTabBar.get(0).click();
+    public MyViewPage clickNameOfFirstViewOnTabBar() {
+        listViewNamesOnTabBar.get(0).click();
 
         return new MyViewPage(getDriver());
     }
@@ -199,8 +187,8 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return new MyViewPage(getDriver());
     }
 
-    public List<String> getNamesOfViewsOnBreadcrumbs() {
-        return viewNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
+    public List<String> getListItemNamesOnBreadcrumbs() {
+        return listItemNamesOnBreadcrumbs.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public PipelineProjectPage navigateToPreviousCreatedPipeline(String projectName) {
@@ -211,50 +199,50 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
     }
 
     public SearchPage searchText(String text) {
-        searchForm.sendKeys(text, Keys.ENTER);
+        inputSearchBox.sendKeys(text, Keys.ENTER);
 
         return new SearchPage(getDriver());
     }
 
     public HomePage clickBuildQueueToggleButton() {
-        buildQueueToggleButton.click();
+        btnBuildQueueToggle.click();
 
         return this;
     }
 
     public HomePage clickBuildExecutorToggleButton() {
-        buildExecutorToggleButton.click();
+        btnBuildExecutorToggle.click();
 
         return this;
     }
 
-    public String getTitleBuildQueueToggleButton() {
-        return buildQueueToggleButton.getAttribute("title");
+    public String getBuildQueueToggleAttrTitle() {
+        return btnBuildQueueToggle.getAttribute("title");
     }
 
-    public String getTitleBuildExecutorToggleButton() {
-        return buildExecutorToggleButton.getAttribute("title");
+    public String getBuildExecutorToggleAttrTitle() {
+        return btnBuildExecutorToggle.getAttribute("title");
     }
 
-    public int getSizeOfListForElementsBuildsInQueue() {
-        return elementsBuildsInQueue.size();
+    public int getSizeOfListElementsBuildsInQueue() {
+        return listElementsBuildsInQueue.size();
     }
 
-    public int getSizeOfListForElementsBuildExecutorStatus() {
-        return elementsBuildExecutorStatus.size();
+    public int getSizeOfListElementsBuildExecutorStatus() {
+        return listElementsBuildExecutorStatus.size();
     }
 
     public boolean isItemPresent(String name) {
-      boolean isPresent = false;
+        boolean isPresent = false;
 
-      List<WebElement> projectsOnDashboard = itemsNames;
-      for (WebElement jobs : projectsOnDashboard) {
-        if (jobs.getText().contains(name)) {
-          isPresent = true;
+        List<WebElement> projectsOnDashboard = listAllProjectNames;
+        for (WebElement jobs : projectsOnDashboard) {
+            if (jobs.getText().contains(name)) {
+                isPresent = true;
+            }
         }
-      }
 
-      return isPresent;
+        return isPresent;
     }
 
     public MultiConfigurationProjectPage clickMultiConfigurationProjectName(String name) {
@@ -273,7 +261,7 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return getWait5().until(ExpectedConditions.visibilityOf(systemMessage)).getText();
     }
 
-    public String getJenkinsIOPageTitle(){
+    public String getJenkinsIOPageTitle() {
         String oldTab = getDriver().getWindowHandle();
         linkToJenkinsIO.click();
         ArrayList<String> newTab = new ArrayList<>(getDriver().getWindowHandles());
@@ -283,23 +271,23 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return title;
     }
 
-    public boolean isVisibleIconLegend(){
+    public boolean isVisibleIconLegend() {
         return linkIconLegend.isDisplayed();
     }
 
-    public boolean isEnabledIconLegend(){
+    public boolean isEnabledIconLegend() {
         return linkIconLegend.isEnabled();
     }
 
-    public LegendPage clickLinkIconLegend(){
+    public LegendPage clickLinkIconLegend() {
         linkIconLegend.click();
 
         return new LegendPage(getDriver());
     }
 
     public HomePage moveToProjectName(String name) {
-        for (WebElement s : listAllActualProjectNameHomePage){
-            if(s.getText().contains(name)){
+        for (WebElement s : listAllProjectNames) {
+            if (s.getText().contains(name)) {
                 getActions().moveToElement(s).build().perform();
             }
         }
@@ -308,20 +296,21 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
     }
 
     public HomePageSelectorMenuFrame clickProjectDropDownMenu() {
-        menuSelector.click();
+        menuSelectorProject.click();
+
         return new HomePageSelectorMenuFrame(getDriver());
     }
 
-    public SearchPage sendTextSearchPanel(String text){
-       searchBox.clear();
-       searchBox.sendKeys(text + Keys.ENTER);
+    public SearchPage cleanAndSearchText(String text) {
+        inputSearchBox.clear();
+        inputSearchBox.sendKeys(text + Keys.ENTER);
 
-       return new SearchPage(getDriver());
+        return new SearchPage(getDriver());
     }
 
-   public boolean isTitleDashboardJenkins(){
-       return getDriver().getTitle().contains("Dashboard [Jenkins]");
-   }
+    public boolean isTitleDashboardJenkins() {
+        return getDriver().getTitle().contains("Dashboard [Jenkins]");
+    }
 
     public Page404Page switchToPage404() {
         getDriver().navigate().back();

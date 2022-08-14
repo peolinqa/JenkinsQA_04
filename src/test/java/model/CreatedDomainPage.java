@@ -14,7 +14,7 @@ public final class CreatedDomainPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public String getDomainHeader(){
+    public String getDomainHeaderText() {
         return headerDomain.getText();
     }
 }

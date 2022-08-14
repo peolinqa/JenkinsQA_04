@@ -8,23 +8,20 @@ import org.openqa.selenium.support.FindBy;
 public final class EditBuildInformationPage extends BaseHeaderFooterPage {
 
     @FindBy(id = "yui-gen2-button")
-    private WebElement saveButton;
+    private WebElement btnSave;
 
     @FindBy(name = "displayName")
     private WebElement inputDisplayName;
 
     @FindBy(name = "description")
-    private WebElement descriptionTextarea;
-
-    @FindBy(xpath = "//span[text()='Back to Project']")
-    private WebElement backToProjectButton;
+    private WebElement textareaDescription;
 
     public EditBuildInformationPage(WebDriver driver) {
         super(driver);
     }
 
     public FreestyleBuildPage clickSaveButton() {
-        saveButton.click();
+        btnSave.click();
 
         return new FreestyleBuildPage(getDriver());
     }
@@ -36,7 +33,7 @@ public final class EditBuildInformationPage extends BaseHeaderFooterPage {
     }
 
     public EditBuildInformationPage editBuildDescription(String description) {
-        descriptionTextarea.sendKeys(description);
+        textareaDescription.sendKeys(description);
 
         return this;
     }

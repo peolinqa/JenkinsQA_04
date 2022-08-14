@@ -6,7 +6,7 @@ import runner.TestUtils;
 
 import java.util.Random;
 
-public class _FolderTest extends BaseTest {
+public class FolderTest extends BaseTest {
 
     private static final String RANDOM_FOLDER_NAME = TestUtils.getRandomStr();
     private static final String RANDOM_FOLDER_NAME1 = TestUtils.getRandomStr();
@@ -15,9 +15,7 @@ public class _FolderTest extends BaseTest {
     private static final String FOLDER_DESCRIPTION = "Folder Description";
 
 
-    protected static final char[] CHARS =
-            {',', 39, '`', '~', '-', ' ', '(', ')', '{', '}', '+', '=', '_', '"'};
-
+    protected static final char[] CHARS = {',', 39, '`', '~', '-', ' ', '(', ')', '{', '}', '+', '=', '_', '"'};
     private static final String WARNING_TEXT_UNSAFE = "’ is an unsafe character";
 
     @Test
@@ -26,9 +24,9 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME1)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToFolderPage()
+                .saveProjectConfiguration()
                 .getProjectName();
 
         Assert.assertEquals(folderName, RANDOM_FOLDER_NAME1);
@@ -40,10 +38,10 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
                 .goHome()
-                .checkProjectNameIsPresent(RANDOM_FOLDER_NAME);
+                .isProjectNamePresent(RANDOM_FOLDER_NAME);
 
         Assert.assertTrue(folderIsPresent);
     }
@@ -58,8 +56,8 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(Character.toString(invalidSymbols[result]))
-                .setProjectTypeFolder()
-                .getNameErrorText();
+                .setFolderProjectType()
+                .getErrorMsgNameInvalidText();
 
         String expectedResult = String.format("» ‘%s%s", invalidSymbols[result], WARNING_TEXT_UNSAFE);
 
@@ -72,14 +70,14 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(".")
-                .setProjectTypeFolder()
-                .getNameErrorText();
+                .setFolderProjectType()
+                .getErrorMsgNameInvalidText();
 
         Assert.assertEquals(warningText, "» “.” is not an allowed name");
     }
 
     @Test
-    public void testCycleTypeAnItemNameWithValidSpecialCharacters() {
+    public void testItemNameWithValidSpecialCharacters() {
         NewItemPage newItemPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem();
@@ -87,7 +85,7 @@ public class _FolderTest extends BaseTest {
         for (char x : CHARS) {
             String actualResult = newItemPage
                     .setProjectName(Character.toString(x))
-                    .getHelpInputText();
+                    .getMessageInputNameDisabled();
 
             Assert.assertEquals(actualResult, "» Required field");
 
@@ -103,9 +101,9 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(folderName)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToFolderPage()
+                .saveProjectConfiguration()
                 .assertEquals(FolderProjectPage::getProjectName, folderName)
                 .getSideMenu()
                 .clickMenuDelete()
@@ -122,12 +120,12 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName("TestFolder@Jenkins")
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
                 .getErrorPageIfPresent();
 
         Assert.assertNotNull(errorPage);
-        Assert.assertEquals(errorPage.getErrorMessage(), "‘@’ is an unsafe character");
+        Assert.assertEquals(errorPage.getErrorMessageText(), "‘@’ is an unsafe character");
     }
 
     @Test(dependsOnMethods = "testCheckDescriptionInPreviewAndOnTheFolderPage")
@@ -139,7 +137,7 @@ public class _FolderTest extends BaseTest {
                 .clickMenuNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME2)
                 .clickToMoveMousePointer()
-                .getNameErrorText();
+                .getErrorMsgNameInvalidText();
 
         Assert.assertEquals(actualResult, expectedResult);
     }
@@ -149,7 +147,7 @@ public class _FolderTest extends BaseTest {
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(RANDOM_FOLDER_NAME1)
                 .getSideMenu()
-                .clickMenuRenameAndGoToRenamePage()
+                .clickMenuRename()
                 .setNewProjectName(FOLDER_NAME_FOR_RENAME1)
                 .clickRenameAndGoToProjectPage()
                 .getProjectName();
@@ -158,27 +156,27 @@ public class _FolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive"})
-    public void testRenameFolderWithSpaceAsAName() {
+    public void testRenameFolderWithSpaceInName() {
         String actualResult = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
                 .getSideMenu()
-                .clickMenuRenameAndGoToRenamePage()
+                .clickMenuRename()
                 .setNewProjectName(" ")
                 .clickRenameAndGoToProjectPage()
                 .getErrorPageIfPresent()
-                .getErrorMessage();
+                .getErrorMessageText();
 
         Assert.assertEquals(actualResult, "No name is specified");
     }
 
-    @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive", "testRenameFolderWithSpaceAsAName"})
+    @Test(dependsOnMethods = {"testCreateFolder", "testRenameFolderPositive", "testRenameFolderWithSpaceInName"})
     public void testRenameFolderWithUnsafeCharacters() {
         final String unsafeCharacters = "&.!@#$%^*/|\\:?";
 
         RenamePage<FolderProjectPage, FolderProjectPageSideMenuFrame> folderForRenameTest = new HomePage(getDriver())
                 .clickFolderName(FOLDER_NAME_FOR_RENAME1)
                 .getSideMenu()
-                .clickMenuRenameAndGoToRenamePage();
+                .clickMenuRename();
 
         for (int i = 0; i < unsafeCharacters.length(); i++) {
             String newFolderName = unsafeCharacters.substring(i, (i + 1));
@@ -187,7 +185,7 @@ public class _FolderTest extends BaseTest {
                         .setNewProjectName(newFolderName)
                         .clickRenameAndGoToProjectPage()
                         .getErrorPageIfPresent()
-                        .getErrorMessage();
+                        .getErrorMessageText();
 
                 Assert.assertEquals(actualResult, "‘&amp;’ is an unsafe character");
                 getDriver().navigate().back();
@@ -198,7 +196,7 @@ public class _FolderTest extends BaseTest {
                         .setNewProjectName(newFolderName)
                         .clickRenameAndGoToProjectPage()
                         .getErrorPageIfPresent()
-                        .getErrorMessage();
+                        .getErrorMessageText();
                 Assert.assertEquals(actualResult, "“.” is not an allowed name");
                 getDriver().navigate().back();
                 continue;
@@ -207,7 +205,7 @@ public class _FolderTest extends BaseTest {
                     .setNewProjectName(newFolderName)
                     .clickRenameAndGoToProjectPage()
                     .getErrorPageIfPresent()
-                    .getErrorMessage();
+                    .getErrorMessageText();
             String expectedResult = "‘" + newFolderName + WARNING_TEXT_UNSAFE;
 
             Assert.assertEquals(actualResult, expectedResult);
@@ -221,15 +219,15 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(RANDOM_FOLDER_NAME2)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
-                .setFolderDescription(FOLDER_DESCRIPTION)
-                .clickFolderDescriptionPreview()
-                .getFolderDescriptionPreviewText();
+                .setTextareaDescription(FOLDER_DESCRIPTION)
+                .clickLinkDescriptionPreview()
+                .getDescriptionPreviewText();
 
         String folderDescriptionOnFolderPage = new FolderConfigPage(getDriver())
-                .saveConfigAndGoToFolderPage()
-                .getFolderDescription();
+                .saveProjectConfiguration()
+                .getViewMessageText();
 
         Assert.assertEquals(folderDescriptionInPreviewOnFolderConfigPage, FOLDER_DESCRIPTION);
         Assert.assertEquals(folderDescriptionOnFolderPage, FOLDER_DESCRIPTION);
@@ -243,10 +241,10 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(folderName)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
-                .openFolderMenuSelector(folderName)
-                .selectMenuDeleteFolderAndGoToHomePage()
+                .clickFolderDropDownMenu(folderName)
+                .clickMenuSelectorDeleteFolder()
                 .confirmDeleteAndGoHomePage()
                 .searchText(folderName)
                 .getSearchMessageText();
@@ -262,19 +260,19 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(folderName)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToFolderPage()
+                .saveProjectConfiguration()
                 .getSideMenu()
                 .clickMenuConfigure()
                 .clickHealthMetricsButton()
                 .clickAddMetricButton()
                 .clickChildItem()
-                .saveConfigAndGoToFolderPage()
+                .saveProjectConfiguration()
                 .getSideMenu()
                 .clickMenuConfigure()
                 .clickHealthMetricsButton()
-                .getTextChildItem();
+                .getChildItemText();
 
         Assert.assertEquals(actualResult, "Child item with worst health");
     }
@@ -286,17 +284,17 @@ public class _FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(folderName)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
                 .clickHealthMetricsButton()
                 .clickAddMetricButton()
                 .clickChildItem()
-                .saveConfigAndGoToFolderPage()
+                .saveProjectConfiguration()
                 .getSideMenu()
                 .clickMenuConfigure()
                 .clickHealthMetricsButton()
                 .clickDeleteChildItem()
-                .saveConfigAndGoToFolderPage()
+                .saveProjectConfiguration()
                 .getSideMenu()
                 .clickMenuConfigure()
                 .clickHealthMetricsButton()
@@ -313,12 +311,12 @@ public class _FolderTest extends BaseTest {
                 .clickFolderName(RANDOM_FOLDER_NAME)
                 .createJobInsideFolder()
                 .setProjectName(randomJobName)
-                .setProjectTypeFolder()
+                .setFolderProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToFolderPage()
-                .clickDashboardButton()
+                .saveProjectConfiguration()
+                .clickLinkDashboard()
                 .clickFolderName(RANDOM_FOLDER_NAME)
-                .getJobName();
+                .getJobNameText();
 
         Assert.assertEquals(actualResult, randomJobName);
     }

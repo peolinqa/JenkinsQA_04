@@ -8,13 +8,10 @@ import org.openqa.selenium.support.FindBy;
 public final class FolderProjectPage extends BaseProjectPage<FolderProjectPage, FolderProjectPageSideMenuFrame> {
 
     @FindBy(xpath = "//div[@id='view-message']")
-    private WebElement folderDescription;
-
-    @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
+    private WebElement viewMessage;
 
     @FindBy(xpath = "//span[normalize-space(.)='Create a job']")
-    private WebElement createJob;
+    private WebElement linkCreateJob;
 
     @FindBy(xpath = "//a[contains(@class,'jenkins-table__link model-link')]")
     private WebElement jobName;
@@ -31,21 +28,21 @@ public final class FolderProjectPage extends BaseProjectPage<FolderProjectPage, 
         return new FolderProjectPageSideMenuFrame(getDriver());
     }
 
-    public String getFolderDescription() {
+    public String getViewMessageText() {
         if (systemMessage.getText().length() > 0) {
-            return folderDescription.getText().substring(systemMessage.getText().length() + "\n".length());
+            return viewMessage.getText().substring(systemMessage.getText().length() + "\n".length());
         }
 
-        return folderDescription.getText();
+        return viewMessage.getText();
     }
 
     public NewItemPage<Object> createJobInsideFolder() {
-        createJob.click();
+        linkCreateJob.click();
 
         return new NewItemPage<>(getDriver());
     }
 
-    public String getJobName() {
+    public String getJobNameText() {
         return jobName.getText();
     }
 }

@@ -1,6 +1,4 @@
 import model.HomePage;
-import model.ManageNodesAndCloudsPage;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -15,16 +13,16 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     public void testCheckBuildQueueAndClick() {
         HomePage homePage = new HomePage(getDriver());
 
-        if (homePage.getSizeOfListForElementsBuildsInQueue() > 0) {
-            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "collapse");
+        if (homePage.getSizeOfListElementsBuildsInQueue() > 0) {
+            Assert.assertEquals(homePage.getBuildQueueToggleAttrTitle(), "collapse");
 
             homePage.clickBuildQueueToggleButton();
-            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "expand");
+            Assert.assertEquals(homePage.getBuildQueueToggleAttrTitle(), "expand");
         } else {
-            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "expand");
+            Assert.assertEquals(homePage.getBuildQueueToggleAttrTitle(), "expand");
 
             homePage.clickBuildQueueToggleButton();
-            Assert.assertEquals(homePage.getTitleBuildQueueToggleButton(), "collapse");
+            Assert.assertEquals(homePage.getBuildQueueToggleAttrTitle(), "collapse");
         }
     }
 
@@ -32,16 +30,16 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
     public void testCheckBuildExecutorStatusAndClick() {
         HomePage homePage = new HomePage(getDriver());
 
-        if (homePage.getSizeOfListForElementsBuildExecutorStatus() > 0) {
-            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "collapse");
+        if (homePage.getSizeOfListElementsBuildExecutorStatus() > 0) {
+            Assert.assertEquals(homePage.getBuildExecutorToggleAttrTitle(), "collapse");
 
             homePage.clickBuildExecutorToggleButton();
-            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "expand");
+            Assert.assertEquals(homePage.getBuildExecutorToggleAttrTitle(), "expand");
         } else {
-            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "expand");
+            Assert.assertEquals(homePage.getBuildExecutorToggleAttrTitle(), "expand");
 
             homePage.clickBuildExecutorToggleButton();
-            Assert.assertEquals(homePage.getTitleBuildExecutorToggleButton(), "collapse");
+            Assert.assertEquals(homePage.getBuildExecutorToggleAttrTitle(), "collapse");
         }
     }
 
@@ -67,7 +65,7 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
                 .clickMenuManageJenkins()
                 .clickManageNodesAndClouds()
                 .clickDropDownMenu(COMPUTER_NAME)
-                .selectMenuDeleteAgentAndGoToManageNodesAndCloudsPage()
+                .clickMenuSelectorDeleteAgent()
                 .confirmDeleteAndGoManageNodesAndCloudsPage()
                 .getComputerNames();
 

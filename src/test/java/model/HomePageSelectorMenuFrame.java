@@ -8,54 +8,54 @@ import org.openqa.selenium.support.FindBy;
 public final class HomePageSelectorMenuFrame extends BasePage {
 
     @FindBy(linkText = "Builds")
-    private WebElement menuBuilds;
+    private WebElement menuSelectorBuilds;
 
     @FindBy(linkText = "Configure")
-    private WebElement menuConfigure;
+    private WebElement menuSelectorConfigure;
 
     @FindBy(linkText = "My Views")
-    private WebElement menuMyView;
+    private WebElement menuSelectorMyView;
 
-    @FindBy(xpath = "//a/span[text()='Delete Pipeline']")
-    private WebElement menuDelete;
+    @FindBy(xpath = "//a/span[contains(text(), 'Delete')]")
+    private WebElement menuSelectorDelete;
 
     public HomePageSelectorMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public UserBuildsPage selectMenuBuildsAndGoToBuildsPage() {
-        menuBuilds.click();
+    public UserBuildsPage clickMenuSelectorBuilds() {
+        menuSelectorBuilds.click();
 
         return new UserBuildsPage(getDriver());
     }
 
-    public UserConfigurePage selectMenuConfigureAndGoToConfigurePage() {
-        menuConfigure.click();
+    public UserConfigurePage clickMenuSelectorUserConfigure() {
+        menuSelectorConfigure.click();
 
         return new UserConfigurePage(getDriver());
     }
 
-    public MyViewPage selectMenuMyViewAndGoToMyViewPage() {
-        menuMyView.click();
+    public MyViewPage clickMenuSelectorMyView() {
+        menuSelectorMyView.click();
 
         return new MyViewPage(getDriver());
     }
 
-    public HomePage selectMenuDeleteAndGoToHomePage() {
-        menuDelete.click();
+    public HomePage clickMenuSelectorDelete() {
+        menuSelectorDelete.click();
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
     }
 
-    public MultiConfigurationConfigPage selectMenuConfigAndGoToMultiConfigurationConfigPage() {
-        menuConfigure.click();
+    public MultiConfigurationConfigPage clickMenuSelectorMultiConfProjectConfigure() {
+        menuSelectorConfigure.click();
 
         return new MultiConfigurationConfigPage(getDriver());
     }
 
-    public PipelineConfigPage selectMenuConfigureAndGoToPipelineConfigPage() {
-        menuConfigure.click();
+    public PipelineConfigPage clickMenuSelectorPipelineConfigure() {
+        menuSelectorConfigure.click();
 
         return new PipelineConfigPage(getDriver());
     }

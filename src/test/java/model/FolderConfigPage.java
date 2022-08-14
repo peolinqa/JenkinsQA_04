@@ -8,58 +8,59 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public final class FolderConfigPage extends BaseHeaderFooterPage {
+
     @FindBy(css = "[type='submit']")
-    private WebElement saveButton;
+    private WebElement btnSave;
 
     @FindBy(css = "textarea.setting-input")
-    private WebElement folderDescription;
+    private WebElement textareaDescription;
 
     @FindBy(linkText = "Preview")
-    private WebElement folderDescriptionPreview;
+    private WebElement linkDescriptionPreview;
 
     @FindBy(id = "yui-gen3-button")
-    private WebElement healthMetricsButton;
+    private WebElement btnHealthMetrics;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement addMetricButton;
+    private WebElement btnAddMetric;
 
     @FindBy(xpath = "//a[text()='Child item with worst health']")
-    private WebElement childItem;
+    private WebElement btnChildItem;
 
     @FindBy(xpath = "//b[text()='Child item with worst health']")
     private WebElement textChildItem;
 
     @FindBy(xpath = "//button[@title ='Remove']")
-    private WebElement deleteChildItemButton;
+    private WebElement btnDeleteChildItem;
 
     public FolderConfigPage(WebDriver driver) {
         super(driver);
     }
 
-    public FolderConfigPage setFolderDescription(String text) {
-        folderDescription.sendKeys(text);
+    public FolderConfigPage setTextareaDescription(String text) {
+        textareaDescription.sendKeys(text);
 
         return this;
     }
 
-    public FolderConfigPage clickFolderDescriptionPreview() {
-        folderDescriptionPreview.click();
+    public FolderConfigPage clickLinkDescriptionPreview() {
+        linkDescriptionPreview.click();
 
         return new FolderConfigPage(getDriver());
     }
 
-    public String getFolderDescriptionPreviewText() {
+    public String getDescriptionPreviewText() {
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//div[@class='textarea-preview'][@style='']"))).getText();
     }
 
-    public FolderProjectPage saveConfigAndGoToFolderPage() {
-        saveButton.click();
+    public FolderProjectPage saveProjectConfiguration() {
+        btnSave.click();
 
         return new FolderProjectPage(getDriver());
     }
 
-    public FolderConfigPageSelectorMenuFrame openFolderMenuSelector(String folderName) {
+    public FolderConfigPageSelectorMenuFrame clickFolderDropDownMenu(String folderName) {
         getActions().moveToElement(getDriver().findElement((
                 By.xpath(String.format("//a[@href='/job/%s/']", folderName))))).build().perform();
         getActions().moveToElement(getDriver().findElement(By.id("menuSelector"))).click().build().perform();
@@ -68,35 +69,35 @@ public final class FolderConfigPage extends BaseHeaderFooterPage {
     }
 
     public FolderConfigPage clickHealthMetricsButton() {
-        healthMetricsButton.click();
+        btnHealthMetrics.click();
 
         return this;
     }
 
     public FolderConfigPage clickAddMetricButton() {
-        addMetricButton.click();
+        btnAddMetric.click();
 
         return this;
     }
 
     public FolderConfigPage clickChildItem() {
-        childItem.click();
+        btnChildItem.click();
 
         return this;
     }
 
     public boolean isAddMetricDisplayed() {
 
-        return addMetricButton.isDisplayed();
+        return btnAddMetric.isDisplayed();
     }
 
-    public String getTextChildItem() {
+    public String getChildItemText() {
 
         return textChildItem.getText();
     }
 
     public FolderConfigPage clickDeleteChildItem() {
-        getWait5().until(ExpectedConditions.elementToBeClickable(deleteChildItemButton)).click();
+        getWait5().until(ExpectedConditions.elementToBeClickable(btnDeleteChildItem)).click();
 
         return this;
     }

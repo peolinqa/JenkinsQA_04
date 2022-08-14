@@ -8,20 +8,20 @@ import org.openqa.selenium.support.FindBy;
 public final class MyViewPageSelectorMenuFrame extends BasePage {
 
     @FindBy(linkText = "Configure")
-    private WebElement menuConfigure;
+    private WebElement menuSelectorConfigure;
 
     public MyViewPageSelectorMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public PipelineConfigPage selectMenuConfigureAndGoToPipelineConfigPage() {
-        menuConfigure.click();
+    public PipelineConfigPage clickMenuSelectorPipelineConfigure() {
+        menuSelectorConfigure.click();
 
         return new PipelineConfigPage(getDriver());
     }
 
-    public MultibranchPipelineConfigPage selectMenuConfigureAndGoToMultibranchPipelineConfigPage() {
-        menuConfigure.click();
+    public MultibranchPipelineConfigPage clickMenuSelectorMultibranchConfigure() {
+        menuSelectorConfigure.click();
 
         return new MultibranchPipelineConfigPage(getDriver());
     }

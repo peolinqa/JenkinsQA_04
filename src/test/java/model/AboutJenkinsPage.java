@@ -11,16 +11,16 @@ import java.util.List;
 public final class AboutJenkinsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[text()='AntLR Parser Generator']")
-    private WebElement antlr;
+    private WebElement linkAntLrParser;
 
     @FindBy(linkText = "License and dependency information for plugins")
-    private WebElement license;
+    private WebElement tabLicenseAndDependency;
 
     @FindBy(linkText = "Static resources")
-    private WebElement staticResources;
+    private WebElement tabStaticResources;
 
     @FindBy(linkText = "Mavenized dependencies")
-    private WebElement mavenizedDependencies;
+    private WebElement tabMavenizedDependencies;
 
     public AboutJenkinsPage(WebDriver driver) {
         super(driver);
@@ -34,25 +34,25 @@ public final class AboutJenkinsPage extends BaseHeaderFooterPage {
     }
 
     public AboutJenkinsPage clickLinkAntLRParserGenerator() {
-        antlr.click();
+        linkAntLrParser.click();
 
         return this;
     }
 
-    public AboutJenkinsPage clickLicenseAndDependencyInformationForPlugins() {
-        license.click();
+    public AboutJenkinsPage clickTabLicenseAndDependency() {
+        tabLicenseAndDependency.click();
 
         return this;
     }
 
-    public AboutJenkinsPage clickStaticResources() {
-        staticResources.click();
+    public AboutJenkinsPage clickTabStaticResources() {
+        tabStaticResources.click();
 
         return this;
     }
 
-    public AboutJenkinsPage clickMavenizedDependencies() {
-        mavenizedDependencies.click();
+    public AboutJenkinsPage clickTabMavenizedDependencies() {
+        tabMavenizedDependencies.click();
 
         return this;
     }

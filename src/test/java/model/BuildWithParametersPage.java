@@ -4,6 +4,7 @@ import model.base.BaseBuildPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public final class BuildWithParametersPage extends BaseBuildPage<BuildWithParame
         return actualCollectDropDownMenu;
     }
 
-    public  PipelineProjectPage clickBuildButton() {
+    public PipelineProjectPage clickBuildButton() {
         buildButton.click();
 
         return new PipelineProjectPage(getDriver());

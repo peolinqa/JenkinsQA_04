@@ -14,7 +14,7 @@ public final class UserBuildsPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public String getTextName() {
+    public String getUserNameText() {
         return userName.getText();
     }
 }

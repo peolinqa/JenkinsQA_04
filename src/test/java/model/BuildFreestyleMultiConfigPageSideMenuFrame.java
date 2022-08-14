@@ -29,7 +29,7 @@ public final class BuildFreestyleMultiConfigPageSideMenuFrame extends BaseModel<
         super(driver);
     }
 
-    public BuildChangesPage clickChangesAndGoToChangesPage() {
+    public BuildChangesPage clickMenuChanges() {
         menuChanges.click();
 
         return new BuildChangesPage(getDriver());

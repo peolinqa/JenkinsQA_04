@@ -25,7 +25,7 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(PROJECT_NAME)
-                .setProjectTypeMultiBranchPipeline()
+                .setMultiBranchPipelineProjectType()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToMultibranchPipelinePage()
                 .goHome()
@@ -79,7 +79,7 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
-                .setProjectTypeMultiBranchPipeline()
+                .setMultiBranchPipelineProjectType()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToMultibranchPipelinePage()
                 .goHome()
@@ -105,14 +105,14 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(NAME)
-                .setProjectTypeMultiBranchPipeline()
+                .setMultiBranchPipelineProjectType()
                 .clickOkAndGoToConfig()
                 .clickCheckboxDisable()
                 .saveConfigAndGoToMultibranchPipelineProject()
                 .assertEquals(MultibranchPipelineProjectPage::isIconFolderDisabledDisplayed, true)
                 .assertEquals(MultibranchPipelineProjectPage::textMessageDisabled, "This Multibranch Pipeline is currently disabled \nEnable")
-                .clickDashboardButton()
-                .getAttributeClassProjectIcon(NAME);
+                .clickLinkDashboard()
+                .getProjectIconAttributeClass(NAME);
 
         Assert.assertEquals(attributeClassIkonProject, "icon-folder-disabled icon-lg");
     }
@@ -120,17 +120,17 @@ public class _MultibranchPipelineTest extends BaseTest {
     @Test(dependsOnMethods = "testMultibranchDisable")
     public void testMultibranchEnable() {
         String attributeClassIkonProject = new HomePage(getDriver())
-                .clickDashboardButton()
+                .clickLinkDashboard()
                 .getSideMenu()
                 .clickMenuMyView()
                 .moveToProjectName(NAME)
                 .clickProjectDropDownMenu()
-                .selectMenuConfigureAndGoToMultibranchPipelineConfigPage()
+                .clickMenuSelectorMultibranchConfigure()
                 .clickCheckboxDisable()
                 .saveConfigAndGoToMultibranchPipelineProject()
                 .assertEquals(MultibranchPipelineProjectPage::istIconFolderEnabled, true)
-                .clickDashboardButton()
-                .getAttributeClassProjectIcon(NAME);
+                .clickLinkDashboard()
+                .getProjectIconAttributeClass(NAME);
 
         Assert.assertEquals(attributeClassIkonProject, "icon-pipeline-multibranch-project icon-lg");
     }

@@ -19,9 +19,9 @@ public class _FreestyleTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(RANDOM_NAME)
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToFreestyleProject()
+                .saveProjectConfiguration()
                 .getProjectName();
 
         Assert.assertEquals(projectName, RANDOM_NAME);
@@ -33,7 +33,7 @@ public class _FreestyleTest extends BaseTest {
                 .clickFreestyleName(RANDOM_NAME)
                 .getSideMenu()
                 .clickMenuConfigure()
-                .saveConfigAndGoToFreestyleProject()
+                .saveProjectConfiguration()
                 .getProjectName();
 
         Assert.assertEquals(projectName, RANDOM_NAME);
@@ -57,7 +57,7 @@ public class _FreestyleTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuConfigure()
                 .setDescription(DESCRIPTION_TEXT)
-                .saveConfigAndGoToFreestyleProject()
+                .saveProjectConfiguration()
                 .getDescriptionName();
 
         Assert.assertEquals(description, DESCRIPTION_TEXT);
@@ -147,7 +147,7 @@ public class _FreestyleTest extends BaseTest {
                 .clickFreestyleName(NAME_WITH_SPECIAL_CHARACTERS)
                 .getSideMenu()
                 .clickMenuDeleteProjectAndConfirm()
-                .checkProjectNameIsPresent(NAME_WITH_SPECIAL_CHARACTERS);
+                .isProjectNamePresent(NAME_WITH_SPECIAL_CHARACTERS);
 
         Assert.assertFalse(projectIsPresent);
     }

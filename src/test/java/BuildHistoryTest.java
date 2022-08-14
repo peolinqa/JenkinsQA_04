@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-public class _BuildHistoryTest extends BaseTest {
+public class BuildHistoryTest extends BaseTest {
 
     private static final String PROJECT_NAME = "BuildHistoryPageProject";
     private static final String EDIT_BUILD_NAME = TestUtils.getRandomStr(5);
@@ -17,14 +17,14 @@ public class _BuildHistoryTest extends BaseTest {
         FreestyleProjectPage freestyleProjectPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .setProjectName(PROJECT_NAME)
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToFreestyleProject()
+                .saveProjectConfiguration()
                 .getSideMenu()
                 .clickMenuBuildNow();
 
-        buildName = new FreestyleProjectPage(getDriver()).getBuildName();
+        buildName = new FreestyleProjectPage(getDriver()).getTextBuildName();
 
         Assert.assertTrue(freestyleProjectPage.buildNumberIsDisplayed());
     }
@@ -35,8 +35,8 @@ public class _BuildHistoryTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuBuildHistory();
 
-        Assert.assertTrue(buildHistoryPage.checkProjectIsOnBoard(PROJECT_NAME));
-        Assert.assertTrue(buildHistoryPage.checkBuildIsOnBoard(buildName));
+        Assert.assertTrue(buildHistoryPage.isProjectOnBoardBuildHistory(PROJECT_NAME));
+        Assert.assertTrue(buildHistoryPage.isBuildOnBoardBuildHistory(buildName));
     }
 
     @Test(dependsOnMethods = "testBuildIsOnBuildHistoryPage")
@@ -44,32 +44,32 @@ public class _BuildHistoryTest extends BaseTest {
         String changesHeader = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuBuildHistory()
-                .clickBuildName()
+                .clickLinkBuildLastCreated()
                 .getSideMenu()
-                .clickChangesAndGoToChangesPage()
-                .getPageHeader();
+                .clickMenuChanges()
+                .getBuildHeaderText();
 
         Assert.assertEquals(changesHeader, "Changes");
     }
 
     @Test(dependsOnMethods = "testBuildHistoryChanges")
-    public void testBuildHistoryConsole() {
+    public void testBuildHistoryConsoleOutput() {
         String consoleHeader = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuBuildHistory()
                 .clickBuildDropDownMenu(PROJECT_NAME, buildName.substring(1))
-                .clickMenuDropDownConsole()
-                .getPageHeader();
+                .clickMenuSelectorConsoleOutput()
+                .getBuildHeaderText();
 
         Assert.assertEquals(consoleHeader, "Console Output");
     }
 
-    @Test(dependsOnMethods = "testBuildHistoryConsole")
+    @Test(dependsOnMethods = "testBuildHistoryConsoleOutput")
     public void testEditBuildInformation() {
         FreestyleBuildPage freestyleBuildPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuBuildHistory()
-                .clickBuildName()
+                .clickLinkBuildLastCreated()
                 .clickEditBuildInfoButton()
                 .editBuildName(EDIT_BUILD_NAME)
                 .editBuildDescription(BUILD_DESCRIPTION)
@@ -80,11 +80,11 @@ public class _BuildHistoryTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = {"testEditBuildInformation"})
-    public void testVerifyChangesOnProjectPage() {
+    public void testVerifyBuildInformationOnPaneBuildHistory() {
         FreestyleProjectPage freestyleProjectPage = new HomePage(getDriver())
                 .clickFreestyleName(PROJECT_NAME);
 
-        Assert.assertEquals(freestyleProjectPage.getBuildName(), EDIT_BUILD_NAME);
-        Assert.assertEquals(freestyleProjectPage.getBuildDescription(), BUILD_DESCRIPTION);
+        Assert.assertEquals(freestyleProjectPage.getTextBuildName(), EDIT_BUILD_NAME);
+        Assert.assertEquals(freestyleProjectPage.getTextBuildDescription(), BUILD_DESCRIPTION);
     }
 }

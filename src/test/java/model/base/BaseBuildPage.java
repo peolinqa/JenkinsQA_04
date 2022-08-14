@@ -7,13 +7,13 @@ import org.openqa.selenium.support.FindBy;
 public abstract class BaseBuildPage<Self extends BaseBuildPage<?, ?>, SideMenu> extends BaseSideMenuPage<Self, SideMenu> {
 
     @FindBy(css = "span.jenkins-icon-adjacent")
-    private WebElement header;
+    private WebElement buildHeader;
 
     public BaseBuildPage(WebDriver driver) {
         super(driver);
     }
 
-    public String getPageHeader() {
-        return header.getText();
+    public String getBuildHeaderText() {
+        return buildHeader.getText();
     }
 }

@@ -7,48 +7,49 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import runner.TestUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public final class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[@title='Help for feature: SSHD Port']")
-    private WebElement helpButton;
+    private WebElement btnHelpForFeature;
 
     @FindBy(className = "jenkins-section__header")
-    private List<WebElement> securityChapters;
+    private List<WebElement> listOfHeaders;
 
     @FindBy(className = "jenkins-help-button")
-    private List<WebElement> locatorHelp;
+    private List<WebElement> listOfHelpButtons;
 
     public ConfigureGlobalSecurityPage(WebDriver driver) {
         super(driver);
     }
 
-    public int getSizeOfSecurityChapters() {
-        return securityChapters.size();
+    public int getSizeOfHeadersList() {
+        return listOfHeaders.size();
     }
 
-    public String getTextTooltipButtonHelpSSHServerPOM() {
-        TestUtils.scrollToElement(getDriver(), helpButton);
-        getActions().pause(500).moveToElement(helpButton).perform();
+    public String getTooltipButtonHelpSSHServerText() {
+        TestUtils.scrollToElement(getDriver(), btnHelpForFeature);
+        getActions().pause(500).moveToElement(btnHelpForFeature).perform();
 
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText();
     }
 
-    public List<String> getActualSecurityChaptersNames() {
-        List<String> actualChapters = new ArrayList<>();
-        for (WebElement e : securityChapters) {
-            actualChapters.add(e.getText());
+    public List<String> getActualHeaderNamesList() {
+        List<String> actualHeaders = new ArrayList<>();
+        for (WebElement e : listOfHeaders) {
+            actualHeaders.add(e.getText());
         }
 
-        return actualChapters;
+        return actualHeaders;
     }
 
     private List<WebElement> getDisplayedHelpIconsList() {
         List<WebElement> helpIconList = new ArrayList<>();
 
-        for (WebElement list : locatorHelp) {
+        for (WebElement list : listOfHelpButtons) {
             TestUtils.scrollToElement(getDriver(), list);
             if (list.isDisplayed()) {
                 helpIconList.add(list);
@@ -69,8 +70,8 @@ public final class ConfigureGlobalSecurityPage extends BaseHeaderFooterPage {
 
         for (int i = 0; i < getDisplayedHelpIconsList().size(); i++) {
 
-                getActions().pause(500).moveToElement(helpIconsList.get(i)).build().perform();
-                tooltipText.add(getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText());
+            getActions().pause(500).moveToElement(helpIconsList.get(i)).build().perform();
+            tooltipText.add(getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("tt"))).getText());
         }
 
         return tooltipText;

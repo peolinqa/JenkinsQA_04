@@ -8,14 +8,14 @@ import org.openqa.selenium.support.FindBy;
 public class ManageNodesAndCloudsPageSelectorMenuFrame extends BasePage {
 
     @FindBy(xpath = "//span[text()='Delete Agent']")
-    private WebElement menuDeleteAgent;
+    private WebElement menuSelectorDeleteAgent;
 
     public ManageNodesAndCloudsPageSelectorMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public ManageNodesAndCloudsPage selectMenuDeleteAgentAndGoToManageNodesAndCloudsPage() {
-        menuDeleteAgent.click();
+    public ManageNodesAndCloudsPage clickMenuSelectorDeleteAgent() {
+        menuSelectorDeleteAgent.click();
 
         return new ManageNodesAndCloudsPage(getDriver());
     }

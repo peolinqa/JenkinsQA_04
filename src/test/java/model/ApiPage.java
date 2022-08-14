@@ -15,6 +15,7 @@ public final class ApiPage extends BaseHeaderFooterPage {
     }
 
     public String getMainTitleFromApiPage() {
+
         return restApiMainTitle.getText();
     }
 }

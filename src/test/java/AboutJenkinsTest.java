@@ -4,45 +4,47 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-public class _AboutJenkinsTest extends BaseTest {
+public class AboutJenkinsTest extends BaseTest {
+
     private int amountLinks;
+
     @Test
-    public void testAmountLinksTabMavenizedDependencies() {
+    public void testCountLinksTabMavenizedDependencies() {
         amountLinks = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickAboutJenkins()
-                .clickMavenizedDependencies()
+                .clickTabMavenizedDependencies()
                 .countLinksInTab("Mavenized dependencies");
 
         Assert.assertEquals(amountLinks, 107);
     }
 
-    @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
-    public void testAmountLinksTabStaticResources() {
+    @Test(dependsOnMethods = "testCountLinksTabMavenizedDependencies")
+    public void testCountLinksTabStaticResources() {
         amountLinks = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickAboutJenkins()
-                .clickStaticResources()
+                .clickTabStaticResources()
                 .countLinksInTab("Static resources");
 
         Assert.assertEquals(amountLinks, 4);
     }
 
-    @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
-    public void testAmountLinksTabLicenseAndDependencyInformationForPlugins() {
+    @Test(dependsOnMethods = "testCountLinksTabMavenizedDependencies")
+    public void testCountLinksTabLicenseAndDependency() {
         amountLinks = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickAboutJenkins()
-                .clickLicenseAndDependencyInformationForPlugins()
+                .clickTabLicenseAndDependency()
                 .countLinksInTab("License and dependency information for plugins");
 
         Assert.assertEquals(amountLinks, 85);
     }
 
-    @Test(dependsOnMethods = "testAmountLinksTabMavenizedDependencies")
+    @Test(dependsOnMethods = "testCountLinksTabMavenizedDependencies")
     public void testLinkAntLRParserGenerator() {
         new HomePage(getDriver())
                 .getSideMenu()

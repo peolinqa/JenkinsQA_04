@@ -8,14 +8,14 @@ import org.openqa.selenium.support.FindBy;
 public final class BuildHistoryPageSelectorMenuFrame extends BasePage {
 
     @FindBy(linkText = "Console Output")
-    private WebElement menuConsoleOutput;
+    private WebElement menuSelectorConsoleOutput;
 
     public BuildHistoryPageSelectorMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public BuildConsolePage clickMenuDropDownConsole() {
-        menuConsoleOutput.click();
+    public BuildConsolePage clickMenuSelectorConsoleOutput() {
+        menuSelectorConsoleOutput.click();
 
         return new BuildConsolePage(getDriver());
     }
