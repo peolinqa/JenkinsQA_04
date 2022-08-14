@@ -52,4 +52,10 @@ public class BaseModel<Self extends BaseModel<?>> {
 
         return (Self)this;
     }
+
+    public <Value> Self assertTrue(Function<Self, Value> value) {
+        Assert.assertEquals(value.apply((Self)this), true);
+
+        return (Self)this;
+    }
 }

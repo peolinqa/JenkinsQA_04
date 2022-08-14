@@ -50,47 +50,31 @@ public class _NewItemTest extends BaseTest {
 
     @Test
     public void testCheckItemLabelStyle() {
-        NewItemPage<Object> itemLabelStyle = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
-                .clickMenuNewItem();
-
-        List<String> listFontWeigh = itemLabelStyle.getFontWeightForEachProjectLabel();
-        Assert.assertTrue(listFontWeigh.stream().allMatch(value -> value.equals("700")));
-
-        List<String> listFontSize = itemLabelStyle.getFontSizeForEachProjectLabel();
-        Assert.assertTrue(listFontSize.stream().allMatch(value -> value.equals("16px")));
-
-        List<String> listColor = itemLabelStyle.getColorForEachProjectLabel();
-        Assert.assertTrue(listColor.stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
+                .clickMenuNewItem()
+                .assertTrue((object) -> object.getFontWeightForEachProjectLabel().stream().allMatch(value -> value.equals("700")))
+                .assertTrue((object) -> object.getFontSizeForEachProjectLabel().stream().allMatch(value -> value.equals("16px")))
+                .assertTrue((object) -> object.getColorForEachProjectLabel().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
     public void testCheckDescriptionStyle() {
-        NewItemPage<Object> descriptionStyle = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
-                .clickMenuNewItem();
-
-        List<String> listFontWeigh = descriptionStyle.getFontWeightForEachDescription();
-        Assert.assertTrue(listFontWeigh.stream().allMatch(value -> value.equals("400")));
-
-        List<String> listFontSize = descriptionStyle.getFontSizeForEachDescription();
-        Assert.assertTrue(listFontSize.stream().allMatch(value -> value.equals("14px")));
-
-        List<String> listColor = descriptionStyle.getColorForEachDescription();
-        Assert.assertTrue(listColor.stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
+                .clickMenuNewItem()
+                .assertTrue((object) -> object.getFontWeightForEachDescription().stream().allMatch(value -> value.equals("400")))
+                .assertTrue((object) -> object.getFontSizeForEachDescription().stream().allMatch(value -> value.equals("14px")))
+                .assertTrue((object) -> object.getColorForEachDescription().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
     public void testCheckIconAvailabilityAndDisplaying() {
-        NewItemPage<Object> iconAvailability = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
-                .clickMenuNewItem();
-
-        List<Boolean> listImageIsDisplayed = iconAvailability.isTypeProjectImageDisplayed();
-        Assert.assertTrue(listImageIsDisplayed.stream().allMatch(value -> value.equals(true)));
-
-        List<Boolean> listImageIsEnabled = iconAvailability.isTypeProjectImageEnabled();
-        Assert.assertTrue(listImageIsEnabled.stream().allMatch(value -> value.equals(true)));
+                .clickMenuNewItem()
+                .assertTrue((object) -> object.isTypeProjectImageDisplayed().stream().allMatch(value -> value.equals(true)))
+                .assertTrue((object) -> object.isTypeProjectImageEnabled().stream().allMatch(value -> value.equals(true)));
     }
 
     @Test

@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class NewItemPage<ConfigPage> extends BaseHeaderFooterPage {
+public final class NewItemPage<ConfigPage> extends BaseHeaderFooterPage<NewItemPage<ConfigPage>> {
 
     @FindBy(id = "name")
     private WebElement inputName;
