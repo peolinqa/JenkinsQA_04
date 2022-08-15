@@ -1,7 +1,6 @@
 import model.HomePage;
 import model.MultibranchPipelineProjectPage;
 import model.MultibranchPipelineConfigPage;
-import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -75,7 +74,7 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateMultibranchPipelineWithValidData() {
-        WebElement newName = new HomePage(getDriver())
+        boolean projectIsPresent = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
@@ -83,9 +82,9 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToMultibranchPipelinePage()
                 .goHome()
-                .getProjectLinkByName(PIPELINE_NAME);
+                .isProjectNamePresent(PIPELINE_NAME);
 
-        Assert.assertEquals(newName.getText(), PIPELINE_NAME);
+        Assert.assertTrue(projectIsPresent);
     }
 
     @Test (dependsOnMethods = "testCreateMultibranchPipelineWithValidData")

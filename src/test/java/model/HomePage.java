@@ -72,8 +72,7 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return new HomePageSideMenuFrame(getDriver());
     }
 
-    //to do: fix
-    public WebElement getProjectLinkByName(String name) {
+    private WebElement getProjectLinkByName(String name) {
         return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
     }
 
