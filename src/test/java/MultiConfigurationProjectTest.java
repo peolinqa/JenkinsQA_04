@@ -3,41 +3,44 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
+
 import java.util.Set;
 
-public class _MultiConfigurationProjectTest extends BaseTest {
+public class MultiConfigurationProjectTest extends BaseTest {
 
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
     private static final String EDITED_RANDOM_NAME = "New " + RANDOM_NAME;
     private static final String DESCRIPTION_TEXT = "This is a description for a Multi-ConfigurationProject";
 
     @Test
-    public void testCreateMultiConfigFolder() {
+    public void testCreateMultiConfigProject() {
         String projectName = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(RANDOM_NAME)
                 .setMultiConfigurationProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToProject()
-                .getProjectName();
+                .saveProjectConfiguration()
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, RANDOM_NAME);
     }
 
+    //to do: fix
     @Test(dependsOnMethods = "testWorkspaceWithoutBuildPerformed")
     public void testBuildNow() {
         MultiConfigurationProjectPage consolePage = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
-                .clickBuildNow()
-                .clickTooltipStatus();
+                .getSideMenu()
+                .clickMenuBuildNow()
+                .clickIconBuildStatus();
 
         Assert.assertTrue(consolePage.tooltipStatusSuccessIsDisplayed());
     }
 
-    @Test(dependsOnMethods = {"testCreateMultiConfigFolder", "testBuildNow", "testBuildNowInDisabledProject", "testAddDescription"})
+    @Test(dependsOnMethods = {"testCreateMultiConfigProject", "testBuildNow", "testBuildNowInDisabledProject", "testAddDescription"})
     public void testCheckSubMenuConfigureAfterCreatingProject() {
-        final String DiscardOldBuildsText = "This determines when, if ever, build records for this project should be discarded. " +
+        final String discardOldBuildsText = "This determines when, if ever, build records for this project should be discarded. " +
                 "Build records include the console output, archived artifacts, and any other metadata related " +
                 "to a particular build.\n" +
                 "Keeping fewer builds means less disk space will be used in the Build Record Root Directory," +
@@ -70,11 +73,11 @@ public class _MultiConfigurationProjectTest extends BaseTest {
                 .clickProjectDropDownMenu()
                 .clickMenuSelectorMultiConfProjectConfigure();
 
-        Assert.assertTrue(newMultiConfigurationConfigPage.helpButtonDiscardOldBuildsIsVisible());
-        Assert.assertEquals(newMultiConfigurationConfigPage.getAttributeHelpButtonDiscardOldBuilds("title"),
+        Assert.assertTrue(newMultiConfigurationConfigPage.isHelpButtonDiscardOldBuildsVisible());
+        Assert.assertEquals(newMultiConfigurationConfigPage.getHelpDiscardOldBuildsAttribute("title"),
                 "Help for feature: Discard old builds");
-        Assert.assertEquals(newMultiConfigurationConfigPage.clickHelpButtonDiscardOldBuilds().getTextDiscardOldBuildsHiddenTextArea(),
-                DiscardOldBuildsText);
+        Assert.assertEquals(newMultiConfigurationConfigPage.clickBtnHelpDiscardOldBuilds().getDiscardOldBuildsHiddenText(),
+                discardOldBuildsText);
     }
 
     @Test(dependsOnMethods = "testBuildNow")
@@ -82,7 +85,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         boolean BuildNowInDisabledProject = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .clickDisableProjectButton()
-                .isDisplayedBuildNowButton();
+                .isMenuBuildNowDisplayed();
 
         Assert.assertFalse(BuildNowInDisabledProject);
     }
@@ -91,10 +94,10 @@ public class _MultiConfigurationProjectTest extends BaseTest {
     public void testAddDescription() {
         String description = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
-                .clickAddDescription()
-                .setDescription(DESCRIPTION_TEXT)
-                .saveConfigAndGoToMultiConfigurationProject()
-                .getDescription();
+                .clickAddDescriptionButton()
+                .setTextareaDescription(DESCRIPTION_TEXT)
+                .clickSaveButton()
+                .getDescriptionText();
 
         Assert.assertEquals(description, DESCRIPTION_TEXT);
     }
@@ -104,10 +107,10 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         String newProjectName = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
                 .getSideMenu()
-                .clickMenuRenameAndGoToRenamePage()
+                .clickMenuRename()
                 .setNewProjectName(EDITED_RANDOM_NAME)
-                .clickRenameAndGoToProjectPage()
-                .getProjectName();
+                .clickRename()
+                .getProjectNameText();
 
         Assert.assertEquals(newProjectName, EDITED_RANDOM_NAME);
     }
@@ -117,7 +120,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickMenuRenameAndGoToRenamePage()
+                .clickMenuRename()
                 .clickRenameAndGoToErrorPage();
 
         Assert.assertEquals(error.getErrorHeaderText(), "Error");
@@ -129,8 +132,8 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         ErrorPage error = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickMenuRenameAndGoToRenamePage()
-                .setEmptyNameAndGoToErrorPage();
+                .clickMenuRename()
+                .setEmptyName();
 
         Assert.assertEquals(error.getErrorHeaderText(), "Error");
         Assert.assertEquals(error.getErrorMessageText(), "No name is specified");
@@ -144,7 +147,7 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         RenamePage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> rename = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickMenuRenameAndGoToRenamePage();
+                .clickMenuRename();
 
         for (String unsafeChar : invalidName) {
             rename.setNewProjectName(unsafeChar)
@@ -180,12 +183,12 @@ public class _MultiConfigurationProjectTest extends BaseTest {
         HomePage homePage = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickMenuDeleteProjectAndConfirm();
+                .clickMenuDeleteProject();
 
         Assert.assertFalse(homePage.isItemPresent(EDITED_RANDOM_NAME));
     }
 
-    @Test(dependsOnMethods = "testCreateMultiConfigFolder")
+    @Test(dependsOnMethods = "testCreateMultiConfigProject")
     public void testWorkspaceWithoutBuildPerformed() {
         final String h1HeaderError = "Error: no workspace";
         final Set<String> expectedErrorsText = Set.of(
@@ -194,10 +197,10 @@ public class _MultiConfigurationProjectTest extends BaseTest {
 
         MultiConfigurationProjectWorkspacePage errorMessages = new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(RANDOM_NAME)
-                .clickDefaultButton()
-                .clickWorkspaceButton();
+                .clickLinkDefault()
+                .clickLinkWorkspace();
 
         Assert.assertEquals(errorMessages.getH1Header(), h1HeaderError);
-        Assert.assertEquals(errorMessages.getErrorMessages(), expectedErrorsText);
+        Assert.assertEquals(errorMessages.getErrorMessagesList(), expectedErrorsText);
     }
 }

@@ -65,8 +65,8 @@ public class _MultibranchPipelineTest extends BaseTest {
     public void testScanResult() {
         String scanLog = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
-                .clickScanRepositoryLog()
-                .clickViewAsPlainText()
+                .clickLinkScanRepositoryLog()
+                .clickLinkViewAsPlainText()
                 .getConsoleText();
 
         Assert.assertTrue(scanLog.contains("Finished: SUCCESS"));
@@ -93,7 +93,7 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .clickMultibranchPipelineName(PIPELINE_NAME)
                 .getSideMenu()
                 .clickMenuDelete()
-                .confirmDeleteAndGoHomePage();
+                .clickBtnYesConfirmDelete();
 
         Assert.assertFalse(homePage.isItemPresent(PIPELINE_NAME));
     }
@@ -108,8 +108,8 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .clickCheckboxDisable()
                 .saveConfigAndGoToMultibranchPipelineProject()
-                .assertEquals(MultibranchPipelineProjectPage::isIconFolderDisabledDisplayed, true)
-                .assertEquals(MultibranchPipelineProjectPage::textMessageDisabled, "This Multibranch Pipeline is currently disabled \nEnable")
+                .assertEquals(MultibranchPipelineProjectPage::isIconProjectDisabledDisplayed, true)
+                .assertEquals(MultibranchPipelineProjectPage::getWarningDisableText, "This Multibranch Pipeline is currently disabled \nEnable")
                 .clickLinkDashboard()
                 .getProjectIconAttributeClass(NAME);
 
@@ -127,7 +127,7 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .clickMenuSelectorMultibranchConfigure()
                 .clickCheckboxDisable()
                 .saveConfigAndGoToMultibranchPipelineProject()
-                .assertEquals(MultibranchPipelineProjectPage::istIconFolderEnabled, true)
+                .assertEquals(MultibranchPipelineProjectPage::istIconProjectEnabled, true)
                 .clickLinkDashboard()
                 .getProjectIconAttributeClass(NAME);
 

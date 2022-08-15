@@ -24,9 +24,9 @@ public class BuildHistoryTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuBuildNow();
 
-        buildName = new FreestyleProjectPage(getDriver()).getTextBuildName();
+        buildName = new FreestyleProjectPage(getDriver()).getBuildNameText();
 
-        Assert.assertTrue(freestyleProjectPage.buildNumberIsDisplayed());
+        Assert.assertTrue(freestyleProjectPage.isBuildNumberDisplayed());
     }
 
     @Test(dependsOnMethods = "testBuildIsOnProjectPage")
@@ -85,7 +85,7 @@ public class BuildHistoryTest extends BaseTest {
         FreestyleProjectPage freestyleProjectPage = new HomePage(getDriver())
                 .clickFreestyleName(PROJECT_NAME);
 
-        Assert.assertEquals(freestyleProjectPage.getTextBuildName(), EDIT_BUILD_NAME);
-        Assert.assertEquals(freestyleProjectPage.getTextBuildDescription(), BUILD_DESCRIPTION);
+        Assert.assertEquals(freestyleProjectPage.getBuildNameText(), EDIT_BUILD_NAME);
+        Assert.assertEquals(freestyleProjectPage.getBuildDescriptionText(), BUILD_DESCRIPTION);
     }
 }

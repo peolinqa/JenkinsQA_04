@@ -27,7 +27,7 @@ public class FolderTest extends BaseTest {
                 .setFolderProjectType()
                 .clickOkAndGoToConfig()
                 .saveProjectConfiguration()
-                .getProjectName();
+                .getProjectNameText();
 
         Assert.assertEquals(folderName, RANDOM_FOLDER_NAME1);
     }
@@ -104,7 +104,7 @@ public class FolderTest extends BaseTest {
                 .setFolderProjectType()
                 .clickOkAndGoToConfig()
                 .saveProjectConfiguration()
-                .assertEquals(FolderProjectPage::getProjectName, folderName)
+                .assertEquals(FolderProjectPage::getProjectNameText, folderName)
                 .getSideMenu()
                 .clickMenuDelete()
                 .confirmDeleteAndGoHomePage()
@@ -149,8 +149,8 @@ public class FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuRename()
                 .setNewProjectName(FOLDER_NAME_FOR_RENAME1)
-                .clickRenameAndGoToProjectPage()
-                .getProjectName();
+                .clickRename()
+                .getProjectNameText();
 
         Assert.assertEquals(actualResult, FOLDER_NAME_FOR_RENAME1);
     }
@@ -162,7 +162,7 @@ public class FolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuRename()
                 .setNewProjectName(" ")
-                .clickRenameAndGoToProjectPage()
+                .clickRename()
                 .getErrorPageIfPresent()
                 .getErrorMessageText();
 
@@ -183,7 +183,7 @@ public class FolderTest extends BaseTest {
             if (newFolderName.equals("&")) {
                 String actualResult = folderForRenameTest
                         .setNewProjectName(newFolderName)
-                        .clickRenameAndGoToProjectPage()
+                        .clickRename()
                         .getErrorPageIfPresent()
                         .getErrorMessageText();
 
@@ -194,7 +194,7 @@ public class FolderTest extends BaseTest {
             if (newFolderName.equals(".")) {
                 String actualResult = folderForRenameTest
                         .setNewProjectName(newFolderName)
-                        .clickRenameAndGoToProjectPage()
+                        .clickRename()
                         .getErrorPageIfPresent()
                         .getErrorMessageText();
                 Assert.assertEquals(actualResult, "“.” is not an allowed name");
@@ -203,7 +203,7 @@ public class FolderTest extends BaseTest {
             }
             String actualResult = folderForRenameTest
                     .setNewProjectName(newFolderName)
-                    .clickRenameAndGoToProjectPage()
+                    .clickRename()
                     .getErrorPageIfPresent()
                     .getErrorMessageText();
             String expectedResult = "‘" + newFolderName + WARNING_TEXT_UNSAFE;

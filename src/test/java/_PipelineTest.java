@@ -161,9 +161,9 @@ public class _PipelineTest extends BaseTest {
                 .clickPipelineName(PIPELINE_NAME)
                 .getSideMenu()
                 .clickMenuBuildPipelineButton()
-                .clickBuildButtonWait()
+                .clickBuildNameWait()
                 .refreshPage()
-                .permalinksText();
+                .getPermalinksTextArray();
 
         Assert.assertEquals(permalinksText, new String[]{"Last build", "Last stable build",
                 "Last successful build", "Last completed build"});
@@ -191,10 +191,10 @@ public class _PipelineTest extends BaseTest {
     public void testDeletePipelineDescription() {
         final boolean check = new HomePage(getDriver())
                 .clickPipelineName(PIPELINE_NAME)
-                .clickAddDescription()
+                .clickAddDescriptionButton()
                 .addTextDescriptionAndSave("Text Description")
-                .clearUserDescription()
-                .checkDescriptionValue();
+                .clearProjectDescription()
+                .isDescriptionValueEmpty();
 
         Assert.assertTrue(check);
     }
@@ -208,7 +208,7 @@ public class _PipelineTest extends BaseTest {
                 .clickPipelineName(PIPELINE_NAME)
                 .getSideMenu()
                 .clickMenuRenameAndGoToRenamePage()
-                .getListErrorMessages(invalidCharacters);
+                .getErrorMessagesList(invalidCharacters);
 
         List<String> listExpectedResult = invalidCharacters
                 .stream()
@@ -225,8 +225,8 @@ public class _PipelineTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuRenameAndGoToRenamePage()
                 .setNewProjectName(NEW_PIPELINE_NAME)
-                .clickRenameAndGoToProjectPage()
-                .getProjectName();
+                .clickRename()
+                .getProjectNameText();
 
         Assert.assertEquals(newProjectName, NEW_PIPELINE_NAME);
     }
@@ -304,7 +304,7 @@ public class _PipelineTest extends BaseTest {
                 .clickRefreshPage()
                 .clickPipelineName(NEW_PIPELINE_NAME)
                 .refreshPage()
-                .isProjectStatus("job SUCCESS");
+                .isProjectStatusSuccess("job SUCCESS");
 
         Assert.assertTrue(isStatus);
     }
@@ -335,8 +335,8 @@ public class _PipelineTest extends BaseTest {
                 .clickMenuBuildWithParameters()
                 .clickBuildButton()
                 .refreshPage()
-                .clickLastBuildButton()
-                .clickParametersButton()
+                .clickLinkLastBuild()
+                .clickMenuParameters()
                 .collectListBuildParameters();
 
         Assert.assertEquals(listOfNameAndDescriptionBuildParameters,

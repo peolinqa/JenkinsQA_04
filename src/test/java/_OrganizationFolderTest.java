@@ -26,7 +26,7 @@ public class _OrganizationFolderTest extends BaseTest {
                 .setOrganizationFolderProjectType()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
-                .getProjectName();
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, VALID_FOLDER_NAME);
     }
@@ -38,8 +38,8 @@ public class _OrganizationFolderTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuRenameAndGoToRenamePage()
                 .setNewProjectName(VALID_FOLDER_RENAME)
-                .clickRenameAndGoToProjectPage()
-                .getProjectName();
+                .clickRename()
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, VALID_FOLDER_RENAME);
     }
@@ -61,7 +61,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testCreateOrganizationFolderWithMetadataFolderIcon() {
         String attributeClassIkonProject = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_RENAME)
-                .clickConfigureProjectButton()
+                .clickLinkConfigureTheProject()
                 .clickAppearanceDropDownList()
                 .selectOptionMetadataFolderIcon()
                 .saveConfigAndGoToProject()
@@ -76,7 +76,7 @@ public class _OrganizationFolderTest extends BaseTest {
         HashMap<String, String> warningMessage = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_RENAME)
                 .clickDisableButton()
-                .getDisabledProjectWarningMessage();
+                .getWarningDisableText();
 
         Assert.assertEquals(warningMessage.get("Warning Message"), "This Organization Folder is currently disabled");
         Assert.assertEquals(warningMessage.get("Message Color"), "rgba(196, 160, 0, 1)");
@@ -112,7 +112,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testProjectsTab() {
         boolean actualResult = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME)
-                .clickConfigureProjectButton()
+                .clickLinkConfigureTheProject()
                 .clickProjectTab()
                 .checkChildProjectIsDisplayed();
 
@@ -123,7 +123,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testHealthMetricsTab() {
         boolean actualResult = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME)
-                .clickConfigureProjectButton()
+                .clickLinkConfigureTheProject()
                 .clickHealthMetricsTab()
                 .checkHealthMetricsIsDisplayed();
 
@@ -134,7 +134,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testAutomaticBranchProjectTriggeringTab() {
         boolean actualResult = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME)
-                .clickConfigureProjectButton()
+                .clickLinkConfigureTheProject()
                 .clickAutomaticBranchProjectTriggeringTab()
                 .checkAutomaticBranchProjectTriggeringIsDisplayed();
 
@@ -160,7 +160,7 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testRenameProjectViaInputDisplayNameField() {
         List<String> textFolderNames = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME1)
-                .clickConfigureProjectButton()
+                .clickLinkConfigureTheProject()
                 .inputDisplayNameField(VALID_FOLDER_NAME2)
                 .saveConfigAndGoToProject()
                 .goHome()
@@ -174,18 +174,18 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testAddDescriptionViaConfigure() {
         OrganizationFolderProjectPage organizationFolderProjectPage = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME2)
-                .clickConfigureProjectButton()
+                .clickLinkConfigureTheProject()
                 .enterDescription("New project")
                 .saveConfigAndGoToProject();
 
-        Assert.assertEquals(organizationFolderProjectPage.getDescriptionText(), "New project");
+        Assert.assertEquals(organizationFolderProjectPage.getSystemMessageText(), "New project");
     }
 
     @Test(dependsOnMethods = "testRenameProjectViaInputDisplayNameField")
     public void testAddChildHealthMetrics() {
         boolean actualResult = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME2)
-                .clickConfigureProjectButton()
+                .clickLinkConfigureTheProject()
                 .clickChildHealthMetricsTab()
                 .clickMetricsButton()
                 .checkChildMetricsIsDisplayed();

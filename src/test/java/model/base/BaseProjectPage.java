@@ -13,7 +13,7 @@ public abstract class BaseProjectPage<Self extends BaseProjectPage<?, SideMenu>,
     @FindBy(css = "h1")
     private WebElement projectName;
 
-    public String getProjectName() {
+    public String getProjectNameText() {
         return projectName.getText();
     }
 }

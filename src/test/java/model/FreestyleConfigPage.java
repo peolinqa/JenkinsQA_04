@@ -10,57 +10,57 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 public final class FreestyleConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//button[@type='submit' and contains(text(), 'Save')]")
-    private WebElement saveButton;
+    private WebElement btnSave;
 
     @FindBy(name = "description")
-    private WebElement descriptionTextarea;
+    private WebElement textareaDescription;
 
     @FindBy(name = "githubProject")
-    private WebElement githubProjectCheckbox;
+    private WebElement checkBoxGithubProject;
 
     @FindBy(name = "_.projectUrlStr")
-    private WebElement githubUrl;
+    private WebElement inputProjectUrl;
 
     @FindBy(xpath = "//button[contains(text(),'Apply')]")
-    private WebElement applyButton;
+    private WebElement btnApply;
 
     @FindBy(xpath = "//div[@class = 'tab config-section-activator config_build_triggers']")
-    private WebElement buildTriggers;
+    private WebElement tabBuildTriggers;
 
     public FreestyleConfigPage(WebDriver driver) {
         super(driver);
     }
 
     public FreestyleProjectPage saveProjectConfiguration() {
-        saveButton.click();
+        btnSave.click();
 
         return new FreestyleProjectPage(getDriver());
     }
 
     public FreestyleConfigPage setDescription(String text) {
-        descriptionTextarea.sendKeys(text);
+        textareaDescription.sendKeys(text);
 
         return this;
     }
 
-    public String getDescription() {
-        return descriptionTextarea.getText();
+    public String getDescriptionText() {
+        return textareaDescription.getText();
     }
 
-    public FreestyleConfigPage clickGithubProjectCheckbox() {
-        githubProjectCheckbox.click();
+    public FreestyleConfigPage clickCheckBoxGithubProject() {
+        checkBoxGithubProject.click();
 
         return this;
     }
 
-    public FreestyleConfigPage setGithubUrl(String text) {
-        githubUrl.sendKeys(text);
+    public FreestyleConfigPage setInputProjectUrl(String text) {
+        inputProjectUrl.sendKeys(text);
 
         return this;
     }
 
-    public String getGithubUrl() {
-        return githubUrl.getAttribute("value");
+    public String getInputProjectUrlAttrValue() {
+        return inputProjectUrl.getAttribute("value");
     }
 
     public String getHelpNamesGeneral() {
@@ -81,14 +81,14 @@ public final class FreestyleConfigPage extends BaseHeaderFooterPage {
         return getWait20().until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id = 'tt']"))).getText();
     }
 
-    public FreestyleConfigPage clickBuildTriggers() {
-        buildTriggers.click();
+    public FreestyleConfigPage clickTabBuildTriggers() {
+        tabBuildTriggers.click();
 
         return this;
     }
 
     public boolean clickApplyAndGetAlert() {
-        applyButton.click();
+        btnApply.click();
 
         return getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.id("notification-bar"))).isDisplayed();
     }

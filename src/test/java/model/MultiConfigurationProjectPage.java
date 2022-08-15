@@ -11,32 +11,29 @@ import java.util.List;
 
 public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> {
 
-    @FindBy(linkText = "Build Now")
-    private WebElement buildNowButton;
-
     @FindBy(className = "build-status-link")
-    private WebElement tooltipStatus;
+    private WebElement iconBuildStatus;
 
     @FindBy(id = "description-link")
-    private WebElement addOrEditDescriptionButton;
+    private WebElement btnAddDescription;
 
-    @FindBy(xpath = "//div/textarea[@name='description']")
-    private WebElement descriptionTextArea;
+    @FindBy(name = "description")
+    private WebElement textareaDescription;
 
     @FindBy(id = "yui-gen2-button")
-    private WebElement saveButton;
+    private WebElement btnSaveDescription;
 
-    @FindBy(xpath = "//div[@id='description']/div")
+    @FindBy(css = "#description > div:nth-child(1)")
     private WebElement textDescription;
 
-    @FindBy(id = "yui-gen1-button")
-    private WebElement disableProjectButton;
+    @FindBy(css = "#disable-project button")
+    private WebElement btnDisableProject;
 
     @FindBy(xpath = "//a[@href='default/']")
-    private WebElement defaultButton;
+    private WebElement linkDefault;
 
     @FindBy(xpath = "//span/span/*[name()='svg' and (contains(@tooltip, 'Success'))]")
-    private WebElement tooltipStatusSuccess;
+    private WebElement iconTooltipStatusSuccess;
 
     public MultiConfigurationProjectPage(WebDriver driver) {
         super(driver);
@@ -48,51 +45,45 @@ public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiCo
     }
 
     @Override
-    public String getProjectName() {
-        return super.getProjectName().substring("Project ".length());
+    public String getProjectNameText() {
+        return super.getProjectNameText().substring("Project ".length());
     }
 
-    public MultiConfigurationProjectPage clickBuildNow() {
-        buildNowButton.click();
+    public MultiConfigurationProjectPage clickIconBuildStatus() {
+        getWait5().until(ExpectedConditions.visibilityOf(iconBuildStatus)).click();
 
         return this;
     }
 
-    public MultiConfigurationProjectPage clickTooltipStatus() {
-        getWait5().until(ExpectedConditions.visibilityOf(tooltipStatus)).click();
+    public MultiConfigurationProjectPage clickAddDescriptionButton() {
+        btnAddDescription.click();
 
         return this;
     }
 
-    public MultiConfigurationProjectPage clickAddDescription() {
-        addOrEditDescriptionButton.click();
+    public MultiConfigurationProjectPage setTextareaDescription(String description) {
+        textareaDescription.sendKeys(description);
 
         return this;
     }
 
-    public MultiConfigurationProjectPage setDescription(String description) {
-        descriptionTextArea.sendKeys(description);
+    public MultiConfigurationProjectPage clickSaveButton() {
+        btnSaveDescription.click();
 
         return this;
     }
 
-    public MultiConfigurationProjectPage saveConfigAndGoToMultiConfigurationProject() {
-        saveButton.click();
-
-        return this;
-    }
-
-    public String getDescription() {
+    public String getDescriptionText() {
         return textDescription.getText();
     }
 
     public MultiConfigurationProjectPage clickDisableProjectButton() {
-        disableProjectButton.click();
+        btnDisableProject.click();
 
         return this;
     }
 
-    public boolean isDisplayedBuildNowButton() {
+    public boolean isMenuBuildNowDisplayed() {
         boolean isBuildNowDisplayed = false;
 
         List<WebElement> jobMenu = getDriver().findElements(By.xpath("//div[@id='tasks']//span[2]"));
@@ -105,13 +96,14 @@ public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiCo
         return isBuildNowDisplayed;
     }
 
-    public MultiConfigurationProjectDefaultPage clickDefaultButton() {
-        defaultButton.click();
+    public MultiConfigurationProjectDefaultPage clickLinkDefault() {
+        linkDefault.click();
 
         return new MultiConfigurationProjectDefaultPage(getDriver());
     }
 
+    //to do: fix
     public boolean tooltipStatusSuccessIsDisplayed() {
-        return tooltipStatusSuccess.isDisplayed();
+        return iconTooltipStatusSuccess.isDisplayed();
     }
 }

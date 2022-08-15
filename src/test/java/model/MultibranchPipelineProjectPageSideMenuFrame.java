@@ -17,7 +17,7 @@ public final class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel
     private WebElement menuConfigure;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
+    private WebElement btnYes;
 
     public MultibranchPipelineProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
@@ -35,8 +35,8 @@ public final class MultibranchPipelineProjectPageSideMenuFrame extends BaseModel
         return this;
     }
 
-    public HomePage confirmDeleteAndGoHomePage() {
-        yesButton.click();
+    public HomePage clickBtnYesConfirmDelete() {
+        btnYes.click();
 
         return new HomePage(getDriver());
     }
