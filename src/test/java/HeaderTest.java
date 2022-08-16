@@ -245,7 +245,6 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuBuilds() {
         String userBuilds = new HomePage(getDriver())
-                .moveToUser()
                 .clickUserDropDownMenu()
                 .clickMenuSelectorBuilds()
                 .getUserNameText();
@@ -256,7 +255,6 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuConfigure() {
         String buttonText = new HomePage(getDriver())
-                .moveToUser()
                 .clickUserDropDownMenu()
                 .clickMenuSelectorUserConfigure()
                 .getGen2ButtonText();
@@ -267,11 +265,11 @@ public class HeaderTest extends BaseTest {
     @Test
     public void testCheckExpandMenuMyViews() {
         String myViewsText = new HomePage(getDriver())
-                .moveToUser()
                 .clickUserDropDownMenu()
                 .clickMenuSelectorMyView()
                 .getTextMyView();
 
         Assert.assertEquals(myViewsText, "My Views");
     }
+
 }

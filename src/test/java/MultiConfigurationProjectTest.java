@@ -69,8 +69,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
                 "each time a build of this project completes.";
 
         MultiConfigurationConfigPage newMultiConfigurationConfigPage = new HomePage(getDriver())
-                .moveToProjectName(RANDOM_NAME)
-                .clickProjectDropDownMenu()
+                .clickProjectDropDownMenu(RANDOM_NAME)
                 .clickMenuSelectorMultiConfProjectConfigure();
 
         Assert.assertTrue(newMultiConfigurationConfigPage.isHelpButtonDiscardOldBuildsVisible());
@@ -203,4 +202,5 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorMessages.getH1Header(), h1HeaderError);
         Assert.assertEquals(errorMessages.getErrorMessagesList(), expectedErrorsText);
     }
+
 }

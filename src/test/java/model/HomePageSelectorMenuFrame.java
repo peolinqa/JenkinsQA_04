@@ -7,38 +7,14 @@ import org.openqa.selenium.support.FindBy;
 
 public final class HomePageSelectorMenuFrame extends BasePage {
 
-    @FindBy(linkText = "Builds")
-    private WebElement menuSelectorBuilds;
-
     @FindBy(linkText = "Configure")
     private WebElement menuSelectorConfigure;
-
-    @FindBy(linkText = "My Views")
-    private WebElement menuSelectorMyView;
 
     @FindBy(xpath = "//a/span[contains(text(), 'Delete')]")
     private WebElement menuSelectorDelete;
 
     public HomePageSelectorMenuFrame(WebDriver driver) {
         super(driver);
-    }
-
-    public UserBuildsPage clickMenuSelectorBuilds() {
-        menuSelectorBuilds.click();
-
-        return new UserBuildsPage(getDriver());
-    }
-
-    public UserConfigurePage clickMenuSelectorUserConfigure() {
-        menuSelectorConfigure.click();
-
-        return new UserConfigurePage(getDriver());
-    }
-
-    public MyViewPage clickMenuSelectorMyView() {
-        menuSelectorMyView.click();
-
-        return new MyViewPage(getDriver());
     }
 
     public HomePage clickMenuSelectorDelete() {
@@ -59,4 +35,5 @@ public final class HomePageSelectorMenuFrame extends BasePage {
 
         return new PipelineConfigPage(getDriver());
     }
+
 }

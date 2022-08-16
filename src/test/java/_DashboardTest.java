@@ -44,7 +44,6 @@ public class _DashboardTest extends BaseTest {
                 "New View");
 
         List<String> listOfDashboardDropdownMenuElements = new HomePage(getDriver())
-                .moveToDashboard()
                 .clickDashboardDropdownMenu()
                 .getListOfDashboardDropdownMenuElements();
 
@@ -74,4 +73,5 @@ public class _DashboardTest extends BaseTest {
 
         Assert.assertEquals(actualIconsDescriptions, EXPECTED_ICONS_DESCRIPTIONS);
     }
+
 }
