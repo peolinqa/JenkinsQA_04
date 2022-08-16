@@ -79,7 +79,7 @@ public class _PipelineTest extends BaseTest {
     public void testPipelineSyntaxPageOpening() {
         final String hrefAttOfPipelineSyntaxLink = new HomePage(getDriver())
                 .moveToProjectName(PIPELINE_NAME)
-                .clickUserDropDownMenu()
+                .clickProjectDropDownMenu()
                 .clickMenuSelectorPipelineConfigure()
                 .selectConfigurationMenuDefinition("Pipeline")
                 .getHrefAndGoToPipelineSyntaxPage()

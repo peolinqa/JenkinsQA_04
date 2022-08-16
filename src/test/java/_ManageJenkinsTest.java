@@ -62,7 +62,8 @@ public class _ManageJenkinsTest extends BaseTest {
                 "Configure Global Security",
                 "Manage Credentials",
                 "Configure Credential Providers",
-                "Manage Users");
+                "Manage Users",
+                "In-process Script Approval");
 
         List<String> actualSecurityContent = new HomePage(getDriver())
                 .getSideMenu()
@@ -95,7 +96,8 @@ public class _ManageJenkinsTest extends BaseTest {
                 "Secure Jenkins; define who is allowed to access/use the system.",
                 "Configure credentials",
                 "Configure the credential providers and types",
-                "Create/delete/modify users that can log in to this Jenkins");
+                "Create/delete/modify users that can log in to this Jenkins",
+                "Allows a Jenkins administrator to review proposed scripts (written e.g. in Groovy) which run inside the Jenkins process and so could bypass security restrictions.");
 
         List<String> actualCaptions = new HomePage(getDriver())
                 .getSideMenu()

@@ -4,13 +4,14 @@ import model.base.BaseHeaderFooterPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import runner.TestUtils;
 
 import java.util.List;
 
 public final class JenkinsCLIPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//a")
-    private List<WebElement> commandName;
+    private List<WebElement> commandNames;
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//td[2]")
     private List<WebElement> commandDescription;
@@ -29,7 +30,7 @@ public final class JenkinsCLIPage extends BaseHeaderFooterPage {
     }
 
     public String getCommandName(int i) {
-        return commandName.get(i).getText();
+        return commandNames.get(i).getText();
     }
 
     public String getCommandDescription(int i) {
@@ -37,19 +38,22 @@ public final class JenkinsCLIPage extends BaseHeaderFooterPage {
     }
 
     public JenkinsCLIExamplesPage clickCommandElement(int i) {
-        commandName.get(i).click();
+        commandNames.get(i).click();
 
         return new JenkinsCLIExamplesPage(getDriver());
     }
 
-    public int getNumberOfCommands(){
-        return availableCommands.size();
-    }
-
-    public JenkinsCLIPage clickNameCaption(){
+     public JenkinsCLIPage clickNameCaption(){
         nameCaption.click();
 
         return this;
+    }
+    public List<String> getTextNamesCommands() {
+        return TestUtils.getTextFromListWebElements(commandNames);
+    }
+
+    public List<String> getTextCommandsDescription() {
+        return TestUtils.getTextFromListWebElements(commandDescription);
     }
 
     public JenkinsCLIPage clickDescriptionCaption(){

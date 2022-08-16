@@ -3,9 +3,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
+import java.util.List;
+
 public class _JenkinsCLITest extends BaseTest {
 
-    private static final String[] COMMANDNAMES = {"add-job-to-view", "build", "cancel-quiet-down", "clear-queue",
+    private static final List<String> COMMAND_NAMES = List.of("add-job-to-view", "build", "cancel-quiet-down", "clear-queue",
             "connect-node", "console", "copy-job", "create-credentials-by-xml",
             "create-credentials-domain-by-xml", "create-job", "create-node",
             "create-view", "declarative-linter", "delete-builds",
@@ -19,9 +21,9 @@ public class _JenkinsCLITest extends BaseTest {
             "replay-pipeline", "restart", "restart-from-stage", "safe-restart", "safe-shutdown",
             "session-id", "set-build-description", "set-build-display-name", "shutdown", "stop-builds",
             "update-credentials-by-xml", "update-credentials-domain-by-xml", "update-job", "update-node", "update-view",
-            "version", "wait-node-offline", "wait-node-online", "who-am-i"};
+            "version", "wait-node-offline", "wait-node-online", "who-am-i");
 
-    private static final String[] COMMANDDESCRIPTIONS = {"Adds jobs to view.",
+    private static final List<String> COMMAND_DESCRIPTIONS = List.of("Adds jobs to view.",
             "Builds a job, and optionally waits until its completion.",
             "Cancel the effect of the \"quiet-down\" command.",
             "Clears the build queue.", "Reconnect to a node(s)", "Retrieves console output of a build.",
@@ -65,52 +67,39 @@ public class _JenkinsCLITest extends BaseTest {
             "Updates the node definition XML from stdin. The opposite of the get-node command.",
             "Updates the view definition XML from stdin. The opposite of the get-view command.",
             "Outputs the current version.", "Wait for a node to become offline.",
-            "Wait for a node to become online.", "Reports your credential and permissions."};
-
-    private int getNumberOfCommands() {
-        int number = new HomePage(getDriver())
-                .getSideMenu()
-                .clickMenuManageJenkins()
-                .clickJenkinsCLI()
-                .getNumberOfCommands();
-        return number;
-    }
+            "Wait for a node to become online.", "Reports your credential and permissions.");
 
     @Test
     public void checkCommandNameTest() {
-        for (int i = 0; i < getNumberOfCommands(); i++) {
-            String commandName = new HomePage(getDriver())
-                    .getSideMenu()
-                    .clickMenuManageJenkins()
-                    .clickJenkinsCLI()
-                    .getCommandName(i);
+        List<String> commandsNames = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuManageJenkins()
+                .clickJenkinsCLI()
+                .getTextNamesCommands();
 
-            Assert.assertEquals(commandName, COMMANDNAMES[i]);
-        }
+        Assert.assertEquals(commandsNames, COMMAND_NAMES);
     }
 
     @Test
     public void checkCommandDescriptionTest() {
-        for (int i = 0; i < getNumberOfCommands(); i++) {
-            String commandDescription = new HomePage(getDriver())
-                    .getSideMenu()
-                    .clickMenuManageJenkins()
-                    .clickJenkinsCLI()
-                    .getCommandDescription(i);
+        List<String> commandsDescription = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuManageJenkins()
+                .clickJenkinsCLI()
+                .getTextCommandsDescription();
 
-            Assert.assertEquals(commandDescription, COMMANDDESCRIPTIONS[i]);
-        }
+        Assert.assertEquals(commandsDescription, COMMAND_DESCRIPTIONS);
     }
 
     @Test
     public void checkCommandExample() {
-        for (int i = 0; i < getNumberOfCommands(); i++) {
+        for (int i = 0; i < COMMAND_NAMES.size(); i++) {
             boolean isAddJobToViewExample = new HomePage(getDriver())
                     .getSideMenu()
                     .clickMenuManageJenkins()
                     .clickJenkinsCLI()
                     .clickCommandElement(i)
-                    .getCommandExample(COMMANDNAMES[i]);
+                    .getCommandExample(COMMAND_NAMES.get(i));
 
             Assert.assertTrue(isAddJobToViewExample);
         }
@@ -125,7 +114,7 @@ public class _JenkinsCLITest extends BaseTest {
                 .clickNameCaption()
                 .getCommandName(0);
 
-        Assert.assertEquals(firstCommandName, COMMANDNAMES[COMMANDNAMES.length - 1]);
+        Assert.assertEquals(firstCommandName, COMMAND_NAMES.get(COMMAND_NAMES.size() - 1));
     }
 
     @Test(dependsOnMethods = {"checkCommandNameTest", "checkCommandDescriptionTest", "checkCommandExample"})
@@ -137,6 +126,6 @@ public class _JenkinsCLITest extends BaseTest {
                 .clickDescriptionCaption()
                 .getCommandDescription(0);
 
-        Assert.assertEquals(firstDescription, COMMANDDESCRIPTIONS[COMMANDDESCRIPTIONS.length - 2]);
+        Assert.assertEquals(firstDescription, COMMAND_DESCRIPTIONS.get(COMMAND_DESCRIPTIONS.size() - 2));
     }
 }
