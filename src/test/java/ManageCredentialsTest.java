@@ -8,7 +8,7 @@ import runner.TestUtils;
 
 import java.util.List;
 
-public class _ManageCredentialsTest extends BaseTest {
+public class ManageCredentialsTest extends BaseTest {
 
     @Test
     public void testManageCredentialsCheckMenu() {
@@ -21,7 +21,7 @@ public class _ManageCredentialsTest extends BaseTest {
                 .clickManageCredentials()
                 .clickGlobalCredentials()
                 .getSideMenu()
-                .clickAddCredentials()
+                .clickMenuAddCredentials()
                 .createUserCredentials(newUsername, newPassword)
                 .getTableText();
 
@@ -63,7 +63,7 @@ public class _ManageCredentialsTest extends BaseTest {
     }
 
     @Test
-    public void testCheckDropDownMenuAddDomain() {
+    public void testCreateNewDomainViaDropDownMenu() {
         String domainName = TestUtils.getRandomStr(8);
 
         String addDomain = new HomePage(getDriver())
@@ -86,7 +86,7 @@ public class _ManageCredentialsTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManageCredentials()
-                .clickIconButtonAndGetSize();
+                .isIconEqualSmallIcon();
 
          Assert.assertFalse(expected);
     }

@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
 public final class RenamePage<ProjectPage extends BaseProjectPage<?, SideMenu>, SideMenu> extends BaseProjectPage<RenamePage<?, SideMenu>, SideMenu> {
 
     @FindBy(xpath = "//input[@name='newName']")
-    private WebElement renameInput;
+    private WebElement inputRename;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement confirmRenameButton;
+    private WebElement btnConfirmRename;
 
     @FindBy(xpath = "//div[contains(@class, 'validation-error-area')]//div[@class='error']")
     private WebElement errorText;
@@ -35,46 +35,46 @@ public final class RenamePage<ProjectPage extends BaseProjectPage<?, SideMenu>, 
     }
 
     public ErrorPage clickRenameAndGoToErrorPage() {
-        confirmRenameButton.click();
+        btnConfirmRename.click();
 
         return new ErrorPage(getDriver());
     }
 
     public RenamePage<ProjectPage, SideMenu> setNewProjectName(String name) {
-        renameInput.clear();
-        renameInput.sendKeys(name);
+        inputRename.clear();
+        inputRename.sendKeys(name);
 
         return this;
     }
 
-    public ErrorPage setEmptyNameAndGoToErrorPage() {
-        renameInput.clear();
-        confirmRenameButton.click();
+    public ErrorPage setEmptyName() {
+        inputRename.clear();
+        btnConfirmRename.click();
 
         return new ErrorPage(getDriver());
     }
 
-    public ProjectPage clickRenameAndGoToProjectPage() {
-        confirmRenameButton.click();
+    public ProjectPage clickRename() {
+        btnConfirmRename.click();
 
         return projectPage;
     }
 
-    public List<String> getListErrorMessages(final List<String> names) {
+    public List<String> getErrorMessagesList(final List<String> names) {
         String baseName = "";
         final Pattern pattern = Pattern.compile("Rename Pipeline (\\w+)");
-        final Matcher matcher = pattern.matcher(getProjectName());
+        final Matcher matcher = pattern.matcher(getProjectNameText());
         if (matcher.find()) {
             baseName = matcher.group(1);
         }
 
         List<String> errorMessages = new ArrayList<>();
         for (String name : names) {
-            renameInput.sendKeys(name + Keys.TAB);
+            inputRename.sendKeys(name + Keys.TAB);
             errorMessages.add(errorText.getText());
-            renameInput.clear();
+            inputRename.clear();
         }
-        renameInput.sendKeys(baseName + Keys.ENTER);
+        inputRename.sendKeys(baseName + Keys.ENTER);
 
         return errorMessages;
     }

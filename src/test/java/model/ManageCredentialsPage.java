@@ -98,7 +98,7 @@ public final class ManageCredentialsPage extends BaseSideMenuPage<ManageCredenti
         return (iconCredentialsProvider.getCssValue("height"));
     }
 
-    public boolean clickIconButtonAndGetSize() {
+    public boolean isIconEqualSmallIcon() {
         String str = getIconSize();
         clickSmallSizeIcon();
         String str1 = getIconSize();

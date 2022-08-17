@@ -8,19 +8,19 @@ import org.openqa.selenium.support.FindBy;
 public final class MultibranchPipelineProjectPage extends BaseProjectPage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Scan Repository Log")
-    private WebElement scanRepositoryLog;
+    private WebElement menuScanRepositoryLog;
 
     @FindBy(linkText = "View as plain text")
-    private WebElement viewAsPlainText;
+    private WebElement menuViewAsPlainText;
 
-    @FindBy(className = "icon-folder-disabled")
-    private WebElement iconFolderDisabled;
+    @FindBy(css = "h1 img.icon-folder-disabled")
+    private WebElement iconProjectDisabled;
 
-    @FindBy(xpath = "//h1//img[@class='icon-pipeline-multibranch-project icon-xlg']")
-    private WebElement iconFolderEnabled;
+    @FindBy(css = "h1 img.icon-pipeline-multibranch-project")
+    private WebElement iconProjectEnabled;
 
-    @FindBy(xpath = "//form[contains(text(),'This Multibranch Pipeline is currently disabled')]")
-    private WebElement messageDisabled;
+    @FindBy(id = "enable-project")
+    private WebElement textWarningDisable;
 
     public MultibranchPipelineProjectPage(WebDriver driver) {
         super(driver);
@@ -31,27 +31,27 @@ public final class MultibranchPipelineProjectPage extends BaseProjectPage<Multib
         return new MultibranchPipelineProjectPageSideMenuFrame(getDriver());
     }
 
-    public MultibranchPipelineProjectPage clickScanRepositoryLog() {
-        scanRepositoryLog.click();
+    public MultibranchPipelineProjectPage clickLinkScanRepositoryLog() {
+        menuScanRepositoryLog.click();
 
         return this;
     }
 
-    public MultibranchPipelineConsolePage clickViewAsPlainText() {
-        viewAsPlainText.click();
+    public MultibranchPipelineConsolePage clickLinkViewAsPlainText() {
+        menuViewAsPlainText.click();
 
         return new MultibranchPipelineConsolePage(getDriver());
     }
 
-    public boolean isIconFolderDisabledDisplayed() {
-        return iconFolderDisabled.isDisplayed();
+    public boolean isIconProjectDisabledDisplayed() {
+        return iconProjectDisabled.isDisplayed();
     }
 
-    public boolean istIconFolderEnabled() {
-        return iconFolderEnabled.isDisplayed();
+    public boolean istIconProjectEnabled() {
+        return iconProjectEnabled.isDisplayed();
     }
 
-    public String textMessageDisabled() {
-        return messageDisabled.getText();
+    public String getWarningDisableText() {
+        return textWarningDisable.getText();
     }
 }

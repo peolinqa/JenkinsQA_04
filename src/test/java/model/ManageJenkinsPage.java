@@ -11,187 +11,176 @@ import java.util.List;
 public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//dt[text()='Configure System']")
-    private WebElement configureSystem;
+    private WebElement linkConfigureSystem;
 
     @FindBy(xpath = "//dt[text()='Configure Global Security']")
-    private WebElement configureGlobalSecurity;
+    private WebElement linkConfigureGlobalSecurity;
 
     @FindBy(xpath = "//dt[text()='Manage Nodes and Clouds']")
-    private WebElement manageNodesAndClouds;
+    private WebElement linkManageNodesAndClouds;
 
     @FindBy(xpath = "//dt[text()='Manage Users']")
-    private WebElement manageUsers;
+    private WebElement linkManageUsers;
 
     @FindBy(xpath = "//dt[text()='Load Statistics']")
-    private WebElement loadStatistics;
+    private WebElement linkLoadStatistics;
 
     @FindBy(xpath = "//div[@class='jenkins-section__item']/a[@href='cli']/dl/dt")
-    private WebElement jenkinsCLI;
+    private WebElement linkJenkinsCLI;
 
     @FindBy(xpath = "//dt[text()='About Jenkins']")
-    private WebElement aboutJenkins;
+    private WebElement linkAboutJenkins;
 
     @FindBy(xpath = "//dt[text()='Manage Credentials']")
-    private WebElement manageCredentials;
+    private WebElement linkManageCredentials;
 
     @FindBy(xpath = "//dt[text()='Manage Plugins']")
-    private WebElement managePlugins;
+    private WebElement linkManagePlugins;
 
     @FindBy(xpath = "//a[@href='script']")
-    private WebElement scriptConsole;
+    private WebElement linkScriptConsole;
 
     @FindBy(xpath = "//section/h2")
-    private List<WebElement> manageJenkinsSection;
+    private List<WebElement> listManageJenkinsSections;
 
     @FindBy(xpath = "//h2[text()='Tools and Actions']/ancestor::section//dt")
-    private List<WebElement> manageJenkinsContentToolsAndActions;
+    private List<WebElement> listToolsAndActionsContent;
 
     @FindBy(xpath = "//h2[text() = 'System Configuration']/ancestor::section//dt")
-    private List<WebElement> systemConfigurationContent;
+    private List<WebElement> listSystemConfigurationContent;
 
     @FindBy(xpath = "//h2[text() = 'Security']/ancestor::section//dt")
-    private List<WebElement> securityContent;
+    private List<WebElement> listSecurityContent;
 
-    @FindBy (xpath = "//h2[text() = 'System Configuration']/ancestor::section//dd")
-    private List<WebElement> captionsSystemConfigurationSection;
+    @FindBy(xpath = "//h2[text() = 'System Configuration']/ancestor::section//dd")
+    private List<WebElement> listSystemConfigurationCaptions;
 
     @FindBy(xpath = "//h2[text() = 'Security']/ancestor::section//dd")
-    private List<WebElement> captionsSecuritySection;
+    private List<WebElement> listSecurityCaptions;
 
     @FindBy(xpath = "//h2[text() = 'Status Information']/ancestor::section//dd")
-    private List<WebElement> captionsStatusInformationSection;
+    private List<WebElement> listStatusInformationCaptions;
 
     @FindBy(xpath = "//h2[text() = 'Troubleshooting']/ancestor::section//dd")
-    private List<WebElement> captionsTroubleshootingSection;
+    private List<WebElement> listTroubleshootingCaptions;
 
     @FindBy(xpath = "//h2[text() = 'Tools and Actions']/ancestor::section//dd")
-    private List<WebElement> captionsToolsAnsActionsSection;
+    private List<WebElement> listToolsAnsActionsCaptions;
 
     public ManageJenkinsPage(WebDriver driver) {
         super(driver);
     }
 
     public ConfigureGlobalSecurityPage clickConfigureGlobalSecurity() {
-        configureGlobalSecurity.click();
+        linkConfigureGlobalSecurity.click();
 
         return new ConfigureGlobalSecurityPage(getDriver());
     }
 
     public ManageUsersPage clickManageUsers() {
-        manageUsers.click();
+        linkManageUsers.click();
 
         return new ManageUsersPage(getDriver());
     }
 
     public LoadStatisticsPage clickLoadStatistics() {
-        loadStatistics.click();
+        linkLoadStatistics.click();
 
         return new LoadStatisticsPage(getDriver());
     }
 
     public ManageNodesAndCloudsPage clickManageNodesAndClouds() {
-        manageNodesAndClouds.click();
+        linkManageNodesAndClouds.click();
 
         return new ManageNodesAndCloudsPage(getDriver());
     }
 
     public JenkinsCLIPage clickJenkinsCLI() {
-        jenkinsCLI.click();
+        linkJenkinsCLI.click();
 
         return new JenkinsCLIPage(getDriver());
     }
 
     public ConfigureSystemPage clickConfigureSystem() {
-        configureSystem.click();
+        linkConfigureSystem.click();
 
         return new ConfigureSystemPage(getDriver());
     }
 
     public AboutJenkinsPage clickAboutJenkins() {
-        aboutJenkins.click();
+        linkAboutJenkins.click();
 
         return new AboutJenkinsPage(getDriver());
     }
 
     public ManageCredentialsPage clickManageCredentials() {
-        manageCredentials.click();
+        linkManageCredentials.click();
 
         return new ManageCredentialsPage(getDriver());
     }
 
     public ManagePluginsPage clickManagePlugins() {
-        managePlugins.click();
+        linkManagePlugins.click();
 
         return new ManagePluginsPage(getDriver());
     }
 
     public ManageScriptConsolePage clickScriptConsole() {
-        scriptConsole.click();
+        linkScriptConsole.click();
 
         return new ManageScriptConsolePage(getDriver());
     }
 
     public List<String> getActualManageJenkinsSectionNames() {
         List<String> textSection = new ArrayList<>();
-        for (WebElement list : manageJenkinsSection) {
+        for (WebElement list : listManageJenkinsSections) {
             textSection.add(list.getText());
         }
 
         return textSection;
     }
 
-    public List<String> getActualManageJenkinsSectionContentToolsAndActions() {
+    public List<String> getToolsAndActionsContentList() {
         List<String> textButton = new ArrayList<>();
-        for (WebElement list : manageJenkinsContentToolsAndActions) {
+        for (WebElement list : listToolsAndActionsContent) {
             textButton.add(list.getText());
         }
 
         return textButton;
     }
 
-    public List<String> getActualSystemConfigurationContent() {
+    public List<String> getActualSystemConfigurationContentList() {
         List<String> textSection = new ArrayList<>();
-        for (WebElement elem : systemConfigurationContent) {
+        for (WebElement elem : listSystemConfigurationContent) {
             textSection.add(elem.getText());
         }
 
         return textSection;
     }
 
-    public List<String> getActualSecurityContent() {
+    public List<String> getActualSecurityContentList() {
         List<String> textSection = new ArrayList<>();
-        for (WebElement elem : securityContent) {
+        for (WebElement elem : listSecurityContent) {
             textSection.add(elem.getText());
         }
 
         return textSection;
     }
 
-    public List<String> getCaptionsSystemSysConf() {
+    public List<String> getSystemConfigurationCaptionList() {
         List<String> captionsArray = new ArrayList<>();
-        for (WebElement el : captionsSystemConfigurationSection)
-            if (!el.getText().isEmpty()){
+        for (WebElement el : listSystemConfigurationCaptions)
+            if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
             }
 
         return captionsArray;
     }
 
-    public List<String> getCaptionsSecurity() {
+    public List<String> getSecurityCaptionsList() {
         List<String> captionsArray = new ArrayList<>();
-        for (WebElement el : captionsSecuritySection){
-            if (!el.getText().isEmpty()){
-                captionsArray.add(el.getText());
-            }
-        }
-
-        return captionsArray;
-    }
-
-    public List<String> getCaptionsStatusInfo() {
-        List<String> captionsArray = new ArrayList<>();
-        for (WebElement el : captionsStatusInformationSection){
-            if (!el.getText().isEmpty()){
+        for (WebElement el : listSecurityCaptions) {
+            if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
             }
         }
@@ -199,10 +188,10 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
         return captionsArray;
     }
 
-    public List<String> getCaptionsTroubleshooting(){
+    public List<String> getStatusInfoCaptionsList() {
         List<String> captionsArray = new ArrayList<>();
-        for (WebElement el : captionsTroubleshootingSection){
-            if (!el.getText().isEmpty()){
+        for (WebElement el : listStatusInformationCaptions) {
+            if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
             }
         }
@@ -210,10 +199,21 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
         return captionsArray;
     }
 
-    public List<String> getCaptionsToolsAnsActions(){
+    public List<String> getTroubleshootingCaptionsList() {
         List<String> captionsArray = new ArrayList<>();
-        for (WebElement el : captionsToolsAnsActionsSection){
-            if (!el.getText().isEmpty()){
+        for (WebElement el : listTroubleshootingCaptions) {
+            if (!el.getText().isEmpty()) {
+                captionsArray.add(el.getText());
+            }
+        }
+
+        return captionsArray;
+    }
+
+    public List<String> getToolsAnsActionsCaptionsList() {
+        List<String> captionsArray = new ArrayList<>();
+        for (WebElement el : listToolsAnsActionsCaptions) {
+            if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
             }
         }

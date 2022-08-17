@@ -7,7 +7,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>> extends BasePage<Self> {
 
@@ -34,9 +33,6 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
 
     @FindBy(linkText = "Dashboard")
     private WebElement linkDashboard;
-
-    @FindBy(xpath = "//ul[@class='first-of-type']/li")
-    private List<WebElement> listDashboardDropdownMenuElements;
 
     @FindBy(xpath = "//header[@id='header']/div")
     private List<WebElement> listHeaderMainElements;
@@ -101,16 +97,11 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         return new UserStatusPage(getDriver());
     }
 
-    public HomePage moveToUser() {
+    public HeaderFooterPageSelectorMenuFrame clickUserDropDownMenu() {
         getActions().moveToElement(linkUser).perform();
-
-        return new HomePage(getDriver());
-    }
-
-    public HomePageSelectorMenuFrame clickUserDropDownMenu() {
         menuSelector.click();
 
-        return new HomePageSelectorMenuFrame(getDriver());
+        return new HeaderFooterPageSelectorMenuFrame(getDriver());
     }
 
     public HomePage clickJenkinsName() {
@@ -125,24 +116,11 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
         return new HomePage(getDriver());
     }
 
-    public Self moveToDashboard() {
+    public HeaderFooterPageSelectorMenuFrame clickDashboardDropdownMenu() {
         getActions().moveToElement(linkDashboard).build().perform();
-
-        return (Self) this;
-    }
-
-    public Self clickDashboardDropdownMenu() {
         getActions().moveToElement(menuSelector).click().build().perform();
 
-        return (Self) this;
-    }
-
-    public List<String> getListOfDashboardDropdownMenuElements() {
-        return listDashboardDropdownMenuElements
-                .stream()
-                .map(WebElement::getText)
-                .filter(text -> !text.isEmpty())
-                .collect(Collectors.toList());
+        return new HeaderFooterPageSelectorMenuFrame(getDriver());
     }
 
     public boolean isRightPositionOfJenkinsHeadIcon() {
@@ -162,4 +140,5 @@ public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>>
 
         return false;
     }
+
 }

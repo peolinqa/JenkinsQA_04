@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-public class _ScriptConsoleTest extends BaseTest {
+public class ScriptConsoleTest extends BaseTest {
     private static final String RANDOM = TestUtils.getRandomStr(5);
 
     @Test
@@ -13,8 +13,8 @@ public class _ScriptConsoleTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickScriptConsole()
-                .clickGroovyScript()
-                .getTitleGroovy();
+                .clickLinkGroovyScript()
+                .getGroovyTitle();
 
         Assert.assertEquals(actualWebsite, "The Apache Groovy programming language");
     }
@@ -27,8 +27,8 @@ public class _ScriptConsoleTest extends BaseTest {
                 .clickScriptConsole()
                 .setTextArea(RANDOM)
                 .clickRunButton()
-                .getResult();
+                .getResultText();
 
-        Assert.assertEquals(actualResult, String.format("Result: %s",RANDOM));
+        Assert.assertEquals(actualResult, String.format("Result: %s", RANDOM));
     }
 }

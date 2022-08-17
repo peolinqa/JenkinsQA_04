@@ -6,7 +6,7 @@ import runner.TestUtils;
 
 import java.util.List;
 
-public class _DashboardTest extends BaseTest {
+public class DashboardTest extends BaseTest {
 
     private static final List<String> EXPECTED_ICONS_DESCRIPTIONS = List.of(
             "The project has never been built.", "The first build is in progress.",
@@ -44,7 +44,6 @@ public class _DashboardTest extends BaseTest {
                 "New View");
 
         List<String> listOfDashboardDropdownMenuElements = new HomePage(getDriver())
-                .moveToDashboard()
                 .clickDashboardDropdownMenu()
                 .getListOfDashboardDropdownMenuElements();
 
@@ -70,7 +69,7 @@ public class _DashboardTest extends BaseTest {
     public void checkIconDescription() {
         List<String> actualIconsDescriptions = new HomePage(getDriver())
                 .clickLinkIconLegend()
-                .getTextIconsDescriptions();
+                .getIconDescriptionsText();
 
         Assert.assertEquals(actualIconsDescriptions, EXPECTED_ICONS_DESCRIPTIONS);
     }

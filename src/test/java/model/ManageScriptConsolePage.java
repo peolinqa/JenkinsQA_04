@@ -7,31 +7,27 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-
 public final class ManageScriptConsolePage extends BaseHeaderFooterPage {
     private final String DELETE_SCRIPT = "for(j in jenkins.model.Jenkins.theInstance.getAllItems()) {j.delete()}";
 
     @FindBy(xpath = "//div[@class='CodeMirror-scroll cm-s-default']")
-    private WebElement console;
+    private WebElement textareaScriptConsole;
 
     @FindBy(css = "[type='submit']")
-    private WebElement runButton;
+    private WebElement btnRun;
 
     @FindBy(xpath = "//a[text()='Groovy script']")
-    private WebElement groovyScript;
-
-    @FindBy(css = ".CodeMirror-scroll.cm-s-default")
-    private WebElement textArea;
+    private WebElement linkGroovyScript;
 
     @FindBy(xpath = "//h2/following-sibling::pre")
-    private WebElement result;
+    private WebElement textResult;
 
     public ManageScriptConsolePage(WebDriver driver) {
         super(driver);
     }
 
     public ManageScriptConsolePage clickRunButton() {
-        runButton.click();
+        btnRun.click();
         getWait5().until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#main-panel > h2")));
 
         return this;
@@ -39,33 +35,33 @@ public final class ManageScriptConsolePage extends BaseHeaderFooterPage {
 
     public ManageScriptConsolePage useDeleteAllProjectScript() {
 
-        getActions().moveToElement(console).click().sendKeys(DELETE_SCRIPT).build().perform();
+        getActions().moveToElement(textareaScriptConsole).click().sendKeys(DELETE_SCRIPT).build().perform();
 
         return this;
     }
 
-    public ManageScriptConsolePage clickGroovyScript() {
-        groovyScript.click();
+    public ManageScriptConsolePage clickLinkGroovyScript() {
+        linkGroovyScript.click();
 
         return this;
     }
 
-    public String getTitleGroovy() {
+    public String getGroovyTitle() {
         return getDriver().getTitle();
     }
 
     public ManageScriptConsolePage setTextArea(String str) {
         getActions()
-                .moveToElement(textArea)
+                .moveToElement(textareaScriptConsole)
                 .click()
-                .sendKeys(String.format("'%s'",str))
+                .sendKeys(String.format("'%s'", str))
                 .build()
                 .perform();
 
         return this;
     }
 
-    public String getResult() {
-        return result.getText();
+    public String getResultText() {
+        return textResult.getText();
     }
 }

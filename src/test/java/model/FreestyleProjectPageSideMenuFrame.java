@@ -23,7 +23,7 @@ public final class FreestyleProjectPageSideMenuFrame extends BaseModel<Freestyle
         super(driver);
     }
 
-    public RenamePage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> clickRenameAndGoToRenamePage() {
+    public RenamePage<FreestyleProjectPage, FreestyleProjectPageSideMenuFrame> clickMenuRename() {
         menuRename.click();
 
         return new RenamePage<>(getDriver(), new FreestyleProjectPage(getDriver()));

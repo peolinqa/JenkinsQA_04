@@ -33,8 +33,8 @@ public class _NewItemTest extends BaseTest {
                 .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
                 .setDescription(DESCRIPTION_INPUT)
-                .clickGithubProjectCheckbox()
-                .setGithubUrl(URL_INPUT)
+                .clickCheckBoxGithubProject()
+                .setInputProjectUrl(URL_INPUT)
                 .saveProjectConfiguration()
                 .clickLinkDashboard()
                 .getSideMenu()
@@ -44,8 +44,8 @@ public class _NewItemTest extends BaseTest {
                 .setCopyFromName("NJ")
                 .clickOkAndGoToConfig();
 
-        Assert.assertEquals(copyDataFromExistingItemToNew.getDescription(), DESCRIPTION_INPUT);
-        Assert.assertEquals(copyDataFromExistingItemToNew.getGithubUrl(), URL_INPUT);
+        Assert.assertEquals(copyDataFromExistingItemToNew.getDescriptionText(), DESCRIPTION_INPUT);
+        Assert.assertEquals(copyDataFromExistingItemToNew.getInputProjectUrlAttrValue(), URL_INPUT);
     }
 
     @Test

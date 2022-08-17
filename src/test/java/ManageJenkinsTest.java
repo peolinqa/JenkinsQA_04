@@ -5,7 +5,7 @@ import runner.BaseTest;
 
 import java.util.List;
 
-public class _ManageJenkinsTest extends BaseTest {
+public class ManageJenkinsTest extends BaseTest {
 
     @Test
     public void testCheckSectionNames() {
@@ -35,7 +35,7 @@ public class _ManageJenkinsTest extends BaseTest {
         List<String> actualContentSectionToolsAndActions = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getActualManageJenkinsSectionContentToolsAndActions();
+                .getToolsAndActionsContentList();
 
         Assert.assertEquals(actualContentSectionToolsAndActions, expectedContentSectionToolsAndActions);
     }
@@ -51,7 +51,7 @@ public class _ManageJenkinsTest extends BaseTest {
         List<String> actualSystemConfigurationContent = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getActualSystemConfigurationContent();
+                .getActualSystemConfigurationContentList();
 
         Assert.assertEquals(actualSystemConfigurationContent, expectedSystemConfigurationContent);
     }
@@ -62,18 +62,19 @@ public class _ManageJenkinsTest extends BaseTest {
                 "Configure Global Security",
                 "Manage Credentials",
                 "Configure Credential Providers",
-                "Manage Users");
+                "Manage Users",
+                "In-process Script Approval");
 
         List<String> actualSecurityContent = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getActualSecurityContent();
+                .getActualSecurityContentList();
 
         Assert.assertEquals(actualSecurityContent, expectedSecurityContent);
     }
 
     @Test(dependsOnMethods = "testCheckSectionNames")
-    public void testCaptionsSystemConfiguration(){
+    public void testCaptionsSystemConfiguration() {
         List<String> expectedCaptions = List.of(
                 "Configure global settings and paths.",
                 "Configure tools, their locations and automatic installers.",
@@ -84,23 +85,24 @@ public class _ManageJenkinsTest extends BaseTest {
         List<String> actualCaptions = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getCaptionsSystemSysConf();
+                .getSystemConfigurationCaptionList();
 
         Assert.assertEquals(actualCaptions, expectedCaptions);
     }
 
     @Test(dependsOnMethods = "testCheckSectionNames")
-    public void testCaptionsSecurity(){
+    public void testCaptionsSecurity() {
         List<String> expectedCaptions = List.of(
                 "Secure Jenkins; define who is allowed to access/use the system.",
                 "Configure credentials",
                 "Configure the credential providers and types",
-                "Create/delete/modify users that can log in to this Jenkins");
+                "Create/delete/modify users that can log in to this Jenkins",
+                "Allows a Jenkins administrator to review proposed scripts (written e.g. in Groovy) which run inside the Jenkins process and so could bypass security restrictions.");
 
         List<String> actualCaptions = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getCaptionsSecurity();
+                .getSecurityCaptionsList();
 
         Assert.assertEquals(actualCaptions, expectedCaptions);
 
@@ -118,7 +120,7 @@ public class _ManageJenkinsTest extends BaseTest {
         List<String> actualCaptions = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getCaptionsStatusInfo();
+                .getStatusInfoCaptionsList();
 
         Assert.assertEquals(actualCaptions, expectedCaptions);
     }
@@ -133,7 +135,7 @@ public class _ManageJenkinsTest extends BaseTest {
         List<String> actualCaptions = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getCaptionsTroubleshooting();
+                .getTroubleshootingCaptionsList();
 
         Assert.assertEquals(actualCaptions, expectedCaptions);
     }
@@ -141,16 +143,16 @@ public class _ManageJenkinsTest extends BaseTest {
     @Test (dependsOnMethods = "testCheckSectionNames")
     public void testCaptionsToolsAndActions(){
         List<String> expectedCaptions = List.of(
-          "Discard all the loaded data in memory and reload everything from file system. Useful when you modified config files directly on disk.",
-          "Access/manage Jenkins from your shell, or from your script.",
-          "Executes arbitrary script for administration/trouble-shooting/diagnostics.",
-          "Stops executing new builds, so that the system can be eventually shut down safely."
+                "Discard all the loaded data in memory and reload everything from file system. Useful when you modified config files directly on disk.",
+                "Access/manage Jenkins from your shell, or from your script.",
+                "Executes arbitrary script for administration/trouble-shooting/diagnostics.",
+                "Stops executing new builds, so that the system can be eventually shut down safely."
         );
 
         List<String> actualCaptions = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
-                .getCaptionsToolsAnsActions();
+                .getToolsAnsActionsCaptionsList();
 
         Assert.assertEquals(actualCaptions, expectedCaptions);
     }

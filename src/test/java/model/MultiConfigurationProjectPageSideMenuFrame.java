@@ -13,20 +13,29 @@ public final class MultiConfigurationProjectPageSideMenuFrame extends BaseModel<
     @FindBy(css = ".icon-edit-delete")
     private WebElement menuDelete;
 
+    @FindBy(linkText = "Build Now")
+    private WebElement menuBuildNow;
+
     public MultiConfigurationProjectPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public RenamePage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> clickMenuRenameAndGoToRenamePage() {
+    public RenamePage<MultiConfigurationProjectPage, MultiConfigurationProjectPageSideMenuFrame> clickMenuRename() {
         menuRename.click();
 
         return new RenamePage<>(getDriver(), new MultiConfigurationProjectPage(getDriver()));
     }
 
-    public HomePage clickMenuDeleteProjectAndConfirm() {
+    public HomePage clickMenuDeleteProject() {
         menuDelete.click();
         getDriver().switchTo().alert().accept();
 
         return new HomePage(getDriver());
+    }
+
+    public MultiConfigurationProjectPage clickMenuBuildNow() {
+        menuBuildNow.click();
+
+        return new MultiConfigurationProjectPage(getDriver());
     }
 }

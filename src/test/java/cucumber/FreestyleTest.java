@@ -104,12 +104,12 @@ public class FreestyleTest {
 
     @Then("Freestyle project name is {string}")
     public void assertFreestyleProjectName(String projectName) {
-        Assert.assertEquals(freestylePage.getProjectName(), projectName);
+        Assert.assertEquals(freestylePage.getProjectNameText(), projectName);
     }
 
     @Then("Folder project name is {string}")
     public void assertFolderProjectName(String projectName) {
-        Assert.assertEquals(folderPage.getProjectName(), projectName);
+        Assert.assertEquals(folderPage.getProjectNameText(), projectName);
     }
 
     @When("Click Freestyle project {string}")
@@ -129,6 +129,6 @@ public class FreestyleTest {
 
     @Then("Project description is {string}")
     public void assertFreestyleProjectDescription(String projectDescription) {
-        Assert.assertEquals(freestylePage.getDescriptionName(), projectDescription);
+        Assert.assertEquals(freestylePage.getDescriptionText(), projectDescription);
     }
 }

@@ -8,38 +8,38 @@ import org.openqa.selenium.support.FindBy;
 public final class MultiConfigurationConfigPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//a[contains(@tooltip, 'Discard old builds')]")
-    private WebElement helpButtonDiscardOldBuilds;
+    private WebElement btnHelpDiscardOldBuilds;
 
     @FindBy(xpath = "//div[@class='help']/div")
-    private WebElement discardOldBuildsHiddenTextArea;
+    private WebElement textareaDiscardOldBuildsHidden;
 
-    @FindBy (xpath = "//button[@type='submit']")
-    private  WebElement saveButton;
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement btnSave;
 
     public MultiConfigurationConfigPage(WebDriver driver) {
         super(driver);
     }
 
-    public boolean helpButtonDiscardOldBuildsIsVisible() {
-        return helpButtonDiscardOldBuilds.isDisplayed();
+    public boolean isHelpButtonDiscardOldBuildsVisible() {
+        return btnHelpDiscardOldBuilds.isDisplayed();
     }
 
-    public String getAttributeHelpButtonDiscardOldBuilds(String attribute) {
-        return helpButtonDiscardOldBuilds.getAttribute(attribute);
+    public String getHelpDiscardOldBuildsAttribute(String attribute) {
+        return btnHelpDiscardOldBuilds.getAttribute(attribute);
     }
 
-    public MultiConfigurationConfigPage clickHelpButtonDiscardOldBuilds() {
-        helpButtonDiscardOldBuilds.click();
+    public MultiConfigurationConfigPage clickBtnHelpDiscardOldBuilds() {
+        btnHelpDiscardOldBuilds.click();
 
         return this;
     }
 
-    public String getTextDiscardOldBuildsHiddenTextArea() {
-        return discardOldBuildsHiddenTextArea.getText();
+    public String getDiscardOldBuildsHiddenText() {
+        return textareaDiscardOldBuildsHidden.getText();
     }
 
-    public MultiConfigurationProjectPage saveConfigAndGoToProject() {
-        saveButton.click();
+    public MultiConfigurationProjectPage saveProjectConfiguration() {
+        btnSave.click();
 
         return new MultiConfigurationProjectPage(getDriver());
     }

@@ -8,23 +8,17 @@ import runner.BaseModel;
 public class ManageNodesAndCloudsPageSideMenuFrame extends BaseModel<ManageNodesAndCloudsPageSideMenuFrame> {
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
+    private WebElement btnYes;
 
     @FindBy (xpath = "//span[text()='New Node']")
-    private WebElement NewNode;
+    private WebElement menuNewNode;
 
     public ManageNodesAndCloudsPageSideMenuFrame(WebDriver driver) {
         super(driver);
     }
 
-    public HomePage confirmDeleteAndGoHomePage() {
-        yesButton.click();
-
-        return new HomePage(getDriver());
-    }
-
     public NewNodePage clickMenuNewNode(){
-        NewNode.click();
+        menuNewNode.click();
 
         return new NewNodePage(getDriver());
     }

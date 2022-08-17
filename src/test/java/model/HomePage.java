@@ -72,8 +72,7 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return new HomePageSideMenuFrame(getDriver());
     }
 
-    //to do: fix
-    public WebElement getProjectLinkByName(String name) {
+    private WebElement getProjectLinkByName(String name) {
         return getDriver().findElement(By.xpath(String.format(PROJECT_LINK_XPATH, name)));
     }
 
@@ -285,17 +284,12 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return new LegendPage(getDriver());
     }
 
-    public HomePage moveToProjectName(String name) {
+    public HomePageSelectorMenuFrame clickProjectDropDownMenu(String name) {
         for (WebElement s : listAllProjectNames) {
             if (s.getText().contains(name)) {
                 getActions().moveToElement(s).build().perform();
             }
         }
-
-        return new HomePage(getDriver());
-    }
-
-    public HomePageSelectorMenuFrame clickProjectDropDownMenu() {
         menuSelectorProject.click();
 
         return new HomePageSelectorMenuFrame(getDriver());
@@ -317,4 +311,5 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
 
         return new Page404Page(getDriver());
     }
+
 }

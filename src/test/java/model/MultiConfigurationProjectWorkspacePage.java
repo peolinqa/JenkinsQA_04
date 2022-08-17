@@ -15,7 +15,7 @@ public final class MultiConfigurationProjectWorkspacePage extends BaseHeaderFoot
     private WebElement h1Header;
 
     @FindBy(xpath = "//div[@id='main-panel']/p")
-    private List<WebElement> errorMessages;
+    private List<WebElement> listErrorMessages;
 
     public MultiConfigurationProjectWorkspacePage(WebDriver driver) {
         super(driver);
@@ -25,9 +25,9 @@ public final class MultiConfigurationProjectWorkspacePage extends BaseHeaderFoot
         return h1Header.getText();
     }
 
-    public Set<String> getErrorMessages() {
+    public Set<String> getErrorMessagesList() {
         Set<String> errorMessagesTextList = new TreeSet<>();
-        errorMessages.stream().map(WebElement::getText).forEach(errorMessagesTextList::add);
+        listErrorMessages.stream().map(WebElement::getText).forEach(errorMessagesTextList::add);
 
         return errorMessagesTextList;
     }

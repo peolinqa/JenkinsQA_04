@@ -14,7 +14,7 @@ public class GlobalCredentialsPageSideMenuFrame extends BaseModel<GlobalCredenti
         super(driver);
     }
 
-    public NewCredentialsPage clickAddCredentials(){
+    public NewCredentialsPage clickMenuAddCredentials(){
         menuAddCredentials.click();
 
         return new NewCredentialsPage(getDriver());

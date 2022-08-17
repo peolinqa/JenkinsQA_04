@@ -11,26 +11,32 @@ public final class FreestyleProjectPage extends BaseProjectPage<FreestyleProject
 
     private static final By BUILD_NAME = By.cssSelector("tr:nth-child(2)  a.display-name");
 
-    @FindBy(xpath = "//div[@id='description']/div")
+    @FindBy(css = "#description > div:nth-child(1)")
     private WebElement textDescription;
 
     @FindBy(xpath = "//a[text() = 'Edit description']")
-    private WebElement editDescription;
+    private WebElement btnEditDescription;
 
     @FindBy(name = "description")
-    private WebElement descriptionField;
+    private WebElement textareaDescription;
 
-    @FindBy(xpath = "//div//button[@type='submit']")
-    private WebElement multiButton;
+    @FindBy(css = "#disable-project button")
+    private WebElement btnDisableProject;
+
+    @FindBy(css = "#enable-project button[type='submit']")
+    private WebElement btnEnableProject;
+
+    @FindBy(id = "yui-gen2-button")
+    private WebElement btnSave;
 
     @FindBy(id = "enable-project")
-    private WebElement text;
+    private WebElement textWarningDisable;
 
-    @FindBy(css = "tr:nth-child(2)  a.display-name")
-    private WebElement buildName;
+    @FindBy(css = "tr:nth-child(2) a.display-name")
+    private WebElement buildNameOnPaneBuildHistory;
 
     @FindBy(xpath = "//div[@class='pane desc indent-multiline']")
-    private WebElement buildDescription;
+    private WebElement buildDescrOnPaneBuildHistory;
 
     public FreestyleProjectPage(WebDriver driver) {
         super(driver);
@@ -42,50 +48,62 @@ public final class FreestyleProjectPage extends BaseProjectPage<FreestyleProject
     }
 
     @Override
-    public String getProjectName() {
-        return super.getProjectName().substring("Project ".length());
+    public String getProjectNameText() {
+        return super.getProjectNameText().substring("Project ".length());
     }
 
-    public String disableButton() {
-        return multiButton.getText();
+    public String getDisableButtonText() {
+        return btnDisableProject.getText();
     }
 
-    public FreestyleProjectPage clickMultiButton() {
-        multiButton.click();
+    public FreestyleProjectPage clickDisableProjectButton() {
+        btnDisableProject.click();
+
+        return this;
+    }
+
+    public FreestyleProjectPage clickEnableProjectButton() {
+        btnEnableProject.click();
+
+        return this;
+    }
+
+    public FreestyleProjectPage clickSaveButton() {
+        btnSave.click();
 
         return this;
     }
 
     public FreestyleProjectPage clickEditDescription() {
-        editDescription.click();
+        btnEditDescription.click();
 
         return this;
     }
 
-    public FreestyleProjectPage editDescription(String text) {
-        descriptionField.clear();
-        descriptionField.sendKeys(text);
+    public FreestyleProjectPage editProjectDescription(String text) {
+        textareaDescription.clear();
+        textareaDescription.sendKeys(text);
 
         return this;
     }
 
-    public String getDescriptionName() {
+    public String getDescriptionText() {
         return textDescription.getText();
     }
 
-    public String[] getDisableName() {
-        return text.getText().split("\n");
+    public String[] getWarningDisableText() {
+        return textWarningDisable.getText().split("\n");
     }
 
-    public boolean buildNumberIsDisplayed() {
+    public boolean isBuildNumberDisplayed() {
         return getWait20().until(ExpectedConditions.presenceOfElementLocated(BUILD_NAME)).isDisplayed();
     }
 
-    public String getTextBuildName() {
-        return buildName.getText();
+    public String getBuildNameText() {
+        return buildNameOnPaneBuildHistory.getText();
     }
 
-    public String getTextBuildDescription() {
-        return buildDescription.getText();
+    public String getBuildDescriptionText() {
+        return buildDescrOnPaneBuildHistory.getText();
     }
 }

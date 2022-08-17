@@ -8,22 +8,23 @@ import org.openqa.selenium.support.FindBy;
 public final class NewNodePage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//input[@id='name']")
-    private WebElement nodeNameField;
+    private WebElement inputNodeName;
 
     @FindBy(xpath = "//label[text()='Permanent Agent']")
-    private WebElement permanentAgentRadioButton;
+    private WebElement radioBtnPermanentAgent;
 
     @FindBy(xpath = "//input[@id='ok']")
-    private WebElement createButton;
+    private WebElement btnCreate;
 
     public NewNodePage(WebDriver driver) {
         super(driver);
     }
 
+    //todo:fix
     public NewNodeConfigPage createNewNodeWithPermanentAgentOption(String text){
-        nodeNameField.sendKeys(text);
-        permanentAgentRadioButton.click();
-        createButton.click();
+        inputNodeName.sendKeys(text);
+        radioBtnPermanentAgent.click();
+        btnCreate.click();
 
         return new NewNodeConfigPage(getDriver());
     }

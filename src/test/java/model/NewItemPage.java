@@ -131,6 +131,7 @@ public final class NewItemPage<ConfigPage> extends BaseHeaderFooterPage<NewItemP
         return this;
     }
 
+    //?
     public NewItemPage<ConfigPage> clickOkButton() {
         getActions().moveToElement(btnOk).click().perform();
 
@@ -244,6 +245,7 @@ public final class NewItemPage<ConfigPage> extends BaseHeaderFooterPage<NewItemP
         return errorMessageItemNameInvalid.getText();
     }
 
+    //to do: fix
     public ErrorPage clickBtnOkAndGoToErrorPage() {
         btnOk.click();
 

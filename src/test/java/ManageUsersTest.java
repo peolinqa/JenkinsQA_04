@@ -24,7 +24,7 @@ public class ManageUsersTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManageUsers()
-                .fillUsersList(usersListBefore)
+                .addUsersToList(usersListBefore)
                 .getSideMenu()
                 .clickMenuCreateUser()
                 .setUserName(USER_NAME)
@@ -33,7 +33,7 @@ public class ManageUsersTest extends BaseTest {
                 .setFullName(FULL_NAME)
                 .setEmailAddress(EMAIL)
                 .clickCreateUserButton(new ManageUsersPage(getDriver()))
-                .fillUsersList(usersListAfter);
+                .addUsersToList(usersListAfter);
 
         usersListBefore.add(USER_NAME.concat("\n").concat(FULL_NAME));
 
@@ -64,11 +64,11 @@ public class ManageUsersTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManageUsers()
-                .fillUsersList(usersListBefore)
+                .addUsersToList(usersListBefore)
                 .clickIconDeleteUser(USER_NAME)
                 .getSideMenu()
-                .confirmDeleteAndGoManageUsersPage()
-                .fillUsersList(usersListAfter);
+                .confirmDeleteUser()
+                .addUsersToList(usersListAfter);
 
         usersListBefore.remove(USER_NAME.concat("\n").concat(NEW_USER_FULL_NAME));
 

@@ -5,13 +5,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
 import java.util.List;
 import java.util.Set;
 
 public final class ManageUsersPage extends BaseSideMenuPage<ManageUsersPage, ManageUsersPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='people']/tbody/tr")
-    private List<WebElement> allUsersList;
+    private List<WebElement> listAllUsers;
 
     public ManageUsersPage(WebDriver driver) {
         super(driver);
@@ -28,8 +29,8 @@ public final class ManageUsersPage extends BaseSideMenuPage<ManageUsersPage, Man
         return new UserConfigurePage(getDriver());
     }
 
-    public ManageUsersPage fillUsersList(Set<String> usersList) {
-        allUsersList.stream().map(WebElement::getText).forEach(usersList::add);
+    public ManageUsersPage addUsersToList(Set<String> usersList) {
+        listAllUsers.stream().map(WebElement::getText).forEach(usersList::add);
 
         return new ManageUsersPage(getDriver());
     }

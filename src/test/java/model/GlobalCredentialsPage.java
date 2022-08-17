@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public final class GlobalCredentialsPage extends BaseSideMenuPage<GlobalCredentialsPage,GlobalCredentialsPageSideMenuFrame> {
 
     @FindBy(xpath = "//div[@id='main-panel']/table/tbody/tr/td[3]")
-    private List<WebElement> sortablePaneBigtable;
+    private List<WebElement> tableCredentials;
 
     public GlobalCredentialsPage(WebDriver driver) {
         super(driver);
@@ -23,6 +23,6 @@ public final class GlobalCredentialsPage extends BaseSideMenuPage<GlobalCredenti
     }
 
     public List<String> getTableText(){
-        return sortablePaneBigtable.stream().map(elem -> elem.getText().substring(0, elem.getText().indexOf("/"))).collect(Collectors.toList());
+        return tableCredentials.stream().map(elem -> elem.getText().substring(0, elem.getText().indexOf("/"))).collect(Collectors.toList());
     }
 }

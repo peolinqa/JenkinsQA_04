@@ -8,17 +8,17 @@ import java.util.HashMap;
 
 public class OrganizationFolderProjectPage extends BaseProjectPage<OrganizationFolderProjectPage, OrganizationFolderProjectPageSideMenuFrame> {
 
-    @FindBy(className = "warning")
-    private WebElement warningMessage;
+    @FindBy(id = "enable-project")
+    private WebElement textWarningDisable;
 
     @FindBy(xpath = "//span[text()='Configure the project']")
-    private WebElement configureProjectButton;
+    private WebElement linkConfigureTheProject;
 
-    @FindBy(css = "#yui-gen1 > span > button[type='submit']")
-    private WebElement disableButton;
+    @FindBy(css = "#disable-project button")
+    private WebElement btnDisableProject;
 
     @FindBy(css = "#view-message")
-    private WebElement textDescription;
+    private WebElement viewSystemMessage;
 
     public OrganizationFolderProjectPage(WebDriver driver) {
         super(driver);
@@ -30,32 +30,32 @@ public class OrganizationFolderProjectPage extends BaseProjectPage<OrganizationF
     }
 
     @Override
-    public String getProjectName() {
-        return super.getProjectName().trim();
+    public String getProjectNameText() {
+        return super.getProjectNameText().trim();
     }
 
-    public HashMap<String, String> getDisabledProjectWarningMessage() {
+    public HashMap<String, String> getWarningDisableText() {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("Warning Message", warningMessage.getText().substring(0, warningMessage.getText().indexOf(" \n")));
-        hashMap.put("Message Color", warningMessage.getCssValue("color"));
+        hashMap.put("Warning Message", textWarningDisable.getText().substring(0, textWarningDisable.getText().indexOf(" \n")));
+        hashMap.put("Message Color", textWarningDisable.getCssValue("color"));
 
         return hashMap;
     }
 
-    public OrganizationFolderConfigPage clickConfigureProjectButton() {
-        configureProjectButton.click();
+    public OrganizationFolderConfigPage clickLinkConfigureTheProject() {
+        linkConfigureTheProject.click();
 
         return new OrganizationFolderConfigPage(getDriver());
     }
 
     public OrganizationFolderProjectPage clickDisableButton() {
-        disableButton.click();
+        btnDisableProject.click();
 
         return this;
     }
 
-    public String getDescriptionText() {
-        String[] text = textDescription.getText().split("\n");
+    public String getSystemMessageText() {
+        String[] text = viewSystemMessage.getText().split("\n");
 
         return text[text.length - 1];
     }

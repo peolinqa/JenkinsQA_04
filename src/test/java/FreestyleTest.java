@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-public class _FreestyleTest extends BaseTest {
+public class FreestyleTest extends BaseTest {
     private static final String RANDOM_NAME = TestUtils.getRandomStr(5);
     private static final String EDITED_RANDOM_NAME = String.format("New %s", RANDOM_NAME);
     private static final String NAME_WITH_SPECIAL_CHARACTERS = "-()+-_~-1";
@@ -22,7 +22,7 @@ public class _FreestyleTest extends BaseTest {
                 .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
                 .saveProjectConfiguration()
-                .getProjectName();
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, RANDOM_NAME);
     }
@@ -34,7 +34,7 @@ public class _FreestyleTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuConfigure()
                 .saveProjectConfiguration()
-                .getProjectName();
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, RANDOM_NAME);
     }
@@ -58,7 +58,7 @@ public class _FreestyleTest extends BaseTest {
                 .clickMenuConfigure()
                 .setDescription(DESCRIPTION_TEXT)
                 .saveProjectConfiguration()
-                .getDescriptionName();
+                .getDescriptionText();
 
         Assert.assertEquals(description, DESCRIPTION_TEXT);
     }
@@ -68,9 +68,9 @@ public class _FreestyleTest extends BaseTest {
         String editDescription = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .clickEditDescription()
-                .editDescription(EDITED_RANDOM_DESCRIPTION)
-                .clickMultiButton()
-                .getDescriptionName();
+                .editProjectDescription(EDITED_RANDOM_DESCRIPTION)
+                .clickSaveButton()
+                .getDescriptionText();
 
         Assert.assertEquals(editDescription, EDITED_RANDOM_DESCRIPTION);
     }
@@ -79,18 +79,18 @@ public class _FreestyleTest extends BaseTest {
     public void testDisableProject() {
         FreestyleProjectPage freestylePage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickMultiButton();
+                .clickDisableProjectButton();
 
-        Assert.assertEquals(freestylePage.getDisableName()[0], "This project is currently disabled");
+        Assert.assertEquals(freestylePage.getWarningDisableText()[0], "This project is currently disabled");
     }
 
     @Test(dependsOnMethods = "testDisableProject")
     public void testEnableProject() {
         FreestyleProjectPage freestylePage = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
-                .clickMultiButton();
+                .clickEnableProjectButton();
 
-        Assert.assertEquals(freestylePage.disableButton(), "Disable Project");
+        Assert.assertEquals(freestylePage.getDisableButtonText(), "Disable Project");
     }
 
     @Test(dependsOnMethods = "testEnableProject")
@@ -109,7 +109,7 @@ public class _FreestyleTest extends BaseTest {
                 .clickFreestyleName(RANDOM_NAME)
                 .getSideMenu()
                 .clickMenuConfigure()
-                .clickBuildTriggers();
+                .clickTabBuildTriggers();
 
         Assert.assertEquals(freestyleConfigPage.getHelpNamesBuildTriggers(), "Help for feature: Build periodically");
     }
@@ -119,10 +119,10 @@ public class _FreestyleTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(RANDOM_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRename()
                 .setNewProjectName(EDITED_RANDOM_NAME)
-                .clickRenameAndGoToProjectPage()
-                .getProjectName();
+                .clickRename()
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, EDITED_RANDOM_NAME);
     }
@@ -132,10 +132,10 @@ public class _FreestyleTest extends BaseTest {
         String projectName = new HomePage(getDriver())
                 .clickFreestyleName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickRenameAndGoToRenamePage()
+                .clickMenuRename()
                 .setNewProjectName(NAME_WITH_SPECIAL_CHARACTERS)
-                .clickRenameAndGoToProjectPage()
-                .getProjectName();
+                .clickRename()
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, NAME_WITH_SPECIAL_CHARACTERS);
     }
