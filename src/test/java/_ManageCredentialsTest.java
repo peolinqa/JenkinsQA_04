@@ -6,6 +6,8 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
+import java.util.List;
+
 public class _ManageCredentialsTest extends BaseTest {
 
     @Test
@@ -13,7 +15,7 @@ public class _ManageCredentialsTest extends BaseTest {
         final String newUsername = TestUtils.getRandomStr(8);
         final String newPassword = TestUtils.getRandomStr(9);
 
-        String createCredentials = new HomePage(getDriver())
+        List<String> createCredentials = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManageCredentials()
