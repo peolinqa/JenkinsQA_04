@@ -8,57 +8,57 @@ import org.openqa.selenium.support.FindBy;
 public final class LoadStatisticsPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//div[contains(text(), 'Timespan')]/child::*[1]")
-    private WebElement shortButton;
+    private WebElement linkShortTimespan;
 
     @FindBy(xpath = "//div[contains(text(), 'Timespan')]/child::*[2]")
-    private WebElement mediumButton;
+    private WebElement linkMediumTimespan;
 
     @FindBy(xpath = "//div[contains(text(), 'Timespan')]/child::*[3]")
-    private WebElement longButton;
+    private WebElement linkLongTimespan;
 
     public LoadStatisticsPage(WebDriver driver) {
         super(driver);
     }
 
-    public LoadStatisticsPage clickShortButton() {
-        shortButton.click();
+    public LoadStatisticsPage clickLinkShortTimespan() {
+        linkShortTimespan.click();
 
         return this;
     }
 
-    public LoadStatisticsPage clickMediumButton() {
-        mediumButton.click();
+    public LoadStatisticsPage clickLinkMediumTimespan() {
+        linkMediumTimespan.click();
 
         return this;
     }
 
-    public LoadStatisticsPage clickLongButton() {
-        longButton.click();
+    public LoadStatisticsPage clickLinkLongTimespan() {
+        linkLongTimespan.click();
 
         return this;
     }
 
     public String getShortTooltip() {
-        return shortButton.getAttribute("tooltip");
+        return linkShortTimespan.getAttribute("tooltip");
     }
 
     public String getMediumTooltip() {
-        return mediumButton.getAttribute("tooltip");
+        return linkMediumTimespan.getAttribute("tooltip");
     }
 
     public String getLongTooltip() {
-        return longButton.getAttribute("tooltip");
+        return linkLongTimespan.getAttribute("tooltip");
     }
 
     public String getShortTagName() {
-        return shortButton.getTagName();
+        return linkShortTimespan.getTagName();
     }
 
     public String getMediumTagName() {
-        return mediumButton.getTagName();
+        return linkMediumTimespan.getTagName();
     }
 
     public String getLongTagName() {
-        return longButton.getTagName();
+        return linkLongTimespan.getTagName();
     }
 }

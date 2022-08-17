@@ -4,7 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
-public class _LoadStatisticsTest extends BaseTest {
+public class LoadStatisticsTest extends BaseTest {
 
     @Test
     public void testCheckToolTipForEachTimeSpan() {
@@ -19,38 +19,38 @@ public class _LoadStatisticsTest extends BaseTest {
     }
 
     @Test
-    public void checkClickShortButton() {
+    public void checkClickShortTimespan() {
         LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickLoadStatistics()
-                .clickShortButton();
+                .clickLinkShortTimespan();
 
         Assert.assertEquals(loadStatisticsPage.getShortTagName(), "span");
         Assert.assertEquals(loadStatisticsPage.getMediumTagName(), "a");
         Assert.assertEquals(loadStatisticsPage.getLongTagName(), "a");
     }
 
-    @Test(dependsOnMethods = "checkClickShortButton")
-    public void checkClickMediumButton() {
+    @Test(dependsOnMethods = "checkClickShortTimespan")
+    public void checkClickMediumTimespan() {
         LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickLoadStatistics()
-                .clickMediumButton();
+                .clickLinkMediumTimespan();
 
         Assert.assertEquals(loadStatisticsPage.getShortTagName(), "a");
         Assert.assertEquals(loadStatisticsPage.getMediumTagName(), "span");
         Assert.assertEquals(loadStatisticsPage.getLongTagName(), "a");
     }
 
-    @Test(dependsOnMethods = "checkClickMediumButton")
-    public void checkClickLongButton() {
+    @Test(dependsOnMethods = "checkClickMediumTimespan")
+    public void checkClickLongTimespan() {
         LoadStatisticsPage loadStatisticsPage = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickLoadStatistics()
-                .clickLongButton();
+                .clickLinkLongTimespan();
 
         Assert.assertEquals(loadStatisticsPage.getShortTagName(), "a");
         Assert.assertEquals(loadStatisticsPage.getMediumTagName(), "a");

@@ -11,7 +11,7 @@ public final class UserPageSideMenuFrame extends BaseModel<UserPageSideMenuFrame
     private WebElement menuDelete;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
+    private WebElement btnYes;
 
     public UserPageSideMenuFrame(WebDriver driver) {
         super(driver);
@@ -23,8 +23,8 @@ public final class UserPageSideMenuFrame extends BaseModel<UserPageSideMenuFrame
         return this;
     }
 
-    public ManageUsersPage confirmDeleteAndGoManageUsersPage() {
-        yesButton.click();
+    public ManageUsersPage confirmDeleteUser() {
+        btnYes.click();
 
         return new ManageUsersPage(getDriver());
     }

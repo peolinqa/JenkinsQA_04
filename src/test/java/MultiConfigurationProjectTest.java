@@ -26,7 +26,6 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(projectName, RANDOM_NAME);
     }
 
-    //to do: fix
     @Test(dependsOnMethods = "testWorkspaceWithoutBuildPerformed")
     public void testBuildNow() {
         MultiConfigurationProjectPage consolePage = new HomePage(getDriver())

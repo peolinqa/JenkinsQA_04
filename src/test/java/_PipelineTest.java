@@ -1,6 +1,7 @@
 import model.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
@@ -442,6 +443,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorText, String.format("» ‘%s’ is an unsafe character", name));
     }
 
+    @Ignore
     @Test
     public void testDeleteAllPipelinesFromScriptConsole() {
         final String name = TestUtils.getRandomStr(7);
@@ -464,5 +466,4 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertTrue(check);
     }
-
 }

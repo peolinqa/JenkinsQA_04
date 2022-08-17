@@ -5,7 +5,7 @@ import runner.BaseTest;
 
 import java.util.List;
 
-public class _ManageNodesAndCloudsTest extends BaseTest {
+public class ManageNodesAndCloudsTest extends BaseTest {
 
     private static final String COMPUTER_NAME = "first test node 456";
 
@@ -53,11 +53,12 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
                 .clickMenuNewNode()
                 .createNewNodeWithPermanentAgentOption(COMPUTER_NAME)
                 .clickSaveButton()
-                .getComputerNames();
+                .getComputerNamesList();
 
         Assert.assertTrue(computerNames.contains(COMPUTER_NAME));
     }
 
+    //todo: fix assert
     @Test(dependsOnMethods = "testCreateNewNodeWithValidName")
     public void testCheckDeleteNode1() {
         List<String> computerNames = new HomePage(getDriver())
@@ -66,8 +67,8 @@ public class _ManageNodesAndCloudsTest extends BaseTest {
                 .clickManageNodesAndClouds()
                 .clickDropDownMenu(COMPUTER_NAME)
                 .clickMenuSelectorDeleteAgent()
-                .confirmDeleteAndGoManageNodesAndCloudsPage()
-                .getComputerNames();
+                .confirmDelete()
+                .getComputerNamesList();
 
         Assert.assertFalse(computerNames.contains(COMPUTER_NAME));
     }

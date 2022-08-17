@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 import runner.BaseTest;
 import runner.TestUtils;
 
-public class _MultibranchPipelineTest extends BaseTest {
+public class MultibranchPipelineTest extends BaseTest {
 
     private static final String PROJECT_NAME = TestUtils.getRandomStr(7);
     private static final String URL_GITHUB = "https://github.com/GitForProjects/javaJenkins";
@@ -26,13 +26,14 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .setProjectName(PROJECT_NAME)
                 .setMultiBranchPipelineProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToMultibranchPipelinePage()
+                .saveProjectConfiguration()
                 .goHome()
                 .getSizeOfProjectLinkByName(PROJECT_NAME);
 
         Assert.assertEquals(numberOfNamesFound, 1);
     }
 
+    //todo: fix
     @Test (dependsOnMethods = "testCreateNewJob")
     public void testValidGitHubLink() {
         String validationResult = new HomePage(getDriver())
@@ -40,14 +41,14 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuConfigure()
                 .clickAddSourceButton()
-                .clickGitHubField()
-                .setRepositoryUrl(URL_GITHUB)
+                .clickGitHubSelectorMenu()
+                .setInputRepositoryUrl(URL_GITHUB)
                 .clickValidateButton()
                 .getValidateText();
 
         Assert.assertEquals(validationResult, String.format("Credentials ok. Connected to %s.", URL_GITHUB));
 
-        new MultibranchPipelineConfigPage(getDriver()).saveConfigAndGoToMultibranchPipelinePage();
+        new MultibranchPipelineConfigPage(getDriver()).saveProjectConfiguration();
     }
 
     @Test (dependsOnMethods = "testValidGitHubLink")
@@ -56,7 +57,7 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .clickMultibranchPipelineName(PROJECT_NAME)
                 .getSideMenu()
                 .clickMenuConfigure()
-                .getTextRepositoryUrl();
+                .getRepositoryUrlText();
 
         Assert.assertEquals(actualUrl, URL_GITHUB);
     }
@@ -80,7 +81,7 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .setProjectName(PIPELINE_NAME)
                 .setMultiBranchPipelineProjectType()
                 .clickOkAndGoToConfig()
-                .saveConfigAndGoToMultibranchPipelinePage()
+                .saveProjectConfiguration()
                 .goHome()
                 .isProjectNamePresent(PIPELINE_NAME);
 
@@ -100,25 +101,25 @@ public class _MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testMultibranchDisable() {
-        String attributeClassIkonProject = new HomePage(getDriver())
+        String attributeClassIconProject = new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(NAME)
                 .setMultiBranchPipelineProjectType()
                 .clickOkAndGoToConfig()
                 .clickCheckboxDisable()
-                .saveConfigAndGoToMultibranchPipelineProject()
+                .saveProjectConfiguration()
                 .assertEquals(MultibranchPipelineProjectPage::isIconProjectDisabledDisplayed, true)
                 .assertEquals(MultibranchPipelineProjectPage::getWarningDisableText, "This Multibranch Pipeline is currently disabled \nEnable")
                 .clickLinkDashboard()
                 .getProjectIconAttributeClass(NAME);
 
-        Assert.assertEquals(attributeClassIkonProject, "icon-folder-disabled icon-lg");
+        Assert.assertEquals(attributeClassIconProject, "icon-folder-disabled icon-lg");
     }
 
     @Test(dependsOnMethods = "testMultibranchDisable")
     public void testMultibranchEnable() {
-        String attributeClassIkonProject = new HomePage(getDriver())
+        String attributeClassIconProject = new HomePage(getDriver())
                 .clickLinkDashboard()
                 .getSideMenu()
                 .clickMenuMyView()
@@ -126,11 +127,11 @@ public class _MultibranchPipelineTest extends BaseTest {
                 .clickProjectDropDownMenu()
                 .clickMenuSelectorMultibranchConfigure()
                 .clickCheckboxDisable()
-                .saveConfigAndGoToMultibranchPipelineProject()
+                .saveProjectConfiguration()
                 .assertEquals(MultibranchPipelineProjectPage::istIconProjectEnabled, true)
                 .clickLinkDashboard()
                 .getProjectIconAttributeClass(NAME);
 
-        Assert.assertEquals(attributeClassIkonProject, "icon-pipeline-multibranch-project icon-lg");
+        Assert.assertEquals(attributeClassIconProject, "icon-pipeline-multibranch-project icon-lg");
     }
 }

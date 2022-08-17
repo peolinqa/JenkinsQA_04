@@ -8,10 +8,10 @@ import org.openqa.selenium.support.FindBy;
 public final class MultibranchPipelineProjectPage extends BaseProjectPage<MultibranchPipelineProjectPage, MultibranchPipelineProjectPageSideMenuFrame> {
 
     @FindBy(linkText = "Scan Repository Log")
-    private WebElement linkScanRepositoryLog;
+    private WebElement menuScanRepositoryLog;
 
     @FindBy(linkText = "View as plain text")
-    private WebElement linkViewAsPlainText;
+    private WebElement menuViewAsPlainText;
 
     @FindBy(css = "h1 img.icon-folder-disabled")
     private WebElement iconProjectDisabled;
@@ -32,13 +32,13 @@ public final class MultibranchPipelineProjectPage extends BaseProjectPage<Multib
     }
 
     public MultibranchPipelineProjectPage clickLinkScanRepositoryLog() {
-        linkScanRepositoryLog.click();
+        menuScanRepositoryLog.click();
 
         return this;
     }
 
     public MultibranchPipelineConsolePage clickLinkViewAsPlainText() {
-        linkViewAsPlainText.click();
+        menuViewAsPlainText.click();
 
         return new MultibranchPipelineConsolePage(getDriver());
     }

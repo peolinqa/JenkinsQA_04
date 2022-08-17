@@ -14,7 +14,7 @@ public final class JenkinsCLIExamplesPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public boolean getCommandExample(String commandName) {
+    public boolean isCommandExampleContainsCommandName(String commandName) {
         String text = commandExample.getText();
 
         return text.contains("-webSocket " + commandName);

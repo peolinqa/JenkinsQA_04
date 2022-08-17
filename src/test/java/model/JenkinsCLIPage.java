@@ -11,53 +11,53 @@ import java.util.List;
 public final class JenkinsCLIPage extends BaseHeaderFooterPage {
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//a")
-    private List<WebElement> commandNames;
+    private List<WebElement> listAvailableCommandNames;
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr//td[2]")
-    private List<WebElement> commandDescription;
+    private List<WebElement> listCommandsDescription;
 
     @FindBy(xpath = "//table[@class='jenkins-table sortable']/tbody/tr")
-    private static List<WebElement> availableCommands;
+    private static List<WebElement> listAvailableCommands;
 
     @FindBy(xpath = "//th[1]/a")
-    WebElement nameCaption;
+    WebElement labelName;
 
     @FindBy(xpath = "//th[2]/a")
-    WebElement descriptionCaption;
+    WebElement labelDescription;
 
     public JenkinsCLIPage(WebDriver driver) {
         super(driver);
     }
 
     public String getCommandName(int i) {
-        return commandNames.get(i).getText();
+        return listAvailableCommandNames.get(i).getText();
     }
 
     public String getCommandDescription(int i) {
-        return commandDescription.get(i).getText();
+        return listCommandsDescription.get(i).getText();
     }
 
     public JenkinsCLIExamplesPage clickCommandElement(int i) {
-        commandNames.get(i).click();
+        listAvailableCommandNames.get(i).click();
 
         return new JenkinsCLIExamplesPage(getDriver());
     }
 
-     public JenkinsCLIPage clickNameCaption(){
-        nameCaption.click();
+    public JenkinsCLIPage clickLabelName() {
+        labelName.click();
 
         return this;
     }
     public List<String> getTextNamesCommands() {
-        return TestUtils.getTextFromListWebElements(commandNames);
+        return TestUtils.getTextFromListWebElements(listAvailableCommandNames);
     }
 
     public List<String> getTextCommandsDescription() {
-        return TestUtils.getTextFromListWebElements(commandDescription);
+        return TestUtils.getTextFromListWebElements(listCommandsDescription);
     }
 
-    public JenkinsCLIPage clickDescriptionCaption(){
-        descriptionCaption.click();
+    public JenkinsCLIPage clickLabelDescription() {
+        labelDescription.click();
 
         return this;
     }

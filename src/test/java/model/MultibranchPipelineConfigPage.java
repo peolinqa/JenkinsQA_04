@@ -13,19 +13,19 @@ public final class MultibranchPipelineConfigPage extends BaseHeaderFooterPage {
     private WebElement checkboxDisable;
 
     @FindBy(css = "[type='submit']")
-    private WebElement saveButton;
+    private WebElement btnSave;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement addSourceButton;
+    private WebElement btnAddSource;
 
     @FindBy(id = "yui-gen10")
-    private WebElement gitHubField;
+    private WebElement gitHubSelectorMenu;
 
     @FindBy(name = "_.repositoryUrl")
-    private WebElement repositoryUrl;
+    private WebElement inputRepositoryUrl;
 
     @FindBy(id = "yui-gen20-button")
-    private WebElement validateButton;
+    private WebElement btnValidate;
 
     public MultibranchPipelineConfigPage(WebDriver driver) {
         super(driver);
@@ -37,38 +37,32 @@ public final class MultibranchPipelineConfigPage extends BaseHeaderFooterPage {
         return this;
     }
 
-    public MultibranchPipelineProjectPage saveConfigAndGoToMultibranchPipelineProject() {
-        saveButton.click();
-
-        return new MultibranchPipelineProjectPage(getDriver());
-    }
-
-    public MultibranchPipelineProjectPage saveConfigAndGoToMultibranchPipelinePage() {
-        saveButton.click();
+    public MultibranchPipelineProjectPage saveProjectConfiguration() {
+        btnSave.click();
 
         return new MultibranchPipelineProjectPage(getDriver());
     }
 
     public MultibranchPipelineConfigPage clickAddSourceButton() {
-        addSourceButton.click();
+        btnAddSource.click();
 
         return this;
     }
 
-    public MultibranchPipelineConfigPage clickGitHubField() {
-        gitHubField.click();
+    public MultibranchPipelineConfigPage clickGitHubSelectorMenu() {
+        gitHubSelectorMenu.click();
 
         return this;
     }
 
-    public MultibranchPipelineConfigPage setRepositoryUrl(String text) {
-        repositoryUrl.sendKeys(text);
+    public MultibranchPipelineConfigPage setInputRepositoryUrl(String text) {
+        inputRepositoryUrl.sendKeys(text);
 
         return this;
     }
 
     public MultibranchPipelineConfigPage clickValidateButton() {
-        validateButton.click();
+        btnValidate.click();
 
         return this;
     }
@@ -77,7 +71,7 @@ public final class MultibranchPipelineConfigPage extends BaseHeaderFooterPage {
         return getWait20().until(ExpectedConditions.presenceOfElementLocated(By.className("ok"))).getText();
     }
 
-    public String getTextRepositoryUrl() {
-        return repositoryUrl.getAttribute("value");
+    public String getRepositoryUrlText() {
+        return inputRepositoryUrl.getAttribute("value");
     }
 }

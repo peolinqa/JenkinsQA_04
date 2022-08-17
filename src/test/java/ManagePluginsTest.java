@@ -4,10 +4,11 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import runner.BaseTest;
+
 import java.util.Collections;
 import java.util.List;
 
-public class _ManagePluginsTest extends BaseTest {
+public class ManagePluginsTest extends BaseTest {
 
     @Test
     public void testManagePluginsCheckNameAndArrowUp() {
@@ -15,11 +16,11 @@ public class _ManagePluginsTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManagePlugins()
-                .getTextButtonArrow();
+                .getBtnSortArrowText();
 
         String nameArrowUp = new ManagePluginsPage(getDriver())
-                .clickButtonArrow()
-                .getTextButtonArrow();
+                .clickBtnSortArrow()
+                .getBtnSortArrowText();
 
         SoftAssert asserts = new SoftAssert();
         asserts.assertTrue(nameArrowDown.contains("  ↓"));
@@ -34,11 +35,11 @@ public class _ManagePluginsTest extends BaseTest {
                 .clickMenuManageJenkins()
                 .clickManagePlugins()
                 .sortAlphabeticallyFromAtoZ()
-                .getAllPluginNamesInTabUpdates();
+                .getAllPluginNamesList();
 
         List<String> listReverseAlphabeticalOrder = new ManagePluginsPage(getDriver())
                 .changeSortAlphabeticallyFromZtoA()
-                .getAllPluginNamesInTabUpdates();
+                .getAllPluginNamesList();
 
         Collections.sort(listInAlphabeticalOrder);
         Collections.sort(listReverseAlphabeticalOrder);
@@ -52,15 +53,15 @@ public class _ManagePluginsTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManagePlugins()
-                .clickButtonUpdates()
+                .clickTabUpdates()
                 .countPlugins();
 
         int numberPluginsAvailable = new ManagePluginsPage(getDriver())
-                .clickButtonAvailable()
+                .clickTabAvailable()
                 .countPlugins();
 
         int numberPluginsInstalled = new ManagePluginsPage(getDriver())
-                .clickButtonAvailable()
+                .clickTabAvailable()
                 .countPlugins();
 
         SoftAssert asserts = new SoftAssert();
@@ -78,7 +79,7 @@ public class _ManagePluginsTest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickManagePlugins()
-                .searchFieldInput(textForFilter).getTextNamesOfCheckboxes();
+                .setInputFilterBox(textForFilter).getNamesOfCheckboxesText();
 
         Assert.assertTrue(textNamesOfCheckboxes.stream()
                 .map(String::toLowerCase)

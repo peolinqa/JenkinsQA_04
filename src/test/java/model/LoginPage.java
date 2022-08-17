@@ -8,31 +8,31 @@ import org.openqa.selenium.support.FindBy;
 public final class LoginPage extends BasePage {
 
     @FindBy(name = "j_username")
-    private WebElement usernameText;
+    private WebElement inputUsername;
 
     @FindBy(name = "j_password")
-    private WebElement passwordText;
+    private WebElement inputPassword;
 
     @FindBy(name = "Submit")
-    private WebElement submitButton;
+    private WebElement btnSignIn;
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    public LoginPage sendUser(String text) {
-        usernameText.sendKeys(text);
+    public LoginPage setUsername(String text) {
+        inputUsername.sendKeys(text);
 
         return this;
     }
 
-    public LoginPage sendPassword(String text) {
-        passwordText.sendKeys(text);
+    public LoginPage setPassword(String text) {
+        inputPassword.sendKeys(text);
 
         return this;
     }
 
-    public void login() {
-        submitButton.click();
+    public void clickSignInButton() {
+        btnSignIn.click();
     }
 }

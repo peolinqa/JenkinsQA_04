@@ -1,25 +1,23 @@
 package model;
 
 import model.base.BaseSideMenuPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import runner.TestUtils;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodesAndCloudsPage, ManageNodesAndCloudsPageSideMenuFrame> {
 
     @FindBy(xpath = "//table[@id='computers']//td[2]")
-    private List<WebElement> computerNames;
+    private List<WebElement> listComputerNames;
 
     @FindBy(xpath = "//div[@id='menuSelector']")
     private WebElement menuSelector;
 
     @FindBy(id = "yui-gen1-button")
-    private WebElement yesButton;
+    private WebElement btnYes;
 
     public ManageNodesAndCloudsPage(WebDriver driver) {
         super(driver);
@@ -32,8 +30,8 @@ public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodes
 
     public ManageNodesAndCloudsPageSelectorMenuFrame clickDropDownMenu(String computerName) {
 
-        for (WebElement s : computerNames){
-            if(s.getText().contains(computerName)){
+        for (WebElement s : listComputerNames) {
+            if (s.getText().contains(computerName)) {
                 getActions().moveToElement(s).build().perform();
             }
         }
@@ -42,13 +40,13 @@ public final class ManageNodesAndCloudsPage extends BaseSideMenuPage<ManageNodes
         return new ManageNodesAndCloudsPageSelectorMenuFrame(getDriver());
     }
 
-    public ManageNodesAndCloudsPage confirmDeleteAndGoManageNodesAndCloudsPage() {
-        yesButton.click();
+    public ManageNodesAndCloudsPage confirmDelete() {
+        btnYes.click();
 
         return new ManageNodesAndCloudsPage(getDriver());
     }
 
-    public List<String> getComputerNames() {
-        return computerNames.stream().map(WebElement::getText).collect(Collectors.toList());
+    public List<String> getComputerNamesList() {
+        return listComputerNames.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 }

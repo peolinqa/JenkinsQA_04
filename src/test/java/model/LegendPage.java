@@ -13,7 +13,7 @@ public final class LegendPage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    public List<String> getTextIconsDescriptions() {
+    public List<String> getIconDescriptionsText() {
         return TestUtils.getTextFromList(getDriver(), By.xpath("//table[@id='legend-table']//tbody/tr/td"));
     }
 }

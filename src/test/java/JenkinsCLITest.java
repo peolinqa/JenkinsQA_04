@@ -5,7 +5,7 @@ import runner.BaseTest;
 
 import java.util.List;
 
-public class _JenkinsCLITest extends BaseTest {
+public class JenkinsCLITest extends BaseTest {
 
     private static final List<String> COMMAND_NAMES = List.of("add-job-to-view", "build", "cancel-quiet-down", "clear-queue",
             "connect-node", "console", "copy-job", "create-credentials-by-xml",
@@ -99,7 +99,7 @@ public class _JenkinsCLITest extends BaseTest {
                     .clickMenuManageJenkins()
                     .clickJenkinsCLI()
                     .clickCommandElement(i)
-                    .getCommandExample(COMMAND_NAMES.get(i));
+                    .isCommandExampleContainsCommandName(COMMAND_NAMES.get(i));
 
             Assert.assertTrue(isAddJobToViewExample);
         }
@@ -111,7 +111,7 @@ public class _JenkinsCLITest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickJenkinsCLI()
-                .clickNameCaption()
+                .clickLabelName()
                 .getCommandName(0);
 
         Assert.assertEquals(firstCommandName, COMMAND_NAMES.get(COMMAND_NAMES.size() - 1));
@@ -123,7 +123,7 @@ public class _JenkinsCLITest extends BaseTest {
                 .getSideMenu()
                 .clickMenuManageJenkins()
                 .clickJenkinsCLI()
-                .clickDescriptionCaption()
+                .clickLabelDescription()
                 .getCommandDescription(0);
 
         Assert.assertEquals(firstDescription, COMMAND_DESCRIPTIONS.get(COMMAND_DESCRIPTIONS.size() - 2));

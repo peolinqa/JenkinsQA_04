@@ -102,7 +102,6 @@ public final class MultiConfigurationProjectPage extends BaseProjectPage<MultiCo
         return new MultiConfigurationProjectDefaultPage(getDriver());
     }
 
-    //to do: fix
     public boolean tooltipStatusSuccessIsDisplayed() {
         return iconTooltipStatusSuccess.isDisplayed();
     }
