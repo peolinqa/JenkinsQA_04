@@ -1,6 +1,6 @@
-import model.CreateUserPage;
-import model.HomePage;
-import model.ManageUsersPage;
+import model.Users.CreateUserPage;
+import model.home.HomePage;
+import model.Users.ManageUsersPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

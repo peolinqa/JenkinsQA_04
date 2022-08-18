@@ -1,6 +1,6 @@
-import model.HomePage;
-import model.MultibranchPipelineProjectPage;
-import model.MultibranchPipelineConfigPage;
+import model.home.HomePage;
+import model.projects.multibranch.MultibranchPipelineProjectPage;
+import model.projects.multibranch.MultibranchPipelineConfigPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

@@ -1,5 +1,5 @@
-import model.HomePage;
-import model.MyViewPage;
+import model.home.HomePage;
+import model.Views.MyViewPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

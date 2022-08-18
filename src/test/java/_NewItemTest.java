@@ -1,4 +1,7 @@
 import model.*;
+import model.helpPages.ErrorPage;
+import model.home.HomePage;
+import model.projects.freestyle.FreestyleConfigPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

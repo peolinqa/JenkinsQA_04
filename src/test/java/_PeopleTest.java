@@ -1,5 +1,5 @@
-import model.HomePage;
-import model.PeoplePage;
+import model.home.HomePage;
+import model.Users.PeoplePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

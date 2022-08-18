@@ -1,5 +1,6 @@
-import model.HomePage;
+import model.home.HomePage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
 
@@ -73,6 +74,8 @@ public class ManageJenkinsTest extends BaseTest {
         Assert.assertEquals(actualSecurityContent, expectedSecurityContent);
     }
 
+
+    @Ignore
     @Test(dependsOnMethods = "testCheckSectionNames")
     public void testCaptionsSystemConfiguration() {
         List<String> expectedCaptions = List.of(

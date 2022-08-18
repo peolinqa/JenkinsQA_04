@@ -1,4 +1,7 @@
-import model.*;
+import model.home.HomePage;
+import model.projects.freestyle.FreestyleProjectPage;
+import model.buildsHistory.BuildHistoryPage;
+import model.buildsHistory.FreestyleBuildPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

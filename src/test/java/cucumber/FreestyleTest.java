@@ -4,6 +4,14 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import model.*;
+import model.home.HomePage;
+import model.projects.folder.FolderConfigPage;
+import model.projects.folder.FolderProjectPage;
+import model.projects.freestyle.FreestyleConfigPage;
+import model.projects.freestyle.FreestyleProjectPage;
+import model.projects.multibranch.MultibranchPipelineConfigPage;
+import model.projects.orgFolder.OrganizationFolderConfigPage;
+import model.projects.pipeline.PipelineConfigPage;
 import org.testng.Assert;
 import runner.CucumberDriver;
 import runner.ProjectUtils;
@@ -18,7 +26,7 @@ public class FreestyleTest {
     private PipelineConfigPage pipelineConfigPage;
     private FolderConfigPage folderConfigPage;
     private MultibranchPipelineConfigPage multibranchPipelineConfigPage;
-    private OrganizationFolderConfigPage OrganizationFolderConfigPage;
+    private model.projects.orgFolder.OrganizationFolderConfigPage OrganizationFolderConfigPage;
 
     private FreestyleProjectPage freestylePage;
 

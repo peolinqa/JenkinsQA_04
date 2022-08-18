@@ -1,5 +1,12 @@
 import model.*;
+import model.home.HomePage;
+import model.home.HomePageSideMenuFrame;
+import model.manageJenkins.ManageJenkinsPage;
+import model.Users.PeoplePage;
+import model.Views.MyViewPage;
+import model.Views.NewViewPage;
 import model.base.BaseHeaderFooterPage;
+import model.buildsHistory.BuildHistoryPage;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

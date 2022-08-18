@@ -1,7 +1,7 @@
-import model.HomePage;
+import model.home.HomePage;
 import model.NewItemPage;
-import model.OrganizationFolderConfigPage;
-import model.OrganizationFolderProjectPage;
+import model.projects.orgFolder.OrganizationFolderConfigPage;
+import model.projects.orgFolder.OrganizationFolderProjectPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

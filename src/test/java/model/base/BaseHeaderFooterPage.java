@@ -1,6 +1,10 @@
 package model.base;
 
-import model.*;
+import model.ApiPage;
+import model.helpPages.ErrorPage;
+import model.home.HomePage;
+import model.Users.HeaderFooterPageSelectorMenuFrame;
+import model.Users.UserStatusPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

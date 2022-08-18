@@ -1,4 +1,4 @@
-import model.HomePage;
+import model.home.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

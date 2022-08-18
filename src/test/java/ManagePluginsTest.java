@@ -1,5 +1,5 @@
-import model.HomePage;
-import model.ManagePluginsPage;
+import model.home.HomePage;
+import model.manageJenkins.ManagePluginsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

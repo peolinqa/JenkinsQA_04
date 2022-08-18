@@ -1,5 +1,5 @@
-import model.HomePage;
-import model.LoadStatisticsPage;
+import model.home.HomePage;
+import model.manageJenkins.LoadStatisticsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

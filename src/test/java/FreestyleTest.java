@@ -1,6 +1,6 @@
-import model.FreestyleConfigPage;
-import model.FreestyleProjectPage;
-import model.HomePage;
+import model.projects.freestyle.FreestyleConfigPage;
+import model.projects.freestyle.FreestyleProjectPage;
+import model.home.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

@@ -1,4 +1,9 @@
 import model.*;
+import model.helpPages.ErrorPage;
+import model.home.HomePage;
+import model.projects.folder.FolderConfigPage;
+import model.projects.folder.FolderProjectPage;
+import model.projects.folder.FolderProjectPageSideMenuFrame;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

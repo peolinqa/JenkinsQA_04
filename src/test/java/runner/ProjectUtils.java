@@ -1,6 +1,6 @@
 package runner;
 
-import model.LoginPage;
+import model.helpPages.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 

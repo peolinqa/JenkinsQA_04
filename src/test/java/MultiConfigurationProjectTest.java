@@ -1,4 +1,10 @@
 import model.*;
+import model.helpPages.ErrorPage;
+import model.home.HomePage;
+import model.projects.multiconfig.MultiConfigurationConfigPage;
+import model.projects.multiconfig.MultiConfigurationProjectPage;
+import model.projects.multiconfig.MultiConfigurationProjectPageSideMenuFrame;
+import model.projects.multiconfig.MultiConfigurationProjectWorkspacePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

@@ -1,6 +1,6 @@
-import model.HomePage;
+import model.home.HomePage;
 
-import model.ManageCredentialsPage;
+import model.credentials.ManageCredentialsPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;

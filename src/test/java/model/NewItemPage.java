@@ -1,6 +1,13 @@
 package model;
 
+import model.helpPages.ErrorPage;
 import model.base.BaseHeaderFooterPage;
+import model.projects.folder.FolderConfigPage;
+import model.projects.freestyle.FreestyleConfigPage;
+import model.projects.multibranch.MultibranchPipelineConfigPage;
+import model.projects.multiconfig.MultiConfigurationConfigPage;
+import model.projects.orgFolder.OrganizationFolderConfigPage;
+import model.projects.pipeline.PipelineConfigPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

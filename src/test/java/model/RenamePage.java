@@ -1,5 +1,6 @@
 package model;
 
+import model.helpPages.ErrorPage;
 import model.base.BaseProjectPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;

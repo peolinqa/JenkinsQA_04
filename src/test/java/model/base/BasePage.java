@@ -1,6 +1,6 @@
 package model.base;
 
-import model.HomePage;
+import model.home.HomePage;
 import org.openqa.selenium.WebDriver;
 import runner.BaseModel;
 import runner.ProjectUtils;
