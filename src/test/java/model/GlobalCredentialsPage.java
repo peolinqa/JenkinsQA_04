@@ -5,10 +5,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public final class GlobalCredentialsPage extends BaseSideMenuPage<GlobalCredentialsPage, GlobalCredentialsPageSideMenuFrame> {
+import java.util.List;
+import java.util.stream.Collectors;
 
-    @FindBy(xpath = "//div[@id='main-panel']/table")
-    private WebElement tableCredentials;
+public final class GlobalCredentialsPage extends BaseSideMenuPage<GlobalCredentialsPage,GlobalCredentialsPageSideMenuFrame> {
+
+    @FindBy(xpath = "//div[@id='main-panel']/table/tbody/tr/td[3]")
+    private List<WebElement> tableCredentials;
 
     public GlobalCredentialsPage(WebDriver driver) {
         super(driver);
@@ -19,7 +22,7 @@ public final class GlobalCredentialsPage extends BaseSideMenuPage<GlobalCredenti
         return new GlobalCredentialsPageSideMenuFrame(getDriver());
     }
 
-    public String getTableText() {
-        return tableCredentials.getText();
+    public List<String> getTableText(){
+        return tableCredentials.stream().map(elem -> elem.getText().substring(0, elem.getText().indexOf("/"))).collect(Collectors.toList());
     }
 }
