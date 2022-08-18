@@ -66,6 +66,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void testScanResult() {
         String scanLog = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
+                .getSideMenu()
                 .clickLinkScanRepositoryLog()
                 .clickLinkViewAsPlainText()
                 .getConsoleText();
