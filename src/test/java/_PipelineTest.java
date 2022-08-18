@@ -379,7 +379,8 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(checkingDisplayLast3Builds, List.of(32, 31, 30));
     }
 
-    @Test
+    @Ignore
+    @Test(dependsOnMethods = "testBuildPipelineWithParameters")
     public void testCheckLinkHelpMenuAdvancedProjectOptions() {
         final String checkTransitionPluginPage = new HomePage(getDriver())
                 .getSideMenu()
@@ -395,6 +396,7 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(checkTransitionPluginPage, "Pipeline: Job");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testCheckLinkHelpMenuAdvancedProjectOptions")
     public void testDeletePipelineFromDashboard() {
         final boolean check = new HomePage(getDriver())

@@ -2,8 +2,10 @@ import model.Users.CreateUserPage;
 import model.home.HomePage;
 import model.Users.ManageUsersPage;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.ExcelUtils;
 
 import java.util.*;
 
@@ -14,6 +16,7 @@ public class ManageUsersTest extends BaseTest {
     private static final String FULL_NAME = "Viktor P";
     private static final String NEW_USER_FULL_NAME = "Michael";
     private static final String EMAIL = "testemail.@gmail.com";
+
 
     @Test
     public void testCreateNewUser() {
@@ -174,4 +177,35 @@ public class ManageUsersTest extends BaseTest {
 
         Assert.assertEquals(actualErrorsText, expectedErrorsText);
     }
+
+    @DataProvider
+    public Object[][] userList() {
+        Object[][] testObjArray = ExcelUtils.getTableArray("src//test//resources//testdata.xlsx","Sheet1");
+        return (testObjArray);
+    }
+    @Test(dataProvider = "userList")
+    public void test20NewUsers(String sUsername, String sPassword, String sFullname, String sEmail ) {
+        Set<String> usersListBefore = new TreeSet<>();
+        Set<String> usersListAfter = new TreeSet<>();
+
+        new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuManageJenkins()
+                .clickManageUsers()
+                .addUsersToList(usersListBefore)
+                .getSideMenu()
+                .clickMenuCreateUser()
+                .setUserName(sUsername)
+                .setPassword(sPassword)
+                .setConfirmPassword(sPassword)
+                .setFullName(sFullname)
+                .setEmailAddress(sEmail)
+                .clickCreateUserButton(new ManageUsersPage(getDriver()))
+                .addUsersToList(usersListAfter);
+
+        usersListBefore.add(sUsername.concat("\n").concat(sFullname));
+
+        Assert.assertEquals(usersListAfter, usersListBefore);
+    }
+
 }
