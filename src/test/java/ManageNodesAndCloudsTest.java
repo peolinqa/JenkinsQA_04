@@ -51,7 +51,9 @@ public class ManageNodesAndCloudsTest extends BaseTest {
                 .clickManageNodesAndClouds()
                 .getSideMenu()
                 .clickMenuNewNode()
-                .createNewNodeWithPermanentAgentOption(COMPUTER_NAME)
+                .setInputNodeName(COMPUTER_NAME)
+                .selectPermanentAgentRadioButton()
+                .clickCreateButton()
                 .clickSaveButton()
                 .getComputerNamesList();
 

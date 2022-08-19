@@ -20,10 +20,18 @@ public final class NewNodePage extends BaseHeaderFooterPage {
         super(driver);
     }
 
-    //todo:fix
-    public NewNodeConfigPage createNewNodeWithPermanentAgentOption(String text){
+    public NewNodePage setInputNodeName(String text){
         inputNodeName.sendKeys(text);
+
+        return this;
+    }
+
+    public NewNodePage selectPermanentAgentRadioButton() {
         radioBtnPermanentAgent.click();
+
+        return this;
+    }
+    public NewNodeConfigPage clickCreateButton() {
         btnCreate.click();
 
         return new NewNodeConfigPage(getDriver());
