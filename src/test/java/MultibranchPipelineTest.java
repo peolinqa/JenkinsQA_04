@@ -33,10 +33,9 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(numberOfNamesFound, 1);
     }
 
-    //todo: fix
     @Test (dependsOnMethods = "testCreateNewJob")
     public void testValidGitHubLink() {
-        String validationResult = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
                 .getSideMenu()
                 .clickMenuConfigure()
@@ -44,11 +43,8 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickGitHubSelectorMenu()
                 .setInputRepositoryUrl(URL_GITHUB)
                 .clickValidateButton()
-                .getValidateText();
-
-        Assert.assertEquals(validationResult, String.format("Credentials ok. Connected to %s.", URL_GITHUB));
-
-        new MultibranchPipelineConfigPage(getDriver()).saveProjectConfiguration();
+                .assertEquals(MultibranchPipelineConfigPage::getValidateText, String.format("Credentials ok. Connected to %s.", URL_GITHUB))
+                .saveProjectConfiguration();
     }
 
     @Test (dependsOnMethods = "testValidGitHubLink")

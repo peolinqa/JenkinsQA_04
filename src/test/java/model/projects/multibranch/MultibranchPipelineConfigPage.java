@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-public final class MultibranchPipelineConfigPage extends BaseHeaderFooterPage {
+public final class MultibranchPipelineConfigPage extends BaseHeaderFooterPage<MultibranchPipelineConfigPage> {
 
     @FindBy(name = "_.disabled")
     private WebElement checkboxDisable;
