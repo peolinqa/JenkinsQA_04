@@ -3,6 +3,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+import runner.TestUtils;
 
 import java.util.List;
 
@@ -71,11 +72,10 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickMenuManageJenkins()
                 .getActualSecurityContentList();
 
-        Assert.assertEquals(actualSecurityContent, expectedSecurityContent);
+        Assert.assertEquals(TestUtils.sortList(actualSecurityContent), TestUtils.sortList(expectedSecurityContent));
     }
 
 
-    @Ignore
     @Test(dependsOnMethods = "testCheckSectionNames")
     public void testCaptionsSystemConfiguration() {
         List<String> expectedCaptions = List.of(
@@ -90,7 +90,7 @@ public class ManageJenkinsTest extends BaseTest {
                 .clickMenuManageJenkins()
                 .getSystemConfigurationCaptionList();
 
-        Assert.assertEquals(actualCaptions, expectedCaptions);
+        Assert.assertEquals(TestUtils.sortList(actualCaptions), TestUtils.sortList(expectedCaptions));
     }
 
     @Test(dependsOnMethods = "testCheckSectionNames")

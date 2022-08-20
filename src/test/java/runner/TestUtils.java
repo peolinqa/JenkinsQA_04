@@ -69,4 +69,9 @@ public class TestUtils {
 
         return listStr;
     }
+
+    public static List <String> sortList(List<String> list){
+
+        return list.stream().sorted().collect(Collectors.toList());
+    }
 }

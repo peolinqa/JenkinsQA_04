@@ -138,6 +138,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getActualManageJenkinsSectionNames() {
         List<String> textSection = new ArrayList<>();
+        getActions().moveToElement(listManageJenkinsSections.get(0)).perform();
         for (WebElement list : listManageJenkinsSections) {
             textSection.add(list.getText());
         }
@@ -147,6 +148,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getToolsAndActionsContentList() {
         List<String> textButton = new ArrayList<>();
+        getActions().moveToElement(listToolsAndActionsContent.get(0)).perform();
         for (WebElement list : listToolsAndActionsContent) {
             textButton.add(list.getText());
         }
@@ -156,6 +158,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getActualSystemConfigurationContentList() {
         List<String> textSection = new ArrayList<>();
+        getActions().moveToElement(listSystemConfigurationContent.get(0)).perform();
         for (WebElement elem : listSystemConfigurationContent) {
             textSection.add(elem.getText());
         }
@@ -165,6 +168,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getActualSecurityContentList() {
         List<String> textSection = new ArrayList<>();
+        getActions().moveToElement(listSecurityContent.get(0)).perform();
         for (WebElement elem : listSecurityContent) {
             textSection.add(elem.getText());
         }
@@ -174,6 +178,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getSystemConfigurationCaptionList() {
         List<String> captionsArray = new ArrayList<>();
+        getActions().moveToElement(listSystemConfigurationCaptions.get(0)).perform();
         for (WebElement el : listSystemConfigurationCaptions)
             if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
@@ -184,6 +189,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getSecurityCaptionsList() {
         List<String> captionsArray = new ArrayList<>();
+        getActions().moveToElement(listSecurityCaptions.get(0)).perform();
         for (WebElement el : listSecurityCaptions) {
             if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
@@ -195,6 +201,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getStatusInfoCaptionsList() {
         List<String> captionsArray = new ArrayList<>();
+        getActions().moveToElement(listStatusInformationCaptions.get(0)).perform();
         for (WebElement el : listStatusInformationCaptions) {
             if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
@@ -206,6 +213,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getTroubleshootingCaptionsList() {
         List<String> captionsArray = new ArrayList<>();
+        getActions().moveToElement(listTroubleshootingCaptions.get(0)).perform();
         for (WebElement el : listTroubleshootingCaptions) {
             if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
@@ -217,6 +225,7 @@ public final class ManageJenkinsPage extends BaseHeaderFooterPage {
 
     public List<String> getToolsAnsActionsCaptionsList() {
         List<String> captionsArray = new ArrayList<>();
+        getActions().moveToElement(listToolsAnsActionsCaptions.get(0)).perform();
         for (WebElement el : listToolsAnsActionsCaptions) {
             if (!el.getText().isEmpty()) {
                 captionsArray.add(el.getText());
