@@ -13,12 +13,10 @@ import java.util.Random;
 
 public class FolderTest extends BaseTest {
 
-    private static final String RANDOM_FOLDER_NAME = TestUtils.getRandomStr();
     private static final String RANDOM_FOLDER_NAME1 = TestUtils.getRandomStr();
     private static final String RANDOM_FOLDER_NAME2 = TestUtils.getRandomStr();
     private static final String FOLDER_NAME_FOR_RENAME1 = TestUtils.getRandomStr();
     private static final String FOLDER_DESCRIPTION = "Folder Description";
-
 
     protected static final char[] CHARS = {',', 39, '`', '~', '-', ' ', '(', ')', '{', '}', '+', '=', '_', '"'};
     private static final String WARNING_TEXT_UNSAFE = "’ is an unsafe character";
@@ -39,16 +37,14 @@ public class FolderTest extends BaseTest {
 
     @Test
     public void testFolderIsCreatedWithoutSave() {
-        boolean folderIsPresent = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
-                .setProjectName(RANDOM_FOLDER_NAME)
+                .setProjectName(RANDOM_FOLDER_NAME1)
                 .setFolderProjectType()
                 .clickOkAndGoToConfig()
                 .goHome()
-                .isProjectNamePresent(RANDOM_FOLDER_NAME);
-
-        Assert.assertTrue(folderIsPresent);
+                .assertTrue(page -> page.isProjectNamePresent(RANDOM_FOLDER_NAME1));
     }
 
     @Test
@@ -313,14 +309,14 @@ public class FolderTest extends BaseTest {
         final String randomJobName = TestUtils.getRandomStr();
 
         String actualResult = new HomePage(getDriver())
-                .clickFolderName(RANDOM_FOLDER_NAME)
+                .clickFolderName(RANDOM_FOLDER_NAME1)
                 .createJobInsideFolder()
                 .setProjectName(randomJobName)
                 .setFolderProjectType()
                 .clickOkAndGoToConfig()
                 .saveProjectConfiguration()
                 .clickLinkDashboard()
-                .clickFolderName(RANDOM_FOLDER_NAME)
+                .clickFolderName(RANDOM_FOLDER_NAME1)
                 .getJobNameText();
 
         Assert.assertEquals(actualResult, randomJobName);

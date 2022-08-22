@@ -107,32 +107,6 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
         return listAllProjectNames.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
-    public boolean isProjectPresentAfterDelete(String projectName) {
-        boolean result = false;
-
-        List<WebElement> actual = mainHeaderH1;
-
-        if (actual.size() == 0) {
-            for (String webElement : getProjectsOnDashboardList()) {
-                if (webElement.contains(projectName)) {
-                    result = false;
-                    break;
-                } else {
-                    result = true;
-                }
-            }
-        } else {
-            for (WebElement element : mainHeaderH1) {
-                if (element.getText().contains("Welcome to Jenkins!")) {
-                    result = true;
-                    break;
-                }
-            }
-        }
-
-        return result;
-    }
-
     public boolean isProjectNamePresent(String projectName) {
         return getProjectsOnDashboardList().contains(projectName);
     }
@@ -238,19 +212,6 @@ public final class HomePage extends BaseSideMenuPage<HomePage, HomePageSideMenuF
 
     public int getSizeOfListElementsBuildExecutorStatus() {
         return listElementsBuildExecutorStatus.size();
-    }
-
-    public boolean isItemPresent(String name) {
-        boolean isPresent = false;
-
-        List<WebElement> projectsOnDashboard = listAllProjectNames;
-        for (WebElement jobs : projectsOnDashboard) {
-            if (jobs.getText().contains(name)) {
-                isPresent = true;
-            }
-        }
-
-        return isPresent;
     }
 
     public MultiConfigurationProjectPage clickMultiConfigurationProjectName(String name) {

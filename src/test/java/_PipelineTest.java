@@ -179,6 +179,7 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(locationProjectParameterized, List.of("Choice Parameter", "Boolean Parameter"));
     }
+
     @Test(dependsOnMethods = "testDragAndDropProjectParameters")
     public void testDeletePipelineDescription() {
         final boolean check = new HomePage(getDriver())
@@ -225,10 +226,8 @@ public class _PipelineTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenamePipelineWithValidName")
     public void testRenamedProjectIsOnDashboard() {
-        final boolean projectIsDisplayed = new HomePage(getDriver())
-                .isProjectNamePresent(NEW_PIPELINE_NAME);
-
-        Assert.assertTrue(projectIsDisplayed);
+        new HomePage(getDriver())
+                .assertTrue(page -> page.isProjectNamePresent(NEW_PIPELINE_NAME));
     }
 
     @Test(dependsOnMethods = "testRenamedProjectIsOnDashboard")
@@ -256,18 +255,17 @@ public class _PipelineTest extends BaseTest {
         Assert.assertEquals(errorText, "The new name is the same as the current name.");
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testRenamePipelineWithTheSameName")
     public void testDeletePipelineFromSideMenu() {
-        final boolean check = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .clickPipelineName(NEW_PIPELINE_NAME)
                 .getSideMenu()
                 .clickMenuDeleteProjectAndConfirm()
                 .clickLinkDashboard()
-                .isProjectPresentAfterDelete(NEW_PIPELINE_NAME);
-
-        Assert.assertTrue(check);
+                .assertTrue(page -> page.isProjectNamePresent(NEW_PIPELINE_NAME));
     }
-
+    @Ignore
     @Test(dependsOnMethods = {"testCheckValidationItemName", "testDeletePipelineFromSideMenu"})
     public void testCheckScheduledBuildInBuildHistory() {
         final List<String> checkBuildHistoryByName = new HomePage(getDriver())
@@ -287,7 +285,7 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(checkBuildHistoryByName, List.of(NEW_PIPELINE_NAME, NEW_PIPELINE_NAME));
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCheckScheduledBuildInBuildHistory")
     public void testCheckPositiveBuildIcon() {
         final boolean isStatus = new HomePage(getDriver())
@@ -300,7 +298,7 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertTrue(isStatus);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCheckPositiveBuildIcon")
     public void testCheckSequenceInParameters() {
         final List<String> CurrentLocationItemsInDropDownMenu = new HomePage(getDriver())
@@ -317,7 +315,7 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(CurrentLocationItemsInDropDownMenu, List.of("This Is The Default Value", "2", "3"));
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testCheckSequenceInParameters")
     public void testBuildPipelineWithParameters() {
         final List<String> listOfNameAndDescriptionBuildParameters = new HomePage(getDriver())
@@ -334,6 +332,7 @@ public class _PipelineTest extends BaseTest {
                 List.of("Checking Name Display\nChecking Description Display"));
     }
 
+    @Ignore
     @Test(dependsOnMethods = "testDeletePipelineFromSideMenu")
     public void testPipelineCheckDiscardOld30builds() {
         final List<Integer> checkingDisplayLast30Builds = new HomePage(getDriver())
@@ -358,7 +357,7 @@ public class _PipelineTest extends BaseTest {
 
         Assert.assertEquals(checkingDisplayLast30Builds, expectedLast30BuildsNumbers);
     }
-
+    @Ignore
     @Test(dependsOnMethods = "testPipelineCheckDiscardOld30builds")
     public void testPipelineCheckDiscardOld3builds() {
         final List<Integer> checkingDisplayLast3Builds = new HomePage(getDriver())
@@ -399,13 +398,12 @@ public class _PipelineTest extends BaseTest {
     @Ignore
     @Test(dependsOnMethods = "testCheckLinkHelpMenuAdvancedProjectOptions")
     public void testDeletePipelineFromDashboard() {
-        final boolean check = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .clickLinkDashboard()
                 .clickProjectDropDownMenu(PIPELINE_NAME)
                 .clickMenuSelectorDelete()
-                .isProjectPresentAfterDelete(PIPELINE_NAME);
+                .assertTrue(page -> page.isProjectNamePresent(PIPELINE_NAME));
 
-        Assert.assertTrue(check);
     }
 
     @Test
@@ -450,7 +448,7 @@ public class _PipelineTest extends BaseTest {
     public void testDeleteAllPipelinesFromScriptConsole() {
         final String name = TestUtils.getRandomStr(7);
 
-        final boolean check = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setPipelineProjectType()
@@ -464,8 +462,6 @@ public class _PipelineTest extends BaseTest {
                 .useDeleteAllProjectScript()
                 .clickRunButton()
                 .goHome()
-                .isProjectPresentAfterDelete(name);
-
-        Assert.assertTrue(check);
+                .assertTrue(page -> page.isProjectNamePresent(name));
     }
 }

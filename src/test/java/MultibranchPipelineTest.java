@@ -47,7 +47,7 @@ public class MultibranchPipelineTest extends BaseTest {
                 .saveProjectConfiguration();
     }
 
-    @Test (dependsOnMethods = "testValidGitHubLink")
+    @Test(dependsOnMethods = "testValidGitHubLink")
     public void testAddGitHubLink() {
         String actualUrl = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
@@ -58,7 +58,7 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(actualUrl, URL_GITHUB);
     }
 
-    @Test (dependsOnMethods = "testAddGitHubLink")
+    @Test(dependsOnMethods = "testAddGitHubLink")
     public void testScanResult() {
         String scanLog = new HomePage(getDriver())
                 .clickMultibranchPipelineName(PROJECT_NAME)
@@ -72,7 +72,7 @@ public class MultibranchPipelineTest extends BaseTest {
 
     @Test
     public void testCreateMultibranchPipelineWithValidData() {
-        boolean projectIsPresent = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .getSideMenu()
                 .clickMenuNewItem()
                 .setProjectName(PIPELINE_NAME)
@@ -80,20 +80,17 @@ public class MultibranchPipelineTest extends BaseTest {
                 .clickOkAndGoToConfig()
                 .saveProjectConfiguration()
                 .goHome()
-                .isProjectNamePresent(PIPELINE_NAME);
-
-        Assert.assertTrue(projectIsPresent);
+                .assertTrue(page -> page.isProjectNamePresent(PIPELINE_NAME));
     }
 
-    @Test (dependsOnMethods = "testCreateMultibranchPipelineWithValidData")
+    @Test(dependsOnMethods = "testCreateMultibranchPipelineWithValidData")
     public void testDeleteMultibranchPipelineProject() {
-        HomePage homePage = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .clickMultibranchPipelineName(PIPELINE_NAME)
                 .getSideMenu()
                 .clickMenuDelete()
-                .clickBtnYesConfirmDelete();
-
-        Assert.assertFalse(homePage.isItemPresent(PIPELINE_NAME));
+                .clickBtnYesConfirmDelete()
+                .assertTrue(page -> !page.isProjectNamePresent(PIPELINE_NAME));
     }
 
     @Test

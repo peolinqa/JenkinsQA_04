@@ -143,12 +143,10 @@ public class FreestyleTest extends BaseTest {
     @Test(dependsOnMethods = {"testCreateFreestyleProject",
             "testSaveButtonAfterProjectCreated", "testNewFreestyleWithSpecialCharacters"})
     public void testDeleteFreestyleProject() {
-        boolean projectIsPresent = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .clickFreestyleName(NAME_WITH_SPECIAL_CHARACTERS)
                 .getSideMenu()
                 .clickMenuDeleteProjectAndConfirm()
-                .isProjectNamePresent(NAME_WITH_SPECIAL_CHARACTERS);
-
-        Assert.assertFalse(projectIsPresent);
+                .assertTrue(page -> !page.isProjectNamePresent(NAME_WITH_SPECIAL_CHARACTERS));
     }
 }

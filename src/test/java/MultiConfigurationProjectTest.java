@@ -184,12 +184,11 @@ public class MultiConfigurationProjectTest extends BaseTest {
 
     @Test(dependsOnMethods = "testRenameMultiConfigurationProjectErrorInvalidName")
     public void testDeleteMultiConfigFolder() {
-        HomePage homePage = new HomePage(getDriver())
+        new HomePage(getDriver())
                 .clickMultiConfigurationProjectName(EDITED_RANDOM_NAME)
                 .getSideMenu()
-                .clickMenuDeleteProject();
-
-        Assert.assertFalse(homePage.isItemPresent(EDITED_RANDOM_NAME));
+                .clickMenuDeleteProject()
+                .assertTrue(page -> !page.isProjectNamePresent(EDITED_RANDOM_NAME));
     }
 
     @Test(dependsOnMethods = "testCreateMultiConfigProject")
@@ -207,5 +206,4 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertEquals(errorMessages.getH1Header(), h1HeaderError);
         Assert.assertEquals(errorMessages.getErrorMessagesList(), expectedErrorsText);
     }
-
 }
