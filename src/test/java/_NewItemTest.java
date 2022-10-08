@@ -1,8 +1,12 @@
 import model.*;
-import org.openqa.selenium.WebElement;
+import model.helpPages.ErrorPage;
+import model.home.HomePage;
+import model.projects.freestyle.FreestyleConfigPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
+import java.util.List;
 
 public class _NewItemTest extends BaseTest {
 
@@ -12,12 +16,13 @@ public class _NewItemTest extends BaseTest {
     @Test
     public void testCopyDataFromExistingItemNegative() {
         String ErrorNoSuchJob = new HomePage(getDriver())
-                .clickNewItem()
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName("NJ3")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .setCopyFromName("NJ4")
-                .createAndGoToErrorPage()
-                .getErrorHeader();
+                .clickBtnOkAndGoToErrorPage()
+                .getErrorHeaderText();
 
         Assert.assertEquals(ErrorNoSuchJob, "Error");
     }
@@ -25,104 +30,101 @@ public class _NewItemTest extends BaseTest {
     @Test
     public void testCopyDataFromExistingItemPositive() {
         FreestyleConfigPage copyDataFromExistingItemToNew = new HomePage(getDriver())
-                .clickNewItem()
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName("NJ")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
                 .setDescription(DESCRIPTION_INPUT)
-                .clickGithubProjectCheckbox()
-                .setGithubUrl(URL_INPUT)
-                .saveConfigAndGoToFreestyleProject()
-                .clickDashboardButton()
-                .clickNewItem()
+                .clickCheckBoxGithubProject()
+                .setInputProjectUrl(URL_INPUT)
+                .saveProjectConfiguration()
+                .clickLinkDashboard()
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName("NJ2")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .setCopyFromName("NJ")
                 .clickOkAndGoToConfig();
 
-        Assert.assertEquals(copyDataFromExistingItemToNew.getDescription(), DESCRIPTION_INPUT);
-        Assert.assertEquals(copyDataFromExistingItemToNew.getGithubUrl(), URL_INPUT);
+        Assert.assertEquals(copyDataFromExistingItemToNew.getDescriptionText(), DESCRIPTION_INPUT);
+        Assert.assertEquals(copyDataFromExistingItemToNew.getInputProjectUrlAttrValue(), URL_INPUT);
     }
 
     @Test
     public void testCheckItemLabelStyle() {
-        NewItemPage<Object> itemLabelStyle = new HomePage(getDriver()).clickNewItem();
-
-        for (WebElement value : itemLabelStyle.getProjectTypeLabels()) {
-            Assert.assertEquals(value.getCssValue("font-weight"), "700");
-            Assert.assertEquals(value.getCssValue("font-size"), "16px");
-            Assert.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
-        }
+        new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
+                .assertTrue(page -> page.getFontWeightForEachProjectLabel().stream().allMatch(value -> value.equals("700")))
+                .assertTrue(page -> page.getFontSizeForEachProjectLabel().stream().allMatch(value -> value.equals("16px")))
+                .assertTrue(page -> page.getColorForEachProjectLabel().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
     public void testCheckDescriptionStyle() {
-        NewItemPage<Object> descriptionStyle = new HomePage(getDriver()).clickNewItem();
-
-        for (WebElement value : descriptionStyle.getDescriptionStyle()) {
-            Assert.assertEquals(value.getCssValue("font-weight"), "400");
-            Assert.assertEquals(value.getCssValue("font-size"), "14px");
-            Assert.assertEquals(value.getCssValue("color"), "rgba(51, 51, 51, 1)");
-        }
+        new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
+                .assertTrue(page -> page.getFontWeightForEachDescription().stream().allMatch(value -> value.equals("400")))
+                .assertTrue(page -> page.getFontSizeForEachDescription().stream().allMatch(value -> value.equals("14px")))
+                .assertTrue(page -> page.getColorForEachDescription().stream().allMatch(value -> value.equals("rgba(51, 51, 51, 1)")));
     }
 
     @Test
     public void testCheckIconAvailabilityAndDisplaying() {
-        NewItemPage<Object> iconAvailability = new HomePage(getDriver()).clickNewItem();
-
-        for (WebElement icon : iconAvailability.getProjectTypeImage()) {
-            Assert.assertTrue(icon.isDisplayed());
-            Assert.assertTrue(icon.isEnabled());
-        }
+        new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
+                .assertTrue(page -> page.isTypeProjectImageDisplayed().stream().allMatch(value -> value.equals(true)))
+                .assertTrue(page -> page.isTypeProjectImageEnabled().stream().allMatch(value -> value.equals(true)));
     }
 
     @Test
-    public void testCheckLabelDisplayingOnNewItemPage() {
-        String[] expectedItemLabelText = {
-                "Freestyle project",
-                "Pipeline",
-                "Multi-configuration project",
-                "Folder",
-                "Multibranch Pipeline",
-                "Organization Folder",
-                };
+    public void testCheckTextLabelForItem() {
+        final List<String> expectedItemLabelText = List.of("Freestyle project", "Pipeline",
+                "Multi-configuration project", "Folder", "Multibranch Pipeline", "Organization Folder");
 
-        NewItemPage<Object> itemLabelText = new HomePage(getDriver()).clickNewItem();
+        List<String> actualItemLabelText = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem().getTextForEachProjectLabel();
 
-        for(int i = 0; i < expectedItemLabelText.length; i++){
-            Assert.assertEquals(itemLabelText.getProjectTypeLabels().get(i).getText(), expectedItemLabelText[i]);
-        }
+        Assert.assertEquals(actualItemLabelText, expectedItemLabelText);
     }
 
     @Test
     public void testErrorMessageNameRequiredDisplaying() {
         String NameRequiredErrorMessage = new HomePage(getDriver())
-                .clickNewItem()
-                .clickCreateButton()
-                .getErrorNameRequiredText();
+                .getSideMenu()
+                .clickMenuNewItem()
+                .clickOkButton()
+                .getErrorMsgNameRequiredText();
 
         Assert.assertEquals(NameRequiredErrorMessage, "» This field cannot be empty, please enter a valid name");
     }
 
     @Test
     public void testCheckBreadcrumbs() {
-        NewItemPage<Object> checkBreadcrumbs = new HomePage(getDriver()).clickNewItem();
+        NewItemPage<Object> checkBreadcrumbs = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem();
 
-        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(0), "Dashboard");
-        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbs(2), "All");
+        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbsItemText(0), "Dashboard");
+        Assert.assertEquals(checkBreadcrumbs.getBreadCrumbsItemText(2), "All");
     }
 
     @Test
     public void testEnterSeveralSpaces() {
         ErrorPage errorPage = new HomePage(getDriver())
-                .clickNewItem()
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName("     ")
-                .setProjectTypeFreestyle()
+                .setFreestyleProjectType()
                 .clickOkAndGoToConfig()
                 .getErrorPageIfPresent();
 
         Assert.assertNotNull(errorPage);
-        Assert.assertEquals(errorPage.getErrorMessage(), "No name is specified");
+        Assert.assertEquals(errorPage.getErrorMessageText(), "No name is specified");
     }
 
     @Test
@@ -131,9 +133,10 @@ public class _NewItemTest extends BaseTest {
         for (char ch : characterName) {
 
             String alertMessage = new HomePage(getDriver())
-                    .clickNewItem()
+                    .getSideMenu()
+                    .clickMenuNewItem()
                     .setProjectName(Character.toString(ch))
-                    .getNameErrorText();
+                    .getErrorMsgNameInvalidText();
 
             String expectedResult = String.format("» ‘%s’ is an unsafe character", ch);
 
@@ -146,9 +149,10 @@ public class _NewItemTest extends BaseTest {
     @Test
     public void testInputDot() {
         String alertMessage = new HomePage(getDriver())
-                .clickNewItem()
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName(".")
-                .getNameErrorText();
+                .getErrorMsgNameInvalidText();
 
         Assert.assertEquals(alertMessage, "» “.” is not an allowed name");
     }

@@ -1,6 +1,6 @@
 package runner;
 
-import model.LoginPage;
+import model.helpPages.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -21,9 +21,9 @@ public final class ProjectUtils {
         get(driver);
 
         new LoginPage(driver)
-                .sendUser(getProperties().getProperty(PROP_ADMIN_USERNAME))
-                .sendPassword(getProperties().getProperty(PROP_ADMIN_PAS))
-                .login();
+                .setUsername(getProperties().getProperty(PROP_ADMIN_USERNAME))
+                .setPassword(getProperties().getProperty(PROP_ADMIN_PAS))
+                .clickSignInButton();
     }
 
     static void logout(WebDriver driver) {

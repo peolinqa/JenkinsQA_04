@@ -1,25 +1,26 @@
-import model.HomePage;
-import org.openqa.selenium.WebElement;
+import model.home.HomePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
+
 import java.util.List;
 
 public class _ConfigureGlobalSecurityTest extends BaseTest {
 
     @Test
     public void test9ChaptersDisplayedOnGlobalSecurityPage() {
-        List<WebElement> chapters = new HomePage(getDriver())
-                .clickManageJenkins()
+        int actualSizeOfChapters = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getSecurityChapters();
+                .getSizeOfHeadersList();
 
-        Assert.assertEquals(chapters.size(), 9);
+        Assert.assertEquals(actualSizeOfChapters, 9);
     }
 
     @Test
     public void testCheckChaptersNames() {
-       List<String> expectedChaptersNames = List.of(
+        List<String> expectedChaptersNames = List.of(
                 "Authentication",
                 "Security Realm",
                 "Authorization",
@@ -31,9 +32,10 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
                 "SSH Server");
 
         List<String> actualSecurityChaptersNames = new HomePage(getDriver())
-                .clickManageJenkins()
+                .getSideMenu()
+                .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getActualSecurityChaptersNames();
+                .getActualHeaderNamesList();
 
         Assert.assertEquals(actualSecurityChaptersNames, expectedChaptersNames);
     }
@@ -41,9 +43,10 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     @Test
     public void testCheckHelpButtonSSHServerPOM() {
         String tooltipHelpButtonSSHServer = new HomePage(getDriver())
-                .clickManageJenkins()
+                .getSideMenu()
+                .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
-                .getTextTooltipButtonHelpSSHServerPOM();
+                .getTooltipButtonHelpSSHServerText();
 
         Assert.assertEquals(tooltipHelpButtonSSHServer, "Help for feature: SSHD Port");
     }
@@ -51,7 +54,8 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     @Test
     public void testCheckTooltipText() {
         List<String> tooltipTextList = new HomePage(getDriver())
-                .clickManageJenkins()
+                .getSideMenu()
+                .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
                 .getTooltipTextList();
 
@@ -61,7 +65,8 @@ public class _ConfigureGlobalSecurityTest extends BaseTest {
     @Test
     public void testAmountTooltip() {
         int actualAmountTooltip = new HomePage(getDriver())
-                .clickManageJenkins()
+                .getSideMenu()
+                .clickMenuManageJenkins()
                 .clickConfigureGlobalSecurity()
                 .countHelpIcons();
 

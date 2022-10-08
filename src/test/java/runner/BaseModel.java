@@ -7,7 +7,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class BaseModel<Self extends BaseModel<?>> {
 
@@ -50,6 +49,12 @@ public class BaseModel<Self extends BaseModel<?>> {
 
     public <Value> Self assertEquals(Function<Self, Value> actual, Value expected) {
         Assert.assertEquals(actual.apply((Self)this), expected);
+
+        return (Self)this;
+    }
+
+    public <Value> Self assertTrue(Function<Self, Value> value) {
+        Assert.assertEquals(value.apply((Self)this), true);
 
         return (Self)this;
     }

@@ -1,5 +1,6 @@
 package model;
 
+import model.helpPages.ErrorPage;
 import model.base.BaseProjectPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -11,78 +12,70 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RenamePage<ConfigPage> extends BaseProjectPage {
+public final class RenamePage<ProjectPage extends BaseProjectPage<?, SideMenu>, SideMenu> extends BaseProjectPage<RenamePage<?, SideMenu>, SideMenu> {
 
     @FindBy(xpath = "//input[@name='newName']")
-    private WebElement renameInput;
+    private WebElement inputRename;
 
-    @FindBy(xpath = "//button[@type='submit']")
-    private WebElement confirmRenameButton;
+    @FindBy(id = "yui-gen1-button")
+    private WebElement btnConfirmRename;
 
     @FindBy(xpath = "//div[contains(@class, 'validation-error-area')]//div[@class='error']")
     private WebElement errorText;
 
-    @FindBy(tagName = "h1")
-    private WebElement pageHeader;
+    private final ProjectPage projectPage;
 
-    private final ConfigPage configPage;
-
-    public RenamePage(WebDriver driver, ConfigPage configPage) {
+    public RenamePage(WebDriver driver, ProjectPage projectPage) {
         super(driver);
-        this.configPage = configPage;
+        this.projectPage = projectPage;
+    }
+
+    @Override
+    public SideMenu getSideMenu() {
+        return projectPage.getSideMenu();
     }
 
     public ErrorPage clickRenameAndGoToErrorPage() {
-        confirmRenameButton.click();
+        btnConfirmRename.click();
 
         return new ErrorPage(getDriver());
     }
 
-    public RenamePage<ConfigPage> setNewProjectName(String name) {
-        renameInput.clear();
-        renameInput.sendKeys(name);
+    public RenamePage<ProjectPage, SideMenu> setNewProjectName(String name) {
+        inputRename.clear();
+        inputRename.sendKeys(name);
 
         return this;
     }
 
-    public void clickBack() {
-        getDriver().navigate().back();
-    }
-
-    public ErrorPage setInvalidNameAndGoToErrorPage() {
-        confirmRenameButton.click();
+    public ErrorPage setEmptyName() {
+        inputRename.clear();
+        btnConfirmRename.click();
 
         return new ErrorPage(getDriver());
     }
 
-    public ErrorPage setEmptyNameAndGoToErrorPage() {
-        renameInput.clear();
-        confirmRenameButton.click();
+    public ProjectPage clickRename() {
+        btnConfirmRename.click();
 
-        return new ErrorPage(getDriver());
+        return projectPage;
     }
 
-    public ConfigPage clickRenameAndGoToProjectPage() {
-        confirmRenameButton.click();
-
-        return configPage;
-    }
-
-    public List<String> getListErrorMessages(final List<String> names) {
+    public List<String> getErrorMessagesList(final List<String> names) {
         String baseName = "";
         final Pattern pattern = Pattern.compile("Rename Pipeline (\\w+)");
-        final Matcher matcher = pattern.matcher(pageHeader.getText());
+        final Matcher matcher = pattern.matcher(getProjectNameText());
         if (matcher.find()) {
             baseName = matcher.group(1);
         }
 
         List<String> errorMessages = new ArrayList<>();
         for (String name : names) {
-            renameInput.sendKeys(name + Keys.TAB);
+            inputRename.sendKeys(name + Keys.TAB);
             errorMessages.add(errorText.getText());
-            renameInput.clear();
+            inputRename.clear();
         }
-        renameInput.sendKeys(baseName + Keys.ENTER);
+        inputRename.sendKeys(baseName + Keys.ENTER);
 
         return errorMessages;
     }

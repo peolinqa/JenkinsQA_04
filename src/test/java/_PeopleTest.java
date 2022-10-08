@@ -1,5 +1,5 @@
-import model.HomePage;
-import model.PeoplePage;
+import model.home.HomePage;
+import model.Users.PeoplePage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -12,7 +12,8 @@ public class _PeopleTest extends BaseTest {
     @Test
     public void testCheckFunctionalityIconsSML() {
         PeoplePage newPeoplePage = new HomePage(getDriver())
-                .clickPeople();
+                .getSideMenu()
+                .clickMenuPeople();
 
         Assert.assertEquals(newPeoplePage.setSizeM().getHeightLastCommitActivityFirstCell(), 40);
         Assert.assertEquals(newPeoplePage.setSizeL().getHeightLastCommitActivityFirstCell(), 50);
@@ -22,7 +23,8 @@ public class _PeopleTest extends BaseTest {
     @Test
     public void testAddDescriptionForUser() {
         String newDescription = new HomePage(getDriver())
-                .clickPeople()
+                .getSideMenu()
+                .clickMenuPeople()
                 .goToUserStatusPage()
                 .clickEditDescriptionButton()
                 .clearDescriptionTextArea()

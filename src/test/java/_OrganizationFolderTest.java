@@ -1,6 +1,7 @@
-import model.HomePage;
+import model.home.HomePage;
 import model.NewItemPage;
-import model.OrganizationFolderConfigPage;
+import model.projects.orgFolder.OrganizationFolderConfigPage;
+import model.projects.orgFolder.OrganizationFolderProjectPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import runner.BaseTest;
@@ -15,17 +16,17 @@ public class _OrganizationFolderTest extends BaseTest {
     private static final String VALID_FOLDER_RENAME = TestUtils.getRandomStr(5);
     private static final String VALID_FOLDER_NAME1 = TestUtils.getRandomStr();
     private static final String VALID_FOLDER_NAME2 = TestUtils.getRandomStr();
-    private static final String DISABLED_FOLDER_NAME = TestUtils.getRandomStr();
 
     @Test
     public void testCreateOrganizationFolder() {
         String projectName = new HomePage(getDriver())
-                .clickNewItem()
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME)
-                .setProjectTypeOrganizationFolder()
+                .setOrganizationFolderProjectType()
                 .clickOkAndGoToConfig()
                 .saveConfigAndGoToProject()
-                .getProjectName();
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, VALID_FOLDER_NAME);
     }
@@ -34,144 +35,120 @@ public class _OrganizationFolderTest extends BaseTest {
     public void testRenameOrganizationFolder() {
         String projectName = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_NAME)
-                .clickRenameAndGoToRenamePage()
+                .getSideMenu()
+                .clickMenuRenameAndGoToRenamePage()
                 .setNewProjectName(VALID_FOLDER_RENAME)
-                .clickRenameAndGoToProjectPage()
-                .getProjectName();
+                .clickRename()
+                .getProjectNameText();
 
         Assert.assertEquals(projectName, VALID_FOLDER_RENAME);
     }
 
     @Test(dependsOnMethods = "testRenameOrganizationFolder")
     public void testCreateOrganizationFolderSameItemName() {
-        boolean isDisplayedNameError = new HomePage(getDriver())
-                .clickNewItem()
+        NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_RENAME)
-                .setProjectTypeOrganizationFolder()
-                .isDisplayedNameError();
+                .setOrganizationFolderProjectType();
 
-        NewItemPage newItemPage = new NewItemPage(getDriver());
-
-        Assert.assertTrue(isDisplayedNameError);
-        Assert.assertEquals(newItemPage.getNameErrorText(), String.format("» A job already exists with the name ‘%s’", VALID_FOLDER_RENAME));
-        Assert.assertEquals(newItemPage.getNameErrorCss("color").toString(),
-                "rgba(255, 0, 0, 1)");
+        Assert.assertTrue(newItemPage.isErrorMsgNameInvalidDisplayed());
+        Assert.assertEquals(newItemPage.getErrorMsgNameInvalidText(), String.format("» A job already exists with the name ‘%s’", VALID_FOLDER_RENAME));
+        Assert.assertEquals(newItemPage.getErrorMsgNameInvalidCss("color"), "rgba(255, 0, 0, 1)");
     }
 
-    @Test(dependsOnMethods = {"testCreateOrganizationFolderSameItemName"})
-    public void testDeleteOrganizationFolder() {
-        List<String> textFolderNames = new HomePage(getDriver())
+    @Test(dependsOnMethods = "testCreateOrganizationFolderSameItemName")
+    public void testCreateOrganizationFolderWithMetadataFolderIcon() {
+        String attributeClassIkonProject = new HomePage(getDriver())
                 .clickOrganizationFolderName(VALID_FOLDER_RENAME)
-                .clickDeleteProject()
-                .confirmDeleteAndGoHomePage()
-                .getTextFolderNamesOnDashboard();
+                .clickLinkConfigureTheProject()
+                .clickAppearanceDropDownList()
+                .selectOptionMetadataFolderIcon()
+                .saveConfigAndGoToProject()
+                .goHome()
+                .getProjectIconAttributeClass(VALID_FOLDER_RENAME);
 
-        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_RENAME));
+        Assert.assertEquals(attributeClassIkonProject, "icon-branch-api-organization-folder icon-lg");
     }
 
-    @Test
+    @Test(dependsOnMethods = "testCreateOrganizationFolderWithMetadataFolderIcon")
     public void testCreateDisableOrganizationFolder() {
         HashMap<String, String> warningMessage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(DISABLED_FOLDER_NAME)
-                .setProjectTypeOrganizationFolder()
-                .clickOkAndGoToConfig()
-                .clickDisableCheckBox()
-                .saveConfigAndGoToProject()
-                .getDisabledProjectWarningMessage();
+                .clickOrganizationFolderName(VALID_FOLDER_RENAME)
+                .clickDisableButton()
+                .getWarningDisableText();
 
         Assert.assertEquals(warningMessage.get("Warning Message"), "This Organization Folder is currently disabled");
         Assert.assertEquals(warningMessage.get("Message Color"), "rgba(196, 160, 0, 1)");
     }
 
-    @Test(dependsOnMethods = {"testCreateOrganizationFolder", "testRenameOrganizationFolder", "testDeleteOrganizationFolder"})
-    public void testCreateOrganizationFolderWithMetadataFolderIcon() {
-        String projectIcon = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(VALID_FOLDER_NAME)
-                .setProjectTypeOrganizationFolder()
-                .clickOkAndGoToConfig()
-                .clickAppearanceDropDownList()
-                .selectOptionMetadataFolderIcon()
-                .saveConfigAndGoToProject()
-                .clickJenkinsIconAndGoToHomePage()
-                .getProjectIconByName(VALID_FOLDER_NAME)
-                .getAttribute("class");
-
-        Assert.assertEquals(projectIcon,
-                "icon-branch-api-organization-folder icon-lg");
-    }
-
-    @Test(dependsOnMethods = "testDeleteOrganizationFolder")
-    public void testCreateOrganizationFolderAbortCreation() {
+    @Test(dependsOnMethods = {"testCreateOrganizationFolderWithMetadataFolderIcon", "testCreateDisableOrganizationFolder"})
+    public void testDeleteOrganizationFolder() {
         List<String> textFolderNames = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(VALID_FOLDER_NAME2)
-                .setProjectTypeOrganizationFolder()
+                .clickOrganizationFolderName(VALID_FOLDER_RENAME)
+                .getSideMenu()
+                .clickMenuDelete()
+                .confirmDeleteAndGoHomePage()
+                .getProjectsOnDashboardList();
+
+        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_RENAME));
+    }
+
+    @Test
+    public void testCreateOrganizationFolderAbortSaveButton() {
+        List<String> textFolderNames = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
+                .setProjectName(VALID_FOLDER_NAME)
+                .setOrganizationFolderProjectType()
                 .clickOkAndGoToConfig()
-                .goHome().getTextFolderNamesOnDashboard();
+                .goHome()
+                .getProjectsOnDashboardList();
 
-        Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME2));
+        Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME));
     }
 
-    @Test
-    public void testCreateOrganizationFolderEmptyName() {
-        NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectTypeOrganizationFolder();
-
-        Assert.assertEquals(newItemPage.getErrorNameRequiredText(), "» This field cannot be empty, please enter a valid name");
-        Assert.assertEquals(newItemPage.getNameErrorCss("color"), "rgba(255, 0, 0, 1)");
-        Assert.assertEquals(newItemPage.getAttributeOkButton("class"), "disabled");
-    }
-
-    @Test
+    @Test(dependsOnMethods = {"testCreateOrganizationFolderAbortSaveButton"})
     public void testProjectsTab() {
         boolean actualResult = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
-                .setProjectTypeOrganizationFolder()
-                .clickOkAndGoToConfig()
+                .clickOrganizationFolderName(VALID_FOLDER_NAME)
+                .clickLinkConfigureTheProject()
                 .clickProjectTab()
-                .ckeckChildProjectIsDisplayed();
+                .checkChildProjectIsDisplayed();
 
-        Assert.assertTrue(actualResult, "Project Tab not found");
+        Assert.assertTrue(actualResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testProjectsTab"})
     public void testHealthMetricsTab() {
         boolean actualResult = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
-                .setProjectTypeOrganizationFolder()
-                .clickOkAndGoToConfig()
+                .clickOrganizationFolderName(VALID_FOLDER_NAME)
+                .clickLinkConfigureTheProject()
                 .clickHealthMetricsTab()
-                .ckeckhealthMetricsIsDisplayed();
+                .checkHealthMetricsIsDisplayed();
 
-        Assert.assertTrue(actualResult, "Health Metrics Tab not found");
+        Assert.assertTrue(actualResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testHealthMetricsTab"})
     public void testAutomaticBranchProjectTriggeringTab() {
         boolean actualResult = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
-                .setProjectTypeOrganizationFolder()
-                .clickOkAndGoToConfig()
+                .clickOrganizationFolderName(VALID_FOLDER_NAME)
+                .clickLinkConfigureTheProject()
                 .clickAutomaticBranchProjectTriggeringTab()
-                .ckeckAutomaticBranchProjectTriggeringIsDisplayed();
+                .checkAutomaticBranchProjectTriggeringIsDisplayed();
 
-        Assert.assertTrue(actualResult, "Automatic Branch Project Triggering Tab not found");
+        Assert.assertTrue(actualResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = {"testAutomaticBranchProjectTriggeringTab"})
     public void testCheckNotificationAfterClickApply() {
         OrganizationFolderConfigPage organizationFolderConfigPage = new HomePage(getDriver())
-                .clickNewItem()
+                .getSideMenu()
+                .clickMenuNewItem()
                 .setProjectName(VALID_FOLDER_NAME1)
-                .setProjectTypeOrganizationFolder()
+                .setOrganizationFolderProjectType()
                 .clickOkAndGoToConfig()
-                .inputDisplayNameField(VALID_FOLDER_NAME2)
                 .clickApply();
 
         Assert.assertEquals(organizationFolderConfigPage.getTextFromNotification(), "Saved");
@@ -180,30 +157,51 @@ public class _OrganizationFolderTest extends BaseTest {
     }
 
     @Test(dependsOnMethods = "testCheckNotificationAfterClickApply")
-    public void testCheckNewDisplayNameOnDashboard() {
-        List<String> result = new HomePage(getDriver()).getTextFolderNamesOnDashboard();
+    public void testRenameProjectViaInputDisplayNameField() {
+        List<String> textFolderNames = new HomePage(getDriver())
+                .clickOrganizationFolderName(VALID_FOLDER_NAME1)
+                .clickLinkConfigureTheProject()
+                .inputDisplayNameField(VALID_FOLDER_NAME2)
+                .saveConfigAndGoToProject()
+                .goHome()
+                .getProjectsOnDashboardList();
 
-        Assert.assertFalse(result.contains(VALID_FOLDER_NAME1));
-        Assert.assertTrue(result.contains(VALID_FOLDER_NAME2));
+        Assert.assertFalse(textFolderNames.contains(VALID_FOLDER_NAME1));
+        Assert.assertTrue(textFolderNames.contains(VALID_FOLDER_NAME2));
     }
 
-    @Test
-    public void testUserCanAddProperties() {
-        boolean actualResult = new HomePage(getDriver())
-                .clickNewItem()
-                .setProjectName(TestUtils.getRandomStr())
-                .setProjectTypeOrganizationFolder()
-                .clickOkAndGoToConfig()
+    @Test(dependsOnMethods = "testRenameProjectViaInputDisplayNameField")
+    public void testAddDescriptionViaConfigure() {
+        OrganizationFolderProjectPage organizationFolderProjectPage = new HomePage(getDriver())
+                .clickOrganizationFolderName(VALID_FOLDER_NAME2)
+                .clickLinkConfigureTheProject()
                 .enterDescription("New project")
+                .saveConfigAndGoToProject();
+
+        Assert.assertEquals(organizationFolderProjectPage.getSystemMessageText(), "New project");
+    }
+
+    @Test(dependsOnMethods = "testRenameProjectViaInputDisplayNameField")
+    public void testAddChildHealthMetrics() {
+        boolean actualResult = new HomePage(getDriver())
+                .clickOrganizationFolderName(VALID_FOLDER_NAME2)
+                .clickLinkConfigureTheProject()
                 .clickChildHealthMetricsTab()
-                .clickMetricsButton()
-                .clickApplyButton()
-                .saveConfigAndGoToProject()
-                .clickConfigureProjectButton()
-                .clickPropertiesTab()
                 .clickMetricsButton()
                 .checkChildMetricsIsDisplayed();
 
         Assert.assertTrue(actualResult);
+    }
+
+    @Test
+    public void testCreateOrganizationFolderEmptyName() {
+        NewItemPage<OrganizationFolderConfigPage> newItemPage = new HomePage(getDriver())
+                .getSideMenu()
+                .clickMenuNewItem()
+                .setOrganizationFolderProjectType();
+
+        Assert.assertEquals(newItemPage.getErrorMsgNameRequiredText(), "» This field cannot be empty, please enter a valid name");
+        Assert.assertEquals(newItemPage.getErrorMsgNameInvalidCss("color"), "rgba(255, 0, 0, 1)");
+        Assert.assertEquals(newItemPage.getOkButtonAttribute("class"), "disabled");
     }
 }

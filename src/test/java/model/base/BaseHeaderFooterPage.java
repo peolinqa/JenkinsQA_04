@@ -1,116 +1,148 @@
 package model.base;
 
-import model.*;
+import model.ApiPage;
+import model.helpPages.ErrorPage;
+import model.home.HomePage;
+import model.Users.HeaderFooterPageSelectorMenuFrame;
+import model.Users.UserStatusPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class BaseHeaderFooterPage<Self extends BaseHeaderFooterPage<?>> extends BasePage<Self> {
 
+    @FindBy(xpath = "//h1[text() = 'Error']")
+    private List<WebElement> headerErrorPage;
+
     @FindBy(id = "jenkins-head-icon")
-    private WebElement headerIcon;
+    private WebElement imgJenkinsIcon;
 
     @FindBy(id = "header")
-    private WebElement pageHeader;
+    private WebElement pageHeaderPanel;
 
     @FindBy(xpath = "//a[@href='api/']")
-    private WebElement apiFooter;
+    private WebElement linkRestApiFooter;
 
-    @FindBy(css = ".login")
-    private WebElement userPage;
+    @FindBy(css = ".login > a.model-link span")
+    private WebElement linkUser;
 
     @FindBy(id = "menuSelector")
-    protected WebElement menuSelector;
+    private WebElement menuSelector;
 
-    @FindBy(xpath = "//a[@id='jenkins-home-link']/img[2]")
-    private WebElement headerJenkinsLink;
+    @FindBy(id = "jenkins-name-icon")
+    private WebElement imgJenkinsNameIcon;
 
     @FindBy(linkText = "Dashboard")
-    private WebElement dashboardButton;
+    private WebElement linkDashboard;
 
-    @FindBy(xpath = "//ul[@class='first-of-type']/li")
-    private List<WebElement> dashboardDropdownMenuElements;
-
+    @FindBy(xpath = "//header[@id='header']/div")
+    private List<WebElement> listHeaderMainElements;
 
     public BaseHeaderFooterPage(WebDriver driver) {
         super(driver);
     }
 
+    public ErrorPage getErrorPageIfPresent() {
+        if (headerErrorPage.size() > 0) {
+            return new ErrorPage(getDriver());
+        }
+
+        return null;
+    }
+
     public String getLogoIconTagName() {
-        return headerIcon.getTagName();
+        return imgJenkinsIcon.getTagName();
     }
 
     public String getLogoIconAttribute(String attribute) {
-        return headerIcon.getAttribute(attribute);
+        return imgJenkinsIcon.getAttribute(attribute);
     }
 
     public String getPageHeaderLocation() {
-        return pageHeader.getLocation().toString();
+        return pageHeaderPanel.getLocation().toString();
     }
 
-    public String getPageHeaderCssValue(String value) {
-        return pageHeader.getCssValue(value);
+    public String getPageHeaderCssValueBackgroundColor() {
+        return pageHeaderPanel.getCssValue("background-color");
+    }
+
+    public String getPageHeaderCssValueDisplay() {
+        return pageHeaderPanel.getCssValue("display");
+    }
+
+    public String getPageHeaderCssValueHeight() {
+        return pageHeaderPanel.getCssValue("height");
+    }
+
+    public String getPageHeaderCssValueAlignItems() {
+        return pageHeaderPanel.getCssValue("align-items");
     }
 
     public ApiPage goToApiPage() {
-        apiFooter.click();
+        linkRestApiFooter.click();
 
         return new ApiPage(getDriver());
     }
 
-    public boolean headerIconIsVisible() {
-        return headerIcon.isDisplayed();
+    public boolean isHeaderIconVisible() {
+        return imgJenkinsIcon.isDisplayed();
     }
 
-    public boolean topPageHeaderIsVisible() {
-        return pageHeader.isDisplayed();
+    public boolean isTopPageHeaderVisible() {
+        return pageHeaderPanel.isDisplayed();
     }
 
     public UserStatusPage clickUserAndGoToUserPage() {
-        userPage.click();
+        linkUser.click();
 
         return new UserStatusPage(getDriver());
     }
 
-    public SelectorMenuFrame navigateAndClickDropDownUserMenu() {
-        getActions().moveToElement(userPage).pause(200).perform();
+    public HeaderFooterPageSelectorMenuFrame clickUserDropDownMenu() {
+        getActions().moveToElement(linkUser).perform();
         menuSelector.click();
 
-        return new SelectorMenuFrame(getDriver());
+        return new HeaderFooterPageSelectorMenuFrame(getDriver());
     }
 
-    public HomePage clickJenkinsIconAndGoToHomePage() {
-        headerIcon.click();
+    public HomePage clickJenkinsName() {
+        imgJenkinsNameIcon.click();
 
         return new HomePage(getDriver());
     }
 
-    public HomePage clickJenkins(){
-        headerJenkinsLink.click();
-        return new HomePage(getDriver());
-    }
-
-    public HomePage clickDashboardButton() {
-        dashboardButton.click();
+    public HomePage clickLinkDashboard() {
+        linkDashboard.click();
 
         return new HomePage(getDriver());
     }
 
-    public BaseHeaderFooterPage<Self> clickDashboardDropdownMenu() {
-        getActions().moveToElement(dashboardButton).build().perform();
+    public HeaderFooterPageSelectorMenuFrame clickDashboardDropdownMenu() {
+        getActions().moveToElement(linkDashboard).build().perform();
         getActions().moveToElement(menuSelector).click().build().perform();
 
-        return this;
+        return new HeaderFooterPageSelectorMenuFrame(getDriver());
     }
 
-    public List<String> getListOfDashboardDropdownMenuElements() {
-        return dashboardDropdownMenuElements
-                .stream()
-                .map(WebElement::getText)
-                .filter(text -> !text.isEmpty())
-                .collect(Collectors.toList());
+    public boolean isRightPositionOfJenkinsHeadIcon() {
+        return getDriver().findElement(By.xpath(String.format("//div[@class='logo']/a/img[%s]", 1)))
+                .getAttribute("id")
+                .equals("jenkins-head-icon")
+                &&
+                getDriver().findElement(By.xpath(String.format("//div[@class='logo']/a/img[%s]", 2)))
+                        .getAttribute("id")
+                        .equals("jenkins-name-icon");
     }
+
+    public boolean isRightPositionOfHeaderElementsUI() {
+        for (int i = 0; i < listHeaderMainElements.size(); i++) {
+            return listHeaderMainElements.get(i).isDisplayed();
+        }
+
+        return false;
+    }
+
 }
